@@ -13,7 +13,7 @@
         "id": "stmt-original",
         "title": "Обобщение четности на k цветов",
         "text": "В ряд стоят \\(n\\) узников. Цвет каждой шляпы - один из \\(k\\) заранее занумерованных цветов \\(0,1,\\ldots,k-1\\). Каждый видит шляпы всех впереди. Ответы идут сзади наперед и слышны всем. Как гарантировать, что ошибется не более один узник?",
-        "source_ids": ["src-folklore"],
+        "source_ids": ["src-folklore", "src-problems-ru-109639"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -64,7 +64,8 @@
   },
   "tags": ["hat_puzzle", "modular_sum_code", "public_announcement"],
   "sources": [
-    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-problems-ru-109639", "role": "olympiad_three_color_variant", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -73,6 +74,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "already_parameterized_same_solution",
-    "notes": ["2026-05-18: карточка уже является естественным обобщением бинарного паритета на n участников и k цветов; дополнительных числовых параметров не требуется."]
+    "notes": ["2026-05-18: карточка уже является естественным обобщением бинарного паритета на n участников и k цветов; дополнительных числовых параметров не требуется.", "2026-05-18 web-wise-prisoners: добавлен источник problems.ru 109639 как олимпиадная версия для 100 мудрецов и трех цветов; отдельная карточка не создавалась, потому что решение буквально совпадает с модульной суммой по k=3."]
   }
 }

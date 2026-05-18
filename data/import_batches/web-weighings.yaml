@@ -1,0 +1,28 @@
+{
+  "id": "web-weighings",
+  "title": "Интернет-поиск официальных задач о взвешиваниях и измерительных нижних оценках",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "queries": [
+    "counterfeit coin olympiad problem balance scale official solution",
+    "fake coin math contest balance scale weighing problem solution",
+    "digital scale counterfeit coins olympiad problem",
+    "взвешивания фальшивая монета олимпиада чашечные весы",
+    "site:mathcontest.unm.edu counterfeit coin balance scale solution",
+    "site:math.toronto.edu/oz/turgor coin weighing fake coins balance",
+    "\"Suppose now a mistake of 1 gram is possible\" \"Tournament of the Towns\"",
+    "\"Weigh 64 of the coins against the other 64\" \"Tournament of the Towns\""
+  ],
+  "items": [
+    {"problem_id": "tournament-towns-2008-four-stones-one-error", "status": "added", "source_id": "src-tot-2008-fall-junior-a-uwa-solutions", "supporting_source_id": "src-tot-toronto-2008-fall-junior-a-solutions"},
+    {"problem_id": "heavier-9-coins-2-weighings", "status": "source_merged_duplicate", "source_id": "src-unm-pnm-2025-round2-solutions", "note": "официальное решение заново покрывает 9 монет за 2 взвешивания и 27 монет за 3 взвешивания при известной тяжелой фальшивой монете"},
+    {"problem_id": "tournament-towns-2002-two-types-coins", "status": "lead_not_added", "source_id": "src-tot-2002-spring-junior-o-solutions", "note": "найден сильный кандидат про выбор двух монет разных типов из 128 или 8 монет; не добавлен в этом проходе, потому что доступный официальный PDF с условиями плохо извлекается, а вторичные копии не дают достаточно надежного первичного текста"},
+    {"problem_id": "counterfeit-12-coins-3-weighings", "status": "skipped_duplicate", "source_id": "src-unm-pnm-2014-2015-solutions", "note": "поисковая выдача содержит классическую задачу о 12 монетах; уже покрыта карточкой counterfeit-12-coins-3-weighings"},
+    {"problem_id": "counterfeit-stack-one-weighing", "status": "skipped_duplicate", "source_id": "src-berkeley-math-circle-2007-2008-contest4", "note": "найден вариант с десятью мешками и цифровыми весами; механизм уже покрыт классической карточкой о стопках и источником problems.ru 88014"}
+  ],
+  "notes": [
+    "Богатые источники: архив Tournament of the Towns на math.toronto.edu и зеркало UWA с полным текстом; UNM-PNM 2025 как официальный источник для тернарной нижней оценки.",
+    "Пустые или слабые источники: развлекательные сайты, StackExchange/Reddit и общие страницы без первоисточника не добавлялись.",
+    "Новая карточка выбрана за новую структуру: линейный числовой канал взвешиваний плюс исправление одной ошибки."
+  ]
+}

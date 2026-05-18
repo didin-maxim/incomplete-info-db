@@ -7,7 +7,7 @@
     "agent_types": "Local role vocabulary: truth_teller, liar, alternator, random, trickster, mimic, scheduled_liar, conditional_liar, guilty_liar, statement.",
     "truth_rule": "How truth values are tied to roles or statements.",
     "interaction_mode": "How the observable information is produced.",
-    "topology": "none, line, circle, or table when the statements use an arrangement.",
+    "topology": "none, line, circle, table, or graph when the statements use an arrangement or relation network.",
     "goal": "Local normalized objective.",
     "solution_pattern": "Local mechanism labels useful inside this cluster.",
     "question_count": "Number of explicit questions/answers when it is part of the problem surface."
@@ -247,6 +247,26 @@
       "goal": ["count_truth_tellers"],
       "solution_pattern": ["local_constraint_propagation"],
       "question_count": 60
+    },
+    {
+      "problem_id": "vmo-2021-circle-80-next-11-liars",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "local_neighborhood"],
+      "topology": "circle",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["local_constraint_propagation", "periodicity_argument"],
+      "question_count": 80
+    },
+    {
+      "problem_id": "problems-ru-65661-friends-parity-truth-liars",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "friendship_graph"],
+      "topology": "graph",
+      "goal": ["determine_population_parity"],
+      "solution_pattern": ["parity_constraint", "graph_degree_counting"],
+      "question_count": "two_statements_per_person"
     },
     {
       "problem_id": "problems-ru-66705-distance-to-nearest-liar",

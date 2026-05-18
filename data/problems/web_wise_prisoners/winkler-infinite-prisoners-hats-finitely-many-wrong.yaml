@@ -1,0 +1,69 @@
+{
+  "id": "winkler-infinite-prisoners-hats-finitely-many-wrong",
+  "title": "Бесконечно много заключенных в шляпах: ошибиться лишь конечному числу",
+  "fragment": "communication",
+  "kind": {"primary": "classical_problem", "secondary": ["prearranged_protocol", "advanced_classic"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-winkler-infinite-hats",
+        "title": "Все видят всех, кроме себя, и не общаются",
+        "text": "Бесконечно много заключенных пронумерованы числами \\(1,2,3,\\ldots\\). Каждому надевают красную или черную шляпу. По сигналу каждый видит цвета шляп всех остальных заключенных, но не своей, и после этого общаться нельзя. Затем каждый должен назвать цвет своей шляпы. Всех освободят, если ошибутся только конечное число заключенных. Могут ли они заранее договориться о стратегии, которая гарантирует освобождение при любой раскраске шляп?",
+        "source_ids": ["src-dartmouth-winkler-mathematical-puzzles-ch23"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-eventual-equality-representatives",
+      "title": "Считать одинаковыми раскраски, отличающиеся в конечном числе мест",
+      "text": "Если две бесконечные раскраски отличаются только в конечном числе позиций, то угадывание по одной фиксированной представительнице такого класса даст конечное число ошибок.",
+      "standard_idea_ids": ["equivalence_classes"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-choose-class-representative",
+      "title": "Выбрать представителя каждого класса эквивалентности",
+      "text": "Назовем две бесконечные раскраски эквивалентными, если они отличаются только в конечном числе позиций. Это действительно отношение эквивалентности: каждая раскраска эквивалентна себе, порядок сравнения не важен, а если первая отличается от второй лишь в конечных местах и вторая от третьей лишь в конечных местах, то первая от третьей отличается не более чем в объединении двух конечных множеств.\n\nДо испытания заключенные договариваются выбрать по одной эталонной раскраске из каждого класса эквивалентности. Это самый старший шаг решения: для произвольного семейства бесконечных классов такой выбор обычно формулируют через аксиому выбора.\n\nПосле надевания шляп заключенный \\(i\\) видит все цвета, кроме своего. Для него возможны только две полные раскраски: одна с красной шляпой на месте \\(i\\), другая с черной. Эти две раскраски отличаются ровно в одной позиции, значит лежат в одном классе эквивалентности. Поэтому заключенный может определить этот класс по видимым шляпам, найти заранее выбранного представителя класса и назвать цвет, который у представителя стоит на позиции \\(i\\).\n\nПусть истинная раскраска равна \\(X\\), а выбранный представитель ее класса равен \\(R\\). По определению класса \\(X\\) и \\(R\\) отличаются только в конечном числе позиций. Все заключенные, у которых цвета в \\(X\\) и \\(R\\) совпадают, угадают правильно; ошибутся только позиции, где они отличаются. Таких позиций конечно много. Значит, стратегия гарантирует освобождение.",
+      "standard_idea_ids": ["equivalence_classes"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "бесконечная двоичная последовательность цветов шляп",
+    "observations": ["каждый видит все координаты, кроме своей", "после старта нет коммуникации"],
+    "allowed_actions": ["заранее выбрать представителей классов эквивалентности", "одновременно назвать свой цвет"],
+    "goal": ["guarantee_only_finitely_many_wrong"],
+    "strategy_type": ["prearranged_protocol", "equivalence_class_code", "choice_representatives"],
+    "lower_bound_method": [],
+    "keywords": ["infinite_hats", "prisoners", "axiom_of_choice", "eventual_equality", "no_communication"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "countably infinite prisoner team",
+    "prearranged_strategy": true,
+    "channel_capacity": "no post-start communication",
+    "public_or_private": "private full observation except own coordinate",
+    "privacy_goal": "none",
+    "objective": "only finitely many wrong guesses"
+  },
+  "difficulty": {"main": "advanced_classic", "local_score": 6, "comment": "Условие школьное, но решение использует классы эквивалентности бесконечных последовательностей и выбор представителей.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "nonadaptive_strategy", "indistinguishability_argument"],
+  "sources": [{"source_id": "src-dartmouth-winkler-mathematical-puzzles-ch23", "role": "book_chapter_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners",
+    "notes": ["Добавлена после уточнения фильтра: задача старше обычного школьного уровня, но условие простое и это классический протокол при неполной информации без коммуникации."]
+  }
+}

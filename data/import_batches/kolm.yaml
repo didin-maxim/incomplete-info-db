@@ -1,0 +1,23 @@
+{
+  "id": "kolm",
+  "title": "Кубок Колмогорова: задачи про неполную информацию",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "kolm-2010-card-pair-sums-one-number", "status": "added", "source_id": "src-kolmogorov-2010-official"},
+    {"problem_id": "kolm-2016-twenty-islanders-unheard-count", "status": "added", "source_id": "src-kolmogorov-2016-official"},
+    {"problem_id": "kolm-2022-three-letter-erasure-card-trick", "status": "added", "source_id": "src-kolmogorov-2022-official"},
+    {"problem_id": "kolm-2023-three-prisoners-2023-hats", "status": "added", "source_id": "src-kolmogorov-2023-official"},
+    {"problem_id": "kolm-2023-blind-wise-man-strip-permutation", "status": "added_needs_human_review", "source_id": "src-kolmogorov-2023-official"},
+    {"problem_id": "lead-kolm-2010-knights-conference-count", "status": "lead_only", "source_id": "src-kolmogorov-2010-official", "note": "21 ученый, ответы 'поровну' и 'лжецов'; статическая truth-liar задача, не доведена до карточки в этом проходе."},
+    {"problem_id": "lead-kolm-2010-vampire-twins-yes-no", "status": "lead_only", "source_id": "src-kolmogorov-2010-official", "note": "Братья-близнецы: человек в здравом уме и безумный упырь; нужны правила ответов из оригинала/контекста, поэтому не public-ready."},
+    {"problem_id": "lead-kolm-2018-antromortem-knights-liars-weighing", "status": "lead_only", "source_id": "src-kolmogorov-2018-official", "note": "Остров Антромортем: рыцари/лжецы и весы, знак которых зависит от состава людей на чашах; релевантно, но решение не перенесено."},
+    {"problem_id": "lead-kolm-2019-good-subsets-query-strategy", "status": "lead_only", "source_id": "src-kolmogorov-2019-official", "note": "Поиск минимального хорошего подмножества вопросами 'хорошее ли?'; оставлено lead из-за громоздкого параметрического условия."}
+  ],
+  "source_notes": [
+    "Локальные материалы найдены в C:/Users/Admin/Documents/Codex/graph-src/kolm-raw/kolmogorov_extracted_text_2010_2019 и C:/Users/Admin/Documents/Codex/graph-src/kolm-raw/kolmogorov_extracted.",
+    "Соседняя graph-db содержит source metadata по официальным архивам Колмогорова 1999-2024; использована как карта URL и годов, карточки созданы заново под тематику неполной информации.",
+    "Отсеяны графовые задачи, задачи на обычную геометрию, вероятностные сюжеты без стратегии, игры с монетами как ресурсом и статические денежные задачи без скрытого информационного канала.",
+    "Сомнительные и неполностью проверенные кандидаты оставлены lead_only, а не public-ready карточками."
+  ]
+}

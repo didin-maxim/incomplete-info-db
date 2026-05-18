@@ -125,6 +125,7 @@ clusters:
       - mmo-2019-wise-men-seven-numbers-median
       - nrich-balance-power-balanced-ternary
       - kvantik-2016-divisibility-knights-liars
+      - tournament-towns-2008-four-stones-one-error
     candidate_rules:
       tags_any: [linear_signature, digital_scale, weighted_sum_encoding]
       profile_hints:
@@ -336,11 +337,13 @@ clusters:
     problem_ids:
       - amc-au-2016-intermediate-q17-truth-liars-circle
       - problems-ru-66436-sixty-knights-next-five
+      - vmo-2021-circle-80-next-11-liars
       - kvantik-2016-round-table-right-liar-count
       - ukmt-jmc-2015-q17-knaves-truth-chain
       - utyum-2010-vasya-two-liars-line
       - utyum-1996-knights-line-seven-yes
       - problems-ru-66431-knights-liars-tricksters-table
+      - problems-ru-65661-friends-parity-truth-liars
       - sasmo-2019-g8-q14-gift-box-truth-liars
       - estonian-2018-19-three-monks-weekdays
       - ukmt-smc-2015-q13-knave-days
@@ -428,6 +431,9 @@ clusters:
       - prisoners-chessboard-one-coin-xor
       - prisoners-hats-parity-line
       - hat-line-k-colors-modulo
+      - problems-ru-64616-eleven-wise-men-1000-colors-one-bit
+      - problems-ru-67032-300-wise-men-25-colors-permutation-parity
+      - problems-ru-115987-thousand-wise-men-hidden-hat-number
       - cemc-2025-bcc-flower-pots-key-parity
       - utyum-2010-seventeen-coins-parity-test
       - kvantik-2015-parity-four-integers-three-questions
@@ -543,6 +549,11 @@ clusters:
       - prisoners-chessboard-one-coin-xor
       - prisoners-hats-parity-line
       - mmo-2000-seven-cards-public-communication
+      - problems-ru-64616-eleven-wise-men-1000-colors-one-bit
+      - problems-ru-67032-300-wise-men-25-colors-permutation-parity
+      - problems-ru-115987-thousand-wise-men-hidden-hat-number
+      - problems-ru-116064-six-dwarfs-hidden-rainbow-hat
+      - winkler-infinite-prisoners-hats-finitely-many-wrong
       - ebert-seven-hats-hamming-code
       - problems-ru-66710-hats-with-madmen-oracle
       - problems-ru-66722-knights-liars-mimics-public-majority

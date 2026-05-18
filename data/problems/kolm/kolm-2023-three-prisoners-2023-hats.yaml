@@ -1,0 +1,76 @@
+{
+  "id": "kolm-2023-three-prisoners-2023-hats",
+  "title": "Кубок Колмогорова 2023: три заключенных и 2023 цвета шляп",
+  "fragment": "communication",
+  "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol", "probability_bound"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kolm-2023-prisoners-hats",
+        "title": "Максимальная вероятность, что все трое угадают",
+        "text": "Есть 2023 шляпы попарно различных цветов. Трех заключенных выстраивают так, что Антон видит шляпы Бори и Вани, Боря видит шляпу Вани, а Ваня не видит ничьей шляпы. После этого они по очереди, сначала Антон, затем Боря, затем Ваня, называют предполагаемый цвет своей шляпы; все слышат предыдущие догадки. До испытания заключенные знают правила и все цвета и могут договориться о стратегии, но после надевания шляп общаться нельзя. Если все три догадки верны, их освобождают. Какова наибольшая гарантируемая вероятность освобождения?",
+        "source_ids": ["src-kolmogorov-2023-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-guess-modular-average",
+      "title": "Первая догадка передает среднее двух видимых цветов",
+      "text": "Если пронумеровать цвета остатками по простому модулю, первая догадка может быть не только попыткой угадать, но и сообщением, из которого двое следующих восстановят свои цвета.",
+      "standard_idea_ids": ["modular_sum_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-mod-2023-average",
+      "title": "Нумерация цветов по модулю 2023",
+      "text": "Пронумеруем цвета остатками по модулю 2023. Если Антон видит на Ване и Боре цвета \\(x\\) и \\(y\\), он называет цвет с номером \\((x+y)/2\\) по модулю 2023. Так как \\(x\\ne y\\), этот номер отличается от обоих видимых цветов. Боря слышит среднее и видит \\(x\\), поэтому восстанавливает \\(y\\). Ваня слышит среднее и ответ Бори, поэтому восстанавливает \\(x\\). Значит, Боря и Ваня всегда правы; успех зависит только от случайного совпадения ответа Антона с его собственным цветом, что происходит с вероятностью \\(1/2021\\), потому что после двух видимых цветов ему остается 2021 возможный цвет.",
+      "standard_idea_ids": ["modular_sum_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "ub-anton-probability",
+      "title": "Антон не может угадать чаще, чем 1/2021",
+      "text": "После того как Антон увидел два чужих цвета, его собственная шляпа равновероятно имеет один из оставшихся 2021 цветов. Его первый ответ выбирает только один из них, поэтому вероятность правильной догадки Антона не превышает \\(1/2021\\). Для освобождения Антон тоже должен быть прав, значит это верхняя граница для всей стратегии.",
+      "standard_idea_ids": ["indistinguishable_states"],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "упорядоченная тройка различных цветов шляп из 2023",
+    "observations": ["Антон видит две шляпы", "Боря видит одну шляпу и слышит ответ Антона", "Ваня слышит два ответа"],
+    "allowed_actions": ["заранее согласовать стратегию ответов"],
+    "goal": ["maximize_probability_all_correct"],
+    "strategy_type": ["prearranged_protocol", "modular_code"],
+    "lower_bound_method": ["single_agent_uncertainty_bound"],
+    "keywords": ["kolmogorov_2023", "hat_puzzle", "modular_average"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": ["three_prisoners"],
+    "prearranged_strategy": true,
+    "channel_capacity": "one public color name per prisoner",
+    "public_or_private": "sequential_public_answers",
+    "privacy_goal": "none",
+    "objective": "maximize_all_correct_probability"
+  },
+  "difficulty": {"main": "standard", "local_score": 4, "comment": "Модульное среднее превращает первый ответ в сообщение для двух следующих.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "modular_sum_code", "public_communication"],
+  "sources": [{"source_id": "src-kolmogorov-2023-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kolm_batch",
+    "notes": ["Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted/kolm26/.../Личка/5lichol-sen-sol.tex."]
+  }
+}

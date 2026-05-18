@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-kolm-card-sums-to-linear-signatures",
+      "from": "kolm-2010-card-pair-sums-one-number",
+      "to": "fixed-questions-as-binary-code",
+      "type": "strategy_transfer",
+      "distance": 3,
+      "forward_text": "В задаче Колмогорова ответы являются линейными суммами, а не битами, но идея та же: заранее выбранные вопросы задают код наблюдений, из которого декодируется скрытое состояние.",
+      "backward_text": "Бинарный код показывает дискретную версию заранее выбранных вопросов; сумма двух карточек дает линейный канал, где нечетный цикл убирает свободный параметр.",
+      "status": "ai_checked",
+      "confidence": 0.72
+    },
+    {
+      "id": "rel-kolm-unheard-count-to-wajo-unheard-answer",
+      "from": "kolm-2016-twenty-islanders-unheard-count",
+      "to": "wajo-2015-knaves-unheard-answer",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи используют неуслышанный первый ответ: его точный текст неизвестен, но последующие правдивые или лживые пересказы ограничивают возможные типы.",
+      "backward_text": "WAJO-задача является минимальной версией приема с неуслышанным ответом; задача Колмогорова добавляет длинную цепочку публичных обвинений.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-kolm-erasure-to-hamming-code",
+      "from": "kolm-2022-three-letter-erasure-card-trick",
+      "to": "uct-2015-digits-composite-after-six-deletions",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "В обеих задачах сообщение должно пережить стирание части видимых символов; отличие в том, что у Колмогорова стирается целый класс букв, а в UCT удаляются отдельные позиции.",
+      "backward_text": "Задача UCT показывает робастность к нескольким удалениям в порядке цифр; фокус Колмогорова - более чистый коммуникационный код с тремя буквами и одним типом стирания.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-kolm-hats-to-modular-hat-line",
+      "from": "kolm-2023-three-prisoners-2023-hats",
+      "to": "hat-line-k-colors-modulo",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Обе стратегии заранее нумеруют цвета и используют публичный ответ как модульное сообщение о чужих шляпах.",
+      "backward_text": "Линейная задача о шляпах передает модульную сумму для всех следующих участников; задача Колмогорова использует первый ответ как среднее двух видимых цветов, чтобы двое следующих восстановили свои шляпы.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-kolm-blind-wise-man-to-twenty-questions",
+      "from": "kolm-2023-blind-wise-man-strip-permutation",
+      "to": "twenty-questions-binary-search",
+      "type": "contrast",
+      "distance": 4,
+      "forward_text": "Здесь тоже есть адаптивное получение информации о скрытом состоянии, но вместо деления пространства пополам используется управление системой и перечисление возможных миров до достижения проверяемого события.",
+      "backward_text": "Двоичный поиск - контролируемый пример дерева решений; задача о слепом мудреце показывает гораздо менее прямой канал, где вопросы не называют множество кандидатов, а только управляют скрытым движением.",
+      "status": "needs_human_review",
+      "confidence": 0.64
+    }
+  ]
+}

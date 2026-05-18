@@ -1,0 +1,29 @@
+{
+  "id": "web-wise-prisoners",
+  "title": "Веб-поиск задач о мудрецах, шляпах и заранее согласованных стратегиях",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "search_queries": [
+    "wise men hats prisoners common knowledge prearranged protocol",
+    "hat guessing strategy prisoners olympiad",
+    "site:problems.ru мудрецы шляпы стратегия",
+    "site:problems.ru заключенные шляпы договориться",
+    "site:problems.ru узники шляпы",
+    "site:problems.ru мудрец шляп заранее"
+  ],
+  "items": [
+    {"problem_id": "problems-ru-64616-eleven-wise-men-1000-colors-one-bit", "status": "added", "source_id": "src-problems-ru-64616"},
+    {"problem_id": "problems-ru-67032-300-wise-men-25-colors-permutation-parity", "status": "added", "source_id": "src-problems-ru-67032"},
+    {"problem_id": "problems-ru-115987-thousand-wise-men-hidden-hat-number", "status": "added", "source_id": "src-problems-ru-115987"},
+    {"problem_id": "problems-ru-116064-six-dwarfs-hidden-rainbow-hat", "status": "added", "source_id": "src-problems-ru-116064"},
+    {"problem_id": "winkler-infinite-prisoners-hats-finitely-many-wrong", "status": "added_advanced_classic", "source_id": "src-dartmouth-winkler-mathematical-puzzles-ch23", "note": "Добавлена после уточнения: возраст/студенческий уровень не является отсевом, условие простое и тема точно соответствует заранее согласованной стратегии при неполной информации."},
+    {"problem_id": "hat-line-k-colors-modulo", "status": "existing_card_source_added", "source_id": "src-problems-ru-109639", "note": "Всероссийская олимпиада 1997, 100 мудрецов и 3 цвета; не добавлена отдельной карточкой, потому что это прямой частный случай уже параметризованной модульной линии шляп."},
+    {"problem_id": "problems-ru-66710-hats-with-madmen-oracle", "status": "not_added_duplicate", "source_id": "src-problems-ru-66710", "note": "Уже есть в базе."},
+    {"lead": "Dartmouth/Peter Winkler all right or all wrong infinite hats", "status": "lead_only", "note": "Найден рядом с infinite hats; не добавлен без дополнительной сверки решения, чтобы не занести некорректную advanced-классику."}
+  ],
+  "notes": [
+    "Самым богатым оказался русскоязычный поиск по problems.ru и теме 'Кооперативные алгоритмы': много задач с явными олимпиадными источниками.",
+    "Англоязычные запросы чаще выдавали фольклорные пересказы и puzzle-book источники; из них не добавлялись задачи без явной олимпиадной привязки или уже покрытые классикой.",
+    "Перед добавлением проверены существующие карточки по wise_people, classical, classical_more, coding_games, kolm и соответствующие navigation facets."
+  ]
+}

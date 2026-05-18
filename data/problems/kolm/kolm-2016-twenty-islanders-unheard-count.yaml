@@ -1,0 +1,66 @@
+{
+  "id": "kolm-2016-twenty-islanders-unheard-count",
+  "title": "Кубок Колмогорова 2016: двадцать островитян и нерасслышанный ответ",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["case_analysis"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kolm-2016-komol-juniors-2",
+        "title": "Цепочка обвинений во лжи",
+        "text": "На острове живут рыцари, всегда говорящие правду, и лжецы, всегда говорящие неправду. Путешественник подошел к группе из двадцати островитян. Первому он задал вопрос: «Сколько рыцарей среди вас?» Первый ответил, но путешественник не расслышал число. Тогда он спросил второго: «Что он сказал?» Второй ответил: «Он сказал, что среди нас 10 рыцарей». Третий сказал: «Не верьте второму, он лжет!» Затем четвертый так же обвинил третьего во лжи, и так далее до двадцатого включительно. Сколько в этой компании рыцарей?",
+        "source_ids": ["src-kolmogorov-2016-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-accusation-chain-alternates",
+      "title": "Обвинение предыдущего во лжи заставляет чередование",
+      "text": "Начиная с третьего островитянина каждый оценивает истинность предыдущего высказывания. Поэтому два соседних участника в этой цепочке имеют противоположные типы.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-chain-and-second-liar",
+      "title": "Разобрать второго, затем посчитать чередование",
+      "text": "С третьего по двадцатого типы чередуются, значит среди этих 18 человек ровно 9 рыцарей. Если второй был бы рыцарем, то первый действительно сказал бы «10 рыцарей». Тогда при правдивом первом второй оказался бы лжецом, а при лживом первом в компании действительно было бы 10 рыцарей; в обоих случаях противоречие. Значит, второй - лжец. Тогда первый тоже лжец: если бы первый был рыцарем, он действительно назвал бы правильное число 10, а второй не мог бы солгать фразой о числе 10. Итак, рыцари только среди последних 18, их ровно 9.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "типы 20 островитян и нерасслышанное число, названное первым",
+    "observations": ["пересказ второго", "публичная цепочка обвинений предыдущего во лжи"],
+    "allowed_actions": ["использовать правила правды и лжи для высказываний о предыдущем ответе"],
+    "goal": ["determine_number_of_knights"],
+    "strategy_type": ["case_elimination", "truth_liar_chain"],
+    "lower_bound_method": [],
+    "keywords": ["kolmogorov_2016", "knights_and_knaves", "unheard_answer"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "question_count": 2,
+    "answer_alphabet": "natural_number_or_report",
+    "lies_allowed": "fixed_liars",
+    "adaptive": true,
+    "objective": "determine_number_of_knights"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая цепочка правды/лжи с одним неуслышанным ответом.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination"],
+  "sources": [{"source_id": "src-kolmogorov-2016-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kolm_batch",
+    "notes": ["Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted_text_2010_2019/kolm20/komol20.pdf.txt."]
+  }
+}

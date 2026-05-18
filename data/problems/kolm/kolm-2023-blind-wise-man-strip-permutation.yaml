@@ -1,0 +1,66 @@
+{
+  "id": "kolm-2023-blind-wise-man-strip-permutation",
+  "title": "Кубок Колмогорова 2023: слепой мудрец на переставленной полоске",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kolm-2023-blind-wise-man",
+        "title": "Определить длину полоски по ответам о крае и управлению по большему соседу",
+        "text": "Царь завязал мудрецу глаза, выбрал натуральное \\(n\\), нарисовал полоску \\(1\\times n\\), расставил в ее клетках числа от 1 до \\(n\\) в неизвестном порядке и поставил фишку в одну из клеток. В начале каждого хода царь сообщает мудрецу, стоит ли фишка с краю; если стоит, то сообщает, на каком краю, и затем сдвигает фишку в соседнюю клетку. Если фишка не на краю, мудрец говорит, сдвинуть ее к большему из двух соседних чисел или к меньшему; царь делает этот ход, но не сообщает направление. Может ли мудрец после конечной серии ходов определить число \\(n\\)?",
+        "source_ids": ["src-kolmogorov-2023-official"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-enumerate-hidden-worlds",
+      "title": "Перебирать возможные скрытые миры как стратегии достижения края",
+      "text": "Хотя мудрец не видит ни перестановку, ни позицию, множество возможных конечных ситуаций счетно. Он может последовательно вести себя так, как будто текущая ситуация равна очередной гипотезе.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-reach-edge-then-reconstruct-arrows",
+      "title": "Дойти до края, затем восстанавливать стрелки",
+      "text": "В каждой внутренней клетке мысленно нарисуем стрелку к соседу с большим числом. Команда мудреца означает «идти по стрелке» или «идти против стрелки». Сначала он перечисляет все возможные ситуации и для очередной гипотезы выполняет маршрут, который в этой гипотезе привел бы к краю; когда реальная ситуация будет обработана, край будет достигнут. После попадания на край мудрец начинает восстанавливать стрелки от края внутрь: добирается до следующей клетки, пробует шаг по стрелке и проверяет, вернулся ли он к известному краю за ожидаемое число шагов. Повторяя это с краев, он в конечном итоге обнаруживает противоположный край и тем самым узнает \\(n\\).",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "длина полоски, перестановка чисел и текущая позиция фишки",
+    "observations": ["сообщение, стоит ли фишка на краю", "если стоит на краю - на каком именно"],
+    "allowed_actions": ["внутри полоски выбирать ход к большему или меньшему соседнему числу"],
+    "goal": ["identify_strip_length"],
+    "strategy_type": ["adaptive_strategy", "enumeration_of_hidden_states"],
+    "lower_bound_method": [],
+    "keywords": ["kolmogorov_2023", "blind_wise_man", "hidden_permutation"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "question_count": "finite_unbounded",
+    "answer_alphabet": "edge_status",
+    "lies_allowed": "none",
+    "adaptive": true,
+    "objective": "identify_n"
+  },
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Стратегия использует счетный перебор скрытых состояний и постепенное восстановление локальных стрелок.", "status": "needs_human_review"},
+  "tags": ["decision_tree", "knowledge_elimination"],
+  "sources": [{"source_id": "src-kolmogorov-2023-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "kolm_batch",
+    "notes": ["Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted/kolm26/.../3 тур/tur3_jun.tex.", "Карточка оставлена не public-ready: решение пересказано сжато, без полной формализации процедуры восстановления стрелок."]
+  }
+}

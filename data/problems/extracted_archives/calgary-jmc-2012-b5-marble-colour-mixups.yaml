@@ -1,0 +1,62 @@
+{
+  "id": "calgary-jmc-2012-b5-marble-colour-mixups",
+  "title": "Calgary JMC 2012 B5: перепутанные цвета мраморных шариков",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-calgary-jmc-2012-b5",
+        "title": "Три подсчета, три возможные пары перепутанных цветов",
+        "text": "В корзине лежат шарики четырех цветов: красные, оранжевые, желтые и зеленые. Алиса, Боб и Кэти посчитали шарики и записали результаты:\n\nАлиса: красных 2, оранжевых 5, желтых 7, зеленых 9.\nБоб: красных 2, оранжевых 4, желтых 9, зеленых 8.\nКэти: красных 4, оранжевых 2, желтых 8, зеленых 9.\n\nКаждый из них правильно различал два цвета, но иногда путал два других цвета. Один человек иногда путал красный и оранжевый, другой - оранжевый и желтый, третий - желтый и зеленый. Сколько шариков каждого цвета было в корзине, и какие цвета путал каждый из трех людей?",
+        "source_ids": ["src-calgary-jmc-2012-exam"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-only-one-person-can-mix-red",
+      "title": "Цвет, который путает только один человек, фиксируется двумя совпадениями",
+      "text": "Красный цвет может быть перепутан только тем, кто путает красный с оранжевым. Два остальных человека должны назвать число красных шариков верно.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-use-red-agreement-then-propagate",
+      "title": "Начать с красного цвета и распространить ограничения",
+      "text": "Только один человек мог ошибаться в красном цвете, поэтому два правильных числа красных должны совпасть. У Алисы и Боба записано по 2 красных, значит, красных шариков ровно 2, а Кэти - человек, который путал красный и оранжевый.\n\nТогда Кэти правильно различала желтый и зеленый, так что желтых шариков 8, зеленых 9. По строке Кэти сумма красных и оранжевых равна 4+2=6, а красных уже 2, значит, оранжевых 4. Теперь видно, что Алиса ошиблась в оранжевом и желтом, а Боб - в желтом и зеленом.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "истинные количества шариков каждого цвета и назначение пары перепутанных цветов каждому человеку",
+    "observations": ["три таблицы подсчета", "известен список трех пар цветов, но не известно, кому какая пара принадлежит"],
+    "allowed_actions": ["исключать назначения, несовместимые с совпадениями и суммами"],
+    "goal": ["recover_true_colour_counts", "identify_each_person_mixup"],
+    "strategy_type": ["knowledge_elimination", "consistency_check"],
+    "lower_bound_method": [],
+    "keywords": ["calgary_jmc_2012", "know", "hidden_counts", "statements"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "question_count": 0,
+    "adaptive": false,
+    "objective": "deduce_hidden_counts_and_error_types"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевой шаг - заметить, что красный цвет может быть ошибочным только у одного счетчика.", "status": "ai_checked"},
+  "tags": ["knowledge_elimination", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-calgary-jmc-2012-exam", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-calgary-jmc-2012-solutions", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "calgary_jmc_batch", "notes": []}
+}

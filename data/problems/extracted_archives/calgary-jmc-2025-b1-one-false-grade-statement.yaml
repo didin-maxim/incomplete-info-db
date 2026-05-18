@@ -1,0 +1,63 @@
+{
+  "id": "calgary-jmc-2025-b1-one-false-grade-statement",
+  "title": "Calgary JMC 2025 B1: одна ложная фраза о скрытых оценках",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-calgary-jmc-2025-b1",
+        "title": "Четыре оценки и ровно одно ложное утверждение",
+        "text": "Ан, Бао, Синди и Дилан получили за тест оценки 97%, 85%, 73% и 61%, но неизвестно, кто какую оценку получил. После раздачи результатов они сказали:\n\nАн: моя оценка была между 70% и 90%.\nБао: моя оценка была выше 70%.\nСинди: моя оценка была выше 90%.\nДилан: моя оценка была ниже 70%.\n\nИзвестно, что ровно одно из этих утверждений ложно, а остальные три истинны. Найдите все возможные оценки каждого ученика и определите, чье утверждение было ложным.",
+        "source_ids": ["src-calgary-jmc-2025-exam"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-false-speaker-by-contradiction",
+      "title": "Кандидата на ложь проверяем на совместимость с оценками",
+      "text": "Скрытое состояние состоит из распределения четырех оценок и выбора единственного ложного утверждения. Неверный кандидат быстро приводит к повторному использованию одной оценки или к отсутствию места для 61%.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-eliminate-bao-dylan-ahn",
+      "title": "Исключить Бао, Дилана и Ан как лжецов",
+      "text": "Если бы ложным было утверждение Бао, то Бао получил бы меньше 70%, и Дилан, говоря правду, тоже получил бы меньше 70%. Но среди оценок ниже 70% есть только 61%, противоречие. Значит, Бао говорит правду.\n\nЕсли бы лгал Дилан, остальные трое говорили бы правду, а сам Дилан получил бы не меньше 70%. Тогда все четверо получили бы оценки выше 70%, хотя одна из данных оценок равна 61%. Противоречие, значит, Дилан говорит правду и получил 61%.\n\nЕсли бы лгала Ан, то при уже занятой оценке 61% она должна была бы получить 97%. Но Синди, говоря правду, тоже должна была бы получить 97%, невозможно. Поэтому Ан говорит правду, а единственная ложная фраза - фраза Синди.\n\nСледовательно, Бао получил 97%, Дилан - 61%, а Ан и Синди получили 85% и 73% в любом порядке. Утверждение Синди было ложным.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "биекция между четырьмя учениками и оценками 97, 85, 73, 61, а также единственное ложное утверждение",
+    "observations": ["четыре публичных утверждения о своих оценках", "известно, что ровно одно утверждение ложно"],
+    "allowed_actions": ["проверять кандидатов на ложное утверждение и исключать несовместимые распределения оценок"],
+    "goal": ["identify_false_statement", "list_possible_grade_assignments"],
+    "strategy_type": ["lie_detection", "knowledge_elimination", "consistency_check"],
+    "lower_bound_method": [],
+    "keywords": ["calgary_jmc_2025", "false", "statement", "hidden_grades", "truth"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "question_count": 0,
+    "lies_allowed": "ровно одно из четырех публичных утверждений ложно",
+    "adaptive": false,
+    "objective": "deduce_false_statement_and_possible_assignments"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Требуется аккуратно исключить трех возможных лжецов и сохранить две симметричные возможности.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-calgary-jmc-2025-exam", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-calgary-jmc-2025-solutions", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "calgary_jmc_batch", "notes": []}
+}

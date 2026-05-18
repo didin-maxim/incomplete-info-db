@@ -1,0 +1,37 @@
+{
+  "relations": [
+    {
+      "id": "rel-web-vmo2021-to-problems-ru-next-five",
+      "from": "vmo-2021-circle-80-next-11-liars",
+      "to": "problems-ru-66436-sixty-knights-next-five",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи извлекают глобальное число рыцарей из одинаковых локальных утверждений на круге. ВМО-вариант сложнее: вместо блоков длины 6 используется скользящее окно длины 12 и распространение четверок через НОД.",
+      "backward_text": "problems.ru 66436 дает более короткую блочную модель того же приема; после нее естественно разбирать ВМО-задачу с периодичностью по модулю 4.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-web-friends-parity-to-symposium",
+      "from": "problems-ru-65661-friends-parity-truth-liars",
+      "to": "mmo-2024-symposium-acquaintance-lies",
+      "type": "strategy_transfer",
+      "distance": 3,
+      "forward_text": "В обеих задачах типы говорящих переводят фразы о социальном графе в чистое графовое ограничение: в первой это нечетность степеней, во второй - неизбежный вклад смешанных пар.",
+      "backward_text": "Симпозиумная задача показывает экстремальную версию той же идеи: после локального вывода о каждой паре нужно построить граф знакомств, достигающий нижней оценки.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-web-symposium-to-poland-spies",
+      "from": "mmo-2024-symposium-acquaintance-lies",
+      "to": "poland-omj-seminar-two-spies-five-statements",
+      "type": "contrast",
+      "distance": 4,
+      "forward_text": "В симпозиумной задаче известны правила двух типов, но неизвестны типы и граф знакомств; цель - экстремальное число ответов. Польская задача является конечным перебором высказываний о шпионах и числовом параметре.",
+      "backward_text": "Польская карточка ближе к статической проверке совместимости утверждений; симпозиум добавляет графовую конструкцию и нижнюю оценку.",
+      "status": "ai_checked",
+      "confidence": 0.64
+    }
+  ]
+}

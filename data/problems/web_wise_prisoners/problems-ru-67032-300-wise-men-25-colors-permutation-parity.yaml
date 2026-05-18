@@ -1,0 +1,69 @@
+{
+  "id": "problems-ru-67032-300-wise-men-25-colors-permutation-parity",
+  "title": "problems.ru 67032: 300 мудрецов, 25 цветов и четность перестановки",
+  "fragment": "communication",
+  "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol", "coding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-problems-ru-67032",
+        "title": "Гарантировать хотя бы 150 правильных ответов",
+        "text": "Султан собрал 300 мудрецов. Есть колпаки 25 заранее известных цветов. На каждого мудреца наденут один колпак, причем количества колпаков разных цветов попарно различны. Каждый видит колпаки остальных, но не свой. Затем все одновременно называют предполагаемый цвет своего колпака. Могут ли мудрецы заранее договориться так, чтобы при любом распределении гарантированно хотя бы 150 из них назвали свой цвет верно?",
+        "source_ids": ["src-problems-ru-67032"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-possible-colors-opposite-parity",
+      "title": "У каждого мудреца ровно два кандидата, различающиеся четностью",
+      "text": "Так как 0+1+...+24=300, истинные количества цветов равны числам от 0 до 24. Каждый мудрец видит два цвета с одинаковыми видимыми количествами; его собственный колпак одного из этих двух цветов.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-half-even-half-odd-permutation",
+      "title": "Половина выбирает четную перестановку, половина - нечетную",
+      "text": "Занумеруем цвета числами от 0 до 24. В истинном распределении количества цветов образуют перестановку чисел \\(0,1,\\ldots,24\\): каждому цвету соответствует свое количество.\n\nЛюбой мудрец видит все колпаки, кроме своего. Поэтому для цветов, не равных его цвету, он видит истинные количества, а для своего цвета - на один меньше. Из-за того что истинные количества все различны и равны \\(0,1,\\ldots,24\\), в видимой таблице ровно два цвета имеют одинаковое количество \\(k\\). Мудрец понимает: его колпак одного из этих двух цветов, а истинные количества у них должны быть \\(k\\) и \\(k+1\\).\n\nДве возможные таблицы отличаются только обменом двух значений \\(k\\) и \\(k+1\\) между этими цветами. Поэтому соответствующие перестановки имеют разную четность. До испытания договоримся: 150 заранее выбранных мудрецов всегда выбирают тот из двух цветов, при котором получилась бы четная перестановка, а остальные 150 - тот, при котором получилась бы нечетная. Истинная перестановка либо четная, либо нечетная. В первом случае правы ровно первая группа из 150 мудрецов, во втором - ровно вторая группа. Значит, 150 правильных ответов гарантированы.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "распределение 300 колпаков 25 цветов с попарно различными количествами",
+    "observations": ["каждый видит 299 чужих колпаков", "каждый знает, что количества цветов различны"],
+    "allowed_actions": ["заранее разделить мудрецов на две группы", "одновременно назвать один из двух возможных цветов"],
+    "goal": ["guarantee_at_least_half_correct"],
+    "strategy_type": ["prearranged_protocol", "permutation_parity_code"],
+    "lower_bound_method": [],
+    "keywords": ["wise_men", "hat_puzzle", "permutation_parity", "half_correct_guarantee", "tournament_of_towns"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "300 wise men",
+    "prearranged_strategy": true,
+    "channel_capacity": "no post-start communication; simultaneous guesses",
+    "public_or_private": "private_observation_then_simultaneous",
+    "privacy_goal": "none",
+    "objective": "guarantee at least 150 correct guesses"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Красивая олимпиадная стратегия: локальная двузначность переводится в четность глобальной перестановки.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "parity_code", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-problems-ru-67032", "role": "statement_and_solution_archive", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners",
+    "notes": ["Источник указывает: Турнир городов 2021/22, весенний тур, сложный вариант, 10-11 класс, задача 6; также Московская математическая олимпиада 2022, 11 класс, задача 6."]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "vmo-2021-circle-80-next-11-liars",
+  "title": "ВМО 2021: 80 островитян и 11 следующих по кругу",
+  "fragment": "questions",
+  "kind": {"primary": "official_olympiad_problem", "secondary": ["logic_deduction", "structural_counting"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-vmo-2021-circle-80",
+        "title": "Хотя бы 9 лжецов среди следующих 11",
+        "text": "За круглым столом сидят 80 островитян. Каждый из них либо рыцарь, который всегда говорит правду, либо лжец, который всегда лжет. Каждый сказал: «Среди 11 человек, сидящих сразу после меня по часовой стрелке, есть хотя бы 9 лжецов». Сколько рыцарей может быть за столом?",
+        "source_ids": ["src-vmo-2021-ii-sol-9-11"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-window-12-forces-period-four",
+      "title": "Окна длины 12 и четверки подряд",
+      "text": "Фраза каждого рыцаря говорит, что в окне из него и 11 следующих людей не больше 3 рыцарей. Если где-то есть четыре лжеца подряд, это вынуждает такую же четверку через 12 мест; из-за \\(\\gcd(80,12)=4\\) такое распространение сделало бы всех лжецами, что невозможно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-prove-one-knight-in-each-four",
+      "title": "Доказать ровно одного рыцаря в каждой четверке",
+      "text": "Сначала докажем, что среди любых 12 подряд сидящих людей не может быть больше 3 рыцарей. Иначе возьмем первого рыцаря в такой группе: после него внутри этих 12 осталось бы еще как минимум 3 рыцаря, то есть среди 11 следующих было бы меньше 9 лжецов, и его утверждение оказалось бы ложным.\n\nТеперь покажем, что четырех лжецов подряд быть не может. Пусть такие лжецы стоят на местах 1, 2, 3, 4. Первый из них солгал, значит среди мест 2--12 не может быть 9 или больше лжецов; следовательно, там есть хотя бы 3 рыцаря. Но в любых 12 подряд рыцарей не больше 3, а места 2, 3, 4 уже лжецы, поэтому среди мест 5--12 ровно 3 рыцаря. Тогда в группе 5--16 больше рыцарей быть не может, значит места 13--16 снова образуют четверку лжецов. Повторяя сдвиг на 12 мест, получаем четверки лжецов во всех классах по модулю 4, то есть все 80 человек стали бы лжецами; это противоречит исходной ситуации, потому что тогда каждое утверждение было бы истинным.\n\nЗначит, в каждой четверке подряд есть хотя бы один рыцарь. Вместе с уже доказанным ограничением «не больше 3 рыцарей в 12 подряд» это дает ровно одного рыцаря в каждой четверке подряд. Поэтому всего рыцарей \\(80/4=20\\). Пример достигается, если каждое четвертое место занято рыцарем, а остальные три места в каждом блоке - лжецами.",
+      "standard_idea_ids": ["partition_state_space", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "расположение рыцарей и лжецов на цикле из 80 мест",
+    "observations": ["одинаковая публичная фраза каждого участника о 11 следующих местах"],
+    "allowed_actions": ["анализировать скользящие окна и распространять локальное ограничение по кругу"],
+    "goal": ["count_truth_tellers"],
+    "strategy_type": ["local_constraint_propagation", "periodicity_argument"],
+    "lower_bound_method": [],
+    "keywords": ["vmo_2021", "knights_liars", "circle", "sliding_window", "period_four"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 80, "lies_allowed": "liars always lie", "adaptive": false, "objective": "deduce_number_of_knights"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Сильная круговая задача: локальный порог превращается в периодическую структуру.", "status": "ai_checked"},
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination"],
+  "sources": [{"source_id": "src-vmo-2021-ii-sol-9-11", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "web_truth_liars_batch", "notes": ["Источник: муниципальный этап Всероссийской олимпиады школьников 2021/22, 9-11 классы, задача 10.6."]}
+}

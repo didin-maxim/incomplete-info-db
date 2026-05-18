@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "id": "rel-web-64616-to-fixed-binary-code",
+      "from": "problems-ru-64616-eleven-wise-men-1000-colors-one-bit",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют заранее выбранные двоичные подписи; отличие в том, что здесь разряды распределены между мудрецами как один публичный бит от каждого.",
+      "backward_text": "Фиксированные бинарные вопросы дают одиночную версию той же идеи кодовых слов, без распределенного протокола между участниками.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-web-64616-to-hats-parity-line",
+      "from": "problems-ru-64616-eleven-wise-men-1000-colors-one-bit",
+      "to": "prisoners-hats-parity-line",
+      "type": "strategy_transfer",
+      "distance": 3,
+      "forward_text": "В обеих задачах один бит четности превращает видимую конфигурацию в недостающий цвет, но в задаче 64616 таких битов одиннадцать и они отвечают за разные координаты кода.",
+      "backward_text": "Линейная задача о шляпах показывает минимальный последовательный паритет; задача 64616 распределяет паритеты по координатам 11-битных кодов цветов.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-web-67032-to-115987-permutation-parity",
+      "from": "problems-ru-67032-300-wise-men-25-colors-permutation-parity",
+      "to": "problems-ru-115987-thousand-wise-men-hidden-hat-number",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют четность перестановки для выбора между двумя локально неразличимыми вариантами.",
+      "backward_text": "В задаче о тысяче мудрецов четность перестановки поддерживается последовательно, а в задаче о 300 мудрецах она делит одновременные ответы на две гарантированные половины.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-web-115987-to-hat-line-modular",
+      "from": "problems-ru-115987-thousand-wise-men-hidden-hat-number",
+      "to": "hat-line-k-colors-modulo",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Пункт а использует тот же последовательный модульный сигнал, что и линия шляп с k цветами, но добавляет запрет повторить служебное число.",
+      "backward_text": "Модульная линия шляп является чистой базовой версией; задача 115987 усложняет канал спрятанным номером и запретом повторов.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-web-116064-to-ebert-hats",
+      "from": "problems-ru-116064-six-dwarfs-hidden-rainbow-hat",
+      "to": "ebert-seven-hats-hamming-code",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Обе задачи заранее выбирают правило одновременных догадок по видимым шляпам, но у гномов требуется гарантированная половина правильных ответов, а у Эберта максимизируется вероятность без неверной догадки.",
+      "backward_text": "Задача Эберта использует покрывающий код Хэмминга; младшая задача о семи цветах использует регулярную ориентацию пар цветов.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-web-infinite-hats-to-parity-line",
+      "from": "winkler-infinite-prisoners-hats-finitely-many-wrong",
+      "to": "prisoners-hats-parity-line",
+      "type": "contrast",
+      "distance": 4,
+      "forward_text": "Обе задачи заранее согласуют правило для шляп без знания собственного цвета, но конечная линия использует один явный бит паритета, а бесконечная версия использует выбор представителей классов почти равных последовательностей.",
+      "backward_text": "Линейная задача дает элементарный конечный протокол 'ошибается не более один'; бесконечная версия заменяет один бит на глобальный класс эквивалентности и гарантирует лишь конечное число ошибок.",
+      "status": "ai_checked",
+      "confidence": 0.74
+    }
+  ]
+}

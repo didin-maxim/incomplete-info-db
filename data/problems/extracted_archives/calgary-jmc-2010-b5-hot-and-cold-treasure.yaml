@@ -1,0 +1,63 @@
+{
+  "id": "calgary-jmc-2010-b5-hot-and-cold-treasure",
+  "title": "Calgary JMC 2010 B5: горячо-холодно на ряду клеток",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["search_game"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-calgary-jmc-2010-b5",
+        "title": "Найти спрятанное сокровище по ответам Ding, Hot, Cold",
+        "text": "Хида прячет сокровище в одной клетке ряда. На каждом ходе Сика выбирает клетку. Если выбрана клетка с сокровищем, Хида отвечает «Ding!» и игра заканчивается. Если выбрана соседняя с сокровищем клетка, Хида отвечает «Hot!». Если выбранная клетка не является ни клеткой с сокровищем, ни соседней к ней, Хида отвечает «Cold!». Докажите, что на ряду из 3 клеток Сика может найти сокровище не более чем за 2 хода, а на ряду из 9 клеток - не более чем за 4 хода.",
+        "source_ids": ["src-calgary-jmc-2010-exam"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-hot-cold-splits-row",
+      "title": "Один ход делит возможные позиции на три типа",
+      "text": "Ответ «Ding» определяет позицию сразу, «Hot» оставляет соседние клетки, а «Cold» удаляет выбранную клетку и ее соседей из множества кандидатов.",
+      "standard_idea_ids": ["ternary_search", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-and-nine-squares",
+      "title": "Сначала центр, затем маленькие блоки",
+      "text": "Для трех клеток пронумеруем их 1, 2, 3. Сика сначала выбирает клетку 1. При «Ding» все найдено; при «Hot» сокровище в клетке 2; при «Cold» - в клетке 3. Значит, второй ход всегда завершает поиск.\n\nДля девяти клеток пронумеруем их 1-9. Сика сначала выбирает клетку 5. При «Ding» все найдено. При «Hot» сокровище в 4 или 6, и эти две клетки можно проверить следующими двумя ходами. При «Cold» остаются клетки 1, 2, 3, 7, 8, 9. Вторым ходом Сика выбирает клетку 2. Если ответ «Ding», поиск закончен; если «Hot», остаются 1 и 3, и их можно проверить двумя оставшимися ходами; если «Cold», сокровище в блоке 7, 8, 9, а для трех клеток уже есть стратегия за два хода. Итого во всех случаях достаточно 4 ходов.",
+      "standard_idea_ids": ["ternary_search", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "клетка ряда, в которой Хида спрятала сокровище",
+    "observations": ["после каждого выбора виден один из ответов: Ding, Hot, Cold"],
+    "allowed_actions": ["адаптивно выбирать следующую клетку по предыдущим ответам"],
+    "goal": ["find_hidden_square_within_turn_limit"],
+    "strategy_type": ["adaptive_search", "state_partition"],
+    "lower_bound_method": [],
+    "keywords": ["calgary_jmc_2010", "hidden", "know", "ask", "hot_cold"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["Ding", "Hot", "Cold"],
+    "question_count": 4,
+    "adaptive": true,
+    "objective": "recover_hidden_square"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно построить явное адаптивное дерево поиска.", "status": "ai_checked"},
+  "tags": ["ternary_search", "decision_tree", "knowledge_elimination"],
+  "sources": [
+    {"source_id": "src-calgary-jmc-2010-exam", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-calgary-jmc-2010-solutions", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "calgary_jmc_batch", "notes": []}
+}

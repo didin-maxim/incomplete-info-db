@@ -1,0 +1,84 @@
+{
+  "id": "tournament-towns-2008-four-stones-one-error",
+  "title": "Tournament of Towns 2008: четыре камня и одно ошибочное числовое взвешивание",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "error_correction", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-tot-2008-fall-junior-a-2",
+        "title": "Весы показывают разность масс, но один раз могут ошибиться на 1 грамм",
+        "text": "Есть четыре камня, каждый весит целое число граммов. Весы с двумя чашами показывают, какая чаша тяжелее, и числовую разность масс на чашах в граммах. Можно ли за четыре взвешивания определить веса всех четырех камней, если не более чем в одном взвешивании показание может ошибиться на 1 грамм?",
+        "source_ids": ["src-tot-2008-fall-junior-a-uwa-solutions", "src-tot-toronto-2008-fall-junior-a-solutions"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-linear-code-with-parity-check",
+      "title": "Сделать четыре числовых показания линейным кодом с проверкой ошибки",
+      "text": "Взвешивания выбираются так, чтобы суммы и разности показаний восстанавливали массы, а остаток по модулю 3 и четность отдельных комбинаций указывали, было ли одно показание испорчено и какое именно.",
+      "standard_idea_ids": ["error_correcting_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-linear-measurements",
+      "title": "Четыре уравнения и исправление одной ошибки",
+      "text": "Обозначим массы камней \\(A,B,C,D\\) через \\(a,b,c,d\\). Сделаем такие четыре взвешивания и запишем показанные разности как \\(w,x,y,z\\):\n\n\\(C+D\\) против \\(B\\), то есть в идеале \\(w=-b+c+d\\); \\(A\\) против \\(B+C+D\\), то есть \\(x=a-b-c-d\\); \\(A+B+C\\) против \\(D\\), то есть \\(y=a+b+c-d\\); \\(A+B+D\\) против \\(C\\), то есть \\(z=a+b-c+d\\).\n\nБез ошибки из этих уравнений сразу получается \\(a=(w+x+y+z)/3\\), \\(b=(y+z)/2-a\\), \\(c=a-(x+z)/2\\), \\(d=a-(x+y)/2\\). Если одно показание ошибочно на \\(1\\), то сумма \\(w+x+y+z\\) не делится на 3; ее остаток \\(\\varepsilon=\\pm1\\) показывает направление ошибки, потому что правильная сумма должна быть кратна 3. Остается понять, какое из четырех чисел исправлять. После подстановки правильного \\(a\\) величины \\(a-w,x,y,z\\) должны иметь одну и ту же четность; единственная величина другой четности указывает на испорченное показание. Исправив его на \\(-\\varepsilon\\), восстанавливаем все четыре массы по формулам выше.",
+      "standard_idea_ids": ["error_correcting_code"],
+      "status": "ai_checked",
+      "definition_ids": []
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "четыре целочисленные массы и, возможно, одно ошибочное числовое показание с неизвестной позицией и знаком ошибки",
+    "observations": ["четыре целочисленные разности масс на двухчашечных весах"],
+    "allowed_actions": ["заранее выбрать четыре сравнения линейных комбинаций камней"],
+    "goal": ["identify_all_weights", "correct_one_possible_measurement_error"],
+    "strategy_type": ["nonadaptive_strategy", "linear_encoding", "error_correcting_code"],
+    "lower_bound_method": [],
+    "keywords": ["tournament_of_towns_2008", "numeric_balance", "one_error", "parity_check", "mod_3_check"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": 0,
+    "counterfeit_type": "no_counterfeit_measurement_with_one_possible_numeric_error",
+    "weighing_count": 4,
+    "outcome_count_per_weighing": "numeric_difference",
+    "adaptive": false,
+    "objective": "measure_all"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Junior A-Level Tournament of Towns; линейная кодировка с исправлением одной числовой ошибки.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "digital_scale", "linear_signature", "error_correcting_code", "nonadaptive_strategy"],
+  "sources": [
+    {"source_id": "src-tot-2008-fall-junior-a-uwa-solutions", "role": "statement_and_solution_mirror", "status": "source_verified"},
+    {"source_id": "src-tot-toronto-2008-fall-junior-a-solutions", "role": "official_solution_archive", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_weighings_batch",
+    "notes": [
+      "Источник UWA содержит полный текст условия и решение; архив Toronto Tournament of the Towns использован как официальный источник решения.",
+      "Задача добавлена не как классическая фальшивая монета, а как редкий чистый пример исправления одной ошибки в числовом канале взвешиваний."
+    ]
+  }
+}

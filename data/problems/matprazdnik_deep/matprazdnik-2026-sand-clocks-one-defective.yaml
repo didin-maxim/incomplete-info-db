@@ -1,0 +1,55 @@
+{
+  "id": "matprazdnik-2026-sand-clocks-one-defective",
+  "title": "Матпраздник-2026: трое песочных часов и одни бракованные",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["faulty_instrument_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Найти часы с лишним песком быстрее пяти минут",
+        "text": "Есть трое песочных часов: большие на 5 минут, средние на 3 минуты и маленькие на 2 минуты. В одних из них песка чуть больше, чем надо, и они сыплются на несколько секунд дольше, чем положено. Как найти бракованные часы, затратив меньше пяти минут? Считаем, что на запуск и переворачивание часов время не тратится.",
+        "source_ids": ["src-matprazdnik-2026-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["hidden_state", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-store-time-difference-on-third-clock",
+      "title": "Запомнить разность двух интервалов на третьих часах",
+      "text": "Сравнение шести минут по маленьким и средним часам можно сократить: часть разности между трехминутными и двухминутными часами временно записывается на пятиминутных. После переворота достаточно сравнить, какие часы финишируют раньше.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-three-then-five-memory",
+      "title": "Запустить 2 и 3, а пятиминутные использовать как память",
+      "text": "Запустим одновременно 2-минутные и 3-минутные часы. Когда в 2-минутных весь песок окажется внизу, перевернем их и одновременно запустим 5-минутные. Когда закончится песок в 3-минутных, перевернем 5-минутные часы: уже насыпанный в них песок начнет высыпаться обратно.\n\nТеперь сравниваем, где песок закончится раньше: в 2-минутных или в 5-минутных. Если бракованы 5-минутные, то 2-минутные и 5-минутные закончат одновременно. Если бракованы 3-минутные, то 5-минутные перевернут позже, и они закончат позже 2-минутных. Если бракованы 2-минутные, то 5-минутные запустят позже, до переворота они проработают меньше минуты и после переворота закончат раньше 2-минутных. Все три случая различаются не позднее четвертой минуты.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["hidden_state"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какие из трех песочных часов имеют лишний песок",
+    "observations": ["моменты окончания сыпания у запущенных часов"],
+    "allowed_actions": ["запускать и переворачивать часы в выбранные моменты"],
+    "goal": ["identify_faulty_clock"],
+    "strategy_type": ["timing_protocol", "faulty_instrument_detection"],
+    "lower_bound_method": [],
+    "keywords": ["matprazdnik_2026", "sand_clocks", "faulty_observation_channel", "timing_strategy"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 3, "question_count": 1, "lies_allowed": "none", "adaptive": true, "objective": "identify_faulty_clock_by_timing"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6 класс, задача на проектирование временного эксперимента с одним неисправным прибором.", "status": "ai_checked"},
+  "tags": ["decision_tree", "structural_constraint"],
+  "sources": [{"source_id": "src-matprazdnik-2026-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная брошюра, 37-й Математический праздник, 6 класс, задача 6."]}
+}

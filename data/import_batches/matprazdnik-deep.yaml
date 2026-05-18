@@ -1,0 +1,20 @@
+{
+  "id": "matprazdnik-deep",
+  "title": "Матпраздник: глубокий тематический поиск по неполной информации",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "matprazdnik-2026-sand-clocks-one-defective", "status": "added", "source_id": "src-matprazdnik-2026-book"},
+    {"problem_id": "matprazdnik-2026-five-cards-petya-vasya", "status": "added", "source_id": "src-matprazdnik-2026-book"},
+    {"problem_id": "matprazdnik-2003-three-islanders-companions", "status": "added", "source_id": "src-matprazdnik-2003-solutions"},
+    {"problem_id": "matprazdnik-1998-contrast-island-parity", "status": "added_needs_review", "source_id": "src-matprazdnik-1998-problems"},
+    {"problem_id": "matprazdnik-2026-phone-number-divisibility-dialogue", "status": "lead_rejected_static_restoration", "source_id": "src-matprazdnik-2026-book"},
+    {"problem_id": "matprazdnik-2021-diamonds-paid-weights", "status": "lead_needs_review_measurement_cost_not_hidden_state", "source_id": "src-matprazdnik-2021-book"},
+    {"problem_id": "matprazdnik-2026-six-chests-equalization", "status": "lead_rejected_state_transform_not_incomplete_information", "source_id": "src-matprazdnik-2026-book"}
+  ],
+  "source_notes": [
+    "Перед добавлением просмотрены существующие matprazdnik_savin, extended_sources, kvantik, weighings, навигационные clusters/facets и выполнен обязательный rg по ключевым словам.",
+    "Для 2026 года использована официальная PDF-брошюра с решениями. HTML-страница prob_26.html содержит расходящуюся формулировку карточного фокуса; карточка взята из PDF.",
+    "Обычные статические восстановления чисел и задачи без скрытого состояния оставлены только как leads, не как public-ready карточки."
+  ]
+}

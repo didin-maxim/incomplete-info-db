@@ -1,0 +1,77 @@
+{
+  "id": "problems-ru-116064-six-dwarfs-hidden-rainbow-hat",
+  "title": "problems.ru 116064: шесть гномов и спрятанный радужный колпак",
+  "fragment": "communication",
+  "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-problems-ru-116064",
+        "title": "Хотя бы трое должны угадать спрятанный цвет",
+        "text": "У дракона есть семь колпаков семи цветов радуги. Шестерым гномам наденут по колпаку, а один колпак спрячут. После этого каждый гном увидит колпаки остальных, но не свой и не спрятанный, и без общения с другими тайно назовет драконy цвет спрятанного колпака. Если хотя бы трое угадают, всех отпустят. Как гномам заранее договориться, чтобы гарантированно спастись?",
+        "source_ids": ["src-problems-ru-116064"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-orient-complete-graph-cycle",
+      "title": "Каждый выбирает один из двух невидимых цветов по заранее заданному правилу",
+      "text": "Каждый гном видит пять цветов, значит не видит ровно два: свой и спрятанный. Нужно заранее ориентировать пары цветов так, чтобы у каждого спрятанного цвета ровно три другие цвета указывали на него.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-seven-cycle-tournament",
+      "title": "Расположить цвета по кругу из семи вершин",
+      "text": "Заранее расположим семь цветов по кругу. Каждый гном видит пять цветов, поэтому два цвета для него неизвестны: цвет его собственного колпака и цвет спрятанного колпака. Договоримся: из этих двух цветов он называет тот, до которого от другого цвета ближе идти по часовой стрелке по кругу. Так как в круге 7 цветов, расстояния по часовой стрелке в две стороны имеют суммы 7, поэтому одно из них равно 1, 2 или 3, а другое равно 4, 5 или 6; выбор однозначен.\n\nПусть спрятан некоторый цвет \\(H\\). Рассмотрим шесть гномов с колпаками остальных цветов. Гном с цветом \\(X\\) выбирает между \\(X\\) и \\(H\\). Он назовет \\(H\\) ровно тогда, когда от \\(X\\) до \\(H\\) по часовой стрелке расстояние 1, 2 или 3. На семиугольнике таких цветов \\(X\\) ровно три: три предыдущих перед \\(H\\) по кругу. Поэтому при любом спрятанном цвете ровно три гнома называют его верно, и условие дракона выполнено.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "ub-at-most-half-note",
+      "title": "Больше половины гарантировать нельзя",
+      "text": "В источнике указано, что никакая договоренность не гарантирует больше половины правильных ответов. Интуитивно это связано с тем, что каждый гном всегда выбирает один из двух невидимых цветов, а по всем парам цветов число выборов в сторону спрятанного цвета нельзя сделать больше половины для каждого возможного спрятанного цвета одновременно.",
+      "standard_idea_ids": ["counting_bound"],
+      "status": "needs_human_review"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какой из 7 цветов спрятан и какие 6 цветов надеты на гномов",
+    "observations": ["каждый видит 5 чужих цветов", "каждый не видит свой цвет и спрятанный цвет"],
+    "allowed_actions": ["заранее выбрать правило выбора одного из двух невидимых цветов", "одновременно назвать спрятанный цвет"],
+    "goal": ["guarantee_at_least_three_correct"],
+    "strategy_type": ["prearranged_protocol", "tournament_orientation", "balanced_choice_rule"],
+    "lower_bound_method": ["counting_bound"],
+    "keywords": ["hidden_hat", "dwarfs", "rainbow_colors", "round_robin_orientation", "mathematical_festival"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "6 dwarfs",
+    "prearranged_strategy": true,
+    "channel_capacity": "no post-start communication; private simultaneous guesses",
+    "public_or_private": "private_observation_then_simultaneous",
+    "privacy_goal": "none",
+    "objective": "at least three identify hidden hat color"
+  },
+  "difficulty": {"main": "junior_olympiad", "local_score": 3, "comment": "Младшая, но очень чистая стратегия через регулярную ориентацию пар цветов.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "symmetry", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-problems-ru-116064", "role": "statement_and_solution_archive", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners",
+    "notes": ["Источник указывает: Математический праздник 2011, 6 класс, задача 5."]
+  }
+}

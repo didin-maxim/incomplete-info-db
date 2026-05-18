@@ -1,0 +1,71 @@
+{
+  "id": "mmo-2024-symposium-acquaintance-lies",
+  "title": "ММО 2024/25: симпозиум лжецов и правдолюбов",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_logic", "counting"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mmo-2024-symposium",
+        "title": "Ответы о знакомстве",
+        "text": "На совместный симпозиум лжецов, которые всегда лгут, и правдолюбов, которые всегда говорят правду, собрались 100 участников, среди которых не все лжецы и не все правдолюбы. Каждые два участника либо знакомы, либо незнакомы друг с другом. Каждый ответил \"да\" или \"нет\" на вопрос \"Знакомы ли вы?\" про каждого из остальных. Какое наименьшее количество ответов \"да\" могло быть получено?",
+        "source_ids": ["src-mmo-2024-25-tasks-11-tur1-final", "src-mmo-2024-25-sol-11-tur1-final", "src-problems-ru-67459"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-mixed-pair-one-yes",
+      "title": "Смешанная пара всегда дает один ответ \"да\"",
+      "text": "Если один участник пары правдолюб, а другой лжец, то независимо от того, знакомы они или нет, из двух направленных ответов ровно один будет \"да\". Пары одного типа дают 0 или 2 ответа \"да\", поэтому минимум определяется числом смешанных пар.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-mixed-pairs",
+      "title": "Свести к размеру разреза между типами",
+      "text": "Пусть лжецов \\(n\\), тогда правдолюбов \\(100-n\\), причем \\(1\\le n\\le 99\\). Каждая смешанная пара лжец-правдолюб дает ровно один положительный ответ, значит уже есть не меньше \\(n(100-n)\\) ответов \"да\". Пары одного типа не уменьшают это число: два правдолюба дают либо два \"да\" при знакомстве, либо ноль при незнакомстве; два лжеца наоборот дают ноль при знакомстве и два при незнакомстве. Минимум \\(n(100-n)\\) на отрезке \\(1\\le n\\le 99\\) равен 99.\n\nОценка достижима: возьмем 99 лжецов и одного правдолюба и сделаем всех попарно знакомыми. Правдолюб ответит \"да\" про всех 99 лжецов, а каждый лжец на все вопросы ответит \"нет\". Итого ровно 99 положительных ответов.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "разбиение 100 участников на лжецов и правдолюбов, а также граф знакомств",
+    "observations": ["полная таблица ответов да/нет на вопросы о знакомстве"],
+    "allowed_actions": ["подсчитать вынужденный вклад смешанных пар", "построить конфигурацию, достигающую нижней оценки"],
+    "goal": ["minimize_yes_answers"],
+    "strategy_type": ["truth_liar_logic", "counting_argument", "extremal_construction"],
+    "lower_bound_method": ["mixed_pair_count"],
+    "keywords": ["mmo_2024_25", "liars", "truth_tellers", "yes_answers", "acquaintance"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["да", "нет"],
+    "question_count": 9900,
+    "adaptive": false,
+    "objective": "minimize_possible_yes_answers"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Короткий подсчет по типам участников; главное увидеть неизменный вклад смешанной пары.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "counting_lower_bound", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-mmo-2024-25-tasks-11-tur1-final", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-mmo-2024-25-sol-11-tur1-final", "role": "official_solution", "status": "source_verified"},
+    {"source_id": "src-problems-ru-67459", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "extracted_archives_batch",
+    "notes": ["Найдена в соседней базе graph-db: data/problems/mmo/mmo-2024-symposium-acquaintance-lies.yaml. В исходной graph-db-карточке также указана локальная копия официального решения: audit/_mmo_tc_text_clean/d738368d897f6572.txt.", "2026-05-18: добавлен источник-дублер problems.ru 67459, найденный при веб-поиске truth/liar задач."]
+  }
+}

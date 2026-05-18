@@ -1,0 +1,56 @@
+{
+  "id": "lmo-1989-physicists-chemists-liars-circle",
+  "title": "ЛМО-1989: физики, химики и лжецы за круглым столом",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lmo-1989-14",
+        "title": "Все отвечают, что сосед справа - химик",
+        "text": "За круглым столом сидят 2n человек: n физиков и n химиков. Некоторые из них всегда говорят правду, остальные всегда лгут. Известно, что количество химиков-лжецов равно количеству физиков-лжецов. На вопрос: «Кто ваш сосед справа?» все сидящие за столом ответили: «Химик». Докажите, что n четно.",
+        "source_ids": ["src-lmo-1989-pdmi"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-liar-means-right-physicist",
+      "title": "Лжецы ровно перед физиками",
+      "text": "Ответ «Химик» истинен тогда и только тогда, когда сосед справа действительно химик. Поэтому лжецы - это ровно те люди, справа от которых сидит физик.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-right-neighbor-physicists",
+      "title": "Посчитать пары перед физиком",
+      "text": "Рассмотрим всех людей, чей сосед справа - физик. Таких людей ровно n, потому что всего физиков n. Все эти люди солгали, так как ответили «Химик».\n\nРазделим их на две группы: химики-лжецы перед физиком и физики-лжецы перед физиком. По условию общее число химиков-лжецов равно общему числу физиков-лжецов; других лжецов нет, ведь лжец обязательно стоит перед физиком. Значит эти две группы равны по размеру. Их сумма равна n, поэтому n - сумма двух равных чисел и, следовательно, четно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "порядок физиков и химиков за столом и тип каждого участника: правдивый или лжец",
+    "observations": ["одинаковый публичный ответ всех участников на вопрос о соседе справа"],
+    "allowed_actions": ["использовать правило правдивости и лжи для ответа о локальном соседе"],
+    "goal": ["prove_parity_property"],
+    "strategy_type": ["state_elimination", "local_constraint_propagation"],
+    "lower_bound_method": [],
+    "keywords": ["lmo_1989", "truth_liar_circle", "right_neighbor_answer"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": "2n", "lies_allowed": "часть участников всегда говорит правду, остальные всегда лгут", "adaptive": false, "objective": "prove_parity_property"},
+  "truth_liar_profile": {"agent_types": ["truth_teller", "liar"], "truth_rule": "fixed_truth_or_lie", "interaction_mode": ["public_answers", "local_neighborhood"], "topology": "circle", "goal": ["prove_parity_property"]},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "8 класс; короткий счет лжецов по локальным переходам в цикле.", "status": "ai_checked"},
+  "tags": ["truth_liar_normalization", "structural_constraint"],
+  "sources": [{"source_id": "src-lmo-1989-pdmi", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "spb_olympiad", "notes": ["Официальный PDF содержит условие; решение восстановлено редакционно."]}
+}

@@ -1,0 +1,55 @@
+{
+  "id": "lmo-1980-nine-coins-two-heavy-one-pan-five-weighings",
+  "title": "ЛМО-1980: две тяжелые фальшивые монеты на одночашечных весах",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lmo-1980-26",
+        "title": "Две фальшивые из девяти",
+        "text": "Среди девяти монет две фальшивые. Настоящая монета весит 10 грамм, а фальшивая - 11 грамм. Как обнаружить фальшивые монеты за 5 взвешиваний на одночашечных весах? Цена деления - 1 грамм.",
+        "source_ids": ["src-lmo-1980-pdmi"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["digital_scale", "hidden_state"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-pair-sum-code",
+      "title": "Закодировать монеты двоичными столбцами",
+      "text": "Каждое взвешивание на одночашечных весах сообщает, сколько фальшивых монет лежало в выбранной группе: нужно вычесть известный вес настоящих монет. Поэтому пяти взвешиваний достаточно, если девяти монетам назначить такие пятибитовые коды, что суммы любых двух кодов различны.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-five-bit-sidon-code",
+      "title": "Пять контрольных групп",
+      "text": "Пронумеруем монеты и назначим им коды:\n1: 00000, 2: 00001, 3: 00010, 4: 00100, 5: 00111, 6: 01000, 7: 10000, 8: 11001, 9: 11110.\n\nВ j-м взвешивании кладем на весы те монеты, у которых j-й бит равен 1. Если в группе k монет и вес оказался W грамм, то число фальшивых в этой группе равно W-10k. Так после пяти взвешиваний получается покоординатная сумма кодов двух фальшивых монет.\n\nДля приведенного набора кодов суммы кодов любых двух разных монет различны. Значит полученная пятикомпонентная сумма однозначно указывает пару фальшивых монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["digital_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "пара из 9 монет, которые тяжелее настоящих на 1 грамм",
+    "observations": ["пять числовых результатов одночашечных весов"],
+    "allowed_actions": ["заранее выбрать пять подмножеств монет для взвешивания"],
+    "goal": ["identify_multiple_counterfeit_coins"],
+    "strategy_type": ["nonadaptive_strategy", "signature_code"],
+    "lower_bound_method": [],
+    "keywords": ["lmo_1980", "one_pan_scale", "pair_sum_code"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 2, "counterfeit_type": "multiple_known_heavy", "weighing_count": 5, "outcome_count_per_weighing": "numeric", "adaptive": false, "objective": "identify_multiple"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "9 класс; естественная сигнатурная конструкция для двух фальшивых монет.", "status": "ai_checked"},
+  "tags": ["digital_scale", "linear_signature", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-lmo-1980-pdmi", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "spb_olympiad", "notes": ["Официальный PDF содержит условие; решение дано редакционно через пятибитовый B_2-код."]}
+}

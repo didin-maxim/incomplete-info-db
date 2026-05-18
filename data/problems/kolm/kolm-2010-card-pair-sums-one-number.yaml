@@ -1,0 +1,75 @@
+{
+  "id": "kolm-2010-card-pair-sums-one-number",
+  "title": "Кубок Колмогорова 2010: узнать одно число по суммам пар карточек",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "lower_bound"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kolm-2010-card-pair-sums",
+        "title": "128 закрытых карточек и суммы двух чисел",
+        "text": "На 128 карточках написаны числа, не обязательно различные. Карточки лежат на столе вверх рубашкой. За один вопрос можно узнать сумму чисел на двух указанных карточках. За какое наименьшее число вопросов можно гарантированно узнать хотя бы одно из написанных чисел?",
+        "source_ids": ["src-kolmogorov-2010-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-odd-cycle-pair-sums",
+      "title": "Нечетный цикл сумм устраняет сдвиг",
+      "text": "Суммы вдоль двух ребер оставляют свободный параметр, но три попарные суммы для трех карточек образуют нечетный цикл и однозначно задают каждое из трех чисел.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ask-three-pair-sums",
+      "title": "Спросить суммы трех пар",
+      "text": "Выберем любые три карточки с числами \\(a,b,c\\). Спросим суммы \\(a+b\\), \\(a+c\\) и \\(b+c\\). Тогда, например, \\(a=((a+b)+(a+c)-(b+c))/2\\), поэтому после трех вопросов известно даже не одно, а все три выбранных числа.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-questions-not-enough",
+      "title": "Два вопроса не могут гарантировать число",
+      "text": "После двух вопросов граф опрошенных пар имеет не более двух ребер, значит он двудолен. В каждой его компоненте можно прибавить к одной доле параметр \\(t\\), а из другой доли вычесть \\(t\\); все заданные суммы сохранятся. Поэтому ни одно из чисел в затронутых карточках не обязано быть фиксированным, а не затронутые карточки тем более неизвестны.",
+      "standard_idea_ids": ["indistinguishable_states"],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "128 скрытых чисел на закрытых карточках",
+    "observations": ["ответ на вопрос равен сумме чисел на двух выбранных карточках"],
+    "allowed_actions": ["адаптивно выбирать пару карточек для следующего вопроса"],
+    "goal": ["identify_at_least_one_hidden_number"],
+    "strategy_type": ["adaptive_query_strategy", "linear_signature"],
+    "lower_bound_method": ["indistinguishability"],
+    "keywords": ["kolmogorov_2010", "pair_sums", "odd_cycle"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "question_count": 3,
+    "answer_alphabet": "integer_sum",
+    "lies_allowed": "none",
+    "adaptive": true,
+    "objective": "identify_one_number"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Ключ - увидеть нечетный цикл из трех сумм и двудольную неопределенность для двух вопросов.", "status": "ai_checked"},
+  "tags": ["linear_signature", "indistinguishability_argument"],
+  "sources": [{"source_id": "src-kolmogorov-2010-official", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kolm_batch",
+    "notes": ["Локальный текст найден в graph-src/kolm-raw/kolmogorov_extracted_text_2010_2019/kolm14/*.pdf.txt; имя исходного PDF в локальной копии повреждено кодировкой."]
+  }
+}

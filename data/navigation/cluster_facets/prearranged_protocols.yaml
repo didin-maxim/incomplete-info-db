@@ -1,7 +1,7 @@
 id: prearranged_protocols
 title: "Prearranged protocols under limited communication"
 reviewed_on: "2026-05-18"
-member_count: 10
+member_count: 15
 description: >
   Problems where cooperating agents can agree on a rule, codebook, or role
   assignment before the trial, and after the trial starts they must act through
@@ -196,6 +196,51 @@ members:
     simultaneous_or_sequential: sequential_public
     guarantee_type: deterministic_except_corrupted_and_one
     code_family: robust_oracle_code
+  - problem_id: problems-ru-64616-eleven-wise-men-1000-colors-one-bit
+    participants: hat_team
+    prearrangement_type: shared_codebook
+    communication_channel: [public_statement, single_bit]
+    privacy_constraint: [none]
+    success_goal: maximize_correct_hats
+    simultaneous_or_sequential: simultaneous
+    guarantee_type: deterministic
+    code_family: parity_accumulator
+  - problem_id: problems-ru-67032-300-wise-men-25-colors-permutation-parity
+    participants: hat_team
+    prearrangement_type: deterministic_team_protocol
+    communication_channel: [silence, no_post_start_communication]
+    privacy_constraint: [none]
+    success_goal: maximize_correct_hats
+    simultaneous_or_sequential: simultaneous
+    guarantee_type: deterministic
+    code_family: modular_privacy_code
+  - problem_id: problems-ru-115987-thousand-wise-men-hidden-hat-number
+    participants: hat_team
+    prearrangement_type: deterministic_team_protocol
+    communication_channel: [public_statement, modular_sum]
+    privacy_constraint: [none]
+    success_goal: maximize_correct_hats
+    simultaneous_or_sequential: sequential_public
+    guarantee_type: deterministic_all_but_one
+    code_family: modular_sum_code
+  - problem_id: problems-ru-116064-six-dwarfs-hidden-rainbow-hat
+    participants: hat_team
+    prearrangement_type: deterministic_team_protocol
+    communication_channel: [silence, no_post_start_communication]
+    privacy_constraint: [none]
+    success_goal: maximize_correct_hats
+    simultaneous_or_sequential: simultaneous
+    guarantee_type: deterministic
+    code_family: modular_privacy_code
+  - problem_id: winkler-infinite-prisoners-hats-finitely-many-wrong
+    participants: prisoner_team
+    prearrangement_type: shared_codebook
+    communication_channel: [silence, no_post_start_communication, private_observation]
+    privacy_constraint: [none]
+    success_goal: maximize_correct_hats
+    simultaneous_or_sequential: simultaneous
+    guarantee_type: deterministic
+    code_family: hamming_covering_code
 excluded_or_adjacent:
   - problem_id: calendar-card-binary-trick
     reason: "single performer code with an honest spectator response, not a cooperating prearranged team"

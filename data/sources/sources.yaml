@@ -1160,21 +1160,562 @@
       "status": "source_verified",
       "language": "ru"
     },
-    {"id": "src-problems-ru-107826", "type": "web_archive", "title": "problems.ru, задача 107826: легкая монета при ограничении двух участий", "url": "https://www.problems.ru/view_problem_details_new.php?id=107826", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-107633", "type": "web_archive", "title": "problems.ru, задача 107633: 99 монет за 7 взвешиваний с ограничением двух участий", "url": "https://www.problems.ru/view_problem_details_new.php?id=107633", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-64498", "type": "web_archive", "title": "problems.ru, задача 64498: две противоположные фальшивые монеты из пяти", "url": "https://www.problems.ru/view_problem_details_new.php?id=64498", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-78810", "type": "web_archive", "title": "problems.ru, задача 78810: 1000 монет, определить наличие и знак фальшивых", "url": "https://www.problems.ru/view_problem_details_new.php?id=78810", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-78572", "type": "web_archive", "title": "problems.ru, задача 78572: 11 мешков и два числовых взвешивания", "url": "https://www.problems.ru/view_problem_details_new.php?id=78572", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-65817", "type": "web_archive", "title": "problems.ru, задача 65817: шесть монет на весах с общим весом", "url": "https://www.problems.ru/view_problem_details_new.php?id=65817", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-66710", "type": "web_archive", "title": "problems.ru, задача 66710: мудрецы в шляпах и k безумных", "url": "https://www.problems.ru/view_problem_details_new.php?id=66710", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-66722", "type": "web_archive", "title": "problems.ru, задача 66722: рыцари, лжецы и подпевалы", "url": "https://www.problems.ru/view_problem_details_new.php?id=66722", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-60905", "type": "web_archive", "title": "problems.ru, задача 60905: карточный фокус с 27 картами", "url": "https://www.problems.ru/view_problem_details_new.php?id=60905", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-89935", "type": "web_archive", "title": "problems.ru, задача 89935: вопрос рыцарю или лжецу про крокодила", "url": "https://www.problems.ru/view_problem_details_new.php?id=89935", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-88014", "type": "web_archive", "title": "problems.ru, задача 88014: десять мешков за одно взвешивание", "url": "https://www.problems.ru/view_problem_details_new.php?id=88014", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-98399", "type": "web_archive", "title": "problems.ru, задача 98399: карточные фокусы с пятью картами", "url": "https://www.problems.ru/view_problem_details_new.php?id=98399", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-64502", "type": "web_archive", "title": "problems.ru, задача 64502: сколько рыцарей среди пяти островитян", "url": "https://www.problems.ru/view_problem_details_new.php?id=64502", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-116581", "type": "web_archive", "title": "problems.ru, задача 116581: друзья рыцарей и лжецов за круглым столом", "url": "https://www.problems.ru/view_problem_details_new.php?id=116581", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-116658", "type": "web_archive", "title": "problems.ru, задача 116658: гости рыцаря и одинаковые ответы соседей", "url": "https://www.problems.ru/view_problem_details_new.php?id=116658", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
-    {"id": "src-problems-ru-32792", "type": "web_archive", "title": "problems.ru, задача 32792: слово 'да' в стране рыцарей и лжецов", "url": "https://www.problems.ru/view_problem_details_new.php?id=32792", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"}
+    {
+      "id": "src-problems-ru-107826",
+      "type": "web_archive",
+      "title": "problems.ru, задача 107826: легкая монета при ограничении двух участий",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=107826",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-107633",
+      "type": "web_archive",
+      "title": "problems.ru, задача 107633: 99 монет за 7 взвешиваний с ограничением двух участий",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=107633",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-64498",
+      "type": "web_archive",
+      "title": "problems.ru, задача 64498: две противоположные фальшивые монеты из пяти",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=64498",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-78810",
+      "type": "web_archive",
+      "title": "problems.ru, задача 78810: 1000 монет, определить наличие и знак фальшивых",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=78810",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-78572",
+      "type": "web_archive",
+      "title": "problems.ru, задача 78572: 11 мешков и два числовых взвешивания",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=78572",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-65817",
+      "type": "web_archive",
+      "title": "problems.ru, задача 65817: шесть монет на весах с общим весом",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=65817",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-66710",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66710: мудрецы в шляпах и k безумных",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=66710",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-66722",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66722: рыцари, лжецы и подпевалы",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=66722",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-60905",
+      "type": "web_archive",
+      "title": "problems.ru, задача 60905: карточный фокус с 27 картами",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=60905",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-89935",
+      "type": "web_archive",
+      "title": "problems.ru, задача 89935: вопрос рыцарю или лжецу про крокодила",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=89935",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-88014",
+      "type": "web_archive",
+      "title": "problems.ru, задача 88014: десять мешков за одно взвешивание",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=88014",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-98399",
+      "type": "web_archive",
+      "title": "problems.ru, задача 98399: карточные фокусы с пятью картами",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=98399",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-64502",
+      "type": "web_archive",
+      "title": "problems.ru, задача 64502: сколько рыцарей среди пяти островитян",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=64502",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-116581",
+      "type": "web_archive",
+      "title": "problems.ru, задача 116581: друзья рыцарей и лжецов за круглым столом",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=116581",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-116658",
+      "type": "web_archive",
+      "title": "problems.ru, задача 116658: гости рыцаря и одинаковые ответы соседей",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=116658",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-32792",
+      "type": "web_archive",
+      "title": "problems.ru, задача 32792: слово 'да' в стране рыцарей и лжецов",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=32792",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-archive",
+      "type": "official_olympiad_archive",
+      "title": "Архив Математического турнира им. А. Н. Колмогорова",
+      "url": "https://turmath.ru/kolm/archive.php",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2010-official",
+      "type": "official_olympiad_archive",
+      "title": "XIV Математический турнир им. А. Н. Колмогорова, 2010: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm14.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2016-official",
+      "type": "official_olympiad_archive",
+      "title": "XX Математический турнир им. А. Н. Колмогорова, 2016: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm20.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2018-official",
+      "type": "official_olympiad_archive",
+      "title": "XXII Математический турнир им. А. Н. Колмогорова, 2018: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm22.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2019-official",
+      "type": "official_olympiad_archive",
+      "title": "XXIII Математический турнир им. А. Н. Колмогорова, 2019: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm23.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2022-official",
+      "type": "official_olympiad_archive",
+      "title": "XXV Математический турнир им. А. Н. Колмогорова, 2022: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm25.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kolmogorov-2023-official",
+      "type": "official_olympiad_archive",
+      "title": "XXVI Математический турнир им. А. Н. Колмогорова, 2023: официальный архив",
+      "url": "https://turmath.ru/kolm/files/archive/kolm26.zip",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2026-book",
+      "type": "official_olympiad_brochure",
+      "title": "37-й Математический праздник 2026. Задачи и решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/26/book.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2003-solutions",
+      "type": "official_olympiad_archive",
+      "title": "14-й Математический праздник 2003. Условия и решения, 6 класс",
+      "url": "https://olympiads.mccme.ru/matprazdnik/sol6_03.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-1998-problems",
+      "type": "official_olympiad_archive",
+      "title": "9-й Математический праздник 1998. Условия, 7 класс",
+      "url": "https://olympiads.mccme.ru/matprazdnik/prob7_98.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2021-book",
+      "type": "official_olympiad_brochure",
+      "title": "32-й Математический праздник 2021. Задачи и решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/21/book.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-tot-toronto-2008-fall-junior-a-solutions",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Fall 2008 Junior A-Level solutions",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2008F_JAsolutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-tot-2008-fall-junior-a-uwa-solutions",
+      "type": "olympiad_archive_mirror",
+      "title": "Tournament of the Towns, Northern Autumn 2008 Junior A-Level with solutions, UWA enrichment archive",
+      "url": "https://enrichedmaths.maths.uwa.edu.au/Olympiad/TTowns/TTownsNAutJA2008wsoln.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-unm-pnm-2025-round2-solutions",
+      "type": "official_olympiad_archive",
+      "title": "UNM-PNM Statewide High School Mathematics Contest 2024-2025 Round 2 Solutions",
+      "url": "https://mathcontest.unm.edu/PastContests/2024-2025/2024-2025_Solutions2.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-tot-2002-spring-junior-o-solutions",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Spring 2002 Junior O-Level solutions",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2002S_JOsolutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-unm-pnm-2014-2015-solutions",
+      "type": "official_olympiad_archive",
+      "title": "UNM-PNM Statewide High School Mathematics Contest 2014-2015 Solutions",
+      "url": "https://mathcontest.unm.edu/PastContests/2014-2015/2014-2015_Solutions2.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-berkeley-math-circle-2007-2008-contest4",
+      "type": "official_training_material",
+      "title": "Berkeley Math Circle Monthly Contest 4, 2007-2008 solutions",
+      "url": "https://mathcircle.berkeley.edu/sites/default/files/archivedocs/2007_2008/contest/0708contestpdf/comp4s.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-vmo-2021-ii-sol-9-11",
+      "type": "official_olympiad_archive",
+      "title": "Муниципальный этап Всероссийской олимпиады школьников 2021/22 по математике, 9-11 классы: решения",
+      "url": "https://olympiads.mccme.ru/vmo/2021/ii-sol-9-11.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-65661",
+      "type": "web_archive",
+      "title": "problems.ru, задача 65661: рыцари, лжецы и четность числа жителей по друзьям",
+      "url": "https://problems.ru/view_problem_details_new.php?id=65661",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-67459",
+      "type": "web_archive",
+      "title": "problems.ru, задача 67459: симпозиум лжецов и правдолюбов, минимум ответов да",
+      "url": "https://problems.ru/view_problem_details_new.php?id=67459",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-64616",
+      "type": "web_archive",
+      "title": "problems.ru, задача 64616: одиннадцать мудрецов, 1000 цветов и одна бинарная карточка",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=64616",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-67032",
+      "type": "web_archive",
+      "title": "problems.ru, задача 67032: 300 мудрецов, 25 цветов и четность перестановки",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=67032",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-109639",
+      "type": "web_archive",
+      "title": "problems.ru, задача 109639: 100 мудрецов в колонне и три цвета колпаков",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=109639",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-115987",
+      "type": "web_archive",
+      "title": "problems.ru, задача 115987: тысяча мудрецов и спрятанный номер колпака",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=115987",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-116064",
+      "type": "web_archive",
+      "title": "problems.ru, задача 116064: шесть гномов и спрятанный радужный колпак",
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=116064",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-dartmouth-winkler-mathematical-puzzles-ch23",
+      "type": "book_chapter_online",
+      "title": "Peter Winkler, Mathematical Puzzles, Chapter 23: Infinite Choice",
+      "url": "https://math.dartmouth.edu/news-resources/electronic/puzzlebook/book/ch23.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    }
+    ,
+    {
+      "id": "src-mmo-2024-25-sol-11-tur1-final",
+      "type": "official_olympiad_solution",
+      "title": "Московская математическая олимпиада 2024/25, 11 класс, финал, день 1, решения",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Источник найден в соседней базе graph-db; локальная копия там: audit/_mmo_tc_pdfs/d738368d897f6572.pdf, текст audit/_mmo_tc_text_clean/d738368d897f6572.txt."
+    },
+    {
+      "id": "src-mmo-2024-25-tasks-11-tur1-final",
+      "type": "official_olympiad_archive",
+      "title": "Московская математическая олимпиада 2024/25, 11 класс, финал, день 1, условия",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Источник найден в соседней базе graph-db; локальная копия там: audit/_mmo_tc_pdfs/d099d3fb24076b29.pdf, текст audit/_mmo_tc_text_clean/d099d3fb24076b29.txt."
+    },
+    {
+      "id": "src-tc-2018-39-oral-solutions",
+      "type": "official_olympiad_solution",
+      "title": "39-й Турнир городов, устный тур 2017/18, 11 класс, предварительная версия решений",
+      "url": "https://rsr-olymp.ru/upload/files/tasks/5/2017/5-ans-math-11-ustn-17-8.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Источник найден в соседней базе graph-db; локальная копия там: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf, текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt."
+    },
+    {
+      "id": "src-calgary-jmc-2010-exam",
+      "type": "official_archive_local_copy",
+      "title": "University of Calgary Junior Math Contest 2010 exam, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2010-solutions",
+      "type": "official_solution_local_copy",
+      "title": "University of Calgary Junior Math Contest 2010 solutions, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2012-exam",
+      "type": "official_archive_local_copy",
+      "title": "University of Calgary Junior Math Contest 2012 exam, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2012-solutions",
+      "type": "official_solution_local_copy",
+      "title": "University of Calgary Junior Math Contest 2012 solutions, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2021-exam",
+      "type": "official_archive_local_copy",
+      "title": "University of Calgary Junior Math Contest 2021 exam, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2021-solutions",
+      "type": "official_solution_local_copy",
+      "title": "University of Calgary Junior Math Contest 2021 solutions, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2025-exam",
+      "type": "official_archive_local_copy",
+      "title": "University of Calgary Junior Math Contest 2025 exam, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
+    },
+    {
+      "id": "src-calgary-jmc-2025-solutions",
+      "type": "official_solution_local_copy",
+      "title": "University of Calgary Junior Math Contest 2025 solutions, local extracted copy",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
+    }
+    ,
+    {
+      "id": "src-spb-primary-2023-solutions",
+      "type": "official_olympiad_archive",
+      "title": "Санкт-Петербургская математическая олимпиада начальной школы 2023: решения задач основного тура",
+      "url": "https://www.matolimp-spb.org/media/uploads/2023/03/18/reshenia_zadach_osnovnogo_tura_2023.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {"id": "src-lmo-1964-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1964: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1964/lmo_1964.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
+    {"id": "src-lmo-1980-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1980: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1980/lmo_1980.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
+    {"id": "src-lmo-1989-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1989: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1989/lmo_1989.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
+    {"id": "src-lmo-1990-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1990: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1990/lmo_1990.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"}
   ]
 }

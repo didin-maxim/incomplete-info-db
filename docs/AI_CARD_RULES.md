@@ -6,10 +6,29 @@
 
 ```powershell
 git status --short
+python tools\check_encoding.py
 python tools\validate.py
 python tools\check_links.py
 python tools\comments.py --status open
 ```
+
+## 0.1. UTF-8 и mojibake
+
+Все файлы базы хранятся в UTF-8. Если в PowerShell русский текст выглядит как типичный набор букв `R/S` в кириллическом алфавите, с вкраплениями вроде `U+045A`, `U+0403`, `U+00AB`, это может быть только проблемой отображения терминала; но если такие последовательности физически попали в файл, карточку нельзя считать готовой.
+
+Перед завершением любого импорта или ручной правки обязательно запустите:
+
+```powershell
+python tools\check_encoding.py
+```
+
+Правило для агентов:
+
+- не создавайте русские тексты через промежуточное сохранение в cp1251/ANSI;
+- не копируйте mojibake из вывода PowerShell обратно в карточку;
+- если используете скрипт для генерации JSON/YAML, пишите файлы только через `encoding="utf-8"` и `json.dumps(..., ensure_ascii=False)`;
+- проверяйте, что `title`, `text`, `ideas`, `strategies`, `relations` в Python выглядят как нормальный русский текст, а не как UTF-8, ошибочно прочитанный через cp1251;
+- если `tools\check_encoding.py` ругается, сначала исправьте кодировку, потом запускайте `validate/check_links/audit_rules`.
 
 ## 1. Не путать идею и стратегию
 

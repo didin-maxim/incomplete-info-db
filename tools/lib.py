@@ -11,6 +11,18 @@ def load_json(path):
         return json.load(f)
 
 
+def load_yaml(path, default=None):
+    if not path.exists():
+        return default
+    try:
+        import yaml
+    except ImportError:
+        return load_json(path)
+    with open(path, "r", encoding="utf-8") as f:
+        value = yaml.safe_load(f)
+    return default if value is None else value
+
+
 def iter_json_files(root):
     if not root.exists():
         return

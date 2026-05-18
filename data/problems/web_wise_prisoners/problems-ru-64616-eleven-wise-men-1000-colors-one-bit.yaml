@@ -1,0 +1,69 @@
+{
+  "id": "problems-ru-64616-eleven-wise-men-1000-colors-one-bit",
+  "title": "problems.ru 64616: одиннадцать мудрецов, 1000 цветов и одна карточка",
+  "fragment": "communication",
+  "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol", "coding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-problems-ru-64616",
+        "title": "Каждый показывает один бит, потом все угадывают свой цвет",
+        "text": "Одиннадцати мудрецам завязывают глаза и надевают каждому колпак одного из 1000 заранее известных цветов. Потом повязки снимают: каждый видит все колпаки, кроме своего. Сначала все одновременно показывают остальным одну из двух карточек, белую или черную. Затем все одновременно называют цвет своего колпака. Могут ли мудрецы заранее договориться так, чтобы все гарантированно угадали?",
+        "source_ids": ["src-problems-ru-64616"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-even-binary-code-1024",
+      "title": "Кодировать цвета четными 11-битными словами",
+      "text": "Среди 11-битных слов ровно 1024 имеют четное число единиц. Этого хватает для 1000 цветов, а четность всего слова позволит восстановить последний неизвестный бит.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-coordinate-parity-broadcast",
+      "title": "Каждый сообщает четность одного разряда",
+      "text": "Заранее сопоставим каждому цвету свое 11-битное слово с четным числом единиц. Разряды с первого по одиннадцатый закрепим за мудрецами. Мудрец номер \\(k\\) смотрит на десять видимых ему колпаков и считает, сколько в их кодах единиц в \\(k\\)-м разряде. Если это число четно, он показывает, скажем, черную карточку, а если нечетно - белую.\n\nТеперь рассмотрим любого мудреца. Чтобы узнать \\(k\\)-й разряд собственного цвета, он берет карточку \\(k\\)-го мудреца. Если \\(k\\)-й мудрец не он сам, то он видит остальные девять кодов, участвовавшие в подсчете этого разряда, кроме своего. Значит, по объявленной четности он восстанавливает свой \\(k\\)-й бит. Так он находит все разряды, кроме разряда, закрепленного за ним самим: свою карточку он выбирал, не видя своего колпака, и она этого бита не сообщает.\n\nПоследний бит находится из условия, что код цвета имеет четное число единиц. Поэтому каждый восстанавливает все 11 битов своего цвета и называет его правильно.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "11 цветов колпаков из 1000 возможных цветов",
+    "observations": ["каждый видит 10 чужих колпаков", "каждый видит 11 публичных бинарных карточек"],
+    "allowed_actions": ["заранее выбрать код цветов", "одновременно показать один бит", "одновременно назвать свой цвет"],
+    "goal": ["all_agents_identify_own_state"],
+    "strategy_type": ["prearranged_protocol", "binary_code", "parity_code"],
+    "lower_bound_method": [],
+    "keywords": ["wise_men", "hat_puzzle", "one_bit_each", "even_parity_code", "coordinate_parity"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "11 wise men",
+    "prearranged_strategy": true,
+    "channel_capacity": "one public bit from each participant",
+    "public_or_private": "simultaneous_public_bits",
+    "privacy_goal": "none",
+    "objective": "each participant identifies own hat color"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Чистый пример распределенного двоичного кода: каждый бит сообщает другой участник.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "binary_code", "parity_code", "public_communication"],
+  "sources": [{"source_id": "src-problems-ru-64616", "role": "statement_and_solution_archive", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners",
+    "notes": ["Источник указывает: Турнир городов 2007/08, весенний тур, сложный вариант, 10-11 класс, задача 6."]
+  }
+}

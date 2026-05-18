@@ -13,7 +13,7 @@
         "id": "stmt-original",
         "title": "Одна тяжелая монета",
         "text": "Даны 9 одинаковых на вид монет. Одна из них фальшивая и тяжелее настоящих. За два взвешивания на чашечных весах найдите фальшивую монету.",
-        "source_ids": ["src-classical-coin-weighing"],
+        "source_ids": ["src-classical-coin-weighing", "src-unm-pnm-2025-round2-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["balance_scale"]
@@ -24,7 +24,7 @@
         "id": "stmt-general-known-sign",
         "title": "Известный знак и q взвешиваний",
         "text": "Если знак отличия известен заранее, то та же стратегия работает для любой \\(N\\le 3^q\\): каждое взвешивание делит кандидатов на три группы, а \\(q\\) исходов дают тернарный адрес монеты. Вариант с 9 монетами - точный случай \\(N=3^2\\).",
-        "source_ids": ["src-classical-coin-weighing"],
+        "source_ids": ["src-classical-coin-weighing", "src-unm-pnm-2025-round2-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["balance_scale", "information_lower_bound"]
@@ -87,7 +87,8 @@
   },
   "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
   "sources": [
-    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-unm-pnm-2025-round2-solutions", "role": "official_duplicate_statement_and_solution", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -96,6 +97,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "same_solution_parameterized",
-    "notes": ["Стартовая карточка для проверки фрагмента weighings.", "2026-05-18: добавлена общая форма для известного знака фальшивости и N <= 3^q; число 9 только заполняет всю емкость двух взвешиваний."]
+    "notes": ["Стартовая карточка для проверки фрагмента weighings.", "2026-05-18: добавлена общая форма для известного знака фальшивости и N <= 3^q; число 9 только заполняет всю емкость двух взвешиваний.", "2026-05-18: добавлен официальный источник UNM-PNM 2025 Round 2; он повторяет случаи 9 монет за 2 взвешивания и 27 монет за 3 взвешивания при известной тяжелой фальшивой монете."]
   }
 }

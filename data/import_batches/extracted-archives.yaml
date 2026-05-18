@@ -1,0 +1,19 @@
+{
+  "id": "extracted-archives",
+  "title": "Задачи из соседних извлеченных архивов без КОЛМ",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "mmo-2024-symposium-acquaintance-lies", "status": "added"},
+    {"problem_id": "tc-2018-cards-4x4-neighbor-numbers", "status": "added"},
+    {"problem_id": "calgary-jmc-2010-b5-hot-and-cold-treasure", "status": "added"},
+    {"problem_id": "calgary-jmc-2012-b5-marble-colour-mixups", "status": "added"},
+    {"problem_id": "calgary-jmc-2021-b3-password-feedback", "status": "added"},
+    {"problem_id": "calgary-jmc-2025-b1-one-false-grade-statement", "status": "added"}
+  ],
+  "source_notes": [
+    "Исключены пути и источники с kolm/kolmogorov/КОЛМ/Колмогоров.",
+    "INMO 2021 P4 про детектива и 52 карты найден в graph-db, но уже есть в data/problems/india_hbcse/inmo-2021-p4-detective-consecutive-cards.yaml и не добавлялся повторно.",
+    "Calgary JMC 2005 A1, 2022 B3 и 2025 A2 из соседней папки просмотрены, но не добавлены как слишком статические или далекие от основной тематики ограниченных наблюдений/лжи/стратегий."
+  ]
+}

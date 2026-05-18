@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-mmo2024-symposium-to-truth-liar-systems",
+      "from": "mmo-2024-symposium-acquaintance-lies",
+      "to": "problems-ru-66705-distance-to-nearest-liar",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Обе задачи используют скрытое разбиение людей на лжецов и правдивых, но ММО-2024 считает агрегированные ответы о графе знакомств, а problems.ru 66705 восстанавливает геометрическую структуру по расстояниям до ближайшего лжеца.",
+      "backward_text": "Задача про ближайшего лжеца показывает локальную геометрическую версию той же темы; ММО-2024 дает более чистый подсчет вклада пар разных типов.",
+      "status": "needs_human_review",
+      "confidence": 0.62
+    },
+    {
+      "id": "rel-tc2018-cards-to-inmo2021-detective",
+      "from": "tc-2018-cards-4x4-neighbor-numbers",
+      "to": "inmo-2021-p4-detective-consecutive-cards",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "В обеих задачах скрыта перестановка чисел на закрытых картах, а информация приходит через соседство чисел; Турнир городов использует фиксированное одновременное открытие карточек, а INMO - адаптивные вопросы о парах.",
+      "backward_text": "INMO-2021 является вопросной версией соседнего мотива: вместо заранее открытых позиций детектив получает да/нет-ответы о выбранных парах.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-calgary2010-hotcold-to-ternary-search",
+      "from": "calgary-jmc-2010-b5-hot-and-cold-treasure",
+      "to": "twenty-questions-binary-search",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Calgary JMC 2010 заменяет двоичные ответы на трехисходный локальный канал Ding/Hot/Cold; стратегия всё равно строит дерево поиска по скрытой позиции.",
+      "backward_text": "Бинарный поиск является базовой моделью адаптивного дерева вопросов; hot/cold-поиск показывает, как меняется разбиение состояний при другом алфавите ответов.",
+      "status": "ai_checked",
+      "confidence": 0.72
+    },
+    {
+      "id": "rel-calgary2021-password-to-fixed-questions",
+      "from": "calgary-jmc-2021-b3-password-feedback",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Проверки AAAAA..., BBBBB... читаются как неадаптивные кодовые тесты по позициям: ответ сообщает сразу множество координат, где выбранная буква совпала с паролем.",
+      "backward_text": "Фиксированные вопросы как бинарный код дают абстрактную модель; Calgary-2021 применяет её покоординатно к слову над алфавитом из пяти букв.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-calgary2025-false-statement-to-one-lie",
+      "from": "calgary-jmc-2025-b1-one-false-grade-statement",
+      "to": "one-lie-questions-coding-bound",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Calgary-2025 содержит ровно одно ложное публичное утверждение, но решается перебором совместимости, а не избыточным кодом против лжи.",
+      "backward_text": "Задача про один ложный ответ показывает кодовую версию той же помехи; Calgary-2025 остается малой логической системой с единственным ложным высказыванием.",
+      "status": "needs_human_review",
+      "confidence": 0.6
+    }
+  ]
+}
