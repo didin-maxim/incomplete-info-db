@@ -1,0 +1,63 @@
+{
+  "id": "kvant-2003-04-four-coins-standard-two-weighings",
+  "title": "Квант-2003: четыре монеты и эталон за два взвешивания",
+  "fragment": "weighings",
+  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction", "coding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Одна подозрительная монета или ни одной",
+        "text": "Даны четыре монеты. Возможны девять случаев: фальшивой монеты нет, либо ровно одна из четырех монет фальшивая и она может быть как легче, так и тяжелее настоящих. Фальшивая монета отличается по весу не настолько сильно, чтобы взвешивание разного числа подозрительных монет само по себе было полезным. Имеется также заведомо настоящая эталонная монета. Нужно определить случай за два взвешивания на чашечных весах.",
+        "source_ids": ["src-kvant-2003-04-four-coins-standard"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-nine-cases-three-by-three",
+      "title": "Девять случаев нужно разбить как 3 на 3",
+      "text": "Два взвешивания дают до девяти исходов. Поэтому первое взвешивание должно оставить не больше трех случаев в каждой ветви; эталон позволяет добиться ровного разбиения.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-weigh-12-vs-3-standard",
+      "title": "Первое взвешивание: 1,2 против 3 и эталона",
+      "text": "Первым взвешиванием положим монеты 1 и 2 на левую чашу, а монету 3 и эталон - на правую. Если тяжелее левая чаша, возможны только случаи: 1 тяжелая, 2 тяжелая или 3 легкая. Если тяжелее правая: 1 легкая, 2 легкая или 3 тяжелая. Если равновесие: 4 легкая, 4 тяжелая или фальшивых нет. Во второй ветви достаточно сравнить 1 и 2; в равновесной ветви сравнить 4 с эталоном. Каждый раз один результат выбирает один из трех оставшихся случаев.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 случаев: нет фальшивой или одна из 4 монет легче/тяжелее",
+    "observations": ["два тернарных исхода чашечных весов"],
+    "allowed_actions": ["взвешивать подозрительные монеты и заведомо настоящую эталонную монету"],
+    "goal": ["identify_case"],
+    "strategy_type": ["adaptive_strategy", "ternary_code"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["kvant_story_problem", "standard_coin", "nine_cases"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_or_none_with_standard",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin_and_sign_or_none"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Чистая задача на проектирование первого разбиения пространства состояний.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "decision_tree", "weighted_sum_encoding"],
+  "sources": [{"source_id": "src-kvant-2003-04-four-coins-standard", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["В PDF доступна страница с рассуждением и решением; начало рассказа находится на предыдущей странице журнала, поэтому условие сформулировано самодостаточно по перечисленным в источнике девяти случаям."]}
+}

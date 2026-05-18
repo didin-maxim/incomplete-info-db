@@ -1,0 +1,500 @@
+{
+  "cluster_id": "truth_liar_systems",
+  "title": "Truth-liar systems",
+  "description": "Local facets for problems where information comes from public statements or answers of truth-tellers, liars, alternators, tricksters, mimics, or from explicit true/false statement systems.",
+  "schema_version": 1,
+  "facet_fields": {
+    "agent_types": "Local role vocabulary: truth_teller, liar, alternator, random, trickster, mimic, scheduled_liar, conditional_liar, guilty_liar, statement.",
+    "truth_rule": "How truth values are tied to roles or statements.",
+    "interaction_mode": "How the observable information is produced.",
+    "topology": "none, line, circle, or table when the statements use an arrangement.",
+    "goal": "Local normalized objective.",
+    "solution_pattern": "Local mechanism labels useful inside this cluster.",
+    "question_count": "Number of explicit questions/answers when it is part of the problem surface."
+  },
+  "problems": [
+    {
+      "problem_id": "amc-2010-12a-p12-frogs-toads-truth-lie",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["direct_questions", "self_reference"],
+      "topology": "none",
+      "goal": ["choose_correct_sign"],
+      "solution_pattern": ["normalization_question"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "amc-2022-10a-p12-truth-liar-alternater",
+      "agent_types": ["truth_teller", "liar", "alternator"],
+      "truth_rule": "fixed_truth_fixed_lie_or_alternating_answers",
+      "interaction_mode": ["repeated_direct_questions"],
+      "topology": "none",
+      "goal": ["maximize_type_count"],
+      "solution_pattern": ["answer_pattern_counting", "case_elimination"],
+      "question_count": 2
+    },
+    {
+      "problem_id": "amc-au-2016-intermediate-q17-truth-liars-circle",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "local_neighborhood"],
+      "topology": "circle",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["local_constraint_propagation"]
+    },
+    {
+      "problem_id": "truth-liar-universal-yes-no",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["direct_questions", "self_reference"],
+      "topology": "none",
+      "goal": ["determine_truth_value"],
+      "solution_pattern": ["normalization_question"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "two-doors-two-guards-one-question",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "one_truth_teller_one_liar",
+      "interaction_mode": ["direct_questions", "indirect_question"],
+      "topology": "none",
+      "goal": ["identify_hidden_object"],
+      "solution_pattern": ["normalization_question"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "boolos-hardest-logic-puzzle",
+      "agent_types": ["truth_teller", "liar", "random"],
+      "truth_rule": "fixed_truth_fixed_lie_and_random_truth_lie",
+      "interaction_mode": ["adaptive_direct_questions", "self_reference", "unknown_language"],
+      "topology": "none",
+      "goal": ["identify_all_roles"],
+      "solution_pattern": ["normalization_question", "case_elimination"],
+      "question_count": 3
+    },
+    {
+      "problem_id": "estonian-1995-96-round2-contestants-two-true",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_k_true_statements",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_full_hidden_state"],
+      "solution_pattern": ["self_reference_consistency", "case_elimination"]
+    },
+    {
+      "problem_id": "estonian-1995-96-round2-fire-streets-truth-lie-alternate",
+      "agent_types": ["liar", "alternator"],
+      "truth_rule": "street_determines_all_false_or_alternating_truth_values",
+      "interaction_mode": ["direct_questions"],
+      "topology": "none",
+      "goal": ["identify_hidden_location"],
+      "solution_pattern": ["normalization_question", "case_elimination"],
+      "question_count": 2
+    },
+    {
+      "problem_id": "estonian-2001-02-aborigines-executed-truthful",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_answers", "population_change"],
+      "topology": "none",
+      "goal": ["identify_removed_agent_type", "determine_majority"],
+      "solution_pattern": ["case_elimination", "indistinguishability_bound"]
+    },
+    {
+      "problem_id": "estonian-2003-04-liarians-2004-days",
+      "agent_types": ["scheduled_liar"],
+      "truth_rule": "fixed_lie_days",
+      "interaction_mode": ["repeated_direct_questions", "self_reference"],
+      "topology": "none",
+      "goal": ["count_lie_days"],
+      "solution_pattern": ["truth_count_fixed_point", "temporal_truth_schedule"],
+      "question_count": 2004
+    },
+    {
+      "problem_id": "estonian-2018-19-three-monks-weekdays",
+      "agent_types": ["scheduled_liar"],
+      "truth_rule": "two_consecutive_lie_days",
+      "interaction_mode": ["direct_questions", "calendar_constraints"],
+      "topology": "circle",
+      "goal": ["identify_no_liar_day"],
+      "solution_pattern": ["local_constraint_propagation", "case_elimination"],
+      "question_count": 2
+    },
+    {
+      "problem_id": "komal-2016-k517-normalia-truth-alternators",
+      "agent_types": ["truth_teller", "alternator"],
+      "truth_rule": "fixed_truth_or_alternating_by_day",
+      "interaction_mode": ["repeated_public_statements", "temporal_pattern"],
+      "topology": "none",
+      "goal": ["identify_roles", "identify_names"],
+      "solution_pattern": ["temporal_truth_schedule", "case_elimination"],
+      "question_count": 6
+    },
+    {
+      "problem_id": "komal-2023-k749-aladdin-abu-lying-coin",
+      "agent_types": ["conditional_liar"],
+      "truth_rule": "object_triggered_lie",
+      "interaction_mode": ["adaptive_direct_questions"],
+      "topology": "none",
+      "goal": ["identify_hidden_object"],
+      "solution_pattern": ["normalization_question", "case_elimination"],
+      "question_count": 3
+    },
+    {
+      "problem_id": "kvant-2022-09-island-honest-liars-tricksters",
+      "agent_types": ["truth_teller", "liar", "trickster"],
+      "truth_rule": "truth_teller_correct_liar_wrong_trickster_arbitrary",
+      "interaction_mode": ["public_numeric_answers"],
+      "topology": "none",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["truth_count_fixed_point", "numeric_signature_decoding"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "kvant-2000-duma-knights-liars-removal",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "population_change"],
+      "topology": "none",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["truth_count_fixed_point", "case_elimination"],
+      "question_count": 101
+    },
+    {
+      "problem_id": "kvantik-2016-divisibility-knights-liars",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["nonadaptive_direct_questions", "numeric_property_answers"],
+      "topology": "none",
+      "goal": ["identify_liars", "identify_numbers"],
+      "solution_pattern": ["numeric_signature_decoding", "case_elimination"],
+      "question_count": 3
+    },
+    {
+      "problem_id": "kvantik-2016-round-table-right-liar-count",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_answers", "local_neighborhood"],
+      "topology": "circle",
+      "goal": ["characterize_possible_answer_count"],
+      "solution_pattern": ["local_constraint_propagation", "parity_constraint"],
+      "question_count": 10
+    },
+    {
+      "problem_id": "kvantik-2016-window-two-truths",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_k_false_statements",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["determine_truth_value"],
+      "solution_pattern": ["case_elimination", "truth_value_counting"]
+    },
+    {
+      "problem_id": "mathcounts-2020-state-island-census-truth-liars",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_numeric_statements"],
+      "topology": "none",
+      "goal": ["count_liars"],
+      "solution_pattern": ["truth_count_fixed_point", "case_elimination"]
+    },
+    {
+      "problem_id": "matprazdnik-2025-yog-bulldog-rhino-truth-liar",
+      "agent_types": ["truth_teller", "liar", "trickster"],
+      "truth_rule": "one_truth_teller_one_liar_one_unconstrained",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_order_information"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 3
+    },
+    {
+      "problem_id": "nrich-knights-and-knaves-queue",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_answers", "local_neighborhood"],
+      "topology": "line",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["local_constraint_propagation", "sequential_propagation"],
+      "question_count": 25
+    },
+    {
+      "problem_id": "poland-omj-seminar-two-spies-five-statements",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "exactly_two_liars",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_liars", "identify_numeric_value"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "problems-ru-66431-knights-liars-tricksters-table",
+      "agent_types": ["truth_teller", "liar", "trickster"],
+      "truth_rule": "fixed_truth_fixed_lie_and_arbitrary_tricksters",
+      "interaction_mode": ["public_answers", "local_neighborhood"],
+      "topology": "table",
+      "goal": ["count_truth_tellers", "count_liars"],
+      "solution_pattern": ["local_constraint_propagation", "case_elimination"],
+      "question_count": 200
+    },
+    {
+      "problem_id": "problems-ru-66436-sixty-knights-next-five",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "local_neighborhood"],
+      "topology": "circle",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["local_constraint_propagation"],
+      "question_count": 60
+    },
+    {
+      "problem_id": "problems-ru-66705-distance-to-nearest-liar",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_false_distance",
+      "interaction_mode": ["adaptive_direct_questions", "numeric_answers"],
+      "topology": "circle",
+      "goal": ["identify_liars"],
+      "solution_pattern": ["normalization_question", "adaptive_calibration", "indistinguishability_bound"],
+      "question_count": 2
+    },
+    {
+      "problem_id": "problems-ru-66722-knights-liars-mimics-public-majority",
+      "agent_types": ["truth_teller", "liar", "mimic"],
+      "truth_rule": "fixed_truth_fixed_lie_or_copy_previous_public_majority",
+      "interaction_mode": ["public_answers", "sequential_public_process"],
+      "topology": "none",
+      "goal": ["maximize_type_count"],
+      "solution_pattern": ["public_majority_dynamics", "case_elimination"],
+      "question_count": 2018
+    },
+    {
+      "problem_id": "utyum-1993-logos-road-one-question",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["direct_questions", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_hidden_object"],
+      "solution_pattern": ["normalization_question"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "utyum-1996-knights-line-seven-yes",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_answers", "local_order"],
+      "topology": "line",
+      "goal": ["count_liars"],
+      "solution_pattern": ["local_constraint_propagation", "case_elimination"]
+    },
+    {
+      "problem_id": "utyum-2010-vasya-two-liars-line",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_answers", "local_order"],
+      "topology": "line",
+      "goal": ["count_liars"],
+      "solution_pattern": ["local_constraint_propagation", "case_elimination"]
+    },
+    {
+      "problem_id": "yumt-2014-false-statements-cards",
+      "agent_types": ["statement"],
+      "truth_rule": "statement_truth_values_induced_by_order",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "line",
+      "goal": ["maximize_true_statements"],
+      "solution_pattern": ["self_reference_consistency", "extremal_construction"],
+      "question_count": 100
+    },
+    {
+      "problem_id": "sasmo-2019-g6-q13-marathon-truth-slowest",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_one_false_statement",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_order_information"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "sasmo-2019-g8-q14-gift-box-truth-liars",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "local_neighborhood"],
+      "topology": "table",
+      "goal": ["identify_hidden_object"],
+      "solution_pattern": ["local_constraint_propagation", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "sasmo-2019-g9-q12-number-clues-truth-tellers",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie_across_statements",
+      "interaction_mode": ["public_statements", "threshold_statements"],
+      "topology": "none",
+      "goal": ["maximize_type_count"],
+      "solution_pattern": ["truth_count_fixed_point", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "sasmo-2019-g5-q14-one-liar-tallest",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_one_false_statement",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_order_information"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "sasmo-2020-g4-q14-avengers-two-liars",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_two_false_statements",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_hidden_object"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "sms-medley-1997-governor-liars-min-days",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "truthful_count_or_false_numeric_answer",
+      "interaction_mode": ["adaptive_group_questions", "numeric_answers"],
+      "topology": "none",
+      "goal": ["identify_all_types", "minimize_questions"],
+      "solution_pattern": ["normalization_question", "adaptive_group_testing", "indistinguishability_bound"],
+      "question_count": "minimum_days"
+    },
+    {
+      "problem_id": "samf-training-triplets-one-liar-age",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "exactly_one_liar",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_liar", "identify_numeric_value"],
+      "solution_pattern": ["self_reference_consistency", "case_elimination"],
+      "question_count": 1
+    },
+    {
+      "problem_id": "ukmt-imc-2019-q14-truth-tellers-count",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "self_count"],
+      "topology": "none",
+      "goal": ["count_truth_tellers"],
+      "solution_pattern": ["truth_count_fixed_point"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-jmc-2015-q17-knaves-truth-chain",
+      "agent_types": ["statement"],
+      "truth_rule": "truth_chain_over_previous_statements",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "line",
+      "goal": ["count_true_statements"],
+      "solution_pattern": ["self_reference_consistency", "local_constraint_propagation"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-smc-2015-q13-knave-days",
+      "agent_types": ["scheduled_liar"],
+      "truth_rule": "day_dependent_truth_schedule",
+      "interaction_mode": ["public_statements", "calendar_constraints"],
+      "topology": "circle",
+      "goal": ["identify_day"],
+      "solution_pattern": ["temporal_truth_schedule", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-stmc-2018-19-national-final-group-q9-truth-tellers",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_definite_liar"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-imc-2013-q23-brothers-birth-order-truth",
+      "agent_types": ["statement"],
+      "truth_rule": "exactly_two_false_statements",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_truth_tellers"],
+      "solution_pattern": ["case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-smc-2016-investigation-22-1-four-friends-truth",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_point_over_mutual_truth_claims",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_forced_truth_pattern"],
+      "solution_pattern": ["truth_count_fixed_point", "indistinguishability_bound"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-smc-2016-q22-three-friends-truth",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_point_over_mutual_truth_claims",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_liar"],
+      "solution_pattern": ["truth_count_fixed_point", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "ukmt-smc-2017-q13-guilty-liar",
+      "agent_types": ["truth_teller", "guilty_liar"],
+      "truth_rule": "guilt_and_lying_are_coupled",
+      "interaction_mode": ["public_statements"],
+      "topology": "none",
+      "goal": ["identify_guilty_person"],
+      "solution_pattern": ["role_truth_coupling", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "wajo-2015-knaves-both-knaves",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "self_reference"],
+      "topology": "none",
+      "goal": ["identify_type"],
+      "solution_pattern": ["self_reference_consistency", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "wajo-2015-knaves-chief-brothers",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "role_claims"],
+      "topology": "none",
+      "goal": ["identify_role", "identify_type"],
+      "solution_pattern": ["role_truth_coupling", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "wajo-2015-knaves-three-counts",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["public_statements", "self_count"],
+      "topology": "none",
+      "goal": ["identify_all_types"],
+      "solution_pattern": ["truth_count_fixed_point", "case_elimination"],
+      "question_count": 0
+    },
+    {
+      "problem_id": "wajo-2015-knaves-unheard-answer",
+      "agent_types": ["truth_teller", "liar"],
+      "truth_rule": "fixed_truth_or_lie",
+      "interaction_mode": ["direct_questions", "indirect_report"],
+      "topology": "none",
+      "goal": ["identify_type"],
+      "solution_pattern": ["normalization_question", "case_elimination"],
+      "question_count": 2
+    }
+  ]
+}

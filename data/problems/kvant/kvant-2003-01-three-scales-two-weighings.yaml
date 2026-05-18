@@ -1,0 +1,63 @@
+{
+  "id": "kvant-2003-01-three-scales-two-weighings",
+  "title": "Квант-2003: трое весов, одни неисправные",
+  "fragment": "weighings",
+  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Определить неисправные весы",
+        "text": "Есть трое весов A, B, C. Известно, что одни весы неисправны; если взвешивание делают на них, результат может быть произвольным. Исправные весы показывают правильно. Нужно определить неисправные весы за наименьшее число взвешиваний, при этом сами весы можно взвешивать на других весах.",
+        "source_ids": ["src-kvant-2003-02-young-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-weigh-the-instruments",
+      "title": "Использовать весы как объекты взвешивания",
+      "text": "Первое взвешивание можно устроить так, чтобы результат либо сразу указал на испорченный прибор, либо дал исправный прибор для проверочного второго шага.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-weigh-b-and-c-on-a",
+      "title": "Взвесить B и C на A",
+      "text": "Взвесим весы B и C на весах A. Если получилось равновесие, то A неисправны: исправные весы B и C имеют одинаковый вес. Если равновесия нет, то одна из взвешиваемых пар весов тяжелее другой; значит, сами весы A сработали исправно, а более тяжелые из B и C заведомо исправны как физический объект. Вторым взвешиванием на заведомо исправных весах сравниваем оставшиеся кандидаты и находим неисправные. Одного взвешивания недостаточно: если оно сделано на неисправных весах, произвольный результат может имитировать любой случай.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "information_lower_bound"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "три возможных варианта: неисправны A, B или C",
+    "observations": ["исход взвешивания на выбранных весах, который может быть произвольным при неисправном приборе"],
+    "allowed_actions": ["выбрать весы-прибор и положить на них другие весы"],
+    "goal": ["identify_faulty_scale"],
+    "strategy_type": ["adaptive_strategy", "fault_detection"],
+    "lower_bound_method": ["adversarial_faulty_observation"],
+    "keywords": ["kvant_for_younger_students", "faulty_scale", "instrument_as_object"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 3,
+    "counterfeit_count": 1,
+    "counterfeit_type": "faulty_instrument",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_faulty_scale"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Небольшая задача с нестандартным действием: взвешиваются сами весы.", "status": "ai_checked"},
+  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument"],
+  "sources": [{"source_id": "src-kvant-2003-02-young-solutions", "role": "official_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["Официальный PDF с решениями к задачам «Квант» для младших школьников, см. «Квант» №1 за 2003 г."]}
+}

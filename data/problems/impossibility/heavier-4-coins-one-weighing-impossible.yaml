@@ -1,0 +1,80 @@
+{
+  "id": "heavier-4-coins-one-weighing-impossible",
+  "title": "Почему одной проверки не хватает для четырех монет",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "lemma",
+    "secondary": ["information_lower_bound"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Четыре состояния и три исхода",
+        "text": "Среди 4 одинаковых на вид монет одна фальшивая и тяжелее остальных. Докажите, что одним взвешиванием на чашечных весах нельзя гарантированно найти фальшивую монету.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-three-outcomes-four-states",
+      "title": "Три исхода не различают четыре состояния",
+      "text": "Как бы ни было выбрано взвешивание, его результат имеет только три возможных значения.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-three-outcomes",
+      "title": "Подсчет листьев дерева решений",
+      "text": "Перед взвешиванием возможны 4 состояния: фальшивая первая, вторая, третья или четвертая монета. Одно взвешивание на чашечных весах имеет не более трех исходов. Если бы стратегия всегда находила фальшивую монету, каждому из четырех состояний должен был бы соответствовать свой исход, иначе после одинакового результата две монеты оставались бы неразличимыми. Но трех исходов меньше, чем четырех состояний. Следовательно, одного взвешивания недостаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree", "information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "4 возможные тяжелые монеты",
+    "observations": ["один исход чашечных весов"],
+    "allowed_actions": ["одно взвешивание"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["impossibility_proof"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["three_outcomes_four_states", "weighing_lower_bound"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_known",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "prove_impossible"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Минимальная карточка для фрагмента невозможности.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree_lower_bound", "indistinguishability_argument"],
+  "sources": [
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "notes": []
+  }
+}

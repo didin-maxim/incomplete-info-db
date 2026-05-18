@@ -1,0 +1,79 @@
+{
+  "id": "nrich-spot-the-fake-two-weighings",
+  "title": "NRICH: Spot the Fake, максимум за два взвешивания",
+  "fragment": "weighings",
+  "kind": {"primary": "nrich_problem", "secondary": ["optimality", "decision_tree"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-nrich-spot-fake",
+        "title": "Одна более тяжелая фальшивая монета",
+        "text": "Среди \\(N\\) внешне одинаковых монет ровно одна фальшивая, и она немного тяжелее остальных. Есть чашечные весы: можно сравнивать две группы с одинаковым числом монет и получать один из трех исходов. Каково наибольшее \\(N\\), при котором фальшивую монету всегда можно определить не более чем за два взвешивания?",
+        "source_ids": ["src-nrich-spot-the-fake"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-three-outcomes-two-levels",
+      "title": "Два взвешивания дают не больше девяти листьев",
+      "text": "У каждого взвешивания три исхода: левая чаша тяжелее, правая тяжелее или равновесие. Поэтому дерево из двух взвешиваний имеет не больше \\(3^2=9\\) конечных ответов.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-nine-coins-by-thirds",
+      "title": "Разделить монеты на тройки",
+      "text": "Сначала докажем верхнюю оценку. После двух взвешиваний возможно не больше девяти разных последовательностей исходов, а каждая монета должна соответствовать своему конечному ответу. Значит, \\(N\\le 9\\).\n\nДля девяти монет стратегия есть. Разделим их на группы \\(1,2,3\\), \\(4,5,6\\), \\(7,8,9\\). Сначала взвесим первую тройку против второй. Если одна тройка тяжелее, фальшивая монета в ней; если равновесие, фальшивая в третьей тройке. Вторым взвешиванием сравним две монеты из найденной тройки: если одна тяжелее, она фальшивая, а если равновесие, фальшивая третья. Поэтому максимальное значение \\(N\\) равно 9.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["balance_scale", "information_lower_bound"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-more-than-nine-impossible",
+      "title": "Больше девяти монет не различить",
+      "text": "Два взвешивания на чашечных весах дают максимум \\(3^2=9\\) разных путей в дереве решений. Если монет больше девяти, две разные монеты неизбежно попадут в один и тот же путь исходов, и стратегия не сможет указать единственную фальшивую монету.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "needs_human_review",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какая из N монет является единственной более тяжелой фальшивой",
+    "observations": ["два трехисходных результата чашечных весов"],
+    "allowed_actions": ["адаптивно сравнивать равные по числу группы монет"],
+    "goal": ["maximize_identifiable_coin_count", "identify_heavy_counterfeit"],
+    "strategy_type": ["adaptive_strategy", "decision_tree"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["nrich", "spot_the_fake", "two_weighings", "ternary_tree"],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 1,
+    "counterfeit_type": "known_heavier",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "find_maximum_n_and_strategy"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Оптимальная задача на дерево решений с простой конструкцией и оценкой.", "status": "needs_human_review"},
+  "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "ternary_search"],
+  "sources": [{"source_id": "src-nrich-spot-the-fake", "role": "official_statement_and_student_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "notes": ["NRICH-решение ученическое, поэтому статус оставлен на ручную проверку.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки."]
+  }
+}

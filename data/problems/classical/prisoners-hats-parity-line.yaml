@@ -1,0 +1,96 @@
+{
+  "id": "prisoners-hats-parity-line",
+  "title": "Заключенные в ряд и паритет шляп",
+  "fragment": "wise_people",
+  "kind": {"primary": "classical_problem", "secondary": ["communication_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Первый передает один бит паритета",
+        "text": "Заключенным надевают черные или белые шляпы и ставят в ряд. Каждый видит шляпы всех стоящих перед ним, но не свою и не шляпы позади. Начиная с последнего в ряду, каждый по очереди вслух называет цвет своей шляпы. Заранее можно договориться о стратегии. Как гарантировать, что все, кроме возможно первого отвечающего, назовут свой цвет правильно?",
+        "source_ids": ["src-common-knowledge-puzzles"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      },
+      {
+        "id": "stmt-folklore-100-prisoners",
+        "title": "Фольклорная версия со 100 узниками",
+        "text": "Сто узников стоят в ряд. На каждом черная или белая шляпа. Каждый видит шляпы всех впереди, но не свою и не шляпы позади. Начиная с последнего в ряду, узники по очереди называют цвет своей шляпы вслух. Перед началом можно договориться о стратегии. Как гарантировать, что ошибется не более один узник?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-answer-parity",
+      "title": "Первый ответ кодирует паритет видимых черных шляп",
+      "text": "Первый отвечающий не может узнать свою шляпу, зато его слово можно использовать как один бит информации для всех остальных.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-parity-protocol",
+      "title": "Сохранение паритета черных шляп",
+      "text": "Договоримся: последний в ряду, который видит все шляпы перед собой, говорит \"черная\", если среди видимых им шляп нечетное число черных, и \"белая\", если четное. Его собственный ответ может оказаться неверным, но он передает всем остальным паритет числа черных шляп среди них.\n\nСледующий заключенный видит все шляпы перед собой и слышит паритет, объявленный первым. Он сравнивает этот паритет с числом черных шляп, которые сам видит. Если паритет уже совпадает, его собственная шляпа белая; если отличается, черная. После его ответа все следующие знают и цвет его шляпы, и исходный паритет.\n\nДалее каждый заключенный поддерживает тот же расчет: из исходного паритета вычитает по модулю 2 уже названные черные шляпы позади себя и видимые черные шляпы впереди. Оставшаяся разница однозначно определяет цвет его собственной шляпы. Поэтому все после первого отвечают правильно.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-first-may-be-wrong",
+      "title": "Первый отвечающий не различает два состояния",
+      "text": "У первого отвечающего одинаковые наблюдения при двух вариантах, отличающихся только цветом его собственной шляпы. Поэтому никакая стратегия не может гарантировать правильность его ответа во всех состояниях.",
+      "standard_idea_ids": ["indistinguishable_states"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "двоичная раскраска шляп всех заключенных",
+    "observations": ["шляпы впереди", "предыдущие публичные ответы"],
+    "allowed_actions": ["назвать один из двух цветов"],
+    "goal": ["maximize_guaranteed_correct_answers"],
+    "strategy_type": ["parity_code", "public_communication"],
+    "lower_bound_method": ["indistinguishable_worlds"],
+    "keywords": ["hat_puzzle", "parity", "one_bit_message", "k_colors_special_case"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": "n prisoners in a line",
+    "public_announcements": "sequential hat color answers",
+    "communication_rounds": "n",
+    "visibility": "each sees all hats in front",
+    "objective": "all but first answer correctly"
+  },
+  "communication_profile": {
+    "senders": "first answering prisoner and previous speakers",
+    "receivers": "remaining prisoners",
+    "message": "announced colors",
+    "message_capacity": "one bit per answer"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическое использование паритета как одного бита общего сообщения.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "parity_code", "public_communication", "indistinguishability_argument"],
+  "sources": [
+    {"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-folklore", "role": "folklore_100_prisoners_variant", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "special_case_of_existing_k_color_card",
+    "notes": ["2026-05-18: в карточку слит дубль hat-line-parity-all-but-first; источник сохранен как версия со 100 узниками.", "2026-05-18: бинарная версия классифицирована как частный случай модульной стратегии для k цветов; отдельная связь уже ведет к hat-line-k-colors-modulo."]
+  }
+}

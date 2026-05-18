@@ -1,0 +1,17 @@
+{
+  "id": "estonian",
+  "title": "Estonian Mathematical Competitions: задачи про неполную информацию",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "estonian-1995-96-round2-fire-streets-truth-lie-alternate", "status": "added"},
+    {"problem_id": "estonian-1995-96-round2-contestants-two-true", "status": "needs_human_review"},
+    {"problem_id": "estonian-2001-02-aborigines-executed-truthful", "status": "added"},
+    {"problem_id": "estonian-2003-04-liarians-2004-days", "status": "added"},
+    {"problem_id": "estonian-2018-19-three-monks-weekdays", "status": "added"}
+  ],
+  "source_notes": [
+    "Использованы официальные английские PDF-буклеты архива Estonian Mathematical Competitions.",
+    "Карточка 1995-96 Round 2 #3 оставлена непубличной: официальный PDF дает условие без решения, а развернутое доказательство единственности требует ручной проверки."
+  ]
+}

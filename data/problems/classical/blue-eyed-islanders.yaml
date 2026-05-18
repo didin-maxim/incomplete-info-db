@@ -1,0 +1,61 @@
+{
+  "id": "blue-eyed-islanders",
+  "title": "Голубоглазые островитяне",
+  "fragment": "wise_people",
+  "kind": {"primary": "classical_problem", "secondary": ["knowledge_induction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Публичное объявление о голубых глазах",
+        "text": "На острове живут люди, каждый видит цвет глаз всех остальных, но не знает свой цвет глаз. Обсуждать цвет глаз запрещено. Путешественник публично говорит: \"На острове есть хотя бы один человек с голубыми глазами\". Если голубоглазых ровно \\(k\\), в какой день они смогут узнать свой цвет и уйти, при условии что все рассуждают безошибочно и это является общим знанием?",
+        "source_ids": ["src-common-knowledge-puzzles"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["public_announcement", "common_knowledge"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-no-departure-as-announcement",
+      "title": "Неуход в предыдущие дни является публичным фактом",
+      "text": "Каждый день без ухода исключает миры с меньшим числом голубоглазых людей, пока не остается только реальное число.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-induction-on-blue-eyed-count",
+      "title": "Индукция по числу голубоглазых",
+      "text": "Если \\(k=1\\), единственный голубоглазый не видит ни одного голубоглазого. После публичного объявления он понимает, что голубые глаза должны быть у него самого, и уходит в первый день.\n\nПусть утверждение верно для всех меньших чисел. При \\(k\\) голубоглазых каждый из них видит \\(k-1\\) голубоглазых. Он допускает два варианта: либо его глаза не голубые и всего голубоглазых \\(k-1\\), либо его глаза голубые и всего их \\(k\\). Если бы первый вариант был верен, то по индукционному предположению видимые им \\(k-1\\) голубоглазых ушли бы в \\((k-1)\\)-й день. Но этого не происходит. Поэтому в \\(k\\)-й день каждый голубоглазый исключает вариант, что его глаза не голубые, и уходит. Люди с другим цветом глаз видят \\(k\\) голубоглазых и не получают такого исключения.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked",
+      "definition_ids": ["public_announcement", "common_knowledge"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "собственный цвет глаз каждого островитянина",
+    "observations": ["цвет глаз остальных", "публичное объявление", "факт ухода или неухода по дням"],
+    "allowed_actions": ["уйти, когда собственный цвет определен"],
+    "goal": ["identify_own_state"],
+    "strategy_type": ["knowledge_induction"],
+    "lower_bound_method": ["indistinguishable_worlds_until_day_k"],
+    "keywords": ["blue_eyes", "common_knowledge", "public_announcement", "k_blue_eyed_agents"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": "islanders",
+    "public_announcements": 1,
+    "communication_rounds": "k days",
+    "visibility": "each agent sees all other eye colors",
+    "objective": "blue-eyed agents learn own eye color"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическая форма индукции по общему знанию.", "status": "ai_checked"},
+  "tags": ["common_knowledge", "public_announcement", "public_announcement_induction"],
+  "sources": [{"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "already_parameterized_same_solution", "notes": ["2026-05-18: задача уже записана через k голубоглазых; решение не зависит от конкретного числа и остается индукцией по дням."]}
+}

@@ -1,0 +1,68 @@
+{
+  "id": "estonian-1995-96-round2-contestants-two-true",
+  "title": "Эстония 1995-96, 2-й тур: четыре участника и ровно две истинные фразы",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Места, пол и истинность прогнозов",
+        "text": "Четыре школьника A, B, C и D участвовали в соревновании по решению логических задач и набрали попарно разные баллы. Перед соревнованием они сказали следующее. A: «Я выиграю». B: «Я мальчик и займу первое место». C: «Мальчики ошибаются; D займет место сразу после меня, и после A не будет мальчиков». D: «C прав, и после A не будет девочек». Известно, что среди участников два мальчика и две девочки, а из четырех высказываний ровно два оказались истинными и ровно два ложными. Найдите итоговые места и пол всех участников.",
+        "source_ids": ["src-estonian-1995-96-selected-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-self-referential-truth-count",
+      "title": "Истинность C связывает пол и истинность мальчиков",
+      "text": "Фраза C одновременно задает условие о местах, о поле участников после A и о ложности фраз всех мальчиков. Поэтому удобно искать совместимое состояние: места, пол и четыре значения истинности.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-force-c-and-d",
+      "title": "Получить единственное совместимое состояние",
+      "text": "Если фраза C истинна, то все мальчики сказали ложь, D идет сразу после C, а после A нет мальчиков. Фраза D тогда истинна ровно тогда, когда после A нет девочек. Единственная расстановка, при которой истинны ровно две фразы, такова: C на первом месте, D на втором, B на третьем, A на четвертом; A и B - мальчики, C и D - девочки. Тогда A и B действительно сказали ложь, а C и D - правду. Если пытаться сделать C ложной, условие D «C прав» уже делает D ложной или требует невозможной второй истинной фразы вместе с ограничениями на два пола и два первых места; полный перебор конечных вариантов не дает другого состояния.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка мест A,B,C,D; пол каждого участника; истинность четырех предсказаний",
+    "observations": ["четыре публичных высказывания", "ровно два мальчика и две девочки", "ровно две истинные фразы"],
+    "allowed_actions": ["проверять совместимость конечных состояний"],
+    "goal": ["identify_full_hidden_state"],
+    "strategy_type": ["state_elimination", "self_reference"],
+    "lower_bound_method": [],
+    "keywords": ["estonian_1995_96", "exactly_two_true", "statements"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 24,
+    "question_count": 0,
+    "lies_allowed": "среди четырех публичных высказываний ровно два истинны и ровно два ложны",
+    "adaptive": false,
+    "objective": "determine_places_and_genders"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Небольшая самоссылочная проверка совместимости; полное доказательство единственности лучше перепроверить вручную.", "status": "needs_human_review"},
+  "tags": ["self_reference_truth", "lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-estonian-1995-96-selected-problems", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "estonian_batch",
+    "notes": ["Официальный английский буклет дает условие без решения; ответ проверен конечным перебором, но развернутое ручное доказательство единственности оставлено на review."]
+  }
+}

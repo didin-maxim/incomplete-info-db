@@ -1,0 +1,72 @@
+{
+  "id": "kvant-2013-one-light-coin-information-bound",
+  "title": "Квант-2013: информационная граница для одной легкой монеты",
+  "fragment": "weighings",
+  "kind": {"primary": "journal_article_problem", "secondary": ["lower_bound", "strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Одна легкая фальшивая монета среди N",
+        "text": "Есть N монет, ровно одна из них фальшивая и известно, что она легче настоящих. Требуется найти фальшивую монету с помощью чашечных весов. Какова минимальная гарантирующая оценка числа взвешиваний через N?",
+        "source_ids": ["src-kvant-2013-01-two-fake-coins-article"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-each-weighing-three-symbols",
+      "title": "Результаты взвешиваний образуют тернарное слово",
+      "text": "Если сделано k взвешиваний, каждый возможный случай должен получить отличимую строку из символов <, =, >. Поэтому число случаев не превосходит 3^k.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-split-candidates-into-three-parts",
+      "title": "Делить кандидатов на три почти равные части",
+      "text": "Пусть k - наименьшее число, для которого 3^k >= N. Делим текущие кандидаты на три группы, первые две сравниваем. Если одна группа легче, фальшивая монета в ней; если равновесие, она в третьей группе. Повторяя это деление, за k взвешиваний остаемся с одной монетой. Нижняя оценка совпадает с конструкцией: меньше k взвешиваний дают менее N возможных строк исходов.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "information_lower_bound"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-log-three",
+      "title": "Информационная граница",
+      "text": "За k взвешиваний есть не более 3^k последовательностей исходов. Для гарантированного поиска все N возможных положений фальшивой монеты должны быть различимы, значит 3^k >= N и k >= ceil(log_3 N).",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "N возможных положений единственной легкой монеты",
+    "observations": ["тернарная строка исходов чашечных весов"],
+    "allowed_actions": ["адаптивно сравнивать равные по числу группы кандидатов"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "ternary_search"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["kvant_2013", "information_bound", "known_lighter_coin", "N_le_3^q"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 0,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 0,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Базовая журнальная формулировка информационной границы.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "ternary_code", "decision_tree_lower_bound"],
+  "sources": [{"source_id": "src-kvant-2013-01-two-fake-coins-article", "role": "official_article_statement_and_proof", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "generalization_status": "already_parameterized_same_solution", "notes": ["Карточка фиксирует вводную часть статьи К. Кнопа как самостоятельную модель неполной информации.", "2026-05-18: карточка уже является общей N/q-формой для известной легкой монеты; частные числовые карточки следует связывать с ней как special_case."]}
+}

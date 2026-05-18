@@ -1,0 +1,19 @@
+{
+  "id": "singapore",
+  "title": "Singapore/SIMCC/SASMO: официальные открытые источники по неполной информации",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "sasmo-2019-g6-q13-marathon-truth-slowest", "status": "added"},
+    {"problem_id": "sasmo-2019-g8-q14-gift-box-truth-liars", "status": "added"},
+    {"problem_id": "sasmo-2019-g9-q12-number-clues-truth-tellers", "status": "added"},
+    {"problem_id": "sasmo-2020-g9-q10-2019-light-coin", "status": "added"}
+  ],
+  "source_notes": [
+    "Все новые источники помечены language=en; публичные тексты карточек даны по-русски как пересказ/перевод.",
+    "Использованы PDF, размещенные на официальном домене SIMCC, с пометкой SIMCC/SASMO practice books 2019 & 2020.",
+    "Scribd, Studocu, PDFCoffee и похожие перепосты не использовались как источники.",
+    "Страница Singapore Mathematical Society по SMO solution books проверена: она подтверждает официальность книг, но сами тексты в основном продаются как издания, поэтому новые карточки по непубличным SMO books не добавлялись.",
+    "Существующая карточка cheryls-birthday-sasmo уже покрывает SASMO 2015 Cheryl's Birthday; дубль не создавался."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "kvantik-2013-three-cards-one-question",
+  "title": "Квантик-2013: три карточки и один вопрос с ответом «не знаю»",
+  "fragment": "questions",
+  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-original", "title": "Да, нет или не знаю", "text": "Перед Андреем и Сережей на столе лежат три перевернутые карточки, под одной из которых написано «1», под второй «2» и под третьей «3». Андрей их перемешал и вытащил одну из них, но какую - Сереже не сказал. Сережа может задать ему только один вопрос, на который тот, подумав, должен честно ответить «Да», «Нет» или «Не знаю», после чего Сережа должен наверняка отгадать число, которое вытащил Андрей. Как ему это сделать?", "source_ids": ["src-kvantik-math-contest-2013"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]},
+  "ideas": [{"id": "idea-use-unknown-as-third-symbol", "title": "Ответ «не знаю» становится третьим информационным символом", "text": "Нужно спросить о событии, которое при одной карточке точно истинно, при другой точно ложно, а при третьей зависит от случайного выбора из двух оставшихся карточек.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-random-remaining-card-question", "title": "Спросить про случайно открытую оставшуюся карточку", "text": "Сережа спрашивает: «Если я наугад открою одну из двух оставшихся на столе карточек, будет ли на ней число меньше твоего?»\n\nЕсли Андрей вытащил 1, обе оставшиеся карточки больше, поэтому честный ответ - «Нет». Если он вытащил 3, обе оставшиеся карточки меньше, поэтому ответ - «Да». Если он вытащил 2, среди оставшихся карточек есть 1 и 3, так что ответ зависит от того, какая из них будет открыта; Андрей должен ответить «Не знаю».", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "одно из трех чисел 1, 2, 3 на вытянутой карточке", "observations": ["один честный ответ из трех вариантов: да, нет, не знаю"], "allowed_actions": ["задать один вопрос человеку, который знает свою карточку"], "goal": ["identify_hidden_card"], "strategy_type": ["ternary_answer_design"], "lower_bound_method": [], "keywords": ["three_answer_question", "unknown_answer_as_signal", "card_guessing"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 3, "question_count": 1, "lies_allowed": "none", "adaptive": false, "objective": "identify_one_of_three_cards"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на проектирование вопроса с тремя различимыми ответами.", "status": "ai_checked"},
+  "tags": ["ternary_code", "decision_tree"],
+  "sources": [{"source_id": "src-kvantik-math-contest-2013", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2013 года, задача 24. На странице конкурса дано условие; решение восстановлено редакционно."]}
+}

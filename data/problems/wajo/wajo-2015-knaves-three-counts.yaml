@@ -1,0 +1,61 @@
+{
+  "id": "wajo-2015-knaves-three-counts",
+  "title": "WAJO 2015: три островитянина спорят о числе лжецов",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-wajo-2015-knaves-g",
+        "title": "Ксеркс, Йоррик и Захарий",
+        "text": "Три островитянина Ксеркс, Йоррик и Захарий живут по правилу: рыцари всегда говорят правду, лжецы всегда лгут. Ксеркс говорит: «Среди нас ровно один лжец». Йоррик говорит: «Среди нас ровно два лжеца». Захарий говорит: «Мы все лжецы». Определите тип каждого из троих.",
+        "source_ids": ["src-wajo-2015-qns-solns"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-exactly-one-count-can-match",
+      "title": "Высказывания задают несовместимые числа лжецов",
+      "text": "Фразы называют три разные величины: один лжец, два лжеца, три лжеца. Истинной может быть только та фраза, чье число совпадает с реальным числом лжецов, но число истинных фраз само равно числу рыцарей.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-check-number-of-knaves",
+      "title": "Проверить возможное число лжецов",
+      "text": "Если лжец один, то истинной была бы только фраза Ксеркса, значит рыцарей был бы один, а лжецов два: противоречие. Если лжецов два, истинной была бы только фраза Йоррика; тогда рыцарь один и лжецов действительно два. Это согласовано. Если лжецов три, фраза Захария «мы все лжецы» была бы истинной, но лжец не может говорить правду. Следовательно, Йоррик — рыцарь, а Ксеркс и Захарий — лжецы.",
+      "standard_idea_ids": ["partition_state_space", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "типы трех островитян и реальное число лжецов среди них",
+    "observations": ["три публичных утверждения о числе лжецов"],
+    "allowed_actions": ["перебирать возможное число лжецов и сверять его с числом истинных утверждений"],
+    "goal": ["identify_all_types"],
+    "strategy_type": ["state_elimination", "count_consistency"],
+    "lower_bound_method": [],
+    "keywords": ["wajo_2015", "knights_knaves", "truth", "lie", "count"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 8,
+    "question_count": 0,
+    "lies_allowed": "лжецы всегда лгут, рыцари всегда говорят правду",
+    "adaptive": false,
+    "objective": "determine_three_types"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Нужно связать число лжецов с числом истинных утверждений.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-wajo-2015-qns-solns", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "wajo_batch", "notes": []}
+}

@@ -1,0 +1,52 @@
+{
+  "id": "sum-product-two-numbers",
+  "title": "Сумма и произведение двух чисел",
+  "fragment": "wise_people",
+  "kind": {"primary": "classical_problem", "secondary": ["knowledge_puzzle"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Один знает сумму, другой произведение",
+        "text": "Два целых числа больше 1 и меньше 100 загаданы двум мудрецам: первый знает только их сумму, второй только произведение. После нескольких публичных реплик вида \"я не знаю числа\" и \"теперь я знаю\" нужно восстановить числа. Точные границы и последовательность реплик существенно влияют на ответ.",
+        "source_ids": ["src-common-knowledge-puzzles"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "needs_human_review", "review_notes": "Существует несколько несовпадающих классических формулировок; без точной последовательности реплик карточка не должна считаться решенной."},
+        "definition_ids": ["common_knowledge"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-public-elimination-of-pairs",
+      "title": "Реплики удаляют пары из пространства состояний",
+      "text": "Каждая публичная фраза о незнании или новом знании фильтрует пары чисел по тому, сколько вариантов оставалось совместимым с суммой или произведением у соответствующего мудреца.",
+      "standard_idea_ids": ["public_announcement_induction", "partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "пары целых чисел в заданных границах",
+    "observations": ["один агент знает сумму", "другой агент знает произведение", "публичные реплики о знании"],
+    "allowed_actions": ["объявить знание или незнание"],
+    "goal": ["identify_two_numbers"],
+    "strategy_type": ["knowledge_elimination", "public_announcement"],
+    "lower_bound_method": ["indistinguishable_worlds"],
+    "keywords": ["sum_product", "knowledge_puzzle", "public_elimination"],
+    "status": "needs_human_review"
+  },
+  "knowledge_profile": {
+    "agents": 2,
+    "public_announcements": "depends on exact version",
+    "communication_rounds": "depends on exact version",
+    "visibility": "one sees sum, one sees product",
+    "objective": "determine both numbers"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Карточка-заготовка: нужна конкретная версия перед стратегией.", "status": "needs_human_review"},
+  "tags": ["common_knowledge", "public_announcement", "knowledge_elimination"],
+  "sources": [{"source_id": "src-common-knowledge-puzzles", "role": "folklore_family", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "seed_links", "notes": ["Добавлена только как явно помеченная расплывчатая классическая тема; стратегия не указана из-за неоднозначности формулировки."]}
+}

@@ -1,0 +1,92 @@
+{
+  "relations": [
+    {
+      "id": "rel-one-lie-two-lies-hamming-bound",
+      "from": "one-lie-questions-coding-bound",
+      "to": "two-lies-questions-hamming-bound",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Оценка для одной лжи является случаем той же упаковочной идеи, где вместо шара радиуса 2 берется шар радиуса 1.",
+      "backward_text": "Задача с двумя ложными ответами обобщает кодовую нижнюю оценку для одной лжи заменой множителя q+1 на 1+q+binom(q,2).",
+      "status": "ai_checked",
+      "confidence": 0.96
+    },
+    {
+      "id": "rel-fixed-questions-one-lie-repetition",
+      "from": "fixed-questions-as-binary-code",
+      "to": "number-guessing-one-lie-by-repetition",
+      "type": "teaches_before",
+      "distance": 1,
+      "forward_text": "Сначала полезно видеть неадаптивные вопросы как двоичный код без ошибок; затем тройное повторение битов добавляет защиту от одной ошибки.",
+      "backward_text": "Стратегия повторения битов использует ту же таблицу двоичных меток объектов, но заменяет каждый бит трехкратным повторением.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-binary-search-fixed-code",
+      "from": "twenty-questions-binary-search",
+      "to": "fixed-questions-as-binary-code",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Бинарный поиск выбирает вопросы адаптивно, а кодовая карточка заранее фиксирует все вопросы; в обеих версиях предел задается числом двоичных слов ответов.",
+      "backward_text": "Неадаптивный двоичный код показывает ту же информационную границу 2^q, что и дерево решений бинарного поиска, но без перестройки вопросов по ответам.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-permutation-five-card-trick",
+      "from": "permutation-encodes-six-messages",
+      "to": "fitch-cheney-five-card-trick",
+      "type": "teaches_before",
+      "distance": 1,
+      "forward_text": "Лемма о шести перестановках трех предметов является локальным механизмом, которым фокус Фитча-Чейни кодирует расстояние от 1 до 6.",
+      "backward_text": "Пятикарточный фокус применяет перестановочный канал из шести сообщений после выбора пары одной масти.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-hat-binary-hat-k-colors",
+      "from": "prisoners-hats-parity-line",
+      "to": "hat-line-k-colors-modulo",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Бинарная стратегия с четностью в ряду шляп является случаем той же модульной кодировки при \\(k=2\\): первый участник сообщает сумму видимых цветов по модулю 2, а остальные восстанавливают свои цвета из изменения этой суммы.",
+      "backward_text": "Стратегия для \\(k\\) цветов сохраняет тот же информационный механизм, но заменяет один бит четности суммой номеров цветов по модулю \\(k\\), поэтому первый ответ передает один из \\(k\\) возможных остатков.",
+      "status": "ai_checked",
+      "confidence": 0.98
+    },
+    {
+      "id": "rel-hats-parity-muddy-contrast",
+      "from": "prisoners-hats-parity-line",
+      "to": "three-wise-men-hats",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В задаче про ряд шляп первый ответ специально кодирует бит четности, а в задаче о мудрецах информация извлекается из факта незнания других участников.",
+      "backward_text": "Три мудреца иллюстрируют вывод из публичного незнания, тогда как ряд шляп использует заранее согласованный код в публичных ответах.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-light-bulb-hats-public-signals",
+      "from": "prisoners-light-bulb",
+      "to": "prisoners-hats-parity-line",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "В обеих задачах участники заранее договариваются о протоколе, где отдельное наблюдаемое действие несет не буквальную догадку, а служебный сигнал.",
+      "backward_text": "Ответ первого узника в задаче о шляпах похож на включение лампочки: это ограниченный канал связи, который позволяет остальным восстановить скрытое состояние.",
+      "status": "ai_checked",
+      "confidence": 0.76
+    },
+    {
+      "id": "rel-ternary-questions-coin-weighings",
+      "from": "one-counterfeit-among-27-three-ternary-questions",
+      "to": "heavier-9-coins-2-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе карточки используют дерево решений с тремя исходами на ход; отличие в том, что во взвешиваниях допустимые трехчастные разбиения задаются физикой весов.",
+      "backward_text": "Задача о 9 монетах является более предметной версией троичного дерева решений, где два взвешивания дают до девяти листьев.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    }
+  ]
+}

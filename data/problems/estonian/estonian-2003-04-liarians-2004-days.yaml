@@ -1,0 +1,68 @@
+{
+  "id": "estonian-2003-04-liarians-2004-days",
+  "title": "Эстония 2003-04: лиариане и 2004 дня правды и лжи",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Сколько дней в году каждый лжет",
+        "text": "На планете лиариан год состоит из 2004 дней. Для каждого жителя каждый день является либо днем правды, когда он говорит только правду, либо днем лжи, когда он всегда лжет; дней каждого типа может быть и 0. Каждый день трех лиариан спрашивали: «Сколько дней в году ты лжешь?» В день k первый отвечал: «Ровно k дней», второй: «Не меньше k дней», третий: «Не больше k дней» для k = 1, 2, ..., 2004. Сколько дней в году на самом деле лжет каждый из трех лиариан?",
+        "source_ids": ["src-estonian-2003-04-selected-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-truth-days-as-fixed-points",
+      "title": "Число дней лжи определяет, какие ответы истинны",
+      "text": "Если лиариан лжет n дней в году, то ровно 2004 - n его ответов должны быть истинными. Для трех типов ответов истинные дни считаются напрямую: один день, начальный отрезок или конечный отрезок.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-truth-days",
+      "title": "Посчитать истинные ответы для каждого типа фраз",
+      "text": "У первого лиариана ответы «ровно k» попарно несовместимы, значит истинным может быть не более одного. Лгать все 2004 дней он не может: тогда ответ «ровно 2004» был бы истинным. Значит он говорит правду ровно один день, а лжет 2003 дня; истинный ответ был в день 2003. Пусть второй лжет n дней. Его фраза «не меньше k» истинна ровно для k <= n, то есть в n дней, а ложна в 2004 - n дней. Но число ложных дней равно n, поэтому n = 2004 - n и n = 1002. Пусть третий лжет n дней. Если n >= 1, то фраза «не больше k» ложна для k < n и истинна для k >= n, то есть ложных ответов n - 1, противоречие. При n = 0 все его ответы истинны, что подходит. Ответ: первый лжет 2003 дня, второй 1002 дня, третий 0 дней.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "для каждого из трех лиариан число дней лжи в году",
+    "observations": ["2004 ответов каждого лиариана с разными порогами k"],
+    "allowed_actions": ["считать, сколько ответов истинно при заданном числе дней лжи"],
+    "goal": ["determine_number_of_lie_days"],
+    "strategy_type": ["state_elimination", "fixed_point"],
+    "lower_bound_method": [],
+    "keywords": ["estonian_2003_04", "liarians", "truth_days", "lie_days"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2005,
+    "question_count": 2004,
+    "lies_allowed": "у каждого лиариана заранее фиксирован набор дней лжи; в эти дни все его ответы ложны",
+    "adaptive": false,
+    "objective": "determine_lie_day_counts"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Три независимых подсчета истинных ответов по числу дней лжи.", "status": "ai_checked"},
+  "tags": ["lie_detection", "self_reference_truth", "structural_constraint"],
+  "sources": [{"source_id": "src-estonian-2003-04-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "estonian_batch",
+    "notes": ["Официальный английский буклет содержит условие, ответ и решение; карточка является русским пересказом."]
+  }
+}

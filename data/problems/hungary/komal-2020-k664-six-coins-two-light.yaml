@@ -1,0 +1,134 @@
+{
+  "id": "komal-2020-k664-six-coins-two-light",
+  "title": "KöMaL K.664: две легкие монеты из шести, найти одну",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "journal_problem",
+    "secondary": [
+      "strategy_construction",
+      "lower_bound"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-komal-2020-k664",
+        "title": "Минимум взвешиваний для нахождения одной легкой монеты",
+        "text": "Есть шесть монет. Четыре весят по 100 граммов, а две оставшиеся - по 99 граммов. За сколько взвешиваний на чашечных весах без гирь можно гарантированно определить хотя бы одну из легких монет?",
+        "source_ids": [
+          "src-komal-2020-k664"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-equal-first-weighing-still-gives-pair",
+      "title": "Равновесие тоже оставляет известную одинаковую пару",
+      "text": "Если сравнение двух пар монет дает равновесие, то либо на весах четыре настоящие монеты, либо в каждой паре по одной легкой. В обоих случаях две не взвешенные монеты имеют одинаковый вес, и это можно использовать как контроль во втором взвешивании.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-pair-then-control",
+      "title": "Сравнить две пары, затем одну монету с контрольной",
+      "text": "Обозначим монеты \\(A,B,C,D,E,F\\). Сначала сравним \\(A+B\\) и \\(C+D\\). Если, например, \\(A+B\\) легче, то среди \\(A,B\\) есть легкая монета, а \\(C,D\\) обе настоящие; вторым взвешиванием сравним \\(A\\) с \\(C\\). Если \\(A\\) легче, она искомая, иначе искомая \\(B\\). Если первое взвешивание дало равновесие, то \\(E\\) и \\(F\\) имеют одинаковый вес. Вторым взвешиванием сравним \\(A\\) и \\(E\\): при равновесии \\(A\\) настоящая и можно указать \\(B\\); если одна из них легче, укажем ее.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing-not-enough",
+      "title": "Одно взвешивание не может указать конкретную легкую монету",
+      "text": "Если за одно взвешивание положить на чаши разное число монет, то разница в числе настоящих монет не может быть компенсирована двумя граммами возможного дефекта; исход заранее определяется размерами чаш и не указывает общую легкую монету во всех 15 возможных парах. Поэтому достаточно рассмотреть сравнение равных групп.\n\nПри сравнении одной монеты с одной исход \"равновесие\" совместим как с двумя настоящими взвешенными монетами, так и с двумя легкими; общей гарантированно легкой монеты нет. При сравнении двух пар равновесие совместимо с двумя легкими вне весов и с одной легкой на каждой чаше; снова нет общей монеты, которую можно назвать. При сравнении трех против трех любой неравный исход лишь показывает, что обе легкие монеты находятся на более легкой стороне, но не выбирает одну из трех; равновесие оставляет по одной легкой на каждой чаше. Значит одного взвешивания недостаточно.",
+      "standard_idea_ids": [
+        "indistinguishable_states"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "15 вариантов выбора двух легких монет среди шести",
+    "observations": [
+      "до двух трехисходных сравнений на чашечных весах"
+    ],
+    "allowed_actions": [
+      "адаптивно сравнивать равные по числу группы монет"
+    ],
+    "goal": [
+      "identify_one_lighter_coin"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "state_space_partition"
+    ],
+    "lower_bound_method": [
+      "indistinguishability"
+    ],
+    "keywords": [
+      "komal_2020_k664",
+      "two_light_coins",
+      "find_one",
+      "six_coins"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 2,
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_one_light_coin"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 3,
+    "comment": "K-level KöMaL; короткая стратегия с нижней оценкой на одно взвешивание.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "indistinguishability_argument"
+  ],
+  "sources": [
+    {
+      "source_id": "src-komal-2020-k664",
+      "role": "official_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": [
+      "Добавлена как малая, но чистая задача про цель identify_one вместо полного восстановления.",
+      "2026-05-18 solution-ideas-review: нижняя оценка на одно взвешивание уточнена, чтобы покрывать неравные размеры чаш и все равные сравнения 1:1, 2:2, 3:3."
+    ]
+  }
+}

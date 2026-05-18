@@ -1,0 +1,88 @@
+{
+  "id": "fixed-questions-as-binary-code",
+  "title": "Неадаптивные вопросы как двоичный код объектов",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["encoding", "lower_bound"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Все вопросы заданы заранее",
+        "text": "Есть \\(N\\) объектов, один из них скрыт. Требуется заранее составить \\(q\\) вопросов да/нет без лжи, а после получения всех ответов определить объект. Сколько объектов можно различить таким способом?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-columns-are-codewords",
+      "title": "Ответы на заранее выбранные вопросы образуют кодовое слово",
+      "text": "Для каждого объекта выпишем столбец из ответов на все \\(q\\) вопросов. Два объекта различимы тогда и только тогда, когда их столбцы различны.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-use-binary-labels",
+      "title": "Пронумеровать объекты двоичными словами",
+      "text": "Если \\(N\\le 2^q\\), назначим каждому объекту различное двоичное слово длины \\(q\\). Вопрос номер \\(i\\): равен ли \\(i\\)-й бит слова скрытого объекта единице. Полученные ответы дают ровно назначенное слово, значит объект найден.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-only-2q-answer-words",
+      "title": "Больше \\(2^q\\) объектов различить нельзя",
+      "text": "Существует только \\(2^q\\) разных двоичных наборов ответов. Если объектов больше, две разные скрытые возможности дадут один и тот же набор ответов на все заранее выбранные вопросы. После такого наблюдения их невозможно различить.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "N возможных объектов",
+    "observations": ["двоичное слово длины q"],
+    "allowed_actions": ["заранее выбрать \\(q\\) вопросов да/нет"],
+    "goal": ["identify_hidden_object"],
+    "strategy_type": ["nonadaptive_strategy", "encoding"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["nonadaptive_questions", "binary_code", "state_space", "N_q_parameterized"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "ceil(log2 N)",
+    "lies_allowed": 0,
+    "adaptive": false,
+    "objective": "identify_one_of_N_states"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Базовая кодовая интерпретация неадаптивных вопросов.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution",
+    "notes": ["2026-05-18: карточка уже является общей N/q-формой для неадаптивных двоичных вопросов; числовые частные случаи не нужны."]
+  }
+}

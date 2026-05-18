@@ -1,0 +1,17 @@
+{
+  "id": "kvantik-2013-four-magic-balls-three-tests",
+  "title": "Квантик-2013: четыре шарика и три измерения детектором",
+  "fragment": "questions",
+  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-original", "title": "Детектор считает волшебные шарики", "text": "Имеются красный, синий, зеленый и черный шарики, среди которых могут быть волшебные. Детектор позволяет определить, сколько из помещенных в него шариков волшебны. Как узнать, какие шарики волшебные, а какие - нет, всего за три измерения?", "source_ids": ["src-kvantik-math-contest-2013"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["hidden_state"]}]},
+  "ideas": [{"id": "idea-binary-signature-subset-sums", "title": "Дать каждому шарику свой трехмерный код", "text": "Каждый шарик участвует в некоторых из трех измерений. Тройка полученных чисел равна сумме кодов всех волшебных шариков, поэтому коды надо выбрать так, чтобы разные наборы давали разные суммы.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-three-detector-subsets", "title": "Измерить три специально выбранных набора", "text": "Обозначим шарики К, С, З, Ч: красный, синий, зеленый, черный. Проведем такие измерения: 1) З и Ч; 2) С и Ч; 3) К, С и З.\n\nТогда волшебный красный шарик добавляет к тройке результатов (0, 0, 1), синий - (0, 1, 1), зеленый - (1, 0, 1), черный - (1, 1, 0). Для этих четырех кодов все суммы по подмножествам различны, поэтому тройка показаний однозначно задает набор волшебных шариков. Например, (0, 0, 0) означает, что волшебных нет, (0, 0, 1) - только красный, (1, 1, 0) - только черный, а (2, 2, 3) - все четыре.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["hidden_state"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "любой из 16 наборов волшебных шариков среди четырех цветов", "observations": ["три числовых ответа детектора о количестве волшебных шариков в выбранном наборе"], "allowed_actions": ["выбрать подмножество шариков и узнать число волшебных в нем"], "goal": ["identify_all_magic_balls"], "strategy_type": ["binary_signature", "subset_sum_code"], "lower_bound_method": [], "keywords": ["detector_queries", "subset_sum_signature", "magic_balls"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 5, "question_count": 3, "lies_allowed": "none", "adaptive": false, "objective": "identify_boolean_state_of_four_objects"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Нужно увидеть измерения как кодовые слова объектов и избежать совпадений сумм.", "status": "ai_checked"},
+  "tags": ["binary_code", "linear_signature", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-kvantik-math-contest-2013", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2013 года, задача 30. На странице конкурса дано условие; решение восстановлено редакционно."]}
+}

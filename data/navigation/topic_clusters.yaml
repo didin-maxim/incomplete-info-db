@@ -1,0 +1,593 @@
+schema_version: 1
+status: draft_v1
+updated: "2026-05-18"
+notes_ru:
+  - "Кластеры являются навигационным слоем поверх карточек, тегов и relations, а не новым фрагментом или обязательной классификацией каждой задачи."
+  - "Membership в этой версии явный и может быть неполным. Задача может оставаться вне кластеров, если механизм пока не выделен достаточно надежно."
+  - "Кластеры не обязаны быть строго непересекающимися: при генерации счетчиков следует считать уникальные problem_id."
+  - "Более детальные локальные фасеты, если они есть, лежат в data/navigation/cluster_facets/ и считаются вспомогательным review-слоем."
+clusters:
+  - id: known-direction-ternary-search
+    title_ru: "Тернарный поиск при известном направлении фальшивки"
+    description_ru: "Задачи, где каждый ход дает три исхода и стратегия последовательно делит кандидатов на три почти равные части; знак отклонения известен или не является частью скрытого состояния."
+    inclusion_criteria_ru:
+      - "Есть один скрытый объект или позиция из N кандидатов."
+      - "Наблюдение за ход имеет три содержательных исхода, обычно левее/равно/правее или один из трех ответов."
+      - "Цель - найти объект, а не построить заранее фиксированный код для неизвестного знака."
+      - "Нижняя оценка обычно имеет вид N <= 3^q или leaf-count для трехисходного дерева."
+    exclusion_criteria_ru:
+      - "Если нужно одновременно определить, легче или тяжелее монета, см. heavy-or-light-ternary-signatures."
+      - "Если тесты фиксируются заранее как таблица подписей, см. heavy-or-light-ternary-signatures или numeric-linear-signatures."
+      - "Если ключевой ход - двоичное деление пополам, это не этот кластер."
+    core_problem_ids:
+      - heavier-9-coins-2-weighings
+      - lighter-25-coins-3-weighings
+      - problems-ru-34945-27-light-coins
+      - kvant-2013-one-light-coin-information-bound
+      - sasmo-2020-g9-q10-2019-light-coin
+    problem_ids:
+      - heavier-9-coins-2-weighings
+      - lighter-25-coins-3-weighings
+      - problems-ru-34945-27-light-coins
+      - kvant-2013-one-light-coin-information-bound
+      - sasmo-2020-g9-q10-2019-light-coin
+      - nrich-spot-the-fake-two-weighings
+      - one-counterfeit-among-27-three-ternary-questions
+    candidate_rules:
+      tags_any: [ternary_search]
+      profile_hints:
+        - "weighing_profile.counterfeit_count == 1"
+        - "weighing_profile.counterfeit_type содержит known/heavier_known/lighter_known"
+        - "outcome_count_per_weighing == 3"
+      reject_if_tags_any: [nonadaptive_strategy, weighted_sum_encoding]
+    local_facets:
+      - weighing_count
+      - outcome_alphabet
+      - hidden_state_count
+      - known_direction
+      - adaptive
+      - lower_bound_tight
+      - balanced_split
+    notes_ru: "Это наиболее чистый учебный кластер для объяснения емкости трехисходного дерева. Не стоит расширять его на любую задачу с чашечными весами."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: heavy-or-light-ternary-signatures
+    title_ru: "Тернарные подписи для неизвестного знака"
+    description_ru: "Фальшивая монета может быть легче или тяжелее; стратегия должна различить пару состояний 'монета, знак' через тернарные слова или дерево исходов."
+    inclusion_criteria_ru:
+      - "Скрытое состояние включает идентичность объекта и знак отклонения."
+      - "Противоположные знаки дают противоположные тернарные подписи или симметричные ветви дерева."
+      - "Важны не только три исхода, но и удвоение пространства состояний из-за неизвестного знака."
+    exclusion_criteria_ru:
+      - "Если знак известен, см. known-direction-ternary-search."
+      - "Если числовое показание само является декодируемой суммой, см. numeric-linear-signatures."
+      - "Если цель - определить только знак без идентификации объекта, держать как кандидат, а не как ядро."
+    core_problem_ids:
+      - counterfeit-12-coins-3-weighings
+      - ternary-signature-code-heavy-or-light
+      - thirteen-coins-known-genuine-three-weighings
+      - komal-2010-a512-nonadaptive-counterfeit-code
+      - ukmt-open-ended-2013-task-four-42-counterfeit-coins
+    problem_ids:
+      - counterfeit-12-coins-3-weighings
+      - ternary-signature-code-heavy-or-light
+      - thirteen-coins-known-genuine-three-weighings
+      - komal-2010-a512-nonadaptive-counterfeit-code
+      - ukmt-open-ended-2013-task-four-42-counterfeit-coins
+      - kvant-2003-04-four-coins-standard-two-weighings
+      - nrich-nine-weights-two-three-weighings
+      - problems-ru-32820-sign-only-two-weighings
+      - kvantik-2013-fake-coin-direction-101
+    candidate_rules:
+      tags_all_or_near: [balance_scale, ternary_code]
+      profile_hints:
+        - "counterfeit_type содержит heavier_or_lighter/unknown_direction/unknown_sign"
+        - "objective содержит identify_coin_and_sign или determine_whether_counterfeit_is_heavier_or_lighter"
+    local_facets:
+      - weighing_count
+      - adaptive
+      - known_genuine_available
+      - signature_balance_required
+      - objective
+      - state_multiplier
+      - impossible_or_capacity_bound
+    notes_ru: "Кластер соединяет классическую задачу о 12 монетах с неадаптивными сигнатурными таблицами; внутри полезно различать adaptive tree и fixed signature table."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: numeric-linear-signatures
+    title_ru: "Числовые и линейные подписи"
+    description_ru: "Один или несколько числовых результатов устроены как линейная подпись скрытого источника: сумма, взвешенная сумма, разность, медиана или выбранный коэффициент декодируют состояние."
+    inclusion_criteria_ru:
+      - "Наблюдение имеет числовое значение или интерпретируется как линейная статистика."
+      - "Коэффициенты, номиналы или выбранные группы заранее создают разные отклонения для разных скрытых состояний."
+      - "Декодирование идет по числу/вектору чисел, а не по веткам обычного дерева решений."
+    exclusion_criteria_ru:
+      - "Обычные чашечные весы без числового декодирования не входят."
+      - "Паритет или модульная сумма как маленький алфавит относятся к binary-parity-and-modular-codes, если линейная величина не является основной."
+      - "Если порядок объектов является каналом, см. permutation-order-channels."
+    core_problem_ids:
+      - counterfeit-stack-one-weighing
+      - tournament-towns-2005-six-coins-pointer-scale
+      - poland-omg-2005-five-coins-48g-three-digital-weighings
+      - matprazdnik-2024-six-boxes-one-sum
+      - problems-ru-78572-eleven-bags-two-numeric-balance-weighings
+    problem_ids:
+      - counterfeit-stack-one-weighing
+      - tournament-towns-2005-six-coins-pointer-scale
+      - poland-omg-2005-five-coins-48g-three-digital-weighings
+      - matprazdnik-2024-six-boxes-one-sum
+      - problems-ru-78572-eleven-bags-two-numeric-balance-weighings
+      - problems-ru-65817-six-coins-digital-scale-unknown-weights
+      - problems-ru-88304-denomination-coins
+      - matprazdnik-2023-seven-bags-two-weighings
+      - kvantik-2021-three-by-three-fake-line-one-weighing
+      - kvantik-2013-four-magic-balls-three-tests
+      - mmo-2019-wise-men-seven-numbers-median
+      - nrich-balance-power-balanced-ternary
+      - kvantik-2016-divisibility-knights-liars
+    candidate_rules:
+      tags_any: [linear_signature, digital_scale, weighted_sum_encoding]
+      profile_hints:
+        - "outcome_count_per_weighing numeric/numeric_weight/numeric_difference"
+        - "ideas содержат weight/ratio/signature/coefficient/sum"
+    local_facets:
+      - observation_dimension
+      - coefficient_system
+      - numeric_alphabet
+      - delta_known
+      - sign_known
+      - adaptive
+      - decoding_rule
+      - privacy_goal
+    notes_ru: "Здесь есть два подтипа: цифровые весы/массы и более абстрактные линейные сообщения. Оба лучше искать вместе, потому что прием один и тот же."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: faulty-or-reduced-observation-channels
+    title_ru: "Неисправные, шумные и урезанные каналы наблюдения"
+    description_ru: "Задачи, где трудность создается не обычной емкостью тестов, а ненадежным прибором, потерянным исходом, сломанными весами или наблюдателем, который может искажать сигнал."
+    inclusion_criteria_ru:
+      - "Есть явный дефект канала: сломанные весы, ненадежное равновесие, ложный тестер, испорченный прибор."
+      - "Стратегия должна либо обнаружить дефект, либо быть устойчивой к нему."
+      - "Нижняя оценка часто строится через неразличимость или потерю полезного первого теста."
+    exclusion_criteria_ru:
+      - "Систематические лжецы как логические агенты сами по себе не входят; см. truth-liar-*."
+      - "Обычные ошибки в да/нет ответах с хэмминговой упаковкой относятся к hamming-and-lie-resilient-codes."
+      - "Просто неизвестный знак фальшивки не считается дефектом канала."
+    core_problem_ids:
+      - lktg-2008-broken-balances-ternary-lower-bound
+      - lktg-2008-three-balances-one-broken-nine-coins
+      - kvant-2003-01-three-scales-two-weighings
+      - kvant-2019-m2565-one-broken-scale
+      - problems-ru-35224-noisy-balance-four-coins
+    problem_ids:
+      - lktg-2008-broken-balances-ternary-lower-bound
+      - lktg-2008-three-balances-one-broken-nine-coins
+      - kvant-2003-01-three-scales-two-weighings
+      - kvant-2019-m2565-one-broken-scale
+      - problems-ru-35224-noisy-balance-four-coins
+      - kvantik-2016-baron-table-fake-verification
+    candidate_rules:
+      title_or_id_contains_any: [broken, noisy, faulty, unreliable, сломан, неисправ]
+      tags_any: [indistinguishability_argument]
+      profile_hints:
+        - "counterfeit_type содержит faulty_instrument/one_faulty_scale"
+        - "outcome_count_per_weighing уменьшен относительно нормальной модели"
+    local_facets:
+      - fault_model
+      - faulty_actor_or_instrument
+      - outcome_reliability
+      - adversarial_or_stochastic
+      - detectable_fault
+      - robust_strategy
+      - lower_bound_method
+    notes_ru: "Не смешивать с обычными задачами про лжецов: здесь 'ложь' является свойством канала измерения, а не типом персонажа."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: structural-weighing-constraints
+    title_ru: "Структурные ограничения во взвешиваниях"
+    description_ru: "Взвешивания, где главное не емкость алфавита, а геометрия/структура скрытого множества: соседние фальшивки, круг, ряд, поворот, лимит участий, группы или обязанность сертифицировать настоящие монеты."
+    inclusion_criteria_ru:
+      - "Скрытые состояния имеют геометрическую, групповую или локальную структуру."
+      - "Ограничение существенно меняет стратегию по сравнению с независимыми кандидатами."
+      - "Решение использует окна, блоки, симметрию, ряды, круги, парные копии или ограничения участия."
+    exclusion_criteria_ru:
+      - "Если структура только задает количество монет, а решение является чистым тернарным поиском, см. known-direction-ternary-search."
+      - "Если структура нужна только для линейной подписи, см. numeric-linear-signatures."
+      - "Если задача является чистой вероятностью после одного результата, оставить вне ядра до отдельного probability-кластера."
+    core_problem_ids:
+      - kvant-2002-05-eight-circle-three-heavy
+      - mmo-2006-nine-circle-coins-four-fakes
+      - yumt-2014-sensitive-scales-17-coins
+      - problems-ru-107826-light-coin-limited-two-uses
+      - mmo-2026-row-of-12-fakes-110-genuine
+    problem_ids:
+      - kvant-2002-05-eight-circle-three-heavy
+      - mmo-2006-nine-circle-coins-four-fakes
+      - yumt-2014-sensitive-scales-17-coins
+      - problems-ru-107826-light-coin-limited-two-uses
+      - mmo-2026-row-of-12-fakes-110-genuine
+      - problems-ru-65055-paid-weighings-genuine-coin
+      - mmo-2022-two-traders-six-coins-four-weighings
+      - matprazdnik-2025-eighteen-coins-rotated-tray
+      - savin-12-six-coins-two-fakes-two-weighings
+      - problems-ru-64498-five-coins-two-opposite-fakes
+    candidate_rules:
+      tags_any: [structural_constraint, symmetry_breaking, symmetry]
+      fragment: weighings
+      profile_hints:
+        - "counterfeit_count > 1 или object_count задан формулой/структурой"
+        - "counterfeit_type содержит adjacent/consecutive/row/circle/group/limited"
+    local_facets:
+      - topology
+      - counterfeit_pattern
+      - participation_limit
+      - object_grouping
+      - symmetry_breaking
+      - certification_goal
+      - adaptive
+    notes_ru: "Это рабочий контейнер для весовых задач, которые плохо ложатся в чистые code/search-кластеры. Его стоит дробить, когда появится больше карточек каждого подтипа."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: truth-liar-normalization
+    title_ru: "Нормализация ответов правдивца и лжеца"
+    description_ru: "Вопрос или протокол устроен так, что предсказуемая ложь превращается в тот же полезный сигнал, который дал бы правдивец, либо явно нейтрализуется."
+    inclusion_criteria_ru:
+      - "Есть систематический правдивец/лжец или аналогичный тип отвечающего."
+      - "Ключевой прием - задать вопрос о вопросе, о чужом ответе, о собственном типе или о сертифицированном объекте."
+      - "После нормализации ответ можно использовать как надежный бит/ветвь дерева."
+    exclusion_criteria_ru:
+      - "Если решение просто перебирает совместимые истинности публичных фраз, см. local-truth-constraints или truth-count-fixed-points."
+      - "Если ложь является ошибкой канала в коде, см. hamming-and-lie-resilient-codes."
+      - "Если вопрос не устраняет ложь, а только выявляет один совместимый сценарий, не включать в ядро."
+    core_problem_ids:
+      - truth-liar-universal-yes-no
+      - two-doors-two-guards-one-question
+      - boolos-hardest-logic-puzzle
+      - amc-2010-12a-p12-frogs-toads-truth-lie
+      - utyum-1993-logos-road-one-question
+    problem_ids:
+      - truth-liar-universal-yes-no
+      - two-doors-two-guards-one-question
+      - boolos-hardest-logic-puzzle
+      - amc-2010-12a-p12-frogs-toads-truth-lie
+      - utyum-1993-logos-road-one-question
+      - wajo-2015-knaves-unheard-answer
+      - estonian-1995-96-round2-fire-streets-truth-lie-alternate
+      - komal-2023-k749-aladdin-abu-lying-coin
+      - sms-medley-1997-governor-liars-min-days
+      - matprazdnik-2025-yog-bulldog-rhino-truth-liar
+    candidate_rules:
+      tags_any: [truth_liar_normalization, self_reference_question, guard_paradox]
+      profile_hints:
+        - "questions_profile.question_count > 0"
+        - "lies_allowed содержит systematic liar/respondent type"
+    local_facets:
+      - respondent_types
+      - question_count
+      - adaptive
+      - self_reference
+      - language_unknown
+      - normalized_signal
+      - objective
+    notes_ru: "Тег truth_liar_normalization шире ядра. В кластер стоит включать только те задачи, где нормализация является главным механизмом, а не побочной формулировкой."
+    facet_file: data/navigation/cluster_facets/truth_liar_systems.yaml
+
+  - id: truth-count-fixed-points
+    title_ru: "Самосогласованный счет правдивцев и лжецов"
+    description_ru: "Сценарии, где число правдивых/лжецов или истинных высказываний само определяет, какие высказывания истинны, и решение ищет фиксированную точку этого счета."
+    inclusion_criteria_ru:
+      - "Фразы утверждают число правдивых, лжецов, истинных фраз или близкую агрегированную величину."
+      - "Решение предполагает счет и проверяет, сколько утверждений при нем истинны."
+      - "Возможны хитрецы/чередующие типы, если центральный шаг остается счетной самосогласованностью."
+    exclusion_criteria_ru:
+      - "Локальные утверждения о соседях, цепях или окнах без глобального счетного fixed point относятся к local-truth-constraints."
+      - "Один вопрос, нормализующий ложь, относится к truth-liar-normalization."
+      - "Самоссылочные карточки без персонажей могут быть кандидатами, но не ядром."
+    core_problem_ids:
+      - wajo-2015-knaves-three-counts
+      - ukmt-imc-2019-q14-truth-tellers-count
+      - mathcounts-2020-state-island-census-truth-liars
+      - sasmo-2019-g9-q12-number-clues-truth-tellers
+      - kvant-2022-09-island-honest-liars-tricksters
+    problem_ids:
+      - wajo-2015-knaves-three-counts
+      - ukmt-imc-2019-q14-truth-tellers-count
+      - mathcounts-2020-state-island-census-truth-liars
+      - sasmo-2019-g9-q12-number-clues-truth-tellers
+      - kvant-2022-09-island-honest-liars-tricksters
+      - kvant-2000-duma-knights-liars-removal
+      - nrich-knights-and-knaves-queue
+      - estonian-2003-04-liarians-2004-days
+      - yumt-2014-false-statements-cards
+      - kvantik-2016-window-two-truths
+    candidate_rules:
+      title_or_objective_contains_any: [count, number_of_truth, number_of_liars, true_statements]
+      tags_any: [lie_detection, self_reference_truth]
+      profile_hints:
+        - "objective содержит count/maximize/determine_number"
+    local_facets:
+      - counted_quantity
+      - speaker_types
+      - statement_form
+      - fixed_point_domain
+      - uniqueness
+      - extremal_or_exact
+      - self_reference_depth
+    notes_ru: "Этот кластер нужен, потому что общий lie_detection смешивает fixed-point счет с локальными графовыми ограничениями и обычным перебором."
+    facet_file: data/navigation/cluster_facets/truth_liar_systems.yaml
+
+  - id: local-truth-constraints
+    title_ru: "Локальные ограничения истинности"
+    description_ru: "Рыцари/лжецы и похожие системы, где каждое высказывание накладывает локальное ограничение на соседей, цепь, круг, окно, день недели, таблицу или малую группу."
+    inclusion_criteria_ru:
+      - "Истинность фразы зависит от локального окружения, соседнего элемента, предыдущей фразы, дня, позиции или небольшой группы."
+      - "Решение агрегирует локальные запреты или строит совместимую конфигурацию."
+      - "Глобальный счет может присутствовать, но не является основным fixed point."
+    exclusion_criteria_ru:
+      - "Если основной механизм - самосогласованный счет всех правдивцев, см. truth-count-fixed-points."
+      - "Если основной механизм - один нормализующий вопрос, см. truth-liar-normalization."
+      - "Если нет локальной структуры, оставлять в общем lie_detection вне кластеров."
+    core_problem_ids:
+      - amc-au-2016-intermediate-q17-truth-liars-circle
+      - problems-ru-66436-sixty-knights-next-five
+      - kvantik-2016-round-table-right-liar-count
+      - ukmt-jmc-2015-q17-knaves-truth-chain
+      - utyum-2010-vasya-two-liars-line
+    problem_ids:
+      - amc-au-2016-intermediate-q17-truth-liars-circle
+      - problems-ru-66436-sixty-knights-next-five
+      - kvantik-2016-round-table-right-liar-count
+      - ukmt-jmc-2015-q17-knaves-truth-chain
+      - utyum-2010-vasya-two-liars-line
+      - utyum-1996-knights-line-seven-yes
+      - problems-ru-66431-knights-liars-tricksters-table
+      - sasmo-2019-g8-q14-gift-box-truth-liars
+      - estonian-2018-19-three-monks-weekdays
+      - ukmt-smc-2015-q13-knave-days
+      - amc-2022-10a-p12-truth-liar-alternater
+      - komal-2016-k517-normalia-truth-alternators
+      - problems-ru-66705-distance-to-nearest-liar
+    candidate_rules:
+      tags_all_or_near: [lie_detection, structural_constraint]
+      profile_hints:
+        - "objective содержит chain/circle/neighbor/day/distance"
+        - "ideas содержат local/block/neighbor/chain/day"
+    local_facets:
+      - topology
+      - neighborhood_size
+      - speaker_types
+      - statement_scope
+      - global_count_used
+      - boundary_condition
+      - periodicity
+    notes_ru: "Кластер должен оставаться уже, чем все задачи с structural_constraint: в нем структура управляет истинностью фраз, а не физическим расположением объектов."
+    facet_file: data/navigation/cluster_facets/truth_liar_systems.yaml
+
+  - id: public-knowledge-and-announcements
+    title_ru: "Публичное знание и объявления"
+    description_ru: "Задачи, где публичные фразы, молчание или ответы о незнании последовательно удаляют миры из общего пространства состояний."
+    inclusion_criteria_ru:
+      - "У агентов есть разные приватные наблюдения."
+      - "Публичная реплика или молчание становится фактом для всех и меняет знание всех участников."
+      - "Решение использует common knowledge, public announcement induction или public ignorance filter."
+    exclusion_criteria_ru:
+      - "Публичное сообщение как просто кодовый канал без итерации знания относится к binary-parity-and-modular-codes или prearranged-communication-protocols."
+      - "Обычные ответы рыцарей/лжецов без модели чужого знания не входят."
+      - "Если есть приватность публичной коммуникации, см. prearranged-communication-protocols как соседний кластер."
+    core_problem_ids:
+      - blue-eyed-islanders
+      - muddy-children-common-knowledge
+      - sum-product-two-numbers
+      - cheryls-birthday-sasmo
+      - kvantik-2025-two-digit-three-public-questions
+    problem_ids:
+      - blue-eyed-islanders
+      - muddy-children-common-knowledge
+      - sum-product-two-numbers
+      - cheryls-birthday-sasmo
+      - kvantik-2025-two-digit-three-public-questions
+      - three-wise-men-hats
+      - ukmt-grey-kangaroo-2008-q13-magician-cards-even-sum
+      - tot-2002-fall-senior-sum-product-2002-card
+    candidate_rules:
+      tags_any: [common_knowledge, public_announcement, public_announcement_induction, knowledge_induction]
+      profile_hints:
+        - "knowledge_profile.public_announcements/public_rounds присутствует"
+        - "private_observations различаются по агентам"
+    local_facets:
+      - agent_count
+      - private_observation_type
+      - public_rounds
+      - announcement_kind
+      - ignorance_statement
+      - induction_depth
+      - common_prior_state_space
+    notes_ru: "Это не все карточки с public_announcement: модульные шляпы и карточная приватность используют публичность как канал, но не как логику знания."
+    facet_file: data/navigation/cluster_facets/knowledge_and_lie_codes.yaml
+
+  - id: binary-parity-and-modular-codes
+    title_ru: "Двоичные, паритетные и модульные коды"
+    description_ru: "Скрытое состояние кодируется битами, четностями, xor-адресом или остатком по модулю; участники затем декодируют недостающую координату."
+    inclusion_criteria_ru:
+      - "Основной сигнал - бит, вектор битов, паритет, xor или сумма по модулю."
+      - "Кодовая таблица или инвариант явно сопоставляет состояния сообщениям."
+      - "Ложь/ошибки не являются центральным ограничением; если являются, см. hamming-and-lie-resilient-codes."
+    exclusion_criteria_ru:
+      - "Числовая сумма с большими коэффициентами относится к numeric-linear-signatures."
+      - "Порядок объектов как сообщение относится к permutation-order-channels."
+      - "Двоичный поиск по половинам без кодовой таблицы не является этим кластером."
+    core_problem_ids:
+      - calendar-card-binary-trick
+      - fixed-questions-as-binary-code
+      - prisoners-chessboard-one-coin-xor
+      - prisoners-hats-parity-line
+      - hat-line-k-colors-modulo
+    problem_ids:
+      - calendar-card-binary-trick
+      - fixed-questions-as-binary-code
+      - prisoners-chessboard-one-coin-xor
+      - prisoners-hats-parity-line
+      - hat-line-k-colors-modulo
+      - cemc-2025-bcc-flower-pots-key-parity
+      - utyum-2010-seventeen-coins-parity-test
+      - kvantik-2015-parity-four-integers-three-questions
+      - mmo-2000-seven-cards-public-communication
+      - problems-ru-66722-knights-liars-mimics-public-majority
+    candidate_rules:
+      tags_any: [binary_code, parity_code, modular_sum_code, single_bit_signal, parity]
+      reject_if_tags_any: [error_correcting_code, hamming_bound]
+    local_facets:
+      - alphabet
+      - modulus
+      - bit_count
+      - public_or_private_signal
+      - sequential_decoding
+      - all_but_first_success
+      - privacy_goal
+    notes_ru: "Паритет как арифметическая проверка и parity_code как сообщение стоит различать локальным facet `alphabet/modulus`, а не плодить глобальные теги."
+
+  - id: permutation-order-channels
+    title_ru: "Порядок и перестановка как канал"
+    description_ru: "Информация передается выбором порядка объектов или декодируется как перестановка; емкость канала задается факториалом или порядковыми отношениями."
+    inclusion_criteria_ru:
+      - "Порядок предъявления объектов несет сообщение."
+      - "Декодирование использует перестановку, порядок карт/цифр или factorial capacity."
+      - "Перестановка является каналом, а не просто состоянием, которое нужно восстановить."
+    exclusion_criteria_ru:
+      - "Если порядок просто неизвестен и восстанавливается из сумм, см. numeric-linear-signatures."
+      - "Обычные карточные фокусы без кодирования порядком не входят."
+      - "Если сообщение является модульной суммой, см. binary-parity-and-modular-codes."
+    core_problem_ids:
+      - fitch-cheney-five-card-trick
+      - permutation-encodes-six-messages
+      - matprazdnik-2022-digits-five-questions
+    problem_ids:
+      - fitch-cheney-five-card-trick
+      - permutation-encodes-six-messages
+      - matprazdnik-2022-digits-five-questions
+    candidate_rules:
+      tags_any: [permutation_order_code]
+      profile_hints:
+        - "communication_profile.message содержит ordered/permutation"
+        - "objective содержит decode_permutation"
+    local_facets:
+      - ordered_objects_count
+      - factorial_capacity
+      - hidden_offset
+      - chosen_subset_size
+      - decoder_prior
+      - card_suit_or_rank_constraint
+    notes_ru: "Кластер небольшой, но очень чистый; его лучше оставить маленьким, чем смешивать со всеми задачами про карты."
+
+  - id: questions-with-lies-and-error-correction
+    title_ru: "Коды, устойчивые к лжи и ошибкам"
+    description_ru: "Задачи, где ложь, ошибка, стирание или испорченный ответ моделируются как искажение слова, а решение использует расстояния, упаковку или покрытие в пространстве Хэмминга."
+    inclusion_criteria_ru:
+      - "Есть ограниченное число ложных/ошибочных ответов или искажений."
+      - "Стратегия использует избыточность кода, расстояние, радиусы шаров, повторение или покрывающий код."
+      - "Нижняя оценка формулируется как packing/covering, а не только как обычный leaf-count."
+    exclusion_criteria_ru:
+      - "Систематический лжец, нормализуемый одним вопросом, относится к truth-liar-normalization."
+      - "Сломанные физические приборы без хэмминговой геометрии относятся к faulty-or-reduced-observation-channels."
+      - "Просто наличие лжецов в логической системе не достаточно."
+    core_problem_ids:
+      - one-lie-questions-coding-bound
+      - two-lies-questions-hamming-bound
+      - number-guessing-one-lie-by-repetition
+      - ebert-seven-hats-hamming-code
+      - uct-2015-digits-composite-after-six-deletions
+    problem_ids:
+      - one-lie-questions-coding-bound
+      - two-lies-questions-hamming-bound
+      - number-guessing-one-lie-by-repetition
+      - ebert-seven-hats-hamming-code
+      - uct-2015-digits-composite-after-six-deletions
+      - problems-ru-66710-hats-with-madmen-oracle
+    candidate_rules:
+      tags_any: [error_correcting_code, hamming_bound, repetition_code]
+      profile_hints:
+        - "questions_profile.lies_allowed является числом"
+        - "ideas содержат hamming/radius/repeat/protect"
+    local_facets:
+      - error_model
+      - max_errors
+      - alphabet_size
+      - adaptive
+      - packing_or_covering
+      - minimum_distance
+      - erasure_or_deletion
+      - guaranteed_success_type
+    notes_ru: "Здесь важно локально различать packing bound для вопросов с ложью и covering code для задач типа Эберта; один глобальный тег hamming_bound этого не выражает."
+    facet_file: data/navigation/cluster_facets/knowledge_and_lie_codes.yaml
+
+  - id: prearranged-communication-protocols
+    title_ru: "Заранее согласованные протоколы с ограниченной коммуникацией"
+    description_ru: "Участники до начала выбирают стратегию, затем действуют при жестком ограничении коммуникации: один бит памяти, один переворот, публичные ответы, запрет дальнейшего общения или приватность от наблюдателя."
+    inclusion_criteria_ru:
+      - "Протокол выбирается заранее, а после старта канал ограничен или асимметричен."
+      - "Цель - передать/накопить информацию между участниками, а не только решить одиночный тест."
+      - "Ограничение канала существенно для стратегии: один бит, один ход, публичность, приватность, последовательные ответы."
+    exclusion_criteria_ru:
+      - "Одиночные задачи на вопросы без нескольких участников не входят."
+      - "Если это чистая логика публичного знания, см. public-knowledge-and-announcements."
+      - "Если единственный интерес - тип кода, смежный кодовый кластер должен быть первичным."
+    core_problem_ids:
+      - prisoners-light-bulb
+      - prisoners-100-boxes-cycle-strategy
+      - prisoners-chessboard-one-coin-xor
+      - prisoners-hats-parity-line
+      - mmo-2000-seven-cards-public-communication
+    problem_ids:
+      - prisoners-light-bulb
+      - prisoners-100-boxes-cycle-strategy
+      - prisoners-chessboard-one-coin-xor
+      - prisoners-hats-parity-line
+      - mmo-2000-seven-cards-public-communication
+      - ebert-seven-hats-hamming-code
+      - problems-ru-66710-hats-with-madmen-oracle
+      - problems-ru-66722-knights-liars-mimics-public-majority
+      - mmo-2019-wise-men-seven-numbers-median
+    candidate_rules:
+      fragment_any: [communication, wise_people]
+      tags_any: [public_communication, single_bit_signal, designated_counter_protocol, hat_puzzle]
+      profile_hints:
+        - "communication_profile.channel/message_capacity/privacy_goal присутствует"
+    local_facets:
+      - agent_count
+      - prearranged_strategy
+      - channel_capacity
+      - public_or_private
+      - memory_persistence
+      - sequential_order
+      - privacy_goal
+      - adversarial_participants
+    notes_ru: "Этот кластер намеренно пересекается с кодовыми кластерами: для преподавания полезно видеть и протокольную, и кодовую природу таких задач."
+    facet_file: data/navigation/cluster_facets/prearranged_protocols.yaml
+
+global_facet_recommendations:
+  promote:
+    - id: alphabet_size
+      reason_ru: "Повторяется в вопросах, взвешиваниях, кодах и протоколах; лучше как общий профильный facet `channel_alphabet`/`alphabet_size`, а не набор тегов."
+    - id: adaptive
+      reason_ru: "Есть в weighing_profile и questions_profile и нужен почти во всех кластерах как protocol facet."
+    - id: objective
+      reason_ru: "Разделяет identify object, identify sign, certify, count, maximize, privacy; повторяется в разных фрагментах."
+    - id: lower_bound_method
+      reason_ru: "Decision-tree, counting, hamming packing, indistinguishability работают поперек кластеров."
+    - id: topology
+      reason_ru: "Line/circle/grid/window/group возникают в weighing и truth-liar задачах; это лучше глобальный структурный facet, чем один широкий тег structural_constraint."
+    - id: channel_capacity
+      reason_ru: "Нужен для card tricks, public communication, prisoner protocols, binary/modular codes."
+    - id: error_model
+      reason_ru: "Повторяется в noisy scales, lies in questions, madmen/oracle, deletion codes; должен жить как facet, а не только как отдельный кластер."
+  keep_local_for_now:
+    - id: known_genuine_available
+      reason_ru: "Пока специфично для тяжелее/легче тернарных сигнатур."
+    - id: coefficient_system
+      reason_ru: "Полезно для linear signatures, но преждевременно глобализовать без большего числа числовых каналов."
+    - id: fixed_point_domain
+      reason_ru: "Пока ясно нужно только для truth-count-fixed-points."
+    - id: announcement_kind
+      reason_ru: "Публичное незнание/молчание/утверждение лучше держать локально до унификации knowledge_profile."
+    - id: privacy_goal
+      reason_ru: "Повторяется в коммуникации, но карточек с настоящей приватностью мало."

@@ -1,0 +1,80 @@
+{
+  "id": "mmo-2022-two-traders-six-coins-four-weighings",
+  "title": "ММО-2022: две тройки монет 9, 10, 11 граммов за четыре взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mmo-2022-8-4",
+        "title": "Два торговца объединяют лимит взвешиваний",
+        "text": "У Александра есть три внешне неотличимые монеты весом 9, 10 и 11 граммов, и у Бориса есть такая же тройка. Каждый может воспользоваться чашечными весами без гирь два раза. Докажите, что если они объединят свои четыре взвешивания, то смогут определить веса всех шести монет.",
+        "source_ids": ["src-mmo-2022-85-brochure"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-cross-compare-two-copies",
+      "title": "Сравнить одинаково устроенные скрытые тройки попарно",
+      "text": "Две независимые копии одного набора весов дают дополнительную структуру: результаты сравнений \\(A_i\\) с \\(B_i\\) ограничены тем, что суммы весов в тройках \\(A\\) и \\(B\\) одинаковы.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-comparisons",
+      "title": "Сначала сравнить две пары, затем добить симметричные случаи",
+      "text": "Обозначим монеты Александра \\(A_1,A_2,A_3\\), а монеты Бориса \\(B_1,B_2,B_3\\). Первыми двумя взвешиваниями сравним \\(A_1\\) с \\(B_1\\) и \\(A_2\\) с \\(B_2\\).\n\nЕсли оба раза равенство, то и \\(A_3=B_3\\). Третьим взвешиванием сравним \\(A_1+A_2\\) с \\(A_3+B_3\\). Возможны только суммы 9+10 против 11+11, 9+11 против 10+10 или 10+11 против 9+9, поэтому определяется вес пары \\(A_3,B_3\\) и два оставшихся веса с точностью до порядка. Четвертым взвешиванием сравним \\(A_1\\) и \\(A_2\\).\n\nВ остальных случаях третьим взвешиванием сравним \\(A_3\\) и \\(B_3\\). С точностью до переименования остаются два типа. Если \\(A_1<B_1\\), \\(A_2<B_2\\), \\(A_3>B_3\\), то \\(A_1,A_2\\) имеют веса 9 и 10, \\(A_3=11\\), \\(B_3=9\\), а \\(B_1,B_2\\) имеют веса 10 и 11; четвертое сравнение \\(A_1\\) с \\(A_2\\) завершает восстановление. Если \\(A_1<B_1\\), \\(A_2>B_2\\), \\(A_3=B_3\\), то \\(A_1=B_2\\) и \\(A_2=B_1\\); сравнение \\(A_1+A_2\\) с \\(A_3+B_3\\) определяет оставшиеся веса, а известное неравенство \\(A_1<A_2\\) снимает порядок.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "36 раскладов: две независимые перестановки весов 9, 10, 11",
+    "observations": ["четыре трехисходных сравнения на чашечных весах"],
+    "allowed_actions": ["сравнивать отдельные монеты или равные по числу пары монет"],
+    "goal": ["identify_all_six_weights"],
+    "strategy_type": ["adaptive_strategy", "symmetry", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["mmo_2022", "two_copies", "cross_comparison"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 0,
+    "counterfeit_type": "three_known_distinct_weights_in_each_copy",
+    "weighing_count": 4,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "8 класс ММО; стратегия использует две одинаковые скрытые тройки.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "symmetry_breaking", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-mmo-2022-85-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Схема переписана из официального разбора ММО-2022."]
+  }
+}

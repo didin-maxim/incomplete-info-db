@@ -1,0 +1,55 @@
+{
+  "id": "matprazdnik-2024-six-boxes-one-sum",
+  "title": "Матпраздник-2024: шесть шкатулок и один вопрос о сумме",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["one_query_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Определить соседний обмен",
+        "text": "Шесть шкатулок с надписями 1,2,3,4,5,6 содержат монеты соответствующих масс. Мудрец расставляет шкатулки в прямоугольнике 2 на 3. Затем шах либо ничего не делает, либо тайно меняет местами монеты в двух соседних по стороне шкатулках. После этого мудрец выбирает несколько шкатулок, узнает суммарный вес монет в них и должен определить действие шаха.",
+        "source_ids": ["src-matprazdnik-2024-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["hidden_state", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-edge-changes-have-distinct-deltas",
+      "title": "Каждому возможному обмену нужен свой сдвиг суммы",
+      "text": "Если спрашивать сумму в клетках одной доли шахматной раскраски, то любой соседний обмен меняет сумму на разность двух чисел. Расстановка подбирается так, чтобы семь обменов и нулевой ход давали разные суммы.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-arrange-263-451-ask-235",
+      "title": "Расстановка 2 6 3 / 4 5 1 и запрос по клеткам 2,3,5",
+      "text": "Поставим в верхнем ряду шкатулки 2,6,3, а в нижнем 4,5,1. Спросим сумму монет в шкатулках с крышками 2,3,5; без обмена она равна 10. Для семи соседних пар получаются попарно разные суммы: 12,11,8,9,14,6,13. Поэтому ответ шаха однозначно указывает либо на отсутствие обмена, либо на конкретную соседнюю пару.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["hidden_state"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "8 состояний: нет обмена или один из 7 соседних обменов монет в сетке 2 на 3",
+    "observations": ["одно целое число: сумма монет в заранее выбранных шкатулках"],
+    "allowed_actions": ["выбрать расстановку", "выбрать подмножество шкатулок для запроса"],
+    "goal": ["identify_swap_or_none"],
+    "strategy_type": ["single_query_signature"],
+    "lower_bound_method": [],
+    "keywords": ["matprazdnik_2024", "one_sum_query", "adjacent_swap"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 10, "question_count": 1, "lies_allowed": "none", "adaptive": false, "objective": "identify_hidden_swap"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6 класс, требуется придумать сигнатуры для всех ребер прямоугольника.", "status": "ai_checked"},
+  "tags": ["weighted_sum_encoding", "single_bit_signal", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-matprazdnik-2024-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 35-й Математический праздник, 6 класс, задача 5."]}
+}

@@ -1,0 +1,80 @@
+{
+  "id": "lktg-2008-three-balances-one-broken-nine-coins",
+  "title": "LKTG-2008: трое весов, одни сломанные, и фальшивая монета из 9 за 4 взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "coding", "fault_tolerance"]
+  },
+  "language": "en",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-2b",
+        "title": "Find a false coin using three balances, one of them broken",
+        "text": "There are 9 coins, one of which is false and lighter than the others. There are three balances, and one of the balances is broken: whenever it is used, its answer may be arbitrary. Show how to find the false coin in 4 weighings.",
+        "source_ids": ["src-lktg-2008-broken-balances-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-ternary-labels-with-one-bad-tester",
+      "title": "Тернарные метки и проверка противоречий",
+      "text": "Монеты получают метки из двух троичных цифр. Первые два взвешивания дают подозрительные цифры, а третье взвешивание устроено так, чтобы либо подтвердить обе цифры, либо обнаружить, какие весы точно исправны.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-nine-coins-one-broken-balance",
+      "title": "Две координаты и одно контрольное разбиение",
+      "text": "Занумеруем монеты парами троичных цифр \\(00,01,\\ldots,22\\). Первые весы сравнивают монеты с первой цифрой 0 и 1, вторые - с последней цифрой 0 и 1. Без ограничения общности считаем, что оба результата указывают на цифру 0; тогда четыре монеты без нулей точно настоящие, если не сломаны сразу двое весов, что невозможно.\n\nТретьим взвешиванием на третьих весах сравнивают специально дополненные до равных размеров группы: \\(00\\), группу \\(01,02\\) и группу \\(10,20\\), добавляя заведомо настоящие монеты. Если результат указывает на \\(00\\), это истинно. Если он указывает на \\(01,02\\), то он противоречит второму взвешиванию, значит первые весы исправны и первая цифра фальшивой монеты равна 0; остается три кандидата, которые различаются одним обычным взвешиванием. Случай \\(10,20\\) симметричен.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 вариантов фальшивой монеты и 3 варианта сломанных весов",
+    "observations": ["результаты взвешиваний, один прибор может отвечать произвольно"],
+    "allowed_actions": ["выбирать, на каких весах и какие группы монет сравнивать"],
+    "goal": ["identify_false_coin"],
+    "strategy_type": ["adaptive_strategy", "ternary_code", "fault_tolerant_testing"],
+    "lower_bound_method": [],
+    "keywords": ["broken_balance", "lktg_2008", "ternary_labels", "fault_tolerance"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter",
+    "weighing_count": 4,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_false_coin_with_one_broken_balance"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Тренировочный листок LKTG; существенная часть сложности в том, что один источник информации ненадежен.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_code", "ternary_search"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Источник - листок с решениями 'Weighings using broken balances' на olympiads.mccme.ru."]
+  }
+}

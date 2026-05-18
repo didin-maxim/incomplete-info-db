@@ -1,0 +1,61 @@
+{
+  "id": "wajo-2015-knaves-chief-brothers",
+  "title": "WAJO 2015: найти вождя среди двух братьев",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-wajo-2015-knaves-h",
+        "title": "Ог и Бог",
+        "text": "Филип знает, что на острове есть вождь, но не знает, рыцарь он или лжец. Поиски сузились до двух братьев, Ога и Бога. Ог говорит: «Бог — вождь, и он лжец». Бог говорит: «Ог не вождь, и он рыцарь». Рыцари всегда говорят правду, лжецы всегда лгут. Кто вождь, и он рыцарь или лжец?",
+        "source_ids": ["src-wajo-2015-qns-solns"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-chief-and-type-linked-by-two-statements",
+      "title": "Скрытое состояние включает и роль, и тип",
+      "text": "Нужно одновременно определить две вещи: кто является вождем и кто говорит правду. Каждая реплика связывает роль одного брата с типом другого, поэтому отдельная проверка только типов или только роли недостаточна.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-test-og-type",
+      "title": "Начать с типа Ога",
+      "text": "Если Ог рыцарь, его фраза истинна: Бог — вождь и лжец. Тогда фраза Бога ложна. Но Бог говорит, что Ог не вождь и Ог рыцарь; при найденном состоянии обе части истинны, значит фраза Бога была бы истинной, противоречие. Следовательно, Ог — лжец. Фраза Бога «Ог не вождь, и он рыцарь» содержит ложную часть «Ог рыцарь», поэтому Бог тоже лжец. Тогда утверждение Ога «Бог — вождь, и он лжец» должно быть ложным; поскольку Бог действительно лжец, ложной остается часть «Бог — вождь». Значит, вождь — Ог, и он лжец.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "кто из двух братьев является вождем; тип каждого брата",
+    "observations": ["две публичные фразы, каждая связывает роль и тип"],
+    "allowed_actions": ["проверять совместимость роли и типов с правилом правды/лжи"],
+    "goal": ["identify_chief", "identify_chief_type"],
+    "strategy_type": ["state_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["wajo_2015", "knights_knaves", "truth", "lie", "chief"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 4,
+    "question_count": 0,
+    "lies_allowed": "лжецы всегда лгут, рыцари всегда говорят правду",
+    "adaptive": false,
+    "objective": "determine_chief_and_type"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно удерживать две скрытые координаты: роль и тип.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-wajo-2015-qns-solns", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "wajo_batch", "notes": []}
+}

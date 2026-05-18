@@ -1,0 +1,20 @@
+{
+  "id": "problems-ru-66436-sixty-knights-next-five",
+  "title": "problems.ru 66436: 60 рыцарей и лжецов, фраза о пяти справа",
+  "fragment": "questions",
+  "kind": {"primary": "web_archive_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [{"id": "stmt-original", "title": "Хотя бы двое лжецов среди пяти справа", "text": "За круглым столом сидят 60 человек, каждый из них рыцарь или лжец. Каждый сказал: среди пяти человек подряд справа от меня хотя бы двое лжецы. Нужно определить, сколько рыцарей может сидеть за столом.", "source_ids": ["src-problems-ru-66436"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}],
+    "generalized": [{"id": "stmt-general-6m-cycle", "title": "Цикл длины 6m", "text": "Та же блоковая логика работает для любого круга из \\(6m\\) людей с той же фразой про пять следующих справа: каждый блок из шести подряд содержит ровно двух лжецов, значит всего лжецов \\(2m\\), а рыцарей \\(4m\\).", "source_ids": ["src-problems-ru-66436"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]
+  },
+  "ideas": [{"id": "idea-blocks-of-six", "title": "Любые шесть подряд содержат ровно двух лжецов", "text": "Высказывание первого человека в блоке из шести ограничивает число лжецов среди следующих пяти; проверка первого лжеца или рыцаря в блоке дает точное значение.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-ten-blocks", "title": "Разбить круг на десять блоков по шесть", "text": "Разобьем 60 мест на 10 последовательных блоков по 6. Рассмотрим первый человек в блоке. Если он рыцарь, среди следующих пяти есть хотя бы два лжеца. Их не может быть больше двух: тогда первый лжец среди этих пяти сказал бы истинную фразу. Значит в блоке ровно два лжеца. Если первый человек лжец, то среди следующих пяти не более одного лжеца; хотя бы один там должен быть, иначе первый рыцарь среди следующих пяти сказал бы ложь. С учетом первого человека в блоке снова ровно два лжеца. Поэтому в каждом блоке 4 рыцаря, всего 40.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "расположение рыцарей и лжецов на цикле из 60 мест", "observations": ["одинаковая публичная фраза каждого участника о пяти соседях справа"], "allowed_actions": ["анализировать локальные блоки из шести мест"], "goal": ["count_truth_tellers"], "strategy_type": ["structural_counting", "local_constraint_propagation"], "lower_bound_method": [], "keywords": ["problems_ru_66436", "knights_liars", "block_of_six", "6m_cycle"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 60, "lies_allowed": "liars always lie", "adaptive": false, "objective": "deduce_number_of_knights"},
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Короткая задача на локальные ограничения правды и лжи.", "status": "ai_checked"},
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination"],
+  "sources": [{"source_id": "src-problems-ru-66436", "role": "web_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_batch", "generalization_status": "same_solution_parameterized", "notes": ["Источник: Окружная олимпиада (Москва), 2017, задача 6.5.", "2026-05-18: число 60 классифицировано как 10 блоков по 6; естественное обобщение на 6m сохраняет тот же подсчет."]}
+}

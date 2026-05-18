@@ -1,0 +1,52 @@
+{
+  "merges": [
+    {
+      "date": "2026-05-18",
+      "from": "nrich-great-weights-puzzle-12",
+      "to": "counterfeit-12-coins-3-weighings",
+      "reason": "Та же задача о 12 внешне одинаковых объектах: один отличается, знак отличия неизвестен, нужно определить объект и знак за три взвешивания. Различие только в источнике и названии объектов: NRICH говорит о грузиках, классическая карточка - о монетах.",
+      "actions": [
+        "source src-nrich-great-weights-puzzle перенесен в canonical card",
+        "NRICH statement добавлен как альтернативная формулировка",
+        "relations перенаправлены на counterfeit-12-coins-3-weighings",
+        "duplicate problem file removed"
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "from": "nrich-money-measure-one-weighing",
+      "to": "counterfeit-stack-one-weighing",
+      "reason": "Та же задача о десяти группах монет, одна из которых содержит монеты на 1 грамм легче, и одном числовом взвешивании с выборкой 1,2,...,10 монет. Различие только в источнике и названии групп: NRICH говорит о коробках, классическая карточка - о стопках.",
+      "actions": [
+        "source src-nrich-money-measure перенесен в canonical card",
+        "NRICH statement добавлен как альтернативная формулировка",
+        "duplicate relation nrich-money-to-counterfeit-stack removed",
+        "duplicate problem file removed"
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "from": "hat-line-parity-all-but-first",
+      "to": "prisoners-hats-parity-line",
+      "reason": "Та же шляпная задача в ряду: первый ответ передает бит четности, после чего все остальные восстанавливают свой цвет. Отличие только в параметре 100 против общего n и формулировке источника.",
+      "actions": [
+        "source src-folklore перенесен в canonical card",
+        "100-prisoners statement добавлен как альтернативная формулировка",
+        "relations перенаправлены на prisoners-hats-parity-line",
+        "duplicate problem file removed"
+      ]
+    },
+    {
+      "date": "2026-05-18",
+      "from": "prisoner-light-bulb-counter",
+      "to": "prisoners-light-bulb",
+      "reason": "Та же задача о заключенных, лампочке и назначенном счетчике. Отличие только в параметрической формулировке n вместо 100 и более явной оговорке о базовой версии с известным состоянием лампочки.",
+      "actions": [
+        "source src-folklore перенесен в canonical card",
+        "parameterized statement добавлен как альтернативная формулировка",
+        "relations перенаправлены на prisoners-light-bulb",
+        "duplicate problem file removed"
+      ]
+    }
+  ]
+}

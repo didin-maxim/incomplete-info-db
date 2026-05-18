@@ -1,0 +1,61 @@
+{
+  "id": "sasmo-2019-g8-q14-gift-box-truth-liars",
+  "title": "SASMO 2019 G8 Q14: подарок и соседи-лжецы",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning", "structural_constraint"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-sasmo-2019-g8-q14",
+        "title": "Шесть ответов вокруг стола",
+        "text": "Лидер спросил шестерых сидящих за круглым столом последователей, что находится в подарочной коробке. Два правдивца сидят рядом друг с другом. Два лжеца тоже сидят рядом друг с другом. Оставшиеся двое каждый могут быть правдивцем или лжецом, но они не сидят рядом. По кругу были даны ответы: «ноутбук», «кошелек», «камера», «часы», «камера», «ноутбук» (в порядке обхода стола). Что находится в коробке: камера, ноутбук, кошелек, часы или данных недостаточно?",
+        "source_ids": ["src-simcc-sasmo-2019-2020-g8-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-adjacent-blocks-filter-answer",
+      "title": "Соседние пары ограничивают возможные истинные ответы",
+      "text": "Все правдивцы называют один и тот же предмет, поэтому кандидатом на содержимое коробки может быть только ответ, который встречается в допустимых местах для соседнего блока правдивцев.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-adjacent-truth-cases",
+      "title": "Разобрать два возможных соседних блока правдивцев",
+      "text": "Условие о двух соседних правдивцах и двух соседних лжецах оставляет две существенные схемы расположения типов вокруг стола. В первой схеме правдивцами были бы участники, отвечающие «камера», но тогда лжецы с ответами «ноутбук» и «кошелек» сидят рядом, а две оставшиеся роли также оказываются соседними, что запрещено условием. Значит, эта схема невозможна. Во второй допустимой схеме единственный общий истинный ответ - «часы». Следовательно, в коробке часы.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "содержимое коробки и тип каждого из шести участников: правдивец или лжец",
+    "observations": ["шесть публичных ответов по кругу", "существует соседняя пара правдивцев", "существует соседняя пара лжецов", "двое остальных не сидят рядом"],
+    "allowed_actions": ["проверять совместимость круговых расположений типов с ответами"],
+    "goal": ["identify_hidden_object"],
+    "strategy_type": ["state_elimination", "structural_constraint"],
+    "lower_bound_method": [],
+    "keywords": ["sasmo_2019", "truth_tellers", "liars", "round_table", "gift_box"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "каждый участник либо всегда говорит правду, либо лжет в своем ответе о содержимом коробки",
+    "adaptive": false,
+    "objective": "deduce_gift_box_content"
+  },
+  "difficulty": {"main": "standard", "local_score": 2, "comment": "Нужно совместить истинность ответов с круговым ограничением на соседние пары.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g8-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_batch", "notes": ["Ответы из рисунка в PDF перенесены в текст карточки по кругу; условие и решение пересказаны по-русски."]}
+}

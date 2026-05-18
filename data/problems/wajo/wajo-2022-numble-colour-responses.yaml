@@ -1,0 +1,69 @@
+{
+  "id": "wajo-2022-numble-colour-responses",
+  "title": "WAJO 2022: Numble и стратегия по цветным ответам",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_analysis"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-wajo-2022-numble",
+        "title": "Пятизначное число дня",
+        "text": "В игре Numble компьютер выбирает пятизначное число дня из пяти различных цифр; первая цифра может быть 0. Игрок вводит попытку — строку из пяти различных цифр. После попытки каждая позиция окрашивается: зеленый цвет означает правильную цифру на правильном месте, желтый — цифра есть в числе дня, но стоит в другом месте, красный — такой цифры в числе дня нет. Алиса всегда начинает с попытки 12345. Для заданных цветовых ответов YYGGG, YRGGG, RRGGG, YYYGG и YYYYG нужно для каждого случая найти число возможных чисел дня и наименьшее число попыток, за которое Алиса может гарантированно решить игру.",
+        "source_ids": ["src-wajo-2022-qns-solns"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-colour-response-partitions-permutations",
+      "title": "Цветовой ответ разбивает пространство перестановок",
+      "text": "После первой попытки часть цифр и позиций уже известна, а оставшиеся варианты образуют конечное пространство скрытых состояний. Следующая попытка должна делить эти состояния по возможным цветовым ответам; доказательство оптимальности требует не только стратегии, но и примера, где после меньшего числа попыток остается больше одного варианта.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-numble-small-cases",
+      "title": "Считать оставшиеся состояния и строить дерево попыток",
+      "text": "Для простых ответов после 12345 можно считать варианты напрямую. Например, ответ YYGGG означает, что последние три цифры уже равны 345, а первые две — это 1 и 2 в обратном порядке, значит остается одно число 21345 и всего нужны две попытки. Ответ RRGGG означает, что первые две цифры — две различные цифры из {0,6,7,8,9}, поэтому вариантов 5·4=20; официальная стратегия пробует перестановку этих пяти цифр и гарантирует решение за четыре попытки. Для YYYYG остается девять допустимых перестановок первых четырех цифр; в официальном разборе строится вторая попытка, после которой в худшем случае остаются две возможности, поэтому требуется не более четырех попыток. Сжатая карточка фиксирует механизм, но полный разбор всех ветвей лучше проверять по официальному решению.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "needs_human_review",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-numble-not-one-fewer",
+      "title": "Почему иногда нельзя гарантировать на одну попытку меньше",
+      "text": "Для оптимальности мало предъявить стратегию. Нужно показать, что после допустимой более короткой последовательности наблюдений могут оставаться по крайней мере два числа дня с одинаковыми цветными ответами. В официальном решении это делается отдельно для случаев с несколькими оставшимися перестановками; здесь этот аргумент пересказан только в общем виде.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "needs_human_review"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "пятизначное число дня из пяти различных цифр, включая возможный начальный 0",
+    "observations": ["цветовой ответ из пяти символов G/Y/R на каждую попытку"],
+    "allowed_actions": ["вводить новую строку из пяти различных цифр", "адаптировать следующую попытку к предыдущим цветовым ответам"],
+    "goal": ["count_remaining_states", "find_worst_case_guaranteed_tries"],
+    "strategy_type": ["decision_tree", "state_elimination"],
+    "lower_bound_method": ["decision_tree_collision"],
+    "keywords": ["wajo_2022", "numble", "strategy", "colour_response", "hidden_number"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 3,
+    "question_count": 5,
+    "lies_allowed": "ответы не лживые, но неполные: каждый цвет сообщает только локальную информацию о цифре",
+    "adaptive": true,
+    "objective": "identify_hidden_five_digit_number"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Подсчет вариантов прост, но доказательство минимальности числа попыток требует аккуратного дерева решений.", "status": "needs_human_review"},
+  "tags": ["decision_tree", "decision_tree_lower_bound", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-wajo-2022-qns-solns", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "needs_human_review", "public_ready": false, "relations_status": "wajo_batch", "notes": ["Полное ветвление официального решения для всех цветовых ответов не перенесено в карточку; оставлено needs_human_review."]}
+}

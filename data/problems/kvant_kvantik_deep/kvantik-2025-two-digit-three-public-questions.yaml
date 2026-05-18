@@ -1,0 +1,17 @@
+{
+  "id": "kvantik-2025-two-digit-three-public-questions",
+  "title": "Квантик-2025/26: двузначное число по ответам двух знающих цифры",
+  "fragment": "wise_people",
+  "kind": {"primary": "journal_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-original", "title": "Петя знает первую цифру, Вася - вторую", "text": "Ведущий загадал двузначное число и сообщил его первую цифру Пете, а вторую - Васе. Затем зрители задали три вопроса: является ли загаданное число точным квадратом, какая из цифр числа больше и различны ли цифры в числе. На первый вопрос Петя и Вася одновременно ответили «Нет», на второй - «Не знаю», а на третий - «Да». Какое число загадал ведущий?", "source_ids": ["src-kvantik-math-contest-2025-2026"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]},
+  "ideas": [{"id": "idea-public-answers-refine-digit-sets", "title": "Каждый общий ответ сужает возможные цифры обоих участников", "text": "Ответы даются людьми с разной частичной информацией. После каждого публичного ответа следующий вопрос нужно интерпретировать уже на сокращенном множестве возможных чисел.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-filter-digits", "title": "Последовательно отфильтровать возможные числа", "text": "Если оба уверенно отвечают «Нет» на вопрос о квадрате, то ни первая, ни вторая цифра не должны допускать квадрат среди совместимых двузначных чисел. Это оставляет только десятки 5, 7, 9 и единицы 0, 2, 3, 7, 8.\n\nНа вопрос, какая цифра больше, оба отвечают «Не знаю». После первого шага это возможно только для чисел 57, 58, 77, 78: при других оставшихся цифрах хотя бы один из участников уже знал бы отношение цифр. Наконец, оба отвечают «Да» на вопрос о различии цифр. Из четырех кандидатов только 58 имеет разные цифры так, что и Петя по первой цифре 5, и Вася по второй цифре 8 знают различие однозначно. Значит, ведущий загадал 58.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "двузначное число; Петя знает только десятки, Вася только единицы", "observations": ["три публичных пары одинаковых ответов двух участников"], "allowed_actions": ["обновлять множество возможных чисел после каждого публичного ответа"], "goal": ["identify_hidden_number"], "strategy_type": ["knowledge_elimination", "public_announcement"], "lower_bound_method": [], "keywords": ["kvantik_math_contest_2025_2026", "two_agents_digits", "public_answers"], "status": "ai_checked"},
+  "knowledge_profile": {"agents": 2, "private_observations": ["первая цифра", "вторая цифра"], "public_rounds": 3, "objective": "deduce_two_digit_number"},
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Миниатюрная задача на публичное обновление знания после ответов двух участников.", "status": "ai_checked"},
+  "tags": ["knowledge_elimination", "public_announcement", "common_knowledge"],
+  "sources": [{"source_id": "src-kvantik-math-contest-2025-2026", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_kvantik_deep", "notes": ["Математический конкурс «Квантика» 2025/26 учебного года, задача 43; решение восстановлено редакционно."]}
+}

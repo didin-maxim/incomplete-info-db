@@ -1,0 +1,61 @@
+{
+  "id": "sasmo-2020-g4-q14-avengers-two-liars",
+  "title": "SASMO 2020 G4 Q14: кто смотрел фильм, если двое солгали",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-sasmo-2020-g4-q14",
+        "title": "Три ответа о фильме",
+        "text": "Среди Джорджа, Хелен и Айрин ровно один человек смотрел фильм «Avengers». Когда их спросили об этом, Джордж сказал: «Хелен смотрела его». Хелен сказала: «Я его не смотрела». Айрин сказала: «Я его не смотрела». Если двое из них солгали, кто смотрел фильм?",
+        "source_ids": ["src-simcc-sasmo-2019-2020-g4-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-count-lies-by-hidden-watcher",
+      "title": "Каждый кандидат задает число ложных ответов",
+      "text": "Скрытое состояние - кто единственный смотрел фильм. Для каждого кандидата истинность трех фраз вычисляется напрямую, и подходит только тот случай, где ложных фраз ровно две.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-check-three-watchers",
+      "title": "Проверить трех возможных зрителей",
+      "text": "Если фильм смотрел Джордж, то фраза Джорджа о Хелен ложна, а Хелен и Айрин правдиво сказали, что не смотрели фильм; ложь только одна. Если фильм смотрела Хелен, то Джордж сказал правду, Хелен солгала, Айрин сказала правду; снова ложь только одна.\n\nЕсли фильм смотрела Айрин, то Джордж солгал, Хелен правдиво сказала, что не смотрела фильм, а Айрин солгала. В этом случае ровно две ложные фразы, как и требуется. Значит, фильм смотрела Айрин.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "один из трех людей смотрел фильм",
+    "observations": ["три публичных утверждения о том, кто смотрел фильм", "ровно два утверждения ложны"],
+    "allowed_actions": ["проверять число ложных фраз при каждом скрытом состоянии"],
+    "goal": ["identify_movie_watcher"],
+    "strategy_type": ["state_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["sasmo_2020", "two_liars", "movie_watcher", "truth_statements"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "ровно два из трех утверждений ложны",
+    "adaptive": false,
+    "objective": "deduce_unique_watcher"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Минимальная truth/lie-задача: три скрытых состояния и счет ложных фраз.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination"],
+  "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g4-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски.", "Оставлена как чистая маленькая карточка по lie_detection; это не обычная logic-grid задача, а счет лжи в ограниченном наборе публичных ответов."]}
+}

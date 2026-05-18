@@ -1,0 +1,98 @@
+{
+  "id": "permutation-encodes-six-messages",
+  "title": "Кодирование шести сообщений порядком трех предметов",
+  "fragment": "communication",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["communication_strategy", "encoding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Порядок трех различимых предметов как канал связи",
+        "text": "У отправителя и получателя заранее есть общий список шести сообщений и три различимых предмета \\(A,B,C\\). Отправитель может показать эти три предмета в некотором порядке. Как передать любое из шести сообщений?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-m-factorial-channel",
+        "title": "m предметов дают m! сообщений",
+        "text": "Если доступно \\(m\\) различимых предметов и получатель видит их полный порядок, то тот же табличный код передает любое из \\(m!\\) заранее согласованных сообщений. Больше \\(m!\\) сообщений без дополнительного канала не различить.",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-factorial-channel",
+      "title": "Три предмета имеют шесть перестановок",
+      "text": "У трех различных предметов ровно \\(3!=6\\) порядков. Поэтому порядок можно использовать как безошибочный код мощности 6.",
+      "standard_idea_ids": ["permutation_encodes_offset"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-table-of-permutations",
+      "title": "Заранее согласовать таблицу перестановок",
+      "text": "Стороны фиксируют таблицу: первому сообщению соответствует порядок \\(ABC\\), второму \\(ACB\\), третьему \\(BAC\\), четвертому \\(BCA\\), пятому \\(CAB\\), шестому \\(CBA\\). Отправитель выбирает нужный порядок, а получатель читает сообщение по той же таблице.",
+      "standard_idea_ids": ["permutation_encodes_offset"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-more-than-six-impossible",
+      "title": "Семь сообщений так передать нельзя",
+      "text": "Наблюдений у получателя только шесть: все перестановки трех предметов. Если сообщений семь или больше, по принципу Дирихле двум сообщениям придется соответствовать один порядок, и получатель не сможет различить их.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одно из шести сообщений",
+    "observations": ["порядок трех различимых предметов"],
+    "allowed_actions": ["выбрать одну перестановку предметов"],
+    "goal": ["communicate_hidden_message"],
+    "strategy_type": ["encoding", "nonverbal_communication"],
+    "lower_bound_method": ["message_capacity_count"],
+    "keywords": ["permutation_channel", "factorial_code", "six_messages", "m_factorial_messages"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "one of six prearranged messages",
+    "message_capacity": "3! ordered displays"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Минимальная самостоятельная лемма для задач с кодированием порядком.",
+    "status": "ai_checked"
+  },
+  "tags": ["permutation_order_code", "counting_lower_bound"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "same_solution_parameterized",
+    "notes": ["2026-05-18: число 6 классифицировано как емкость 3!; добавлена общая версия для m! сообщений."]
+  }
+}

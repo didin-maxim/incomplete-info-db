@@ -1,0 +1,61 @@
+{
+  "id": "two-doors-two-guards-one-question",
+  "title": "Две двери, два стража и один вопрос",
+  "fragment": "questions",
+  "kind": {"primary": "classical_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Один всегда лжет, другой всегда говорит правду",
+        "text": "Перед вами две двери: за одной спасение, за другой опасность. Рядом два стража: один всегда говорит правду, другой всегда лжет, но неизвестно, кто есть кто. Можно задать один вопрос одному стражу, на который он ответит \"да\" или \"нет\". Как выбрать безопасную дверь?",
+        "source_ids": ["src-truth-liar-questions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-ask-about-other-answer",
+      "title": "Вложенный вопрос делает правду и ложь одинаковыми",
+      "text": "Если спросить, что сказал бы другой страж, правдивый передает ложный ответ, а лжец искажает правдивый ответ. В обоих случаях получается отрицание истины.",
+      "standard_idea_ids": ["truth_liar_normalization"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-other-guard-question",
+      "title": "Спросить, какую дверь указал бы другой",
+      "text": "Выберем любую из двух дверей, например левую, и спросим любого стража: \"Если бы я спросил другого стража, ведет ли левая дверь к спасению, он ответил бы да?\"\n\nРазберем два случая. Если отвечающий правдивый, он честно сообщает ответ другого стража. Другой страж лжец, поэтому на прямой вопрос о безопасной левой двери он ответил бы противоположно истине. Значит, полученный ответ противоположен истинному ответу о левой двери. Если отвечающий лжец, то другой страж правдивый и на прямой вопрос ответил бы истину; но лжец искажает это сообщение, поэтому мы снова слышим противоположность истины.\n\nСледовательно, ответ \"да\" означает, что левая дверь не ведет к спасению, и надо выбрать правую. Ответ \"нет\" означает, что левая дверь безопасна.",
+      "standard_idea_ids": ["truth_liar_normalization"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какая дверь безопасна и какой страж правдив",
+    "observations": ["один ответ да/нет от выбранного стража"],
+    "allowed_actions": ["задать один вопрос да/нет одному агенту"],
+    "goal": ["identify_safe_door"],
+    "strategy_type": ["lie_normalization", "symmetric_question"],
+    "lower_bound_method": [],
+    "keywords": ["truth_teller_liar", "two_doors", "one_question"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 1,
+    "lies_allowed": "one respondent may be systematic liar",
+    "adaptive": false,
+    "objective": "choose_safe_door"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Базовая нормализация ответа при неизвестном типе отвечающего.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "guard_paradox"],
+  "sources": [{"source_id": "src-truth-liar-questions", "role": "folklore_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "notes": []}
+}

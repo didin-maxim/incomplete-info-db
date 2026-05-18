@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-kvantik-101-direction-counterfeit-12coins",
+      "from": "kvantik-2013-fake-coin-direction-101",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В задаче Квантика не нужно локализовать фальшивую монету: первое взвешивание используется, чтобы получить настоящую монету-эталон или сразу выделить оставшуюся фальшивую.",
+      "backward_text": "Классическая задача о 12 монетах требует найти саму монету и ее тип, поэтому все ветви дерева взвешиваний должны различать гораздо больше скрытых состояний.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-kvantik-three-cards-twenty-questions",
+      "from": "kvantik-2013-three-cards-one-question",
+      "to": "twenty-questions-binary-search",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Карточная задача показывает минимальный пример проектирования вопроса: один вопрос различает три состояния, потому что в канал добавлен третий честный ответ «не знаю».",
+      "backward_text": "Бинарный поиск является более стандартной версией той же идеи дерева решений, но каждый ответ делит состояния только на два класса.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-kvantik-magic-balls-fixed-binary-code",
+      "from": "kvantik-2013-four-magic-balls-three-tests",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах заранее выбранные запросы задают объектам кодовые подписи; наблюдаемая последовательность ответов затем декодируется как скрытое состояние.",
+      "backward_text": "Фиксированные бинарные вопросы дают чистую модель кодирования, а детектор Квантика использует числовые суммы нескольких кодов, потому что волшебных шариков может быть несколько.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-kvantik-parity-four-hat-parity",
+      "from": "kvantik-2015-parity-four-integers-three-questions",
+      "to": "prisoners-hats-parity-line",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи передают нужную информацию через сумму по модулю 2: лишние неизвестные входят четное число раз и поэтому исчезают.",
+      "backward_text": "Задача с шляпами применяет тот же паритетный механизм как коммуникационный протокол для многих участников, а задача Квантика изолирует линейное сокращение в трех вопросах.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-kvantik-round-table-guards-normalization",
+      "from": "kvantik-2016-round-table-right-liar-count",
+      "to": "two-doors-two-guards-one-question",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В круговой задаче ответ лжеца нормализуется как предсказуемое отрицание истины; после этого ответы зависят от отношения типов соседей.",
+      "backward_text": "Задача о двух стражах использует ту же предсказуемость лжи, но в форме одного вложенного вопроса вместо подсчета всех локальных переходов.",
+      "status": "ai_checked",
+      "confidence": 0.83
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "id": "utyum-2010-seventeen-coins-parity-test",
+  "title": "Выбранная монета среди 17 и четность равных пар",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Прибор сравнивает две монеты",
+        "text": "У Васи есть 17 одинаковых по внешнему виду монет, среди которых 8 фальшивых и 9 настоящих, причем фальшивые монеты весят одинаково и легче настоящих, которые тоже весят одинаково. Еще у Васи есть прибор, который по двум положенным в него монетам определяет, равны монеты по весу, или нет. Вася выбрал одну монету из 17. Как за 8 таких испытаний он может установить, является ли выбранная монета настоящей?",
+        "source_ids": ["src-utyum-official-local-archive"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-parity-of-equal-pairs",
+      "title": "Четность числа равных пар различает два случая",
+      "text": "После удаления выбранной монеты оставшиеся 16 монет можно разбить на 8 пар. Четность числа пар с равными весами зависит от того, была ли выбранная монета настоящей.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-pair-all-other-coins",
+      "title": "Разбить остальные монеты на пары",
+      "text": "Разобьем 16 невыбранных монет на 8 произвольных пар и сравним монеты внутри каждой пары. Если выбранная монета настоящая, среди оставшихся 8 настоящих и 8 фальшивых; тогда число пар из двух настоящих равно числу пар из двух фальшивых, поэтому общее число равных пар четно. Если выбранная монета фальшивая, среди оставшихся 9 настоящих и 7 фальшивых; тогда пар из двух настоящих на одну больше, чем пар из двух фальшивых, поэтому число равных пар нечетно. По четности числа ответов \"равны\" определяется тип выбранной монеты.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбранная монета настоящая или фальшивая при известных количествах 9 и 8",
+    "observations": ["8 бинарных результатов равны/не равны"],
+    "allowed_actions": ["сравнить две монеты прибором на равенство веса"],
+    "goal": ["identify_selected_coin_type"],
+    "strategy_type": ["nonadaptive_strategy", "parity"],
+    "lower_bound_method": [],
+    "keywords": ["coin_testing", "parity_of_pairs", "equal_weight_or_not"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 17,
+    "counterfeit_count": 8,
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 8,
+    "outcome_count_per_weighing": 2,
+    "adaptive": false,
+    "objective": "identify_selected_coin_type"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Необычная бинарная модель сравнения; решение держится на инварианте четности.",
+    "status": "ai_checked"
+  },
+  "tags": ["parity", "parity_code", "nonadaptive_strategy"],
+  "sources": [
+    {"source_id": "src-utyum-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "russian_young_batch",
+    "notes": ["Локальный источник: C:\\Users\\Admin\\Documents\\Codex\\graph-src\\utyum\\work\\utyum\\text\\2010\\tur3_36sol_extracted.txt, строки 78-79."]
+  }
+}

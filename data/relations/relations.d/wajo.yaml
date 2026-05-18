@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-wajo-both-knaves-to-truth-liar-universal",
+      "from": "wajo-2015-knaves-both-knaves",
+      "to": "truth-liar-universal-yes-no",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "WAJO-подпункт показывает базовое исключение невозможной правдивой самохарактеристики лжеца. После него естественно переходить к универсальному вопросу, где тот же принцип нормализации используется уже как инструмент получения полезного ответа.",
+      "backward_text": "Классическая задача с универсальным да/нет-вопросом сложнее: нужно заранее сконструировать вопрос, одинаково полезный при рыцаре и лжеце. WAJO-задача дает короткий подготовительный пример без конструирования вопроса.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-wajo-unheard-to-truth-liar-normalization",
+      "from": "wajo-2015-knaves-unheard-answer",
+      "to": "truth-liar-universal-yes-no",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах вопрос о собственном типе нормализуется: лжец не может правдиво назвать себя лжецом, поэтому ожидаемый ответ можно предсказать независимо от типа говорящего.",
+      "backward_text": "Универсальный вопрос применяет тот же механизм более абстрактно, а WAJO-задача делает его видимым через пересказ неуслышанного ответа.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-wajo-three-counts-to-mathcounts-island",
+      "from": "wajo-2015-knaves-three-counts",
+      "to": "mathcounts-2020-state-island-census-truth-liars",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе карточки решаются через самосогласованность численного утверждения о правдивых и лжецах: проверяется, какой счет делает ровно нужные фразы истинными.",
+      "backward_text": "MATHCOUNTS-вариант переносит идею с трех человек на перепись групп, поэтому WAJO-подпункт хорошо работает как маленькая модель того же механизма.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-wajo-chief-to-three-counts",
+      "from": "wajo-2015-knaves-chief-brothers",
+      "to": "wajo-2015-knaves-three-counts",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "В задаче про вождя скрытое состояние имеет две координаты: роль и тип. В задаче про трех островитян достаточно согласовать типы с числом лжецов.",
+      "backward_text": "Три утверждения о числе лжецов дают более чистую счетную модель. Задача про вождя показывает, как тот же перебор совместимости усложняется дополнительной скрытой ролью.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-wajo-numble-to-binary-search",
+      "from": "wajo-2022-numble-colour-responses",
+      "to": "twenty-questions-binary-search",
+      "type": "strategy_transfer",
+      "distance": 3,
+      "forward_text": "Numble тоже строит адаптивное дерево решений, но каждый ответ трехцветный и локальный по позициям, поэтому ветвление устроено богаче, чем в обычном бинарном поиске.",
+      "backward_text": "Бинарный поиск дает минимальную модель дерева решений и нижней оценки по числу листьев. Numble показывает, как та же идея работает для составных наблюдений и неодинаковых ветвей.",
+      "status": "needs_human_review",
+      "confidence": 0.72
+    }
+  ]
+}

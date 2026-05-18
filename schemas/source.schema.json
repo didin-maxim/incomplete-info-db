@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Source",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "title",
+    "url",
+    "browser_openable",
+    "official",
+    "status",
+    "language"
+  ]
+}

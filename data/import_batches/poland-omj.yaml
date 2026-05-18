@@ -1,0 +1,15 @@
+{
+  "id": "poland-omj",
+  "title": "Польские архивы OMJ/OMG: задачи про неполную информацию",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "poland-omg-2005-five-coins-48g-three-digital-weighings", "status": "added"},
+    {"problem_id": "poland-omj-seminar-two-spies-five-statements", "status": "added"}
+  ],
+  "source_notes": [
+    "Просмотрены официальный архив задач OMJ/OMG и PDF из разделов семинаров/методических материалов OMJ по ключам kłamie, prawdę, monety, ważenie, waży, wiedzą, odpowiedź, pytanie, rycerze/łotrzy.",
+    "Большинство совпадений отсеяны как обычные true/false тесты или задачи без неполной информации; добавлены только сюжеты с ложью или взвешиваниями.",
+    "Задача про 5 монет имеет официальный конкурсный источник OMG и повторяется в официальном семинаре OMJ; в карточке сохранены оба источника."
+  ]
+}

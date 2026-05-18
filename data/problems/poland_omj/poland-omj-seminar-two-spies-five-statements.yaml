@@ -1,0 +1,78 @@
+{
+  "id": "poland-omj-seminar-two-spies-five-statements",
+  "title": "Семинар OMJ: два шпиона среди пяти ответов детективу",
+  "fragment": "questions",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["truth_liar_reasoning", "logic_deduction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-omj-seminar-spies",
+        "title": "Пять друзей отвечают детективу",
+        "text": "Шесть друзей играют в детективов и шпионов. Один выбран детективом и ненадолго выходит из комнаты. Остальные пятеро выбирают среди себя двух шпионов. Шпионы всегда лгут, а все остальные всегда говорят правду. Детектив возвращается и слышит ответы: Аля (номер 1): \"Доминик - шпион\"; Бартек (номер 2): \"Целина не шпион\"; Целина (номер 4): \"Бартек точно не шпион\"; Доминик (номер 8): \"Эдек не шпион\"; Эдек (номер 16): \"Бартек - шпион\". Найдите сумму номеров шпионов.",
+        "source_ids": ["src-omj-seminar-casework-czyzewska"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-statement-about-role-gives-same-or-opposite",
+      "title": "Каждая реплика связывает роли двух людей",
+      "text": "Фраза вида \"X - шпион\" делает говорящего и X противоположными по типу, а фраза вида \"X не шпион\" делает их одинаковыми по типу. Поэтому ответы удобно читать как систему равенств и неравенств между ролями.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-role-equations",
+      "title": "Свести ответы к равенствам ролей",
+      "text": "Из слов Али следует, что Аля и Доминик имеют разные роли. Из ответов Бартека и Целины следует, что Бартек и Целина имеют одну роль. Из ответа Доминика следует, что Доминик и Эдек имеют одну роль, а из ответа Эдека - что Эдек и Бартек имеют разные роли. Если Бартек и Целина оба шпионы, то вместе с Алей получается уже три шпиона, что запрещено. Значит, Бартек и Целина говорят правду, а шпионы - Доминик и Эдек. Их номера дают сумму \\(8+16=24\\).",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбор двух шпионов из пяти отвечающих",
+    "observations": ["пять публичных утверждений о том, кто является или не является шпионом"],
+    "allowed_actions": ["проверять совместимость истинности утверждений с правилом: шпионы лгут, остальные говорят правду"],
+    "goal": ["identify_sum_of_spy_numbers", "identify_spies"],
+    "strategy_type": ["state_elimination", "truth_liar_constraints"],
+    "lower_bound_method": [],
+    "keywords": ["omj_seminar", "spies", "truth_liar", "role_constraints"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 10,
+    "question_count": 0,
+    "lies_allowed": "ровно два участника являются систематическими лжецами",
+    "adaptive": false,
+    "objective": "deduce_spies_from_public_statements"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Небольшая система ролей; ключевой шаг - заменить каждую реплику отношением одинаковости или противоположности.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-omj-seminar-casework-czyzewska", "role": "official_training_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Задача взята из официального семинара OMJ \"O rozważaniu przypadków\"; публичный текст дан русским пересказом."]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "id": "tot-2002-fall-junior-power-grid-connectivity-tests",
+  "title": "Tournament of the Towns 2002: доказать связность решетки минимальным числом тестов",
+  "fragment": "questions",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["certificate", "testing"]
+  },
+  "language": "en",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-tot-2002-fall-junior-a-7",
+        "title": "Technician tests connectivity in a lattice power grid",
+        "text": "A power grid has the shape of a \\(3\\times3\\) lattice with 16 nodes joined by wires along the sides of the squares. Some wires may have burned out. In one test, a technician chooses any pair of nodes and learns whether current circulates between them, that is, whether an intact path joins them. The technician already knows that current circulates from any node to any other node. What is the least number of tests required to demonstrate this? Answer the same question for a \\(5\\times5\\) lattice with 36 nodes.",
+        "source_ids": ["src-tot-2002-fall-junior-a-problems"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-connectivity-certificate-by-queries",
+      "title": "Связность как сертификат из ответов на запросы",
+      "text": "Скрытое состояние - множество перегоревших проводов, а тест раскрывает только связность двух узлов. Задача просит не найти все провода, а предъявить минимальный набор запросов, который доказывает глобальную связность.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-grid-connectivity-source-placeholder",
+      "title": "Нужна проверка официального решения",
+      "text": "Карточка зафиксирована как надежный lead из официального архива Tournament of the Towns. Перед публикацией требуется найти или восстановить официальное решение и минимальные числа тестов для решеток \\(3\\times3\\) и \\(5\\times5\\).",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "needs_human_review",
+      "definition_ids": []
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "подмножество исправных и перегоревших ребер решеточного графа",
+    "observations": ["ответы на запросы связности выбранных пар вершин"],
+    "allowed_actions": ["выбирать пары узлов для проверки электрической связности"],
+    "goal": ["certify_global_connectivity_with_minimal_tests"],
+    "strategy_type": ["query_certificate", "lower_bound"],
+    "lower_bound_method": ["connectivity_certificate"],
+    "keywords": ["tournament_of_towns_2002", "power_grid", "connectivity_queries"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["connected", "not_connected"],
+    "lie_count": 0,
+    "adaptive": false,
+    "objective": "certify_connectivity"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Junior A-Level; добавлена как неполная информация, но решение еще не верифицировано.",
+    "status": "needs_human_review"
+  },
+  "tags": ["decision_tree", "counting_lower_bound", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-tot-2002-fall-junior-a-problems", "role": "official_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "notes": ["Не входит в 5 надежных опубликованных карточек; оставлена как карточка-lead, потому что условие официальное, но решение нужно дополнительно поднять."]
+  }
+}

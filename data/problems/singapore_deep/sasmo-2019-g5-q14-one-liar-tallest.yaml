@@ -1,0 +1,61 @@
+{
+  "id": "sasmo-2019-g5-q14-one-liar-tallest",
+  "title": "SASMO 2019 G5 Q14: один лжец и самый высокий",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-sasmo-2019-g5-q14",
+        "title": "Четыре утверждения о самом высоком и самом низком",
+        "text": "Четверо друзей сделали заявления. Киран сказал: «Я не самый низкий». Франклин сказал: «Я не самый высокий и не самый низкий». Мэйбл сказала: «Я самая низкая». Джефф сказал: «Я самый высокий». Известно, что ровно один из них солгал. Кто самый высокий?",
+        "source_ids": ["src-simcc-sasmo-2019-2020-g5-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-single-liar-extreme-roles",
+      "title": "Кандидат на лжеца проверяется через крайние роли",
+      "text": "Если назначить ложь каждому участнику по очереди, истинные фразы остальных либо оставляют возможного самого высокого, либо приводят к противоречию с существованием самого высокого или самого низкого.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-test-four-liar-candidates",
+      "title": "Перебрать, кто мог быть единственным лжецом",
+      "text": "Если солгал Киран, то он был бы самым низким, но фраза Мэйбл «я самая низкая» тогда тоже была бы истинной только для Мэйбл; два разных человека не могут быть единственными самыми низкими, значит Киран не лгал. Если солгал Франклин, то истинные фразы Мэйбл и Джеффа уже задают самого низкого и самого высокого, а Франклин действительно не крайний, поэтому его фраза не была бы ложной.\n\nЕсли солгала Мэйбл, то истинные фразы Кирана и Франклина вместе с ложностью фразы Мэйбл не оставляют согласованного единственного самого низкого. Значит, Мэйбл тоже не лгала. Остается Джефф: его фраза «я самый высокий» ложна, а истинные фразы Мэйбл и Франклина исключают их из роли самого высокого; Киран не самый низкий и может быть самым высоким. Следовательно, самый высокий - Киран.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "порядок роста четырех друзей и то, чье заявление ложно",
+    "observations": ["четыре публичных утверждения о крайних местах роста", "ровно одно утверждение ложно"],
+    "allowed_actions": ["проверять совместимость кандидата на роль лжеца с уникальными крайними ролями"],
+    "goal": ["identify_tallest_person"],
+    "strategy_type": ["state_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["sasmo_2019", "single_liar", "tallest_shortest", "truth_statements"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "ровно одно из четырех заявлений ложно",
+    "adaptive": false,
+    "objective": "deduce_tallest_person"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткая проверка четырех кандидатов на роль единственного лжеца.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination"],
+  "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g5-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски.", "Добавлено после дубль-чека: это не дубль SASMO G6 marathon, но использует тот же прием единственного лжеца на другой модели крайних ролей."]}
+}

@@ -1,0 +1,122 @@
+{
+  "id": "uct-2015-digits-composite-after-six-deletions",
+  "title": "UCT Olympiad 2015: порядок цифр, устойчивый к удалению шести цифр",
+  "fragment": "communication",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "encoding",
+      "robust_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-uct-2015-digits-composite",
+        "title": "Любые четыре оставшиеся цифры дают составное число",
+        "text": "Нужно расположить десять цифр 0, 1, 2, ..., 9 в ряд так, чтобы после удаления любых шести цифр оставшиеся четыре цифры, записанные в прежнем порядке, образовывали составное число.",
+        "source_ids": [
+          "src-uct-2015-olympiad-senior-solutions"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-protect-one-exceptional-subsequence",
+      "title": "Нужно контролировать единственный опасный случай",
+      "text": "Если первые четыре цифры образуют составное число, а все остальные цифры делают последнюю цифру оставшегося числа четной, равной 0 или равной 5, то любой выбор с хотя бы одной поздней цифрой автоматически дает составное число.",
+      "standard_idea_ids": [
+        "error_correcting_code"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-place-1397-first",
+      "title": "Поставить в начало составное число из нечетных цифр",
+      "text": "Один работающий порядок начинается с цифр 1, 3, 9, 7, после чего идут остальные шесть цифр в любом порядке, например 0, 2, 4, 5, 6, 8. Если удалены ровно последние шесть цифр, остается 1397, а это \\(11\\cdot127\\), то есть составное число. Во всех остальных случаях среди оставшихся четырех цифр есть хотя бы одна из последних шести; последняя оставшаяся из них стоит правее первых четырех и равна 0, 5 или четной цифре, поэтому полученное четырехзначное число делится на 2 или 5.",
+      "standard_idea_ids": [
+        "error_correcting_code"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "state_space"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какие шесть из десяти позиций будут удалены",
+    "observations": [
+      "оставшаяся подпоследовательность из четырех цифр"
+    ],
+    "allowed_actions": [
+      "заранее выбрать порядок десяти цифр"
+    ],
+    "goal": [
+      "guarantee_composite_number_after_any_deletion"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "robust_encoding"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "uct_2015",
+      "digits",
+      "cards",
+      "strategy",
+      "erasure",
+      "composite"
+    ],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "agents": [
+      "arranger",
+      "deleter"
+    ],
+    "public_announcements": [],
+    "message": "порядок десяти цифр задает защиту от любого удаления шести позиций",
+    "objective": "guarantee_property_for_all_hidden_deletions",
+    "strategy_type": "erasure_robust_ordering"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Трудность в том, чтобы свести все удаления к одному исключительному случаю.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "nonadaptive_strategy",
+    "error_correcting_code",
+    "structural_constraint"
+  ],
+  "sources": [
+    {
+      "source_id": "src-uct-2015-olympiad-senior-solutions",
+      "role": "official_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "south_africa_batch",
+    "notes": [
+      "В UCT 2015 эта задача есть и в junior paper; карточка привязана к senior solutions, где приведен полный разбор."
+    ]
+  }
+}

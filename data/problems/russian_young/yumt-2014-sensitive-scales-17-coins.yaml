@@ -1,0 +1,80 @@
+{
+  "id": "yumt-2014-sensitive-scales-17-coins",
+  "title": "Две соседние легкие монеты среди 17 на нежных весах",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Нежные весы ломаются при большой разности",
+        "text": "По кругу лежит 17 одинаковых на вид монет, из которых две лежащие рядом - фальшивые. Все настоящие монеты весят одинаково, и обе фальшивые монеты весят одинаково и при этом легче настоящих на 1 грамм. Имеются нежные весы: это чашечные весы, которые ломаются, если разность весов на чашах больше 1 грамма; при этом, однако, весы показывают, какая чаша перевесила. Как за два взвешивания на нежных весах без гирь найти обе фальшивые монеты?",
+        "source_ids": ["src-yumt-official-local-archive"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-five-way-first-split",
+      "title": "Первое взвешивание дает пять полезных случаев",
+      "text": "Нежные весы дают больше информации, чем обычные: кроме равновесия и перевеса, отдельным исходом является поломка с указанием стороны. Первое взвешивание разбивает 17 соседних пар на найденные пары и три блока по шесть последовательных монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-official-two-weighings",
+      "title": "Сначала выделить блок из шести, затем решить малую задачу",
+      "text": "Пронумеруем монеты по кругу от 1 до 17. Первым взвешиванием положим на одну чашу монеты \\(1,2,4,6,14,16\\), а на другую \\(3,5,7,8,10,12\\). Если весы сломались, фальшивая пара уже найдена: это \\((1,2)\\) или \\((7,8)\\), в зависимости от того, какая чаша легче. Если равновесие, кандидаты лежат среди шести последовательных монет 2-7; если первая чаша легче, среди 13,14,15,16,17,1; если вторая легче, среди 8-13. Остается найти соседнюю легкую пару среди шести последовательных монет. Для этого перенумеруем кандидатов 1-6 и взвесим \\(1,2\\) против \\(5,6\\). Поломка сразу указывает на пару \\((1,2)\\) или \\((5,6)\\); равновесие дает \\((3,4)\\); если первая чаша легче, пара \\((2,3)\\); если вторая легче, пара \\((4,5)\\).",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "17 возможных соседних пар фальшивых легких монет на цикле",
+    "observations": ["равновесие", "перевес без поломки", "поломка с указанием стороны"],
+    "allowed_actions": ["выбрать равные по числу группы монет для нежных весов"],
+    "goal": ["identify_counterfeit_pair"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["sensitive_scale", "adjacent_counterfeits", "five_outcomes"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 17,
+    "counterfeit_count": 2,
+    "counterfeit_type": "two_adjacent_lighter_known",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 5,
+    "adaptive": true,
+    "objective": "identify_counterfeit_pair"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Нестандартная модель весов; стратегия использует поломку как дополнительный исход.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-yumt-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "russian_young_batch",
+    "notes": ["Локальный источник: C:\\Users\\Admin\\Documents\\Codex\\graph-src\\yumt\\work\\yumt\\text\\2014\\3turstartresh.txt, строки 76-99."]
+  }
+}

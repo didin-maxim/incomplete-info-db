@@ -1,0 +1,61 @@
+{
+  "id": "ukmt-jmc-2015-q17-knaves-truth-chain",
+  "title": "UKMT JMC 2015 Q17: цепочка высказываний валетов",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-ukmt-jmc-2015-q17",
+        "title": "Сколько валетов сказали правду",
+        "text": "Валет червей сказал: «Я украл пироги». Валет треф сказал: «Валет червей лжет». Валет бубен сказал: «Валет треф лжет». Валет пик сказал: «Валет бубен лжет». Сколько из четырех валетов сказали правду?",
+        "source_ids": ["src-ukmt-jmc-2015-sol-extended"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-chain-flips-truth-value",
+      "title": "Каждая следующая реплика меняет истинность предыдущей",
+      "text": "После выбора истинности первой фразы вся цепочка уже вынуждена: утверждение «предыдущий лжет» имеет противоположное значение к предыдущему высказыванию.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-cases-for-first-knave",
+      "title": "Разобрать два случая для первой фразы",
+      "text": "Если валет червей действительно украл пироги, его фраза истинна; тогда валет треф лжет, валет бубен говорит правду, а валет пик лжет. Если валет червей не украл пироги, первая фраза ложна; тогда валет треф говорит правду, валет бубен лжет, а валет пик говорит правду. В обоих случаях истинны ровно две фразы, хотя сам факт кражи не определяется.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "украл ли валет червей пироги",
+    "observations": ["четыре публичные фразы, образующие цепочку отрицаний"],
+    "allowed_actions": ["логически проверять совместимость двух возможных состояний"],
+    "goal": ["identify_number_of_true_statements"],
+    "strategy_type": ["state_elimination", "structural_constraint"],
+    "lower_bound_method": [],
+    "keywords": ["ukmt_jmc_2015", "knaves", "truth_chain"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "истинность фраз определяется скрытым фактом и ссылками на предыдущие фразы",
+    "adaptive": false,
+    "objective": "deduce_number_of_true_statements"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткая цепочка отрицаний с двумя возможными начальными состояниями.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-ukmt-jmc-2015-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие и решение взяты из расширенных решений UKMT JMC 2015, вопрос 17; текст карточки дан русским пересказом."]}
+}

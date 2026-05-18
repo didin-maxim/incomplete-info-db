@@ -1,0 +1,69 @@
+{
+  "id": "three-wise-men-hats",
+  "title": "Три мудреца и шляпы одного цвета",
+  "fragment": "wise_people",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["knowledge_puzzle"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Красные и белые шляпы",
+        "text": "Трем мудрецам надели по шляпе. Каждый видит шляпы двух других, но не свою. Известно, что использованы только красные и белые шляпы, и что красных шляп не меньше одной. Мудрецов по очереди спрашивают, знает ли каждый цвет своей шляпы. Первые два отвечают, что не знают. При каких наблюдениях третий может узнать цвет своей шляпы?",
+        "source_ids": ["src-common-knowledge-puzzles"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "needs_human_review", "review_notes": "Условие является одной из многих версий задачи о шляпах; нужна фиксация точной версии перед повышением статуса."},
+        "definition_ids": ["common_knowledge"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-answers-as-public-information",
+      "title": "Ответы предыдущих мудрецов становятся информацией",
+      "text": "Каждый отказ от ответа исключает те состояния, в которых отвечающий уже мог бы однозначно определить свою шляпу.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "цвета трех шляп при публичном ограничении",
+    "observations": ["цвета шляп других мудрецов", "предыдущие ответы"],
+    "allowed_actions": ["ответить знаю/не знаю и при знании назвать цвет"],
+    "goal": ["identify_own_state"],
+    "strategy_type": ["knowledge_elimination"],
+    "lower_bound_method": ["indistinguishable_worlds"],
+    "keywords": ["hat_puzzle", "sequential_answers"],
+    "status": "needs_human_review"
+  },
+  "knowledge_profile": {
+    "agents": 3,
+    "public_announcements": "initial condition and previous answers",
+    "communication_rounds": 3,
+    "visibility": "each agent sees the other two hats",
+    "objective": "determine own hat color"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Карточка-заготовка для семейства задач о шляпах.",
+    "status": "needs_human_review"
+  },
+  "tags": ["hat_puzzle", "common_knowledge", "public_announcement"],
+  "sources": [
+    {"source_id": "src-common-knowledge-puzzles", "role": "folklore_family", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "seed_links",
+    "notes": ["Нужна нормализация конкретной версии; пока карточка показывает место для задач о шляпах."]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "id": "lktg-2008-broken-balances-ternary-lower-bound",
+  "title": "LKTG-2008: почему с одними сломанными весами нельзя найти монету из 3^k за k взвешиваний",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "fault_tolerance"]
+  },
+  "language": "en",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-5b",
+        "title": "No k-weighing strategy with one broken balance",
+        "text": "There are \\(3^k\\) coins, one of which is false and lighter than the others. Any number of balances is available, but one of them is broken and may answer arbitrarily. Prove that it is impossible to find the false coin in \\(k\\) weighings.",
+        "source_ids": ["src-lktg-2008-broken-balances-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-test-can-be-worthless",
+      "title": "Первое сообщение может полностью принадлежать неисправному прибору",
+      "text": "Если очередное взвешивание сделано на сломанном приборе, противник может выбрать ответ, сохраняющий много кандидатов. Поэтому обычная оценка \\(3^k\\) листьев недостаточна: нужно платить за неизвестную надежность канала.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-broken-balance-k-weighing-lower-bound",
+      "title": "Противник сохраняет не меньше трети кандидатов",
+      "text": "После каждого взвешивания для любой конкретной монеты существует хотя бы один ответ весов, при котором эта монета остается возможной фальшивой: если ответ неудобен, можно считать использованные весы сломанными. Следовательно, найдется ответ, который отсекает не более двух третей текущих кандидатов и оставляет не меньше трети.\n\nПервое взвешивание в худшем случае вообще не дает надежной информации, потому что могло быть сделано на сломанном приборе. После \\(k\\) взвешиваний у противника остается не меньше \\(3^k/3^{k-1}=3\\) возможных монет, значит единственная фальшивая монета не определена.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "фальшивая монета и неизвестный сломанный прибор",
+    "observations": ["до k трехисходных ответов, один источник может быть произвольным"],
+    "allowed_actions": ["использовать любые весы и любые сравнения"],
+    "goal": ["prove_no_strategy_identifies_false_coin"],
+    "strategy_type": ["adversary_argument", "decision_tree_lower_bound"],
+    "lower_bound_method": ["adversary_preserves_candidates", "faulty_channel"],
+    "keywords": ["broken_balance", "lower_bound", "lktg_2008", "ternary"],
+    "status": "ai_checked"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Короткая, но концептуальная нижняя оценка для задач с ненадежными измерителями.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "counting_lower_bound", "decision_tree_lower_bound", "ternary_code"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Карточка вынесена как чистый пример нижней оценки для неполной информации с одним ненадежным каналом."]
+  }
+}

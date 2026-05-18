@@ -1,0 +1,17 @@
+{
+  "id": "kvantik-2016-window-two-truths",
+  "title": "Квантик-2016: разбитое окно и два правдивых ответа",
+  "fragment": "questions",
+  "kind": {"primary": "journal_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-original", "title": "Сказал ли Дима правду", "text": "Когда Петя, Коля, Вася и Дима играли в мяч, один из ребят разбил окно. На вопрос «Кто разбил окно?» все, кроме Димы, ответили «Не я», а Дима ответил «Не знаю». Оказалось, что двое мальчиков сказали правду, а двое соврали. Сказал ли Дима правду?", "source_ids": ["src-kvantik-math-contest-2016"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["hidden_state", "truth_value"]}]},
+  "ideas": [{"id": "idea-count-truths-among-denials", "title": "Посчитать правдивые отрицания", "text": "Если окно разбил не Дима, то среди трех ответов «Не я» ровно два правдивы. Значит, чтобы всего правдивых ответов было два, ответ Димы должен быть ложным.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-eliminate-dima-truth", "title": "Разобрать, кто мог разбить окно", "text": "Если окно разбил Дима, то Петя, Коля и Вася все сказали правду: каждый из них действительно не разбивал окно. Тогда уже есть три правдивых ответа, что противоречит условию.\n\nЗначит, окно разбил кто-то из Пети, Коли и Васи. Среди их трех ответов «Не я» один ложный и два правдивых. По условию всего правдивых ответов ровно два, поэтому ответ Димы «Не знаю» был ложным.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["truth_value"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "кто из четырех мальчиков разбил окно и какие ответы истинны", "observations": ["четыре публичных ответа и общее число правдивых ответов"], "allowed_actions": ["логически сопоставлять возможного виновника с истинностью ответов"], "goal": ["determine_whether_dima_told_truth"], "strategy_type": ["truth_value_counting"], "lower_bound_method": [], "keywords": ["truth_count", "culprit_identification", "public_statements"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 4, "lies_allowed": "exactly two false statements among four", "adaptive": false, "objective": "determine_truth_value_of_one_statement"},
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткое исключение случая с тремя правдивыми отрицаниями.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination"],
+  "sources": [{"source_id": "src-kvantik-math-contest-2016", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2016 года, задача 11. На странице конкурса дано условие; решение восстановлено редакционно."]}
+}

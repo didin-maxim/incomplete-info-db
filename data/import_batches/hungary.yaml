@@ -1,0 +1,17 @@
+{
+  "id": "hungary",
+  "title": "Hungarian KöMaL: задачи про неполную информацию",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "komal-2010-a512-nonadaptive-counterfeit-code", "status": "added"},
+    {"problem_id": "komal-2011-a542-thousand-coins-hundred-fakes", "status": "added"},
+    {"problem_id": "komal-2016-k517-normalia-truth-alternators", "status": "added"},
+    {"problem_id": "komal-2020-k664-six-coins-two-light", "status": "added"},
+    {"problem_id": "komal-2023-k749-aladdin-abu-lying-coin", "status": "added"}
+  ],
+  "source_notes": [
+    "Использованы официальные страницы архива KöMaL с английскими условиями; часть решений опубликована на тех же страницах только по-венгерски.",
+    "Перед добавлением проверены близкие карточки по фальшивым монетам, групповым тестам и правдивцам/лжецам; прямые сюжетные дубли не добавлялись."
+  ]
+}

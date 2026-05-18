@@ -1,0 +1,81 @@
+{
+  "id": "mmo-2006-nine-circle-coins-four-fakes",
+  "title": "ММО-2006: четыре тяжелые фальшивые монеты на круге из девяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mmo-2006-8-4",
+        "title": "Девять монет по кругу, фальшивые не соседствуют",
+        "text": "Девять одинаковых по виду монет расположены по кругу. Пять из них настоящие, а четыре фальшивые. Никакие две фальшивые монеты не лежат рядом. Настоящие монеты весят одинаково, фальшивые тоже одинаково, и фальшивая монета тяжелее настоящей. Как за два взвешивания на чашечных весах без гирь определить все фальшивые монеты?",
+        "source_ids": ["src-mmo-2006-69-brochure", "src-problems-ru-105200"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-find-two-adjacent-real",
+      "title": "Достаточно найти две соседние настоящие монеты",
+      "text": "При четырех несоседних фальшивых монетах на цикле из девяти единственная пара соседних настоящих монет задает всю чередующуюся картину остальных монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-groups-second-official",
+      "title": "Группы 147, 258, 369",
+      "text": "Пронумеруем монеты по кругу от 1 до 9. Разобьем их на группы \\(147\\), \\(258\\), \\(369\\). В двух группах находится по одной фальшивой монете, а в одной группе - две. Сначала сравним группы \\(147\\) и \\(258\\). Если одна из них тяжелее, то именно в ней две фальшивые; если равны, то две фальшивые в группе \\(369\\).\n\nПусть найдена группа из трех монет, где две фальшивые. Вторым взвешиванием сравним две монеты этой группы. Если одна легче, она настоящая, а две другие фальшивые. Если они равны, то обе сравниваемые фальшивые. После определения двух фальшивых монет в этой группе две монеты, лежащие между ними на круге, являются соседними настоящими; по чередованию вокруг круга восстанавливаются все четыре фальшивые монеты.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных положений единственной пары соседних настоящих монет",
+    "observations": ["два трехисходных результата чашечных весов"],
+    "allowed_actions": ["сравнивать равные по числу группы монет"],
+    "goal": ["identify_all_counterfeit_coins"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition", "symmetry"],
+    "lower_bound_method": [],
+    "keywords": ["mmo_2006", "circle_coins", "nonadjacent_fakes"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 4,
+    "counterfeit_type": "heavier_known_with_nonadjacency_constraint",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_all_counterfeit_coins"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "8 класс ММО; задача держится на сильном структурном ограничении скрытого состояния.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "structural_constraint", "symmetry_breaking"],
+  "sources": [
+    {"source_id": "src-mmo-2006-69-brochure", "role": "official_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-problems-ru-105200", "role": "web_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Записан второй способ из официального разбора, без опоры на рисунки.", "problems.ru 105200 добавлен как совпадающий источник той же задачи и того же второго способа решения."]
+  }
+}

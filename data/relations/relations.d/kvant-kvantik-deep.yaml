@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-kvantik-baron-verification-to-sign-only",
+      "from": "kvantik-2016-baron-table-fake-verification",
+      "to": "kvantik-2013-fake-coin-direction-101",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В задаче про барона нужно проверить, находится ли фальшивая монета среди доступных, а не найти ее и не определить знак; поэтому четность числа доступных монет становится решающей.",
+      "backward_text": "Квантик-2013 также ослабляет классическую цель поиска, но там требуется определить знак фальшивой монеты, используя эталонную настоящую монету после первого взвешивания.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-kvantik-3x3-line-to-circle-heavy",
+      "from": "kvantik-2021-three-by-three-fake-line-one-weighing",
+      "to": "kvant-2002-05-eight-circle-three-heavy",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют структурное ограничение на множество фальшивых монет: вместо произвольного подмножества нужно различать небольшое число строк, диагоналей или соседних блоков.",
+      "backward_text": "Квантовская круговая задача полностью находит блок за два взвешивания, а задача Квантика за одно взвешивание находит только гарантированную фальшивую монету.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-kvantik-divisibility-to-kvant-duma",
+      "from": "kvantik-2016-divisibility-knights-liars",
+      "to": "kvant-2000-duma-knights-liars-removal",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "В обеих задачах лжецы не являются шумом: их систематическое отрицание превращается в счетные ограничения на скрытое множество типов.",
+      "backward_text": "Квантовская задача дает две неравенства из одной фразы каждого депутата, а задача Квантика использует три независимых счетчика ответов на вопросы о делимости.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-kvantik-two-digit-to-three-cards",
+      "from": "kvantik-2025-two-digit-three-public-questions",
+      "to": "kvantik-2013-three-cards-one-question",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "В обеих задачах ответ «не знаю» несет полезную информацию; в двузначной задаче он появляется после публичного сужения множества возможностей двумя участниками.",
+      "backward_text": "Задача с тремя карточками является минимальным примером, где «не знаю» используется как третий символ ответа без многораундового обновления знания.",
+      "status": "ai_checked",
+      "confidence": 0.83
+    },
+    {
+      "id": "rel-kvant-duma-to-truth-liar-universal",
+      "from": "kvant-2000-duma-knights-liars-removal",
+      "to": "truth-liar-universal-yes-no",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В думской задаче не нужно конструировать нормализующий вопрос: все участники произносят одну фразу, а тип говорящего выбирает истинное или ложное неравенство.",
+      "backward_text": "Классическая задача с одним вопросом показывает активную нормализацию ответа правдивца и лжеца; квантовская задача использует пассивное сопоставление уже сказанной фразы с типом участника.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    }
+  ]
+}

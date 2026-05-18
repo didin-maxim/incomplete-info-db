@@ -1,0 +1,62 @@
+{
+  "id": "cemc-2025-pascal-three-question-quiz",
+  "title": "CEMC Pascal 2025: скрытые правильные ответы теста",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_puzzle"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-pascal-2025-q15",
+        "title": "Три ученика, три вопроса, у каждого ровно две верные ответы",
+        "text": "Три ученика написали тест из трех вопросов. Учитель записал их ответы. Ученик A ответил: \\(15,36,24\\). Ученик B ответил: \\(20,38,24\\). Ученик C ответил: \\(15,54,24\\). Каждый ученик ответил ровно на два вопроса правильно. Чему равна сумма правильных ответов на три вопроса?",
+        "source_ids": ["src-cemc-2025-pascal-contest"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-wrong-answer-per-student",
+      "title": "Ровно одна ошибка у каждого исключает невозможные ключи",
+      "text": "Скрытое состояние - тройка правильных ответов. Условие \"у каждого ровно два правильных\" означает \"у каждого ровно одна ошибка\", и это жестко связывает столбцы таблицы.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-eliminate-wrong-third-and-first",
+      "title": "Сначала зафиксировать общий третий ответ",
+      "text": "Если третий правильный ответ не равен 24, то все три ученика ошиблись в третьем вопросе. Тогда, поскольку у каждого ровно одна ошибка, все трое должны были бы правильно ответить на второй вопрос. Но во втором вопросе их ответы разные: 36, 38 и 54. Это невозможно. Значит, третий правильный ответ равен 24.\n\nТеперь предположим, что первый правильный ответ не равен 15. Тогда ученики A и C ошиблись бы в первом вопросе, а значит оба должны были бы правильно ответить на второй. Но у них во втором вопросе разные ответы, 36 и 54. Это невозможно. Значит, первый правильный ответ равен 15.\n\nУченик B ошибся в первом вопросе, поэтому его ответы на второй и третий вопросы верны. Второй правильный ответ равен 38. Сумма правильных ответов: \\(15+38+24=77\\).",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тройка правильных ответов на вопросы теста",
+    "observations": ["таблица ответов трех учеников", "каждый ученик имеет ровно два правильных ответа"],
+    "allowed_actions": ["исключать варианты ключа, нарушающие число ошибок"],
+    "goal": ["determine_sum_of_correct_answers"],
+    "strategy_type": ["knowledge_elimination", "consistency_check"],
+    "lower_bound_method": [],
+    "keywords": ["pascal_2025", "quiz_answers", "hidden_answer_key"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["integer_answer_key"],
+    "adaptive": false,
+    "objective": "recover_hidden_answer_key_sum"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно аккуратно использовать ровно одну ошибку у каждого ученика.", "status": "ai_checked"},
+  "tags": ["knowledge_elimination", "structural_constraint", "decision_tree"],
+  "sources": [
+    {"source_id": "src-cemc-2025-pascal-contest", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-cemc-2025-pascal-solution", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "new_links", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как обычная задача на согласование таблицы ответов; она может остаться lead-карточкой, но не должна расширять ядро базы до всех задач на скрытые значения."]}
+}

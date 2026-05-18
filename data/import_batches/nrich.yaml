@@ -1,0 +1,18 @@
+{
+  "id": "nrich",
+  "title": "NRICH-задачи про неполную информацию, взвешивания и лжецов",
+  "created_at": "2026-05-17",
+  "status": "draft",
+  "items": [
+    {"problem_id": "nrich-knights-and-knaves-queue", "status": "needs_human_review"},
+    {"problem_id": "counterfeit-stack-one-weighing", "status": "merged_into_existing", "source_problem_id": "nrich-money-measure-one-weighing"},
+    {"problem_id": "nrich-spot-the-fake-two-weighings", "status": "needs_human_review"},
+    {"problem_id": "nrich-nine-weights-two-three-weighings", "status": "needs_human_review"},
+    {"problem_id": "counterfeit-12-coins-3-weighings", "status": "merged_into_existing", "source_problem_id": "nrich-great-weights-puzzle-12"},
+    {"problem_id": "nrich-balance-power-balanced-ternary", "status": "needs_human_review"}
+  ],
+  "source_notes": [
+    "Отобраны только NRICH-задачи, где есть скрытое состояние, взвешивание, ложь/истина или кодирование измерений.",
+    "Решения NRICH часто представлены как ученические или как педагогический набросок, поэтому новые карточки помечены needs_human_review."
+  ]
+}

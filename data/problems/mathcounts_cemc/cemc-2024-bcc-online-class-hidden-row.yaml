@@ -1,0 +1,59 @@
+{
+  "id": "cemc-2024-bcc-online-class-hidden-row",
+  "title": "CEMC Beaver 2024: восстановить ряд учеников по соседям",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_puzzle"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-bcc-2024-online-class",
+        "title": "Экран показывает соседей каждого ученика",
+        "text": "Девять учеников сидят в библиотеке в один ряд, а учитель видит онлайн-урок со своего ноутбука. Для каждого ученика на экране указано, кто сидит справа и кто слева. Даны пары соседей: у Elke справа James и слева Diana; у Maya справа Raul и слева никого; у Busara справа Hannah и слева Anichka; у Lee справа Diana и слева Hannah; у Raul справа Anichka и слева Maya; у Hannah справа Lee и слева Busara; у Diana справа Elke и слева Lee; у Anichka справа Busara и слева Raul; у James справа никого и слева Elke. Кто сидит в середине ряда, то есть на пятом месте?",
+        "source_ids": ["src-cemc-2024-bcc-7-8-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-neighbor-links-form-chain",
+      "title": "Соседские сведения задают скрытую цепочку",
+      "text": "Состояние - полный порядок учеников. Записи о левом и правом соседе являются локальными наблюдениями; если начать с края, где один сосед отсутствует, цепочка восстанавливается однозначно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-chain-from-left-end",
+      "title": "Начать с ученика без левого соседа",
+      "text": "У Maya слева никого, значит она сидит первой слева. Справа от Maya сидит Raul; справа от Raul - Anichka; справа от Anichka - Busara; справа от Busara - Hannah; справа от Hannah - Lee; справа от Lee - Diana; справа от Diana - Elke; справа от Elke - James. Получаем ряд: Maya, Raul, Anichka, Busara, Hannah, Lee, Diana, Elke, James. Пятый ученик - Hannah.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "полный порядок девяти учеников в ряду",
+    "observations": ["для каждого ученика известны ближайшие соседи слева и справа"],
+    "allowed_actions": ["соединять локальные сведения в одну цепочку"],
+    "goal": ["identify_middle_student"],
+    "strategy_type": ["constraint_propagation", "chain_reconstruction"],
+    "lower_bound_method": [],
+    "keywords": ["beaver_2024", "online_class", "hidden_order", "neighbors"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["student_name"],
+    "adaptive": false,
+    "objective": "determine_middle_position"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Восстановление цепочки из локальных наблюдений.", "status": "ai_checked"},
+  "tags": ["knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-cemc-2024-bcc-7-8-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "new_links", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как обычное восстановление цепочки по полной таблице соседей; неполная информация здесь слишком близка к общей задаче на ограничения, без проектирования стратегии запросов или кодирования."]}
+}

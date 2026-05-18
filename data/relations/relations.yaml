@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "id": "rel-9coins-4coins-decision-tree-lower-bound",
+      "from": "heavier-9-coins-2-weighings",
+      "to": "heavier-4-coins-one-weighing-impossible",
+      "type": "lower_bound_analogy",
+      "distance": 1,
+      "forward_text": "Задача про 9 монет использует тот же подсчет листьев дерева решений: одно взвешивание дает 3 исхода, два - 9 исходов.",
+      "backward_text": "Невозможность для 4 монет за одно взвешивание является минимальным примером той же информационной нижней оценки, которая объясняет оптимальность двух взвешиваний для 9 монет.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-12coins-9coins-ternary-partition",
+      "from": "counterfeit-12-coins-3-weighings",
+      "to": "heavier-9-coins-2-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах исходы чашечных весов рассматриваются как тернарные наблюдения, которые должны разделить пространство скрытых состояний.",
+      "backward_text": "Задача про 9 монет является чистой вводной версией тернарного разбиения, без дополнительного знака \"легче или тяжелее\".",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-questions-weighings-decision-tree",
+      "from": "twenty-questions-binary-search",
+      "to": "heavier-9-coins-2-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи строят адаптивное дерево решений и выбирают вопросы или взвешивания так, чтобы почти равномерно делить пространство состояний.",
+      "backward_text": "Взвешивание 3 против 3 - тернарный аналог бинарного вопроса: один ход дает несколько ветвей дерева решений.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-one-lie-card-trick-encoding",
+      "from": "one-lie-questions-coding-bound",
+      "to": "fitch-cheney-five-card-trick",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "В обеих карточках скрытое состояние восстанавливается из закодированного сообщения; различие в том, что при лжи нужен избыточный код, а в карточном фокусе используется порядок карт как безошибочный канал.",
+      "backward_text": "Фокус Фитча-Чейни показывает чистое кодирование без ошибок, а задача с одной ложью добавляет требование разделять еще и соседние ошибочные наблюдения.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-muddy-hats-public-answers",
+      "from": "muddy-children-common-knowledge",
+      "to": "three-wise-men-hats",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах отсутствие знания у других участников становится новым публичным фактом и исключает часть возможных миров.",
+      "backward_text": "Задача о шляпах является малым примером последовательного исключения состояний по публичным ответам, тогда как грязные дети дают чистую индукционную форму.",
+      "status": "needs_human_review",
+      "confidence": 0.74
+    },
+    {
+      "id": "rel-muddy-questions-decision-tree-contrast",
+      "from": "muddy-children-common-knowledge",
+      "to": "twenty-questions-binary-search",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В задаче о грязных детях информация возникает не из выбранных вопросов, а из публичного молчания, хотя оба процесса можно видеть как постепенное удаление возможных состояний.",
+      "backward_text": "Бинарный поиск активно выбирает разбиение пространства состояний, в отличие от задач общего знания, где структура наблюдений фиксирована заранее.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    }
+  ]
+}

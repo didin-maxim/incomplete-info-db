@@ -1,0 +1,48 @@
+{
+  "relations": [
+    {
+      "id": "rel-mmo2026-12coins-decision-tree",
+      "from": "mmo-2026-row-of-12-fakes-110-genuine",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "В обеих задачах оптимальность объясняется числом листьев дерева решений для последовательности исходов чашечных весов.",
+      "backward_text": "Классическая задача о 12 монетах дает базовую тернарную нижнюю оценку; задача ММО-2026 применяет тот же счет к гипотезам о строках и столбцах.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-mmo2006-9coins-12coins-partition",
+      "from": "mmo-2006-nine-circle-coins-four-fakes",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи выбирают взвешивания так, чтобы результат оставлял малый список совместимых скрытых состояний, после чего симметрия добивает случаи.",
+      "backward_text": "В задаче о 12 монетах скрытое состояние свободнее, а ММО-2006 показывает тот же механизм на сильно ограниченном циклическом пространстве состояний.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-tot2005-mmo2022-linear-weighing-code",
+      "from": "tournament-towns-2005-six-coins-pointer-scale",
+      "to": "mmo-2022-two-traders-six-coins-four-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе стратегии кодируют скрытые веса через несколько пересекающихся измерений и затем различают случаи по равенствам и линейным соотношениям.",
+      "backward_text": "ММО-2022 использует только сравнения чаш, но идея та же: пересекающиеся тесты превращают неизвестные веса в различимые подписи.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-mmo2000-fitch-card-encoding",
+      "from": "mmo-2000-seven-cards-public-communication",
+      "to": "fitch-cheney-five-card-trick",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе карточки используют карты как скрытое состояние и передают информацию через ограниченный публичный канал; в ММО-2000 добавлено требование приватности для наблюдателя.",
+      "backward_text": "Фокус Фитча-Чейни является чистым каналом передачи карты, а задача ММО-2000 показывает близкое кодирование с дополнительным ограничением не раскрывать карту третьему лицу.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    }
+  ]
+}

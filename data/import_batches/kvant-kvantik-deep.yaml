@@ -1,0 +1,17 @@
+{
+  "id": "kvant-kvantik-deep",
+  "title": "Углубленный проход по архивам «Квантика» и «Кванта» для младших школьников",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "kvantik-2016-baron-table-fake-verification", "status": "added"},
+    {"problem_id": "kvantik-2016-divisibility-knights-liars", "status": "added"},
+    {"problem_id": "kvantik-2021-three-by-three-fake-line-one-weighing", "status": "added"},
+    {"problem_id": "kvantik-2025-two-digit-three-public-questions", "status": "added"},
+    {"problem_id": "kvant-2000-duma-knights-liars-removal", "status": "added"}
+  ],
+  "notes": [
+    "Перед добавлением выполнен обязательный rg по ключевым словам и просмотрены разделы kvant, kvantik, classical, classical_more, weighings, questions, card_tricks, wise_people.",
+    "Классические и уже внесенные сюжеты не дублировались; близость зафиксирована в relations.d/kvant-kvantik-deep.yaml."
+  ]
+}

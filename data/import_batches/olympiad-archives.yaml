@@ -1,0 +1,17 @@
+{
+  "id": "olympiad-archives",
+  "title": "Официальные архивы олимпиад с задачами про неполную информацию",
+  "created_at": "2026-05-17",
+  "status": "draft",
+  "items": [
+    {"problem_id": "mmo-2026-row-of-12-fakes-110-genuine", "status": "added"},
+    {"problem_id": "mmo-2022-two-traders-six-coins-four-weighings", "status": "added"},
+    {"problem_id": "tournament-towns-2005-six-coins-pointer-scale", "status": "added"},
+    {"problem_id": "mmo-2006-nine-circle-coins-four-fakes", "status": "added"},
+    {"problem_id": "mmo-2000-seven-cards-public-communication", "status": "added"}
+  ],
+  "source_notes": [
+    "Приоритет отдан официальным страницам/брошюрам ММО и архиву Tournament of Towns в Торонто.",
+    "Kangaroo-style источники не использовались."
+  ]
+}

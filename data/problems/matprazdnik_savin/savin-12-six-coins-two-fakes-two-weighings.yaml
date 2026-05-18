@@ -1,0 +1,63 @@
+{
+  "id": "savin-12-six-coins-two-fakes-two-weighings",
+  "title": "Турнир Савина XII: две фальшивые монеты в двух группах",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["weighing_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Адаптивно и с отложенными результатами",
+        "text": "В ряд лежат шесть монет. Среди первых четырех ровно одна фальшивая, среди последних двух тоже ровно одна фальшивая. Фальшивые монеты одинаковы и легче настоящих. Нужно определить обе фальшивые монеты за два взвешивания на чашечных весах; отдельно спрашивается, можно ли выбрать оба взвешивания заранее, если результаты станут известны только на следующий день.",
+        "source_ids": ["src-tursavin-12-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "hidden_state"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-eight-states-two-ternary-answers",
+      "title": "Восемь состояний помещаются в два тернарных наблюдения",
+      "text": "Скрытое состояние задается одной монетой из первых четырех и одной из последних двух. Два взвешивания могут дать до девяти пар исходов, поэтому нужно построить разные сигнатуры для восьми состояний.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-adaptive-first-15-vs-26",
+      "title": "Адаптивная стратегия через первое сравнение 1+5 и 2+6",
+      "text": "Сначала сравним монеты 1+5 с 2+6. Если равновесие, возможны только пары фальшивых (1,6) и (2,5), и второе сравнение 1 с 2 их различит. Если левая чаша легче, то фальшивая среди последних двух равна 5, а первая фальшивая одна из 1,3,4; сравнение 1 с 3 различает три случая. Если левая чаша тяжелее, то фальшивая среди последних двух равна 6, а первая фальшивая одна из 2,3,4; сравнение 2 с 3 различает эти три случая.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    },
+    {
+      "id": "str-nonadaptive-signature-table",
+      "title": "Неадаптивная стратегия через две заранее заданные подписи",
+      "text": "Для заранее выбранных взвешиваний достаточно назначить монетам 1..6 подписи (-1,-1), (-1,0), (0,1), (1,-1), (0,1), (1,0), где координата -1 означает положить монету на правую чашу соответствующего взвешивания, 1 - на левую, 0 - не класть. В каждом взвешивании суммарное число монет на чашах одинаково. Пара исходов равна знаку суммы подписей двух фальшивых монет и для восьми допустимых пар получается разной; значит, оба взвешивания можно провести заранее.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "needs_human_review",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "8 пар фальшивых монет: одна из {1,2,3,4} и одна из {5,6}",
+    "observations": ["два результата чашечных весов"],
+    "allowed_actions": ["сравнивать равные по числу наборы монет", "во втором пункте выбрать оба сравнения заранее"],
+    "goal": ["identify_two_light_coins"],
+    "strategy_type": ["adaptive_branching", "nonadaptive_signature"],
+    "lower_bound_method": [],
+    "keywords": ["savin_12", "six_coins", "two_light_fakes", "delayed_results"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_light_with_group_constraints", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_two_counterfeits"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Турнир Савина, задача с адаптивной и неадаптивной версиями.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "decision_tree"],
+  "sources": [{"source_id": "src-tursavin-12-problems", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальный PDF XII турнира Савина содержит условие; решение восстановлено редакционно и требует человеческой сверки.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки решения."]}
+}

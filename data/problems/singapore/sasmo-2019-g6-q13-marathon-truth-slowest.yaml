@@ -1,0 +1,61 @@
+{
+  "id": "sasmo-2019-g6-q13-marathon-truth-slowest",
+  "title": "SASMO 2019 G6 Q13: три правды о марафоне",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-sasmo-2019-g6-q13",
+        "title": "Кто самый медленный",
+        "text": "Четыре спортсмена пробежали марафон и сделали заявления. Том сказал, что он самый быстрый. Джек сказал, что он самый медленный. Лайонел сказал, что он не самый медленный и не самый быстрый. Роберт сказал, что он не самый быстрый. Известно, что ровно трое сказали правду. Кто был самым медленным?",
+        "source_ids": ["src-simcc-sasmo-2019-2020-g6-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-lie-forces-slowest",
+      "title": "Единственная ложь проверяется по противоречию ролей",
+      "text": "Так как лжет ровно один спортсмен, можно по очереди назначить ложь каждому заявлению и проверить, остается ли возможным уникальное распределение мест.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-test-the-single-liar",
+      "title": "Проверить, кто мог быть единственным лжецом",
+      "text": "Если лжет Том, то остальные трое говорят правду: Джек самый медленный, Лайонел не крайний, Роберт не самый быстрый. Тогда никто не может быть самым быстрым, противоречие. Если лжет Джек, то Том самый быстрый, Лайонел не крайний, Роберт не самый быстрый, а сам Джек не самый медленный; значит самым медленным остается Роберт. Аналогичная проверка показывает, что ложь Лайонела или Роберта невозможна. Следовательно, самый медленный - Роберт.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "порядок четырех спортсменов от самого быстрого до самого медленного и то, кто произнес ложное заявление",
+    "observations": ["четыре публичных заявления о крайних местах", "ровно три заявления истинны"],
+    "allowed_actions": ["проверять совместимость вариантов с условием о единственной лжи"],
+    "goal": ["identify_slowest_runner"],
+    "strategy_type": ["state_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["sasmo_2019", "truth_statements", "single_liar", "fastest_slowest"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "ровно одно из четырех заявлений ложно",
+    "adaptive": false,
+    "objective": "deduce_slowest_runner"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткая проверка четырех кандидатов на роль единственного лжеца.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination"],
+  "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g6-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_batch", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски."]}
+}

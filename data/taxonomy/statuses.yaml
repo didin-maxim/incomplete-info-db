@@ -1,0 +1,9 @@
+{
+  "statuses": [
+    {"id": "draft", "title": "Черновик"},
+    {"id": "needs_human_review", "title": "Нужна ручная проверка"},
+    {"id": "ai_checked", "title": "Проверено ИИ"},
+    {"id": "source_verified", "title": "Источник проверен"},
+    {"id": "public_ready", "title": "Готово к публикации"}
+  ]
+}

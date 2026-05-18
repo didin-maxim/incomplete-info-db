@@ -1,0 +1,18 @@
+{
+  "id": "australia",
+  "title": "Australian Maths Trust: AMC, AIMO and Maths Challenge hidden-information problems",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "aimo-2017-aimosia-three-coin-values", "status": "added"},
+    {"problem_id": "amc-au-2016-intermediate-q17-truth-liars-circle", "status": "added"},
+    {"problem_id": "mcya-2018-intermediate-higher-or-lower", "status": "added"},
+    {"problem_id": "mcya-2022-junior-mixed-up-birthdays", "status": "added"}
+  ],
+  "source_notes": [
+    "Все новые источники помечены language=en.",
+    "Публичные тексты карточек переведены или пересказаны по-русски.",
+    "AIMO 2017 взят из официального публичного PDF AMT; Australian Scene 2018/2022 доступны как бесплатные цифровые yearbook-публикации AMT.",
+    "AMC 2016 Q17 добавлена по официальной книге решений AMT; карточка содержит краткий русский пересказ, а источник указывает на легальный продукт AMT."
+  ]
+}

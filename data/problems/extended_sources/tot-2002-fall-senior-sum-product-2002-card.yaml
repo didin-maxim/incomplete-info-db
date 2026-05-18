@@ -1,0 +1,77 @@
+{
+  "id": "tot-2002-fall-senior-sum-product-2002-card",
+  "title": "Tournament of the Towns 2002: сумма или произведение 2002 и два заявления незнания",
+  "fragment": "wise_people",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["knowledge_reasoning", "elimination"]
+  },
+  "language": "en",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-tot-2002-fall-senior-o-1",
+        "title": "Bill shows one card to John and Mary",
+        "text": "John and Mary each chose a natural number and told them to Bill. Bill wrote the sum on one card and the product on another, hid one card, and showed the other card to both John and Mary. The shown number was 2002. John said that he could not determine Mary's number. Knowing this, Mary said that she also could not determine John's number. Determine Mary's number.",
+        "source_ids": ["src-tot-2002-fall-senior-o-problems", "src-tot-2002-fall-senior-o-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["common_knowledge"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-divisor-or-summand-ambiguity",
+      "title": "Заявление незнания отсекает неделители",
+      "text": "Если показанное число могло быть суммой или произведением, собственное число участника задает разные альтернативы. Фраза 'не знаю' становится публичным ограничением на возможные делители 2002.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-not-know-announcements-2002",
+      "title": "От неделителей к единственному числу Mary",
+      "text": "Пусть числа John и Mary равны \\(j\\) и \\(m\\). Если \\(j\\) не делит 2002, John понял бы, что показана сумма, и нашел бы \\(m=2002-j\\). Значит, из его незнания следует, что \\(j\\mid 2002\\), причем \\(j\\ne 2002\\), так что \\(j\\le 1001\\).\n\nMary слышит это рассуждение. Если бы \\(m\\ne 1001\\) и \\(m\\mid 2002\\), то она восстановила бы \\(j=2002/m\\); если бы \\(m\\) не делило 2002, то восстановила бы \\(j=2002-m\\) как в суммовом случае. Единственный способ сохранить неопределенность после слов John - \\(m=1001\\). Проверка показывает, что при \\(m=1001\\) действительно остаются совместимые сценарии.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked",
+      "definition_ids": []
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "две натуральные величины и неизвестно, показаны ли сумма или произведение",
+    "observations": ["показанное число 2002", "публичное заявление John о незнании", "публичное заявление Mary о незнании"],
+    "allowed_actions": ["делать истинные публичные заявления о возможности определить чужое число"],
+    "goal": ["identify_marys_number"],
+    "strategy_type": ["public_announcement", "iterated_elimination", "divisibility_filter"],
+    "lower_bound_method": [],
+    "keywords": ["tournament_of_towns_2002", "sum_product", "public_ignorance", "2002"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": ["John", "Mary", "Bill"],
+    "public_announcements": ["John cannot determine Mary's number", "Mary cannot determine John's number"],
+    "private_information": "each child knows only their own chosen number"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Senior O-Level, но механизм близок к классическим sum-product задачам и полезен для базы.",
+    "status": "ai_checked"
+  },
+  "tags": ["common_knowledge", "knowledge_induction", "knowledge_elimination", "public_announcement"],
+  "sources": [
+    {"source_id": "src-tot-2002-fall-senior-o-problems", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-tot-2002-fall-senior-o-solutions", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Хотя это Senior O-Level, источник официальный, а задача является устойчивым вариантом классического sum-product механизма."]
+  }
+}

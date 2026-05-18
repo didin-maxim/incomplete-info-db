@@ -1,0 +1,63 @@
+{
+  "id": "mathcounts-colorful-caps-symmetry",
+  "title": "MATHCOUNTS Colorful Caps: восстановить нижний ряд по симметрии",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["lead", "strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-colorful-caps-poster",
+        "title": "Шесть наборов цветных кепок и ось симметрии",
+        "text": "Даны шесть наборов цветных кепок, показанных на постере MATHCOUNTS, и поле \\(4\\times4\\) с пунктирной осью симметрии. Нужно поместить все наборы в поле так, чтобы цвета были симметричны относительно пунктирной линии. Наборы нельзя переворачивать или поворачивать. Требуется определить цвета кепок в нижнем ряду слева направо.",
+        "source_ids": ["src-mathcounts-colorful-caps", "src-mathcounts-colorful-caps-poster"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "needs_human_review", "note": "Для полной самодостаточности нужно перенести рисунок шести наборов кепок из постера."},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-symmetry-forces-colored-slots",
+      "title": "Ось симметрии превращает расстановку в задачу исключения",
+      "text": "Клетки, зеркальные друг другу относительно оси, должны иметь одинаковые цвета. Поэтому несколько цветов сразу становятся вынужденными, а неверный выбор детали быстро приводит к невозможности разместить оставшиеся детали.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-colorful-caps-official-outline",
+      "title": "Использовать вынужденные позиции и тупики",
+      "text": "Официальный разбор начинает с клеток, цвет которых принудительно задается симметрией: в нижнем левом углу должна стоять желтая кепка, над ней синяя, а в первой клетке второго ряда - красная. Затем рассматриваются две детали с желтой кепкой. Одна начальная постановка приводит к тупику: оставшиеся синие кепки не могут одновременно лечь либо на ось симметрии, либо в зеркальные клетки. Значит, нужно выбрать другую желтую деталь. После этого последовательно вынуждаются деталь с верхней красной кепкой, затем положение детали с синей и зеленой кепками, и оставшиеся детали встают однозначно. По официальному решению нижний ряд получается: желтая, красная, синяя, желтая.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "расположение шести неподвижно ориентированных наборов кепок в поле 4x4",
+    "observations": ["заданные формы и цвета деталей на постере", "ось симметрии", "запрет поворотов и отражений деталей"],
+    "allowed_actions": ["размещать детали без поворота и отражения", "исключать размещения, нарушающие симметрию"],
+    "goal": ["determine_bottom_row_colors"],
+    "strategy_type": ["constraint_propagation", "case_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["mathcounts_colorful_caps", "symmetry", "hidden_arrangement"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["color_sequence"],
+    "adaptive": false,
+    "objective": "determine_bottom_row"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Идея проста, но карточка зависит от рисунка деталей.", "status": "needs_human_review"},
+  "tags": ["symmetry", "knowledge_elimination", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-mathcounts-colorful-caps", "role": "official_resource_page", "status": "source_verified"},
+    {"source_id": "src-mathcounts-colorful-caps-poster", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-mathcounts-colorful-caps-solution", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Lead-карточка: перед публикацией нужно добавить самодостаточное описание или изображение деталей."]}
+}

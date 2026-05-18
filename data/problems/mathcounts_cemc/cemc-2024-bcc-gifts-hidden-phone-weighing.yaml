@@ -1,0 +1,63 @@
+{
+  "id": "cemc-2024-bcc-gifts-hidden-phone-weighing",
+  "title": "CEMC Beaver 2024: подарок с телефоном ищут делением пополам",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_analysis"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-bcc-2024-gifts",
+        "title": "В каком случае взвешиваний будет меньше всего",
+        "text": "Бернард упаковал подарки для 14 учеников и пронумеровал их от 1 до 14. Он знает вес каждого подарка, но после упаковки понял, что случайно уронил телефон в один из подарков. Чтобы не распаковывать много подарков, он действует так. Сначала делит подарки на две стопки: 1-7 и 8-14. Взвешивает первую стопку. Если она тяжелее ожидаемого, оставляет ее, иначе оставляет вторую. Затем снова делит оставленную стопку на две части, насколько возможно равные; если число подарков нечетное, первая часть меньше второй, и меньшие номера идут в первую часть. Он повторяет процедуру, пока не останется один подарок. Среди вариантов: телефон в подарке 3, 13, 8 или 6. В каком случае Бернард взвесит меньше всего стопок?",
+        "source_ids": ["src-cemc-2024-bcc-7-8-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-unbalanced-binary-search-tree",
+      "title": "Деление почти пополам дает дерево поиска разной глубины",
+      "text": "Каждое взвешивание оставляет одну из двух частей, то есть сообщает, в какой ветви дерева находится скрытый телефон. Из-за деления нечетных стопок на части разного размера некоторые листья достигаются быстрее.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-follow-retained-piles",
+      "title": "Проследить дерево оставленных стопок",
+      "text": "После первого взвешивания остаются либо \\(1-7\\), либо \\(8-14\\). Если телефон в подарке 8, первая стопка \\(1-7\\) не тяжелее ожидаемого, поэтому остается \\(8-14\\). При делении \\(8-14\\) первая часть \\(8,9,10\\), вторая \\(11,12,13,14\\). Телефон в 8 делает первую часть тяжелее, остается \\(8,9,10\\). Далее первая часть - только подарок 8, вторая - \\(9,10\\). Одно взвешивание подарка 8 сразу обнаруживает, что он тяжелее ожидаемого, и поиск заканчивается после трех взвешиваний.\n\nОфициальный разбор показывает, что за три взвешивания находятся только подарки 1 и 8. Среди предложенных вариантов это только подарок 8; остальные требуют четырех взвешиваний.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "номер подарка, в котором лежит телефон",
+    "observations": ["выбранная стопка тяжелее ожидаемого или нет"],
+    "allowed_actions": ["взвешивать первую часть текущей стопки и оставлять одну из двух частей"],
+    "goal": ["identify_case_with_fewest_weighings"],
+    "strategy_type": ["binary_search", "decision_tree"],
+    "lower_bound_method": [],
+    "keywords": ["beaver_2024", "hidden_phone", "divide_and_conquer", "weighing"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 14,
+    "counterfeit_count": 1,
+    "counterfeit_type": "one gift is heavier because it contains the phone",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 2,
+    "adaptive": true,
+    "objective": "find_hidden_phone"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Нужно прочитать глубины листьев в заданном дереве поиска.", "status": "ai_checked"},
+  "tags": ["balance_scale", "binary_search", "decision_tree"],
+  "sources": [{"source_id": "src-cemc-2024-bcc-7-8-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": []}
+}

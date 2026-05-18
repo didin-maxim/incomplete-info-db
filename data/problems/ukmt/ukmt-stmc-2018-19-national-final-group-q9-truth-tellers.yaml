@@ -1,0 +1,64 @@
+{
+  "id": "ukmt-stmc-2018-19-national-final-group-q9-truth-tellers",
+  "title": "UKMT STMC 2018-19 National Final Q9: кто точно лжет",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-ukmt-stmc-2018-19-q9",
+        "title": "Алекс, Беатрис, Чармиан и Дензил",
+        "text": "Алекс, Беатрис, Чармиан и Дензил либо всегда говорят правду, либо всегда лгут. Однажды они сказали следующее. Алекс: «Беатрис всегда лжет». Беатрис: «Алекс и Дензил либо оба правдивцы, либо оба лжецы». Чармиан: «Беатрис и Дензил либо оба лжецы, либо оба правдивцы». Дензил: «Я всегда говорю правду». Кто точно лжет?",
+        "source_ids": ["src-ukmt-stmc-2018-19-national-final-group-round", "src-ukmt-stmc-2018-19-national-final-supervisors"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-check-possible-models-for-definite-liar",
+      "title": "Искать не единственный полный расклад, а общий элемент всех раскладов",
+      "text": "Вопрос спрашивает, кто лжет обязательно. Поэтому достаточно перечислить совместимые расклады правдивцев и лжецов и пересечь множество лжецов во всех таких раскладах.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-cases-for-alex",
+      "title": "Разобрать два случая для Алекса",
+      "text": "Если Алекс правдив, то Беатрис лжет. Фраза Беатрис тогда ложна, значит Алекс и Дензил разных типов; раз Алекс правдив, Дензил лжет. Тогда фраза Чармиан о Беатрис и Дензиле истинна, и Чармиан правдива. Если Алекс лжет, то Беатрис правдива. Тогда Алекс и Дензил одного типа, значит Дензил тоже лжет. Фраза Чармиан о Беатрис и Дензиле ложна, и Чармиан лжет. В обоих совместимых случаях Дензил лжет, а остальные могут меняться. Значит, точно лжет Дензил.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какие из четырех детей являются правдивцами, а какие лжецами",
+    "observations": ["четыре публичных утверждения о типах участников"],
+    "allowed_actions": ["перебирать совместимые назначения типов"],
+    "goal": ["identify_definite_liar"],
+    "strategy_type": ["state_elimination", "intersection_of_constraints"],
+    "lower_bound_method": [],
+    "keywords": ["ukmt_stmc_2018_19", "truth_tellers", "liars", "definite_liar"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 4,
+    "question_count": 0,
+    "lies_allowed": "каждый ребенок либо всегда правдив, либо всегда лжет",
+    "adaptive": false,
+    "objective": "identify_definite_liar"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно отличить полный расклад от свойства, общего для всех совместимых раскладов.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination"],
+  "sources": [
+    {"source_id": "src-ukmt-stmc-2018-19-national-final-group-round", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-ukmt-stmc-2018-19-national-final-supervisors", "role": "official_answer", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие взято из официального/архивного листа Group Round, ответ Denzil подтвержден booklet для supervisors; русское решение восстановлено по проверке совместимых раскладов."]}
+}

@@ -1,0 +1,23 @@
+{
+  "id": "problems-ru-deep",
+  "title": "problems.ru: углубленный проход по задачам о неполной информации",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "problems-ru-107826-light-coin-limited-two-uses", "status": "added", "source_id": "src-problems-ru-107826", "merged_sources": ["src-problems-ru-107633"]},
+    {"problem_id": "problems-ru-64498-five-coins-two-opposite-fakes", "status": "added", "source_id": "src-problems-ru-64498"},
+    {"problem_id": "problems-ru-78810-thousand-coins-zero-one-two-fakes-sign", "status": "added", "source_id": "src-problems-ru-78810"},
+    {"problem_id": "problems-ru-78572-eleven-bags-two-numeric-balance-weighings", "status": "added", "source_id": "src-problems-ru-78572"},
+    {"problem_id": "problems-ru-65817-six-coins-digital-scale-unknown-weights", "status": "added", "source_id": "src-problems-ru-65817"},
+    {"problem_id": "problems-ru-66710-hats-with-madmen-oracle", "status": "added", "source_id": "src-problems-ru-66710"},
+    {"problem_id": "problems-ru-66722-knights-liars-mimics-public-majority", "status": "added", "source_id": "src-problems-ru-66722"},
+    {"problem_id": "twenty-one-card-trick", "status": "source_merged_duplicate", "source_id": "src-problems-ru-60905"},
+    {"problem_id": "truth-liar-universal-yes-no", "status": "source_merged_duplicate", "source_id": "src-problems-ru-89935"},
+    {"problem_id": "counterfeit-stack-one-weighing", "status": "source_merged_duplicate", "source_id": "src-problems-ru-88014"},
+    {"problem_id": "fitch-cheney-five-card-trick", "status": "source_merged_variant", "source_id": "src-problems-ru-98399"},
+    {"problem_id": null, "status": "skipped_static_or_weak_fit", "source_id": "src-problems-ru-64502", "note": "обычная статическая дедукция по ответам о числе рыцарей; нет стратегии запросов сверх заданной реплики"},
+    {"problem_id": null, "status": "skipped_static_or_weak_fit", "source_id": "src-problems-ru-116581", "note": "рыцари и лжецы с паросочетанием друзей; один фиксированный вопрос, без существенного канала стратегии"},
+    {"problem_id": null, "status": "skipped_static_or_weak_fit", "source_id": "src-problems-ru-116658", "note": "интересная публичная дедукция за столом, но основной ход является статическим перебором соседских высказываний и дня рождения"},
+    {"problem_id": null, "status": "skipped_duplicate_like_existing", "source_id": "src-problems-ru-32792", "note": "вариант нормализации ответа рыцаря/лжеца с неизвестным словом да/нет; близко к существующей универсальной карточке, но источник не добавлен из-за более специфического языкового сюжета"}
+  ]
+}

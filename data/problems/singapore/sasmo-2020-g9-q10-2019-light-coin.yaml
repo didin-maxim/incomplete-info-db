@@ -1,0 +1,72 @@
+{
+  "id": "sasmo-2020-g9-q10-2019-light-coin",
+  "title": "SASMO 2020 G9 Q10: одна легкая монета среди 2019",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["weighing_strategy", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-sasmo-2020-g9-q10",
+        "title": "Минимум взвешиваний для 2019 монет",
+        "text": "Среди 2019 внешне одинаковых монет ровно одна фальшивая, и она легче настоящих. Настоящие монеты имеют одинаковый вес. Есть чашечные весы; за одно взвешивание можно положить на чаши любые одинаковые количества монет. Какое наименьшее число взвешиваний гарантированно позволяет найти фальшивую монету?",
+        "source_ids": ["src-simcc-sasmo-2019-2020-g9-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-ceil-log3-known-light",
+      "title": "Известно, что фальшивая монета легче",
+      "text": "Когда направление отклонения известно заранее, каждое взвешивание делит кандидатов на три группы: левая подозрительная группа, правая подозрительная группа или группа вне весов.",
+      "standard_idea_ids": ["ternary_search", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-split-into-three-nearly-equal-parts",
+      "title": "Делить кандидатов на три части",
+      "text": "На каждом шаге делим оставшиеся подозрительные монеты на три как можно равные группы. Две равные группы кладем на чаши. Если левая легче, фальшивая в левой группе; если правая легче, в правой; если весы в равновесии, фальшивая в третьей группе, которая не взвешивалась. Так за q взвешиваний можно различить до \\(3^q\\) кандидатов. Поскольку \\(3^6=729<2019\\), шести взвешиваний недостаточно, а \\(3^7=2187\\), семи достаточно. Минимум равен 7.",
+      "standard_idea_ids": ["ternary_search", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "information_lower_bound"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-six-weighings-only-729-leaves",
+      "title": "Шести взвешиваний недостаточно",
+      "text": "У чашечных весов три исхода, поэтому дерево из шести взвешиваний имеет не больше \\(3^6=729\\) листьев. Для 2019 возможных положений легкой монеты этого недостаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какая из 2019 монет является единственной более легкой фальшивой",
+    "observations": ["до семи трехисходных результатов чашечных весов"],
+    "allowed_actions": ["адаптивно сравнивать равные по числу группы монет"],
+    "goal": ["identify_light_counterfeit_coin", "minimize_weighings"],
+    "strategy_type": ["adaptive_strategy", "ternary_search", "decision_tree"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["sasmo_2020", "2019_coins", "light_counterfeit", "ceil_log3_n"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 2019,
+    "counterfeit_count": 1,
+    "counterfeit_type": "known_lighter",
+    "weighing_count": 7,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "find_minimum_weighings"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Прямое применение тернарного поиска и нижней оценки по числу листьев.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
+  "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g9-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_batch", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски."]}
+}

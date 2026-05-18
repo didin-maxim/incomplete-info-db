@@ -1,0 +1,88 @@
+{
+  "id": "twenty-questions-binary-search",
+  "title": "Угадывание числа вопросами да/нет",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "optimality"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Сколько вопросов нужно для числа от 1 до N",
+        "text": "Задумано число от 1 до \\(N\\). Разрешено задавать вопросы, на которые отвечают только \"да\" или \"нет\", и ответы всегда правдивы. Сколько вопросов достаточно и в общем случае необходимо, чтобы гарантированно определить число?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-binary-decision-tree",
+      "title": "Бинарное дерево решений",
+      "text": "Каждый вопрос делит множество оставшихся чисел на две части, а \\(q\\) вопросов дают не более \\(2^q\\) листьев.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-balanced-binary-search",
+      "title": "Делить оставшееся множество почти пополам",
+      "text": "На каждом шаге спрашиваем, принадлежит ли число выбранной половине оставшихся кандидатов. После ответа оставляем соответствующую часть. Если каждый раз делить множество как можно ровнее, то после \\(q\\) вопросов можно различить до \\(2^q\\) чисел. Поэтому достаточно \\(\\lceil \\log_2 N\\rceil\\) вопросов.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-binary-leaves",
+      "title": "Меньше \\(\\lceil \\log_2 N\\rceil\\) вопросов не хватит",
+      "text": "Любая стратегия с \\(q\\) вопросами задает бинарное дерево глубины не больше \\(q\\), значит имеет не более \\(2^q\\) листьев. Для гарантированного угадывания разным числам должны соответствовать разные листья, поэтому нужно \\(2^q\\ge N\\).",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree", "information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "N возможных чисел",
+    "observations": ["ответ да/нет"],
+    "allowed_actions": ["выбрать любой вопрос да/нет о числе"],
+    "goal": ["identify_hidden_number"],
+    "strategy_type": ["adaptive_strategy", "binary_search"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["twenty_questions", "binary_search", "logarithmic_bound", "N_q_parameterized"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "ceil(log2 N)",
+    "lies_allowed": 0,
+    "adaptive": true,
+    "objective": "identify_one_of_N_states"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Базовая модель дерева решений.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_search", "decision_tree", "decision_tree_lower_bound"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution",
+    "notes": ["2026-05-18: карточка уже записана в параметрах N и q; конкретное число вопросов определяется емкостью 2^q."]
+  }
+}

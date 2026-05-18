@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Incomplete Information Problem",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "fragment",
+    "kind",
+    "language",
+    "statements",
+    "ideas",
+    "strategies",
+    "difficulty",
+    "tags",
+    "sources",
+    "editorial"
+  ],
+  "properties": {
+    "fragment": {
+      "type": "string",
+      "description": "Primary navigation fragment: weighings, wise_people, card_tricks, questions, communication, impossibility."
+    },
+    "incomplete_information_profile": {
+      "type": "object",
+      "properties": {
+        "hidden_state_space": {"type": "string"},
+        "observations": {"type": "array", "items": {"type": "string"}},
+        "allowed_actions": {"type": "array", "items": {"type": "string"}},
+        "goal": {"type": "array", "items": {"type": "string"}},
+        "strategy_type": {"type": "array", "items": {"type": "string"}},
+        "lower_bound_method": {"type": "array", "items": {"type": "string"}},
+        "keywords": {"type": "array", "items": {"type": "string"}},
+        "status": {"type": "string"}
+      }
+    },
+    "weighing_profile": {
+      "type": "object",
+      "properties": {
+        "object_count": {"type": "integer"},
+        "counterfeit_count": {"type": "integer"},
+        "counterfeit_type": {"type": "string"},
+        "weighing_count": {"type": "integer"},
+        "outcome_count_per_weighing": {"type": "integer"},
+        "adaptive": {"type": "boolean"},
+        "objective": {"type": "string"}
+      }
+    },
+    "knowledge_profile": {"type": "object"},
+    "card_trick_profile": {"type": "object"},
+    "questions_profile": {"type": "object"},
+    "communication_profile": {"type": "object"}
+  }
+}

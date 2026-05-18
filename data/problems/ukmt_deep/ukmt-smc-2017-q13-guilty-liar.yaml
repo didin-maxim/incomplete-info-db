@@ -1,0 +1,17 @@
+{
+  "id": "ukmt-smc-2017-q13-guilty-liar",
+  "title": "UKMT SMC 2017 Q13: виновный единственный лжец",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-ukmt-smc-2017-q13", "title": "Кто виновен, если лжет только виновный", "text": "Изобел говорит: «Джош невиновен». Дженотан говорит: «Тиган виновна». Джош говорит: «Дженотан виновен». Тиган говорит: «Изобел невиновна». Лжет только виновный человек; все остальные говорят правду. Кто виновен?", "source_ids": ["src-ukmt-smc-2017-sol-extended"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]},
+  "ideas": [{"id": "idea-guilty-person-is-liar", "title": "Вина и ложь сцеплены в одно скрытое состояние", "text": "Нельзя выбирать виновного и лжеца независимо: единственный виновный обязан быть единственным лжецом. Поэтому фразы, прямо обвиняющие друг друга, резко сокращают число возможных моделей.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-josh-genotan-case", "title": "Разобрать пару Джоша и Дженотана", "text": "Так как виновен ровно один человек, из фраз Дженотана и Джоша следует, что либо Дженотан, либо Джош лжет. Если бы лгал Джош, то Дженотан был бы невиновен и говорил бы правду, значит Тиган была бы виновна. Но тогда лжецом должна быть Тиган, а не Джош; противоречие. Следовательно, Джош не лжет. Его фраза истинна, поэтому виновен Дженотан. При этом фраза Дженотана о виновности Тиган ложна, а фразы Изобел и Тиган истинны, так что расклад согласован.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "кто из четырех людей виновен и тем самым является единственным лжецом", "observations": ["четыре публичных высказывания о виновности и невиновности"], "allowed_actions": ["проверять совместимость предполагаемого виновного с истинностью всех фраз"], "goal": ["identify_guilty_person"], "strategy_type": ["state_elimination", "truth_guilt_coupling"], "lower_bound_method": [], "keywords": ["ukmt_smc_2017", "guilty_liar", "truth_tellers", "liar"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 5, "question_count": 0, "lies_allowed": "только виновный лжет, все невиновные говорят правду", "adaptive": false, "objective": "identify_guilty_person"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Небольшая truth-liar задача с дополнительным смыслом скрытого состояния: виновность.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination"],
+  "sources": [{"source_id": "src-ukmt-smc-2017-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие и решение взяты из официальных расширенных решений UKMT SMC 2017, вопрос 13; публичный текст дан русским пересказом."]}
+}

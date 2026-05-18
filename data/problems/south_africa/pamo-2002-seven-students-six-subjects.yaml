@@ -1,0 +1,125 @@
+{
+  "id": "pamo-2002-seven-students-six-subjects",
+  "title": "PAMO 2002: шести предметов достаточно, чтобы различить семерых учеников",
+  "fragment": "questions",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "encoding",
+      "existence_proof"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-pamo-2002-six-subjects",
+        "title": "Выбрать шесть различающих предметов",
+        "text": "Семь учеников сравнили свои оценки по двенадцати предметам и заметили, что никакие два ученика не имеют одинаковые оценки по всем двенадцати предметам. Докажите, что можно выбрать шесть предметов так, чтобы любые два ученика отличались оценкой хотя бы по одному из выбранных предметов.",
+        "source_ids": [
+          "src-pamo-2002-aops",
+          "src-pamo-2002-imomath-pdf"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-subject-separates-a-pair",
+      "title": "Для каждой пары учеников достаточно закрепить один различающий предмет",
+      "text": "Скрытое состояние - личность ученика. Чтобы выбранные предметы различали всех, нужно для каждой пары оставить хотя бы один предмет, по которому их оценки различаются.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-pick-minimal-separating-set",
+      "title": "Последовательно уточнять разбиение учеников по выбранным предметам",
+      "text": "Начнем с пустого набора выбранных предметов: все 7 учеников пока лежат в одном классе, потому что по выбранным предметам они не различаются. Если текущее разбиение еще не состоит из одноэлементных классов, то в некотором классе есть два разных ученика. По условию их полные 12-мерные наборы оценок различаются, значит существует предмет, который разделяет хотя бы один текущий класс на две непустые части. Добавим такой предмет.\n\nКаждый добавленный предмет увеличивает число классов разбиения хотя бы на 1. Был 1 класс, а нужно получить 7 одноэлементных классов, поэтому достаточно не более 6 добавлений. После этого любые два ученика различаются хотя бы по одному из выбранных предметов. Если предметов получилось меньше 6, можно добавить произвольные оставшиеся предметы до ровно шести.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "state_space"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "один из семи учеников",
+    "observations": [
+      "оценки выбранного ученика по выбранным шести предметам"
+    ],
+    "allowed_actions": [
+      "заранее выбрать шесть из двенадцати предметов"
+    ],
+    "goal": [
+      "distinguish_all_hidden_students"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "feature_selection"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "pamo_2002",
+      "marks",
+      "subjects",
+      "hidden_identity",
+      "distinguishing_tests"
+    ],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": "marks in a subject",
+    "question_count": 6,
+    "lies_allowed": 0,
+    "adaptive": false,
+    "objective": "distinguish_one_of_seven_states"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 6,
+    "comment": "Нужен нетривиальный аргумент с минимальным различающим набором признаков.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "nonadaptive_strategy",
+    "structural_constraint",
+    "indistinguishability_argument"
+  ],
+  "sources": [
+    {
+      "source_id": "src-pamo-2002-aops",
+      "role": "contest_statement",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-pamo-2002-imomath-pdf",
+      "role": "contest_statement_pdf",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "south_africa_batch",
+    "notes": [
+      "PAMO official site links to an AoPS problem archive rather than hosting this PDF directly; карточка оставлена непубличной до проверки полного решения.",
+      "2026-05-18 solution-ideas-review: заменен слабый аргумент про минимальный набор на доказательство через последовательное уточнение разбиения; источник и полный официальный разбор все еще требуют human review."
+    ]
+  }
+}

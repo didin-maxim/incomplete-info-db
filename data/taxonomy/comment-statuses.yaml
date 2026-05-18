@@ -1,0 +1,9 @@
+{
+  "comment_statuses": [
+    "open",
+    "triaged",
+    "accepted",
+    "declined",
+    "resolved"
+  ]
+}

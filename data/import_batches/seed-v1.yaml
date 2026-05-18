@@ -1,0 +1,16 @@
+{
+  "id": "seed-v1",
+  "title": "Стартовые классические карточки для проверки структуры",
+  "created_at": "2026-05-17",
+  "status": "draft",
+  "items": [
+    {"problem_id": "counterfeit-12-coins-3-weighings", "status": "added"},
+    {"problem_id": "heavier-9-coins-2-weighings", "status": "added"},
+    {"problem_id": "muddy-children-common-knowledge", "status": "added"},
+    {"problem_id": "three-wise-men-hats", "status": "added"},
+    {"problem_id": "fitch-cheney-five-card-trick", "status": "added"},
+    {"problem_id": "twenty-questions-binary-search", "status": "added"},
+    {"problem_id": "one-lie-questions-coding-bound", "status": "added"},
+    {"problem_id": "heavier-4-coins-one-weighing-impossible", "status": "added"}
+  ]
+}

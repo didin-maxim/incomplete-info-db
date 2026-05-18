@@ -1,0 +1,126 @@
+{
+  "id": "two-lies-questions-hamming-bound",
+  "title": "Вопросы да/нет при двух возможных ложных ответах",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": [
+      "lower_bound",
+      "coding"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Два ответа могут быть ложными",
+        "text": "Задуман один из \\(N\\) объектов. Заранее задают \\(q\\) вопросов с ответами да/нет; среди полученных ответов может быть не более двух ложных. Какую нижнюю оценку на \\(q\\) дает кодовая модель?",
+        "source_ids": [
+          "src-folklore"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "error_correcting_code",
+          "information_lower_bound"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-radius-two-balls",
+      "title": "Шары Хэмминга радиуса 2 не должны пересекаться",
+      "text": "Каждому объекту соответствует истинное двоичное слово длины \\(q\\). Наблюдаемое слово может отличаться от него в 0, 1 или 2 позициях. Поэтому вокруг каждого истинного слова надо зарезервировать \\(1+q+\\binom q2\\) возможных наблюдений.",
+      "standard_idea_ids": [
+        "error_correcting_code",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "lb-radius-two-packing",
+      "title": "Упаковочная оценка",
+      "text": "Если два разных объекта имеют пересекающиеся шары Хэмминга радиуса 2, то существует один и тот же набор ответов, совместимый с обоими объектами и не более чем двумя ложными ответами. Тогда гарантированное угадывание невозможно. Всего двоичных слов длины \\(q\\) ровно \\(2^q\\), значит необходимо \\(N(1+q+\\binom q2)\\le 2^q\\).",
+      "standard_idea_ids": [
+        "error_correcting_code",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "error_correcting_code",
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "N возможных объектов",
+    "observations": [
+      "двоичное слово ответов с не более чем двумя ошибками"
+    ],
+    "allowed_actions": [
+      "заранее выбрать \\(q\\) вопросов да/нет"
+    ],
+    "goal": [
+      "identify_hidden_object"
+    ],
+    "strategy_type": [
+      "error_correcting_code",
+      "nonadaptive_strategy"
+    ],
+    "lower_bound_method": [
+      "hamming_ball_packing"
+    ],
+    "keywords": [
+      "two_lies",
+      "hamming_bound",
+      "binary_questions",
+      "N_q_parameterized"
+    ],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "q",
+    "lies_allowed": 2,
+    "adaptive": false,
+    "objective": "identify_one_of_N_states"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Прямое обобщение упаковочной оценки для одной лжи.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "lie_detection",
+    "error_correcting_code",
+    "hamming_bound",
+    "nonadaptive_strategy"
+  ],
+  "sources": [
+    {
+      "source_id": "src-folklore",
+      "role": "folklore_statement",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_bound_only",
+    "notes": [
+      "Карточка фиксирует самодостаточную нижнюю оценку, а не полную классификацию оптимальных стратегий.",
+      "2026-05-18: числа уже заменены параметрами N и q; дальнейшее обобщение до оптимальной стратегии меняло бы задачу."
+    ]
+  }
+}

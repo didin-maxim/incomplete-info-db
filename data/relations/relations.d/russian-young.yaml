@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "id": "rel-logos-road-seven-yes-lie-cancellation",
+      "from": "utyum-1993-logos-road-one-question",
+      "to": "utyum-1996-knights-line-seven-yes",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют то, что ложь можно учесть логически: ответ лжеца не просто шум, а предсказуемое отрицание истинного утверждения.",
+      "backward_text": "Задача с семью ответами является более развернутым вариантом той же идеи, где тип отвечающего восстанавливается не одним вопросом, а через положение в шеренге.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-logos-road-to-truth-liar-universal",
+      "from": "utyum-1993-logos-road-one-question",
+      "to": "truth-liar-universal-yes-no",
+      "type": "strategy_transfer",
+      "distance": 1,
+      "forward_text": "Дорожная задача является прямым применением универсальной нормализации ответа: вопрос надо сформулировать так, чтобы рыцарь и лжец дали одинаково полезное направление.",
+      "backward_text": "Универсальная карточка отделяет сам прием нормализации правдивца и лжеца от предметной оболочки; задача про дорогу показывает его в классической островной формулировке.",
+      "status": "ai_checked",
+      "confidence": 0.94
+    },
+    {
+      "id": "rel-seven-yes-vasya-line-variants",
+      "from": "utyum-1996-knights-line-seven-yes",
+      "to": "utyum-2010-vasya-two-liars-line",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "В обеих задачах шеренга рыцарей и лжецов анализируется через вынужденные типы участников около выделенной границы или выделенного человека.",
+      "backward_text": "Задача про Васю заменяет подсчет ответов на неизвестную позицию, но сохраняет тот же локальный механизм исключения невозможных типов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-sensitive-scales-12coins-state-partition",
+      "from": "yumt-2014-sensitive-scales-17-coins",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи строят адаптивное дерево взвешиваний, где каждое наблюдение должно резко сузить множество возможных скрытых состояний.",
+      "backward_text": "Классическая задача о 12 монетах использует обычные три исхода весов, а задача ЮМТ добавляет поломку нежных весов как дополнительный информационный исход.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-parity-coins-nine-coins-contrast",
+      "from": "utyum-2010-seventeen-coins-parity-test",
+      "to": "heavier-9-coins-2-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В задаче про 17 монет отдельные сравнения не локализуют монету напрямую; информация собирается только в четность числа равных пар.",
+      "backward_text": "Задача про 9 монет является чистым делением пространства состояний, в отличие от паритетного теста, где сохраняется только агрегированная информация.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-false-cards-knights-truth-values",
+      "from": "yumt-2014-false-statements-cards",
+      "to": "utyum-1996-knights-line-seven-yes",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах нужно найти согласованное распределение истинных и ложных утверждений, а не вычислить числовой параметр напрямую.",
+      "backward_text": "Задача о шеренге имеет персональные типы рыцарь/лжец, а карточки ЮМТ переводят ту же логику истинности в экстремальную задачу о порядке.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    }
+  ]
+}

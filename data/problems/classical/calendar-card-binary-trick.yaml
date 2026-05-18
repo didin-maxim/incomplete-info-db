@@ -1,0 +1,89 @@
+{
+  "id": "calendar-card-binary-trick",
+  "title": "Угадывание числа по карточкам с двоичными признаками",
+  "fragment": "card_tricks",
+  "kind": {"primary": "classical_problem", "secondary": ["communication_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Карточки для чисел от 1 до 31",
+        "text": "Есть пять карточек с числами от 1 до 31. Зритель загадывает число и говорит, на каких карточках оно напечатано. Как составить карточки так, чтобы фокусник всегда восстановил число?",
+        "source_ids": ["src-card-trick-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-q-binary-cards",
+        "title": "q карточек кодируют до 2^q чисел",
+        "text": "Та же конструкция работает для любого \\(q\\): \\(q\\) карточек с двоичными признаками различают все числа от 1 до \\(2^q-1\\), а при разрешении пустого набора - до \\(2^q\\) состояний. Карточка с весом \\(2^j\\) содержит ровно числа с единицей в \\(j\\)-м бите.",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-binary-incidence",
+      "title": "Принадлежность карточкам является двоичным кодом числа",
+      "text": "Пять ответов да/нет дают 5 бит, которых достаточно для кодирования чисел от 1 до 31.",
+      "standard_idea_ids": ["binary_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-powers-of-two-cards",
+      "title": "Карточки по битам двоичной записи",
+      "text": "Сделаем пять карточек с весами 1, 2, 4, 8 и 16. На карточку веса \\(2^j\\) напечатаем ровно те числа от 1 до 31, у которых в двоичной записи стоит единица в соответствующем разряде.\n\nКогда зритель говорит, на каких карточках есть его число, фокусник складывает веса этих карточек. Например, если число есть на карточках 1, 4 и 16, сумма равна 21, значит загадано 21. У каждого числа от 1 до 31 двоичная запись единственна, поэтому набор карточек однозначно восстанавливает число.",
+      "standard_idea_ids": ["binary_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-four-cards-not-enough",
+      "title": "Четырех карточек недостаточно для 31 числа",
+      "text": "Четыре карточки дают только \\(2^4=16\\) различных наборов ответов \"есть/нет\". Для 31 возможного числа этого недостаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "31 возможное загаданное число",
+    "observations": ["пять ответов о принадлежности карточкам"],
+    "allowed_actions": ["заранее выбрать инцидентность чисел и карточек"],
+    "goal": ["identify_hidden_number"],
+    "strategy_type": ["nonadaptive_strategy", "binary_code"],
+    "lower_bound_method": ["bit_counting"],
+    "keywords": ["binary_cards", "calendar_trick", "incidence_code", "q_binary_cards", "2^q_states"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": "number cards",
+    "hand_size": 31,
+    "shown_cards": 5,
+    "hidden_cards": 1,
+    "ordering_channel": false,
+    "encoded_values_by_order": "пять признаков да/нет",
+    "strategy_type": "binary_incidence_code"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "subset of five cards containing the chosen number",
+    "message_capacity": "5 bits"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Прямая двоичная кодировка скрытого числа.", "status": "ai_checked"},
+  "tags": ["card_trick", "binary_code", "counting_lower_bound"],
+  "sources": [{"source_id": "src-card-trick-folklore", "role": "folklore_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: добавлена параметрическая формулировка для q двоичных карточек; числа 5 и 31 несущественны, это частный случай емкости 2^q."]}
+}

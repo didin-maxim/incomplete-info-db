@@ -1,0 +1,79 @@
+{
+  "id": "muddy-children-common-knowledge",
+  "title": "Грязные лбы и публичное объявление",
+  "fragment": "wise_people",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["knowledge_induction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Дети видят чужие лбы",
+        "text": "Несколько детей стоят так, что каждый видит, у кого из остальных грязный лоб, но не видит свой. Известно, что хотя бы у одного ребенка лоб грязный, и взрослый публично объявляет этот факт. Затем в каждом раунде все дети одновременно отвечают, знают ли они, грязный ли у них лоб. Если грязных детей ровно \\(k\\), докажите, что первые \\(k-1\\) раундов никто не знает ответ, а в \\(k\\)-м раунде все грязные дети узнают, что они грязные.",
+        "source_ids": ["src-common-knowledge-puzzles"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["public_announcement", "common_knowledge"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-induction-on-k",
+      "title": "Молчание исключает меньшие числа грязных",
+      "text": "Если грязных \\(k\\), каждый грязный видит \\(k-1\\) грязных. Когда первые \\(k-1\\) раундов никто не отвечает, становится общим знанием, что случаев с меньшим числом грязных нет.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-common-knowledge-induction",
+      "title": "Индукция по числу грязных детей",
+      "text": "Докажем утверждение по \\(k\\). Если \\(k=1\\), единственный грязный ребенок не видит грязных лбов у других. После публичного объявления, что грязный лоб у кого-то есть, он сразу понимает, что грязный он сам, и отвечает в первом раунде.\n\nПусть утверждение доказано для всех меньших чисел грязных, и пусть на самом деле грязных \\(k\\). Каждый грязный ребенок видит ровно \\(k-1\\) грязных. Он рассуждает так: если мой лоб чистый, то грязных всего \\(k-1\\), и по предположению индукции эти \\(k-1\\) детей ответят в \\((k-1)\\)-м раунде. Но этого не происходит. Значит, мое предположение о чистом лбе неверно, и в \\(k\\)-м раунде каждый грязный ребенок узнает, что он грязный. Чистые дети видят \\(k\\) грязных и к этому моменту не получают основания считать себя грязными.",
+      "standard_idea_ids": ["public_announcement_induction"],
+      "status": "ai_checked",
+      "definition_ids": ["public_announcement", "common_knowledge"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "для каждого ребенка скрыт его собственный статус",
+    "observations": ["статусы лбов остальных детей", "публичное объявление", "молчание в предыдущих раундах"],
+    "allowed_actions": ["одновременно объявить, знает ли ребенок свой статус"],
+    "goal": ["identify_own_state"],
+    "strategy_type": ["knowledge_induction"],
+    "lower_bound_method": ["indistinguishable_worlds_until_round_k"],
+    "keywords": ["muddy_children", "common_knowledge", "silence_as_information", "k_dirty_children"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": "n children",
+    "public_announcements": 1,
+    "communication_rounds": "k",
+    "visibility": "each agent sees all other foreheads",
+    "objective": "dirty agents learn their own status"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 3,
+    "comment": "Классический пример общего знания.",
+    "status": "ai_checked"
+  },
+  "tags": ["common_knowledge", "public_announcement", "public_announcement_induction"],
+  "sources": [
+    {"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution",
+    "notes": ["2026-05-18: задача уже записана в параметрах n и k; конкретные числа не нужны, решение остается индукцией по k."]
+  }
+}

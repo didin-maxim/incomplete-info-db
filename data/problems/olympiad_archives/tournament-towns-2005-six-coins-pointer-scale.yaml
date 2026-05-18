@@ -1,0 +1,80 @@
+{
+  "id": "tournament-towns-2005-six-coins-pointer-scale",
+  "title": "Tournament of Towns 2005: фальшивая монета на весах с числовым показанием",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-tot-2005-fall-junior-o-5",
+        "title": "Одна фальшивая среди шести, веса настоящей и фальшивой неизвестны",
+        "text": "Среди шести монет одна фальшивая. Все настоящие монеты имеют один и тот же вес, фальшивая имеет другой вес, но ни вес настоящей монеты, ни вес фальшивой заранее не известен. Весы показывают общий вес положенных на чашу монет. Найдите фальшивую монету за три взвешивания.",
+        "source_ids": ["src-tot-toronto-2005-fall-junior-o"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-average-signature",
+      "title": "Сравнить средние веса пересекающихся наборов",
+      "text": "Если взвесить пары и тройку с пересечениями, то равенства и линейные соотношения между средними весами образуют подпись фальшивой монеты.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-averages",
+      "title": "Три средних веса",
+      "text": "Обозначим монеты \\(A,B,C,D,E,F\\). За три взвешивания найдем средний вес \\(m\\) монет \\(C,E\\), средний вес \\(n\\) монет \\(D,F\\) и средний вес \\(k\\) монет \\(B,E,F\\).\n\nЕсли \\(m=n=k\\), то фальшива монета \\(A\\), так как ни одно взвешивание ее не затронуло, а все увиденные средние совпали с весом настоящей монеты. Если \\(m=n\\ne k\\), фальшива \\(B\\). Если \\(m\\ne n=k\\), фальшива \\(C\\). Если \\(k=m\\ne n\\), фальшива \\(D\\). Если все три средних попарно различны, фальшива \\(E\\) или \\(F\\). Эти два случая различаются линейно: для \\(E\\) выполняется \\(2m+n=3k\\), а для \\(F\\) выполняется \\(m+2n=3k\\).",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": []
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "6 вариантов положения фальшивой монеты плюс два неизвестных числовых веса",
+    "observations": ["три числовых значения общего веса выбранных наборов"],
+    "allowed_actions": ["взвешивать выбранные подмножества монет на весах с показанием общего веса"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["nonadaptive_strategy", "linear_encoding", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["tournament_of_towns_2005", "pointer_scale", "averages"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 1,
+    "counterfeit_type": "different_weight_unknown_sign_and_unknown_true_weight",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 0,
+    "adaptive": false,
+    "objective": "identify_counterfeit_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Junior O-Level Tournament of Towns; решение является небольшой линейной кодировкой.",
+    "status": "ai_checked"
+  },
+  "tags": ["digital_scale", "linear_signature", "nonadaptive_strategy"],
+  "sources": [
+    {"source_id": "src-tot-toronto-2005-fall-junior-o", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Источник: архив Tournament of Towns в Торонто, Fall 2005 Junior O-Level problems and solutions."]
+  }
+}

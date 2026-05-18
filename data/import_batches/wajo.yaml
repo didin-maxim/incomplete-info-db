@@ -1,0 +1,20 @@
+{
+  "id": "wajo",
+  "title": "WAJO: задачи про неполную информацию из официального архива",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "wajo-2015-knaves-both-knaves", "status": "added"},
+    {"problem_id": "wajo-2015-knaves-unheard-answer", "status": "added"},
+    {"problem_id": "wajo-2015-knaves-three-counts", "status": "added"},
+    {"problem_id": "wajo-2015-knaves-chief-brothers", "status": "added"},
+    {"problem_id": "wajo-2022-numble-colour-responses", "status": "added_needs_human_review"}
+  ],
+  "source_notes": [
+    "Использован официальный архив WAJO qnsandsolns: https://enrichedmaths.maths.uwa.edu.au/wajo/qnsandsolns.",
+    "Источники добавлены с language=en.",
+    "Публичный текст карточек переведен на русский и сделан самодостаточным.",
+    "Сканировались ключевые слова weigh, heavier, lighter, truth, lie, ask, hat, know, strategy; нерелевантные совпадения вроде geometry scale, lightweight и clothing hat не добавлялись.",
+    "Numble оставлена needs_human_review: в карточке перенесен механизм и часть официальных чисел, но не все ветви доказательства оптимальности."
+  ]
+}

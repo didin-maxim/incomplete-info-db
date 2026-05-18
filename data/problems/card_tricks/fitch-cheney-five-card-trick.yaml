@@ -1,0 +1,99 @@
+{
+  "id": "fitch-cheney-five-card-trick",
+  "title": "Фокус Фитча-Чейни с пятью картами",
+  "fragment": "card_tricks",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["communication_strategy"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Помощник показывает четыре карты",
+        "text": "Из стандартной колоды в 52 карты зритель выбирает 5 карт и показывает их помощнику. Помощник передает фокуснику 4 из этих карт в некотором порядке. Фокусник знает заранее согласованную стратегию, но не видел пятую карту. Докажите, что помощник может выбрать и упорядочить 4 карты так, чтобы фокусник всегда определял пятую.",
+        "source_ids": ["src-fitch-cheney-five-card-trick", "src-problems-ru-98399"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-s-suits-m-ranks",
+        "title": "Масти, циклические ранги и перестановочный канал",
+        "text": "Та же конструкция переносится на колоду с \\(s\\) мастями и \\(m\\) циклическими рангами, если в руке \\(s+1\\) карт и \\((s-1)!\\) перестановок оставшихся показанных карт хватает, чтобы закодировать расстояние между двумя картами одной масти: \\(\\lfloor m/2\\rfloor\\le (s-1)!\\). Стандартная колода дает \\(s=4\\), \\(m=13\\), \\(\\lfloor 13/2\\rfloor=6=3!\\).",
+        "source_ids": ["src-fitch-cheney-five-card-trick", "src-problems-ru-98399"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-same-suit-and-six-orders",
+      "title": "Одна карта задает масть, порядок задает расстояние",
+      "text": "Среди 5 карт есть две одной масти. Одну из них показывают первой, чтобы сообщить масть скрытой карты; порядок оставшихся трех кодирует число от 1 до 6.",
+      "standard_idea_ids": ["permutation_encodes_offset"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-suit-and-offset",
+      "title": "Кодирование масти и смещения",
+      "text": "В каждой масти упорядочим достоинства по циклу длины 13. Среди пяти выбранных карт найдутся две одной масти. На цикле между ними есть два расстояния, сумма которых равна 13, поэтому одно из направлений имеет расстояние от 1 до 6. Помощник скрывает вторую карту этой пары, а первую показывает первой: так фокусник узнает масть скрытой карты и начальную точку на цикле.\n\nОставшиеся три показанные карты можно упорядочить шестью способами. Заранее договоримся, какая перестановка кодирует каждое число от 1 до 6. Помощник ставит эти три карты в порядке, кодирующем расстояние от первой показанной карты до скрытой по циклу достоинств. Фокусник читает масть по первой карте, число - по порядку трех остальных, и восстанавливает скрытую карту.",
+      "standard_idea_ids": ["permutation_encodes_offset", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбор скрытой карты из пяти выбранных",
+    "observations": ["четыре открытые карты", "порядок четырех карт"],
+    "allowed_actions": ["помощник выбирает скрытую карту и порядок остальных"],
+    "goal": ["communicate_hidden_card"],
+    "strategy_type": ["nonverbal_communication", "encoding"],
+    "lower_bound_method": [],
+    "keywords": ["five_card_trick", "permutation_channel", "pigeonhole_same_suit", "s_suits_m_ranks", "factorial_distance_code"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": 52,
+    "hand_size": 5,
+    "shown_cards": 4,
+    "hidden_cards": 1,
+    "ordering_channel": true,
+    "encoded_values_by_order": 6,
+    "strategy_type": "same_suit_pair_plus_permutation"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "ordered sequence of four visible cards",
+    "message_capacity": "choice and order of four cards from the hand"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 3,
+    "comment": "Классический карточный фокус с чистым комбинаторным кодированием.",
+    "status": "ai_checked"
+  },
+  "tags": ["card_trick", "permutation_order_code", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-fitch-cheney-five-card-trick", "role": "reference_topic", "status": "source_verified"},
+    {"source_id": "src-problems-ru-98399", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "same_solution_parameterized_with_capacity_condition",
+    "notes": ["2026-05-18: добавлена параметрическая форма; числа 52 и 5 существенны только как стандартный случай условий s+1 карт и floor(m/2) <= (s-1)!."]
+  }
+}

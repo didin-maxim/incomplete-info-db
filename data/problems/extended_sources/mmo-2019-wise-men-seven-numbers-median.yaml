@@ -1,0 +1,77 @@
+{
+  "id": "mmo-2019-wise-men-seven-numbers-median",
+  "title": "ММО-2019: семь чисел, сумма 100 и передача через четвертое число",
+  "fragment": "communication",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "one_message"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mmo-2019-9-1",
+        "title": "Второй мудрец знает только четвертое по величине число",
+        "text": "Первый мудрец задумывает 7 различных натуральных чисел с суммой 100 и тайно сообщает их королю. Король называет второму мудрецу только четвертое по величине из этих чисел. У мудрецов нет возможности сговориться. Могут ли мудрецы гарантированно справиться с заданием, чтобы второй отгадал все семь чисел?",
+        "source_ids": ["src-mmo-2019-82-brochure"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-unique-middle-value-code",
+      "title": "Сделать передаваемое число уникальным кодом всего набора",
+      "text": "Так как первый мудрец сам выбирает набор, ему достаточно выбрать такой набор, у которого четвертое по величине число однозначно указывает на весь набор в заранее известной математической ситуации.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-singleton-fiber-under-fourth-number",
+      "title": "Выбрать набор с единственной возможной серединой",
+      "text": "Первый мудрец может выбрать числа \\(1,2,3,22,23,24,25\\). Их сумма равна 100, а четвертое по величине число равно 22. Если второй мудрец слышит 22, то три меньших натуральных различных числа имеют сумму как минимум \\(1+2+3=6\\), а три больших различных натуральных числа имеют сумму как минимум \\(23+24+25=72\\). Вместе с 22 это уже дает 100, поэтому все минимумы должны достигаться. Значит, набор единственно возможен.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": []
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "семерки различных натуральных чисел с суммой 100",
+    "observations": ["одно публичное сообщение: четвертое по величине число"],
+    "allowed_actions": ["первый мудрец выбирает скрытый набор", "король сообщает только четвертую порядковую статистику"],
+    "goal": ["make_hidden_set_identifiable_from_single_number"],
+    "strategy_type": ["one_message_code", "singleton_fiber", "extremal_minimum"],
+    "lower_bound_method": [],
+    "keywords": ["mmo_2019", "wise_men", "median_code", "single_message"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "agents": ["first_sage", "king", "second_sage"],
+    "channel": "single_number_chosen_by_rule",
+    "message_capacity": "fourth_order_statistic",
+    "privacy_goal": "none"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 2,
+    "comment": "9 класс ММО; хорошая короткая карточка про однозначное кодирование через один параметр.",
+    "status": "ai_checked"
+  },
+  "tags": ["public_communication", "linear_signature"],
+  "sources": [
+    {"source_id": "src-mmo-2019-82-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Добавлена как минимальная задача о передаче скрытого состояния одним параметром; не относится к общему знанию."]
+  }
+}

@@ -1,0 +1,1180 @@
+{
+  "sources": [
+    {
+      "id": "src-folklore",
+      "type": "folklore",
+      "title": "Классический фольклор олимпиадной математики",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-classical-coin-weighing",
+      "type": "reference_topic",
+      "title": "Классические задачи о фальшивой монете",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-fitch-cheney-five-card-trick",
+      "type": "reference_topic",
+      "title": "Fitch Cheney five card trick",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-common-knowledge-puzzles",
+      "type": "reference_topic",
+      "title": "Классические задачи об общем знании",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-ulyanovsk-olympiad-folklore",
+      "type": "olympiad_folklore",
+      "title": "Олимпиадные кружковые задачи о стратегиях и вопросах",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "ru"
+    },
+    {
+      "id": "src-prisoners-switch-puzzles",
+      "type": "reference_topic",
+      "title": "Классические задачи о заключенных и переключателе",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-truth-liar-questions",
+      "type": "reference_topic",
+      "title": "Классические задачи о правдивцах, лжецах и вопросах",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-card-trick-folklore",
+      "type": "reference_topic",
+      "title": "Классические карточные фокусы с кодированием информации",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-utyum-official-local-archive",
+      "type": "official_archive_local_copy",
+      "title": "Официальный архив Уральского турнира юных математиков, локальная извлеченная копия",
+      "url": "",
+      "browser_openable": false,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-yumt-official-local-archive",
+      "type": "official_archive_local_copy",
+      "title": "Официальный архив Южного математического турнира, локальная извлеченная копия",
+      "url": "https://adygmath.ru/turnir14.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-mmo-2026-89-brochure",
+      "type": "official_olympiad_brochure",
+      "title": "LXXXIX Московская математическая олимпиада. Задачи и решения",
+      "url": "https://mmo.mccme.ru/2026/89mmo.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-mmo-2022-85-brochure",
+      "type": "official_olympiad_brochure",
+      "title": "LXXXV Московская математическая олимпиада. Задачи и решения",
+      "url": "https://mmo.mccme.ru/2022/85mmo.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-tot-toronto-2005-fall-junior-o",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Fall 2005 Junior O-Level problems and solutions",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2005F_JOsolutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mmo-2006-69-brochure",
+      "type": "official_olympiad_brochure",
+      "title": "LXIX Московская математическая олимпиада. Задачи, решения, статистика",
+      "url": "https://mmo.mccme.ru/2006/all.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-mmo-2000-63-archive",
+      "type": "official_olympiad_archive",
+      "title": "LXIII Московская математическая олимпиада: условия и решения задач",
+      "url": "https://mmo.mccme.ru/2000/mmo2000.htm",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2023-solutions",
+      "type": "official_olympiad_archive",
+      "title": "34 Математический праздник 2023. Решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/sol23.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-mmo-2019-82-brochure",
+      "type": "official_olympiad_brochure",
+      "title": "LXXXII Московская математическая олимпиада. Задачи и решения",
+      "url": "https://mmo.mccme.ru/2019/82mmo.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-lktg-2008-broken-balances-solutions",
+      "type": "official_training_material",
+      "title": "Weighings using broken balances. Solutions",
+      "url": "https://olympiads.mccme.ru/lktg/2008/4/4-2en.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-tot-2002-fall-senior-o-problems",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Fall 2002 Senior O-Level problems",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2002F_SOproblems.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-tot-2002-fall-senior-o-solutions",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Fall 2002 Senior O-Level solutions",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2002F_SOsolutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-tot-2002-fall-junior-a-problems",
+      "type": "official_olympiad_archive",
+      "title": "Tournament of the Towns, Fall 2002 Junior A-Level problems",
+      "url": "https://www.math.toronto.edu/oz/turgor/archives/TT2002F_JAproblems.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mccme-circle-2013-weighings",
+      "type": "official_training_material",
+      "title": "Математический кружок МЦНМО, 7 класс, занятие 8: взвешивания",
+      "url": "https://old.mccme.ru/circles/mccme/2014/7/mccme-7-08.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2013-weighing-article",
+      "type": "journal_article",
+      "title": "Квант, 2013: статья о вариациях задач про фальшивые монеты",
+      "url": "https://kvant.mccme.ru/2013/01/",
+      "browser_openable": true,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2025-book",
+      "type": "official_olympiad_brochure",
+      "title": "36-й Математический праздник 2025. Задачи и решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/25/book.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2024-book",
+      "type": "official_olympiad_brochure",
+      "title": "35-й Математический праздник 2024. Задачи и решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/24/book.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-matprazdnik-2022-book",
+      "type": "official_olympiad_brochure",
+      "title": "33-й Математический праздник 2022. Задачи и решения",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/22/book.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-tursavin-12-problems",
+      "type": "official_olympiad_archive",
+      "title": "XII турнир математических боёв имени А. П. Савина. Задачи",
+      "url": "https://tursavin.ru/media/uploads/problems/TurSavin12.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2003-02-young-solutions",
+      "type": "official_journal_archive",
+      "title": "Квант, 2003, №2: ответы, указания, решения; «Квант» для младших школьников",
+      "url": "https://kvant.mccme.ru/pdf/2003/02/57.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2003-04-four-coins-standard",
+      "type": "official_journal_archive",
+      "title": "Квант, 2003, №4: страница 36, задача о четырех монетах и эталоне",
+      "url": "https://kvant.mccme.ru/pdf/2003/04/36.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2013-01-two-fake-coins-article",
+      "type": "official_journal_article",
+      "title": "К. Кноп. Две фальшивые монеты. Квант, 2013, №1",
+      "url": "https://kvant.mccme.ru/pdf/2013/2013-01-b.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2019-09-m2565",
+      "type": "official_journal_archive",
+      "title": "Квант, 2019, №9: задача M2565 и решение",
+      "url": "https://kvant.mccme.ru/pdf/2019/2019-09.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2022-09-young-problems",
+      "type": "official_journal_archive",
+      "title": "Квант, 2022, №9: «Квант» для младших школьников, задачи",
+      "url": "https://kvant.mccme.ru/pdf/2022/2022-09.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvantik-math-contest-2013",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2013 года",
+      "url": "https://kvantik.com/konkurs/math/2013/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvantik-math-contest-2015",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2015 года",
+      "url": "https://kvantik.com/konkurs/math/2015/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvantik-math-contest-2016",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2016 года",
+      "url": "https://kvantik.com/konkurs/math/2016/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-ukmt-jmc-2015-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Junior Mathematical Challenge 2015. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/JMC2015_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-imc-2019-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Intermediate Mathematical Challenge 2019. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/IMC2019_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-smc-2015-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Senior Mathematical Challenge 2015. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/SMC2015_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-open-ended-2013-primary",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Open Ended 2013. Primary Team Maths Resources",
+      "url": "https://archive.ukmt.org.uk/pdfs/primary/UKMT%20Open%20Ended%202013.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-stmc-2018-19-national-final-group-round",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Senior Team Maths Challenge 2018-19 National Final. Group Round",
+      "url": "https://meiassets.blob.core.windows.net/amsp-uploads/uploads/files/a83c5a8c7f15d06f86b98c819efe2b1c.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-stmc-2018-19-national-final-supervisors",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Senior Team Maths Challenge 2018-19 National Final. Supervisors booklet",
+      "url": "https://ukmt.org.uk/wp-content/uploads/2026/01/supervisors-booklet-1.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mathcounts-potw-2021-03-22-solutions",
+      "type": "official_training_material",
+      "title": "MATHCOUNTS Problem of the Week Archive: State Competition, March 22, 2021, Solutions",
+      "url": "https://www.mathcounts.org/sites/default/files/2021-07/PoTW032221%20Solutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mathcounts-colorful-caps",
+      "type": "official_training_material",
+      "title": "MATHCOUNTS Colorful Caps poster",
+      "url": "https://www.mathcounts.org/resources/colorful-caps",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mathcounts-colorful-caps-poster",
+      "type": "official_training_material",
+      "title": "MATHCOUNTS Colorful Caps poster PDF",
+      "url": "https://www.mathcounts.org/sites/default/files/2021-06/ColorfulCapsPoster2.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-mathcounts-colorful-caps-solution",
+      "type": "official_training_material",
+      "title": "MATHCOUNTS Colorful Caps poster solution",
+      "url": "https://www.mathcounts.org/sites/default/files/2021-06/CapsPosterSolution%20%281%29_0.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-cemc-2025-bcc-7-8-contest",
+      "type": "official_olympiad_archive",
+      "title": "CEMC 2025 Beaver Computing Challenge, Grades 7 and 8, Questions",
+      "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2025/2025BCCContest7_8.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-cemc-2025-bcc-7-8-solutions",
+      "type": "official_olympiad_archive",
+      "title": "CEMC 2025 Beaver Computing Challenge, Grades 7 and 8, Solutions",
+      "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2025/2025BCCContestSolutions7_8.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-cemc-2024-bcc-7-8-solutions",
+      "type": "official_olympiad_archive",
+      "title": "CEMC 2024 Beaver Computing Challenge, Grades 7 and 8, Questions and Solutions",
+      "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2025/2024BCCContestSolutions7_8.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-cemc-2025-pascal-contest",
+      "type": "official_olympiad_archive",
+      "title": "CEMC 2025 Pascal Contest",
+      "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2025/2025PascalContest.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-cemc-2025-pascal-solution",
+      "type": "official_olympiad_archive",
+      "title": "CEMC 2025 Pascal Contest Solutions",
+      "url": "https://cemc.uwaterloo.ca/sites/default/files/documents/2025/2025PascalSolution.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-knights-and-knaves",
+      "type": "official_educational_problem",
+      "title": "NRICH: Knights and Knaves",
+      "url": "https://nrich.maths.org/problems/knights-and-knaves",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-money-measure",
+      "type": "official_educational_problem",
+      "title": "NRICH: Money Measure",
+      "url": "https://nrich.maths.org/problems/money-measure",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-spot-the-fake",
+      "type": "official_educational_problem",
+      "title": "NRICH: Spot the Fake",
+      "url": "https://nrich.maths.org/problems/spot-fake",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-9-weights",
+      "type": "official_educational_problem",
+      "title": "NRICH: 9 Weights",
+      "url": "https://nrich.maths.org/problems/9-weights",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-great-weights-puzzle",
+      "type": "official_educational_problem",
+      "title": "NRICH: The Great Weights Puzzle",
+      "url": "https://nrich.maths.org/problems/great-weights-puzzle",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-nrich-balance-power",
+      "type": "official_educational_problem",
+      "title": "NRICH: Balance Power",
+      "url": "https://nrich.maths.org/problems/balance-power",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-sasmo-2015-grade-9-solutions",
+      "type": "official_olympiad_archive",
+      "title": "SASMO 2015 Secondary 3 Contest solutions",
+      "url": "https://sasmo.sg/wp-content/uploads/securepdfs/2016/02/Grade-9.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-winkler-seven-puzzles",
+      "type": "author_archive",
+      "title": "Peter Winkler, Seven Puzzles You Think You Must Not Have Heard Correctly",
+      "url": "https://math.dartmouth.edu/~pw/solutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-winkler-mathematical-mind-benders",
+      "type": "book_reference",
+      "title": "Peter Winkler, Mathematical Mind-Benders",
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "en"
+    },
+    {
+      "id": "src-boolos-hardest-logic-puzzle",
+      "type": "journal_article",
+      "title": "George Boolos, The Hardest Logic Puzzle Ever, The Harvard Review of Philosophy 6(1), 1996",
+      "url": "https://www.pdcnet.org/scholarpdf/show?file_type=pdf&id=harvardreview_1996_0006_0001_0062_0065&pdfname=harvardreview_1996_0006_0001_0062_0065.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ebert-hat-game-reference",
+      "type": "reference_topic",
+      "title": "Ebert's hat game and Hamming-code hat puzzles",
+      "url": "https://en.wikipedia.org/wiki/Induction_puzzles",
+      "browser_openable": true,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "en"
+    },
+    {
+      "id": "src-balance-puzzle-reference",
+      "type": "reference_topic",
+      "title": "Balance puzzle: counterfeit coin variants",
+      "url": "https://en.wikipedia.org/wiki/Balance_puzzle",
+      "browser_openable": true,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "en"
+    },
+    {
+      "id": "src-problems-ru-34945",
+      "type": "web_archive",
+      "title": "problems.ru, задача 34945: 27 монет, одна легкая",
+      "url": "https://problems.ru/view_problem_details_new.php?id=34945",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-60922",
+      "type": "web_archive",
+      "title": "problems.ru, задача 60922: 12 монет за три взвешивания",
+      "url": "https://problems.ru/view_problem_details_new.php?id=60922",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-105200",
+      "type": "web_archive",
+      "title": "problems.ru, задача 105200: девять монет по кругу",
+      "url": "https://problems.ru/view_problem_details_new.php?id=105200",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-88304",
+      "type": "web_archive",
+      "title": "problems.ru, задача 88304: монеты 1, 2, 3 и 5 копеек",
+      "url": "https://problems.ru/view_problem_details_new.php?id=88304",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-35224",
+      "type": "web_archive",
+      "title": "problems.ru, задача 35224: четыре монеты и весы без надежного равновесия",
+      "url": "https://problems.ru/view_problem_details_new.php?id=35224",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-32820",
+      "type": "web_archive",
+      "title": "problems.ru, задача 32820: определить знак фальшивой монеты",
+      "url": "https://problems.ru/view_problem_details_new.php?id=32820",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-65055",
+      "type": "web_archive",
+      "title": "problems.ru, задача 65055: найти настоящую монету при платных взвешиваниях",
+      "url": "https://problems.ru/view_problem_details_new.php?id=65055",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-66431",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66431: рыцари, лжецы и хитрецы за столом",
+      "url": "https://problems.ru/view_problem_details_new.php?id=66431",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-66436",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66436: 60 рыцарей и лжецов за круглым столом",
+      "url": "https://problems.ru/view_problem_details_new.php?id=66436",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-66705",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66705: расстояние до ближайшего лжеца",
+      "url": "https://problems.ru/view_problem_details_new.php?id=66705",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-estonian-1995-96-selected-problems",
+      "type": "official_olympiad_archive",
+      "title": "Selected problems from Estonian mathematical contests 1995-96",
+      "url": "https://www.math.olympiaadid.ut.ee/eng/archive/prob9596.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-estonian-2001-02-selected-problems",
+      "type": "official_olympiad_archive",
+      "title": "Selected problems from Estonian mathematical contests 2001-02",
+      "url": "https://www.math.olympiaadid.ut.ee/eng/archive/prob0102.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-estonian-2003-04-selected-problems",
+      "type": "official_olympiad_archive",
+      "title": "Selected problems from Estonian mathematical contests 2003-04",
+      "url": "https://www.math.olympiaadid.ut.ee/eng/archive/prob0304.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-estonian-2018-19-selected-problems",
+      "type": "official_olympiad_archive",
+      "title": "Selected problems from Estonian mathematical contests 2018-19",
+      "url": "https://www.math.olympiaadid.ut.ee/eng/archive/prob1819.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-maa-2022-amc10a-problems",
+      "type": "official_olympiad_archive",
+      "title": "MAA 2022 AMC 10A Problems",
+      "url": "https://maa.org/wp-content/uploads/2024/08/2022_AMC10A-Problems.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-maa-2022-amc10a-solutions",
+      "type": "official_olympiad_archive",
+      "title": "MAA 2022 AMC 10A Solutions",
+      "url": "https://maa.org/wp-content/uploads/2024/08/2022-AMC-10A-solutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-aops-2022-amc10a-p12-index",
+      "type": "contest_index",
+      "title": "AoPS Wiki: 2022 AMC 10A Problems/Problem 12",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2022_AMC_10A_Problems/Problem_12",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-aops-2010-amc12a-p12-index",
+      "type": "contest_index",
+      "title": "AoPS Wiki: 2010 AMC 12A Problems/Problem 12",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2010_AMC_12A_Problems/Problem_12",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-maa-2010-amc12a-solutions-mirror",
+      "type": "official_solution_pamphlet_mirror",
+      "title": "MAA 2010 AMC 12A Solutions, mirrored PDF",
+      "url": "https://willistonblogs.com/mathteam/files/2016/01/2010AMC12-Asolutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-aops-2011-amc10a-p21-index",
+      "type": "contest_index",
+      "title": "AoPS Wiki: 2011 AMC 10A Problems/Problem 21",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2011_AMC_10A_Problems/Problem_21",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-maa-2011-amc10a-solutions-mirror",
+      "type": "official_solution_pamphlet_mirror",
+      "title": "MAA 2011 AMC 10A Solutions, mirrored PDF",
+      "url": "https://f.hubspotusercontent30.net/hubfs/981338/Math%20Competition%20Problems_PDFS/2011%20AMC10-A%20solutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-wajo-2015-qns-solns",
+      "type": "official_olympiad_archive",
+      "title": "WAJO 2015 Questions and Solutions",
+      "url": "https://enrichedmaths.maths.uwa.edu.au/wajo/qnsandsolns/wajo15qnsoln.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-wajo-2022-qns-solns",
+      "type": "official_olympiad_archive",
+      "title": "WAJO 2022 Questions and Solutions",
+      "url": "https://enrichedmaths.maths.uwa.edu.au/wajo/qnsandsolns/wajo22qnsoln.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-simcc-sasmo-2019-2020-g4-book",
+      "type": "official_olympiad_archive",
+      "title": "SIMCC/SASMO Primary 4 (Grade 4) GEP Practice 2019 & 2020: Contest Problems with Full Solutions",
+      "url": "https://simcc.org/wp-content/uploads/2025/03/2019-SASMO-G4.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-simcc-sasmo-2019-2020-g5-book",
+      "type": "official_olympiad_archive",
+      "title": "SIMCC/SASMO Primary 5 (Grade 5) GEP Practice 2019 & 2020: Contest Problems with Full Solutions",
+      "url": "https://simcc.org/wp-content/uploads/2025/03/2019-SASMO-G5.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-simcc-sasmo-2019-2020-g6-book",
+      "type": "official_olympiad_archive",
+      "title": "SIMCC/SASMO Primary 6 (Grade 6) GEP Practice 2019 & 2020: Contest Problems with Full Solutions",
+      "url": "https://simcc.org/wp-content/uploads/2025/03/2019-SASMO-G6.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-simcc-sasmo-2019-2020-g8-book",
+      "type": "official_olympiad_archive",
+      "title": "SIMCC/SASMO Secondary 2 (Grade 8) GEP Practice 2019 & 2020: Contest Problems with Full Solutions",
+      "url": "https://simcc.org/wp-content/uploads/2025/03/2019-SASMO-G8.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-simcc-sasmo-2019-2020-g9-book",
+      "type": "official_olympiad_archive",
+      "title": "SIMCC/SASMO Secondary 3 (Grade 9) GEP Practice 2019 & 2020: Contest Problems with Full Solutions",
+      "url": "https://simcc.org/wp-content/uploads/2025/03/2019-SASMO-G9.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-sms-smo-solution-books-page",
+      "type": "official_publication_catalog",
+      "title": "Singapore Mathematical Society: Singapore Mathematical Olympiads Solution Books",
+      "url": "https://sms.math.nus.edu.sg/html/mathematical-medley-old/singapore-mathematical-olympiads-solution-books/index.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-sms-medley-1997-competition-corner",
+      "type": "official_journal_archive",
+      "title": "Singapore Mathematical Society Mathematical Medley, Volume 24 No. 2, Competition Corner",
+      "url": "https://sms.math.nus.edu.sg/html/smsmedley/Vol-24-2/Competition%20Corner%20%28Tay%20Tiong%20Seng%29.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-hbcse-inmo-2021-solutions",
+      "type": "official_olympiad_solution_pdf",
+      "title": "HBCSE/TIFR: INMO 2021 Official Solutions",
+      "url": "https://olympiads.hbcse.tifr.res.in/wp-content/uploads/2021/04/INMO_2021_solutions.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-komal-2010-a512",
+      "type": "official_journal_archive",
+      "title": "KöMaL, Problem A.512, September 2010",
+      "url": "https://www.komal.hu/feladat?a=feladat&f=A512&l=en",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-komal-2011-a542",
+      "type": "official_journal_archive",
+      "title": "KöMaL, Problem A.542, October 2011",
+      "url": "https://www.komal.hu/feladat?a=feladat&f=A542&l=en",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-komal-2016-k517",
+      "type": "official_journal_archive",
+      "title": "KöMaL, Problem K.517, November 2016",
+      "url": "https://www.komal.hu/feladat?a=feladat&f=K517&l=en",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-komal-2020-k664",
+      "type": "official_journal_archive",
+      "title": "KöMaL, Problem K.664, October 2020",
+      "url": "https://www.komal.hu/feladat?a=feladat&f=K664&l=en",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-komal-2023-k749",
+      "type": "official_journal_archive",
+      "title": "KöMaL, Problem K.749, January 2023",
+      "url": "https://www.komal.hu/feladat?a=feladat&f=K749&l=en",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-samf-training-manual-2014-scribd",
+      "type": "official_training_material_mirror",
+      "title": "Poobhalan Pillay, A Training Manual for South African Mathematics Olympiads, SAMF, 2014",
+      "url": "https://fr.scribd.com/document/460620386/Training-Manual-South-African-Mathematics-Olympiads",
+      "browser_openable": true,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "en"
+    },
+    {
+      "id": "src-uct-2015-olympiad-senior-solutions",
+      "type": "official_olympiad_archive",
+      "title": "UCT Mathematics Olympiad 2015 Senior paper solutions",
+      "url": "https://drive.google.com/file/d/0ByZ_7pJlPU5YcUVPenFUeTcySFdOUm5PR3preEZBbnRIajVB/view",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-pamo-2002-aops",
+      "type": "contest_index",
+      "title": "AoPS Wiki: 2002 Pan African MO Problems",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2002_Pan_African_MO_Problems",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-pamo-2002-imomath-pdf",
+      "type": "olympiad_problem_collection",
+      "title": "IMOmath: 10-th Pan-African Mathematical Olympiad, Cape Town, South Africa, 2002",
+      "url": "https://imomath.com/othercomp/Pa/PaMO02.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-amt-aimo-2017-paper-solutions",
+      "type": "official_olympiad_archive",
+      "title": "Australian Intermediate Mathematics Olympiad 2017 paper and solutions",
+      "url": "https://amt.edu.au/wp-content/uploads/2019/04/2017-AIMO-paper-solutions-v2019.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-amt-amc-2016-solutions",
+      "type": "official_solution_book",
+      "title": "AMC 2016 Solutions",
+      "url": "https://shop.amt.edu.au/products/amc-2016-solutions",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-amt-australian-scene-2018",
+      "type": "official_yearbook",
+      "title": "Mathematics Contests: The Australian Scene 2018",
+      "url": "https://shop.amt.edu.au/products/as-2014-2019",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-amt-australian-scene-2022",
+      "type": "official_yearbook",
+      "title": "Mathematics Contests: The Australian Scene 2022",
+      "url": "https://shop.amt.edu.au/products/as-2014-2019",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-omg-2005-06-first-stage-problems",
+      "type": "official_olympiad_archive",
+      "title": "I Olimpiada Matematyczna Gimnazjalistów 2005/06, zadania zawodów I stopnia",
+      "url": "https://omj.edu.pl/uploads/attachments/omg01_1.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "pl"
+    },
+    {
+      "id": "src-omj-seminar-casework-czyzewska",
+      "type": "official_training_material",
+      "title": "Jadwiga Czyżewska, O rozważaniu przypadków. Seminarium Olimpijskie OMJ",
+      "url": "https://omj.edu.pl/uploads/attachments/przypadki_JC.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "pl"
+    },
+    {
+      "id": "src-ukmt-imc-2013-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Intermediate Mathematical Challenge 2013. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/IMC2013_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-smc-2016-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Senior Mathematical Challenge 2016. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/SMC2016_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-smc-2017-sol-extended",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Senior Mathematical Challenge 2017. Solutions and investigations",
+      "url": "https://archive.ukmt.org.uk/pdfs/archive/SMC2017_sol_extended.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-ukmt-imok-2008-solutions-inside",
+      "type": "official_olympiad_archive",
+      "title": "UKMT Intermediate follow-up competitions 2008. Questions and solutions",
+      "url": "https://archive.ukmt.org.uk/pdfs/IMOK%20Solutions%20_%20Inside2008.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en"
+    },
+    {
+      "id": "src-kvantik-math-contest-2016-2017",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2016/17 учебного года",
+      "url": "https://kvantik.com/konkurs/math/2016-2017/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvantik-math-contest-2021-2022",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2021/22 учебного года",
+      "url": "https://kvantik.com/konkurs/math/2021-2022/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvantik-math-contest-2025-2026",
+      "type": "official_journal_archive",
+      "title": "Журнал «Квантик». Математический конкурс 2025/26 учебного года",
+      "url": "https://kvantik.com/konkurs/math/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-kvant-2000-04-young-solutions",
+      "type": "official_journal_archive",
+      "title": "Квант, 2000, №4: ответы, указания, решения; «Квант» для младших школьников",
+      "url": "https://kvant.mccme.ru/pdf/2000/04/kv0400keys.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {"id": "src-problems-ru-107826", "type": "web_archive", "title": "problems.ru, задача 107826: легкая монета при ограничении двух участий", "url": "https://www.problems.ru/view_problem_details_new.php?id=107826", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-107633", "type": "web_archive", "title": "problems.ru, задача 107633: 99 монет за 7 взвешиваний с ограничением двух участий", "url": "https://www.problems.ru/view_problem_details_new.php?id=107633", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-64498", "type": "web_archive", "title": "problems.ru, задача 64498: две противоположные фальшивые монеты из пяти", "url": "https://www.problems.ru/view_problem_details_new.php?id=64498", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-78810", "type": "web_archive", "title": "problems.ru, задача 78810: 1000 монет, определить наличие и знак фальшивых", "url": "https://www.problems.ru/view_problem_details_new.php?id=78810", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-78572", "type": "web_archive", "title": "problems.ru, задача 78572: 11 мешков и два числовых взвешивания", "url": "https://www.problems.ru/view_problem_details_new.php?id=78572", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-65817", "type": "web_archive", "title": "problems.ru, задача 65817: шесть монет на весах с общим весом", "url": "https://www.problems.ru/view_problem_details_new.php?id=65817", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-66710", "type": "web_archive", "title": "problems.ru, задача 66710: мудрецы в шляпах и k безумных", "url": "https://www.problems.ru/view_problem_details_new.php?id=66710", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-66722", "type": "web_archive", "title": "problems.ru, задача 66722: рыцари, лжецы и подпевалы", "url": "https://www.problems.ru/view_problem_details_new.php?id=66722", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-60905", "type": "web_archive", "title": "problems.ru, задача 60905: карточный фокус с 27 картами", "url": "https://www.problems.ru/view_problem_details_new.php?id=60905", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-89935", "type": "web_archive", "title": "problems.ru, задача 89935: вопрос рыцарю или лжецу про крокодила", "url": "https://www.problems.ru/view_problem_details_new.php?id=89935", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-88014", "type": "web_archive", "title": "problems.ru, задача 88014: десять мешков за одно взвешивание", "url": "https://www.problems.ru/view_problem_details_new.php?id=88014", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-98399", "type": "web_archive", "title": "problems.ru, задача 98399: карточные фокусы с пятью картами", "url": "https://www.problems.ru/view_problem_details_new.php?id=98399", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-64502", "type": "web_archive", "title": "problems.ru, задача 64502: сколько рыцарей среди пяти островитян", "url": "https://www.problems.ru/view_problem_details_new.php?id=64502", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-116581", "type": "web_archive", "title": "problems.ru, задача 116581: друзья рыцарей и лжецов за круглым столом", "url": "https://www.problems.ru/view_problem_details_new.php?id=116581", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-116658", "type": "web_archive", "title": "problems.ru, задача 116658: гости рыцаря и одинаковые ответы соседей", "url": "https://www.problems.ru/view_problem_details_new.php?id=116658", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"},
+    {"id": "src-problems-ru-32792", "type": "web_archive", "title": "problems.ru, задача 32792: слово 'да' в стране рыцарей и лжецов", "url": "https://www.problems.ru/view_problem_details_new.php?id=32792", "browser_openable": true, "official": false, "status": "source_verified", "language": "ru"}
+  ]
+}

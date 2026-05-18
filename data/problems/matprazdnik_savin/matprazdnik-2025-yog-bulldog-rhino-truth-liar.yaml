@@ -1,0 +1,61 @@
+{
+  "id": "matprazdnik-2025-yog-bulldog-rhino-truth-liar",
+  "title": "Матпраздник-2025: йог, бульдог и носорог с одним лжецом",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Кто самый медленный",
+        "text": "Есть три участника: один самый ловкий и всегда лжет, один самый смелый и всегда говорит правду, третий самый быстрый и может говорить как правду, так и ложь. Йог говорит, что самый быстрый смелее его; бульдог говорит, что он быстрее самого ловкого; носорог говорит, что он ловчее самого смелого. Нужно определить самого медленного.",
+        "source_ids": ["src-matprazdnik-2025-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "hidden_state"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-role-elimination",
+      "title": "Исключить роли, в которых высказывание противоречит статусу говорящего",
+      "text": "Роли правдивца, лжеца и свободного говорящего связаны с первыми местами по трем качествам. Проверка невозможных назначений быстро фиксирует, кто является самым быстрым, кто самым ловким и кто самым смелым.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-eliminate-rhino-then-yog",
+      "title": "Сначала определить роль носорога, затем йога",
+      "text": "Носорог не может быть самым смелым: тогда его фраза была бы истинной, но утверждала бы, что он ловчее самого себя. Он не может быть и самым ловким: тогда он должен был бы лгать, хотя его фраза стала бы истинной. Значит, носорог самый быстрый. Йог не может быть самым смелым, потому что тогда его фраза тоже стала бы истинной невозможным образом. Следовательно, йог самый ловкий, бульдог самый смелый. Из фразы бульдога следует, что он быстрее йога; носорог быстрее всех, поэтому йог самый медленный.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "распределение трех первых мест по ловкости, смелости и быстроте и истинность трех высказываний",
+    "observations": ["три публичных высказывания с разными режимами истинности"],
+    "allowed_actions": ["логически исключать несовместимые назначения ролей"],
+    "goal": ["identify_slowest_participant"],
+    "strategy_type": ["role_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["matprazdnik_2025", "truth_liar", "role_assignment"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 3,
+    "lies_allowed": "one designated liar, one designated truth-teller, one unconstrained speaker",
+    "adaptive": false,
+    "objective": "deduce_order_information"
+  },
+  "difficulty": {"main": "standard", "local_score": 2, "comment": "6 класс, короткое исключение ролей.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "indistinguishability_argument"],
+  "sources": [{"source_id": "src-matprazdnik-2025-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 36-й Математический праздник, 6 класс, задача 2."]}
+}

@@ -1,0 +1,99 @@
+{
+  "id": "one-counterfeit-among-27-three-ternary-questions",
+  "title": "Один из 27: три трехисходных вопроса",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "optimality"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Три наблюдения по три исхода",
+        "text": "Скрыт один из 27 объектов. За один ход можно получить один из трех заранее различимых ответов. Покажите, что трех ходов достаточно и в общем случае необходимо.",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree", "information_lower_bound"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-q-ternary-questions",
+        "title": "q трехисходных вопросов",
+        "text": "Для любого \\(q\\) та же стратегия различает до \\(3^q\\) состояний: нумеруем состояния троичными словами длины \\(q\\), а каждый ход узнает очередную цифру или делит текущих кандидатов на три группы. Число 27 - точный случай \\(3^3\\).",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-ternary-labels",
+      "title": "Троичная запись объекта",
+      "text": "Пронумеруем объекты троичными словами длины 3. Каждый ход узнает одну троичную цифру скрытого слова.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ternary-code",
+      "title": "Три раза разбить на три равные группы",
+      "text": "Сначала делим 27 объектов на три группы по первой троичной цифре и узнаем, в какой группе скрытый объект. Затем внутри выбранной группы делим девять объектов на три группы по второй цифре. Наконец делим оставшиеся три объекта по третьей цифре. Полученные три исхода дают троичное слово и однозначно определяют объект.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-ternary-leaves",
+      "title": "Два хода не хватит",
+      "text": "Любая стратегия с \\(q\\) трехисходными ходами имеет не более \\(3^q\\) листьев в дереве решений. При \\(q=2\\) это только 9 листьев, меньше 27 скрытых состояний. Поэтому нужны как минимум три хода.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree", "information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "27 возможных объектов",
+    "observations": ["один из трех исходов на каждом ходе"],
+    "allowed_actions": ["разбить оставшиеся состояния на три группы"],
+    "goal": ["identify_hidden_object"],
+    "strategy_type": ["adaptive_strategy", "ternary_code"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["ternary_questions", "27_states", "decision_tree", "q_ternary_questions", "3^q_states"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 3,
+    "question_count": 3,
+    "lies_allowed": 0,
+    "adaptive": true,
+    "objective": "identify_one_of_27_states"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Троичный аналог бинарного поиска и взвешиваний с тремя исходами.",
+    "status": "ai_checked"
+  },
+  "tags": ["decision_tree", "ternary_code", "ternary_search", "decision_tree_lower_bound"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "same_solution_parameterized",
+    "notes": ["2026-05-18: добавлена общая q-форма; 27 классифицировано как полная емкость трех трехисходных вопросов."]
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "id": "poland-omg-2005-five-coins-48g-three-digital-weighings",
+  "title": "OMG-2005/06: пять монет суммарным весом 48 г за три цифровых взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "digital_weighing"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-omg-2005-1-6",
+        "title": "Пять монет, две из них легче",
+        "text": "Настоящая монета весит 10 граммов, а фальшивая - 9 граммов. Даны 5 монет суммарным весом 48 граммов и электронные весы: за одно взвешивание можно положить на весы любой выбранный набор монет и узнать его суммарный вес. Можно ли не более чем за 3 взвешивания всегда определить, какие монеты фальшивые, а какие настоящие?",
+        "source_ids": ["src-omg-2005-06-first-stage-problems", "src-omj-seminar-casework-czyzewska"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["digital_scale", "state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-total-weight-fixes-two-fakes",
+      "title": "Суммарный вес сразу задает число фальшивых монет",
+      "text": "Если бы все 5 монет были настоящими, они весили бы 50 граммов. Наблюдаемый вес 48 граммов означает дефицит 2 грамма, то есть ровно две монеты фальшивые.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-three-binary-tests-separate-ten-pairs",
+      "title": "Три взвешивания кодируют пару фальшивых монет",
+      "text": "Каждой монете можно назначить двоичный столбец длины 3 так, чтобы суммы столбцов для любых двух монет различались. Тогда три дефицита веса однозначно декодируют неизвестную пару.",
+      "standard_idea_ids": ["binary_encoding", "weighted_sum_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-columns-000-100-010-001-111",
+      "title": "Взвесить наборы по столбцам кода",
+      "text": "Обозначим монеты A, B, C, D, E и назначим им столбцы \\(000,100,010,001,111\\). В первом взвешивании кладем монеты B и E, во втором - C и E, в третьем - D и E. Для каждого взвешивания сравниваем фактический вес с весом, который был бы у этих монет, если бы все они были настоящими; получаем число фальшивых монет в соответствующем наборе. Тройка таких дефицитов равна сумме двух столбцов фальшивых монет. Все 10 попарных сумм выбранных столбцов различны, поэтому пара фальшивых монет определяется однозначно.",
+      "standard_idea_ids": ["binary_encoding", "weighted_sum_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["digital_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "10 возможных пар фальшивых монет среди пяти",
+    "observations": ["три числовых результата электронных взвешиваний; каждый результат дает дефицит веса выбранного набора"],
+    "allowed_actions": ["положить на электронные весы любой выбранный набор монет и прочитать суммарный вес"],
+    "goal": ["identify_two_counterfeit_coins"],
+    "strategy_type": ["nonadaptive_strategy", "encoding", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["omg_2005_06", "five_coins", "two_light_counterfeits", "digital_scale", "binary_columns"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 5,
+    "counterfeit_count": 2,
+    "counterfeit_type": "known_lighter_by_one_gram",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 0,
+    "adaptive": false,
+    "objective": "identify_two_counterfeit_coins"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 3,
+    "comment": "Конструкция короткая, но требует увидеть кодирование десяти пар тремя числовыми тестами.",
+    "status": "ai_checked"
+  },
+  "tags": ["digital_scale", "binary_code", "weighted_sum_encoding", "nonadaptive_strategy"],
+  "sources": [
+    {"source_id": "src-omg-2005-06-first-stage-problems", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-omj-seminar-casework-czyzewska", "role": "official_training_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Условие взято из официального архива I OMG, задача 6; тот же текст включен в официальный семинар OMJ о разборе случаев. Решение записано русским пересказом через двоичное кодирование наборов."]
+  }
+}

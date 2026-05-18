@@ -1,0 +1,236 @@
+review_date: "2026-05-18"
+scope: "public knowledge / public ignorance and questions with lies / error-correcting codes"
+decision:
+  split_into_two_clusters: true
+  rationale: >
+    Public-knowledge tasks are about epistemic state updates caused by public
+    statements, silence, or "I do not know" answers. Lie/error-code tasks are
+    about a noisy answer channel and require code distance, repetition,
+    packing, covering, or erasure robustness. The overlap is mostly vocabulary:
+    both use messages, but the invariants and useful facets are different.
+
+clusters:
+  - id: public-knowledge-and-announcements
+    title: "Public knowledge and announcements"
+    inclusion_rule: >
+      Include tasks where a public statement, public silence, or a public
+      knowledge/ignorance claim is the main operation that changes the set of
+      possible worlds for all reasoners.
+    local_facets:
+      knowledge_event:
+        - common_knowledge_seed
+        - silence_or_nonaction
+        - public_ignorance
+        - public_certainty
+        - public_answer_update
+      rounds:
+        - one
+        - two
+        - three
+        - k
+        - version_dependent
+      agent_visibility:
+        - complete_graph_except_self
+        - split_attribute
+        - own_cards_only
+        - own_number_plus_public_card
+      announcement_type:
+        - existence_seed
+        - silence_as_information
+        - dont_know
+        - now_i_know
+        - certainty_claim
+        - yes_no_or_dont_know_answers
+      goal:
+        - identify_own_state
+        - identify_hidden_date
+        - identify_hidden_number
+        - identify_other_agents_number
+        - identify_hidden_property
+      solution_pattern:
+        - induction_on_count
+        - iterated_public_elimination
+        - public_ignorance_filter
+        - certainty_as_universal_quantifier
+    problems:
+      - problem_id: blue-eyed-islanders
+        path: data/problems/classical/blue-eyed-islanders.yaml
+        knowledge_event: [common_knowledge_seed, silence_or_nonaction]
+        rounds: k
+        agent_visibility: complete_graph_except_self
+        announcement_type: [existence_seed, silence_as_information]
+        goal: identify_own_state
+        solution_pattern: induction_on_count
+        readiness: core
+      - problem_id: muddy-children-common-knowledge
+        path: data/problems/wise_people/muddy-children-common-knowledge.yaml
+        knowledge_event: [common_knowledge_seed, public_ignorance]
+        rounds: k
+        agent_visibility: complete_graph_except_self
+        announcement_type: [existence_seed, dont_know]
+        goal: identify_own_state
+        solution_pattern: induction_on_count
+        readiness: core
+      - problem_id: cheryls-birthday-sasmo
+        path: data/problems/classical_more/cheryls-birthday-sasmo.yaml
+        knowledge_event: [public_ignorance, public_certainty]
+        rounds: three
+        agent_visibility: split_attribute
+        announcement_type: [dont_know, now_i_know]
+        goal: identify_hidden_date
+        solution_pattern: iterated_public_elimination
+        readiness: core
+      - problem_id: tot-2002-fall-senior-sum-product-2002-card
+        path: data/problems/extended_sources/tot-2002-fall-senior-sum-product-2002-card.yaml
+        knowledge_event: public_ignorance
+        rounds: two
+        agent_visibility: own_number_plus_public_card
+        announcement_type: dont_know
+        goal: identify_other_agents_number
+        solution_pattern: public_ignorance_filter
+        readiness: core
+      - problem_id: kvantik-2025-two-digit-three-public-questions
+        path: data/problems/kvant_kvantik_deep/kvantik-2025-two-digit-three-public-questions.yaml
+        knowledge_event: [public_answer_update, public_ignorance]
+        rounds: three
+        agent_visibility: split_attribute
+        announcement_type: yes_no_or_dont_know_answers
+        goal: identify_hidden_number
+        solution_pattern: iterated_public_elimination
+        readiness: core
+      - problem_id: ukmt-grey-kangaroo-2008-q13-magician-cards-even-sum
+        path: data/problems/ukmt_deep/ukmt-grey-kangaroo-2008-q13-magician-cards-even-sum.yaml
+        knowledge_event: public_certainty
+        rounds: one
+        agent_visibility: own_cards_only
+        announcement_type: certainty_claim
+        goal: identify_hidden_property
+        solution_pattern: certainty_as_universal_quantifier
+        readiness: included_but_edge
+      - problem_id: three-wise-men-hats
+        path: data/problems/wise_people/three-wise-men-hats.yaml
+        knowledge_event: public_ignorance
+        rounds: three
+        agent_visibility: complete_graph_except_self
+        announcement_type: dont_know
+        goal: identify_own_state
+        solution_pattern: iterated_public_elimination
+        readiness: needs_human_review_variant
+      - problem_id: sum-product-two-numbers
+        path: data/problems/classical/sum-product-two-numbers.yaml
+        knowledge_event: [public_ignorance, public_certainty]
+        rounds: version_dependent
+        agent_visibility: split_attribute
+        announcement_type: [dont_know, now_i_know]
+        goal: identify_other_agents_number
+        solution_pattern: iterated_public_elimination
+        readiness: needs_human_review_family
+
+  - id: questions-with-lies-and-error-correction
+    title: "Questions with lies and error correction"
+    inclusion_rule: >
+      Include tasks where the central mechanism is a noisy, adversarial, or
+      erasure-like channel and the solution uses explicit redundancy:
+      Hamming balls, repetition, perfect codes, or a robust ordering.
+    local_facets:
+      answer_alphabet:
+        - binary
+        - binary_with_pass
+        - ordered_digits_after_erasures
+      question_count:
+        - q
+        - 3m
+        - simultaneous
+        - none_fixed_object_order
+      lies_allowed:
+        - one
+        - two
+        - zero_but_pass_allowed
+        - six_erasures
+      adaptive:
+        - false
+        - separate_cases
+        - simultaneous
+      code_family:
+        - repetition_code
+        - hamming_packing_code
+        - perfect_hamming_covering_code
+        - erasure_robust_ordering
+      bound_type:
+        - hamming_ball_packing
+        - sphere_covering
+        - constructive_no_bound
+      objective:
+        - identify_hidden_object
+        - identify_hidden_number
+        - maximize_success_probability_without_wrong_guess
+        - guarantee_property_after_erasures
+    problems:
+      - problem_id: one-lie-questions-coding-bound
+        path: data/problems/questions/one-lie-questions-coding-bound.yaml
+        answer_alphabet: binary
+        question_count: q
+        lies_allowed: one
+        adaptive: separate_cases
+        code_family: hamming_packing_code
+        bound_type: hamming_ball_packing
+        objective: identify_hidden_object
+        readiness: core_bound_only
+      - problem_id: two-lies-questions-hamming-bound
+        path: data/problems/coding_games/two-lies-questions-hamming-bound.yaml
+        answer_alphabet: binary
+        question_count: q
+        lies_allowed: two
+        adaptive: false
+        code_family: hamming_packing_code
+        bound_type: hamming_ball_packing
+        objective: identify_hidden_object
+        readiness: core_bound_only
+      - problem_id: number-guessing-one-lie-by-repetition
+        path: data/problems/coding_games/number-guessing-one-lie-by-repetition.yaml
+        answer_alphabet: binary
+        question_count: 3m
+        lies_allowed: one
+        adaptive: false
+        code_family: repetition_code
+        bound_type: constructive_no_bound
+        objective: identify_hidden_number
+        readiness: core_construction
+      - problem_id: ebert-seven-hats-hamming-code
+        path: data/problems/classical_more/ebert-seven-hats-hamming-code.yaml
+        answer_alphabet: binary_with_pass
+        question_count: simultaneous
+        lies_allowed: zero_but_pass_allowed
+        adaptive: simultaneous
+        code_family: perfect_hamming_covering_code
+        bound_type: sphere_covering
+        objective: maximize_success_probability_without_wrong_guess
+        readiness: included_covering_contrast
+      - problem_id: uct-2015-digits-composite-after-six-deletions
+        path: data/problems/south_africa/uct-2015-digits-composite-after-six-deletions.yaml
+        answer_alphabet: ordered_digits_after_erasures
+        question_count: none_fixed_object_order
+        lies_allowed: six_erasures
+        adaptive: false
+        code_family: erasure_robust_ordering
+        bound_type: constructive_no_bound
+        objective: guarantee_property_after_erasures
+        readiness: included_erasure_edge
+
+excluded_or_adjacent:
+  - problem_id: fixed-questions-as-binary-code
+    reason: "baseline nonadaptive binary code without errors or lies"
+  - problem_id: twenty-questions-binary-search
+    reason: "truthful adaptive search; no noisy channel"
+  - problem_id: hat-line-k-colors-modulo
+    reason: "public answers are a modular communication code, not a public-knowledge update"
+  - problem_id: prisoners-hats-parity-line
+    reason: "public communication/parity code dominates; common-knowledge dynamics are not the point"
+  - problem_id: mmo-2000-seven-cards-public-communication
+    reason: "privacy-preserving public communication, better as a separate cluster"
+  - problem_id: utyum-1996-knights-line-seven-yes
+    reason: "static truth-liar line constraint despite current knowledge_induction tag"
+  - problem_id: utyum-2010-vasya-two-liars-line
+    reason: "static truth-liar line constraint despite current knowledge_induction tag"
+  - problem_id: problems-ru-66710-hats-with-madmen-oracle
+    reason: "robust public protocol with faulty agents; adjacent to noisy channels but not Hamming/code-distance centered"

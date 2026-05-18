@@ -1,0 +1,78 @@
+{
+  "id": "utyum-1993-logos-road-one-question",
+  "title": "Один вопрос на острове рыцарей и лжецов",
+  "fragment": "questions",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "knowledge_puzzle"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Дорога в город рыцарей или лжецов",
+        "text": "На острове Логос живут рыцари и лжецы. Рыцари всегда говорят правду, а лжецы всегда лгут. Что надо спросить у человека на острове Логос, чтобы узнать, куда ведет дорога: в город рыцарей или город лжецов?",
+        "source_ids": ["src-utyum-official-local-archive"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-self-reference-cancels-lie",
+      "title": "Вопрос о принадлежности спрашиваемого убирает неопределенность",
+      "text": "Нужно спросить не прямо о дороге, а о том, ведет ли она к людям того же типа, что и отвечающий. Тогда ложь лжеца компенсирует неизвестный тип отвечающего.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ask-own-kind",
+      "title": "Спросить о городе себе подобных",
+      "text": "Спросим: \"Ведет ли эта дорога в город тебе подобных?\" Если дорога ведет в город рыцарей, рыцарь правдиво ответит \"да\", а лжец должен был бы правдиво ответить \"нет\", но солжет и тоже скажет \"да\". Если дорога ведет в город лжецов, рыцарь правдиво ответит \"нет\", а лжец должен был бы правдиво ответить \"да\", но солжет и скажет \"нет\". Поэтому ответ \"да\" означает город рыцарей, а ответ \"нет\" - город лжецов.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип отвечающего и направление дороги",
+    "observations": ["один ответ да/нет от рыцаря или лжеца"],
+    "allowed_actions": ["задать один вопрос да/нет"],
+    "goal": ["identify_road_destination"],
+    "strategy_type": ["adaptive_strategy", "lie_cancellation"],
+    "lower_bound_method": [],
+    "keywords": ["knights_and_knaves", "one_question", "self_reference"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 1,
+    "lies_allowed": "respondent type is unknown: knight or liar",
+    "adaptive": false,
+    "objective": "identify_one_of_two_destinations"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Короткая задача на стандартную нейтрализацию лжеца.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "decision_tree", "truth_liar_normalization"],
+  "sources": [
+    {"source_id": "src-utyum-official-local-archive", "role": "official_statement_and_answer", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "russian_young_batch",
+    "notes": ["Локальный источник: C:\\Users\\Admin\\Documents\\Codex\\graph-src\\utyum\\work\\utyum\\text\\1993\\1993_i_utyum_extracted.txt, строки 1-10."]
+  }
+}

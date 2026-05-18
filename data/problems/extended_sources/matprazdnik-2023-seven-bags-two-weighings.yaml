@@ -1,0 +1,80 @@
+{
+  "id": "matprazdnik-2023-seven-bags-two-weighings",
+  "title": "Математический праздник-2023: семь мешков и вес указанного мешка за два взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-matprazdnik-2023-7-6",
+        "title": "Определить вес монет в указанном мешке",
+        "text": "У царя есть 7 мешков с золотыми монетами, в каждом по 100 монет. Известно, что в мешках лежат монеты весом 7, 8, 9, 10, 11, 12 и 13 граммов, по одному весу на мешок, но неизвестно, где какой вес. Царь указал мудрецу на один мешок. Можно ли с помощью больших чашечных весов без гирь определить вес монет в указанном мешке не более чем за два взвешивания?",
+        "source_ids": ["src-matprazdnik-2023-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-reference-kit-sum-70",
+      "title": "Комплект из семи мешков как эталонная сумма",
+      "text": "Один комплект из монет всех семи мешков всегда весит \\(7+8+\\cdots+13=70\\) граммов. Сравнение многих монет указанного мешка с несколькими комплектами превращает неизвестный вес в трехисходный тест.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-threshold-comparisons-seven-weights",
+      "title": "Сначала отделить 10 граммов и сторону, затем уточнить",
+      "text": "Пусть вес монет в указанном мешке равен \\(x\\). Сначала сравним 70 монет из указанного мешка с 10 комплектами, где комплект содержит по одной монете из каждого мешка. Правая чаша весит \\(700\\) граммов, поэтому равенство сразу дает \\(x=10\\), перевес указанного мешка дает \\(x>10\\), а перевес комплектов дает \\(x<10\\).\n\nЕсли \\(x>10\\), вторым взвешиванием сравним 70 монет указанного мешка с 12 комплектами: результат различает \\(11,12,13\\). Если \\(x<10\\), сравним 70 монет с 8 комплектами: результат различает \\(7,8,9\\). В каждом случае двух трехисходных сравнений достаточно, а монет в мешках хватает.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "7 возможных весов указанного мешка при неизвестной перестановке весов по мешкам",
+    "observations": ["два результата чашечных весов: левая тяжелее, равенство, правая тяжелее"],
+    "allowed_actions": ["вынимать произвольные количества монет из мешков", "сравнивать суммарные веса на чашечных весах"],
+    "goal": ["identify_selected_bag_weight"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition", "threshold_testing"],
+    "lower_bound_method": [],
+    "keywords": ["matprazdnik_2023", "seven_bags", "two_weighings", "reference_sum"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 7,
+    "counterfeit_count": 0,
+    "counterfeit_type": "seven_distinct_bag_weights_unknown_permutation",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_selected_bag_weight"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "7 класс, Математический праздник; идея эталонного комплекта делает задачу короткой, но информационно нетривиальной.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_search", "linear_signature"],
+  "sources": [
+    {"source_id": "src-matprazdnik-2023-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Условие и идея решения взяты с официальной страницы решений Математического праздника-2023."]
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "id": "heavier-9-coins-2-weighings",
+  "title": "Более тяжелая монета среди девяти за два взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Одна тяжелая монета",
+        "text": "Даны 9 одинаковых на вид монет. Одна из них фальшивая и тяжелее настоящих. За два взвешивания на чашечных весах найдите фальшивую монету.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-known-sign",
+        "title": "Известный знак и q взвешиваний",
+        "text": "Если знак отличия известен заранее, то та же стратегия работает для любой \\(N\\le 3^q\\): каждое взвешивание делит кандидатов на три группы, а \\(q\\) исходов дают тернарный адрес монеты. Вариант с 9 монетами - точный случай \\(N=3^2\\).",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-three-three-three",
+      "title": "Деление на три равные группы",
+      "text": "Первое взвешивание должно разбить 9 состояний на три группы по 3: левая тяжелее, правая тяжелее или равновесие.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-way-split",
+      "title": "Сначала 3 против 3, затем 1 против 1",
+      "text": "Разделим монеты на группы \\(A,B,C\\) по 3 монеты. Взвесим \\(A\\) против \\(B\\). Если одна из этих групп тяжелее, фальшивая монета находится в ней; если весы в равновесии, фальшивая монета находится в \\(C\\). После первого взвешивания остается ровно три подозрительные монеты. Вторым взвешиванием сравним две из них. Если одна тяжелее, она фальшивая; если весы в равновесии, фальшива третья.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing-not-enough",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Одно взвешивание имеет только три исхода, а возможных фальшивых монет девять. Поэтому одним взвешиванием нельзя различить все состояния.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных положений тяжелой фальшивой монеты",
+    "observations": ["исход чашечных весов"],
+    "allowed_actions": ["адаптивно выбрать две группы монет одинакового размера"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["three_way_split", "heavier_coin", "nine_states", "known_sign_counterfeit", "N_le_3^q"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_known",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Базовая задача на дерево решений и троичное разбиение.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
+  "sources": [
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "same_solution_parameterized",
+    "notes": ["Стартовая карточка для проверки фрагмента weighings.", "2026-05-18: добавлена общая форма для известного знака фальшивости и N <= 3^q; число 9 только заполняет всю емкость двух взвешиваний."]
+  }
+}

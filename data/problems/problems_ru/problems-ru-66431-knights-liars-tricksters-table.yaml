@@ -1,0 +1,20 @@
+{
+  "id": "problems-ru-66431-knights-liars-tricksters-table",
+  "title": "problems.ru 66431: рыцари, лжецы и хитрецы за круглым столом",
+  "fragment": "questions",
+  "kind": {"primary": "web_archive_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [{"id": "stmt-original", "title": "Две фразы соседям слева и справа", "text": "За круглым столом сидят 100 представителей трех племен: рыцари всегда говорят правду, лжецы всегда лгут, хитрецы могут говорить как правду, так и ложь. Каждый произнес две фразы: слева от него сидит лжец; справа от него сидит хитрец. Известно, что половина присутствующих - хитрецы. Нужно найти число рыцарей и число лжецов.", "source_ids": ["src-problems-ru-66431"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}],
+    "generalized": [{"id": "stmt-general-n-t-tricksters", "title": "n мест и t хитрецов", "text": "Тот же аргумент не использует число 100, кроме итогового подсчета: если за круглым столом \\(n\\) людей и известно, что хитрецов \\(t\\), то все не-хитрецы разбиваются на пары «лжец справа от рыцаря». Поэтому при четном \\(n-t\\) рыцарей и лжецов по \\((n-t)/2\\).", "source_ids": ["src-problems-ru-66431"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]
+  },
+  "ideas": [{"id": "idea-local-pairing", "title": "Локальные высказывания образуют пары лжец-рыцарь", "text": "Правдивость двух соседних утверждений запрещает лжецу иметь справа лжеца или хитреца; справа от каждого лжеца должен стоять рыцарь, а слева от каждого рыцаря - лжец.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-pair-liars-and-knights", "title": "Спарить всех не-хитрецов", "text": "Если человек рыцарь, его первая фраза истинна, значит слева от него сидит лжец. Если человек лжец, его вторая фраза ложна, поэтому справа от него не хитрец; справа от него также не может сидеть лжец, иначе тот правдиво сказал бы, что слева лжец. Значит справа от каждого лжеца сидит рыцарь. Получается взаимное соответствие между лжецами и рыцарями среди 50 не-хитрецов, поэтому тех и других по 25.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "расположение рыцарей, лжецов и хитрецов на цикле из 100 мест", "observations": ["две публичные фразы каждого участника о соседях"], "allowed_actions": ["логически сопоставлять типы соседей"], "goal": ["count_truth_tellers_and_liars"], "strategy_type": ["local_constraint_propagation", "pairing_argument"], "lower_bound_method": [], "keywords": ["problems_ru_66431", "knights_liars_tricksters", "round_table", "n_minus_t_pairing"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 200, "lies_allowed": "liars always lie; tricksters arbitrary", "adaptive": false, "objective": "deduce_counts"},
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Локальная логика на цикле с третьим произвольным типом.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "structural_constraint"],
+  "sources": [{"source_id": "src-problems-ru-66431", "role": "web_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_batch", "generalization_status": "same_solution_parameterized", "notes": ["Источник: Окружная олимпиада (Москва), 2017, 5 класс, задача 5.5.", "2026-05-18: числа 100 и 50 заменяются параметрами n и t; решение сохраняется как взаимное спаривание рыцарей и лжецов."]}
+}

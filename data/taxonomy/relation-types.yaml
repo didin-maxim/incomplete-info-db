@@ -1,0 +1,11 @@
+{
+  "relation_types": [
+    {"id": "same_mechanism", "title": "Одинаковый информационный механизм"},
+    {"id": "strategy_transfer", "title": "Перенос стратегии"},
+    {"id": "lower_bound_analogy", "title": "Одинаковая нижняя оценка"},
+    {"id": "special_case", "title": "Частный случай"},
+    {"id": "variant", "title": "Вариант"},
+    {"id": "contrast", "title": "Контраст"},
+    {"id": "teaches_before", "title": "Педагогически предшествует"}
+  ]
+}

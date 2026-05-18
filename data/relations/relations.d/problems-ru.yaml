@@ -1,0 +1,125 @@
+{
+  "relations": [
+    {
+      "id": "rel-problems-ru-27-light-to-25-light",
+      "from": "problems-ru-34945-27-light-coins",
+      "to": "lighter-25-coins-3-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Задача на 27 монет является полной тернарной версией того же поиска известной легкой монеты: три взвешивания различают ровно \\(3^3\\) состояний.",
+      "backward_text": "Задача на 25 монет использует тот же тернарный поиск, но имеет запас состояний; ее удобно читать как чуть более мягкую версию problems.ru 34945.",
+      "status": "ai_checked",
+      "confidence": 0.94
+    },
+    {
+      "id": "rel-problems-ru-27-light-to-27-ternary-questions",
+      "from": "problems-ru-34945-27-light-coins",
+      "to": "one-counterfeit-among-27-three-ternary-questions",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Чашечные весы с заведомо легкой фальшивой монетой реализуют ровно трехисходный вопрос: левая группа, правая группа или группа вне взвешивания.",
+      "backward_text": "Абстрактная карточка про 27 состояний описывает тот же тернарный код без монетного контекста; problems.ru 34945 дает физическую модель этого кода.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-problems-ru-27-light-to-kvant-light-bound",
+      "from": "problems-ru-34945-27-light-coins",
+      "to": "kvant-2013-one-light-coin-information-bound",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Задача problems.ru 34945 является точным конечным случаем общей формулы для одной заведомо легкой монеты: при \\(N=27\\) требуется ровно \\(\\lceil \\log_3 27\\rceil=3\\) взвешивания.",
+      "backward_text": "Квантовская карточка формулирует общий закон для \\(N\\) монет; problems.ru 34945 показывает предельный случай, где три взвешивания полностью заполняют тернарную емкость.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-problems-ru-denominations-to-four-standard",
+      "from": "problems-ru-88304-denomination-coins",
+      "to": "kvant-2003-04-four-coins-standard-two-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В problems.ru 88304 нет эталонной монеты, зато известны разные номинальные веса и используется равенство 2+3=5; в Кванте есть эталон, а монеты симметричны.",
+      "backward_text": "Квантовская задача показывает чистое разбиение девяти случаев эталоном, тогда как problems.ru 88304 заменяет эталон числовой структурой номиналов.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-problems-ru-noisy-balance-to-12coins",
+      "from": "problems-ru-35224-noisy-balance-four-coins",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Обе задачи ищут монету и знак отличия, но в problems.ru 35224 равенство не является надежным исходом, поэтому стратегия кодирует состояния только последовательностью перекосов.",
+      "backward_text": "Классическая задача о 12 монетах использует полноценный тернарный канал весов; noisy-вариант показывает, как меняется кодирование, когда один исход недоступен.",
+      "status": "ai_checked",
+      "confidence": 0.83
+    },
+    {
+      "id": "rel-problems-ru-noisy-balance-to-four-standard",
+      "from": "problems-ru-35224-noisy-balance-four-coins",
+      "to": "kvant-2003-04-four-coins-standard-two-weighings",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Обе карточки различают состояния четырех монет со знаком отличия, но noisy-вариант лишает стратегию надежного исхода равновесия и вынуждает кодировать только последовательность перекосов.",
+      "backward_text": "Квантовская задача с эталоном использует нормальные три исхода чашечных весов и допускает случай отсутствия фальшивой монеты; noisy-вариант сохраняет одну фальшивую монету, но меняет сам канал наблюдения.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-problems-ru-sign-only-to-kvantik-direction",
+      "from": "problems-ru-32820-sign-only-two-weighings",
+      "to": "kvantik-2013-fake-coin-direction-101",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах цель слабее полного поиска: нужно определить направление отличия фальшивой монеты, используя крупные сравнения для исключения неподходящего знака.",
+      "backward_text": "Квантик-2013 дает компактную версию задачи о знаке фальшивой монеты; problems.ru 32820 показывает, как та же идея работает на больших группах и разных остатках по модулю.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-problems-ru-paid-genuine-to-circle-fakes",
+      "from": "problems-ru-65055-paid-weighings-genuine-coin",
+      "to": "mmo-2006-nine-circle-coins-four-fakes",
+      "type": "contrast",
+      "distance": 4,
+      "forward_text": "Обе задачи ищут настоящую информацию при множестве фальшивых монет, но paid-вариант использует последовательную цепочку равенств, а круговая ММО-задача опирается на структурное ограничение несоседства.",
+      "backward_text": "ММО-задача демонстрирует сильное геометрическое ограничение скрытого множества; problems.ru 65055 показывает другой тип ограничения - монеты расходуются как плата за наблюдения.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-problems-ru-tricksters-to-kvant-tricksters",
+      "from": "problems-ru-66431-knights-liars-tricksters-table",
+      "to": "kvant-2022-09-island-honest-liars-tricksters",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Обе задачи добавляют к правдивым и лжецам третий произвольный тип; в problems.ru 66431 он фиксирован числом и вплетен в локальные соседские фразы.",
+      "backward_text": "Квантовская задача использует третью группу через глобальную статистику цифр, а problems.ru 66431 - через локальные ограничения на круге.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-problems-ru-next-five-to-kvantik-round-table",
+      "from": "problems-ru-66436-sixty-knights-next-five",
+      "to": "kvantik-2016-round-table-right-liar-count",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи превращают высказывания рыцарей и лжецов о соседях на круге в жесткие локальные ограничения и затем считают допустимую структуру.",
+      "backward_text": "Квантик-2016 является более коротким круговым примером; problems.ru 66436 использует блоки длины 6 и показывает тот же механизм на большем цикле.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-problems-ru-distance-liar-to-utyum-road-question",
+      "from": "problems-ru-66705-distance-to-nearest-liar",
+      "to": "utyum-1993-logos-road-one-question",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Обе задачи проектируют вопросы в мире рыцарей и лжецов, но problems.ru 66705 использует числовой ответ всех участников и адаптивную калибровку второго вопроса.",
+      "backward_text": "Задача с одним вопросом на дороге изолирует нормализацию правды и лжи; distance-вариант переносит ее на коллективные числовые ответы и доказывает необходимость двух вопросов.",
+      "status": "ai_checked",
+      "confidence": 0.76
+    }
+  ]
+}

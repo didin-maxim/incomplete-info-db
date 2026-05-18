@@ -1,0 +1,68 @@
+{
+  "id": "estonian-2001-02-aborigines-executed-truthful",
+  "title": "Эстония 2001-02: кого казнили после двух опросов островитян",
+  "fragment": "wise_people",
+  "kind": {"primary": "olympiad_problem", "secondary": ["knowledge_puzzle"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Два опроса о друзьях",
+        "text": "На острове жили n > 1 аборигенов. Каждый из них либо всегда говорит правду, либо всегда лжет, и у каждого был хотя бы один друг среди остальных. Новый губернатор спросил каждого, кого больше среди его друзей: правдивых, лжецов или поровну тех и других. Каждый ответил, что среди его друзей больше лжецов, чем правдивых. Затем губернатор велел казнить одного аборигена как лжеца и снова задал всем оставшимся тот же вопрос. На этот раз каждый ответил, что среди его друзей больше правдивых, чем лжецов. Определите, был ли казненный правдивым или лжецом, и кого больше осталось на острове: правдивых или лжецов.",
+        "source_ids": ["src-estonian-2001-02-selected-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-removal-cannot-flip-majority-for-truthful",
+      "title": "Удаление одного человека не меняет большинство лжецов на большинство правдивых",
+      "text": "Для правдивого оставшегося обе его фразы должны быть истинными. Но из строгого большинства лжецов среди друзей после удаления одного человека нельзя получить строгое большинство правдивых.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-executed-truthful",
+      "title": "Показать, что правдивых после казни не осталось",
+      "text": "Сначала на острове должен был быть хотя бы один правдивый: если бы все были лжецами, то у каждого все друзья были бы лжецами, и первый ответ оказался бы истинным, что невозможно для лжецов. Теперь предположим, что после казни остался правдивый. Его первый ответ до казни был истинным: среди его друзей было больше лжецов, чем правдивых. Его второй ответ после казни тоже должен быть истинным: среди оставшихся друзей стало больше правдивых, чем лжецов. Удаление одного человека не может превратить строгое преимущество лжецов в строгое преимущество правдивых, значит такого правдивого после казни нет. Следовательно, единственный правдивый был казнен, а все оставшиеся - лжецы; значит после казни лжецов больше.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "кто правдивый, кто лжец, и граф дружбы",
+    "observations": ["все первые ответы одинаковы", "после удаления одного человека все вторые ответы одинаковы"],
+    "allowed_actions": ["сравнивать возможные составы друзей до и после удаления"],
+    "goal": ["determine_type_of_removed_agent", "determine_majority_after_removal"],
+    "strategy_type": ["state_elimination", "indistinguishability"],
+    "lower_bound_method": [],
+    "keywords": ["estonian_2001_02", "truthful_liars", "friends", "execution"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": "n > 1 islanders",
+    "public_announcements": "two rounds of identical answers, separated by removing one islander",
+    "communication_rounds": 2,
+    "visibility": "friendship graph is not specified; only answer patterns are known",
+    "objective": "determine type of removed islander and remaining majority"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевой шаг - строгие неравенства в составе друзей не могут смениться так сильно после удаления одного человека.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "indistinguishability_argument"],
+  "sources": [{"source_id": "src-estonian-2001-02-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "estonian_batch",
+    "notes": ["Официальный английский буклет содержит условие и решение; карточка является русским пересказом."]
+  }
+}

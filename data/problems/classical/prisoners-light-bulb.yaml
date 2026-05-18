@@ -1,0 +1,85 @@
+{
+  "id": "prisoners-light-bulb",
+  "title": "Заключенные и лампочка в комнате",
+  "fragment": "communication",
+  "kind": {"primary": "classical_problem", "secondary": ["communication_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Нужно гарантированно узнать, что все побывали в комнате",
+        "text": "Сто заключенных заранее договариваются о стратегии. Затем их по одному в произвольном порядке вызывают в комнату с лампочкой, которую можно включать и выключать. Заключенный видит только текущее состояние лампочки и может изменить его. В какой-то момент один заключенный должен заявить, что все заключенные уже побывали в комнате; если заявление верно, всех освобождают. Найдите стратегию, гарантирующую верное заявление, если каждый заключенный будет вызываться бесконечно много раз.",
+        "source_ids": ["src-prisoners-switch-puzzles"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      },
+      {
+        "id": "stmt-folklore-n-prisoners",
+        "title": "Параметрическая версия с известным начальным состоянием",
+        "text": "Есть \\(n\\) узников. Время от времени одного узника заводят в комнату с лампочкой; он видит, включена она или выключена, и может изменить ее состояние. Узники заранее договариваются о стратегии, затем общаться не могут. Каждый узник будет попадать в комнату бесконечно много раз. Как одному из них однажды гарантированно объявить, что все уже побывали в комнате?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-counter-many-signals",
+      "title": "Лампочка переносит одноразовые сигналы счетчику",
+      "text": "Один заключенный назначается счетчиком, а каждый другой заключенный ровно один раз создает сигнал, включая лампочку.",
+      "standard_idea_ids": ["single_bit_as_public_signal"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-designated-counter",
+      "title": "Назначенный счетчик и одно включение",
+      "text": "Перед началом выбирают одного заключенного счетчиком. Все остальные запоминают личный флаг: посылал ли он уже свой сигнал. Для определенности договоримся, что если несчетчик входит и видит лампочку выключенной, а свой сигнал он еще не посылал, он включает лампочку и считает свой сигнал отправленным. Во всех остальных случаях несчетчик ничего существенного не делает.\n\nСчетчик при каждом входе смотрит на лампочку. Если она включена, он выключает ее и увеличивает свой счет на 1; если выключена, ничего не меняет. Каждый несчетчик может увеличить счет не более одного раза, потому что после первого включения больше не посылает сигнал. Каждый несчетчик рано или поздно попадет в комнату при выключенной лампочке: счетчик вызывается бесконечно много раз и будет выключать лампочку после каждого сигнала. Поэтому все 99 несчетчиков со временем пошлют по одному сигналу.\n\nКогда счетчик насчитает 99 включений, он знает, что каждый из остальных 99 заключенных уже побывал в комнате. Сам счетчик тоже побывал, раз он ведет счет. Поэтому заявление в этот момент верно.",
+      "standard_idea_ids": ["single_bit_as_public_signal"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "множество заключенных, уже побывавших в комнате",
+    "observations": ["личная память заключенного", "текущее состояние лампочки при входе"],
+    "allowed_actions": ["включить или выключить лампочку", "сделать финальное заявление"],
+    "goal": ["certify_all_visited"],
+    "strategy_type": ["distributed_protocol", "one_bit_communication"],
+    "lower_bound_method": [],
+    "keywords": ["prisoners_light_bulb", "one_bit_signal", "designated_counter", "n_prisoners_counter_protocol"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "senders": "99 non-counter prisoners",
+    "receivers": "designated counter",
+    "channel": "one shared light bulb",
+    "message_capacity": "one persistent bit per room visit",
+    "objective": "aggregate one visit signal from each participant"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классический протокол с общей однобитной памятью.", "status": "ai_checked"},
+  "tags": ["single_bit_signal", "designated_counter_protocol"],
+  "sources": [
+    {"source_id": "src-prisoners-switch-puzzles", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-folklore", "role": "folklore_parameterized_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution",
+    "notes": [
+      "Условие явно включает бесконечные вызовы каждого заключенного; без этого стратегия не гарантирует завершение.",
+      "2026-05-18: в карточку слит дубль prisoner-light-bulb-counter; источник сохранен как параметрическая формулировка.",
+      "2026-05-18: числа 100 и 99 классифицированы как частный случай общего протокола для n узников: счетчик ждет n-1 одноразовых сигналов."
+    ]
+  }
+}

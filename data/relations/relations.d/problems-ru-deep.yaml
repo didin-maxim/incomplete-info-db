@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "id": "rel-prdeep-limited-two-uses-to-27-light",
+      "from": "problems-ru-107826-light-coin-limited-two-uses",
+      "to": "problems-ru-34945-27-light-coins",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи ищут заведомо легкую монету, но problems.ru 107826 добавляет ресурсное ограничение: каждую монету можно использовать не более двух раз. Поэтому вместо чистого деления на три возникает рекуррентная емкость \\(2n^2+1\\).",
+      "backward_text": "Задача на 27 монет является чистым тернарным поиском без ограничений на повторное использование монет; limited-use вариант показывает, как эта схема меняется при запрете многократного участия.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-prdeep-opposite-two-fakes-to-12coins",
+      "from": "problems-ru-64498-five-coins-two-opposite-fakes",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В обеих задачах нужно восстановить знак отклонения по чашечным весам, но в problems.ru 64498 две фальшивые монеты компенсируют друг друга, а малый размер позволяет строить дерево случаев вокруг настоящей эталонной монеты.",
+      "backward_text": "Классическая задача о 12 монетах имеет одну фальшивую и использует емкость тернарного кода; задача о пяти монетах меняет скрытое состояние на пару тяжелая/легкая.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-prdeep-unknown-delta-bags-to-stack",
+      "from": "problems-ru-78572-eleven-bags-two-numeric-balance-weighings",
+      "to": "counterfeit-stack-one-weighing",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи кодируют номер мешка линейной суммой взятых монет. В problems.ru 78572 неизвестны знак и величина отклонения, поэтому нужны две числовые подписи и отношение показаний.",
+      "backward_text": "Классическая задача со стопками использует известный дефицит и читает номер из одного веса; вариант с 11 мешками показывает, как убрать неизвестный множитель второй подписью.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-prdeep-six-digital-to-stack",
+      "from": "problems-ru-65817-six-coins-digital-scale-unknown-weights",
+      "to": "counterfeit-stack-one-weighing",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе карточки используют числовые весы как линейный канал. В задаче о шести монетах первые два взвешивания калибруют неизвестные веса, а третье различает линейные подписи возможных фальшивых монет.",
+      "backward_text": "Задача о стопках является более простой версией линейного кодирования, где вес настоящей и величина дефекта известны заранее.",
+      "status": "ai_checked",
+      "confidence": 0.83
+    },
+    {
+      "id": "rel-prdeep-hats-madmen-to-parity-line",
+      "from": "problems-ru-66710-hats-with-madmen-oracle",
+      "to": "prisoners-hats-parity-line",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Обе задачи используют публичные ответы в линии шляп, но problems.ru 66710 добавляет произвольные числовые сообщения и \\(k\\) неконтролируемых участников; вместо одного паритетного бита работает протокол текущего оракула.",
+      "backward_text": "Классическая паритетная шляпная стратегия является безошибочным случаем с ограниченным сообщением; вариант с безумцами требует отказоустойчивого обновления источника сообщений.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-prdeep-mimics-to-tricksters",
+      "from": "problems-ru-66722-knights-liars-mimics-public-majority",
+      "to": "problems-ru-66431-knights-liars-tricksters-table",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Обе задачи вводят третий тип наряду с рыцарями и лжецами. В 66722 третий тип динамически зависит от публичной истории ответов, а в 66431 хитрецы произвольны и ограничение задается локальными соседскими фразами.",
+      "backward_text": "Круглая задача с хитрецами статична: важна локальная структура на цикле. Задача с подпевалами является процессом публичной коммуникации, где состояние баланса меняется после каждого ответа.",
+      "status": "ai_checked",
+      "confidence": 0.75
+    },
+    {
+      "id": "rel-prdeep-card-27-to-21-card",
+      "from": "twenty-one-card-trick",
+      "to": "problems-ru-34945-27-light-coins",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "problems.ru 60905, слитая в карточный фокус, и задача о 27 легких монетах используют одинаковую тернарную емкость трех наблюдений: каждый шаг выбирает одну из трех групп.",
+      "backward_text": "В монетной задаче тернарное наблюдение дает весы, а в карточном фокусе - указание кучки зрителем; дерево состояний однотипно.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    }
+  ]
+}

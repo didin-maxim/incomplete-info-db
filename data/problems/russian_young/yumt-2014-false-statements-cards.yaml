@@ -1,0 +1,87 @@
+{
+  "id": "yumt-2014-false-statements-cards",
+  "title": "Сто карточек с утверждениями о ложных утверждениях слева",
+  "fragment": "questions",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["optimality", "strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Максимум истинных утверждений",
+        "text": "Имеется 100 карточек с надписями \"Слева от меня - как минимум 2 ложных утверждения\", \"Слева от меня - как минимум 4 ложных утверждения\", ..., \"Слева от меня - как минимум 200 ложных утверждений\". Петя разложил карточки в ряд слева направо в каком-то порядке. Какое наибольшее число утверждений могло оказаться истинными?",
+        "source_ids": ["src-yumt-official-local-archive"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-large-true-label-forces-many-false",
+      "title": "Среди многих истинных карточек есть большая метка",
+      "text": "Если истинных карточек слишком много, одна из истинных меток должна быть большой, а это требует больше ложных карточек слева, чем вообще может быть ложных.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-example-with-33-true",
+      "title": "Порядок, дающий 33 истинных утверждения",
+      "text": "Разложим карточки с числами в порядке \\(200,198,2,196,194,4,192,190,6,\\ldots,72,70,66,68\\). Тогда истинными окажутся карточки с числами от 2 до 66, то есть ровно 33 карточки. Для карточки с числом \\(2m\\), где \\(1\\le m\\le 33\\), слева уже стоят ровно или более \\(2m\\) ложных утверждений за счет больших чисел, размещенных раньше; большие карточки при этом ложны.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "ub-at-most-33-true",
+      "title": "Больше 33 истинных быть не может",
+      "text": "Пусть истинны \\(k\\ge 34\\) карточки. Тогда ложных карточек не больше 66. Метки на истинных карточках различны и являются числами \\(2,4,\\ldots,200\\), поэтому среди \\(k\\) истинных карточек есть карточка с меткой не меньше \\(2k\\ge 68\\). Ее истинность требует как минимум 68 ложных утверждений слева, а всего ложных утверждений не больше 66. Противоречие.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "порядок карточек и истинность самореферентных утверждений",
+    "observations": ["число ложных утверждений слева от каждой карточки"],
+    "allowed_actions": ["выбрать порядок карточек"],
+    "goal": ["maximize_true_statements"],
+    "strategy_type": ["state_space_partition", "extremal_construction"],
+    "lower_bound_method": ["counting_contradiction"],
+    "keywords": ["self_reference", "false_statements", "truth_assignment"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 100,
+    "lies_allowed": "truth values are induced by the ordering",
+    "adaptive": false,
+    "objective": "maximize_consistent_true_statements"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Экстремальная задача о правдивости утверждений, близкая к задачам о лжецах.",
+    "status": "ai_checked"
+  },
+  "tags": ["self_reference_truth", "counting_lower_bound"],
+  "sources": [
+    {"source_id": "src-yumt-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "russian_young_batch",
+    "notes": ["Локальный источник: C:\\Users\\Admin\\Documents\\Codex\\graph-src\\yumt\\work\\yumt\\text\\2014\\2turstartresh.txt, строки 168-178."]
+  }
+}

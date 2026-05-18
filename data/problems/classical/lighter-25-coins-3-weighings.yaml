@@ -1,0 +1,83 @@
+{
+  "id": "lighter-25-coins-3-weighings",
+  "title": "Одна легкая монета среди 25 за три взвешивания",
+  "fragment": "weighings",
+  "kind": {"primary": "classical_problem", "secondary": ["strategy_construction", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Фальшивая монета известно легче",
+        "text": "Даны 25 одинаковых на вид монет. Ровно одна из них фальшивая и известно, что она легче настоящих. Нужно найти ее не более чем за три взвешивания на чашечных весах.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ],
+    "reformulation": [
+      {
+        "id": "stmt-as-n-le-3q",
+        "title": "Частный случай тернарного поиска",
+        "text": "Это случай общей модели: если одна фальшивая монета заведомо легче, то \\(q\\) взвешиваний достаточно ровно тогда, когда \\(N\\le 3^q\\). Здесь \\(25\\le 3^3\\), поэтому тот же алгоритм делит кандидатов на три почти равные части.",
+        "source_ids": ["src-kvant-2013-01-two-fake-coins-article"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-split-into-three-parts",
+      "title": "Каждое взвешивание выбирает одну из трех частей",
+      "text": "Если фальшивая монета заведомо легче, взвешивание равных групп делит кандидатов на три класса: легкая слева, легкая справа или вне взвешивания.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-level-ternary-search",
+      "title": "Тернарный поиск по 25 монетам",
+      "text": "Разделим 25 монет на группы 9, 9 и 7. Взвесим первые 9 против вторых 9. Если одна чаша легче, фальшивая монета находится в этой девятке; если равновесие, она среди оставшихся 7.\n\nКогда после первого шага осталось не больше 9 кандидатов, разделим их на группы 3, 3 и не более 3. Взвесим первые 3 против вторых 3. Легкая чаша указывает нужную тройку; равновесие указывает третью группу, причем если в ней меньше трех монет, кандидатов еще меньше.\n\nПосле второго шага осталось не больше 3 кандидатов. Третьим взвешиванием сравним две из этих монет. Если одна легче, она фальшивая. Если они равны, фальшивая - третий кандидат; если кандидатов было только два, равновесие невозможно при условии задачи. Так три взвешивания всегда находят легкую монету.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-not-enough",
+      "title": "Двух взвешиваний недостаточно",
+      "text": "Два взвешивания имеют не более \\(3^2=9\\) различных последовательностей исходов, а скрытых состояний 25. Значит, за два взвешивания гарантированно различить все монеты невозможно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "25 возможных положений единственной легкой монеты",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["адаптивно выбирать равные по числу группы монет"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "ternary_search"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["known_lighter_coin", "ternary_search", "balance_scale", "N_le_3^q"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 25,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистая тернарная версия поиска легкой монеты.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
+  "sources": [{"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "special_case_of_existing_N_q_card", "notes": ["2026-05-18: число 25 несущественно для стратегии; это запасной частный случай общей границы N <= 3^q для известной легкой монеты."]}
+}

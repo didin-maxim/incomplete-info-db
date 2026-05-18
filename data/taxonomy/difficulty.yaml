@@ -1,0 +1,9 @@
+{
+  "difficulty": [
+    {"id": "intro", "title": "Вводная"},
+    {"id": "standard", "title": "Стандартная"},
+    {"id": "olympiad_medium", "title": "Олимпиадная средняя"},
+    {"id": "olympiad_hard", "title": "Олимпиадная сложная"},
+    {"id": "research_like", "title": "Похожа на исследовательскую"}
+  ]
+}

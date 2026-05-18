@@ -1,0 +1,48 @@
+{
+  "relations": [
+    {
+      "id": "rel-sasmo-g6-marathon-to-ukmt-knaves-chain",
+      "from": "sasmo-2019-g6-q13-marathon-truth-slowest",
+      "to": "ukmt-jmc-2015-q17-knaves-truth-chain",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах результат не зависит от полного скрытого состояния: достаточно перебрать возможную истинность ключевой фразы и проверить, сколько утверждений остается истинными.",
+      "backward_text": "UKMT-цепочка задает истинность последующих фраз рекурсивно, а SASMO-марафон использует ограничение «ровно одна ложь» и роли самого быстрого/медленного.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-sasmo-g8-gift-to-nrich-knights-queue",
+      "from": "sasmo-2019-g8-q14-gift-box-truth-liars",
+      "to": "nrich-knights-and-knaves-queue",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе карточки совмещают правдивцев/лжецов со структурой расположения людей. В SASMO структура круговая и локальная, а ответ определяется допустимой соседней парой правдивцев.",
+      "backward_text": "NRICH-задача использует линейную очередь и цепочку утверждений о предыдущих людях; SASMO-вариант вместо цепочки применяет круговые ограничения на соседство типов.",
+      "status": "ai_checked",
+      "confidence": 0.74
+    },
+    {
+      "id": "rel-sasmo-g9-thresholds-to-wajo-counts",
+      "from": "sasmo-2019-g9-q12-number-clues-truth-tellers",
+      "to": "wajo-2015-knaves-three-counts",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Обе задачи ищут совместимое число правдивых/ложных утверждений, но SASMO добавляет скрытые числовые значения и просит максимум правдивцев.",
+      "backward_text": "WAJO-версия работает с прямыми утверждениями о числе лжецов; SASMO-версия кодирует истинность через пороговые неравенства и перестановку второго раунда.",
+      "status": "ai_checked",
+      "confidence": 0.69
+    },
+    {
+      "id": "rel-sasmo-2019-light-coin-to-nrich-spot-fake",
+      "from": "sasmo-2020-g9-q10-2019-light-coin",
+      "to": "nrich-spot-the-fake-two-weighings",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Это тот же тернарный поиск известной более тяжелой/легкой фальшивой монеты: каждое взвешивание делит кандидатов на три группы, а оптимальность следует из числа листьев дерева.",
+      "backward_text": "NRICH формулирует ту же идею как максимум монет за два взвешивания, а SASMO просит минимум взвешиваний для фиксированного числа 2019.",
+      "status": "ai_checked",
+      "confidence": 0.93
+    }
+  ]
+}

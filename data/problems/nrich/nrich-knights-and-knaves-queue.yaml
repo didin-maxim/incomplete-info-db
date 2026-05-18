@@ -1,0 +1,68 @@
+{
+  "id": "nrich-knights-and-knaves-queue",
+  "title": "NRICH: рыцари и лжецы в очереди",
+  "fragment": "questions",
+  "kind": {"primary": "nrich_problem", "secondary": ["truth_liar_reasoning", "hidden_types"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-nrich-knights-queue",
+        "title": "Очередь из 25 островитян",
+        "text": "На острове каждый житель либо рыцарь, который всегда говорит правду, либо лжец, который всегда лжет. В очереди стоят 25 островитян. Первый сказал: \"Все, кто стоит за мной, лжецы\". Каждый из остальных сказал: \"Человек прямо передо мной - лжец\". Сколько рыцарей стоит в очереди?",
+        "source_ids": ["src-nrich-knights-and-knaves"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-person-cannot-be-knight",
+      "title": "Сначала проверить первое утверждение",
+      "text": "Если первый был бы рыцарем, то все остальные были бы лжецами. Но тогда второй, называя первого лжецом, действительно лгал бы, а третий, называя второго лжецом, говорил бы правду. Значит, все после первого не могут быть лжецами одновременно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-alternating-queue",
+      "title": "Разбор очереди слева направо",
+      "text": "Первый не может быть рыцарем: иначе все 24 человека позади него были бы лжецами, но тогда среди их фраз о предыдущем человеке неизбежно появилась бы правдивая фраза. Значит, первый - лжец.\n\nВторой говорит, что первый - лжец, и это правда, поэтому второй - рыцарь. Третий говорит, что второй - лжец, это неправда, поэтому третий - лжец. Дальше рассуждение повторяется: после первого идут попеременно рыцарь, лжец, рыцарь, лжец.\n\nВ 25 местах нечетные позиции заняты лжецами, а четные - рыцарями. Четных позиций от 1 до 25 ровно 12, поэтому в очереди 12 рыцарей.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого из 25 жителей: рыцарь или лжец",
+    "observations": ["публичные высказывания о людях позади или непосредственно впереди"],
+    "allowed_actions": ["логически сопоставлять истинность фразы с типом говорящего"],
+    "goal": ["count_knights"],
+    "strategy_type": ["truth_liar_elimination", "sequential_propagation"],
+    "lower_bound_method": [],
+    "keywords": ["nrich", "knights_and_knaves", "queue", "hidden_types"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 25,
+    "lies_allowed": "each speaker is either always truthful or always lying",
+    "adaptive": false,
+    "objective": "infer_number_of_knights"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на согласование скрытых типов и истинности соседних утверждений.", "status": "needs_human_review"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-nrich-knights-and-knaves", "role": "official_statement_and_student_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "notes": ["NRICH приводит ученическое решение, поэтому карточка оставлена на ручную проверку.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки."]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "matprazdnik-2022-digits-five-questions",
+  "title": "Матпраздник-2022: расшифровать цифры за пять вопросов о суммах",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["query_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Цифры зашифрованы буквами",
+        "text": "Цифры 0..9 зашифрованы десятью буквами в неизвестном порядке. За один вопрос можно назвать несколько различных букв и получить запись суммы соответствующих цифр, но тоже в буквенном шифре. Нужно за пять вопросов восстановить соответствие букв и цифр.",
+        "source_ids": ["src-matprazdnik-2022-book"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["query", "hidden_state"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-complement-sums-peel-pairs",
+      "title": "Суммы всех еще неизвестных букв снимают пары с краев",
+      "text": "Сумма всех цифр равна 45. Ответ на сумму всех нерасшифрованных букв каждый раз показывает две крайние цифры очередной суммы: сначала 4 и 5, затем 3 и 6, затем 2 и 7, затем 1 и 8, затем 0 и 9.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ask-all-remaining",
+      "title": "Каждый раз спрашивать сумму всех нерасшифрованных букв",
+      "text": "Первым вопросом называют все десять букв; сумма 45 раскрывает буквы, которыми записаны 4 и 5. Эти две буквы исключают. Вторым вопросом спрашивают сумму оставшихся восьми цифр, равную 36, и узнают буквы 3 и 6. Далее аналогично получают пары 2 и 7, 1 и 8. После пятого вопроса оставшаяся пара различается по записи суммы 9: становится ясно, где 9, а где 0.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["query"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "10! возможных соответствий букв и цифр",
+    "observations": ["пять ответов, каждый является шифрованной десятичной записью суммы выбранных цифр"],
+    "allowed_actions": ["задавать вопросы о сумме любого множества еще не известных букв"],
+    "goal": ["identify_digit_letter_bijection"],
+    "strategy_type": ["successive_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["matprazdnik_2022", "sum_queries", "digit_cipher"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 10, "question_count": 5, "lies_allowed": "none", "adaptive": true, "objective": "decode_permutation"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6-7 класс, чистая стратегия вопросов к скрытой перестановке.", "status": "ai_checked"},
+  "tags": ["binary_code", "decision_tree", "permutation_order_code"],
+  "sources": [{"source_id": "src-matprazdnik-2022-book", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 33-й Математический праздник, 6 класс задача 3 / 7 класс задача 6."]}
+}

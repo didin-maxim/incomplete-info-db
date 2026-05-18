@@ -1,0 +1,17 @@
+{
+  "id": "matprazdnik-savin",
+  "title": "Матпраздник и турнир Савина: узкая подборка задач про неполную информацию",
+  "created_at": "2026-05-17",
+  "status": "draft",
+  "items": [
+    {"problem_id": "matprazdnik-2025-yog-bulldog-rhino-truth-liar", "status": "added"},
+    {"problem_id": "matprazdnik-2025-eighteen-coins-rotated-tray", "status": "added"},
+    {"problem_id": "matprazdnik-2024-six-boxes-one-sum", "status": "added"},
+    {"problem_id": "matprazdnik-2022-digits-five-questions", "status": "added"},
+    {"problem_id": "savin-12-six-coins-two-fakes-two-weighings", "status": "added"}
+  ],
+  "source_notes": [
+    "Матпраздник взят только из официальных брошюр с условиями и решениями.",
+    "По Савину добавлена одна сильная профильная задача из официального PDF с редакционно восстановленным решением; карточка помечена как needs_human_review."
+  ]
+}

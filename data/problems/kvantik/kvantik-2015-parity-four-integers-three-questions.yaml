@@ -1,0 +1,17 @@
+{
+  "id": "kvantik-2015-parity-four-integers-three-questions",
+  "title": "Квантик-2015: четность одного числа по трем вопросам",
+  "fragment": "questions",
+  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-original", "title": "Сумма трех чисел четная или нечетная", "text": "Загаданы четыре целых числа a, b, c, d. Разрешается выбрать любые три из них и спросить: их сумма четная или нечетная? Как за три таких вопроса узнать, четно или нечетно число a?", "source_ids": ["src-kvantik-math-contest-2015"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["parity"]}]},
+  "ideas": [{"id": "idea-cancel-other-parities", "title": "Сложить ответы так, чтобы лишние четности сократились", "text": "Если спросить суммы abc, abd и acd, то четности b, c, d войдут по два раза и исчезнут по модулю 2, а четность a останется.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-three-triples-with-a", "title": "Спросить три тройки, содержащие a", "text": "Спросим четность сумм a+b+c, a+b+d и a+c+d. Сложим три полученных ответа по модулю 2, считая «нечетная» за 1, а «четная» за 0. Получится \\((a+b+c)+(a+b+d)+(a+c+d) \\equiv a \\pmod 2\\), потому что b, c и d встречаются по два раза. Поэтому итоговая четность этой суммы ответов и есть четность числа a.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["parity"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "четности четырех неизвестных целых чисел", "observations": ["три бинарных ответа о четности выбранной суммы из трех чисел"], "allowed_actions": ["выбрать любые три из четырех чисел и узнать четность их суммы"], "goal": ["identify_parity_of_a"], "strategy_type": ["linear_combination_over_mod_2"], "lower_bound_method": [], "keywords": ["parity_queries", "mod2_cancellation", "hidden_bits"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 3, "lies_allowed": "none", "adaptive": false, "objective": "identify_one_hidden_parity_bit"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Линейное кодирование четностей: три ответа складываются в нужный бит.", "status": "ai_checked"},
+  "tags": ["parity", "parity_code", "linear_signature", "nonadaptive_strategy"],
+  "sources": [{"source_id": "src-kvantik-math-contest-2015", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2015 года, задача 42. На странице конкурса дано условие; решение восстановлено редакционно."]}
+}

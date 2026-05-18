@@ -1,0 +1,78 @@
+{
+  "id": "hat-line-k-colors-modulo",
+  "title": "Шляпы в ряд при k цветах: сумма по модулю k",
+  "fragment": "wise_people",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Обобщение четности на k цветов",
+        "text": "В ряд стоят \\(n\\) узников. Цвет каждой шляпы - один из \\(k\\) заранее занумерованных цветов \\(0,1,\\ldots,k-1\\). Каждый видит шляпы всех впереди. Ответы идут сзади наперед и слышны всем. Как гарантировать, что ошибется не более один узник?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-modulo-sum",
+      "title": "Первый ответ передает сумму цветов по модулю k",
+      "text": "Номер цвета можно считать элементом группы \\(\\mathbb Z/k\\mathbb Z\\). Первый говорящий объявляет цвет с номером, равным сумме номеров всех видимых шляп по модулю \\(k\\).",
+      "standard_idea_ids": ["modular_sum_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-running-modulo-sum",
+      "title": "Вычитать уже найденные цвета",
+      "text": "Первый сзади объявляет сумму цветов всех впереди по модулю \\(k\\). Его собственный ответ может быть неверным. Каждый следующий знает эту исходную сумму, видит сумму цветов впереди себя и слышал уже определенные цвета людей позади, кроме первого кодового ответа. Поэтому он вычисляет свой цвет как разность между известной суммой остатка и суммой видимых впереди цветов по модулю \\(k\\). После этого его настоящий цвет становится известен всем следующим.",
+      "standard_idea_ids": ["modular_sum_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "k^n раскрасок шляп",
+    "observations": ["видимые шляпы впереди", "публичные ответы"],
+    "allowed_actions": ["назвать один из k цветов"],
+    "goal": ["maximize_correct_guesses"],
+    "strategy_type": ["encoding", "public_announcement"],
+    "lower_bound_method": [],
+    "keywords": ["hat_puzzle", "modular_sum", "all_but_one", "n_prisoners_k_colors"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": "n",
+    "public_announcements": true,
+    "visibility": "each agent sees all hats ahead",
+    "hat_colors": "k"
+  },
+  "difficulty": {
+    "main": "standard",
+    "local_score": 4,
+    "comment": "То же ядро, что в бинарной задаче о шляпах, но с группой по модулю k.",
+    "status": "ai_checked"
+  },
+  "tags": ["hat_puzzle", "modular_sum_code", "public_announcement"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution",
+    "notes": ["2026-05-18: карточка уже является естественным обобщением бинарного паритета на n участников и k цветов; дополнительных числовых параметров не требуется."]
+  }
+}

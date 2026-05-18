@@ -1,0 +1,89 @@
+{
+  "id": "mmo-2026-row-of-12-fakes-110-genuine",
+  "title": "ММО-2026: найти 110 настоящих монет при скрытом ряде фальшивых",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["strategy_construction", "optimality"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mmo-2026-8-4",
+        "title": "Ряд из 12 фальшивых монет в квадрате 12 на 12",
+        "text": "В квадрате \\(12\\times 12\\) лежат 144 внешне одинаковые золотые монеты. Среди них ровно 12 фальшивых монет, и они образуют один полный ряд: горизонтальный или вертикальный. Все настоящие монеты одинаковы по весу, а каждая фальшивая легче настоящей; фальшивые между собой могут весить по-разному. Можно сделать два взвешивания на чашечных весах без гирь. Можно ли гарантированно указать 110 настоящих монет?",
+        "source_ids": ["src-mmo-2026-89-brochure"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-hit-main-diagonal",
+      "title": "Сначала сузить набор возможных линий диагональю",
+      "text": "Главная диагональ пересекает каждый возможный ряд фальшивых монет ровно в одной монете. Поэтому взвешивание двух четверок диагональных монет выделяет одну из трех групп по четыре возможные линии.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-weighings-lines",
+      "title": "Две развилки по диагонали и двум клеткам",
+      "text": "Рассмотрим главную диагональ и разделим ее 12 монет на три четверки. Первым взвешиванием сравним первую и вторую четверки. Если одна чаша легче, то фальшивая диагональная монета находится в соответствующей четверке; если равновесие, то в третьей четверке. По симметрии пусть после первого взвешивания возможны только первые четыре строки и первые четыре столбца.\n\nВторым взвешиванием положим на левую чашу монеты в позициях \\((1,1)\\) и \\((1,2)\\), а на правую - монеты \\((2,3)\\) и \\((2,4)\\). Фальшивый ряд не может дать фальшивые монеты одновременно на обеих чашах. Если легче левая чаша, возможны первая строка, первый столбец или второй столбец; если легче правая - вторая строка, третий столбец или четвертый столбец; если равновесие - третья или четвертая строка. Во всех случаях монеты вне перечисленных возможных рядов точно настоящие: в первых двух случаях их 110, в третьем 120.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-110-is-maximal",
+      "title": "Почему нельзя гарантировать больше 110",
+      "text": "Всего есть 24 возможных положения фальшивого ряда. Два взвешивания дают не более 9 исходов, поэтому для некоторого исхода останутся совместимыми не менее трех рядов. Если три ряда параллельны, вне их гарантированно настоящих монет не больше \\(144-3\\cdot 12=108\\). Если среди трех рядов есть два одного направления и один другого, их объединение имеет размер \\(3\\cdot 12-2\\), так что гарантированно настоящих не больше \\(144-34=110\\).",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "24 положения фальшивого ряда: 12 строк или 12 столбцов",
+    "observations": ["два трехисходных результата чашечных весов"],
+    "allowed_actions": ["класть любые множества монет на две чаши"],
+    "goal": ["certify_110_genuine_coins"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition"],
+    "lower_bound_method": ["decision_tree_leaf_count", "pigeonhole_principle"],
+    "keywords": ["mmo_2026", "row_of_fake_coins", "certify_genuine_objects"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 144,
+    "counterfeit_count": 12,
+    "counterfeit_type": "lighter_row_variable_weights",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "certify_many_genuine_coins"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "8 класс ММО; сильная часть - не только стратегия, но и оптимальность числа 110.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "structural_constraint", "decision_tree_lower_bound"],
+  "sources": [
+    {"source_id": "src-mmo-2026-89-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Официальное решение переформулировано без рисунка; координаты второго взвешивания соответствуют случаю первых четырех диагональных монет."]
+  }
+}

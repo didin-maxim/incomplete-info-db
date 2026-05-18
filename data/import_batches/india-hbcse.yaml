@@ -1,0 +1,13 @@
+{
+  "id": "india-hbcse",
+  "title": "HBCSE/TIFR RMO/INMO archives: задачи про неполную информацию",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "inmo-2021-p4-detective-consecutive-cards", "status": "added"}
+  ],
+  "source_notes": [
+    "Проверялись официальные страницы HBCSE/TIFR past papers и старый архив library.hbcse.tifr.res.in для RMO/INMO/pre-RMO.",
+    "В пакет включена только явная задача про скрытую информацию; совпадения по словам lie/lies/question/statement в остальных проверенных файлах были в основном геометрическими или служебными и не проходили фильтр задачи."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "classical-seed",
+  "title": "Дополнительные классические карточки о неполной информации",
+  "created_at": "2026-05-17",
+  "status": "draft",
+  "items": [
+    {"problem_id": "lighter-25-coins-3-weighings", "status": "added"},
+    {"problem_id": "counterfeit-stack-one-weighing", "status": "added"},
+    {"problem_id": "blue-eyed-islanders", "status": "added"},
+    {"problem_id": "prisoners-light-bulb", "status": "added"},
+    {"problem_id": "prisoners-hats-parity-line", "status": "added"},
+    {"problem_id": "two-doors-two-guards-one-question", "status": "added"},
+    {"problem_id": "truth-liar-universal-yes-no", "status": "added"},
+    {"problem_id": "twenty-one-card-trick", "status": "added"},
+    {"problem_id": "calendar-card-binary-trick", "status": "added"},
+    {"problem_id": "sum-product-two-numbers", "status": "needs_human_review"}
+  ]
+}

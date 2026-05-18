@@ -1,0 +1,80 @@
+{
+  "id": "twenty-one-card-trick",
+  "title": "Фокус с 21 картой и тремя раскладками",
+  "fragment": "card_tricks",
+  "kind": {"primary": "classical_problem", "secondary": ["communication_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Зритель сообщает только столбец",
+        "text": "Из 21 карты зритель мысленно выбирает одну. Фокусник три раза раскладывает карты в три столбца по 7 карт и каждый раз спрашивает, в каком столбце лежит выбранная карта. После трех ответов фокусник называет карту. Опишите стратегию.",
+        "source_ids": ["src-card-trick-folklore", "src-problems-ru-60905"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-c-columns-r-rounds",
+        "title": "c столбцов и r раундов",
+        "text": "Тот же прием является тернарным, точнее \\(c\\)-арным, сужением: если раскладывать карты в \\(c\\) столбцов и после каждого ответа собирать указанный столбец в заранее выбранную центральную позицию, то \\(r\\) ответов различают до \\(c^r\\) возможных карт. Классическое число 21 - удобный частный случай при \\(c=3\\), \\(r=3\\), где емкость 27 имеет запас.",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-middle-pile-shrinks-interval",
+      "title": "Кладем выбранный столбец в середину",
+      "text": "Каждый ответ выбирает одну треть текущих возможностей, а сбор с выбранным столбцом посередине удерживает выбранную карту в сужающемся центральном интервале.",
+      "standard_idea_ids": ["ternary_search", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-middle-collections",
+      "title": "Трижды собрать выбранный столбец посередине",
+      "text": "Разложим 21 карту в три столбца по 7 карт, например по одной карте в первый, второй, третий столбец и снова по кругу. Зритель указывает столбец с выбранной картой. Собираем карты так, чтобы этот столбец оказался между двумя другими стопками.\n\nПосле первого сбора выбранная карта находится среди позиций 8-14 в колоде. Снова раскладываем колоду в три столбца по 7 и снова кладем указанный столбец в середину. Поскольку раскладка распределяет подряд идущие возможные позиции по трем столбцам, второй ответ сужает возможные позиции до трех центральных мест. После третьего такого же шага возможная позиция становится единственной: выбранная карта оказывается на 11-й позиции в колоде.\n\nФокусник после третьего сбора отсчитывает 11-ю карту и называет ее. Стратегия работает потому, что каждый ответ дает один из трех вариантов, а три ответа различают до \\(3^3=27\\) состояний; 21 карта помещается в эту емкость.",
+      "standard_idea_ids": ["ternary_search", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "21 вариант выбранной карты",
+    "observations": ["три ответа о столбце"],
+    "allowed_actions": ["раскладывать карты и выбирать порядок сборки стопок"],
+    "goal": ["identify_selected_card"],
+    "strategy_type": ["adaptive_strategy", "ternary_search"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["21_card_trick", "three_columns", "ternary_answers", "c_ary_interval_shrinking", "c^r_capacity"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": 21,
+    "hand_size": 21,
+    "shown_cards": 21,
+    "hidden_cards": 1,
+    "ordering_channel": false,
+    "encoded_values_by_order": "three column answers over three rounds",
+    "strategy_type": "ternary_interval_shrinking"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "which of three columns contains selected card",
+    "message_capacity": "3 choices per round for 3 rounds"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Классический фокус как тернарное сужение пространства состояний.", "status": "ai_checked"},
+  "tags": ["card_trick", "ternary_search"],
+  "sources": [{"source_id": "src-card-trick-folklore", "role": "folklore_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-60905", "role": "web_statement_and_solution_variant", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: число 21 отмечено как несущественное для механизма; та же стратегия работает как c-арное сужение с емкостью c^r.", "2026-05-18: problems.ru 60905 добавлена как версия с 27 картами и тремя равными кучками из учебника Алфутовой и Устинова; отдельная карточка не заведена, так как механизм тот же тернарный фокус."]}
+}

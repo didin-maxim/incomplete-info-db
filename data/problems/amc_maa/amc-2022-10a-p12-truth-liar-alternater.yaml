@@ -1,0 +1,65 @@
+{
+  "id": "amc-2022-10a-p12-truth-liar-alternater",
+  "title": "AMC 2022 10A №12: 31 ребенок и три типа ответов",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_puzzle", "multiple_choice"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-amc-2022-10a-p12",
+        "title": "Сколько детей могли быть чередующимися",
+        "text": "В комнате 31 ребенок. Каждый ребенок принадлежит к одному из трех типов: правдивец всегда говорит правду, лжец всегда лжет, а чередующийся при последовательных вопросах попеременно говорит правду и ложь. Каждому ребенку дважды подряд задали один и тот же вопрос: «Ты правдивец?» Сначала 22 ребенка ответили «да», потом 15 детей ответили «да». Нужно определить наибольшее возможное число чередующихся детей.",
+        "source_ids": ["src-maa-2022-amc10a-problems", "src-aops-2022-amc10a-p12-index"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-alternater-forces-one-true-one-false",
+      "title": "Одинаковый вопрос разделяет три типа по парам ответов",
+      "text": "На вопрос «Ты правдивец?» правдивец дважды отвечает «да», лжец дважды тоже отвечает «да», потому что правдивый ответ для него был бы «нет». Чередующийся на два одинаковых вопроса дает один ответ «да» и один ответ «нет». Поэтому только чередующиеся меняют вклад в число ответов «да» между первым и вторым раундом.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-stable-and-changing-yeses",
+      "title": "Сравнить стабильные и меняющиеся ответы",
+      "text": "Правдивцы и лжецы на оба вопроса отвечают «да», значит каждый такой ребенок добавляет по одному «да» и в первом, и во втором раунде. Чередующийся ребенок дает ровно один ответ «да» за два раунда: либо в первом, либо во втором.\n\nВсего за два раунда прозвучало 22 + 15 = 37 ответов «да». Если не чередующихся детей было \\(n\\), они дали \\(2n\\) ответов «да», а чередующиеся дали \\(31-n\\) ответов «да». Поэтому \\(2n + (31-n) = 37\\), откуда \\(n=6\\). Значит чередующихся могло быть \\(31-6=25\\).",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого из 31 ребенка: правдивец, лжец или чередующийся",
+    "observations": ["22 ответа «да» на первый вопрос", "15 ответов «да» на второй такой же вопрос"],
+    "allowed_actions": ["использовать правила правды, лжи и чередования для двух одинаковых вопросов"],
+    "goal": ["maximize_number_of_alternaters"],
+    "strategy_type": ["counting", "structural_constraint"],
+    "lower_bound_method": [],
+    "keywords": ["amc_2022_10a", "truth_teller", "liar", "alternater"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["yes", "no"],
+    "question_count": 2,
+    "lie_count": "truth-tellers, liars, and alternating truth-lie speakers",
+    "adaptive": false,
+    "objective": "maximize_number_of_alternaters"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключ - заметить, что правдивец и лжец дают одинаковую пару ответов на вопрос о себе.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [
+    {"source_id": "src-maa-2022-amc10a-problems", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-maa-2022-amc10a-solutions", "role": "official_solution", "status": "source_verified"},
+    {"source_id": "src-aops-2022-amc10a-p12-index", "role": "index_and_cross_check", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": []}
+}

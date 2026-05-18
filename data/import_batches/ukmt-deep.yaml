@@ -1,0 +1,18 @@
+{
+  "id": "ukmt-deep",
+  "title": "Углубленный проход по официальным архивам UKMT",
+  "created_at": "2026-05-18",
+  "status": "draft",
+  "items": [
+    {"problem_id": "ukmt-imc-2013-q23-brothers-birth-order-truth", "status": "added"},
+    {"problem_id": "ukmt-smc-2016-q22-three-friends-truth", "status": "added"},
+    {"problem_id": "ukmt-smc-2016-investigation-22-1-four-friends-truth", "status": "added"},
+    {"problem_id": "ukmt-smc-2017-q13-guilty-liar", "status": "added"},
+    {"problem_id": "ukmt-grey-kangaroo-2008-q13-magician-cards-even-sum", "status": "added"}
+  ],
+  "source_notes": [
+    "Публичные тексты карточек переведены/пересказаны на русский; source.language=en.",
+    "Фильтр был узким: добавлены только truth-liar/knowledge задачи с неполной информацией, а обычные статические таблицы и вероятностные задачи отсеяны.",
+    "Потенциальный UKMT IMC 2009 Q25 про одну тяжелую монету за два взвешивания не добавлен как новая карточка, потому что сюжет уже покрыт существующей карточкой heavier-9-coins-2-weighings и ее параметрическим обобщением."
+  ]
+}

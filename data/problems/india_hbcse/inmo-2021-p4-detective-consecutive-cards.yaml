@@ -1,0 +1,94 @@
+{
+  "id": "inmo-2021-p4-detective-consecutive-cards",
+  "title": "INMO 2021 №4: детектив ищет две соседние карты",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "optimality", "adversary_argument"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-inmo-2021-p4",
+        "title": "Вопросы о соседних числах на закрытых картах",
+        "text": "Фокусник кладет на стол лицом вниз карты с числами от 1 до 52. За один ход детектив выбирает две карты и спрашивает, стоят ли написанные на них числа подряд; фокусник отвечает правдиво. После конечного числа таких ходов детектив указывает две карты и выигрывает, если на них действительно стоят последовательные числа. Докажите, что детектив может гарантировать выигрыш тогда и только тогда, когда ему разрешено задать не меньше 50 вопросов.",
+        "source_ids": ["src-hbcse-inmo-2021-solutions"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-fixed-card-star",
+      "title": "Одна фиксированная карта оставляет ровно один непроверенный соседний шанс",
+      "text": "Если сравнить выбранную карту со всеми остальными, кроме одной, то либо уже получен ответ «да», либо единственная не проверенная с ней карта вынужденно является соседней по числу.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-no-answers-as-missing-edges",
+      "title": "Отрицательные ответы удаляют ребра, но гамильтонов путь еще может остаться",
+      "text": "Ответы «нет» можно читать как запреты на пары позиций, которым нельзя назначить соседние числа. Чтобы показать недостаточность 49 вопросов, нужно доказать, что после удаления 50 таких запретных пар все еще можно расставить числа вдоль пути, обходящего все позиции.",
+      "standard_idea_ids": ["adversary_strategy", "indistinguishability"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ask-one-card-against-fifty",
+      "title": "Сравнить одну карту с пятьюдесятью другими",
+      "text": "Выберем карту \\(A\\). Детектив спрашивает про пары \\(A\\) с 50 из остальных 51 карт. Если на каком-то вопросе ответ «да», найденная пара уже выигрышная. Если все 50 ответов «нет», то единственная карта, которую не сравнивали с \\(A\\), обязана быть соседней с \\(A\\): у любого числа от 1 до 52 есть хотя бы один сосед, а все остальные кандидаты были исключены отрицательными ответами. Поэтому 50 вопросов достаточно.",
+      "standard_idea_ids": ["adaptive_questions", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-forty-nine-questions-not-enough",
+      "title": "Сорока девяти вопросов недостаточно",
+      "text": "Пусть детектив сделал 49 обычных вопросов и затем указал финальную пару; всего есть 50 пар, для которых фокуснику нужно согласованно ответить или сделать итоговый выбор проигрышным для детектива. Рассмотрим граф на 52 позициях карт и удалим эти 50 пар. Официальное решение доказывает, что после удаления любых \\(N-2\\) ребер из полного графа \\(K_N\\) при \\(N>3\\) остается гамильтонов путь. Для \\(N=52\\) значит, что оставшиеся допустимые ребра можно расположить в путь из 52 вершин и подписать их числами \\(1,2,\\ldots,52\\) вдоль пути. Тогда все 50 удаленных пар получают несоседние числа, поэтому все ответы «нет» и финальная неудачная пара согласованы с некоторой раскладкой. Следовательно, при 49 вопросах детектив не может гарантировать выигрыш.",
+      "standard_idea_ids": ["adversary_strategy", "graph_path_argument"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound", "state_space"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка чисел 1..52 на закрытых позициях карт",
+    "observations": ["правдивые ответы да/нет на вопросы о том, являются ли две выбранные карты последовательными по числам"],
+    "allowed_actions": ["адаптивно выбирать пары карт для вопроса", "после вопросов указать финальную пару"],
+    "goal": ["guarantee_find_consecutive_pair"],
+    "strategy_type": ["adaptive_strategy", "knowledge_elimination", "adversary_argument"],
+    "lower_bound_method": ["graph_adversary", "indistinguishability"],
+    "keywords": ["inmo_2021", "detective", "magician", "cards", "consecutive_numbers", "truthful_answers"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 50,
+    "lies_allowed": 0,
+    "adaptive": true,
+    "objective": "find_one_consecutive_pair"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Верхняя оценка короткая, нижняя требует нетривиального графового аргумента против любой стратегии детектива.",
+    "status": "ai_checked"
+  },
+  "tags": ["decision_tree", "indistinguishability_argument", "knowledge_elimination"],
+  "sources": [
+    {"source_id": "src-hbcse-inmo-2021-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "india_hbcse_batch",
+    "notes": [
+      "Официальный PDF HBCSE/TIFR: INMO 2021 Official Solutions, Problem 4, pages 5-6.",
+      "При поиске по архивам HBCSE/RMO/INMO большинство совпадений по keywords относились к геометрическим фразам вроде 'lies on' или служебному слову 'question'; новых задач про лжецов, взвешивания или скрытую информацию среди проверенных официальных материалов не найдено."
+    ]
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "id": "ebert-seven-hats-hamming-code",
+  "title": "Семь шляп и код Хэмминга",
+  "fragment": "wise_people",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": [
+      "hat_puzzle",
+      "coding"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-ebert-hats-seven",
+        "title": "Угадать без ошибок, разрешено промолчать",
+        "text": "Семь участников получают черные или белые шляпы. Каждый видит шляпы всех остальных, но не свою. После предварительного сговора они одновременно либо называют цвет своей шляпы, либо молчат. Команда выигрывает, если хотя бы один участник назвал свой цвет верно и никто не ошибся. Постройте стратегию с вероятностью успеха \\(7/8\\) при равновероятных независимых цветах.",
+        "source_ids": [
+          "src-ebert-hat-game-reference"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "error_correcting_code"
+        ]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-hamming-length",
+        "title": "2^m-1 участников и совершенный код Хэмминга",
+        "text": "Та же кодовая схема работает для \\(2^m-1\\) участников, когда проигрышные конфигурации образуют двоичный совершенный код Хэмминга длины \\(2^m-1\\) с минимальным расстоянием 3. Вероятность успеха равна \\(1-2^{-m}\\), потому что проигрышные слова занимают долю \\(2^{-m}\\) всех раскрасок.",
+        "source_ids": [
+          "src-ebert-hat-game-reference"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "error_correcting_code"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-hamming-code-bad-configurations",
+      "title": "Проигрышные конфигурации образуют код Хэмминга",
+      "text": "Выбирается совершенный двоичный код длины 7 с минимальным расстоянием 3. Конфигурации-кодовые слова объявляются проигрышными, а все соседние с ними конфигурации покрываются единственным верным угадывающим.",
+      "standard_idea_ids": [
+        "error_correcting_code"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-hamming-losing-codewords",
+      "title": "Назначить кодовые слова проигрышными",
+      "text": "Отождествим цвета шляп с битами и заранее выберем двоичный код Хэмминга \\([7,4,3]\\): 16 слов длины 7, каждое двоичное слово длины 7 находится на расстоянии не более 1 ровно от одного кодового слова.\n\nСтратегия каждого игрока такая. Он смотрит на шесть чужих битов и рассматривает две возможные полные конфигурации: с его битом 0 и с его битом 1. Если ровно одна из этих двух конфигураций является кодовым словом, игрок называет другой цвет - тот, при котором полная конфигурация не является кодовым словом. Если кодового слова среди двух вариантов нет, он молчит.\n\nЕсли реальная конфигурация не является кодовым словом, то по свойству совершенного кода она отличается ровно в одной координате от единственного кодового слова. Игрок в этой координате увидит, что противоположный его реальному цвету вариант является кодовым, и назовет реальный цвет. Все остальные игроки молчат: при изменении любой другой координаты получилась бы строка на расстоянии 2 от того же кодового слова, а значит не кодовое слово. Если реальная конфигурация сама является кодовым словом, каждый игрок называет противоположный своему реальному цвет, и команда проигрывает. Таких конфигураций 16 из 128, поэтому вероятность успеха равна \\(1-16/128=7/8\\).",
+      "standard_idea_ids": [
+        "error_correcting_code"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "error_correcting_code"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "двоичная строка длины 7 - цвета всех шляп",
+    "observations": [
+      "каждый видит все биты кроме своего"
+    ],
+    "allowed_actions": [
+      "одновременно назвать цвет или промолчать"
+    ],
+    "goal": [
+      "maximize_success_probability_without_wrong_guess"
+    ],
+    "strategy_type": [
+      "error_correcting_code",
+      "hamming_code"
+    ],
+    "lower_bound_method": [
+      "sphere_covering_bound"
+    ],
+    "keywords": [
+      "ebert_hat_game",
+      "hamming_code",
+      "pass_allowed",
+      "2^m_minus_1_players",
+      "perfect_code_family"
+    ],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": 7,
+    "visibility": "each agent sees all other hats",
+    "objective": "at least one correct guess and no wrong guesses"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Красивая связь со совершенными кодами; проверка сводится к свойству совершенного кода Хэмминга.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "error_correcting_code",
+    "hamming_bound",
+    "hat_puzzle"
+  ],
+  "sources": [
+    {
+      "source_id": "src-ebert-hat-game-reference",
+      "role": "reference_topic",
+      "status": "needs_human_review"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "same_solution_parameterized",
+    "notes": [
+      "Публичный текст переведен на русский; версия с одновременным ответом или молчанием явно зафиксирована.",
+      "2026-05-18: добавлена семейная формулировка для длин 2^m-1; число 7 является случаем m=3 совершенного кода Хэмминга."
+    ]
+  }
+}

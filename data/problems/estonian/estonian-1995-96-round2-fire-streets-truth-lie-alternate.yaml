@@ -1,0 +1,68 @@
+{
+  "id": "estonian-1995-96-round2-fire-streets-truth-lie-alternate",
+  "title": "Эстония 1995-96, 2-й тур: пожар на улицах правды, лжи и чередования",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "На какую улицу ехать пожарным",
+        "text": "В городе есть три улицы: T, L и H. Жители улицы T всегда говорят правду, жители улицы L всегда лгут, а у жителей улицы H истинные и ложные фразы в речи чередуются. Пожарные увидели над городом дым, и тут же зазвонил телефон. Звонивший сказал: «На нашей улице пожар!» Пожарный спросил: «Что это за улица?» Звонивший ответил: «Улица H». На какую улицу должны ехать пожарные?",
+        "source_ids": ["src-estonian-1995-96-selected-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-test-caller-street",
+      "title": "Проверить тип звонившего по двум фразам",
+      "text": "Скрытое состояние состоит из двух частей: с какой улицы звонит человек и где пожар. Две его фразы должны иметь допустимый рисунок истинности для улицы звонившего: две истины, две лжи или чередование.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-eliminate-streets",
+      "title": "Исключить T и H, затем определить пожар",
+      "text": "Если звонивший живет на T, то обе фразы должны быть истинными. Тогда пожар должен быть на T из первой фразы и на H из второй, что невозможно. Если звонивший живет на H, то обе фразы имеют одну и ту же истинность: обе истинны при пожаре на H и обе ложны при пожаре не на H; чередования нет. Значит, звонивший с улицы L, и обе его фразы ложны. Первая фраза тогда дает: пожар не на L. Вторая дает: пожар не на H. Остается улица T.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "улица звонившего и улица, на которой горит пожар",
+    "observations": ["две публичные фразы звонившего"],
+    "allowed_actions": ["сопоставлять истинность фраз с типом улицы"],
+    "goal": ["determine_hidden_location"],
+    "strategy_type": ["state_elimination", "truth_liar_normalization"],
+    "lower_bound_method": [],
+    "keywords": ["estonian_1995_96", "truth_lie_alternate", "fire_street"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 3,
+    "question_count": 2,
+    "lies_allowed": "у жителей L все фразы ложны, у жителей H истинность соседних фраз чередуется",
+    "adaptive": true,
+    "objective": "determine_fire_street"
+  },
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткий перебор трех типов говорящего.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "truth_liar_normalization"],
+  "sources": [{"source_id": "src-estonian-1995-96-selected-problems", "role": "official_statement", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "estonian_batch",
+    "notes": ["Официальный английский буклет дает условие без решения; решение является коротким исчерпывающим перебором трех типов улиц."]
+  }
+}

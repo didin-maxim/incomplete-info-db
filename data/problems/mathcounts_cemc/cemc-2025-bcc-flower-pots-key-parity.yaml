@@ -1,0 +1,71 @@
+{
+  "id": "cemc-2025-bcc-flower-pots-key-parity",
+  "title": "CEMC Beaver 2025: горшки с цветами кодируют место ключа",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-bcc-2025-flower-pots",
+        "title": "Четность цветов направляет поиск ключа",
+        "text": "Бобр ставит в ряд восемь горшков \\(A,B,C,D,E,F,G,H\\) и прячет ключ под одним из них. В некоторые горшки он сажает по одному цветку, чтобы друг мог найти ключ по правилу: если в рассматриваемом отрезке горшков общее число цветов четно, ключ в левой половине; если нечетно, ключ в правой половине. Затем рассматривается только выбранная половина, и правило повторяется, пока не останется один горшок. Ключ спрятан под горшком \\(C\\). Нужно выбрать такой ряд цветов из предложенных вариантов, который приведет друга к горшку \\(C\\). Варианты можно записать по горшкам с цветами: (A) \\(A,C,D,E,F,H\\); (B) \\(A,B,D,E,F,H\\); (C) \\(C,F\\); (D) \\(D,G\\).",
+        "source_ids": ["src-cemc-2025-bcc-7-8-contest"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-parity-bits-select-halves",
+      "title": "Каждая четность дает один бит маршрута",
+      "text": "Чтобы попасть в \\(C\\), путь деления пополам должен быть: левая половина \\(A-D\\), затем правая половина \\(C-D\\), затем левая половина \\(C\\). Значит, нужные проверки четности должны дать последовательность: четно, нечетно, четно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-check-parity-route-to-c",
+      "title": "Проверить четности на трех уровнях",
+      "text": "Для правильного варианта A всего в восьми горшках 6 цветов, это четное число, поэтому выбирается левая половина \\(A,B,C,D\\). В этих четырех горшках 3 цветка, это нечетное число, поэтому выбирается правая половина \\(C,D\\). В горшках \\(C,D\\) 2 цветка, это четное число, поэтому выбирается левая половина, то есть \\(C\\).\n\nВ остальных вариантах первые два шага также доводят до пары \\(C,D\\), но в этой паре ровно 1 цветок. Тогда последний шаг ведет вправо, к \\(D\\), а не к \\(C\\). Поэтому подходит только вариант A.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"],
+      "examples": [
+        {
+          "type": "image",
+          "asset": "data/assets/examples/cemc-2025-bcc-flower-pots-key-parity/flower-pots-options.png",
+          "caption": "Официальные варианты ответа: A имеет цветы в A,C,D,E,F,H; B - в A,B,D,E,F,H; C - в C,F; D - в D,G.",
+          "alt": "Четыре ряда из восьми горшков A-H. В варианте A цветы стоят в A,C,D,E,F,H; в B - A,B,D,E,F,H; в C - C,F; в D - D,G."
+        }
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "горшок, под которым спрятан ключ, и цветочный код на горшках",
+    "observations": ["четность числа цветов в текущем подотрезке"],
+    "allowed_actions": ["повторно делить текущий отрезок пополам по четности"],
+    "goal": ["encode_hidden_key_location"],
+    "strategy_type": ["binary_decision_path", "parity_signal"],
+    "lower_bound_method": [],
+    "keywords": ["beaver_2025", "flower_pots", "hidden_key", "parity"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["left", "right"],
+    "question_count": 3,
+    "adaptive": true,
+    "objective": "locate_hidden_key"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Двоичный маршрут задается тремя проверками четности.", "status": "ai_checked"},
+  "tags": ["parity", "binary_code", "decision_tree", "single_bit_signal"],
+  "sources": [
+    {"source_id": "src-cemc-2025-bcc-7-8-contest", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-cemc-2025-bcc-7-8-solutions", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Варианты ответа перенесены как локальный asset и продублированы текстовым описанием."]}
+}

@@ -1,0 +1,79 @@
+{
+  "id": "one-lie-questions-coding-bound",
+  "title": "Вопросы да/нет при одном возможном ложном ответе",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["lower_bound", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Один ответ может быть ложным",
+        "text": "Задуман один из \\(N\\) объектов. Можно задать \\(q\\) вопросов с ответами \"да\" или \"нет\". Среди ответов может быть не более одной лжи. Какую информационную нижнюю оценку на \\(q\\) дает это условие?",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree", "error_correcting_code"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-hamming-balls",
+      "title": "У каждого объекта есть шар возможных ответов",
+      "text": "Если истинный код объекта имеет длину \\(q\\), то при одной лжи наблюдаемый ответ может совпасть с ним или отличаться ровно в одной позиции. Значит, одному объекту соответствует \\(q+1\\) возможных наблюдаемых слов.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "lb-hamming-packing",
+      "title": "Упаковочная нижняя оценка",
+      "text": "В неадаптивной версии каждому объекту соответствует двоичное слово длины \\(q\\) - набор правдивых ответов. Если допускается одна ложь, то все слова на расстоянии не больше 1 от разных объектов должны быть различны, иначе одно и то же наблюдение было бы совместимо с двумя объектами. Поэтому \\(N(q+1)\\le 2^q\\). Эта оценка также служит ориентиром для адаптивной игры, хотя полная оптимальность адаптивных стратегий требует более тонкого анализа.",
+      "standard_idea_ids": ["one_lie_redundancy", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["error_correcting_code", "information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "N возможных объектов",
+    "observations": ["двоичное слово ответов с возможной одной ошибкой"],
+    "allowed_actions": ["задать вопросы да/нет"],
+    "goal": ["identify_hidden_object"],
+    "strategy_type": ["error_correcting_code", "lie_detection"],
+    "lower_bound_method": ["hamming_ball_packing"],
+    "keywords": ["one_lie", "twenty_questions_with_lies", "hamming_bound", "N_q_parameterized"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "q",
+    "lies_allowed": 1,
+    "adaptive": "separate cases",
+    "objective": "identify_one_of_N_states"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Стартовая карточка нижней оценки; конструктивные оптимальные стратегии можно добавлять отдельными карточками.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "error_correcting_code", "hamming_bound", "decision_tree"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_bound_only",
+    "notes": ["Карточка фиксирует нижнюю оценку, а не полную классификацию адаптивной игры.", "2026-05-18: параметры N и q уже выделены; обобщение не превращается в полное решение без отдельной конструктивной теории."]
+  }
+}

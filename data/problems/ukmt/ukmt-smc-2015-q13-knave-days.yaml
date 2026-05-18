@@ -1,0 +1,61 @@
+{
+  "id": "ukmt-smc-2015-q13-knave-days",
+  "title": "UKMT SMC 2015 Q13: валеты и дни правды",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-ukmt-smc-2015-q13",
+        "title": "В какой день оба сказали о вчерашней лжи",
+        "text": "Валет червей говорит только правду в понедельник, вторник, среду и четверг, а во все остальные дни только лжет. Валет бубен говорит только правду в пятницу, субботу, воскресенье и понедельник, а во все остальные дни только лжет. В один день на прошлой неделе они оба сказали: «Вчера я лгал». В какой день недели это было?",
+        "source_ids": ["src-ukmt-smc-2015-sol-extended"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-statement-true-exactly-at-boundary",
+      "title": "Фраза возможна только на границе между правдой и ложью",
+      "text": "Фраза «вчера я лгал» согласована либо когда сегодня день правды и вчера был день лжи, либо когда сегодня день лжи и вчера был день правды. Поэтому для каждого валета подходят только дни перехода между режимами.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-intersect-boundary-days",
+      "title": "Найти пересечение подходящих дней",
+      "text": "У валета червей переходы между правдой и ложью дают понедельник и пятницу: в понедельник он правдиво говорит о воскресной лжи, а в пятницу лживо говорит о четверговой правде. У валета бубен по той же причине подходят пятница и вторник. Общий день только один: пятница.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "день недели, в который были произнесены одинаковые фразы",
+    "observations": ["для каждого валета известен календарь правдивости и одна произнесенная фраза"],
+    "allowed_actions": ["проверять дни недели на согласованность с режимом правды или лжи"],
+    "goal": ["identify_day"],
+    "strategy_type": ["state_elimination", "intersection_of_constraints"],
+    "lower_bound_method": [],
+    "keywords": ["ukmt_smc_2015", "knave_days", "truth_schedule"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 5,
+    "question_count": 0,
+    "lies_allowed": "каждый валет в заданные дни всегда правдив, в остальные дни всегда лжет",
+    "adaptive": false,
+    "objective": "identify_day"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Нужно увидеть, что информативны только границы календарных режимов.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "sources": [{"source_id": "src-ukmt-smc-2015-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие и решение взяты из расширенных решений UKMT SMC 2015, вопрос 13; карточка содержит русский пересказ."]}
+}

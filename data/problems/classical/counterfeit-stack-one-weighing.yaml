@@ -1,0 +1,86 @@
+{
+  "id": "counterfeit-stack-one-weighing",
+  "title": "Фальшивая стопка монет за одно взвешивание",
+  "fragment": "weighings",
+  "kind": {"primary": "classical_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Одна стопка легче на известную величину",
+        "text": "Есть 10 стопок монет. В одной стопке все монеты фальшивые и каждая весит на 1 грамм меньше настоящей; в остальных стопках монеты настоящие. Есть весы, показывающие общий вес выбранных монет числом. Как одним взвешиванием определить фальшивую стопку?",
+        "source_ids": ["src-classical-coin-weighing", "src-problems-ru-88014"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      },
+      {
+        "id": "stmt-nrich-money-measure",
+        "title": "NRICH: десять коробок с монетами",
+        "text": "Есть 10 одинаковых открытых коробок, в каждой по 10 внешне одинаковых монет. В девяти коробках каждая монета весит 10 г, а в одной коробке каждая монета весит 9 г. Имеются обычные весы с одной чашей и числовым показанием массы. Как за одно взвешивание определить коробку с легкими монетами?",
+        "source_ids": ["src-nrich-money-measure"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["digital_scale"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-weight-deficit-encodes-index",
+      "title": "Дефицит веса кодирует номер стопки",
+      "text": "Если взять из стопок разные заранее известные количества монет, то недостача относительно ожидаемого веса равна количеству монет, взятых из фальшивой стопки.",
+      "standard_idea_ids": ["weighted_sum_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-take-index-many-coins",
+      "title": "Взять из i-й стопки i монет",
+      "text": "Занумеруем стопки от 1 до 10. Из первой стопки возьмем 1 монету, из второй 2 монеты, ..., из десятой 10 монет и положим все выбранные монеты на числовые весы.\n\nЕсли бы все монеты были настоящими, вес был бы заранее известен: вес одной настоящей монеты, умноженный на \\(1+2+\\cdots+10=55\\). На самом деле фальшивые монеты легче на 1 грамм каждая. Поэтому если фальшива \\(i\\)-я стопка, общий вес будет меньше ожидаемого ровно на \\(i\\) граммов. Из величины недостачи сразу читается номер фальшивой стопки.",
+      "standard_idea_ids": ["weighted_sum_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "10 вариантов: какая стопка фальшивая",
+    "observations": ["числовое значение суммарного веса"],
+    "allowed_actions": ["выбрать произвольное число монет из каждой стопки для одного взвешивания"],
+    "goal": ["identify_counterfeit_stack"],
+    "strategy_type": ["nonadaptive_strategy", "encoding"],
+    "lower_bound_method": [],
+    "keywords": ["digital_scale", "weighted_sum", "known_deficit"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "10 stacks",
+    "counterfeit_count": 1,
+    "counterfeit_type": "all_coins_in_one_stack_lighter_known_delta",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": "numeric",
+    "adaptive": false,
+    "objective": "identify_stack"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Классическое кодирование номера через величину дефицита.", "status": "ai_checked"},
+  "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy"],
+  "sources": [
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-nrich-money-measure", "role": "official_statement_and_student_solution", "status": "source_verified"},
+    {"source_id": "src-problems-ru-88014", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "notes": [
+      "Здесь используются числовые весы, а не чашечные; это отражено в профиле.",
+      "2026-05-18: в карточку слит NRICH-дубликат nrich-money-measure-one-weighing; источник сохранен как альтернативная формулировка."
+    ]
+  }
+}

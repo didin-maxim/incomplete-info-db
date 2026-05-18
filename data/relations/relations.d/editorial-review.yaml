@@ -1,0 +1,136 @@
+{
+  "relations": [
+    {
+      "id": "rel-editorial-ternary-signature-to-komal-a512",
+      "from": "ternary-signature-code-heavy-or-light",
+      "to": "komal-2010-a512-nonadaptive-counterfeit-code",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Общая карточка про противоположные тернарные подписи прямо объясняет конструкцию KöMaL: заранее выбранная таблица участий монет кодирует и номер монеты, и знак отклонения.",
+      "backward_text": "KöMaL A.512 является олимпиадной формой той же сигнатурной схемы: вместо адаптивного дерева заранее задаются тернарные столбцы, а наблюдаемое слово декодирует скрытое состояние.",
+      "status": "ai_checked",
+      "confidence": 0.92
+    },
+    {
+      "id": "rel-editorial-thirteen-known-genuine-komal-capacity-contrast",
+      "from": "thirteen-coins-known-genuine-three-weighings",
+      "to": "komal-2010-a512-nonadaptive-counterfeit-code",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "Обе задачи используют неадаптивные тернарные подписи для монеты неизвестного знака, но эталонная монета в задаче про 13 монет позволяет использовать предельную пару подписи иначе, чем в сбалансированной таблице KöMaL.",
+      "backward_text": "KöMaL полезно читать рядом с задачей про 13 монет как более строгую версию без выделенной эталонной монеты: нужно не только различать противоположные подписи, но и сбалансировать сами взвешивания.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-editorial-kvant-bound-to-sasmo-2019-light",
+      "from": "kvant-2013-one-light-coin-information-bound",
+      "to": "sasmo-2020-g9-q10-2019-light-coin",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Квантовская карточка формулирует общий закон для одной заведомо легкой монеты: нужно минимальное k с 3^k не меньше N. SASMO применяет ровно этот закон к N=2019.",
+      "backward_text": "SASMO-задача является числовым экземпляром общей информационной границы: 3^6 недостаточно для 2019 кандидатов, а 3^7 достаточно при делении на три почти равные группы.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-editorial-kvant-bound-to-nrich-two-weighings",
+      "from": "kvant-2013-one-light-coin-information-bound",
+      "to": "nrich-spot-the-fake-two-weighings",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Общая граница N <= 3^q для одной фальшивой монеты известного направления дает NRICH-задаче точную емкость: за два взвешивания можно различить не больше девяти кандидатов.",
+      "backward_text": "NRICH-вариант является малым практическим случаем той же тернарной емкости: стратегия на девять монет реализует q=2, а невозможность для десяти следует из того же дерева исходов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-editorial-pointer-scale-to-counterfeit-stack",
+      "from": "tournament-towns-2005-six-coins-pointer-scale",
+      "to": "counterfeit-stack-one-weighing",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах числовой результат взвешивания используется как линейная подпись скрытого источника: заранее выбранные коэффициенты превращают одно показание в однозначный код.",
+      "backward_text": "Классическая задача про стопки дает самый чистый образец взвешенной суммы, а задача Tournament of the Towns показывает тот же механизм в менее прямой модели со стрелочными или цифровыми показаниями.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-editorial-matprazdnik-six-boxes-to-counterfeit-stack",
+      "from": "matprazdnik-2024-six-boxes-one-sum",
+      "to": "counterfeit-stack-one-weighing",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Матпраздник-2024 тоже кодирует скрытое действие одним числом: расположение и выбранная сумма устроены так, чтобы отсутствие обмена и каждая соседняя перестановка имели разные значения.",
+      "backward_text": "Задача про фальшивую стопку является базовой версией того же приема: коэффициенты 1,2,... создают разные отклонения, а в задаче про шкатулки разные отклонения создаются выбранным расположением.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-editorial-ukmt-count-to-wajo-three-counts",
+      "from": "ukmt-imc-2019-q14-truth-tellers-count",
+      "to": "wajo-2015-knaves-three-counts",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе карточки решаются самосогласованным счетом: предполагается число правдивых или лжецов, после чего проверяется, сколько публичных фраз при этом действительно истинны.",
+      "backward_text": "WAJO-задача является более явным учебным вариантом того же счетного приема, который в UKMT-задании скрыт за короткой формулировкой про число правдивцев.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-editorial-amc-circle-to-problems-sixty-next-five",
+      "from": "amc-au-2016-intermediate-q17-truth-liars-circle",
+      "to": "problems-ru-66436-sixty-knights-next-five",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "AMC-задача дает короткий локальный анализ рыцарей и лжецов на цикле: истинность фразы накладывает запрет на соседей. Это хорошая подготовка к problems.ru 66436, где локальное окно уже имеет длину пять.",
+      "backward_text": "problems.ru 66436 усиливает тот же круговой механизм: вместо соседей слева и справа анализируется блок из пяти справа, поэтому локальные запреты надо агрегировать по блокам из шести мест.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-editorial-kvantik-two-digit-to-ukmt-kangaroo",
+      "from": "kvantik-2025-two-digit-three-public-questions",
+      "to": "ukmt-grey-kangaroo-2008-q13-magician-cards-even-sum",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах несколько участников знают разные координаты скрытого объекта, а публичный ответ о знании или незнании удаляет те состояния, при которых участник не мог бы ответить так уверенно.",
+      "backward_text": "UKMT-задача является компактным вариантом той же публичной фильтрации: одно заявление о четности карт играет роль шага, который в Квантике повторяется на трех вопросах о двузначном числе.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-editorial-ebert-to-two-lies-hamming-contrast",
+      "from": "ebert-seven-hats-hamming-code",
+      "to": "two-lies-questions-hamming-bound",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Обе карточки используют геометрию Хэмминга, но в шляпах Эберта нужен покрывающий код, чтобы каждое состояние было рядом с запрещенным словом, а в вопросах с двумя ложью нужна упаковка шаров ошибок.",
+      "backward_text": "Задача про две лжи показывает противоположную сторону той же метрики: кодовые слова должны быть далеко друг от друга, тогда как стратегия Эберта выбирает кодовые слова как центры соседних проигрышных состояний.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-editorial-flower-pots-to-calendar-binary",
+      "from": "cemc-2025-bcc-flower-pots-key-parity",
+      "to": "calendar-card-binary-trick",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи превращают положение скрытого объекта в двоичное слово. В календарных карточках биты читаются напрямую по принадлежности карточкам, а в CEMC-бобре те же биты извлекаются как четности последовательных половин.",
+      "backward_text": "Календарный фокус является прямой таблицей двоичных признаков, которая помогает увидеть, что цветы в CEMC-задаче тоже задают код ключа, только через вложенные проверки четности.",
+      "status": "ai_checked",
+      "confidence": 0.85
+    },
+    {
+      "id": "rel-editorial-mmo-cards-to-hat-modular-contrast",
+      "from": "mmo-2000-seven-cards-public-communication",
+      "to": "hat-line-k-colors-modulo",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Обе карточки используют остаток по модулю как публичное сообщение, но в шляпах модульная сумма нужна только для восстановления собственного цвета, а в ММО-2000 дополнительно требуется сохранить приватность для внешнего наблюдателя.",
+      "backward_text": "Шляпы с k цветами дают чистую модель модульного сообщения без условия приватности. На этом фоне ММО-2000 показывает, как похожий модульный код должен еще различать руки участников и не раскрывать лишнего третьему лицу.",
+      "status": "needs_human_review",
+      "confidence": 0.76
+    }
+  ]
+}

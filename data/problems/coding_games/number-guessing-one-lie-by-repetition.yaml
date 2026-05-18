@@ -1,0 +1,79 @@
+{
+  "id": "number-guessing-one-lie-by-repetition",
+  "title": "Угадывание числа с одной ложью повторением двоичного кода",
+  "fragment": "questions",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Одна ложь и простая надежная стратегия",
+        "text": "Задумано число от 0 до \\(2^m-1\\). Разрешены вопросы да/нет, среди всех ответов может быть не более одной лжи. Дайте простую самодостаточную стратегию, гарантирующую определение числа.",
+        "source_ids": ["src-folklore"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["error_correcting_code"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-repeat-each-bit",
+      "title": "Каждый бит спрашивается три раза",
+      "text": "Запишем число в двоичной системе ровно \\(m\\) битами. Для каждого бита трижды зададим один и тот же вопрос: равен ли этот бит единице. При одной общей лжи большинство из трех ответов на каждый бит дает правильное значение.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-triple-bits",
+      "title": "Тройное повторение битов",
+      "text": "Для позиций \\(0,1,\\ldots,m-1\\) спрашиваем: имеет ли задуманное число единицу в этой двоичной позиции. Каждый такой вопрос повторяем три раза. Затем для каждой позиции берем большинство ответов. Так как ложь всего одна на все \\(3m\\) ответов, в каждой тройке большинство истинно; восстановленные \\(m\\) битов однозначно задают число.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked",
+      "definition_ids": ["error_correcting_code"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "2^m возможных чисел",
+    "observations": ["ответы да/нет с не более чем одной ложью"],
+    "allowed_actions": ["задавать вопросы о битах числа"],
+    "goal": ["identify_hidden_number"],
+    "strategy_type": ["error_correcting_code", "nonadaptive_strategy"],
+    "lower_bound_method": [],
+    "keywords": ["one_lie", "repetition_code", "binary_expansion", "m_bits_parameterized"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "3m",
+    "lies_allowed": 1,
+    "adaptive": false,
+    "objective": "identify_one_of_2^m_states"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Неоптимальная, но полностью конструктивная стратегия.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_search", "lie_detection", "error_correcting_code", "repetition_code"],
+  "sources": [
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "seed_links",
+    "generalization_status": "already_parameterized_same_solution_nonoptimal",
+    "notes": ["2026-05-18: карточка уже параметризована по m; это полезное конструктивное обобщение, но не оптимальная классификация игры с одной ложью."]
+  }
+}

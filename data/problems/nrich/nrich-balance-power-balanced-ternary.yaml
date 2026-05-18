@@ -1,0 +1,77 @@
+{
+  "id": "nrich-balance-power-balanced-ternary",
+  "title": "NRICH: Balance Power и сбалансированная троичная запись",
+  "fragment": "weighings",
+  "kind": {"primary": "nrich_problem", "secondary": ["measurement_encoding", "balanced_ternary"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-nrich-balance-power",
+        "title": "Какими гирями взвесить все целые массы",
+        "text": "Нужно подобрать как можно меньше гирь, чтобы на чашечных весах взвешивать все целые массы от 1 до 60, если гири кладутся только на одну чашу, противоположную предмету. Затем тот же вопрос задается для всех масс от 1 до 1000 и от 1 до \\(n\\). Как изменится ответ, если гири разрешено класть на обе чаши, то есть часть гирь может лежать на той же чаше, что и предмет?",
+        "source_ids": ["src-nrich-balance-power"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-binary-one-pan",
+      "title": "Одна сторона дает двоичный код",
+      "text": "Если каждая гиря либо используется, либо нет, то набор гирь с массами \\(1,2,4,8,\\ldots\\) кодирует массу как сумму выбранных степеней двойки.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    },
+    {
+      "id": "idea-balanced-ternary-two-pans",
+      "title": "Две стороны дают цифры -1, 0, 1",
+      "text": "Если гирю можно положить и к предмету, и на противоположную чашу, ее вклад становится отрицательным, нулевым или положительным. Поэтому естественный набор масс - степени тройки, а представление массы становится сбалансированной троичной записью.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-powers-two-and-three",
+      "title": "Степени 2 для одной чаши, степени 3 для двух чаш",
+      "text": "Если гири разрешено класть только на чашу, противоположную предмету, то шесть гирь \\(1,2,4,8,16,32\\) взвешивают все массы от 1 до 63, значит и от 1 до 60. Для масс до 1000 достаточно десяти гирь \\(1,2,4,\\ldots,512\\), потому что ими покрываются массы до \\(2^{10}-1=1023\\).\n\nЕсли гири можно класть на обе чаши, каждая гиря получает коэффициент \\(-1,0\\) или \\(1\\). Тогда массы \\(1,3,9,27,81\\) покрывают весь диапазон от 1 до 121 по абсолютной величине, в частности 1-60. Например, 8 можно получить как \\(9-1\\), положив гирю 9 на чашу против предмета, а гирю 1 - вместе с предметом. В общем случае степени тройки работают потому, что каждая новая гиря \\(3^k\\) перекрывает весь предыдущий диапазон и добавляет соседний без разрывов.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "неизвестная целая масса предмета в заданном диапазоне",
+    "observations": ["равновесие чашечных весов при выбранном размещении гирь"],
+    "allowed_actions": ["выбирать набор гирь и сторону для каждой гири"],
+    "goal": ["represent_every_integer_mass", "minimize_number_of_weights"],
+    "strategy_type": ["binary_code", "ternary_code", "nonadaptive_strategy"],
+    "lower_bound_method": ["counting_range"],
+    "keywords": ["nrich", "balance_power", "balanced_ternary", "powers_of_three"],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": 1000,
+    "counterfeit_count": 0,
+    "counterfeit_type": "unknown_integer_mass",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": 2,
+    "adaptive": false,
+    "objective": "measure_all_integer_masses_with_few_weights"
+  },
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Не фальшивая монета, а кодирование скрытой массы через размещение гирь на чашах.", "status": "needs_human_review"},
+  "tags": ["balance_scale", "binary_code", "ternary_code", "weighted_sum_encoding"],
+  "sources": [{"source_id": "src-nrich-balance-power", "role": "official_statement_and_student_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "notes": ["Включено как релевантная задача о кодировании неизвестной массы; NRICH отмечает, что доказательство общей части остается открытым для учащихся.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки."]
+  }
+}
