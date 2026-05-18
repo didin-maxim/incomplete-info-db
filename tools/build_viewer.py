@@ -1460,7 +1460,11 @@ def main():
     args = parser.parse_args()
 
     html = build_html(make_payload())
-    targets = [output_path(args.out)] if args.out else [ROOT / "viewer" / "index.html", ROOT / "docs" / "index.html"]
+    targets = (
+        [output_path(args.out)]
+        if args.out
+        else [ROOT / "index.html", ROOT / "viewer" / "index.html", ROOT / "docs" / "index.html"]
+    )
     for target in targets:
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(html, encoding="utf-8", newline="\n")
