@@ -62,7 +62,7 @@
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 5,
-    "comment": "Сложная: нестандартная модель весов использует поломку как исход и требует дерева случаев.",
+    "comment": "Сложная: модель весов с поломкой использует саму неисправность как исход и требует дерева случаев.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "structural_constraint", "condition_middle_school"],

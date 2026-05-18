@@ -34,6 +34,9 @@ REQUIRED_RELATION_FIELDS = [
 
 IMAGE_EXTENSIONS = {".webp", ".png", ".jpg", ".jpeg"}
 MAX_IMAGE_BYTES = 2_000_000
+INTERACTIVE_COUNTERFEIT_WEIGHTS = {"lighter", "heavier"}
+INTERACTIVE_OBJECTIVES = {"identify_coin"}
+INTERACTIVE_MODES = {"random", "challenge", "sandbox", "guided"}
 
 
 def fail(errors, message):
@@ -119,6 +122,47 @@ def validate_figures(errors, label, item, source_ids, statuses):
             fail(errors, f"{label}: figures[{index}] unknown status {figure.get('status')}")
 
 
+def validate_interactive(errors, label, problem):
+    interactive = problem.get("interactive")
+    if interactive is None:
+        return
+    if not isinstance(interactive, dict):
+        fail(errors, f"{label}: interactive must be an object")
+        return
+    interactive_type = interactive.get("type")
+    if not isinstance(interactive_type, str) or not interactive_type.strip():
+        fail(errors, f"{label}: interactive.type is required")
+        return
+    if interactive_type != "single_counterfeit_weighing":
+        return
+    for field in ["coin_count", "counterfeit_weight", "max_weighings", "objective"]:
+        if field not in interactive:
+            fail(errors, f"{label}: interactive.{field} is required for single_counterfeit_weighing")
+    coin_count = interactive.get("coin_count")
+    if not isinstance(coin_count, int) or isinstance(coin_count, bool) or coin_count < 2:
+        fail(errors, f"{label}: interactive.coin_count must be an integer >= 2")
+    max_weighings = interactive.get("max_weighings")
+    if not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1:
+        fail(errors, f"{label}: interactive.max_weighings must be an integer >= 1")
+    if interactive.get("counterfeit_weight") not in INTERACTIVE_COUNTERFEIT_WEIGHTS:
+        fail(errors, f"{label}: interactive.counterfeit_weight must be one of {sorted(INTERACTIVE_COUNTERFEIT_WEIGHTS)}")
+    if interactive.get("objective") not in INTERACTIVE_OBJECTIVES:
+        fail(errors, f"{label}: interactive.objective must be one of {sorted(INTERACTIVE_OBJECTIVES)}")
+    modes = interactive.get("modes", [])
+    if modes is None:
+        return
+    if not isinstance(modes, list):
+        fail(errors, f"{label}: interactive.modes must be a list")
+        return
+    seen_modes = set()
+    for mode in modes:
+        if mode not in INTERACTIVE_MODES:
+            fail(errors, f"{label}: interactive.modes contains unknown mode {mode}")
+        if mode in seen_modes:
+            fail(errors, f"{label}: interactive.modes contains duplicate mode {mode}")
+        seen_modes.add(mode)
+
+
 def main():
     errors = []
     problem_files = load_problem_files()
@@ -182,6 +226,7 @@ def main():
                     fail(errors, f"{label}: {group_name} items must be objects")
                     continue
                 validate_figures(errors, f"{label}: {group_name} {item.get('id')}", item, source_ids, statuses)
+        validate_interactive(errors, label, problem)
         if problem.get("fragment") == "weighings" and "weighing_profile" not in problem:
             fail(errors, f"{label}: weighing fragment needs weighing_profile")
 

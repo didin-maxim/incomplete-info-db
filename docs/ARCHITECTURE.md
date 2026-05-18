@@ -31,6 +31,21 @@
 `knowledge_profile`, `card_trick_profile`, `questions_profile`,
 `communication_profile`.
 
+Необязательное поле `interactive` описывает конфиг интерактивного слоя viewer. Оно передается в статический payload вместе с карточкой и выбирает JS-рендерер по `interactive.type`. Базовый поддержанный тип:
+
+```json
+"interactive": {
+  "type": "single_counterfeit_weighing",
+  "coin_count": 25,
+  "counterfeit_weight": "lighter",
+  "max_weighings": 3,
+  "objective": "identify_coin",
+  "modes": ["random"]
+}
+```
+
+Для `single_counterfeit_weighing` обязательны `coin_count`, `counterfeit_weight`, `max_weighings` и `objective`. Поле хранит только параметры модели и режима; стратегию, подсказки и решение оно не содержит.
+
 ### `data/relations/`
 
 Связи между карточками. Они хранятся отдельно от карточек, чтобы можно было
@@ -94,6 +109,8 @@ Viewer показывает изображения условия в блоке 
 ## Локальные данные viewer
 
 `viewer/index.html`, `index.html` и `docs/index.html` остаются статическими файлами без серверного бэкенда. Локальный прогресс пользователя и личные заметки к задачам хранятся только в браузере в `localStorage` под versioned key `incomplete-info-db:local-user-data:v1`.
+
+Интерактивные карточки также работают целиком на клиенте. В `tools/build_viewer.py` точка расширения называется `INTERACTIVE_RENDERERS`: ключом служит `interactive.type`, а функция получает текущую карточку и ее `interactive`-конфиг. Если тип неизвестен текущему viewer, показывается нейтральный fallback без открытия решения.
 
 Эти данные приватны для конкретного браузера, не попадают в `data/`, не коммитятся в репозиторий и не синхронизируются через GitHub Pages. Viewer дает экспорт/импорт JSON и сброс с подтверждением, чтобы пользователь мог перенести или удалить свои записи.
 

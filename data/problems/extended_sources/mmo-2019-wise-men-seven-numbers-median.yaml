@@ -57,9 +57,9 @@
     "privacy_goal": "none"
   },
   "difficulty": {
-    "main": "standard",
+    "main": "intro",
     "local_score": 2,
-    "comment": "9 класс ММО; хорошая короткая карточка про однозначное кодирование через один параметр.",
+    "comment": "Простая: один экстремальный набор делает четвертое по величине число единственным возможным кодом всего набора.",
     "status": "ai_checked"
   },
   "tags": ["public_communication", "linear_signature", "condition_middle_school"],

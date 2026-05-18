@@ -6,13 +6,13 @@
     "primary": "training_problem",
     "secondary": ["strategy_construction", "coding", "fault_tolerance"]
   },
-  "language": "en",
+  "language": "ru",
   "statements": {
     "original": [
       {
         "id": "stmt-lktg-2008-2-2b",
-        "title": "Find a false coin using three balances, one of them broken",
-        "text": "There are 9 coins, one of which is false and lighter than the others. There are three balances, and one of the balances is broken: whenever it is used, its answer may be arbitrary. Show how to find the false coin in 4 weighings.",
+        "title": "Найти фальшивую монету, если одна из трех пар весов сломана",
+        "text": "Даны 9 одинаковых на вид монет. Одна из них фальшивая и легче остальных. Есть три пары чашечных весов, причем одна пара сломана: при каждом использовании она может дать произвольный ответ. Покажите, как за 4 взвешивания найти фальшивую монету.",
         "source_ids": ["src-lktg-2008-broken-balances-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -75,6 +75,6 @@
     "review_status": "ai_checked",
     "public_ready": false,
     "relations_status": "new_links",
-    "notes": ["Источник - листок с решениями 'Weighings using broken balances' на olympiads.mccme.ru."]
+    "notes": ["Источник - листок с решениями о взвешиваниях на сломанных весах на olympiads.mccme.ru."]
   }
 }

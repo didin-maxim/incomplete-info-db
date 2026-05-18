@@ -6,13 +6,13 @@
     "primary": "impossibility_problem",
     "secondary": ["lower_bound", "fault_tolerance"]
   },
-  "language": "en",
+  "language": "ru",
   "statements": {
     "original": [
       {
         "id": "stmt-lktg-2008-2-5b",
-        "title": "No k-weighing strategy with one broken balance",
-        "text": "There are \\(3^k\\) coins, one of which is false and lighter than the others. Any number of balances is available, but one of them is broken and may answer arbitrarily. Prove that it is impossible to find the false coin in \\(k\\) weighings.",
+        "title": "За k взвешиваний нельзя справиться с одними сломанными весами",
+        "text": "Даны \\(3^k\\) одинаковых на вид монет. Одна из них фальшивая и легче остальных. В распоряжении есть любое число чашечных весов, но одна пара весов сломана и при каждом использовании может давать произвольный ответ. Докажите, что за \\(k\\) взвешиваний невозможно гарантированно найти фальшивую монету.",
         "source_ids": ["src-lktg-2008-broken-balances-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -24,7 +24,7 @@
     {
       "id": "idea-first-test-can-be-worthless",
       "title": "Первое сообщение может полностью принадлежать неисправному прибору",
-      "text": "Если очередное взвешивание сделано на сломанном приборе, противник может выбрать ответ, сохраняющий много кандидатов. Поэтому обычная оценка \\(3^k\\) листьев недостаточна: нужно учитывать, что часть ответов может быть ненадежной.",
+      "text": "Если очередное взвешивание сделано на сломанном приборе, противник может выбрать ответ, сохраняющий много кандидатов. Поэтому прямой счет \\(3^k\\) листьев недостаточен: нужно учитывать, что часть ответов может быть ненадежной.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
       "status": "ai_checked"
     }

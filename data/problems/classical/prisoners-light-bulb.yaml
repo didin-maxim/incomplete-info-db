@@ -63,7 +63,7 @@
     "message_capacity": "один сохраняющийся бит за посещение комнаты",
     "objective": "собрать по одному сигналу посещения от каждого участника"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическая договоренность: лампочка хранит один общий да/нет-сигнал.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: нужно назначить счетчика и доказать, что один сохраняющийся бит со временем соберет по одному сигналу от каждого участника.", "status": "ai_checked"},
   "tags": ["single_bit_signal", "designated_counter_protocol", "condition_middle_school"],
   "sources": [
     {"source_id": "src-prisoners-switch-puzzles", "role": "folklore_statement", "status": "source_verified"},

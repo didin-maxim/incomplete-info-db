@@ -63,5 +63,5 @@
     {"source_id": "src-cemc-2025-pascal-contest", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-cemc-2025-pascal-solution", "role": "official_solution", "status": "source_verified"}
   ],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "new_links", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как обычная задача на согласование таблицы ответов; она может остаться lead-карточкой, но не должна расширять ядро базы до всех задач на скрытые значения."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "new_links", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как рядовая задача на согласование таблицы ответов; она может остаться lead-карточкой, но не должна расширять ядро базы до всех задач на скрытые значения."]}
 }

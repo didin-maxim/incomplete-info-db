@@ -2,21 +2,21 @@
 
 Дата обзора: 2026-05-18.
 
-Область просмотра: карточки с `tags`/`standard_idea_ids`/profile-ключами `lie_detection`, `truth_liar_normalization`, `self_reference_truth`, `truth_tellers`, `knights`, `liars`, а также фрагменты `questions` и `wise_people`. Итоговый facet-файл: `data/navigation/cluster_facets/truth_liar_systems.yaml`.
+Область просмотра: карточки с `tags`/`standard_idea_ids`/профильными ключами `lie_detection`, `truth_liar_normalization`, `self_reference_truth`, `truth_tellers`, `knights`, `liars`, а также фрагменты `questions` и `wise_people`. Итоговый файл признаков: `data/navigation/cluster_facets/truth_liar_systems.yaml`.
 
 ## Граница кластера
 
-Включены задачи, где наблюдаемая информация возникает из публичных утверждений или ответов агентов, чьи реплики связаны с правилом истинности: правдивцы, лжецы, рыцари/лжецы, чередующие правду и ложь, Random, хитрецы, подпевалы, расписания дней лжи, условная ложь и сцепка "виновный = лжец". Также включены близкие системы без персональных типов, если сама задача состоит в самосогласованности истинных/ложных публичных утверждений: ровно `k` истинных/ложных фраз, цепочки истинности, карточки с утверждениями о ложных утверждениях.
+Включены задачи, где наблюдаемая информация возникает из публичных утверждений или ответов агентов, чьи реплики связаны с правилом истинности: правдивцы, лжецы, рыцари/лжецы, чередующие правду и ложь, случайный отвечающий, хитрецы, подпевалы, расписания дней лжи, условная ложь и сцепка "виновный = лжец". Также включены близкие системы без персональных типов, если сама задача состоит в самосогласованности истинных/ложных публичных утверждений: ровно `k` истинных/ложных фраз, цепочки истинности, карточки с утверждениями о ложных утверждениях.
 
 Не включены задачи, где "ложь" является только шумом канала вопросов: `one-lie-questions-coding-bound`, `two-lies-questions-hamming-bound`, `number-guessing-one-lie-by-repetition`. Их основной механизм - код с ошибками/избыточность, а не типы говорящих.
 
-Не включены public-knowledge задачи без лжецов: `blue-eyed-islanders`, `muddy-children-common-knowledge`, `sum-product-two-numbers`, `cheryls-birthday-sasmo`, `kvantik-2025-two-digit-three-public-questions`, `three-wise-men-hats`. Они соседствуют по публичным репликам и исключению миров, но относятся к кластеру публичного знания.
+Не включены задачи публичного знания без лжецов: `blue-eyed-islanders`, `muddy-children-common-knowledge`, `sum-product-two-numbers`, `cheryls-birthday-sasmo`, `kvantik-2025-two-digit-three-public-questions`, `three-wise-men-hats`. Они соседствуют по публичным репликам и исключению миров, но относятся к кластеру публичного знания.
 
 Задачи с неисправными весами или ненадежным физическим исходом, например `kvant-2019-m2565-one-broken-scale`, оставлены вне кластера: там нет агента с логическим правилом истинности.
 
 Универсальные вопросы к лжецу включены. Это не отдельный "вопросный" шумовой канал, а ядро подмеханизма `normalization_question`: формулировка вопроса превращает предсказуемую ложь в полезный ответ.
 
-Локальные constraints на круге/линии отделены от truth-count fixed point. В первых истинность каждой фразы задает запрет или переход на соседях; во вторых число правдивцев/лжецов само должно совпасть с числом истинных числовых утверждений.
+Локальные ограничения на круге/линии отделены от самосогласованного счета. В первых истинность каждой фразы задает запрет или переход на соседях; во вторых число правдивцев/лжецов само должно совпасть с числом истинных числовых утверждений.
 
 ## Итоговый состав
 
@@ -28,7 +28,7 @@
 - `local_constraint_propagation`: `amc-au-2016-intermediate-q17-truth-liars-circle`, `kvantik-2016-round-table-right-liar-count`, `nrich-knights-and-knaves-queue`, `problems-ru-66431-knights-liars-tricksters-table`, `problems-ru-66436-sixty-knights-next-five`, `utyum-1996-knights-line-seven-yes`, `utyum-2010-vasya-two-liars-line`.
 - `truth_count_fixed_point`: `wajo-2015-knaves-three-counts`, `ukmt-imc-2019-q14-truth-tellers-count`, `mathcounts-2020-state-island-census-truth-liars`, `sasmo-2019-g9-q12-number-clues-truth-tellers`, `kvant-2022-09-island-honest-liars-tricksters`.
 - `temporal_truth_schedule`: `estonian-2003-04-liarians-2004-days`, `estonian-2018-19-three-monks-weekdays`, `komal-2016-k517-normalia-truth-alternators`, `ukmt-smc-2015-q13-knave-days`.
-- `statement`-based border cases: `estonian-1995-96-round2-contestants-two-true`, `kvantik-2016-window-two-truths`, `yumt-2014-false-statements-cards`, `ukmt-jmc-2015-q17-knaves-truth-chain`, SASMO/UKMT tasks with exactly one/two false statements.
+- пограничные случаи с утверждениями: `estonian-1995-96-round2-contestants-two-true`, `kvantik-2016-window-two-truths`, `yumt-2014-false-statements-cards`, `ukmt-jmc-2015-q17-knaves-truth-chain`, задачи SASMO/UKMT ровно с одним или двумя ложными утверждениями.
 
 ## Локальные фасеты
 
@@ -59,7 +59,7 @@
 - `temporal_truth_schedule`: дни правды/лжи или чередование по раундам/дням.
 - `conditional_liar`: ложь включается условием, например предметом или состоянием, а не фиксированным типом агента.
 
-Лучше оставить локальными или relation-level:
+Лучше оставить локальными или на уровне связей:
 
 - `case_elimination`: слишком общий механизм.
 - `role_truth_coupling`: полезен внутри кластера, но пока мало якорей.

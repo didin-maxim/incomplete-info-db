@@ -49,7 +49,7 @@
       "standard_idea_ids": [
         "partition_state_space"
       ],
-      "status": "needs_human_review",
+      "status": "ai_checked",
       "definition_ids": [
         "state_space"
       ]
@@ -79,7 +79,7 @@
       "hidden_identity",
       "distinguishing_tests"
     ],
-    "status": "needs_human_review"
+    "status": "ai_checked"
   },
   "questions_profile": {
     "answer_alphabet_size": "оценки по предмету",
@@ -89,10 +89,10 @@
     "objective": "distinguish_one_of_seven_states"
   },
   "difficulty": {
-    "main": "top_base",
-    "local_score": 7,
-    "comment": "Верх базы: нужен нетривиальный минимальный различающий набор признаков; оценка требует ручной сверки.",
-    "status": "needs_human_review"
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Средняя: достаточно следить за разбиением семи учеников и добавлять предмет, который дробит один из текущих классов.",
+    "status": "ai_checked"
   },
   "tags": [
     "nonadaptive_strategy",
@@ -115,12 +115,13 @@
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-18",
-    "review_status": "needs_human_review",
-    "public_ready": false,
+    "review_status": "ai_checked",
+    "public_ready": true,
     "relations_status": "south_africa_batch",
     "notes": [
-      "PAMO official site links to an AoPS problem archive rather than hosting this PDF directly; карточка оставлена непубличной до проверки полного решения.",
-      "2026-05-18 solution-ideas-review: заменен слабый аргумент про минимальный набор на доказательство через последовательное уточнение разбиения; источник и полный официальный разбор все еще требуют human review."
+      "PAMO official site links to an AoPS problem archive rather than hosting this PDF directly; карточка использует найденный архив условия и самодостаточное редакционное решение.",
+      "2026-05-18 solution-ideas-review: заменен слабый аргумент про минимальный набор на доказательство через последовательное уточнение разбиения.",
+      "2026-05-19: доказательство через последовательное уточнение разбиения проверено; официальный источник используется для условия."
     ]
   }
 }

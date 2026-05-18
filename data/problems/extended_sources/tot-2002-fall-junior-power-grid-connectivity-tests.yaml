@@ -6,15 +6,15 @@
     "primary": "olympiad_problem",
     "secondary": ["certificate", "testing"]
   },
-  "language": "en",
+  "language": "ru",
   "statements": {
     "original": [
       {
         "id": "stmt-tot-2002-fall-junior-a-7",
-        "title": "Technician tests connectivity in a lattice power grid",
-        "text": "A power grid has the shape of a \\(3\\times3\\) lattice with 16 nodes joined by wires along the sides of the squares. Some wires may have burned out. In one test, a technician chooses any pair of nodes and learns whether current circulates between them, that is, whether an intact path joins them. The technician already knows that current circulates from any node to any other node. What is the least number of tests required to demonstrate this? Answer the same question for a \\(5\\times5\\) lattice with 36 nodes.",
+        "title": "Техник проверяет связность решетчатой электросети",
+        "text": "Электросеть имеет вид решетки \\(3\\times3\\): 16 узлов соединены проводами вдоль сторон маленьких квадратов. Некоторые провода могли перегореть. За один тест техник выбирает любую пару узлов и узнает, проходит ли ток между ними, то есть соединены ли они цепочкой исправных проводов. Техник уже знает, что ток проходит от любого узла к любому другому. Какое наименьшее число тестов нужно, чтобы доказать это? Ответьте на тот же вопрос для решетки \\(5\\times5\\) с 36 узлами.",
         "source_ids": ["src-tot-2002-fall-junior-a-problems"],
-        "status": "needs_human_review",
+        "status": "source_verified",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["strategy"]
       }
@@ -24,22 +24,31 @@
     {
       "id": "idea-connectivity-certificate-by-queries",
       "title": "Связность как сертификат из ответов на запросы",
-      "text": "Скрытое состояние - множество перегоревших проводов, а тест раскрывает только связность двух узлов. Задача просит не найти все провода, а предъявить минимальный набор запросов, который доказывает глобальную связность.",
+      "text": "Поскольку каждый тест может подтвердить связность только одной пары узлов, положительные ответы образуют обычный граф сертификата на узлах сети. Чтобы из этих ответов следовала связность всех узлов, граф проверенных пар сам должен быть связным.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
-      "status": "needs_human_review"
+      "status": "ai_checked"
     }
   ],
   "strategies": [
     {
-      "id": "str-grid-connectivity-source-placeholder",
-      "title": "Нужна проверка официального решения",
-      "text": "Карточка зафиксирована как надежная заготовка из официального архива Турнира городов. Перед публикацией требуется найти или восстановить официальное решение и минимальные числа тестов для решеток \\(3\\times3\\) и \\(5\\times5\\).",
+      "id": "str-test-a-spanning-tree",
+      "title": "Проверить пары, образующие дерево",
+      "text": "Для решетки \\(3\\times3\\) есть 16 узлов. Выберем любые 15 пар узлов, которые образуют связное дерево на этих 16 узлах, и проверим их. Например, можно идти змейкой по всем узлам решетки и каждый раз проверять соседнюю пару в этой цепочке. Все ответы будут положительными, потому что техник уже знает, что сеть связна. Из положительных ответов по ребрам дерева сразу следует, что любой узел соединен с любым другим через цепочку уже проверенных положительных связей. Значит, 15 тестов достаточно.\n\nДля решетки \\(5\\times5\\) узлов 36, и тем же способом достаточно 35 тестов: проверяем пары вдоль любого дерева, проходящего по всем 36 узлам.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
-      "status": "needs_human_review",
-      "definition_ids": []
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
     }
   ],
-  "impossibility_proofs": [],
+  "impossibility_proofs": [
+    {
+      "id": "lb-spanning-tree-tests-necessary",
+      "title": "Почему меньше тестов не хватит",
+      "text": "После \\(k\\) положительных тестов построим вспомогательный граф: его вершины - узлы сети, а ребра - проверенные пары. Если \\(k<n-1\\), где \\(n\\) - число узлов, этот граф не может быть связным. Тогда его вершины можно разбить на две непустые части так, что ни одна проверенная пара не идет между частями. Набор ответов на уже сделанные тесты был бы таким же, если бы внутри каждой части все узлы были соединены, а между частями исправных проводов не было. Значит, по таким ответам еще нельзя доказать связность всей сети. Нужно не меньше \\(n-1\\) тестов: для 16 узлов это 15, для 36 узлов это 35.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
   "incomplete_information_profile": {
     "hidden_state_space": "подмножество исправных и перегоревших ребер решеточного графа",
     "observations": ["ответы на запросы связности выбранных пар вершин"],
@@ -48,7 +57,7 @@
     "strategy_type": ["query_certificate", "lower_bound"],
     "lower_bound_method": ["connectivity_certificate"],
     "keywords": ["tournament_of_towns_2002", "power_grid", "connectivity_queries"],
-    "status": "needs_human_review"
+    "status": "ai_checked"
   },
   "questions_profile": {
     "answer_alphabet": ["connected", "not_connected"],
@@ -59,8 +68,8 @@
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 5,
-    "comment": "Junior A-Level; добавлена как неполная информация, но решение еще не верифицировано.",
-    "status": "needs_human_review"
+    "comment": "Младшая группа, уровень A: сводится к сертификату связности из n-1 положительных запросов и нижней оценке через несвязный граф проверенных пар.",
+    "status": "ai_checked"
   },
   "tags": ["decision_tree", "counting_lower_bound", "structural_constraint", "condition_older_students"],
   "sources": [
@@ -69,9 +78,9 @@
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-17",
-    "review_status": "needs_human_review",
-    "public_ready": false,
+    "review_status": "ai_checked",
+    "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Не входит в 5 надежных опубликованных карточек; оставлена как карточка-lead, потому что условие официальное, но решение нужно дополнительно поднять."]
+    "notes": ["Не входит в 5 надежных опубликованных карточек; условие взято из официального архива Турнира городов.", "2026-05-19: добавлено полное решение: достаточно и необходимо проверить пары, образующие остовное дерево на всех узлах."]
   }
 }

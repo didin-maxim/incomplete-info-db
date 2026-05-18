@@ -53,7 +53,7 @@
     "adaptive": true,
     "objective": "recover_hidden_square"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно построить явное адаптивное дерево поиска.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: требуется не только идея поиска, но и явное адаптивное дерево с неравномерными ветвями \"звонко/горячо/холодно\".", "status": "ai_checked"},
   "tags": ["ternary_search", "decision_tree", "knowledge_elimination", "condition_middle_school"],
   "sources": [
     {"source_id": "src-calgary-jmc-2010-exam", "role": "official_statement", "status": "source_verified"},

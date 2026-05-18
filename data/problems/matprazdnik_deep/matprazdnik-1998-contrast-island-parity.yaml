@@ -30,9 +30,9 @@
     {
       "id": "str-odd-total-equivalence",
       "title": "Проверить эквивалентность двух заявлений",
-      "text": "Пусть всего жителей нечетное число N, рыцарей R, лжецов L. Тогда R+L=N, поэтому R и L имеют разную четность. Значит, фразы «R четно» и «L нечетно» одновременно истинны или одновременно ложны.\n\nНо по условию каждый житель сказал одну из этих двух фраз. Если обе фразы истинны, то все сказавшие любую из них были бы рыцарями, и лжецов не осталось бы, что противоречит ложности лжецов только при отсутствии ложных фраз. Если обе фразы ложны, то все жители были бы лжецами, но тогда число рыцарей равно 0 и первая фраза стала бы истинной. В обоих случаях согласовать типы нельзя. Следовательно, нечетного числа жителей быть не может.",
+      "text": "Пусть всего жителей нечетное число \\(N\\), рыцарей \\(R\\), лжецов \\(L\\). Тогда \\(R+L=N\\), поэтому \\(R\\) и \\(L\\) имеют разную четность. Значит, фразы «\\(R\\) четно» и «\\(L\\) нечетно» одновременно истинны или одновременно ложны.\n\nПо условию каждый житель сказал одну из этих двух фраз. Если обе фразы истинны, то все жители сказали правду, то есть все они рыцари. Тогда \\(L=0\\), и фраза «\\(L\\) нечетно» ложна - противоречие. Если обе фразы ложны, то все жители солгали, то есть все они лжецы. Тогда \\(R=0\\), и фраза «\\(R\\) четно» истинна - снова противоречие. Поэтому нечетного числа жителей быть не может.",
       "standard_idea_ids": ["knowledge_elimination", "parity_encoding"],
-      "status": "needs_human_review",
+      "status": "ai_checked",
       "definition_ids": ["truth_teller", "liar"]
     }
   ],
@@ -42,7 +42,7 @@
       "title": "Нечетное число жителей невозможно",
       "text": "При нечетном общем числе жителей обе разрешенные фразы имеют одну и ту же истинность. Тогда все жители, какую бы фразу они ни произнесли, должны иметь один тип, что несовместимо с истинностью самих фраз о четности.",
       "standard_idea_ids": ["indistinguishable_states"],
-      "status": "needs_human_review"
+      "status": "ai_checked"
     }
   ],
   "incomplete_information_profile": {
@@ -53,7 +53,7 @@
     "strategy_type": ["parity_consistency", "impossibility_proof"],
     "lower_bound_method": ["parity_contradiction"],
     "keywords": ["matprazdnik_1998", "knights_liars", "parity", "contrast_island"],
-    "status": "needs_human_review"
+    "status": "ai_checked"
   },
   "truth_liar_profile": {"agents": "unknown", "types": ["truth_teller", "liar"], "statements_count": 2, "objective": "determine_population_parity_possibility"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": "unknown_population", "lies_allowed": "systematic_by_type", "adaptive": false, "objective": "prove_population_parity_impossible"},
@@ -65,5 +65,5 @@
   },
   "tags": ["lie_detection", "parity", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-1998-problems", "role": "official_statement", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная страница условий, 9-й Математический праздник, 7 класс, задача 4. Решение восстановлено редакционно; карточка оставлена не public-ready до сверки с официальным решением, если оно будет найдено."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная страница условий, 9-й Математический праздник, 7 класс, задача 4.", "2026-05-19: редакционное решение перепроверено; противоречие при нечетном числе жителей следует из одинаковой истинности двух разрешенных фраз."]}
 }

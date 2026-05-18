@@ -76,6 +76,14 @@
     "adaptive": true,
     "objective": "identify_coin"
   },
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 25,
+    "counterfeit_weight": "lighter",
+    "max_weighings": 3,
+    "objective": "identify_coin",
+    "modes": ["challenge", "sandbox"]
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистый поиск легкой монеты, где каждое взвешивание дает три исхода.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [{"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}],

@@ -4,13 +4,14 @@
   "fragment": "communication",
   "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol"]},
   "language": "ru",
+  "authors": [{"name": "Шаповалов А.В.", "status": "source_verified", "source_id": "src-problems-ru-116064"}],
   "statements": {
     "original": [
       {
         "id": "stmt-problems-ru-116064",
         "title": "Хотя бы трое должны угадать спрятанный цвет",
         "text": "У дракона есть семь колпаков семи цветов радуги. Шестерым гномам наденут по колпаку, а один колпак спрячут. После этого каждый гном увидит колпаки остальных, но не свой и не спрятанный, и без общения с другими тайно назовет дракону цвет спрятанного колпака. Если хотя бы трое угадают, всех отпустят. Как гномам заранее договориться, чтобы гарантированно спастись?",
-        "source_ids": ["src-problems-ru-116064"],
+        "source_ids": ["src-matprazdnik-2011-blank6", "src-problems-ru-116064"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -40,9 +41,9 @@
     {
       "id": "ub-at-most-half-note",
       "title": "Больше половины гарантировать нельзя",
-      "text": "В источнике указано, что никакая договоренность не гарантирует больше половины правильных ответов. Интуитивно это связано с тем, что каждый гном всегда выбирает один из двух невидимых цветов, а по всем парам цветов число выборов в сторону спрятанного цвета нельзя сделать больше половины для каждого возможного спрятанного цвета одновременно.",
+      "text": "Любая договоренность задает ориентацию каждой пары цветов: если гном не видит ровно цвета \\(A\\) и \\(B\\), он заранее решает, какой из них назвать. Зафиксируем спрятанный цвет \\(H\\). Правильно отвечают ровно те гномы, чьи собственные цвета \\(X\\) направлены правилом в сторону \\(H\\), то есть входящие в \\(H\\) ребра этого турнира на 7 цветах.\n\nСумма входящих степеней всех 7 вершин равна числу пар цветов, то есть \\(\\binom{7}{2}=21\\). Если бы для каждого спрятанного цвета можно было гарантировать хотя бы 4 правильных ответа, сумма входящих степеней была бы не меньше \\(7\\cdot4=28\\), что невозможно. Значит, гарантировать больше трех правильных ответов нельзя.",
       "standard_idea_ids": ["counting_bound"],
-      "status": "needs_human_review"
+      "status": "ai_checked"
     }
   ],
   "incomplete_information_profile": {
@@ -65,13 +66,13 @@
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: младшая версия, но уже требует заранее согласованной ориентации пар цветов и проверки, почему половина ответов гарантируется.", "status": "ai_checked"},
   "tags": ["hat_puzzle", "symmetry", "nonadaptive_strategy", "condition_middle_school"],
-  "sources": [{"source_id": "src-problems-ru-116064", "role": "statement_and_solution_archive", "status": "source_verified"}],
+  "sources": [{"source_id": "src-matprazdnik-2011-blank6", "role": "earlier_official_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-116064", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-18",
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "web_wise_prisoners",
-    "notes": ["Источник указывает: Математический праздник 2011, 6 класс, задача 5."]
+    "notes": ["Источник указывает: Математический праздник 2011, 6 класс, задача 5.", "2026-05-19: добавлен официальный PDF условий Матпраздника-2011; автор Шаповалов А.В. взят со страницы problems.ru, в официальном PDF условий автор не указан."]
   }
 }

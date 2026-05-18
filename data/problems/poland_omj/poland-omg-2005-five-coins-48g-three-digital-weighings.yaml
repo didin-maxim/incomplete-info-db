@@ -67,9 +67,9 @@
     "objective": "identify_two_counterfeit_coins"
   },
   "difficulty": {
-    "main": "standard",
+    "main": "olympiad_medium",
     "local_score": 3,
-    "comment": "Конструкция короткая, но требует увидеть кодирование десяти пар тремя числовыми тестами.",
+    "comment": "Средняя: конструкция короткая, но нужно закодировать десять возможных пар фальшивых монет тремя числовыми тестами.",
     "status": "ai_checked"
   },
   "tags": ["digital_scale", "binary_code", "weighted_sum_encoding", "nonadaptive_strategy", "condition_middle_school"],

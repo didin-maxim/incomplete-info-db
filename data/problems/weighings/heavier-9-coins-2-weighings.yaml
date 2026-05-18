@@ -23,7 +23,7 @@
       {
         "id": "stmt-general-known-sign",
         "title": "Известный знак и q взвешиваний",
-        "text": "Даны \\(N\\) одинаковых на вид монет, ровно одна из них фальшивая и заранее известно, что она тяжелее настоящих. Нужно найти ее за \\(q\\) взвешиваний на чашечных весах. Это возможно для любого \\(N\\le 3^q\\): каждое взвешивание делит кандидатов на три группы, а цепочка из \\(q\\) исходов указывает нужную монету. Вариант с 9 монетами - точный случай \\(N=3^2\\).",
+        "text": "Даны \\(N\\) одинаковых на вид монет, ровно одна из них фальшивая и заранее известно, что она тяжелее настоящих. Нужно за \\(q\\) взвешиваний на чашечных весах гарантированно найти фальшивую монету. Для каких \\(N\\) и \\(q\\) это возможно? В частности, разберите случай \\(N=9\\), \\(q=2\\).",
         "source_ids": ["src-classical-coin-weighing", "src-unm-pnm-2025-round2-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -78,6 +78,15 @@
     "outcome_count_per_weighing": 3,
     "adaptive": true,
     "objective": "identify_coin"
+  },
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 9,
+    "counterfeit_weight": "heavier",
+    "max_weighings": 2,
+    "objective": "identify_coin",
+    "modes": ["random"],
+    "require_equal_pan_counts": true
   },
   "difficulty": {
     "main": "intro",

@@ -131,6 +131,37 @@
       "language": "en"
     },
     {
+      "id": "src-tot-2017-18-spring-advanced-statements",
+      "type": "olympiad_statement_mirror",
+      "title": "XXXIX Турнир городов, весенний тур 2017/18, сложный вариант: условия",
+      "url": "https://matematickitalent.mk/uploads/books/4cVq2dRWd0-b3NBkpdgw-w.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "PDF-зеркало содержит условия сложного варианта 8-9 и 10-11 классов с подписями авторов; официальный URL архива Турнира городов не найден."
+    },
+    {
+      "id": "src-tot-2018-19-fall-advanced-8-9-problems",
+      "type": "official_olympiad_archive",
+      "title": "40-й Международный математический Турнир городов, осенний тур 2018/19, 8-9 классы, сложный вариант: условия",
+      "url": "https://rsr-olymp.ru/upload/files/tasks/5/2018/5-tasks-math-8-9-sl_os-18-9.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-tot-2018-19-fall-advanced-8-9-solutions",
+      "type": "official_olympiad_archive",
+      "title": "40-й Международный математический Турнир городов, осенний тур 2018/19, 8-9 классы, сложный вариант: решения",
+      "url": "https://rsr-olymp.ru/upload/files/tasks/5/2018/5-ans-math-8-9-sl_os-18-9.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
       "id": "src-mmo-2006-69-brochure",
       "type": "official_olympiad_brochure",
       "title": "LXIX Московская математическая олимпиада. Задачи, решения, статистика",
@@ -221,6 +252,16 @@
       "language": "ru"
     },
     {
+      "id": "src-euler-2009-regional-stage-day1-problems",
+      "type": "official_olympiad_archive",
+      "title": "Олимпиада имени Леонарда Эйлера, 2008/09, I тур регионального этапа: условия",
+      "url": "https://tasks.olimpiada.ru/upload/files/tasks/29/2008/29-tasks-math-region-2008-9.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
       "id": "src-kvant-2013-weighing-article",
       "type": "journal_article",
       "title": "Квант, 2013: статья о вариациях задач про фальшивые монеты",
@@ -261,6 +302,16 @@
       "language": "ru"
     },
     {
+      "id": "src-matprazdnik-2011-blank6",
+      "type": "official_olympiad_archive",
+      "title": "22-й Математический праздник 2011, 6 класс: условия",
+      "url": "https://olympiads.mccme.ru/matprazdnik/image/11/blank6.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
       "id": "src-tursavin-12-problems",
       "type": "official_olympiad_archive",
       "title": "XII турнир математических боёв имени А. П. Савина. Задачи",
@@ -289,6 +340,20 @@
       "official": true,
       "status": "source_verified",
       "language": "ru"
+    },
+    {
+      "id": "src-kvant-2006-02-m1991",
+      "type": "official_journal_archive",
+      "title": "Квант, 2006, №2: задача М1991",
+      "authors": [
+        {"name": "М. Малкин", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://kvant.mccme.ru/pdf/2006-02s.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "В задачнике «Кванта» М1991 подписана М. Малкиным и указано, что задача предлагалась на XXVII Турнире городов."
     },
     {
       "id": "src-kvant-2013-01-two-fake-coins-article",
@@ -700,7 +765,9 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Олимпиада имени Леонарда Эйлера, 2008/09, I тур регионального этапа, задача 4",
+      "access_note": "Страница problems.ru указывает олимпиаду имени Леонарда Эйлера, 2009 год, задача 4; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-66431",
@@ -710,7 +777,9 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Окружная олимпиада (Москва), 2017, 5 класс, задача 5.5",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-66436",
@@ -720,17 +789,24 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Окружная олимпиада (Москва), 2017, задача 6.5",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-66705",
       "type": "web_archive",
       "title": "problems.ru, задача 66705: расстояние до ближайшего лжеца",
+      "authors": [
+        {"name": "Максим Дидин", "role": "problem_author", "status": "source_verified"}
+      ],
       "url": "https://problems.ru/view_problem_details_new.php?id=66705",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Турнир городов 2017/18, 39-й, весенний тур, сложный вариант, 8-9 классы, задача 6",
+      "access_note": "Страница problems.ru указывает автора как «Дидин М.»; полное имя «Максим Дидин» подтверждено PDF-публикацией условий XXXIX Турнира городов."
     },
     {
       "id": "src-problems-ru-67008",
@@ -1214,7 +1290,9 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Окружная олимпиада (Москва), 2013, 5 класс, задача 5.5",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-78810",
@@ -1224,7 +1302,9 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Московская математическая олимпиада, 1972, 35-я, 8 класс, 1 тур, задача 3",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-78572",
@@ -1234,37 +1314,54 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Московская математическая олимпиада, 1965, 28-я, вариант 1, 9 класс, 2 тур, задача 1",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-65817",
       "type": "web_archive",
       "title": "problems.ru, задача 65817: шесть монет на весах с общим весом",
+      "authors": [
+        {"name": "Малкин М.И.", "role": "problem_author", "status": "source_verified"}
+      ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=65817",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Турнир городов 2005/06, 27-й, осенний тур, тренировочный вариант, 8-9 классы задача 5 и 10-11 классы задача 3",
+      "access_note": "Страница problems.ru указывает автора «Малкин М.И.» и замечает перепечатку в задачнике «Кванта», 2006, №2, задача М1991."
     },
     {
       "id": "src-problems-ru-66710",
       "type": "web_archive",
       "title": "problems.ru, задача 66710: мудрецы в колпаках и k безумных",
+      "authors": [
+        {"name": "Иван Митрофанов", "role": "problem_author", "status": "source_verified"}
+      ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=66710",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Турнир городов 2017/18, 39-й, весенний тур, сложный вариант, 10-11 классы, задача 7",
+      "access_note": "Страница problems.ru указывает автора как «Митрофанов И.В.»; полное имя «Иван Митрофанов» подтверждено PDF-публикацией условий XXXIX Турнира городов."
     },
     {
       "id": "src-problems-ru-66722",
       "type": "web_archive",
       "title": "problems.ru, задача 66722: рыцари, лжецы и подпевалы",
+      "authors": [
+        {"name": "Михаил Кузнецов", "role": "problem_author", "status": "source_verified"}
+      ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=66722",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Турнир городов 2018/19, 40-й, осенний тур, сложный вариант, 8-9 классы задача 2 и 10-11 классы задача 1",
+      "access_note": "Страница problems.ru указывает автора как «Кузнецов М.»; полное имя «Михаил Кузнецов» подтверждено официальным PDF условий 40-го Турнира городов."
     },
     {
       "id": "src-problems-ru-60905",
@@ -1536,7 +1633,9 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Московская математическая регата 2015/16, 7 класс, задача 7.3.3",
+      "access_note": "Страница problems.ru указывает олимпиадный источник; явный автор на странице не указан."
     },
     {
       "id": "src-problems-ru-67459",
@@ -1592,11 +1691,16 @@
       "id": "src-problems-ru-116064",
       "type": "web_archive",
       "title": "problems.ru, задача 116064: шесть гномов и спрятанный радужный колпак",
+      "authors": [
+        {"name": "Шаповалов А.В.", "role": "problem_author", "status": "source_verified"}
+      ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=116064",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "origin": "Математический праздник 2011, 6 класс, задача 5",
+      "access_note": "Страница problems.ru явно указывает автора «Шаповалов А.В.»; официальный PDF Матпраздника подтверждает условие и номер задачи, но не содержит подписи автора."
     },
     {
       "id": "src-dartmouth-winkler-mathematical-puzzles-ch23",

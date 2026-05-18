@@ -132,6 +132,60 @@
         "objective": {"type": "string"}
       }
     },
+    "interactive": {
+      "type": "object",
+      "description": "Optional viewer-side interactive task configuration. It must not contain solution steps or strategic hints.",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Renderer key used by the static viewer."
+        },
+        "coin_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of visually identical numbered coins."
+        },
+        "counterfeit_weight": {
+          "type": "string",
+          "enum": ["lighter", "heavier"],
+          "description": "Known direction of the single counterfeit coin."
+        },
+        "max_weighings": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of balance-scale weighings allowed."
+        },
+        "objective": {
+          "type": "string",
+          "enum": ["identify_coin"],
+          "description": "Goal checked by the interactive layer."
+        },
+        "modes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["random", "challenge", "sandbox", "guided"]
+          },
+          "uniqueItems": true
+        },
+        "require_equal_pan_counts": {
+          "type": "boolean",
+          "description": "Whether the UI should require the two pans to contain the same number of coins before weighing."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"type": {"const": "single_counterfeit_weighing"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "counterfeit_weight", "max_weighings", "objective"]
+          }
+        }
+      ]
+    },
     "knowledge_profile": {"type": "object"},
     "card_trick_profile": {"type": "object"},
     "questions_profile": {"type": "object"},
