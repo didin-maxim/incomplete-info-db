@@ -48,14 +48,14 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "participants": "11 wise men",
+    "participants": "11 мудрецов",
     "prearranged_strategy": true,
-    "channel_capacity": "one public bit from each participant",
+    "channel_capacity": "один публичный бит от каждого участника",
     "public_or_private": "simultaneous_public_bits",
-    "privacy_goal": "none",
-    "objective": "each participant identifies own hat color"
+    "privacy_goal": "нет",
+    "objective": "каждый участник определяет цвет своего колпака"
   },
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Каждый участник сообщает одну проверку четности, и вместе эти проверки восстанавливают цвет.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Сложная: один бит от каждого мудреца работает как распределенный двоичный код цвета; нужно увидеть не одну четность, а сборку 11 проверок в число до 1000.", "status": "ai_checked"},
   "tags": ["hat_puzzle", "binary_code", "parity_code", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-64616", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {

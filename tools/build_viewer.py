@@ -72,6 +72,11 @@ def source_ids_for_problem(problem):
             seen.add(source_id)
             ids.append(source_id)
 
+    def add_figure_sources(items):
+        for item in items or []:
+            for figure in item.get("figures", []) or []:
+                add(figure.get("source_id"))
+
     for source in problem.get("sources", []):
         add(source.get("source_id"))
     for statements in (problem.get("statements") or {}).values():
@@ -79,7 +84,32 @@ def source_ids_for_problem(problem):
             for source_id in statement.get("source_ids", []):
                 add(source_id)
             add(statement.get("source_id"))
+            add_figure_sources([statement])
+    for key in ["ideas", "strategies", "impossibility_proofs"]:
+        add_figure_sources(problem.get(key, []))
     return ids
+
+
+def short_source_label(source):
+    source_id = str(source.get("id", "")).lower()
+    source_type = str(source.get("type", "")).lower()
+    title = str(source.get("title", "")).lower()
+    if "folklore" in source_type or "folklore" in source_id or "classical" in source_id or (source_type == "reference_topic" and not source.get("official")):
+        return "Классика"
+    rules = [
+        ("AMC", ["amc10", "amc12", "amc"]),
+        ("Турнир Городов", ["tot", "tournament of the towns", "турнир городов"]),
+        ("Матпраздник", ["matprazdnik", "математический праздник"]),
+        ("Квантик", ["kvantik", "квантик"]),
+        ("Квант", ["kvant", "квант"]),
+        ("problems.ru", ["problems-ru", "problems.ru"]),
+        ("ММО", ["mmo", "московская математическая олимпиада"]),
+    ]
+    blob = f"{source_id} {title}"
+    for label, needles in rules:
+        if any(needle in blob for needle in needles):
+            return label
+    return source.get("short_name") or source.get("title") or source.get("id")
 
 
 def build_fallback_list(problems, taxonomy):
@@ -114,7 +144,7 @@ def build_fallback_content(data):
     public_ready = sum(1 for problem in problems if (problem.get("editorial") or {}).get("public_ready"))
     first_problem = problems[0] if problems else None
     source_titles = {
-        source.get("id"): source.get("title") or source.get("id")
+        source.get("id"): short_source_label(source)
         for source in sources
         if isinstance(source, dict)
     }
@@ -297,6 +327,12 @@ def build_html(data):
       color: var(--ink);
       padding: 8px 10px;
       border-radius: 6px;
+    }
+
+    .local-data-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
     }
 
     .facet-note {
@@ -527,6 +563,45 @@ def build_html(data):
 
     .text > :last-child { margin-bottom: 0; }
 
+    .figure-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .figure-block {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .figure-block img {
+      display: block;
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      background: #fff;
+    }
+
+    .statement-figures .figure-block img {
+      max-height: 260px;
+    }
+
+    .figure-block figcaption {
+      padding: 8px 10px 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .figure-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -641,6 +716,83 @@ def build_html(data):
       min-height: 34px;
     }
 
+    .small-button:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .local-panel {
+      display: grid;
+      gap: 10px;
+      background: #fbfdfb;
+    }
+
+    .local-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .local-row label {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .local-row select, .local-row input, .local-panel textarea {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+    }
+
+    .local-row select { min-width: 170px; }
+
+    .local-panel textarea {
+      width: 100%;
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    .local-muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .local-save-status {
+      min-width: 92px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .report-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .report-form label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .report-form select, .report-form input, .report-form textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+    }
+
+    .report-output {
+      min-height: 150px;
+      font-family: Consolas, "Cascadia Mono", monospace;
+      font-size: 13px;
+    }
+
     @media (max-width: 900px) {
       .shell {
         grid-template-columns: 1fr;
@@ -679,10 +831,19 @@ def build_html(data):
           <button class="mode-button" id="mode-ideas" type="button">Идеи</button>
         </div>
         <input id="search-input" type="search" placeholder="Поиск по базе">
+        <select id="local-progress-filter"></select>
+        <div class="local-data-actions" aria-label="Локальные данные">
+          <button class="small-button" id="local-export" type="button">Экспорт</button>
+          <button class="small-button" id="local-import" type="button">Импорт</button>
+          <button class="small-button" id="local-reset" type="button">Сброс</button>
+          <input id="local-import-file" type="file" accept="application/json,.json" hidden>
+        </div>
         <select id="fragment-filter"></select>
         <select id="difficulty-filter"></select>
         <select id="status-filter"></select>
         <select id="source-filter"></select>
+        <select id="year-filter"></select>
+        <select id="author-filter"></select>
         <select id="cluster-filter"></select>
         <select id="facet-key-filter"></select>
         <select id="facet-value-filter"></select>
@@ -720,12 +881,96 @@ def build_html(data):
       catch (_error) {}
     }
 
+    function storageRemove(key) {
+      try { window.localStorage?.removeItem(key); }
+      catch (_error) {}
+    }
+
+    const LOCAL_DATA_KEY = 'incomplete-info-db:local-user-data:v1';
+    const LOCAL_DATA_VERSION = 1;
+    const FEEDBACK_CONFIG = {
+      email: '',
+      subjectPrefix: '[incomplete-info-db] Ошибка в задаче'
+    };
+    const PROGRESS_OPTIONS = [
+      { value: 'not_started', label: 'не решал' },
+      { value: 'tried', label: 'пробовал' },
+      { value: 'solved', label: 'решил' },
+      { value: 'later', label: 'вернуться позже' }
+    ];
+    const PROGRESS_LABELS = Object.fromEntries(PROGRESS_OPTIONS.map(item => [item.value, item.label]));
+
+    function emptyLocalData() {
+      return { version: LOCAL_DATA_VERSION, problems: {}, updated_at: null };
+    }
+
+    function normalizeLocalEntry(entry) {
+      if (!entry || typeof entry !== 'object') return {};
+      const progress = PROGRESS_LABELS[entry.progress] ? entry.progress : 'not_started';
+      const note = typeof entry.note === 'string' ? entry.note : '';
+      const updated_at = typeof entry.updated_at === 'string' ? entry.updated_at : undefined;
+      const result = {};
+      if (progress !== 'not_started') result.progress = progress;
+      if (note) result.note = note;
+      if (updated_at && (result.progress || result.note)) result.updated_at = updated_at;
+      return result;
+    }
+
+    function loadLocalData() {
+      const raw = storageGet(LOCAL_DATA_KEY);
+      if (!raw) return emptyLocalData();
+      try {
+        const parsed = JSON.parse(raw);
+        const result = emptyLocalData();
+        const entries = parsed?.problems && typeof parsed.problems === 'object' ? parsed.problems : {};
+        for (const [id, entry] of Object.entries(entries)) {
+          const normalized = normalizeLocalEntry(entry);
+          if (normalized.progress || normalized.note) result.problems[id] = normalized;
+        }
+        result.updated_at = typeof parsed?.updated_at === 'string' ? parsed.updated_at : null;
+        return result;
+      } catch (_error) {
+        return emptyLocalData();
+      }
+    }
+
+    let localData = loadLocalData();
+
+    function saveLocalData() {
+      localData.version = LOCAL_DATA_VERSION;
+      localData.updated_at = new Date().toISOString();
+      storageSet(LOCAL_DATA_KEY, JSON.stringify(localData));
+    }
+
+    function localEntry(problemId) {
+      return localData.problems[problemId] || {};
+    }
+
+    function localProgress(problemId) {
+      return localEntry(problemId).progress || 'not_started';
+    }
+
+    function localNote(problemId) {
+      return localEntry(problemId).note || '';
+    }
+
+    function setLocalEntry(problemId, patch) {
+      const current = { ...localEntry(problemId), ...patch };
+      const normalized = normalizeLocalEntry({ ...current, updated_at: new Date().toISOString() });
+      if (normalized.progress || normalized.note) localData.problems[problemId] = normalized;
+      else delete localData.problems[problemId];
+      saveLocalData();
+    }
+
     const state = {
       query: '',
+      localProgress: 'all',
       fragment: 'all',
       difficulty: 'all',
       status: 'all',
       source: 'all',
+      year: 'all',
+      author: 'all',
       cluster: 'all',
       facetKey: 'all',
       facetValue: 'all',
@@ -741,6 +986,8 @@ def build_html(data):
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#039;');
     const routePart = (value) => encodeURIComponent(value);
+    const pagePath = window.location.pathname.replace(/\\\\/g, '/');
+    const assetPrefix = pagePath.includes('/viewer/') || pagePath.includes('/docs/') ? '../' : '';
 
     const problemById = Object.fromEntries(problems.map(p => [p.id, p]));
     const sourceById = Object.fromEntries(sources.map(s => [s.id, s]));
@@ -802,6 +1049,24 @@ def build_html(data):
       return String(value);
     }
 
+    function normalizeCompact(value) {
+      return String(value || '').toLocaleLowerCase('ru').replace(/[^a-z0-9а-яё]+/g, '');
+    }
+
+    function authorName(author) {
+      return String((typeof author === 'string' ? author : author?.name) || '').trim();
+    }
+
+    function problemAuthors(problem, includeUnknown = false) {
+      return (problem.authors || [])
+        .map(authorName)
+        .filter(name => name && (includeUnknown || !['?', 'unknown'].includes(name.toLocaleLowerCase('ru'))));
+    }
+
+    function problemAuthorKeys(problem) {
+      return problemAuthors(problem).map(normalizeCompact).filter(Boolean);
+    }
+
     function selectedFacetCluster(clusterId = state.cluster) {
       const file = selectedFacetFile(clusterId);
       return (file?.clusters || []).find(cluster => cluster.id === clusterId) || null;
@@ -855,6 +1120,37 @@ def build_html(data):
       return `<div class="text">${esc(text).split(/\\n\\s*\\n/).map(part => `<p class="text-paragraph">${part}</p>`).join('')}</div>`;
     }
 
+    function assetUrl(asset) {
+      const path = String(asset || '').replace(/\\\\/g, '/');
+      if (!path || path.startsWith('/') || path.includes('..') || /^[a-z]+:/i.test(path)) return '';
+      return `${assetPrefix}${path}`;
+    }
+
+    function renderFigures(figures, context = '') {
+      const present = asArray(figures).filter(figure => figure && figure.asset);
+      if (!present.length) return '';
+      return `
+        <div class="figure-list ${context ? `${esc(context)}-figures` : ''}">
+          ${present.map(figure => {
+            const sourceLabel = figure.source_id ? sourceShortTitle(figure.source_id) : figure.source_note;
+            const meta = [
+              sourceLabel ? pill(sourceLabel) : '',
+              statusPill(figure.status)
+            ].filter(Boolean).join('');
+            return `
+              <figure class="figure-block">
+                <img src="${esc(assetUrl(figure.asset))}" alt="${esc(figure.alt || '')}" loading="lazy">
+                <figcaption>
+                  ${esc(figure.caption || '')}
+                  ${meta ? `<div class="figure-meta">${meta}</div>` : ''}
+                </figcaption>
+              </figure>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
     function pill(value, extra = '') {
       if (value == null || value === '') return '';
       return `<span class="pill ${extra}">${esc(value)}</span>`;
@@ -882,8 +1178,115 @@ def build_html(data):
       return sourceById[id]?.title || id;
     }
 
+    function firstYear(value) {
+      const match = String(value || '').match(/(19|20)\\d{2}/);
+      return match ? match[0] : '';
+    }
+
+    const SOURCE_FAMILIES = [
+      { key: 'classic', label: 'Классика', aliases: ['классика', 'классический', 'folklore'], idPatterns: ['folklore', 'classical'], titlePatterns: ['классическ', 'folklore'] },
+      { key: 'amc', label: 'AMC', aliases: ['amc'], idPatterns: ['amc10', 'amc12', 'amc'], titlePatterns: ['amc 10', 'amc 12', 'amc'] },
+      { key: 'tournament-towns', label: 'Турнир Городов', aliases: ['турнир городов', 'tournament of the towns', 'tot'], idPatterns: ['tot', 'tournament-towns'], titlePatterns: ['турнир городов', 'tournament of the towns'] },
+      { key: 'matprazdnik', label: 'Матпраздник', aliases: ['матпраздник', 'математический праздник'], idPatterns: ['matprazdnik'], titlePatterns: ['математический праздник', 'матпраздник'] },
+      { key: 'kvantik', label: 'Квантик', aliases: ['квантик'], idPatterns: ['kvantik'], titlePatterns: ['квантик'] },
+      { key: 'kvant', label: 'Квант', aliases: ['квант'], idPatterns: ['kvant'], titlePatterns: ['квант'] },
+      { key: 'problems-ru', label: 'problems.ru', aliases: ['problems.ru'], idPatterns: ['problems-ru'], titlePatterns: ['problems.ru'] },
+      { key: 'mmo', label: 'ММО', aliases: ['ммо', 'московская математическая олимпиада'], idPatterns: ['mmo'], titlePatterns: ['московская математическая олимпиада'] },
+      { key: 'kolmogorov', label: 'Колмогоров', aliases: ['колмогоров'], idPatterns: ['kolmogorov'], titlePatterns: ['колмогоров'] },
+      { key: 'ukmt', label: 'UKMT', aliases: ['ukmt'], idPatterns: ['ukmt'], titlePatterns: ['ukmt'] },
+      { key: 'mathcounts', label: 'MATHCOUNTS', aliases: ['mathcounts'], idPatterns: ['mathcounts'], titlePatterns: ['mathcounts'] },
+      { key: 'cemc', label: 'CEMC', aliases: ['cemc'], idPatterns: ['cemc'], titlePatterns: ['cemc'] },
+      { key: 'nrich', label: 'NRICH', aliases: ['nrich'], idPatterns: ['nrich'], titlePatterns: ['nrich'] },
+      { key: 'estonian', label: 'Эстония', aliases: ['estonian'], idPatterns: ['estonian'], titlePatterns: ['estonian'] },
+      { key: 'sasmo', label: 'SASMO', aliases: ['sasmo'], idPatterns: ['sasmo'], titlePatterns: ['sasmo'] },
+      { key: 'wajo', label: 'WAJO', aliases: ['wajo'], idPatterns: ['wajo'], titlePatterns: ['wajo'] },
+      { key: 'inmo', label: 'INMO', aliases: ['inmo'], idPatterns: ['inmo'], titlePatterns: ['inmo'] },
+      { key: 'lmo', label: 'ЛМО', aliases: ['лмо'], idPatterns: ['lmo'], titlePatterns: ['ленинградская математическая олимпиада', 'лмо'] }
+    ];
+
+    const SOURCE_FAMILY_BY_KEY = Object.fromEntries(SOURCE_FAMILIES.map(family => [family.key, family]));
+
+    function sourceFamilyForSource(source) {
+      if (!source) return null;
+      const explicit = source.source_family || source.family || source.display_family;
+      if (explicit && SOURCE_FAMILY_BY_KEY[explicit]) return SOURCE_FAMILY_BY_KEY[explicit];
+      if (source.short_name || source.short_title || source.display_name) {
+        const label = source.short_name || source.short_title || source.display_name;
+        return { key: normalizeCompact(label), label, aliases: [label] };
+      }
+      const id = String(source.id || '').toLocaleLowerCase('ru').replace(/^src[-_]/, '');
+      const type = String(source.type || '').toLocaleLowerCase('ru');
+      const title = String(source.title || '').toLocaleLowerCase('ru');
+      const compactId = normalizeCompact(id);
+      const compactTitle = normalizeCompact(title);
+      if (type.includes('folklore') || (type === 'reference_topic' && !source.official)) return SOURCE_FAMILY_BY_KEY.classic;
+      for (const family of SOURCE_FAMILIES) {
+        if ((family.idPatterns || []).some(pattern => compactId.includes(normalizeCompact(pattern)))) return family;
+        if ((family.titlePatterns || []).some(pattern => compactTitle.includes(normalizeCompact(pattern)))) return family;
+      }
+      return null;
+    }
+
+    function fallbackSourceFamily(source) {
+      if (!source) return { key: 'unknown-source', label: 'Источник', aliases: [] };
+      const urlHost = (() => {
+        try { return source.url ? new URL(source.url).hostname.replace(/^www\\./, '') : ''; }
+        catch (_error) { return ''; }
+      })();
+      if (urlHost) return { key: normalizeCompact(urlHost), label: urlHost, aliases: [urlHost] };
+      const raw = String(source.id || '').replace(/^src[-_]/, '').split(/[-_](?=(19|20)\\d{2})/)[0] || source.id || 'source';
+      return { key: normalizeCompact(raw), label: raw, aliases: [raw] };
+    }
+
+    function sourceInfoForId(id) {
+      const source = sourceById[id] || { id };
+      const family = sourceFamilyForSource(source) || fallbackSourceFamily(source);
+      const year = String(source.source_year || source.year || firstYear(source.id) || firstYear(source.title) || firstYear(source.url) || '');
+      const aliases = new Set([id, source.title || '', family.label || '', ...(family.aliases || [])]);
+      if (year) {
+        aliases.add(`${family.label || family.key} ${year}`);
+        aliases.add(`${family.key}${year}`);
+      }
+      return {
+        id,
+        key: family.key,
+        label: family.label,
+        year,
+        aliases: [...aliases].map(normalizeCompact).filter(Boolean)
+      };
+    }
+
+    function sourceInfosForProblem(problem) {
+      const infos = sourceIdsForProblem(problem).map(sourceInfoForId);
+      if (infos.length) return infos;
+      const year = firstYear(problem.id) || firstYear(problem.title);
+      return [{ id: '', key: 'unknown-source', label: 'Источник', year, aliases: [] }];
+    }
+
+    function sourceFamilyKeysForProblem(problem) {
+      return [...new Set(sourceInfosForProblem(problem).map(info => info.key).filter(Boolean))];
+    }
+
+    function sourceYearsForProblem(problem) {
+      const years = sourceInfosForProblem(problem).map(info => info.year).filter(Boolean);
+      const fallback = firstYear(problem.id) || firstYear(problem.title);
+      if (!years.length && fallback) years.push(fallback);
+      return [...new Set(years)];
+    }
+
+    function sourceShortTitle(id) {
+      return sourceInfoForId(id).label || sourceTitle(id);
+    }
+
     function sourceIdsForProblem(problem) {
       const ids = new Set();
+      const addFigureSources = (items) => {
+        for (const item of items || []) {
+          for (const figure of item.figures || []) {
+            if (figure.source_id) ids.add(figure.source_id);
+          }
+        }
+      };
       for (const source of problem.sources || []) {
         if (source.source_id) ids.add(source.source_id);
       }
@@ -892,7 +1295,9 @@ def build_html(data):
           for (const id of statement.source_ids || []) ids.add(id);
           if (statement.source_id) ids.add(statement.source_id);
         }
+        addFigureSources(statements || []);
       }
+      for (const key of ['ideas', 'strategies', 'impossibility_proofs']) addFigureSources(problem[key] || []);
       return [...ids];
     }
 
@@ -907,6 +1312,30 @@ def build_html(data):
       const cluster = clusterById[clusterId];
       if (!cluster) return new Set(problems.map(p => p.id));
       return new Set([...(cluster.problem_ids || []), ...(cluster.core_problem_ids || [])]);
+    }
+
+    function clusterHasFragment(cluster, fragmentId) {
+      if (!cluster || fragmentId === 'all') return false;
+      const ids = clusterProblemIds(cluster.id);
+      return problems.some(problem => problem.fragment === fragmentId && ids.has(problem.id));
+    }
+
+    function clustersForSelectedFragment() {
+      if (state.fragment === 'all') return [];
+      return topicClusters.filter(cluster => clusterHasFragment(cluster, state.fragment));
+    }
+
+    function fragmentsForCluster(clusterId) {
+      const ids = clusterProblemIds(clusterId);
+      return [...new Set(problems
+        .filter(problem => problem.fragment && ids.has(problem.id))
+        .map(problem => problem.fragment))]
+        .sort();
+    }
+
+    function fragmentForClusterSelection(clusterId) {
+      const fragments = fragmentsForCluster(clusterId);
+      return fragments.includes(state.fragment) ? state.fragment : (fragments[0] || 'all');
     }
 
     function facetFileKeyForCluster(cluster) {
@@ -988,15 +1417,20 @@ def build_html(data):
       const clusters = topicMemberships(problem.id).map(c => `${c.id} ${c.title_ru} ${c.description_ru}`).join(' ');
       const facets = (facetRecordByProblem[problem.id] || []).map(flatten).join(' ');
       const sourceText = sourceIdsForProblem(problem).map(sourceTitle).join(' ');
-      return `${flatten(problem)} ${clusters} ${facets} ${sourceText}`.toLocaleLowerCase('ru');
+      const sourceFacetText = sourceInfosForProblem(problem).map(info => `${info.label} ${info.year} ${info.aliases.join(' ')}`).join(' ');
+      const authorText = problemAuthors(problem, true).join(' ');
+      return `${flatten(problem)} ${clusters} ${facets} ${sourceText} ${sourceFacetText} ${authorText}`.toLocaleLowerCase('ru');
     }
 
     function problemMatches(problem, overrides = {}) {
       const filters = { ...state, ...overrides };
+      if (filters.localProgress !== 'all' && localProgress(problem.id) !== filters.localProgress) return false;
       if (filters.fragment !== 'all' && problem.fragment !== filters.fragment) return false;
       if (filters.difficulty !== 'all' && problem.difficulty?.main !== filters.difficulty) return false;
       if (filters.status !== 'all' && problem.editorial?.review_status !== filters.status && problem.difficulty?.status !== filters.status) return false;
-      if (filters.source !== 'all' && !sourceIdsForProblem(problem).includes(filters.source)) return false;
+      if (filters.source !== 'all' && !sourceFamilyKeysForProblem(problem).includes(filters.source)) return false;
+      if (filters.year !== 'all' && !sourceYearsForProblem(problem).includes(filters.year)) return false;
+      if (filters.author !== 'all' && !problemAuthorKeys(problem).includes(filters.author)) return false;
       if (filters.cluster !== 'all' && !clusterProblemIds(filters.cluster).has(problem.id)) return false;
       if (filters.cluster !== 'all' && filters.facetKey !== 'all' && filters.facetValue !== 'all') {
         const value = facetValue(problem, filters.facetKey, filters.cluster);
@@ -1028,10 +1462,13 @@ def build_html(data):
 
     function resetProblemFilters() {
       state.query = '';
+      state.localProgress = 'all';
       state.fragment = 'all';
       state.difficulty = 'all';
       state.status = 'all';
       state.source = 'all';
+      state.year = 'all';
+      state.author = 'all';
       state.cluster = 'all';
       state.facetKey = 'all';
       state.facetValue = 'all';
@@ -1053,6 +1490,10 @@ def build_html(data):
         return `<option value="${esc(optionValue)}">${esc(option.label)}${esc(suffix)}</option>`;
       }).join('');
       select.value = [...select.options].some(option => option.value === current) ? current : 'all';
+    }
+
+    function setFilterVisible(id, visible) {
+      byId(id).hidden = !visible;
     }
 
     function countProblems(overrides = {}) {
@@ -1084,6 +1525,16 @@ def build_html(data):
     function renderFilters() {
       byId('search-input').value = state.query;
       populateSelect(
+        'local-progress-filter',
+        PROGRESS_OPTIONS.map(item => ({
+          value: item.value,
+          label: item.label,
+          count: optionCountFor({ localProgress: item.value })
+        })),
+        state.localProgress,
+        labelWithCount('Любой локальный прогресс', optionCountFor({ localProgress: 'all' }))
+      );
+      populateSelect(
         'fragment-filter',
         [...new Set(problems.map(p => p.fragment).filter(Boolean))]
           .sort()
@@ -1109,17 +1560,69 @@ def build_html(data):
       );
       populateSelect(
         'source-filter',
-        sources
-          .filter(source => problems.some(problem => sourceIdsForProblem(problem).includes(source.id)))
-          .map(source => ({ value: source.id, label: source.title || source.id, count: optionCountFor({ source: source.id }) })),
+        [...new Map(
+          problems
+            .filter(problem => problemMatches(problem, { source: 'all' }))
+            .flatMap(problem => sourceInfosForProblem(problem))
+            .map(info => [info.key, info.label])
+        )]
+          .map(([key, label]) => ({ value: key, label, count: optionCountFor({ source: key }) }))
+          .filter(option => option.count > 0)
+          .sort((a, b) => a.label.localeCompare(b.label, 'ru')),
         state.source,
         labelWithCount('Все источники', optionCountFor({ source: 'all' }))
       );
+      const sourceOptions = [...byId('source-filter').options].filter(option => option.value !== 'all');
+      if (!sourceOptions.some(option => option.value === state.source)) state.source = 'all';
+      setFilterVisible('source-filter', sourceOptions.length > 1 || state.source !== 'all');
+
+      const yearOptions = [...new Set(problems
+        .filter(problem => problemMatches(problem, { year: 'all' }))
+        .flatMap(sourceYearsForProblem))]
+        .sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }))
+        .map(year => ({ value: year, label: year, count: optionCountFor({ year }) }))
+        .filter(option => option.count > 0);
+      if (!yearOptions.some(option => option.value === state.year)) state.year = 'all';
+      setFilterVisible('year-filter', yearOptions.length > 1 || state.year !== 'all');
+      populateSelect(
+        'year-filter',
+        yearOptions,
+        state.year,
+        labelWithCount('Все годы', optionCountFor({ year: 'all' }))
+      );
+      const authorCounts = {};
+      const authorLabels = {};
+      for (const problem of problems) {
+        if (!problemMatches(problem, { author: 'all' })) continue;
+        for (const author of problemAuthors(problem)) {
+          const key = normalizeCompact(author);
+          if (!key) continue;
+          authorCounts[key] = (authorCounts[key] || 0) + 1;
+          authorLabels[key] = author;
+        }
+      }
+      const authorKeys = Object.keys(authorCounts).sort((a, b) => authorLabels[a].localeCompare(authorLabels[b], 'ru'));
+      if (!authorKeys.includes(state.author)) state.author = 'all';
+      setFilterVisible('author-filter', authorKeys.length > 0);
+      populateSelect(
+        'author-filter',
+        authorKeys.map(key => ({ value: key, label: authorLabels[key], count: authorCounts[key] })),
+        state.author,
+        labelWithCount('Все авторы', countProblems({ author: 'all' }))
+      );
+
+      const fragmentClusters = clustersForSelectedFragment();
+      if (state.fragment === 'all' || !fragmentClusters.some(cluster => cluster.id === state.cluster)) {
+        state.cluster = 'all';
+        state.facetKey = 'all';
+        state.facetValue = 'all';
+      }
+      setFilterVisible('cluster-filter', fragmentClusters.length > 0);
       populateSelect(
         'cluster-filter',
-        topicClusters.map(cluster => ({ value: cluster.id, label: cluster.title_ru || cluster.id, count: optionCountFor({ cluster: cluster.id, facetKey: 'all', facetValue: 'all' }) })),
+        fragmentClusters.map(cluster => ({ value: cluster.id, label: cluster.title_ru || cluster.id, count: optionCountFor({ cluster: cluster.id, facetKey: 'all', facetValue: 'all' }) })),
         state.cluster,
-        labelWithCount('Все кластеры', optionCountFor({ cluster: 'all', facetKey: 'all', facetValue: 'all' }))
+        labelWithCount('Весь фрагмент', optionCountFor({ cluster: 'all', facetKey: 'all', facetValue: 'all' }))
       );
 
       const facetKeys = localFacetKeys();
@@ -1127,17 +1630,17 @@ def build_html(data):
         state.facetKey = 'all';
         state.facetValue = 'all';
       }
+      setFilterVisible('facet-key-filter', state.cluster !== 'all' && facetKeys.length > 0);
       populateSelect(
         'facet-key-filter',
         facetKeys.map(key => ({ value: key, label: facetKeyLabel(key), count: facetKeyCount(key) })),
         state.facetKey,
-        state.cluster === 'all'
-          ? 'Сначала выберите кластер'
-          : labelWithCount('Все локальные признаки', optionCountFor({ facetKey: 'all', facetValue: 'all' }))
+        labelWithCount('Все локальные признаки', optionCountFor({ facetKey: 'all', facetValue: 'all' }))
       );
 
       const facetValues = facetValuesForSelection();
       if (!facetValues.includes(state.facetValue)) state.facetValue = 'all';
+      setFilterVisible('facet-value-filter', state.cluster !== 'all' && state.facetKey !== 'all' && facetValues.length > 0);
       populateSelect(
         'facet-value-filter',
         facetValues.map(value => ({ value, label: facetValueLabel(state.facetKey, value), count: optionCountFor({ facetValue: value }) })),
@@ -1146,9 +1649,8 @@ def build_html(data):
           ? 'Все значения признака'
           : labelWithCount('Все значения', optionCountFor({ facetValue: 'all' }))
       );
-      byId('facet-note').textContent = state.cluster === 'all'
-        ? 'Локальные признаки включаются после выбора кластера.'
-        : `${facetKeys.length} локальных признаков для выбранного кластера.`;
+      setFilterVisible('facet-note', state.cluster !== 'all' && facetKeys.length > 0);
+      byId('facet-note').textContent = `${facetKeys.length} локальных признаков для выбранного кластера.`;
     }
 
     function applySidebarState() {
@@ -1164,6 +1666,11 @@ def build_html(data):
 
     function listProblemButton(problem, activeId) {
       const clusters = topicMemberships(problem.id).slice(0, 2).map(c => c.title_ru || c.id).join(' · ');
+      const progress = localProgress(problem.id);
+      const localInfo = [
+        progress !== 'not_started' ? `прогресс: ${PROGRESS_LABELS[progress]}` : '',
+        localNote(problem.id) ? 'есть заметка' : ''
+      ].filter(Boolean).join(' · ');
       const facets = state.cluster !== 'all'
         ? localFacetKeys().slice(0, 2).map(key => {
             const value = facetValue(problem, key);
@@ -1174,6 +1681,7 @@ def build_html(data):
         <a class="list-button ${problem.id === activeId ? 'active' : ''}" href="#problem/${routePart(problem.id)}">
           <strong>${esc(problem.title)}</strong>
           <div class="id">${esc(problem.id)} · ${esc(fragmentTitle(problem.fragment))}</div>
+          ${localInfo ? `<div class="id">${esc(localInfo)}</div>` : ''}
           ${clusters ? `<div class="id">${esc(clusters)}</div>` : ''}
           ${facets ? `<div class="id">${esc(facets)}</div>` : ''}
         </a>
@@ -1319,6 +1827,7 @@ def build_html(data):
         button.addEventListener('click', () => {
           resetProblemFilters();
           state.cluster = button.dataset.homeCluster;
+          state.fragment = fragmentForClusterSelection(state.cluster);
           state.view = 'problems';
           selectFirstVisibleProblem();
         });
@@ -1338,6 +1847,7 @@ def build_html(data):
               </div>
               ${statement.title ? `<h4>${esc(statement.title)}</h4>` : ''}
               ${textBlock(statement.text)}
+              ${renderFigures(statement.figures, 'statement')}
               ${renderLinkedIds(statement.definition_ids, definitionById, 'Определения', 'definition')}
               ${renderSourceIds(statement.source_ids || (statement.source_id ? [statement.source_id] : []))}
             </div>
@@ -1364,7 +1874,7 @@ def build_html(data):
     function renderSourceIds(ids) {
       const present = asArray(ids).filter(Boolean);
       if (!present.length) return '';
-      return `<div class="pill-row">${present.map(id => pill(sourceTitle(id))).join('')}</div>`;
+      return `<div class="pill-row">${present.map(id => pill(sourceShortTitle(id))).join('')}</div>`;
     }
 
     function renderIdeaBlocks(problem) {
@@ -1375,6 +1885,7 @@ def build_html(data):
           <div class="topline">${item.id ? pill(item.id, 'code') : ''}${statusPill(item.status)}</div>
           ${item.title ? `<h4>${esc(item.title)}</h4>` : ''}
           ${textBlock(item.text)}
+          ${renderFigures(item.figures, 'idea')}
           ${renderLinkedIds(item.standard_idea_ids, ideaById, 'Стандартные идеи', 'idea')}
         </div>
       `).join('');
@@ -1387,6 +1898,7 @@ def build_html(data):
           <div class="topline">${item.id ? pill(item.id, 'code') : ''}${statusPill(item.status)}</div>
           ${item.title ? `<h4>${esc(item.title)}</h4>` : ''}
           ${textBlock(item.text)}
+          ${renderFigures(item.figures, 'solution')}
           ${renderLinkedIds(item.standard_idea_ids, ideaById, 'Стандартные идеи', 'idea')}
           ${renderLinkedIds(item.definition_ids, definitionById, 'Определения', 'definition')}
         </div>
@@ -1435,13 +1947,16 @@ def build_html(data):
 
     function renderSourceCard(id, entry) {
       const source = sourceById[id] || { id, title: id };
+      const shortTitle = sourceShortTitle(id);
+      const fullTitle = source.title || id;
       const title = source.url
-        ? `<a class="relation-link" href="${esc(source.url)}" target="_blank" rel="noopener">${esc(source.title || id)}</a>`
-        : `<span class="relation-link">${esc(source.title || id)}</span>`;
+        ? `<a class="relation-link" href="${esc(source.url)}" target="_blank" rel="noopener">${esc(shortTitle)}</a>`
+        : `<span class="relation-link">${esc(shortTitle)}</span>`;
+      const details = [id, source.type, fullTitle !== shortTitle ? fullTitle : ''].filter(Boolean).join(' · ');
       return `
         <div class="card dense-card">
           ${title}
-          <div class="id">${esc(id)}${source.type ? ` · ${esc(source.type)}` : ''}</div>
+          <div class="id">${esc(details)}</div>
           <div class="pill-row">
             ${entry.role ? pill(entry.role) : ''}
             ${statusPill(entry.status || source.status)}
@@ -1508,6 +2023,84 @@ def build_html(data):
       return `${n} ${word}`;
     }
 
+    function renderAuthors(problem) {
+      const authors = problem.authors || [];
+      if (!authors.length) return '';
+      const items = authors.map(author => {
+        const name = authorName(author) || '?';
+        const status = typeof author === 'object' && author?.status && author.status !== 'source_verified'
+          ? statusPill(author.status)
+          : '';
+        return `<span class="pill">${esc(name)}</span>${status}`;
+      }).join('');
+      return `
+        <div class="section">
+          <h3>Авторы</h3>
+          <div class="card"><div class="pill-row">${items}</div></div>
+        </div>
+      `;
+    }
+
+    function renderLocalTools(problem) {
+      const progress = localProgress(problem.id);
+      const note = localNote(problem.id);
+      const progressOptions = PROGRESS_OPTIONS.map(item => `
+        <option value="${esc(item.value)}" ${item.value === progress ? 'selected' : ''}>${esc(item.label)}</option>
+      `).join('');
+      const reportTypeOptions = [
+        ['typo', 'Опечатка или язык'],
+        ['statement', 'Проблема в условии'],
+        ['solution', 'Проблема в решении'],
+        ['source', 'Источник или ссылка'],
+        ['relation', 'Связи или метки'],
+        ['other', 'Другое']
+      ].map(([value, labelText]) => `<option value="${esc(value)}">${esc(labelText)}</option>`).join('');
+      const mailNote = FEEDBACK_CONFIG.email
+        ? 'Кнопка почты откроет письмо в вашем почтовом клиенте.'
+        : 'Почта не настроена; используйте копирование отчета. Адрес можно задать в FEEDBACK_CONFIG.email.';
+      return `
+        <div class="card local-panel" data-local-panel data-problem-id="${esc(problem.id)}">
+          <div class="local-row">
+            <label>Локальный прогресс
+              <select data-local-progress>${progressOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-toggle-note>Заметка</button>
+            <button class="small-button" type="button" data-toggle-report>Сообщить об ошибке</button>
+            <span class="local-muted">Хранится только в этом браузере.</span>
+          </div>
+          <div data-note-block ${note ? '' : 'hidden'}>
+            <textarea data-local-note placeholder="Личная заметка к задаче">${esc(note)}</textarea>
+            <div class="local-row">
+              <span class="local-save-status" data-local-save-status>${note ? 'сохранено' : ''}</span>
+              <span class="local-muted">Автосохранение в localStorage.</span>
+            </div>
+          </div>
+          <div data-report-block hidden>
+            <div class="report-form">
+              <label>Тип проблемы
+                <select data-report-type>${reportTypeOptions}</select>
+              </label>
+              <label>Комментарий
+                <textarea data-report-comment placeholder="Что именно нужно проверить?"></textarea>
+              </label>
+              <label>Контакт, необязательно
+                <input data-report-contact type="text" placeholder="email или другой способ связи">
+              </label>
+              <label>Текст отчета
+                <textarea class="report-output" data-report-output readonly></textarea>
+              </label>
+              <div class="local-row">
+                <button class="small-button" type="button" data-copy-report>Скопировать</button>
+                <button class="small-button" type="button" data-mail-report ${FEEDBACK_CONFIG.email ? '' : 'disabled'}>Отправить по почте</button>
+                <span class="local-save-status" data-report-status></span>
+              </div>
+              <div class="local-muted">${esc(mailNote)} Кнопка копирования не отправляет отчет автоматически.</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderProblem(problem) {
       state.view = 'problems';
       setModeButtons('problems');
@@ -1554,7 +2147,9 @@ def build_html(data):
           ${problem.difficulty?.local_score != null ? pill(`сложность ${problem.difficulty.local_score}`) : ''}
         </div>
         <h2>${esc(problem.title)}</h2>
+        ${renderLocalTools(problem)}
 
+        ${renderAuthors(problem)}
         <div class="section"><h3>Формулировка</h3>${renderStatements(problem)}</div>
         ${renderDisclosure('Идеи', renderIdeaBlocks(problem), countText((problem.ideas || []).length, 'идея', 'идеи', 'идей'))}
         ${renderDisclosure('Решение и оценки', solutionBody, countText((problem.strategies || []).length + (problem.impossibility_proofs || []).length, 'пункт', 'пункта', 'пунктов'))}
@@ -1564,6 +2159,185 @@ def build_html(data):
         ${renderDisclosure('Источники и редактура', sourceAndEditorialBody)}
       `;
       typeset();
+      bindProblemLocalControls(problem);
+    }
+
+    function reportProblemUrl(problem) {
+      return `${window.location.href.split('#')[0]}#problem/${routePart(problem.id)}`;
+    }
+
+    function currentReportText(problem, panel) {
+      const typeSelect = panel.querySelector('[data-report-type]');
+      const typeLabel = typeSelect?.selectedOptions?.[0]?.textContent || typeSelect?.value || '';
+      const comment = panel.querySelector('[data-report-comment]')?.value.trim() || '';
+      const contact = panel.querySelector('[data-report-contact]')?.value.trim() || '';
+      return [
+        'Отчет об ошибке в incomplete-info-db',
+        '',
+        `ID задачи: ${problem.id}`,
+        `Название: ${problem.title || ''}`,
+        `URL: ${reportProblemUrl(problem)}`,
+        `Тип проблемы: ${typeLabel}`,
+        '',
+        'Комментарий:',
+        comment || '(не заполнен)',
+        '',
+        `Контакт: ${contact || '(не указан)'}`,
+        `Сформировано: ${new Date().toISOString()}`
+      ].join('\\n');
+    }
+
+    function updateReportOutput(problem, panel) {
+      const output = panel.querySelector('[data-report-output]');
+      if (output) output.value = currentReportText(problem, panel);
+    }
+
+    async function copyText(text) {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        return;
+      }
+      const helper = document.createElement('textarea');
+      helper.value = text;
+      helper.style.position = 'fixed';
+      helper.style.left = '-9999px';
+      document.body.appendChild(helper);
+      helper.focus();
+      helper.select();
+      document.execCommand('copy');
+      helper.remove();
+    }
+
+    function bindProblemLocalControls(problem) {
+      const panel = document.querySelector('[data-local-panel]');
+      if (!panel) return;
+      const progressSelect = panel.querySelector('[data-local-progress]');
+      const noteBlock = panel.querySelector('[data-note-block]');
+      const noteTextarea = panel.querySelector('[data-local-note]');
+      const noteStatus = panel.querySelector('[data-local-save-status]');
+      const reportBlock = panel.querySelector('[data-report-block]');
+      const reportStatus = panel.querySelector('[data-report-status]');
+      let noteTimer = null;
+
+      progressSelect?.addEventListener('change', event => {
+        setLocalEntry(problem.id, { progress: event.target.value });
+        if (state.localProgress !== 'all' && state.localProgress !== event.target.value) selectFirstVisibleProblem();
+        else {
+          renderFilters();
+          renderSidebar();
+        }
+      });
+
+      panel.querySelector('[data-toggle-note]')?.addEventListener('click', () => {
+        noteBlock.hidden = !noteBlock.hidden;
+        if (!noteBlock.hidden) noteTextarea?.focus();
+      });
+
+      noteTextarea?.addEventListener('input', () => {
+        if (noteStatus) noteStatus.textContent = 'сохраняю...';
+        window.clearTimeout(noteTimer);
+        noteTimer = window.setTimeout(() => {
+          setLocalEntry(problem.id, { note: noteTextarea.value });
+          if (noteStatus) noteStatus.textContent = 'сохранено';
+          renderFilters();
+          renderSidebar();
+        }, 350);
+      });
+
+      panel.querySelector('[data-toggle-report]')?.addEventListener('click', () => {
+        reportBlock.hidden = !reportBlock.hidden;
+        if (!reportBlock.hidden) updateReportOutput(problem, panel);
+      });
+
+      for (const field of panel.querySelectorAll('[data-report-type], [data-report-comment], [data-report-contact]')) {
+        field.addEventListener('input', () => updateReportOutput(problem, panel));
+        field.addEventListener('change', () => updateReportOutput(problem, panel));
+      }
+
+      panel.querySelector('[data-copy-report]')?.addEventListener('click', async () => {
+        updateReportOutput(problem, panel);
+        try {
+          await copyText(panel.querySelector('[data-report-output]').value);
+          if (reportStatus) reportStatus.textContent = 'скопировано';
+        } catch (_error) {
+          if (reportStatus) reportStatus.textContent = 'не удалось скопировать';
+        }
+      });
+
+      panel.querySelector('[data-mail-report]')?.addEventListener('click', () => {
+        if (!FEEDBACK_CONFIG.email) return;
+        updateReportOutput(problem, panel);
+        const subject = `${FEEDBACK_CONFIG.subjectPrefix}: ${problem.id}`;
+        const body = panel.querySelector('[data-report-output]').value;
+        window.location.href = `mailto:${encodeURIComponent(FEEDBACK_CONFIG.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      });
+    }
+
+    function exportLocalData() {
+      const payload = {
+        app: 'incomplete-info-db',
+        version: LOCAL_DATA_VERSION,
+        exported_at: new Date().toISOString(),
+        local_storage_key: LOCAL_DATA_KEY,
+        problems: localData.problems
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `incomplete-info-db-local-${new Date().toISOString().slice(0, 10)}.json`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function normalizedImportedProblems(payload) {
+      const rawProblems = payload?.problems && typeof payload.problems === 'object'
+        ? payload.problems
+        : payload;
+      if (!rawProblems || typeof rawProblems !== 'object' || Array.isArray(rawProblems)) return null;
+      const result = {};
+      for (const [id, entry] of Object.entries(rawProblems)) {
+        if (!problemById[id]) continue;
+        const normalized = normalizeLocalEntry(entry);
+        if (normalized.progress || normalized.note) result[id] = normalized;
+      }
+      return result;
+    }
+
+    async function importLocalDataFile(file) {
+      let parsed;
+      try {
+        parsed = JSON.parse(await file.text());
+      } catch (_error) {
+        window.alert('Не удалось прочитать JSON.');
+        return;
+      }
+      const imported = normalizedImportedProblems(parsed);
+      if (!imported) {
+        window.alert('JSON не похож на экспорт локальных данных.');
+        return;
+      }
+      const count = Object.keys(imported).length;
+      if (!count) {
+        window.alert('В файле нет заметок или прогресса для задач этой базы.');
+        return;
+      }
+      const ok = window.confirm(`Импортировать локальные данные для ${count} задач? Записи с теми же id будут заменены.`);
+      if (!ok) return;
+      localData.problems = { ...localData.problems, ...imported };
+      saveLocalData();
+      render();
+      window.alert('Локальные данные импортированы.');
+    }
+
+    function resetLocalData() {
+      const ok = window.confirm('Удалить весь локальный прогресс и заметки из этого браузера? Это не затронет репозиторий.');
+      if (!ok) return;
+      localData = emptyLocalData();
+      storageRemove(LOCAL_DATA_KEY);
+      render();
     }
 
     function usageOfDefinition(id) {
@@ -1652,6 +2426,7 @@ def build_html(data):
       `;
       byId('use-cluster-filter').addEventListener('click', () => {
         resetProblemFilters();
+        state.fragment = fragmentForClusterSelection(cluster.id);
         state.cluster = cluster.id;
         state.view = 'problems';
         selectFirstVisibleProblem();
@@ -1715,10 +2490,22 @@ def build_html(data):
       if (state.view === 'problems') selectFirstVisibleProblem();
       else render();
     });
-    byId('fragment-filter').addEventListener('change', event => { state.fragment = event.target.value; selectFirstVisibleProblem(); });
+    byId('local-progress-filter').addEventListener('change', event => {
+      state.localProgress = event.target.value;
+      selectFirstVisibleProblem();
+    });
+    byId('fragment-filter').addEventListener('change', event => {
+      state.fragment = event.target.value;
+      state.cluster = 'all';
+      state.facetKey = 'all';
+      state.facetValue = 'all';
+      selectFirstVisibleProblem();
+    });
     byId('difficulty-filter').addEventListener('change', event => { state.difficulty = event.target.value; selectFirstVisibleProblem(); });
     byId('status-filter').addEventListener('change', event => { state.status = event.target.value; selectFirstVisibleProblem(); });
     byId('source-filter').addEventListener('change', event => { state.source = event.target.value; selectFirstVisibleProblem(); });
+    byId('year-filter').addEventListener('change', event => { state.year = event.target.value; selectFirstVisibleProblem(); });
+    byId('author-filter').addEventListener('change', event => { state.author = event.target.value; selectFirstVisibleProblem(); });
     byId('cluster-filter').addEventListener('change', event => {
       state.cluster = event.target.value;
       state.facetKey = 'all';
@@ -1740,6 +2527,15 @@ def build_html(data):
     byId('mode-clusters').addEventListener('click', () => { state.view = 'clusters'; setRoute('cluster', topicClusters[0]?.id || ''); });
     byId('mode-definitions').addEventListener('click', () => { state.view = 'definitions'; setRoute('definition', definitions[0]?.id || ''); });
     byId('mode-ideas').addEventListener('click', () => { state.view = 'ideas'; setRoute('idea', standardIdeas[0]?.id || ''); });
+
+    byId('local-export').addEventListener('click', exportLocalData);
+    byId('local-import').addEventListener('click', () => byId('local-import-file').click());
+    byId('local-import-file').addEventListener('change', event => {
+      const file = event.target.files?.[0];
+      if (file) importLocalDataFile(file);
+      event.target.value = '';
+    });
+    byId('local-reset').addEventListener('click', resetLocalData);
 
     byId('sidebar-toggle').addEventListener('click', () => {
       state.sidebarHidden = !state.sidebarHidden;

@@ -5,14 +5,13 @@
   "status": "draft",
   "items": [
     {"problem_id": "amc-2022-10a-p12-truth-liar-alternater", "status": "added"},
-    {"problem_id": "amc-2010-12a-p12-frogs-toads-truth-lie", "status": "added"},
-    {"problem_id": "amc-2011-10a-p21-counterfeit-coins-probability", "status": "added"}
+    {"problem_id": "amc-2010-12a-p12-frogs-toads-truth-lie", "status": "added"}
   ],
   "source_notes": [
     "Все новые источники помечены language=en.",
     "Публичный текст карточек написан по-русски и не копирует англоязычные условия дословно.",
     "AoPS Wiki использован как индекс и сверка номеров задач.",
     "Для 2022 AMC 10A использованы официальные MAA-hosted problem и solution PDF.",
-    "Для 2010 AMC 12A и 2011 AMC 10A MAA-hosted PDF не найден; использованы AoPS-страницы условий и зеркальные копии официальных MAA solution pamphlets."
+    "Для 2010 AMC 12A MAA-hosted PDF не найден; использованы AoPS-страница условия и зеркальная копия официального MAA solution pamphlet."
   ]
 }

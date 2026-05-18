@@ -61,7 +61,7 @@
   },
   "questions_profile": {
     "answer_alphabet_size": 2,
-    "question_count": "ceil(log2 N)",
+    "question_count": "\\(\\lceil\\log_2 N\\rceil\\)",
     "lies_allowed": 0,
     "adaptive": true,
     "objective": "identify_one_of_N_states"

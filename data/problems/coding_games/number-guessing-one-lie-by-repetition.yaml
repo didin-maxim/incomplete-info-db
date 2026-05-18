@@ -1,6 +1,6 @@
 {
   "id": "number-guessing-one-lie-by-repetition",
-  "title": "Угадывание числа с одной ложью повторением двоичного кода",
+  "title": "Угадывание числа с одной ложью тройным повторением вопросов",
   "fragment": "questions",
   "kind": {
     "primary": "classical_problem",

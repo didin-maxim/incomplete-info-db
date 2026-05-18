@@ -4,6 +4,9 @@
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_logic", "counting"]},
   "language": "ru",
+  "authors": [
+    {"name": "Евдокимов М.А.", "status": "source_verified", "source_id": "src-mmo-2024-25-sol-11-tur1-final"}
+  ],
   "statements": {
     "original": [
       {
@@ -66,6 +69,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "extracted_archives_batch",
-    "notes": ["Найдена в соседней базе graph-db: data/problems/mmo/mmo-2024-symposium-acquaintance-lies.yaml. В исходной graph-db-карточке также указана локальная копия официального решения: audit/_mmo_tc_text_clean/d738368d897f6572.txt.", "2026-05-18: добавлен источник-дублер problems.ru 67459, найденный при веб-поиске truth/liar задач."]
+    "notes": ["Найдена в соседней базе graph-db: data/problems/mmo/mmo-2024-symposium-acquaintance-lies.yaml. В исходной graph-db-карточке также указана локальная копия официального решения: audit/_mmo_tc_text_clean/d738368d897f6572.txt.", "Автор Евдокимов М.А. перенесен из graph-db и подтвержден локальным текстом официального решения graph-db/audit/_mmo_tc_text_clean/d738368d897f6572.txt, где задача 1 подписана \"(М. Евдокимов)\".", "2026-05-18: добавлен источник-дублер problems.ru 67459, найденный при веб-поиске задач о рыцарях и лжецах."]
   }
 }

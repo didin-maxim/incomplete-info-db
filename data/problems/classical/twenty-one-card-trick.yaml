@@ -20,7 +20,7 @@
       {
         "id": "stmt-general-c-columns-r-rounds",
         "title": "c столбцов и r раундов",
-        "text": "Тот же прием работает с любым числом столбцов: если раскладывать карты в \\(c\\) столбцов и после каждого ответа собирать указанный столбец в заранее выбранную центральную позицию, то \\(r\\) ответов различают до \\(c^r\\) возможных карт. Классическое число 21 - удобный частный случай при \\(c=3\\), \\(r=3\\): три ответа могут различить до 27 карт, так что есть небольшой запас.",
+        "text": "Зритель выбирает одну карту из набора. Фокусник проводит \\(r\\) раундов: в каждом раунде раскладывает оставшиеся возможные карты в \\(c\\) столбцов и спрашивает, в каком столбце лежит выбранная карта. По \\(r\\) ответам можно различить не больше \\(c^r\\) карт, и этого хватает для любого набора из \\(N\\le c^r\\) карт, если каждый раз делить кандидатов на \\(c\\) почти равные группы. Классический фокус с 21 картой соответствует \\(c=3\\), \\(r=3\\): три ответа могут различить до 27 карт.",
         "source_ids": ["src-folklore"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -32,7 +32,7 @@
     {
       "id": "idea-middle-pile-shrinks-interval",
       "title": "Кладем выбранный столбец в середину",
-      "text": "Каждый ответ выбирает одну треть текущих возможностей, а сбор с выбранным столбцом посередине удерживает выбранную карту в сужающемся центральном интервале.",
+      "text": "Каждый ответ выбирает одну из \\(c\\) групп текущих возможностей. В классической раскладке с тремя столбцами сбор с выбранным столбцом посередине делает это сужение видимым как сужающийся центральный интервал.",
       "standard_idea_ids": ["ternary_search", "partition_state_space"],
       "status": "ai_checked"
     }
@@ -64,17 +64,17 @@
     "shown_cards": 21,
     "hidden_cards": 1,
     "ordering_channel": false,
-    "encoded_values_by_order": "three column answers over three rounds",
+    "encoded_values_by_order": "три ответа о столбце за три раунда",
     "strategy_type": "ternary_interval_shrinking"
   },
   "communication_profile": {
     "senders": 1,
     "receivers": 1,
-    "message": "which of three columns contains selected card",
-    "message_capacity": "3 choices per round for 3 rounds"
+    "message": "в каком из трех столбцов лежит выбранная карта",
+    "message_capacity": "три варианта в каждом из трех раундов"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классический фокус: каждый ответ выбирает один из трех столбцов.", "status": "ai_checked"},
   "tags": ["card_trick", "ternary_search", "condition_middle_school"],
   "sources": [{"source_id": "src-card-trick-folklore", "role": "folklore_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-60905", "role": "web_statement_and_solution_variant", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: число 21 отмечено как несущественное для механизма; та же стратегия работает как c-арное сужение с емкостью c^r.", "2026-05-18: problems.ru 60905 добавлена как версия с 27 картами и тремя равными кучками из учебника Алфутовой и Устинова; отдельная карточка не заведена, так как механизм тот же тернарный фокус."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: число 21 отмечено как несущественное для механизма; параметрическая версия работает как c-арное сужение с емкостью c^r.", "2026-05-18: problems.ru 60905 добавлена как версия с 27 картами и тремя равными кучками из учебника Алфутовой и Устинова; отдельная карточка не заведена, потому что это трехисходная версия того же фокуса."]}
 }

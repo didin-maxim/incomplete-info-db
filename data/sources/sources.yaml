@@ -83,7 +83,7 @@
     {
       "id": "src-utyum-official-local-archive",
       "type": "official_archive_local_copy",
-      "title": "Официальный архив Уральского турнира юных математиков, локальная извлеченная копия",
+      "title": "Официальный архив Уральского турнира юных математиков, извлеченная копия в репозитории",
       "url": "",
       "browser_openable": false,
       "official": true,
@@ -93,7 +93,7 @@
     {
       "id": "src-yumt-official-local-archive",
       "type": "official_archive_local_copy",
-      "title": "Официальный архив Южного математического турнира, локальная извлеченная копия",
+      "title": "Официальный архив Южного математического турнира, извлеченная копия в репозитории",
       "url": "https://adygmath.ru/turnir14.html",
       "browser_openable": true,
       "official": true,
@@ -153,7 +153,7 @@
     {
       "id": "src-matprazdnik-2023-solutions",
       "type": "official_olympiad_archive",
-      "title": "34 Математический праздник 2023. Решения",
+      "title": "34-й Математический праздник 2023. Решения",
       "url": "https://olympiads.mccme.ru/matprazdnik/sol23.html",
       "browser_openable": true,
       "official": true,
@@ -294,6 +294,9 @@
       "id": "src-kvant-2013-01-two-fake-coins-article",
       "type": "official_journal_article",
       "title": "К. Кноп. Две фальшивые монеты. Квант, 2013, №1",
+      "authors": [
+        {"name": "К. Кноп", "role": "article_author", "status": "source_verified"}
+      ],
       "url": "https://kvant.mccme.ru/pdf/2013/2013-01-b.pdf",
       "browser_openable": true,
       "official": true,
@@ -574,6 +577,9 @@
       "id": "src-winkler-seven-puzzles",
       "type": "author_archive",
       "title": "Peter Winkler, Seven Puzzles You Think You Must Not Have Heard Correctly",
+      "authors": [
+        {"name": "Peter Winkler", "role": "source_author", "status": "source_verified"}
+      ],
       "url": "https://math.dartmouth.edu/~pw/solutions.pdf",
       "browser_openable": true,
       "official": true,
@@ -584,6 +590,9 @@
       "id": "src-winkler-mathematical-mind-benders",
       "type": "book_reference",
       "title": "Peter Winkler, Mathematical Mind-Benders",
+      "authors": [
+        {"name": "Peter Winkler", "role": "book_author", "status": "source_verified"}
+      ],
       "url": "",
       "browser_openable": false,
       "official": false,
@@ -594,6 +603,9 @@
       "id": "src-boolos-hardest-logic-puzzle",
       "type": "journal_article",
       "title": "George Boolos, The Hardest Logic Puzzle Ever, The Harvard Review of Philosophy 6(1), 1996",
+      "authors": [
+        {"name": "George Boolos", "role": "article_author", "status": "source_verified"}
+      ],
       "url": "https://www.pdcnet.org/scholarpdf/show?file_type=pdf&id=harvardreview_1996_0006_0001_0062_0065&pdfname=harvardreview_1996_0006_0001_0062_0065.pdf",
       "browser_openable": true,
       "official": true,
@@ -719,6 +731,20 @@
       "official": false,
       "status": "source_verified",
       "language": "ru"
+    },
+    {
+      "id": "src-problems-ru-67008",
+      "type": "web_archive",
+      "title": "problems.ru, задача 67008: карточки 1-16 в таблице 4x4",
+      "authors": [
+        {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=67008",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Страница problems.ru явно указывает автора: Евдокимов М.А."
     },
     {
       "id": "src-estonian-1995-96-selected-problems",
@@ -1223,7 +1249,7 @@
     {
       "id": "src-problems-ru-66710",
       "type": "web_archive",
-      "title": "problems.ru, задача 66710: мудрецы в шляпах и k безумных",
+      "title": "problems.ru, задача 66710: мудрецы в колпаках и k безумных",
       "url": "https://www.problems.ru/view_problem_details_new.php?id=66710",
       "browser_openable": true,
       "official": false,
@@ -1438,7 +1464,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2018 volume, not a duplicate source record."
     },
     {
       "id": "src-tot-2008-fall-junior-a-uwa-solutions",
@@ -1458,7 +1485,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2022 volume, not a duplicate source record."
     },
     {
       "id": "src-tot-2002-spring-junior-o-solutions",
@@ -1574,6 +1602,9 @@
       "id": "src-dartmouth-winkler-mathematical-puzzles-ch23",
       "type": "book_chapter_online",
       "title": "Peter Winkler, Mathematical Puzzles, Chapter 23: Infinite Choice",
+      "authors": [
+        {"name": "Peter Winkler", "role": "book_author", "status": "source_verified"}
+      ],
       "url": "https://math.dartmouth.edu/news-resources/electronic/puzzlebook/book/ch23.pdf",
       "browser_openable": true,
       "official": true,

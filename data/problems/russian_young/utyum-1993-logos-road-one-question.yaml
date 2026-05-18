@@ -53,7 +53,7 @@
   "questions_profile": {
     "answer_alphabet_size": 2,
     "question_count": 1,
-    "lies_allowed": "respondent type is unknown: knight or liar",
+    "lies_allowed": "неизвестно, кто отвечает: рыцарь или лжец",
     "adaptive": false,
     "objective": "identify_one_of_two_destinations"
   },

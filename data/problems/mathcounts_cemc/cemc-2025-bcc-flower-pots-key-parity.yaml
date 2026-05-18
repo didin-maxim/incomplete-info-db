@@ -1,6 +1,6 @@
 {
   "id": "cemc-2025-bcc-flower-pots-key-parity",
-  "title": "CEMC Beaver 2025: горшки с цветами кодируют место ключа",
+  "title": "CEMC 2025: горшки с цветами указывают место ключа",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction"]},
   "language": "ru",
@@ -34,12 +34,14 @@
       "standard_idea_ids": ["partition_state_space"],
       "status": "ai_checked",
       "definition_ids": ["decision_tree"],
-      "examples": [
+      "figures": [
         {
-          "type": "image",
+          "id": "fig-flower-pots-options",
           "asset": "data/assets/examples/cemc-2025-bcc-flower-pots-key-parity/flower-pots-options.png",
           "caption": "Официальные варианты ответа: A имеет цветы в A,C,D,E,F,H; B - в A,B,D,E,F,H; C - в C,F; D - в D,G.",
-          "alt": "Четыре ряда из восьми горшков A-H. В варианте A цветы стоят в A,C,D,E,F,H; в B - A,B,D,E,F,H; в C - C,F; в D - D,G."
+          "alt": "Четыре ряда из восьми горшков A-H. В варианте A цветы стоят в A,C,D,E,F,H; в B - A,B,D,E,F,H; в C - C,F; в D - D,G.",
+          "source_id": "src-cemc-2025-bcc-7-8-contest",
+          "status": "source_verified"
         }
       ]
     }

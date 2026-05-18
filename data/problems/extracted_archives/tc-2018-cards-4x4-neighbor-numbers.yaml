@@ -4,13 +4,16 @@
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["limited_observation", "card_puzzle"]},
   "language": "ru",
+  "authors": [
+    {"name": "Евдокимов М.А.", "status": "source_verified", "source_id": "src-problems-ru-67008"}
+  ],
   "statements": {
     "original": [
       {
         "id": "stmt-tc-2018-cards-4x4",
         "title": "Карточки с числами 1-16",
         "text": "16 карточек с целыми числами от 1 до 16 разложены лицевой стороной вниз в виде таблицы \\(4\\times4\\) так, что карточки, на которых записаны соседние числа, лежат рядом, соприкасаясь по стороне. Какое наименьшее число карточек нужно одновременно перевернуть, чтобы наверняка определить местоположение всех чисел, как бы ни были разложены карточки?",
-        "source_ids": ["src-tc-2018-39-oral-solutions"],
+        "source_ids": ["src-tc-2018-39-oral-solutions", "src-problems-ru-67008"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -29,7 +32,7 @@
       "id": "idea-eight-indistinguishable-pairs",
       "title": "Восемь пар клеток дают нижнюю оценку",
       "text": "Клетки можно разбить на восемь пар так, что для каждой пары существуют две допустимые раскладки, отличающиеся только перестановкой чисел внутри этой пары. Если из некоторой пары не открыта ни одна карточка, эти две раскладки неразличимы.",
-      "standard_idea_ids": ["indistinguishability_argument"],
+      "standard_idea_ids": ["indistinguishable_states"],
       "status": "ai_checked"
     }
   ],
@@ -38,7 +41,7 @@
       "id": "str-eight-middle-columns",
       "title": "Открыть два средних столбца",
       "text": "Ответ: \\(8\\). Достаточно открыть все карточки во втором и третьем столбцах. Так как соседние по значению числа лежат в соседних клетках решетки, четности чисел чередуются по шахматной раскраске; по открытым клеткам становится известна четность на каждом цвете доски. Затем для каждой открытой клетки, у которой отсутствует числовой сосед, этот сосед вынужденно лежит в единственной закрытой соседней клетке. Так восстанавливаются многие закрытые клетки; углы, в которые не ведет такое указание, не могут содержать внутренние числа \\(2,\\ldots,15\\), значит там стоит 1 или 16, и четность выбирает нужное число. Повторяя этот шаг от восстановленных углов, получаем всю таблицу.\n\nМеньше 8 открыть нельзя: разобьем 16 клеток на восемь специальных пар. Для каждой пары есть две допустимые раскладки, которые отличаются только перестановкой двух чисел в этой паре. Если ни одна клетка пары не открыта, наблюдение одинаково для обеих раскладок, поэтому все числа определить невозможно. Нужно открыть хотя бы по одной клетке из каждой пары.",
-      "standard_idea_ids": ["knowledge_elimination", "indistinguishability_argument"],
+      "standard_idea_ids": ["knowledge_elimination", "indistinguishable_states"],
       "status": "ai_checked",
       "definition_ids": ["state_space"]
     }
@@ -48,7 +51,7 @@
       "id": "lb-eight-pairs",
       "title": "По одной открытой карточке из каждой пары",
       "text": "Восемь неразличимых пар клеток дают восемь независимых препятствий: если целиком пропустить одну пару, две допустимые раскладки останутся совместимыми с теми же открытыми карточками. Следовательно, семи открытых карточек недостаточно.",
-      "standard_idea_ids": ["indistinguishability_argument"],
+      "standard_idea_ids": ["indistinguishable_states"],
       "status": "ai_checked",
       "definition_ids": ["state_space"]
     }
@@ -71,7 +74,8 @@
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Нужны явная стратегия восстановления и нижняя оценка через неразличимые раскладки.", "status": "ai_checked"},
   "tags": ["nonadaptive_strategy", "knowledge_elimination", "indistinguishability_argument", "card_trick", "condition_middle_school"],
   "sources": [
-    {"source_id": "src-tc-2018-39-oral-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+    {"source_id": "src-tc-2018-39-oral-solutions", "role": "official_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-problems-ru-67008", "role": "web_author_metadata_and_statement", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -79,6 +83,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "extracted_archives_batch",
-    "notes": ["Найдена в соседней базе graph-db: data/problems/tournament-cities/tc-2018-cards-4x4-neighbor-numbers-graph.yaml. В исходной карточке отмечена локальная копия PDF: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf и извлеченный текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt."]
+    "notes": ["Найдена в соседней базе graph-db: data/problems/tournament-cities/tc-2018-cards-4x4-neighbor-numbers-graph.yaml. В исходной карточке отмечена локальная копия PDF: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf и извлеченный текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt.", "Автор Евдокимов М.А. подтвержден страницей problems.ru 67008, где указано: \"Автор: Евдокимов М.А.\"."]
   }
 }

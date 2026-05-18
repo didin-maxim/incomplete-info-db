@@ -1,4 +1,4 @@
-# Кластер: заранее согласованные протоколы
+# Кластер: командные протоколы с коротким сигналом
 
 Дата обзора: 2026-05-18.
 
@@ -58,7 +58,7 @@ Common-knowledge задачи отделяются. `blue-eyed-islanders`, `mudd
 - `success_goal`: что должен обеспечить протокол.
 - `simultaneous_or_sequential`: режим действий: `one_message`, `sequential_public`, `asynchronous_repeated`, `independent_sequential`, `simultaneous`, `two_round_public`.
 - `guarantee_type`: форма гарантии: deterministic, all-but-one, eventual, probabilistic, privacy-preserving, robust.
-- `code_family`: конкретная кодовая семья или механизм.
+- `code_family`: конкретная кодовая семья или механизм, например XOR-сумма, четность перестановки, ориентация пар или покрывающий код.
 
 ## Кандидаты в глобальные метки
 

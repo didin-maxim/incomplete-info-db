@@ -1,11 +1,11 @@
 review_date: "2026-05-18"
-scope: "публичное знание / публичное незнание и вопросы с ложью / коды с исправлением ошибок"
+scope: "публичное знание / публичное незнание и вопросы с ложью / запас против ошибок"
 decision:
   split_into_two_clusters: true
   rationale: >
     Задачи на публичное знание описывают обновление состояния знания после
     публичных фраз, молчания или ответов «я не знаю». Задачи на ложь и ошибки
-    описывают ответы с шумом и требуют расстояния кода, повторений,
+    описывают ответы с шумом и требуют запаса между ответами, повторений,
     упаковки, покрытия или устойчивости к стираниям. Пересечение в основном
     словарное: в обоих случаях есть сообщения, но инварианты и полезные
     признаки разные.
@@ -22,7 +22,7 @@ display_labels:
     question_count: "Сколько вопросов"
     lies_allowed: "Сколько лжи или потерь"
     adaptive: "Можно менять следующий вопрос?"
-    code_family: "Какой код результатов"
+    code_family: "Как устроен набор ответов"
     bound_type: "Почему хватает или не хватает"
     objective: "Что надо получить"
   values:
@@ -84,11 +84,11 @@ display_labels:
       simultaneous: "все отвечают одновременно"
     code_family:
       repetition_code: "повторяем вопрос"
-      hamming_packing_code: "упаковка шаров Хэмминга"
-      perfect_hamming_covering_code: "совершенный покрывающий код Хэмминга"
+      hamming_packing_code: "ответы с запасом от двух ошибок"
+      perfect_hamming_covering_code: "набор ответов, который покрывает все случаи"
       erasure_robust_ordering: "порядок устойчив к стираниям"
     bound_type:
-      hamming_ball_packing: "шары Хэмминга не должны пересечься"
+      hamming_ball_packing: "наборы ответов с ошибками не должны смешаться"
       sphere_covering: "каждый случай должен быть накрыт шаром"
       constructive_no_bound: "главное - явное построение"
     objective:
@@ -99,11 +99,11 @@ display_labels:
 
 clusters:
   - id: public-knowledge-and-announcements
-    title: "Все слышат: кто что теперь знает"
+    title: "Все слышат: как фразы убирают варианты"
     inclusion_rule: >
-      Включать задачи, где публичное утверждение, публичное молчание или
-      публичная фраза о знании/незнании является главным действием, меняющим
-      множество возможных миров для всех рассуждающих.
+      Включать задачи, где фраза вслух, молчание или ответ «я не знаю»
+      является главным ходом: после него все участники вычеркивают часть
+      вариантов и рассуждают дальше.
     local_facets:
       knowledge_event:
         - common_knowledge_seed
@@ -217,9 +217,9 @@ clusters:
   - id: questions-with-lies-and-error-correction
     title: "Запасные вопросы против лжи и ошибок"
     inclusion_rule: >
-      Включать задачи, где центральный механизм - шумный, враждебный или
-      стирающий поток ответов, а решение использует явную избыточность: шары Хэмминга,
-      повторение, совершенные коды или устойчивый порядок.
+      Включать задачи, где часть ответов может быть ложной, потеряться или
+      испортиться, а решение заранее оставляет запас: повторяет вопросы,
+      добавляет лишние ответы или выбирает порядок, который выдержит потери.
     local_facets:
       answer_alphabet:
         - binary
@@ -307,18 +307,18 @@ clusters:
 
 excluded_or_adjacent:
   - problem_id: fixed-questions-as-binary-code
-    reason: "baseline nonadaptive binary code without errors or lies"
+    reason: "базовая модель заранее выбранных да/нет-вопросов без ошибок и лжи"
   - problem_id: twenty-questions-binary-search
-    reason: "truthful adaptive search; no noisy channel"
+    reason: "правдивый поиск с выбором следующего вопроса по ответу; нет испорченных ответов"
   - problem_id: hat-line-k-colors-modulo
-    reason: "public answers are a modular communication code, not a public-knowledge update"
+    reason: "публичные ответы передают остаток по модулю, а не запускают рассуждение об общем знании"
   - problem_id: prisoners-hats-parity-line
-    reason: "public communication/parity code dominates; common-knowledge dynamics are not the point"
+    reason: "главное здесь - публичная передача четности; динамика общего знания не является сутью"
   - problem_id: mmo-2000-seven-cards-public-communication
-    reason: "privacy-preserving public communication, better as a separate cluster"
+    reason: "публичное общение с сохранением секрета лучше держать отдельным кластером"
   - problem_id: utyum-1996-knights-line-seven-yes
     reason: "статическое ограничение на линии рыцарей/лжецов, несмотря на текущий тег knowledge_induction"
   - problem_id: utyum-2010-vasya-two-liars-line
     reason: "статическое ограничение на линии рыцарей/лжецов, несмотря на текущий тег knowledge_induction"
   - problem_id: problems-ru-66710-hats-with-madmen-oracle
-    reason: "robust public protocol with faulty agents; adjacent to noisy channels but not Hamming/code-distance centered"
+    reason: "устойчивое публичное правило с испорченными участниками; рядом с задачами об ошибках, но не про расстояние между наборами ответов"

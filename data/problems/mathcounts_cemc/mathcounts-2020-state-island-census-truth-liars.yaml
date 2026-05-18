@@ -1,6 +1,6 @@
 {
   "id": "mathcounts-2020-state-island-census-truth-liars",
-  "title": "MATHCOUNTS 2020 State: перепись на острове правдивых и лжецов",
+  "title": "MATHCOUNTS 2020: перепись на острове правдивых и лжецов",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["logic_puzzle"]},
   "language": "ru",
@@ -49,7 +49,7 @@
   },
   "questions_profile": {
     "answer_alphabet": ["numeric_claim_about_population"],
-    "lie_count": "systematic liars",
+    "lie_count": "систематические лжецы",
     "adaptive": false,
     "objective": "determine_number_of_liars"
   },

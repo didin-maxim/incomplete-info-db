@@ -11,5 +11,27 @@
     "official",
     "status",
     "language"
-  ]
+  ],
+  "properties": {
+    "authors": {
+      "type": "array",
+      "description": "Known authors, compilers, editors, or credited problem authors named by this source.",
+      "items": {
+        "oneOf": [
+          {"type": "string"},
+          {
+            "type": "object",
+            "required": ["name", "status"],
+            "properties": {
+              "name": {"type": "string"},
+              "role": {"type": "string"},
+              "status": {"type": "string"},
+              "source_id": {"type": "string"},
+              "note": {"type": "string"}
+            }
+          }
+        ]
+      }
+    }
+  }
 }

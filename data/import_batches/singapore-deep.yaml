@@ -9,9 +9,9 @@
     {"problem_id": "sms-medley-1997-governor-liars-min-days", "status": "added_needs_human_review"}
   ],
   "source_notes": [
-    "Перед добавлением выполнен обязательный поиск по sasmo/simcc/singapore/cheryl/truth/liar/coin/weigh/card/birthday/knight/knave и просмотрены существующие singapore, classical_more, weighings, questions, card_tricks, wise_people.",
+    "Перед добавлением выполнен обязательный поиск по SASMO, SIMCC, сингапурским источникам, задачам про день рождения, рыцарей/лжецов, монеты, взвешивания и карточные фокусы; просмотрены существующие сингапурские, классические и карточные разделы.",
     "SIMCC/SASMO 2019-2020 G2-G10 PDF проверены по ключевым словам. Обычные задачи на веса предметов, угадывание числа по статическим ограничениям и probability/counting-задачи не добавлялись.",
-    "SASMO 2020 G7 gift-box найден как близкая переформулировка уже существующей карточки sasmo-2019-g8-q14-gift-box-truth-liars; отдельная карточка не создавалась.",
+    "SASMO 2020 G7 с подарочной коробкой найден как близкая переформулировка уже существующей карточки SASMO 2019 G8 про подарочную коробку; отдельная карточка не создавалась.",
     "SMS Mathematical Medley Working Backwards с задачей о 21 монете известного легкого типа признан покрытым обобщением heavier-9-coins-2-weighings и SASMO 2020 G9 Q10; отдельная карточка не создавалась.",
     "SASMO 2015 Cheryl's Birthday уже покрыта карточкой cheryls-birthday-sasmo; дубль не создавался.",
     "SASMO/SMS источники оставлены с source.language=en; публичные тексты карточек переведены/пересказаны по-русски."

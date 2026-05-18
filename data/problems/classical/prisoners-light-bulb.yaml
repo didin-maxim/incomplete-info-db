@@ -57,13 +57,13 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "senders": "99 non-counter prisoners",
-    "receivers": "designated counter",
-    "channel": "one shared light bulb",
-    "message_capacity": "one persistent bit per room visit",
-    "objective": "aggregate one visit signal from each participant"
+    "senders": "99 заключенных, не назначенных счетчиком",
+    "receivers": "назначенный счетчик",
+    "channel": "одна общая лампочка",
+    "message_capacity": "один сохраняющийся бит за посещение комнаты",
+    "objective": "собрать по одному сигналу посещения от каждого участника"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классический протокол с общей однобитной памятью.", "status": "ai_checked"},
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическая договоренность: лампочка хранит один общий да/нет-сигнал.", "status": "ai_checked"},
   "tags": ["single_bit_signal", "designated_counter_protocol", "condition_middle_school"],
   "sources": [
     {"source_id": "src-prisoners-switch-puzzles", "role": "folklore_statement", "status": "source_verified"},

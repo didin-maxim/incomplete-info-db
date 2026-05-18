@@ -51,16 +51,16 @@
     "status": "ai_checked"
   },
   "knowledge_profile": {
-    "agents": "unknown finite number",
-    "public_announcements": "all answers to one common question",
+    "agents": "неизвестное конечное число участников",
+    "public_announcements": "все ответы на один общий вопрос",
     "communication_rounds": 1,
-    "visibility": "line order and answer counts are known",
-    "objective": "determine number of liars"
+    "visibility": "порядок в шеренге и число ответов известны",
+    "objective": "определить число лжецов"
   },
   "difficulty": {
-    "main": "standard",
+    "main": "intro",
     "local_score": 2,
-    "comment": "Небольшой разбор возможных миров по крайнему рыцарю.",
+    "comment": "Простая: небольшой разбор двух случаев по крайнему рыцарю.",
     "status": "ai_checked"
   },
   "tags": ["lie_detection", "knowledge_induction", "indistinguishability_argument", "condition_middle_school"],

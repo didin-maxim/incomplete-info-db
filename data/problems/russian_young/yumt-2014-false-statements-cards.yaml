@@ -62,14 +62,14 @@
   "questions_profile": {
     "answer_alphabet_size": 2,
     "question_count": 100,
-    "lies_allowed": "truth values are induced by the ordering",
+    "lies_allowed": "истинность утверждений задается порядком карточек",
     "adaptive": false,
     "objective": "maximize_consistent_true_statements"
   },
   "difficulty": {
-    "main": "olympiad_medium",
-    "local_score": 3,
-    "comment": "Экстремальная задача о правдивости утверждений, близкая к задачам о лжецах.",
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Сложная: экстремальное построение порядка карточек и проверка максимума истинных утверждений.",
     "status": "ai_checked"
   },
   "tags": ["self_reference_truth", "counting_lower_bound", "condition_middle_school"],

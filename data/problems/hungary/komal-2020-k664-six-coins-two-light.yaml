@@ -103,12 +103,7 @@
     "adaptive": true,
     "objective": "identify_one_light_coin"
   },
-  "difficulty": {
-    "main": "standard",
-    "local_score": 3,
-    "comment": "K-level KöMaL; короткая стратегия с нижней оценкой на одно взвешивание.",
-    "status": "ai_checked"
-  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: стратегия на два взвешивания короткая, но комментарий к сложности держится на нижней оценке, где нужно разобрать все типы одного взвешивания.", "status": "ai_checked"},
   "tags": [
     "balance_scale",
     "indistinguishability_argument",

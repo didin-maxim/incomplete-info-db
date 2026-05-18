@@ -29,7 +29,7 @@
   "ideas": [
     {
       "id": "idea-weight-deficit-encodes-index",
-      "title": "Дефицит веса кодирует номер стопки",
+      "title": "Дефицит веса указывает номер стопки",
       "text": "Если взять из стопок разные заранее известные количества монет, то недостача относительно ожидаемого веса равна количеству монет, взятых из фальшивой стопки.",
       "standard_idea_ids": ["weighted_sum_encoding"],
       "status": "ai_checked"
@@ -57,7 +57,7 @@
     "status": "ai_checked"
   },
   "weighing_profile": {
-    "object_count": "10 stacks",
+    "object_count": "10 стопок",
     "counterfeit_count": 1,
     "counterfeit_type": "all_coins_in_one_stack_lighter_known_delta",
     "weighing_count": 1,

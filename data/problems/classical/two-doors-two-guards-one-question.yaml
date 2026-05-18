@@ -50,7 +50,7 @@
   "questions_profile": {
     "answer_alphabet_size": 2,
     "question_count": 1,
-    "lies_allowed": "one respondent may be systematic liar",
+    "lies_allowed": "один из возможных отвечающих систематически лжет",
     "adaptive": false,
     "objective": "choose_safe_door"
   },

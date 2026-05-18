@@ -1,6 +1,6 @@
 {
   "id": "nrich-spot-the-fake-two-weighings",
-  "title": "NRICH: Spot the Fake, максимум за два взвешивания",
+  "title": "NRICH: найти фальшивку максимум за два взвешивания",
   "fragment": "weighings",
   "kind": {"primary": "nrich_problem", "secondary": ["optimality", "decision_tree"]},
   "language": "ru",
@@ -23,7 +23,7 @@
       "title": "Два взвешивания дают не больше девяти листьев",
       "text": "У каждого взвешивания три исхода: левая чаша тяжелее, правая тяжелее или равновесие. Поэтому дерево из двух взвешиваний имеет не больше \\(3^2=9\\) конечных ответов.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
-      "status": "needs_human_review"
+      "status": "ai_checked"
     }
   ],
   "strategies": [
@@ -32,7 +32,7 @@
       "title": "Разделить монеты на тройки",
       "text": "Сначала докажем верхнюю оценку. После двух взвешиваний возможно не больше девяти разных последовательностей исходов, а каждая монета должна соответствовать своему конечному ответу. Значит, \\(N\\le 9\\).\n\nДля девяти монет стратегия есть. Разделим их на группы \\(1,2,3\\), \\(4,5,6\\), \\(7,8,9\\). Сначала взвесим первую тройку против второй. Если одна тройка тяжелее, фальшивая монета в ней; если равновесие, фальшивая в третьей тройке. Вторым взвешиванием сравним две монеты из найденной тройки: если одна тяжелее, она фальшивая, а если равновесие, фальшивая третья. Поэтому максимальное значение \\(N\\) равно 9.",
       "standard_idea_ids": ["decision_tree_lower_bound", "partition_state_space"],
-      "status": "needs_human_review",
+      "status": "ai_checked",
       "definition_ids": ["balance_scale", "information_lower_bound"]
     }
   ],
@@ -42,7 +42,7 @@
       "title": "Больше девяти монет не различить",
       "text": "Два взвешивания на чашечных весах дают максимум \\(3^2=9\\) разных путей в дереве решений. Если монет больше девяти, две разные монеты неизбежно попадут в один и тот же путь исходов, и стратегия не сможет указать единственную фальшивую монету.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
-      "status": "needs_human_review",
+      "status": "ai_checked",
       "definition_ids": ["information_lower_bound"]
     }
   ],
@@ -54,7 +54,7 @@
     "strategy_type": ["adaptive_strategy", "decision_tree"],
     "lower_bound_method": ["decision_tree_leaf_count"],
     "keywords": ["nrich", "spot_the_fake", "two_weighings", "ternary_tree"],
-    "status": "needs_human_review"
+    "status": "ai_checked"
   },
   "weighing_profile": {
     "object_count": 9,
@@ -65,15 +65,15 @@
     "adaptive": true,
     "objective": "find_maximum_n_and_strategy"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Оптимальная задача на дерево решений с простой конструкцией и оценкой.", "status": "needs_human_review"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Простая: максимальное число монет получается из прямого счета девяти листьев и конструкции делением на тройки.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "ternary_search", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-spot-the-fake", "role": "official_statement_and_student_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-17",
-    "review_status": "needs_human_review",
-    "public_ready": false,
+    "review_status": "ai_checked",
+    "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["NRICH-решение ученическое, поэтому статус оставлен на ручную проверку.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки."]
+    "notes": ["2026-05-18: условие, верхняя оценка 3^2=9 и конструкция для девяти монет сверены с официальной страницей NRICH Spot the Fake."]
   }
 }

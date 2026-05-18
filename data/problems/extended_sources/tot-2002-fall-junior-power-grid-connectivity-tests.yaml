@@ -1,6 +1,6 @@
 {
   "id": "tot-2002-fall-junior-power-grid-connectivity-tests",
-  "title": "Tournament of the Towns 2002: доказать связность решетки минимальным числом тестов",
+  "title": "Турнир городов 2002: доказать связность решетки минимальным числом тестов",
   "fragment": "questions",
   "kind": {
     "primary": "olympiad_problem",
@@ -33,7 +33,7 @@
     {
       "id": "str-grid-connectivity-source-placeholder",
       "title": "Нужна проверка официального решения",
-      "text": "Карточка зафиксирована как надежный lead из официального архива Tournament of the Towns. Перед публикацией требуется найти или восстановить официальное решение и минимальные числа тестов для решеток \\(3\\times3\\) и \\(5\\times5\\).",
+      "text": "Карточка зафиксирована как надежная заготовка из официального архива Турнира городов. Перед публикацией требуется найти или восстановить официальное решение и минимальные числа тестов для решеток \\(3\\times3\\) и \\(5\\times5\\).",
       "standard_idea_ids": ["decision_tree_lower_bound"],
       "status": "needs_human_review",
       "definition_ids": []
@@ -62,7 +62,7 @@
     "comment": "Junior A-Level; добавлена как неполная информация, но решение еще не верифицировано.",
     "status": "needs_human_review"
   },
-  "tags": ["decision_tree", "counting_lower_bound", "structural_constraint", "condition_middle_school"],
+  "tags": ["decision_tree", "counting_lower_bound", "structural_constraint", "condition_older_students"],
   "sources": [
     {"source_id": "src-tot-2002-fall-junior-a-problems", "role": "official_statement", "status": "source_verified"}
   ],

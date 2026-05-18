@@ -50,11 +50,16 @@
   "questions_profile": {
     "answer_alphabet_size": 2,
     "question_count": 3,
-    "lies_allowed": "one designated liar, one designated truth-teller, one unconstrained speaker",
+    "lies_allowed": "один назначенный лжец, один назначенный правдивец, один свободный говорящий",
     "adaptive": false,
     "objective": "deduce_order_information"
   },
-  "difficulty": {"main": "standard", "local_score": 2, "comment": "6 класс, короткое исключение ролей.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Простая: 6 класс, короткое исключение ролей по трем фразам.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "truth_liar_normalization", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2025-book", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 36-й Математический праздник, 6 класс, задача 2."]}

@@ -1,6 +1,6 @@
 {
   "id": "matprazdnik-1998-contrast-island-parity",
-  "title": "Матпраздник-1998: остров Контрастов и две паритетные фразы",
+  "title": "Матпраздник-1998: остров Контрастов и две фразы о четности",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_parity"]},
   "language": "ru",
@@ -40,14 +40,14 @@
     {
       "id": "lb-odd-total-impossible",
       "title": "Нечетное число жителей невозможно",
-      "text": "При нечетном общем числе жителей обе разрешенные фразы имеют одну и ту же истинность. Тогда все жители, какую бы фразу они ни произнесли, должны иметь один тип, что несовместимо с истинностью самих паритетных фраз.",
-      "standard_idea_ids": ["indistinguishability_argument"],
+      "text": "При нечетном общем числе жителей обе разрешенные фразы имеют одну и ту же истинность. Тогда все жители, какую бы фразу они ни произнесли, должны иметь один тип, что несовместимо с истинностью самих фраз о четности.",
+      "standard_idea_ids": ["indistinguishable_states"],
       "status": "needs_human_review"
     }
   ],
   "incomplete_information_profile": {
     "hidden_state_space": "числа рыцарей и лжецов и распределение двух произнесенных фраз",
-    "observations": ["каждый житель произнес одну из двух паритетных фраз"],
+    "observations": ["каждый житель произнес одну из двух фраз о четности"],
     "allowed_actions": ["проверить совместимость истинности фраз с типами жителей"],
     "goal": ["prove_odd_population_impossible"],
     "strategy_type": ["parity_consistency", "impossibility_proof"],
@@ -57,7 +57,12 @@
   },
   "truth_liar_profile": {"agents": "unknown", "types": ["truth_teller", "liar"], "statements_count": 2, "objective": "determine_population_parity_possibility"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": "unknown_population", "lies_allowed": "systematic_by_type", "adaptive": false, "objective": "prove_population_parity_impossible"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 2, "comment": "7 класс, паритетная задача на совместимость двух типов утверждений.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Простая: проверка совместимости двух утверждений о четности числа рыцарей и лжецов.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "parity", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-1998-problems", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная страница условий, 9-й Математический праздник, 7 класс, задача 4. Решение восстановлено редакционно; карточка оставлена не public-ready до сверки с официальным решением, если оно будет найдено."]}

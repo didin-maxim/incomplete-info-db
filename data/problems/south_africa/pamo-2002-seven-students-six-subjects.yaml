@@ -82,16 +82,16 @@
     "status": "needs_human_review"
   },
   "questions_profile": {
-    "answer_alphabet_size": "marks in a subject",
+    "answer_alphabet_size": "оценки по предмету",
     "question_count": 6,
     "lies_allowed": 0,
     "adaptive": false,
     "objective": "distinguish_one_of_seven_states"
   },
   "difficulty": {
-    "main": "olympiad_hard",
-    "local_score": 6,
-    "comment": "Нужен нетривиальный аргумент с минимальным различающим набором признаков.",
+    "main": "top_base",
+    "local_score": 7,
+    "comment": "Верх базы: нужен нетривиальный минимальный различающий набор признаков; оценка требует ручной сверки.",
     "status": "needs_human_review"
   },
   "tags": [

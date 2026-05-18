@@ -39,7 +39,7 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {
     "hidden_state_space": "истинные количества шариков каждого цвета и назначение пары перепутанных цветов каждому человеку",
-    "observations": ["три таблицы подсчета", "известен список трех пар цветов, но не известно, кому какая пара принадлежит"],
+    "observations": ["три таблицы подсчета", "известен список трех пар цветов, но неизвестно, кому какая пара принадлежит"],
     "allowed_actions": ["исключать назначения, несовместимые с совпадениями и суммами"],
     "goal": ["recover_true_colour_counts", "identify_each_person_mixup"],
     "strategy_type": ["knowledge_elimination", "consistency_check"],

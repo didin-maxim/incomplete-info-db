@@ -29,7 +29,7 @@
       "id": "idea-no-answers-as-missing-edges",
       "title": "Отрицательные ответы удаляют ребра, но гамильтонов путь еще может остаться",
       "text": "Ответы «нет» можно читать как запреты на пары позиций, которым нельзя назначить соседние числа. Чтобы показать недостаточность 49 вопросов, нужно доказать, что после удаления 50 таких запретных пар все еще можно расставить числа вдоль пути, обходящего все позиции.",
-      "standard_idea_ids": ["adversary_strategy", "indistinguishability"],
+      "standard_idea_ids": ["adversary_strategy", "indistinguishable_states"],
       "status": "ai_checked"
     }
   ],

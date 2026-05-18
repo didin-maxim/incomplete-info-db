@@ -1,6 +1,6 @@
 {
   "id": "lktg-2008-broken-balances-ternary-lower-bound",
-  "title": "LKTG-2008: почему с одними сломанными весами нельзя найти монету из 3^k за k взвешиваний",
+  "title": "LKTG-2008: почему сломанные весы мешают найти монету из 3^k за k взвешиваний",
   "fragment": "impossibility",
   "kind": {
     "primary": "impossibility_problem",
@@ -50,9 +50,9 @@
     "status": "ai_checked"
   },
   "difficulty": {
-    "main": "olympiad_hard",
-    "local_score": 5,
-    "comment": "Короткая, но концептуальная нижняя оценка для задач с ненадежными измерителями.",
+    "main": "top_base",
+    "local_score": 6,
+    "comment": "Верх базы: нужно доказать, что в худшем случае ответы сломанного прибора могут сохранять слишком много кандидатов; обычного счета листьев недостаточно.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "counting_lower_bound", "decision_tree_lower_bound", "ternary_code", "condition_older_students", "solution_advanced_math"],

@@ -12,7 +12,7 @@
       {
         "id": "stmt-mmo-2000-10-6",
         "title": "Гриша и Леша сообщают карты, не раскрывая карту Коле",
-        "text": "Из колоды вынули 7 карт, показали всем, перетасовали и раздали Грише и Леше по 3 карты, а оставшуюся карту либо спрятали, либо отдали Коле. Гриша и Леша могут по очереди вслух сообщать любую информацию о своих картах. Могут ли они сообщить друг другу свои карты так, чтобы Коля при этом не смог вычислить местонахождение ни одной из тех карт, которых он не видит? Переговоры происходят открытым текстом, без заранее оговоренного тайного кода.",
+        "text": "Из колоды вынули 7 карт, показали всем, перетасовали и раздали Грише и Леше по 3 карты, а оставшуюся карту либо спрятали, либо отдали Коле. Гриша и Леша могут по очереди вслух сообщать любую информацию о своих картах. Могут ли они сообщить друг другу свои карты так, чтобы Коля при этом не смог вычислить местонахождение ни одной из тех карт, которых он не видит? Переговоры происходят открытым текстом, без заранее оговоренного тайного шифра.",
         "source_ids": ["src-mmo-2000-63-archive"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -59,10 +59,10 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "agents": ["Grisha", "Lesha", "Kolya"],
+    "agents": ["Гриша", "Леша", "Коля"],
     "channel": "public_announcements",
-    "message_capacity": "one residue modulo 7 from each informed player",
-    "privacy_goal": "observer cannot locate any unseen card"
+    "message_capacity": "один остаток по модулю 7 от каждого знающего игрока",
+    "privacy_goal": "наблюдатель не может определить положение ни одной невидимой карты"
   },
   "card_trick_profile": {
     "deck_size": 7,
@@ -70,12 +70,7 @@
     "hidden_cards": 1,
     "transmitted_cards": 3
   },
-  "difficulty": {
-    "main": "olympiad_hard",
-    "local_score": 5,
-    "comment": "10 класс ММО; это уже не фокус, а публичный протокол с требованием приватности.",
-    "status": "ai_checked"
-  },
+  "difficulty": {"main": "top_base", "local_score": 7, "comment": "Верх базы: публичное правило должно одновременно передать руки двум игрокам и сохранить секрет от Коли; это существенно сложнее обычной карточной подсказки.", "status": "ai_checked"},
   "tags": ["card_trick", "modular_sum_code", "public_announcement", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-mmo-2000-63-archive", "role": "official_statement_and_solution", "status": "source_verified"}

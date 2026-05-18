@@ -54,7 +54,12 @@
     "adaptive": false,
     "objective": "find_day_with_no_liars"
   },
-  "difficulty": {"main": "standard", "local_score": 2, "comment": "Небольшой разбор недельных случаев с запретом совпадения дней лжи.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Простая: небольшой недельный перебор с запретом совпадения дней лжи.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-estonian-2018-19-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {

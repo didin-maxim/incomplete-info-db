@@ -1,6 +1,6 @@
 {
   "id": "three-wise-men-hats",
-  "title": "Три мудреца и шляпы одного цвета",
+  "title": "Три мудреца и колпаки одного цвета",
   "fragment": "wise_people",
   "kind": {
     "primary": "classical_problem",
@@ -11,11 +11,11 @@
     "original": [
       {
         "id": "stmt-original",
-        "title": "Красные и белые шляпы",
-        "text": "Трем мудрецам надели по шляпе. Каждый видит шляпы двух других, но не свою. Известно, что использованы только красные и белые шляпы, и что красных шляп не меньше одной. Мудрецов по очереди спрашивают, знает ли каждый цвет своей шляпы. Первые два отвечают, что не знают. При каких наблюдениях третий может узнать цвет своей шляпы?",
+        "title": "Красные и белые колпаки",
+        "text": "Трем мудрецам надели по колпаку. Каждый видит колпаки двух других, но не свой. Известно, что использованы только красные и белые колпаки и что красных колпаков не меньше одного. Мудрецов по очереди спрашивают, знает ли каждый цвет своего колпака. Первые два отвечают, что не знают. При каких наблюдениях третий может узнать цвет своего колпака?",
         "source_ids": ["src-common-knowledge-puzzles"],
         "status": "needs_human_review",
-        "self_contained": {"status": "needs_human_review", "review_notes": "Условие является одной из многих версий задачи о шляпах; нужна фиксация точной версии перед повышением статуса."},
+        "self_contained": {"status": "needs_human_review", "review_notes": "Условие является одной из многих версий задачи о колпаках; нужна фиксация точной версии перед повышением статуса."},
         "definition_ids": ["common_knowledge"]
       }
     ]
@@ -24,7 +24,7 @@
     {
       "id": "idea-answers-as-public-information",
       "title": "Ответы предыдущих мудрецов становятся информацией",
-      "text": "Каждый отказ от ответа исключает те состояния, в которых отвечающий уже мог бы однозначно определить свою шляпу.",
+      "text": "Каждый отказ от ответа исключает те состояния, в которых отвечающий уже мог бы однозначно определить свой колпак.",
       "standard_idea_ids": ["public_announcement_induction"],
       "status": "needs_human_review"
     }
@@ -32,8 +32,8 @@
   "strategies": [],
   "impossibility_proofs": [],
   "incomplete_information_profile": {
-    "hidden_state_space": "цвета трех шляп при публичном ограничении",
-    "observations": ["цвета шляп других мудрецов", "предыдущие ответы"],
+    "hidden_state_space": "цвета трех колпаков при публичном ограничении",
+    "observations": ["цвета колпаков других мудрецов", "предыдущие ответы"],
     "allowed_actions": ["ответить знаю/не знаю и при знании назвать цвет"],
     "goal": ["identify_own_state"],
     "strategy_type": ["knowledge_elimination"],
@@ -43,15 +43,15 @@
   },
   "knowledge_profile": {
     "agents": 3,
-    "public_announcements": "initial condition and previous answers",
+    "public_announcements": "исходное условие и предыдущие ответы",
     "communication_rounds": 3,
-    "visibility": "each agent sees the other two hats",
-    "objective": "determine own hat color"
+    "visibility": "каждый видит два чужих колпака",
+    "objective": "определить цвет своего колпака"
   },
   "difficulty": {
     "main": "intro",
     "local_score": 2,
-    "comment": "Карточка-заготовка для семейства задач о шляпах.",
+    "comment": "Карточка-заготовка для семейства задач о колпаках.",
     "status": "needs_human_review"
   },
   "tags": ["hat_puzzle", "common_knowledge", "public_announcement", "condition_middle_school"],
@@ -64,6 +64,6 @@
     "review_status": "needs_human_review",
     "public_ready": false,
     "relations_status": "seed_links",
-    "notes": ["Нужна нормализация конкретной версии; пока карточка показывает место для задач о шляпах."]
+    "notes": ["Нужно уточнить конкретную версию; пока карточка показывает место для задач о колпаках."]
   }
 }

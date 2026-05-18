@@ -18,7 +18,7 @@
       {
         "id": "stmt-folklore-100-prisoners",
         "title": "Фольклорная версия со 100 узниками",
-        "text": "Сто узников стоят в ряд. На каждом черный или белый колпак. Каждый видит колпаки всех впереди, но не свой и не колпаки позади. Начиная с последнего в ряду, узники по очереди называют цвет своего колпака вслух. Перед началом можно договориться о стратегии. Как гарантировать, что ошибется не более один узник?",
+        "text": "Сто узников стоят в ряд. На каждом черный или белый колпак. Каждый видит колпаки всех впереди, но не свой и не колпаки позади. Начиная с последнего в ряду, узники по очереди называют цвет своего колпака вслух. Перед началом можно договориться о стратегии. Как гарантировать, что ошибется не более одного узника?",
         "source_ids": ["src-folklore"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -66,19 +66,24 @@
     "status": "ai_checked"
   },
   "knowledge_profile": {
-    "agents": "n prisoners in a line",
-    "public_announcements": "sequential hat color answers",
+    "agents": "n заключенных в ряду",
+    "public_announcements": "последовательные публичные ответы о цветах колпаков",
     "communication_rounds": "n",
-    "visibility": "each sees all hats in front",
-    "objective": "all but first answer correctly"
+    "visibility": "каждый видит все колпаки впереди",
+    "objective": "все, кроме первого, отвечают правильно"
   },
   "communication_profile": {
-    "senders": "first answering prisoner and previous speakers",
-    "receivers": "remaining prisoners",
-    "message": "announced colors",
-    "message_capacity": "one bit per answer"
+    "senders": "первый отвечающий заключенный и уже ответившие",
+    "receivers": "оставшиеся заключенные",
+    "message": "названные цвета",
+    "message_capacity": "один бит в каждом ответе"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическое использование паритета как одного бита общего сообщения.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: классическая договоренность, где первый ответ сообщает одну четность, без длинного разбора случаев.",
+    "status": "ai_checked"
+  },
   "tags": ["hat_puzzle", "parity_code", "public_communication", "indistinguishability_argument", "condition_middle_school"],
   "sources": [
     {"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"},

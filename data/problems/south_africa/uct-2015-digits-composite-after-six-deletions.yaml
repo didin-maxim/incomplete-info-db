@@ -1,6 +1,6 @@
 {
   "id": "uct-2015-digits-composite-after-six-deletions",
-  "title": "UCT Olympiad 2015: порядок цифр, устойчивый к удалению шести цифр",
+  "title": "UCT 2015: порядок цифр, устойчивый к удалению шести цифр",
   "fragment": "communication",
   "kind": {
     "primary": "olympiad_problem",
@@ -92,9 +92,9 @@
     "strategy_type": "erasure_robust_ordering"
   },
   "difficulty": {
-    "main": "olympiad_medium",
-    "local_score": 4,
-    "comment": "Трудность в том, чтобы свести все удаления к одному исключительному случаю.",
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Сложная: конструкция короткая, но доказательство должно свести все удаления к одному исключительному случаю.",
     "status": "ai_checked"
   },
   "tags": [

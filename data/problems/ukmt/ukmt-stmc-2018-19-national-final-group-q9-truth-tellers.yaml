@@ -1,6 +1,6 @@
 {
   "id": "ukmt-stmc-2018-19-national-final-group-q9-truth-tellers",
-  "title": "UKMT STMC 2018-19 National Final Q9: кто точно лжет",
+  "title": "UKMT STMC 2018-19 Q9: кто точно лжет",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["logic_deduction"]},
   "language": "ru",
@@ -8,8 +8,8 @@
     "original": [
       {
         "id": "stmt-ukmt-stmc-2018-19-q9",
-        "title": "Алекс, Беатрис, Чармиан и Дензил",
-        "text": "Алекс, Беатрис, Чармиан и Дензил либо рыцари, либо лжецы. Однажды они сказали следующее. Алекс: «Беатрис всегда лжет». Беатрис: «Алекс и Дензил либо оба рыцари, либо оба лжецы». Чармиан: «Беатрис и Дензил либо оба лжецы, либо оба рыцари». Дензил: «Я рыцарь». Кто точно лжет?",
+        "title": "Петя, Вася, Толя и Коля",
+        "text": "Петя, Вася, Толя и Коля либо рыцари, либо лжецы. Однажды они сказали следующее. Петя: «Вася всегда лжет». Вася: «Петя и Коля либо оба рыцари, либо оба лжецы». Толя: «Вася и Коля либо оба лжецы, либо оба рыцари». Коля: «Я рыцарь». Кто точно лжет?",
         "source_ids": ["src-ukmt-stmc-2018-19-national-final-group-round", "src-ukmt-stmc-2018-19-national-final-supervisors"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -29,8 +29,8 @@
   "strategies": [
     {
       "id": "str-two-cases-for-alex",
-      "title": "Разобрать два случая для Алекса",
-      "text": "Если Алекс правдив, то Беатрис лжет. Фраза Беатрис тогда ложна, значит Алекс и Дензил разных типов; раз Алекс правдив, Дензил лжет. Тогда фраза Чармиан о Беатрис и Дензиле истинна, и Чармиан правдива. Если Алекс лжет, то Беатрис правдива. Тогда Алекс и Дензил одного типа, значит Дензил тоже лжет. Фраза Чармиан о Беатрис и Дензиле ложна, и Чармиан лжет. В обоих совместимых случаях Дензил лжет, а остальные могут меняться. Значит, точно лжет Дензил.",
+      "title": "Разобрать два случая для Пети",
+      "text": "Если Петя правдив, то Вася лжет. Фраза Васи тогда ложна, значит Петя и Коля разных типов; раз Петя правдив, Коля лжет. Тогда фраза Толи о Васе и Коле истинна, и Толя правдив. Если Петя лжет, то Вася правдив. Тогда Петя и Коля одного типа, значит Коля тоже лжет. Фраза Толи о Васе и Коле ложна, и Толя лжет. В обоих совместимых случаях Коля лжет, а остальные могут меняться. Значит, точно лжет Коля.",
       "standard_idea_ids": ["partition_state_space"],
       "status": "ai_checked",
       "definition_ids": ["state_space"]
@@ -54,11 +54,16 @@
     "adaptive": false,
     "objective": "identify_definite_liar"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно отличить полный расклад от свойства, общего для всех совместимых раскладов.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: надо отличить полный расклад от свойства, общего для всех совместимых раскладов.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination", "condition_middle_school"],
   "sources": [
     {"source_id": "src-ukmt-stmc-2018-19-national-final-group-round", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-ukmt-stmc-2018-19-national-final-supervisors", "role": "official_answer", "status": "source_verified"}
   ],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие взято из официального/архивного листа Group Round, ответ Denzil подтвержден booklet для supervisors; русское решение восстановлено по проверке совместимых раскладов."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие взято из официального/архивного листа Group Round, ответ на четвертого участника подтвержден booklet для supervisors; русское решение восстановлено по проверке совместимых раскладов."]}
 }

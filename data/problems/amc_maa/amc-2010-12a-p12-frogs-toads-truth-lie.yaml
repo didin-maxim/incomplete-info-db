@@ -50,11 +50,16 @@
   "questions_profile": {
     "answer_alphabet_size": 2,
     "question_count": 1,
-    "lies_allowed": "respondent may be systematic liar",
+    "lies_allowed": "отвечающий может оказаться систематическим лжецом",
     "adaptive": false,
     "objective": "choose_correct_sign"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Короткая AMC-версия стандартного приема с правдивцем и лжецом.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Простая: короткая нейтрализация различия между правдивцем и лжецом одним вопросом.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "truth_liar_normalization", "self_reference_question", "condition_middle_school"],
   "sources": [
     {"source_id": "src-aops-2010-amc12a-p12-index", "role": "statement_index", "status": "source_verified"},

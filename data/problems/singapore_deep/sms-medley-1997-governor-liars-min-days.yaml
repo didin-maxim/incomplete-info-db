@@ -1,6 +1,6 @@
 {
   "id": "sms-medley-1997-governor-liars-min-days",
-  "title": "SMS Mathematical Medley 1997: губернатор ищет лжецов группами",
+  "title": "SMS 1997: губернатор ищет лжецов группами",
   "fragment": "questions",
   "kind": {
     "primary": "olympiad_problem",
@@ -101,14 +101,14 @@
   "questions_profile": {
     "answer_alphabet_size": "integer_count",
     "question_count": "minimum_days",
-    "lies_allowed": "liars always give a false numerical answer, truth-tellers give the true count",
+    "lies_allowed": "лжецы всегда дают неверный числовой ответ, правдивцы называют верное число",
     "adaptive": true,
     "objective": "classify_all_islanders"
   },
   "difficulty": {
-    "main": "olympiad_hard",
-    "local_score": 6,
-    "comment": "Активная стратегия групповых запросов; условие официально найдено, но оптимальное решение требует ручной сверки.",
+    "main": "top_base",
+    "local_score": 7,
+    "comment": "Верх базы: адаптивная стратегия групповых вопросов и минимальность; сложность спорная до ручной сверки оптимальности.",
     "status": "needs_human_review"
   },
   "tags": [

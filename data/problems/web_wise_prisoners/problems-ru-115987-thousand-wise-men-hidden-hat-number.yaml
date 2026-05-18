@@ -48,7 +48,7 @@
   "incomplete_information_profile": {
     "hidden_state_space": "перестановка 1000 надетых номеров и один спрятанный номер из 1..1001",
     "observations": ["каждый видит номера впереди", "каждый слышит предыдущие публичные ответы", "повторять ответы нельзя"],
-    "allowed_actions": ["заранее согласовать протокол", "последовательно называть не повторявшийся номер"],
+    "allowed_actions": ["заранее договориться о правиле", "последовательно называть не повторявшийся номер"],
     "goal": ["maximize_guaranteed_correct_answers"],
     "strategy_type": ["prearranged_protocol", "modular_sum_code", "permutation_parity_code"],
     "lower_bound_method": [],
@@ -56,14 +56,14 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "participants": "1000 wise men in a line",
+    "participants": "1000 мудрецов в колонне",
     "prearranged_strategy": true,
-    "channel_capacity": "one public unused number per participant",
+    "channel_capacity": "одно публичное еще не названное число от каждого участника",
     "public_or_private": "sequential_public_answers",
-    "privacy_goal": "none",
-    "objective": "guarantee at least 999 correct answers"
+    "privacy_goal": "нет",
+    "objective": "гарантировать хотя бы 999 правильных ответов"
   },
-  "difficulty": {"main": "olympiad_hard", "local_score": 5, "comment": "Сильная версия сочетает последовательное декодирование с четностью перестановки и спрятанной позицией.", "status": "ai_checked"},
+  "difficulty": {"main": "top_base", "local_score": 7, "comment": "Верх базы: это не просто линия колпаков с остатком по модулю, а договоренность со спрятанной позицией, запретом повторов и четностью перестановки в сильной версии.", "status": "ai_checked"},
   "tags": ["hat_puzzle", "modular_sum_code", "parity_code", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-115987", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {

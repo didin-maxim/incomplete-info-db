@@ -20,7 +20,7 @@
   "ideas": [
     {
       "id": "idea-public-elimination-of-pairs",
-      "title": "Реплики удаляют пары из пространства состояний",
+      "title": "Реплики удаляют пары из набора вариантов",
       "text": "Каждая публичная фраза о незнании или новом знании фильтрует пары чисел по тому, сколько вариантов оставалось совместимым с суммой или произведением у соответствующего мудреца.",
       "standard_idea_ids": ["public_announcement_induction", "partition_state_space"],
       "status": "needs_human_review"
@@ -40,10 +40,10 @@
   },
   "knowledge_profile": {
     "agents": 2,
-    "public_announcements": "depends on exact version",
-    "communication_rounds": "depends on exact version",
-    "visibility": "one sees sum, one sees product",
-    "objective": "determine both numbers"
+    "public_announcements": "зависит от точной версии",
+    "communication_rounds": "зависит от точной версии",
+    "visibility": "один видит сумму, другой произведение",
+    "objective": "определить оба числа"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Карточка-заготовка: нужна конкретная версия перед стратегией.", "status": "needs_human_review"},
   "tags": ["common_knowledge", "public_announcement", "knowledge_elimination", "condition_older_students"],

@@ -1,15 +1,15 @@
 {
   "cluster_id": "truth_liar_systems",
-  "title": "Рыцари и лжецы",
-  "description": "Локальные признаки для задач, где информация приходит из публичных высказываний или ответов рыцарей, лжецов, чередующихся отвечающих, хитрецов, подражателей либо из явных систем истинных и ложных утверждений.",
+  "title": "Рыцари и лжецы: кто говорит по какому правилу",
+  "description": "Задачи, где ответ надо получить из фраз или ответов людей с правилами правды и лжи: рыцарей, лжецов, чередующихся отвечающих, хитрецов, подражателей, лжецов по расписанию либо из набора истинных и ложных утверждений.",
   "schema_version": 1,
   "facet_fields": {
-    "agent_types": "Локальный словарь ролей: truth_teller, liar, alternator, random, trickster, mimic, scheduled_liar, conditional_liar, guilty_liar, statement.",
+    "agent_types": "Словарь ролей внутри кластера: truth_teller, liar, alternator, random, trickster, mimic, scheduled_liar, conditional_liar, guilty_liar, statement.",
     "truth_rule": "Как истинность связана с ролями или утверждениями.",
     "interaction_mode": "Как возникает наблюдаемая информация.",
     "topology": "none, line, circle, table или graph, если утверждения используют расположение или сеть отношений.",
-    "goal": "Локально нормализованная цель.",
-    "solution_pattern": "Локальные названия механизмов решения внутри этого кластера.",
+    "goal": "Цель задачи внутри этого кластера.",
+    "solution_pattern": "Названия приемов решения внутри этого кластера.",
     "question_count": "Число явных вопросов/ответов, если оно важно в условии."
   },
   "display_labels": {
@@ -142,7 +142,7 @@
         "normalization_question": "вопрос, одинаково полезный при рыцаре и лжеце",
         "answer_pattern_counting": "счет рисунков ответов",
         "case_elimination": "перебор и вычеркивание невозможного",
-        "local_constraint_propagation": "распространение условий по соседям",
+        "local_constraint_propagation": "условия расходятся по соседям",
         "self_reference_consistency": "проверка фраз о себе",
         "indistinguishability_bound": "два случая выглядят одинаково",
         "truth_count_fixed_point": "счет рыцарей и лжецов согласуется сам с собой",

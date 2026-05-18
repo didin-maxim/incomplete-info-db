@@ -1,6 +1,6 @@
 {
   "id": "matprazdnik-2026-five-cards-petya-vasya",
-  "title": "Матпраздник-2026: Петя и Вася кодируют одну из пяти карточек",
+  "title": "Матпраздник-2026: Петя и Вася передают одну из пяти карточек",
   "fragment": "card_tricks",
   "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol"]},
   "language": "ru",
@@ -48,8 +48,8 @@
     "status": "ai_checked"
   },
   "card_trick_profile": {"deck_size": 5, "hand_size": 5, "shown_cards": 1, "hidden_cards": 2, "ordering_channel": false, "encoded_values_by_order": 1, "strategy_type": "one_named_card_as_cyclic_signal"},
-  "communication_profile": {"senders": 1, "receivers": 1, "message": "one of Petya's two card numbers", "message_capacity": "binary choice constrained by Petya's hand"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "7 класс, короткий заранее согласованный протокол с циклической структурой.", "status": "ai_checked"},
+  "communication_profile": {"senders": 1, "receivers": 1, "message": "одно из двух чисел на карточках Пети", "message_capacity": "двоичный выбор, ограниченный рукой Пети"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "7 класс: короткая заранее согласованная договоренность с числами по кругу.", "status": "ai_checked"},
   "tags": ["card_trick", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2026-book", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная брошюра, 37-й Математический праздник, 7 класс, задача 6. Не сливалась с Fitch-Cheney: это родственный, но не тот же фокус, так как передается не скрытая карта из обычной колоды, а гарантированная карта зрителей через одно названное число."]}

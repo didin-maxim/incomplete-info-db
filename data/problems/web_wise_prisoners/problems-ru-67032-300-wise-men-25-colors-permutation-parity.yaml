@@ -48,14 +48,14 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "participants": "300 wise men",
+    "participants": "300 мудрецов",
     "prearranged_strategy": true,
-    "channel_capacity": "no post-start communication; simultaneous guesses",
+    "channel_capacity": "после старта общения нет; догадки называются одновременно",
     "public_or_private": "private_observation_then_simultaneous",
-    "privacy_goal": "none",
-    "objective": "guarantee at least 150 correct guesses"
+    "privacy_goal": "нет",
+    "objective": "гарантировать хотя бы 150 правильных ответов"
   },
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Красивая олимпиадная стратегия: локальная двузначность переводится в четность глобальной перестановки.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Сложная: у каждого мудреца остаются два варианта, но выигрыш держится на общей четности перестановки для 300 участников и 25 цветов.", "status": "ai_checked"},
   "tags": ["hat_puzzle", "parity_code", "nonadaptive_strategy", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-67032", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {

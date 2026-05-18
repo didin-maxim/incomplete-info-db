@@ -87,3 +87,29 @@ def flatten_text(value):
     elif value is not None:
         parts.append(str(value))
     return " ".join(part for part in parts if part)
+
+
+def author_name(author):
+    if isinstance(author, dict):
+        return str(author.get("name", ""))
+    return str(author)
+
+
+def author_names(item, include_unknown=True):
+    names = []
+    for author in item.get("authors", []):
+        name = author_name(author).strip()
+        if not name:
+            continue
+        if not include_unknown and name.lower() in {"?", "unknown"}:
+            continue
+        names.append(name)
+    return names
+
+
+def problem_author_names(problem, include_unknown=True):
+    return author_names(problem, include_unknown=include_unknown)
+
+
+def source_author_names(source, include_unknown=True):
+    return author_names(source, include_unknown=include_unknown)

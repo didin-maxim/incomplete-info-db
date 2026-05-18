@@ -1,6 +1,6 @@
 {
   "id": "fixed-questions-as-binary-code",
-  "title": "Неадаптивные вопросы как двоичный код объектов",
+  "title": "Вопросы, заданные заранее: наборы да/нет-ответов",
   "fragment": "questions",
   "kind": {
     "primary": "classical_problem",
@@ -23,7 +23,7 @@
   "ideas": [
     {
       "id": "idea-columns-are-codewords",
-      "title": "Ответы на заранее выбранные вопросы образуют кодовое слово",
+      "title": "У каждого объекта получается свой набор ответов",
       "text": "Для каждого объекта выпишем столбец из ответов на все \\(q\\) вопросов. Два объекта различимы тогда и только тогда, когда их столбцы различны.",
       "standard_idea_ids": ["partition_state_space"],
       "status": "ai_checked"
@@ -61,7 +61,7 @@
   },
   "questions_profile": {
     "answer_alphabet_size": 2,
-    "question_count": "ceil(log2 N)",
+    "question_count": "\\(\\lceil\\log_2 N\\rceil\\)",
     "lies_allowed": 0,
     "adaptive": false,
     "objective": "identify_one_of_N_states"
@@ -69,7 +69,7 @@
   "difficulty": {
     "main": "intro",
     "local_score": 1,
-    "comment": "Базовая кодовая интерпретация неадаптивных вопросов.",
+    "comment": "Базовая идея: если все вопросы выбраны заранее, каждый объект должен давать свой набор да/нет-ответов.",
     "status": "ai_checked"
   },
   "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
@@ -83,6 +83,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "already_parameterized_same_solution",
-    "notes": ["2026-05-18: карточка уже является общей N/q-формой для неадаптивных двоичных вопросов; числовые частные случаи не нужны."]
+    "notes": ["2026-05-18: карточка уже является общей N/q-формой для вопросов да/нет, выбранных заранее; числовые частные случаи не нужны."]
   }
 }

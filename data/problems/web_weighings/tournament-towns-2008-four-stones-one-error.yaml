@@ -1,6 +1,6 @@
 {
   "id": "tournament-towns-2008-four-stones-one-error",
-  "title": "Tournament of Towns 2008: четыре камня и одно ошибочное числовое взвешивание",
+  "title": "Турнир городов 2008: четыре камня и одно ошибочное числовое взвешивание",
   "fragment": "weighings",
   "kind": {
     "primary": "olympiad_problem",
@@ -62,7 +62,7 @@
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 5,
-    "comment": "Junior A-Level Tournament of Towns; четыре специально выбранных взвешивания позволяют исправить одну числовую ошибку.",
+    "comment": "Junior A-Level Турнира городов; четыре специально выбранных взвешивания позволяют исправить одну числовую ошибку.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "digital_scale", "linear_signature", "error_correcting_code", "nonadaptive_strategy", "condition_older_students", "solution_advanced_math"],

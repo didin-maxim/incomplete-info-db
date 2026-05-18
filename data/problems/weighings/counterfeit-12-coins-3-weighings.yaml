@@ -11,7 +11,7 @@
     "original": [
       {
         "id": "stmt-original",
-        "title": "Неизвестно легче или тяжелее",
+        "title": "Неизвестно, легче или тяжелее",
         "text": "Даны 12 одинаковых на вид монет. Одна монета фальшивая, но неизвестно, легче она настоящих или тяжелее. За три взвешивания на чашечных весах найдите фальшивую монету и определите, легче она или тяжелее.",
         "source_ids": ["src-classical-coin-weighing", "src-problems-ru-60922"],
         "status": "ai_checked",
@@ -89,9 +89,9 @@
     "objective": "identify_coin_and_sign"
   },
   "difficulty": {
-    "main": "standard",
-    "local_score": 3,
-    "comment": "Классическая задача на адаптивное дерево решений.",
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Средняя: нужно построить адаптивное дерево на 24 состояния и удержать вместе поиск монеты и знак отличия.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "ternary_code", "decision_tree", "decision_tree_lower_bound", "condition_middle_school"],

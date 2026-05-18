@@ -16,10 +16,96 @@
     "sources",
     "editorial"
   ],
+  "$defs": {
+    "figure": {
+      "type": "object",
+      "description": "Local image attached to a statement, idea, strategy, or proof. Images are stored as files, not embedded as base64.",
+      "required": ["asset", "alt", "caption", "status"],
+      "anyOf": [
+        {"required": ["source_id"]},
+        {"required": ["source_note"]}
+      ],
+      "properties": {
+        "id": {"type": "string"},
+        "asset": {
+          "type": "string",
+          "description": "Safe repository-relative path such as data/assets/images/<problem-id>/<name>.webp."
+        },
+        "alt": {"type": "string"},
+        "caption": {"type": "string"},
+        "source_id": {"type": "string"},
+        "source_note": {"type": "string"},
+        "status": {"type": "string"}
+      }
+    },
+    "figure_list": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/figure"}
+    }
+  },
   "properties": {
+    "statements": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "figures": {"$ref": "#/$defs/figure_list"}
+          }
+        }
+      }
+    },
+    "ideas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "figures": {"$ref": "#/$defs/figure_list"}
+        }
+      }
+    },
+    "strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "figures": {"$ref": "#/$defs/figure_list"}
+        }
+      }
+    },
+    "impossibility_proofs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "figures": {"$ref": "#/$defs/figure_list"}
+        }
+      }
+    },
     "fragment": {
       "type": "string",
       "description": "Primary navigation fragment: weighings, wise_people, card_tricks, questions, communication, impossibility."
+    },
+    "authors": {
+      "type": "array",
+      "description": "Known problem authors/proposers. Use only when backed by a source; unknown authors should be omitted.",
+      "items": {
+        "oneOf": [
+          {"type": "string"},
+          {
+            "type": "object",
+            "required": ["name", "status"],
+            "properties": {
+              "name": {"type": "string"},
+              "role": {"type": "string"},
+              "status": {"type": "string"},
+              "source_id": {"type": "string"},
+              "note": {"type": "string"}
+            }
+          }
+        ]
+      }
     },
     "incomplete_information_profile": {
       "type": "object",

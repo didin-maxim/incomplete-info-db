@@ -1,18 +1,18 @@
 {
   "id": "tot-2002-fall-senior-sum-product-2002-card",
-  "title": "Tournament of the Towns 2002: сумма или произведение 2002 и два заявления незнания",
+  "title": "Турнир городов 2002: сумма или произведение 2002 и два заявления незнания",
   "fragment": "wise_people",
   "kind": {
     "primary": "olympiad_problem",
     "secondary": ["knowledge_reasoning", "elimination"]
   },
-  "language": "en",
+  "language": "ru",
   "statements": {
     "original": [
       {
         "id": "stmt-tot-2002-fall-senior-o-1",
-        "title": "Bill shows one card to John and Mary",
-        "text": "John and Mary each chose a natural number and told them to Bill. Bill wrote the sum on one card and the product on another, hid one card, and showed the other card to both John and Mary. The shown number was 2002. John said that he could not determine Mary's number. Knowing this, Mary said that she also could not determine John's number. Determine Mary's number.",
+        "title": "Дима показывает одну карточку Пете и Васе",
+        "text": "Петя и Вася выбрали по натуральному числу и сообщили их Диме. Дима записал сумму на одной карточке, произведение на другой, спрятал одну карточку и показал другую Пете и Васе. На показанной карточке было число 2002. Петя сказал, что не может определить число Васи. Услышав это, Вася сказал, что тоже не может определить число Пети. Определите число Васи.",
         "source_ids": ["src-tot-2002-fall-senior-o-problems", "src-tot-2002-fall-senior-o-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -32,8 +32,8 @@
   "strategies": [
     {
       "id": "str-two-not-know-announcements-2002",
-      "title": "От неделителей к единственному числу Mary",
-      "text": "Пусть числа John и Mary равны \\(j\\) и \\(m\\). Если \\(j\\) не делит 2002, John понял бы, что показана сумма, и нашел бы \\(m=2002-j\\). Значит, из его незнания следует, что \\(j\\mid 2002\\), причем \\(j\\ne 2002\\), так что \\(j\\le 1001\\).\n\nMary слышит это рассуждение. Если бы \\(m\\ne 1001\\) и \\(m\\mid 2002\\), то она восстановила бы \\(j=2002/m\\); если бы \\(m\\) не делило 2002, то восстановила бы \\(j=2002-m\\) как в суммовом случае. Единственный способ сохранить неопределенность после слов John - \\(m=1001\\). Проверка показывает, что при \\(m=1001\\) действительно остаются совместимые сценарии.",
+      "title": "От неделителей к единственному числу Васи",
+      "text": "Пусть числа Пети и Васи равны \\(p\\) и \\(v\\). Если \\(p\\) не делит 2002, Петя понял бы, что показана сумма, и нашел бы \\(v=2002-p\\). Значит, из его незнания следует, что \\(p\\mid 2002\\), причем \\(p\\ne 2002\\), так что \\(p\\le 1001\\).\n\nВася слышит это рассуждение. Если бы \\(v\\ne 1001\\) и \\(v\\mid 2002\\), то он восстановил бы \\(p=2002/v\\); если бы \\(v\\) не делило 2002, то восстановил бы \\(p=2002-v\\) как в суммовом случае. Единственный способ сохранить неопределенность после слов Пети - \\(v=1001\\). Проверка показывает, что при \\(v=1001\\) действительно остаются совместимые сценарии.",
       "standard_idea_ids": ["public_announcement_induction"],
       "status": "ai_checked",
       "definition_ids": []
@@ -42,23 +42,23 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {
     "hidden_state_space": "две натуральные величины и неизвестно, показаны ли сумма или произведение",
-    "observations": ["показанное число 2002", "публичное заявление John о незнании", "публичное заявление Mary о незнании"],
+    "observations": ["показанное число 2002", "публичное заявление Пети о незнании", "публичное заявление Васи о незнании"],
     "allowed_actions": ["делать истинные публичные заявления о возможности определить чужое число"],
-    "goal": ["identify_marys_number"],
+    "goal": ["identify_second_person_number"],
     "strategy_type": ["public_announcement", "iterated_elimination", "divisibility_filter"],
     "lower_bound_method": [],
     "keywords": ["tournament_of_towns_2002", "sum_product", "public_ignorance", "2002"],
     "status": "ai_checked"
   },
   "knowledge_profile": {
-    "agents": ["John", "Mary", "Bill"],
-    "public_announcements": ["John cannot determine Mary's number", "Mary cannot determine John's number"],
-    "private_information": "each child knows only their own chosen number"
+    "agents": ["Петя", "Вася", "Дима"],
+    "public_announcements": ["Петя не может определить число Васи", "Вася не может определить число Пети"],
+    "private_information": "каждый из двух участников знает только свое выбранное число"
   },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,
-    "comment": "Senior O-Level, но механизм близок к классическим sum-product задачам и полезен для базы.",
+    "comment": "старший уровень Турнира городов; механизм близок к классическим задачам «сумма и произведение» и полезен для базы.",
     "status": "ai_checked"
   },
   "tags": ["common_knowledge", "knowledge_induction", "knowledge_elimination", "public_announcement", "condition_older_students"],
@@ -72,6 +72,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Хотя это Senior O-Level, источник официальный, а задача является устойчивым вариантом классического sum-product механизма."]
+    "notes": ["Хотя это старший уровень Турнира городов, источник официальный, а задача является устойчивым вариантом классического механизма «сумма и произведение»."]
   }
 }

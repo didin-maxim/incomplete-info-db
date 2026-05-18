@@ -48,13 +48,18 @@
     "status": "ai_checked"
   },
   "knowledge_profile": {
-    "agents": "n > 1 islanders",
-    "public_announcements": "two rounds of identical answers, separated by removing one islander",
+    "agents": "n > 1 островитян",
+    "public_announcements": "два раунда одинаковых ответов, между которыми удаляют одного островитянина",
     "communication_rounds": 2,
-    "visibility": "friendship graph is not specified; only answer patterns are known",
-    "objective": "determine type of removed islander and remaining majority"
+    "visibility": "граф дружбы не задан; известны только схемы ответов",
+    "objective": "определить тип удаленного островитянина и большинство среди оставшихся"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевой шаг - строгие неравенства в составе друзей не могут смениться так сильно после удаления одного человека.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: ключ - строгие неравенства состава друзей до и после удаления одного человека.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "knowledge_elimination", "indistinguishability_argument", "condition_older_students"],
   "sources": [{"source_id": "src-estonian-2001-02-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {

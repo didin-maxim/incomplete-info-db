@@ -52,15 +52,15 @@
   },
   "knowledge_profile": {
     "agents": 10,
-    "public_announcements": "nine identical statements",
+    "public_announcements": "девять одинаковых утверждений",
     "communication_rounds": 1,
-    "visibility": "line order is known, Vasya's position may vary",
-    "objective": "list possible liar counts"
+    "visibility": "порядок в ряду известен, позиция Васи может меняться",
+    "objective": "перечислить возможные числа лжецов"
   },
   "difficulty": {
-    "main": "standard",
-    "local_score": 2,
-    "comment": "Задача на локальные вынужденные состояния вокруг неизвестной позиции.",
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: вынужденные роли распространяются по шеренге от неизвестной позиции Васи.",
     "status": "ai_checked"
   },
   "tags": ["lie_detection", "knowledge_induction", "indistinguishability_argument", "condition_middle_school"],

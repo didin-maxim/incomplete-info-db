@@ -9,7 +9,7 @@
     {"problem_id": "mmo-2024-symposium-acquaintance-lies", "status": "source_merged_duplicate_found", "source_id": "src-problems-ru-67459"}
   ],
   "source_notes": [
-    "Искались запросы: knights and knaves olympiad problem official solution PDF; truth tellers liars math contest official solution PDF; islanders liars math olympiad problem solution PDF; alternators truth liar math contest problem.",
+    "Искались англоязычные запросы про олимпиадные задачи о рыцарях, лжецах, правдивцах, островитянах и чередующих правду с ложью; проверялись официальные решения и PDF.",
     "Искались русские запросы по problems.ru, mccme/olympiads и kvantik: рыцари, лжецы, правдивцы, всегда говорят правду, островитяне.",
     "Отобраны задачи, где ложь задает содержательный механизм неполной информации: локальные круговые ограничения, паритет графа дружбы, экстремальный подсчет ответов в графе знакомств.",
     "Не добавлены найденные короткие одноходовые задачи на стандартную нормализацию и уже имеющиеся близкие варианты: стандартный вопрос рыцарю/лжецу, простые задачи про трех островитян, круговые соседские задачи без нового механизма.",

@@ -20,8 +20,8 @@
   "ideas": [
     {
       "id": "idea-eight-states-two-ternary-answers",
-      "title": "Восемь состояний помещаются в два тернарных наблюдения",
-      "text": "Скрытое состояние задается одной монетой из первых четырех и одной из последних двух. Два взвешивания могут дать до девяти пар исходов, поэтому нужно построить разные коды для восьми состояний.",
+      "title": "Восемь состояний помещаются в два пары исходов",
+      "text": "Скрытое состояние задается одной монетой из первых четырех и одной из последних двух. Два взвешивания могут дать до девяти пар исходов, поэтому нужно построить разные пары меток для восьми случаев.",
       "standard_idea_ids": ["ternary_weighing_code"],
       "status": "ai_checked"
     }
@@ -37,7 +37,7 @@
     },
     {
       "id": "str-nonadaptive-signature-table",
-      "title": "Неадаптивная стратегия через две заранее заданные схемы",
+      "title": "Стратегия с двумя схемами, выбранными заранее",
       "text": "Для заранее выбранных взвешиваний достаточно назначить монетам 1..6 коды (-1,-1), (-1,0), (0,1), (1,-1), (0,1), (1,0), где координата -1 означает положить монету на правую чашу соответствующего взвешивания, 1 - на левую, 0 - не класть. В каждом взвешивании суммарное число монет на чашах одинаково. Пара исходов равна знаку суммы кодов двух фальшивых монет и для восьми допустимых пар получается разной; значит, оба взвешивания можно провести заранее.",
       "standard_idea_ids": ["ternary_weighing_code"],
       "status": "needs_human_review",
@@ -56,7 +56,7 @@
     "status": "ai_checked"
   },
   "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_light_with_group_constraints", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_two_counterfeits"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Турнир Савина, задача с адаптивной и неадаптивной версиями.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Турнир Савина: есть версия, где второе взвешивание зависит от первого, и версия с двумя схемами, выбранными заранее.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "decision_tree", "condition_middle_school"],
   "sources": [{"source_id": "src-tursavin-12-problems", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальный PDF XII турнира Савина содержит условие; решение восстановлено редакционно и требует человеческой сверки.", "2026-05-18: public_ready снят редакторской проверкой до ручной сверки решения."]}

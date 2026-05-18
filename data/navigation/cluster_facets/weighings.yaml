@@ -1,16 +1,16 @@
 {
   "cluster_id": "weighings",
-  "title": "Взвешивания и количественные измерения",
+  "title": "Взвешивания и числовые проверки",
   "scope": {
     "include": [
       "задачи на чашечные, стрелочные и цифровые весы",
-      "количественные тесты, где прибор измеряет выбранное подмножество",
+      "проверки, где прибор выдает число для выбранной группы предметов",
       "карточки о невозможности взвешивания, даже если их основной фрагмент - impossibility"
     ],
     "exclude": [
       "задачи про монеты без действия взвешивания или измерения",
-      "чистые задачи на вопросы/коммуникацию, где суммы являются только сообщениями или алгебраическими условиями",
-      "протоколы группового тестирования без смысла взвешивания или измерения"
+      "чистые задачи на вопросы или передачу подсказок, где суммы являются только сообщениями или алгебраическими условиями",
+      "групповые тесты без смысла взвешивания или измерения"
     ]
   },
   "facet_fields": {
@@ -30,22 +30,22 @@
       "primary_family": "Главный тип задачи",
       "weighing_count": "Сколько взвешиваний",
       "scale_type": "Какие весы или прибор",
-      "counterfeit_model": "Какая фальшивка",
+      "counterfeit_model": "Какая фальшивая монета",
       "adaptive": "Можно менять следующий ход?",
       "known_genuine_available": "Есть настоящая монета для сравнения?",
       "objective": "Что надо узнать",
       "proof_method": "Главный прием решения",
-      "signature_type": "Как записан код результатов",
+      "signature_type": "Как узнать случай по результатам",
       "generalization_level": "Насколько общий пример"
     },
     "values": {
       "primary_family": {
-        "known_direction_search": "фальшивка уже известна легче или тяжелее",
-        "unknown_direction_counterfeit": "неизвестно, легче фальшивка или тяжелее",
+        "known_direction_search": "уже известно, легче фальшивая монета или тяжелее",
+        "unknown_direction_counterfeit": "неизвестно, легче фальшивая монета или тяжелее",
         "numeric_linear_signature": "ответ читается из чисел и сумм",
-        "structured_counterfeit": "фальшивки связаны расположением или группами",
+        "structured_counterfeit": "фальшивые монеты связаны расположением или группами",
         "faulty_or_limited_instrument": "прибор сломан или дает не все ответы",
-        "measurement_coding": "измерения специально кодируют случай",
+        "measurement_coding": "измерения специально различают случаи",
         "probability_or_verification": "вероятность или проверка заявления",
         "boundary_measurement_oracle": "пограничный пример с измерением"
       },
@@ -67,15 +67,15 @@
         "sum_oracle": "ответом служит сумма"
       },
       "counterfeit_model": {
-        "single_known_light": "одна фальшивка, точно легче",
-        "single_known_heavy": "одна фальшивка, точно тяжелее",
-        "single_known_direction": "одна фальшивка с известным отличием",
-        "single_unknown_direction": "одна фальшивка, легче или тяжелее неизвестно",
-        "multiple_known_direction": "несколько фальшивок с известным отличием",
-        "multiple_mixed_direction": "несколько фальшивок разных типов",
+        "single_known_light": "одна фальшивая монета, точно легче",
+        "single_known_heavy": "одна фальшивая монета, точно тяжелее",
+        "single_known_direction": "одна фальшивая монета с известным отличием",
+        "single_unknown_direction": "одна фальшивая монета, легче или тяжелее неизвестно",
+        "multiple_known_direction": "несколько фальшивых монет с известным отличием",
+        "multiple_mixed_direction": "несколько фальшивых монет разных типов",
         "structured_weight_assignment": "веса распределены по правилу",
         "faulty_instrument": "сломанный прибор",
-        "no_counterfeit_measurement": "не про фальшивку, а про измерение",
+        "no_counterfeit_measurement": "не про фальшивую монету, а про измерение",
         "subset_property": "нужно проверить свойство группы"
       },
       "known_genuine_available": {
@@ -102,9 +102,9 @@
       },
       "proof_method": {
         "ternary_search": "деление на три группы",
-        "ternary_signature_code": "код из трех исходов взвешивания",
+        "ternary_signature_code": "таблица из трех исходов взвешивания",
         "decision_tree_lower_bound": "счет листьев дерева решений",
-        "numeric_linear_signature": "числовые суммы как код",
+        "numeric_linear_signature": "числовые суммы как подсказка",
         "structural_partition": "разбиение по структуре",
         "indistinguishability": "два случая выглядят одинаково",
         "adversary_lower_bound": "противник мешает выбрать короче",
@@ -115,8 +115,8 @@
       },
       "signature_type": {
         "ternary_decision_tree": "дерево с тремя исходами",
-        "ternary_signature": "код результатов из трех исходов",
-        "numeric_linear": "числовой код",
+        "ternary_signature": "таблица результатов из трех исходов",
+        "numeric_linear": "числовая подсказка",
         "binary_decision_tree": "дерево да/нет",
         "binary_subset_code": "код выбранных групп",
         "parity_or_equality": "четность или равенство",
@@ -186,18 +186,16 @@
     {"problem_id": "kvantik-2013-four-magic-balls-three-tests", "source_fragment": "questions", "cluster_status": "boundary_included", "primary_family": "measurement_coding", "weighing_count": 3, "scale_type": "counting_detector", "counterfeit_model": "subset_property", "adaptive": false, "known_genuine_available": "not_needed", "objective": "detect_presence_or_property", "proof_method": "numeric_linear_signature", "signature_type": "numeric_linear", "generalization_level": "boundary_included"},
     {"problem_id": "komal-2011-a542-thousand-coins-hundred-fakes", "source_fragment": "questions", "cluster_status": "boundary_included", "primary_family": "boundary_measurement_oracle", "weighing_count": 10, "scale_type": "group_test", "counterfeit_model": "multiple_known_direction", "adaptive": true, "known_genuine_available": "reference_weights", "objective": "identify_coin", "proof_method": "binary_search", "signature_type": "binary_decision_tree", "generalization_level": "boundary_included"},
 
-    {"problem_id": "amc-2011-10a-p21-counterfeit-coins-probability", "source_fragment": "weighings", "cluster_status": "core", "primary_family": "probability_or_verification", "weighing_count": 1, "scale_type": "balance", "counterfeit_model": "multiple_known_direction", "adaptive": false, "known_genuine_available": "no", "objective": "compute_probability", "proof_method": "conditional_probability", "signature_type": "none", "generalization_level": "probability_instance"},
     {"problem_id": "kvantik-2016-baron-table-fake-verification", "source_fragment": "weighings", "cluster_status": "core", "primary_family": "probability_or_verification", "weighing_count": 2, "scale_type": "balance", "counterfeit_model": "single_unknown_direction", "adaptive": true, "known_genuine_available": "derived", "objective": "verify_claim", "proof_method": "indistinguishability", "signature_type": "none", "generalization_level": "finite_instance"},
     {"problem_id": "problems-ru-65055-paid-weighings-genuine-coin", "source_fragment": "weighings", "cluster_status": "core", "primary_family": "probability_or_verification", "weighing_count": 98, "scale_type": "balance", "counterfeit_model": "multiple_known_direction", "adaptive": true, "known_genuine_available": "no", "objective": "certify_genuine", "proof_method": "structural_partition", "signature_type": "none", "generalization_level": "finite_instance"},
     {"problem_id": "cemc-2024-bcc-gifts-hidden-phone-weighing", "source_fragment": "weighings", "cluster_status": "core", "primary_family": "known_direction_search", "weighing_count": 3, "scale_type": "balance_binary", "counterfeit_model": "single_known_heavy", "adaptive": true, "known_genuine_available": "not_needed", "objective": "identify_coin", "proof_method": "binary_search", "signature_type": "binary_decision_tree", "generalization_level": "finite_instance"}
   ],
   "near_exclusions": [
-    {"problem_id": "aimo-2017-aimosia-three-coin-values", "source_fragment": "questions", "reason": "coin denominations and totals are algebraic constraints; there is no weighing or measurement action"},
-    {"problem_id": "matprazdnik-2022-digits-five-questions", "source_fragment": "questions", "reason": "questions about digit sums are a communication protocol, not a weighing/measurement test"},
-    {"problem_id": "mmo-2019-wise-men-seven-numbers-median", "source_fragment": "communication", "reason": "linear statistic is communicated by a person; no physical or instrumented measurement is made"},
-    {"problem_id": "prisoners-chessboard-one-coin-xor", "source_fragment": "communication", "reason": "coins are binary markers for a parity message, not weighed objects"},
+    {"problem_id": "matprazdnik-2022-digits-five-questions", "source_fragment": "questions", "reason": "вопросы о суммах цифр относятся к вопросам, а не к взвешиванию или измерению"},
+    {"problem_id": "mmo-2019-wise-men-seven-numbers-median", "source_fragment": "communication", "reason": "линейную величину сообщает человек; физического или приборного измерения нет"},
+    {"problem_id": "prisoners-chessboard-one-coin-xor", "source_fragment": "communication", "reason": "монеты служат отметками для сообщения о четности, а не предметами для взвешивания"},
     {"problem_id": "kvantik-2015-parity-four-integers-three-questions", "source_fragment": "questions", "reason": "вопросы о четности суммы используют похожую кодовую логику, но не являются задачами на измерение или взвешивание"},
-    {"problem_id": "fixed-questions-as-binary-code", "source_fragment": "questions", "reason": "abstract yes/no coding belongs to questions, not weighings"}
+    {"problem_id": "fixed-questions-as-binary-code", "source_fragment": "questions", "reason": "абстрактные да/нет-вопросы относятся к вопросам, а не к взвешиваниям"}
   ],
   "global_facet_candidates": [
     "primary_family",

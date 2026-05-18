@@ -62,7 +62,7 @@
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,
-    "comment": "7 класс, Математический праздник; идея эталонного комплекта делает задачу короткой, но информационно нетривиальной.",
+    "comment": "Средняя: один эталонный комплект превращает неизвестный вес выбранного мешка в два трехисходных сравнения.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "ternary_search", "linear_signature", "condition_middle_school"],

@@ -1,6 +1,6 @@
 {
   "id": "permutation-encodes-six-messages",
-  "title": "Кодирование шести сообщений порядком трех предметов",
+  "title": "Передача шести сообщений порядком трех предметов",
   "fragment": "communication",
   "kind": {
     "primary": "classical_problem",
@@ -23,7 +23,7 @@
       {
         "id": "stmt-general-m-factorial-channel",
         "title": "m предметов дают m! сообщений",
-        "text": "Если доступно \\(m\\) различимых предметов и получатель видит их полный порядок, то тот же табличный код передает любое из \\(m!\\) заранее согласованных сообщений. Больше \\(m!\\) сообщений одним только порядком этих предметов не различить.",
+        "text": "Если доступно \\(m\\) различимых предметов и получатель видит их полный порядок, то то же табличное правило передает любое из \\(m!\\) заранее согласованных сообщений. Больше \\(m!\\) сообщений одним только порядком этих предметов не различить.",
         "source_ids": ["src-folklore"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -73,8 +73,8 @@
   "communication_profile": {
     "senders": 1,
     "receivers": 1,
-    "message": "one of six prearranged messages",
-    "message_capacity": "3! ordered displays"
+    "message": "одно из шести заранее согласованных сообщений",
+    "message_capacity": "3! возможных порядков показа"
   },
   "difficulty": {
     "main": "intro",

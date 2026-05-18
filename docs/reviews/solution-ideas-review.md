@@ -12,7 +12,7 @@ Scope: reviewed cards with `needs_human_review` / `scope_review_needed`, fresh d
 - `data/problems/mathcounts_cemc/mathcounts-colorful-caps-symmetry.yaml`: still not self-contained; the missing figure/options from the poster are essential.
 - `data/problems/wajo/wajo-2022-numble-colour-responses.yaml`: still high risk because the full branching of the official solution is not represented.
 - `data/problems/wise_people/three-wise-men-hats.yaml` and `data/problems/classical/sum-product-two-numbers.yaml`: should remain non-public until the exact variant is fixed. Both are families of problems where small wording changes alter the answer.
-- `scope_review_needed` cards in Australia/CEMC (`aimo-2017-aimosia-three-coin-values`, `mcya-2022-junior-mixed-up-birthdays`, `cemc-2024-bcc-online-class-hidden-row`, `cemc-2025-pascal-three-question-quiz`) look correctly scoped as lead/borderline cards rather than public core cards.
+- `scope_review_needed` cards in Australia/CEMC (`mcya-2022-junior-mixed-up-birthdays`, `cemc-2024-bcc-online-class-hidden-row`, `cemc-2025-pascal-three-question-quiz`) look correctly scoped as lead/borderline cards rather than public core cards.
 
 ## Changes Made
 

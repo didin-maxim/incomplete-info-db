@@ -50,11 +50,16 @@
   "knowledge_profile": {
     "agents": "islanders",
     "public_announcements": 1,
-    "communication_rounds": "k days",
-    "visibility": "each agent sees all other eye colors",
-    "objective": "blue-eyed agents learn own eye color"
+    "communication_rounds": "k дней",
+    "visibility": "каждый видит цвета глаз всех остальных",
+    "objective": "голубоглазые узнают свой цвет глаз"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Классическая форма индукции по общему знанию.", "status": "ai_checked"},
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Сложная: классическая индукция по общему знанию; идея старше обычного перебора случаев.",
+    "status": "ai_checked"
+  },
   "tags": ["common_knowledge", "public_announcement", "public_announcement_induction", "condition_middle_school"],
   "sources": [{"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "already_parameterized_same_solution", "notes": ["2026-05-18: задача уже записана через k голубоглазых; решение не зависит от конкретного числа и остается индукцией по дням."]}

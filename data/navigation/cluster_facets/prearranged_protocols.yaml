@@ -1,21 +1,21 @@
 id: prearranged_protocols
-title: "Заранее договориться: мало сообщений"
+title: "Команда заранее договорилась о коротком сигнале"
 reviewed_on: "2026-05-18"
 member_count: 15
 description: >
-  Задачи, где участники могут заранее договориться о правиле, кодовой таблице
-  или распределении ролей, а после начала испытания действуют через ограниченный
-  способ передачи: молчание, публичные высказывания или приватные наблюдения.
+  Задачи, где участники заранее договариваются о правиле или ролях, а после
+  начала испытания могут передать совсем мало: промолчать, сказать фразу вслух,
+  показать порядок предметов, сделать один ход или использовать личное наблюдение.
 scope:
   include:
     - "несколько сотрудничающих ролей используют общее правило, выбранное до испытания"
-    - "пары фокусник-помощник и отправитель-получатель, если главное в задаче - код"
-    - "публичные протоколы без тайного кода, если публичное правило специально спроектировано"
+    - "пары фокусник-помощник и отправитель-получатель, если главное в задаче - заранее согласованная подсказка"
+    - "публичные правила без тайного шифра, если они специально придуманы заранее"
     - "командные стратегии без общения после начала испытания"
   exclude:
     - "обычный адаптивный поиск одним решателем"
     - "задачи на общее знание, где участники только объявляют истинные состояния своего знания"
-    - "проектирование кода одним управляющим без сотрудничающих ролей"
+    - "проектирование подсказки одним управляющим без сотрудничающих ролей"
     - "публичные процессы, где говорящие не следуют заранее согласованной стратегии"
 reviewed_areas:
   - communication
@@ -104,17 +104,19 @@ local_facets:
       - permutation_cycle_following
       - hamming_covering_code
       - modular_privacy_code
+      - permutation_parity_split
+      - balanced_pair_choice
       - robust_oracle_code
 display_labels:
   facets:
     participants: "Кто договаривается"
     prearrangement_type: "О чем договорились заранее"
-    communication_channel: "Как передают сообщение"
+    communication_channel: "Как передают подсказку"
     privacy_constraint: "Что запрещено или скрыто"
     success_goal: "Что команда хочет получить"
     simultaneous_or_sequential: "Как идут ответы"
     guarantee_type: "Какая гарантия успеха"
-    code_family: "Какой код результатов"
+    code_family: "Как устроено правило или код"
   values:
     participants:
       magician_assistant_pair: "фокусник и помощник"
@@ -126,9 +128,9 @@ display_labels:
     prearrangement_type:
       shared_codebook: "общая таблица правил"
       role_assignment: "заранее распределили роли"
-      deterministic_team_protocol: "строгое командное правило"
+      deterministic_team_protocol: "командное правило без случайности"
       probabilistic_team_strategy: "правило с вероятностью"
-      public_protocol_no_secret_code: "публичное правило без тайного кода"
+      public_protocol_no_secret_code: "правило известно всем, тайного шифра нет"
       robust_protocol_with_corrupt_agents: "правило выдерживает испорченные ответы"
     communication_channel:
       silence: "молчание"
@@ -138,7 +140,7 @@ display_labels:
       single_bit: "один бит"
       persistent_single_bit: "один бит памяти"
       parity: "четность"
-      xor_checksum: "xor-проверка"
+      xor_checksum: "проверка сложением без переносов"
       modular_sum: "остаток суммы"
       private_observation: "личное наблюдение"
       pass_or_guess: "пас или догадка"
@@ -176,15 +178,17 @@ display_labels:
       deterministic_except_corrupted_and_one: "гарантированно, кроме испорченных и одного"
     code_family:
       permutation_offset_code: "сдвиг в порядке карт"
-      factorial_order_code: "код числом порядков"
+      factorial_order_code: "подсказка числом порядков"
       parity_accumulator: "накопление четности"
-      modular_sum_code: "код остатком суммы"
-      xor_checksum_code: "xor-проверка"
+      modular_sum_code: "подсказка остатком суммы"
+      xor_checksum_code: "проверка сложением без переносов"
       persistent_bit_counter: "один бит как счетчик"
       permutation_cycle_following: "ход по циклам перестановки"
-      hamming_covering_code: "покрывающий код Хэмминга"
+      hamming_covering_code: "набор ответов, который покрывает все случаи"
       modular_privacy_code: "остатки с сохранением секрета"
-      robust_oracle_code: "код против испорченного оракула"
+      permutation_parity_split: "четность перестановки делит команду пополам"
+      balanced_pair_choice: "направление в каждой паре вариантов"
+      robust_oracle_code: "правило против испорченного оракула"
 members:
   - problem_id: fitch-cheney-five-card-trick
     participants: magician_assistant_pair
@@ -293,7 +297,7 @@ members:
     success_goal: maximize_correct_hats
     simultaneous_or_sequential: simultaneous
     guarantee_type: deterministic
-    code_family: modular_privacy_code
+    code_family: permutation_parity_split
   - problem_id: problems-ru-115987-thousand-wise-men-hidden-hat-number
     participants: hat_team
     prearrangement_type: deterministic_team_protocol
@@ -311,7 +315,7 @@ members:
     success_goal: maximize_correct_hats
     simultaneous_or_sequential: simultaneous
     guarantee_type: deterministic
-    code_family: modular_privacy_code
+    code_family: balanced_pair_choice
   - problem_id: winkler-infinite-prisoners-hats-finitely-many-wrong
     participants: prisoner_team
     prearrangement_type: shared_codebook
@@ -323,28 +327,28 @@ members:
     code_family: hamming_covering_code
 excluded_or_adjacent:
   - problem_id: calendar-card-binary-trick
-    reason: "single performer code with an honest spectator response, not a cooperating prearranged team"
+    reason: "один исполнитель и честный ответ зрителя, а не заранее договорившаяся команда"
   - problem_id: twenty-one-card-trick
-    reason: "ordinary adaptive c-ary search; the repeated answers drive the search rather than a prearranged team protocol"
+    reason: "обычный поиск с несколькими вариантами ответа; повторные ответы ведут поиск, а не командное правило"
   - problem_id: fixed-questions-as-binary-code
-    reason: "general nonadaptive code design, useful as background but not a multi-agent protocol"
+    reason: "общая модель заранее выбранных вопросов; полезна как фон, но это не правило для нескольких участников"
   - problem_id: kvantik-2015-parity-four-integers-three-questions
-    reason: "single questioner linear parity query design"
+    reason: "один спрашивающий заранее выбирает вопросы о четности"
   - problem_id: cemc-2025-bcc-flower-pots-key-parity
-    reason: "single-controller parity decision path, adjacent to code families but outside this cluster"
+    reason: "один управляющий читает четность по шагам; рядом с задачами о подсказках, но вне этого кластера"
   - problem_id: mmo-2019-wise-men-seven-numbers-median
-    reason: "the statement explicitly forbids collusion; it is a singleton-fiber construction, not an agreed protocol"
+    reason: "условие прямо запрещает сговор; это конструкция с единственным вариантом, а не заранее согласованное правило"
   - problem_id: problems-ru-66722-knights-liars-mimics-public-majority
-    reason: "public process with behavioral rules, but not a chosen cooperative strategy"
+    reason: "публичный процесс с правилами поведения, но не выбранная совместная стратегия"
   - problem_id: cheryls-birthday-sasmo
-    reason: "common-knowledge public-announcement puzzle without prearranged coding"
+    reason: "задача на общее знание и публичные объявления без заранее согласованной подсказки"
   - problem_id: blue-eyed-islanders
-    reason: "common-knowledge induction; public announcement creates knowledge, not a designed communication protocol"
+    reason: "индукция общего знания: публичное объявление создает знание, а не служит специально спроектированным способом общения"
   - problem_id: muddy-children-common-knowledge
-    reason: "common-knowledge induction via silence, not a prearranged code"
+    reason: "индукция общего знания через молчание, а не заранее согласованная подсказка"
   - problem_id: three-wise-men-hats
-    reason: "classic knowledge-elimination hats puzzle; no designed parity or modular protocol in the recorded card"
+    reason: "классическая задача про колпаки и исключение вариантов; в карточке нет правила с четностью или остатками"
   - problem_id: matprazdnik-2022-digits-five-questions
-    reason: "adaptive query strategy for one solver"
+    reason: "стратегия вопросов для одного решателя"
   - problem_id: uct-2015-digits-composite-after-six-deletions
-    reason: "robust ordering construction, not communication between cooperating agents"
+    reason: "устойчивый порядок, а не общение между сотрудничающими участниками"

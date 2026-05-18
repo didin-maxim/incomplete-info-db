@@ -54,7 +54,12 @@
     "adaptive": false,
     "objective": "determine_places_and_genders"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Небольшая самоссылочная проверка совместимости; полное доказательство единственности лучше перепроверить вручную.", "status": "needs_human_review"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: самоссылочная проверка совместимости нескольких фраз; единственность лучше оставить на ручную сверку.",
+    "status": "needs_human_review"
+  },
   "tags": ["self_reference_truth", "lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-estonian-1995-96-selected-problems", "role": "official_statement", "status": "source_verified"}],
   "editorial": {

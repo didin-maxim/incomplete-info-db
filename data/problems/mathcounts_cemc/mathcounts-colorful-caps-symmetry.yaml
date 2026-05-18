@@ -1,6 +1,6 @@
 {
   "id": "mathcounts-colorful-caps-symmetry",
-  "title": "MATHCOUNTS Colorful Caps: восстановить нижний ряд по симметрии",
+  "title": "MATHCOUNTS: цветные колпаки и нижний ряд по симметрии",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["lead", "strategy_construction"]},
   "language": "ru",
@@ -52,7 +52,12 @@
     "adaptive": false,
     "objective": "determine_bottom_row"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Идея проста, но карточка зависит от рисунка деталей.", "status": "needs_human_review"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: правила симметрии рядом просты по идее, но зависят от рисунка деталей.",
+    "status": "needs_human_review"
+  },
   "tags": ["symmetry", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mathcounts-colorful-caps", "role": "official_resource_page", "status": "source_verified"},

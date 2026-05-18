@@ -68,12 +68,7 @@
     "adaptive": true,
     "objective": "certify_many_genuine_coins"
   },
-  "difficulty": {
-    "main": "olympiad_medium",
-    "local_score": 4,
-    "comment": "8 класс ММО; сильная часть - не только стратегия, но и оптимальность числа 110.",
-    "status": "ai_checked"
-  },
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Сложная: стратегия поиска настоящих монет дополняется оптимальностью числа 110, поэтому это выше средней конструктивной задачи ММО.", "status": "ai_checked"},
   "tags": ["balance_scale", "structural_constraint", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mmo-2026-89-brochure", "role": "official_statement_and_solution", "status": "source_verified"}

@@ -51,16 +51,16 @@
     "status": "ai_checked"
   },
   "knowledge_profile": {
-    "agents": "n children",
+    "agents": "n детей",
     "public_announcements": 1,
     "communication_rounds": "k",
-    "visibility": "each agent sees all other foreheads",
-    "objective": "dirty agents learn their own status"
+    "visibility": "каждый видит лбы всех остальных",
+    "objective": "испачканные дети узнают свой статус"
   },
   "difficulty": {
-    "main": "standard",
-    "local_score": 3,
-    "comment": "Классический пример общего знания.",
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Сложная: классическая индукция по общему знанию; ход короткий, но идея старше обычного перебора.",
     "status": "ai_checked"
   },
   "tags": ["common_knowledge", "public_announcement", "public_announcement_induction", "condition_older_students"],

@@ -46,14 +46,14 @@
     "status": "ai_checked"
   },
   "communication_profile": {
-    "participants": ["assistant", "magician"],
+    "participants": ["помощник", "фокусник"],
     "prearranged_strategy": true,
-    "channel_capacity": "4044 letters over a 3-letter alphabet, then one symbol class erased",
+    "channel_capacity": "4044 буквы над трехбуквенным алфавитом, затем один класс символов стирается",
     "public_or_private": "public_remaining_string",
-    "privacy_goal": "none",
-    "objective": "communicate_hidden_number"
+    "privacy_goal": "нет",
+    "objective": "передать скрытое число"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно придумать запись, которая переживает стирание всех букв одного типа.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Средняя: идея блочного кода короткая, но масштаб 2^2022 сообщений и устойчивость к удалению всех букв одного типа делают это не простой фокус.", "status": "ai_checked"},
   "tags": ["error_correcting_code", "binary_code", "public_communication", "condition_older_students"],
   "sources": [{"source_id": "src-kolmogorov-2022-official", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {

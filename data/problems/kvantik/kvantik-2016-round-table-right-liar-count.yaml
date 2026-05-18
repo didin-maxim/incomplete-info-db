@@ -9,8 +9,13 @@
   "strategies": [{"id": "str-count-color-changes-on-cycle", "title": "Свести ответы к границам между типами", "text": "Если человек и его правый сосед одного типа, ответ «справа лжец» не прозвучит: рыцарь перед рыцарем честно скажет «рыцарь», а лжец перед лжецом соврет и тоже скажет «рыцарь». Если типы разные, такой ответ прозвучит: рыцарь перед лжецом скажет правду, а лжец перед рыцарем соврет.\n\nЗначит, нужное число равно числу переходов между рыцарями и лжецами при обходе круга. На круге число переходов между двумя типами всегда четно. Так как присутствуют и рыцари, и лжецы, переходов как минимум два. Поэтому два ответа возможны, например если все рыцари сидят подряд и все лжецы подряд, а один ответ невозможен.", "standard_idea_ids": ["truth_liar_normalization"], "status": "ai_checked", "definition_ids": ["truth_teller", "liar"]}],
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "расположение рыцарей и лжецов на цикле из десяти мест", "observations": ["десять ответов о типе правого соседа"], "allowed_actions": ["логически нормализовать ответы лжецов и рыцарей"], "goal": ["decide_possible_number_of_specific_answers"], "strategy_type": ["truth_liar_normalization", "cycle_parity"], "lower_bound_method": [], "keywords": ["knights_liars_cycle", "type_changes", "right_neighbor"], "status": "ai_checked"},
-  "questions_profile": {"answer_alphabet_size": 2, "question_count": 10, "lies_allowed": "liars always lie, knights always tell truth", "adaptive": false, "objective": "characterize_possible_answer_count"},
-  "difficulty": {"main": "standard", "local_score": 2, "comment": "После нормализации ответов задача становится подсчетом границ двух цветов на цикле.", "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 10, "lies_allowed": "лжецы всегда лгут, рыцари всегда говорят правду", "adaptive": false, "objective": "characterize_possible_answer_count"},
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: после замены ответов на надежные остается подсчет границ двух цветов на цикле.",
+    "status": "ai_checked"
+  },
   "tags": ["lie_detection", "truth_liar_normalization", "parity", "condition_middle_school"],
   "sources": [{"source_id": "src-kvantik-math-contest-2016", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2016 года, задача 26. На странице конкурса дано условие; решение восстановлено редакционно."]}

@@ -9,7 +9,7 @@
       {
         "id": "stmt-original",
         "title": "Одна легкая фальшивая монета среди N",
-        "text": "Есть N монет, ровно одна из них фальшивая и известно, что она легче настоящих. Требуется найти фальшивую монету с помощью чашечных весов. Какова минимальная гарантирующая оценка числа взвешиваний через N?",
+        "text": "Есть N монет, ровно одна из них фальшивая, причем известно, что она легче настоящих. Требуется найти фальшивую монету с помощью чашечных весов. Какова минимальная гарантирующая оценка числа взвешиваний через N?",
         "source_ids": ["src-kvant-2013-01-two-fake-coins-article"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -65,7 +65,7 @@
     "adaptive": true,
     "objective": "identify_coin"
   },
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Базовая журнальная формулировка информационной границы.", "status": "ai_checked"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Простая: это прямая формула троичного поиска, где нижняя оценка и стратегия совпадают по числу слов исходов.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_search", "ternary_code", "decision_tree_lower_bound", "condition_older_students"],
   "sources": [{"source_id": "src-kvant-2013-01-two-fake-coins-article", "role": "official_article_statement_and_proof", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "generalization_status": "already_parameterized_same_solution", "notes": ["Карточка фиксирует вводную часть статьи К. Кнопа как самостоятельную модель неполной информации.", "2026-05-18: карточка уже является общей N/q-формой для известной легкой монеты; частные числовые карточки следует связывать с ней как special_case."]}
