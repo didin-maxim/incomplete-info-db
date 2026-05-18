@@ -1,4 +1,5 @@
 import argparse
+import html
 import json
 from pathlib import Path
 
@@ -24,7 +25,7 @@ def load_navigation():
     if facets_root.exists():
         for path in sorted(facets_root.glob("*.yaml")):
             data = load_yaml(path, {}) or {}
-            key = data.get("cluster_id") or path.stem
+            key = data.get("cluster_id") or data.get("id") or path.stem
             cluster_facets[key] = data
     return {
         "topic_clusters": topic_clusters,
@@ -58,8 +59,112 @@ def safe_json(data):
     return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
 
 
+def esc_html(value):
+    return html.escape(str(value or ""), quote=True)
+
+
+def source_ids_for_problem(problem):
+    ids = []
+    seen = set()
+
+    def add(source_id):
+        if source_id and source_id not in seen:
+            seen.add(source_id)
+            ids.append(source_id)
+
+    for source in problem.get("sources", []):
+        add(source.get("source_id"))
+    for statements in (problem.get("statements") or {}).values():
+        for statement in statements or []:
+            for source_id in statement.get("source_ids", []):
+                add(source_id)
+            add(statement.get("source_id"))
+    return ids
+
+
+def build_fallback_list(problems, taxonomy):
+    fragment_labels = {
+        item.get("id"): item.get("title") or item.get("id")
+        for item in taxonomy.get("fragments", [])
+        if isinstance(item, dict)
+    }
+    items = []
+    for problem in problems[:40]:
+        fragment = fragment_labels.get(problem.get("fragment"), problem.get("fragment") or "без фрагмента")
+        items.append(
+            f"""
+        <a class="list-button" href="#problem/{esc_html(problem.get("id"))}">
+          <strong>{esc_html(problem.get("title"))}</strong>
+          <div class="id">{esc_html(problem.get("id"))} · {esc_html(fragment)}</div>
+        </a>"""
+        )
+    return f"""
+        <div class="list-count">{len(problems)} задач</div>
+        {''.join(items)}
+    """
+
+
+def build_fallback_content(data):
+    problems = data.get("problems", [])
+    relations = data.get("relations", [])
+    sources = data.get("sources", [])
+    definitions = data.get("definitions", [])
+    ideas = data.get("standard_ideas", [])
+    clusters = (data.get("navigation", {}).get("topic_clusters") or {}).get("clusters", [])
+    public_ready = sum(1 for problem in problems if (problem.get("editorial") or {}).get("public_ready"))
+    first_problem = problems[0] if problems else None
+    source_titles = {
+        source.get("id"): source.get("title") or source.get("id")
+        for source in sources
+        if isinstance(source, dict)
+    }
+    first_sources = []
+    if first_problem:
+        first_sources = [source_titles.get(source_id, source_id) for source_id in source_ids_for_problem(first_problem)[:4]]
+
+    first_problem_html = ""
+    if first_problem:
+        first_problem_html = f"""
+        <section class="home-band">
+          <h3>Первая задача</h3>
+          <div class="card">
+            <a class="relation-link" href="#problem/{esc_html(first_problem.get("id"))}">{esc_html(first_problem.get("title"))}</a>
+            <div class="id">{esc_html(first_problem.get("id"))}</div>
+            <div class="pill-row">{''.join(f'<span class="pill">{esc_html(source)}</span>' for source in first_sources)}</div>
+          </div>
+        </section>
+        """
+
+    return f"""
+        <section class="home-hero">
+          <div class="topline">
+            <span class="pill">{len(problems)} задач</span>
+            <span class="pill">{len(relations)} связей</span>
+            <span class="pill">{len(sources)} источника</span>
+            <span class="pill">{len(clusters)} кластеров</span>
+          </div>
+          <h2 class="home-title">База задач о неполной информации</h2>
+          <p class="home-lead">Статический viewer для задач про неполное знание, взвешивания, рыцарей и лжецов, публичные объявления, коды и заранее согласованные правила.</p>
+          <div class="home-actions">
+            <a class="home-action primary" href="#problem/{esc_html(first_problem.get('id') if first_problem else '')}">Открыть список задач</a>
+            <a class="home-action" href="#cluster/{esc_html(clusters[0].get('id') if clusters else '')}">Кластеры</a>
+          </div>
+          <div class="home-stats">
+            <div class="home-stat"><strong>{len(problems)}</strong><span>задач</span></div>
+            <div class="home-stat"><strong>{len(relations)}</strong><span>связей</span></div>
+            <div class="home-stat"><strong>{len(sources)}</strong><span>источника</span></div>
+            <div class="home-stat"><strong>{public_ready}</strong><span>готово к публикации</span></div>
+            <div class="home-stat"><strong>{len(definitions) + len(ideas)}</strong><span>определений и идей</span></div>
+          </div>
+        </section>
+        {first_problem_html}
+    """
+
+
 def build_html(data):
     payload = safe_json(data)
+    fallback_list = build_fallback_list(data.get("problems", []), data.get("taxonomy", {}))
+    fallback_content = build_fallback_content(data)
     page = """<!doctype html>
 <html lang="ru">
 <head>
@@ -326,6 +431,64 @@ def build_html(data):
       margin-top: 28px;
     }
 
+    details.disclosure {
+      border-top: 1px solid var(--line);
+      margin-top: 22px;
+      padding-top: 10px;
+    }
+
+    details.disclosure > summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      min-height: 42px;
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffaf0;
+      color: var(--text);
+      font-weight: 750;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    details.disclosure > summary::-webkit-details-marker { display: none; }
+
+    details.disclosure > summary::before {
+      content: "+";
+      display: inline-grid;
+      place-items: center;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      border-radius: 999px;
+      background: #e9ddc8;
+      color: #4a3b24;
+      font-weight: 800;
+    }
+
+    details.disclosure[open] > summary::before { content: "−"; }
+
+    .summary-title {
+      flex: 1 1 auto;
+    }
+
+    .summary-note {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .disclosure-body {
+      padding-top: 8px;
+    }
+
+    .subsection-title {
+      margin: 18px 0 8px;
+      font-size: 16px;
+    }
+
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -525,10 +688,10 @@ def build_html(data):
         <select id="facet-value-filter"></select>
         <div class="facet-note" id="facet-note"></div>
       </div>
-      <div class="list" id="list"></div>
+      <div class="list" id="list">__FALLBACK_LIST__</div>
     </aside>
     <main>
-      <div class="content" id="content"></div>
+      <div class="content" id="content">__FALLBACK_CONTENT__</div>
     </main>
   </div>
 
@@ -544,7 +707,18 @@ def build_html(data):
     const taxonomy = DB.taxonomy || {};
     const navigation = DB.navigation || {};
     const topicClusters = navigation.topic_clusters?.clusters || [];
+    const topicFacetLabels = navigation.topic_clusters?.facet_display_labels || {};
     const clusterFacetFiles = navigation.cluster_facets || {};
+
+    function storageGet(key) {
+      try { return window.localStorage?.getItem(key) ?? null; }
+      catch (_error) { return null; }
+    }
+
+    function storageSet(key, value) {
+      try { window.localStorage?.setItem(key, value); }
+      catch (_error) {}
+    }
 
     const state = {
       query: '',
@@ -556,7 +730,7 @@ def build_html(data):
       facetKey: 'all',
       facetValue: 'all',
       view: 'problems',
-      sidebarHidden: localStorage.getItem('iidb-sidebar-hidden') === '1'
+      sidebarHidden: storageGet('iidb-sidebar-hidden') === '1'
     };
 
     const byId = (id) => document.getElementById(id);
@@ -585,10 +759,22 @@ def build_html(data):
     const facetRecords = [];
     const facetRecordByProblem = {};
     for (const [fileKey, file] of Object.entries(clusterFacetFiles)) {
-      for (const member of file.members || []) {
+      for (const member of [...(file.members || []), ...(file.problems || [])]) {
         const record = { ...member, _facet_file: fileKey, _facet_title: file.title || fileKey };
         facetRecords.push(record);
         (facetRecordByProblem[record.problem_id] ||= []).push(record);
+      }
+      for (const cluster of file.clusters || []) {
+        for (const member of cluster.problems || []) {
+          const record = {
+            ...member,
+            _facet_file: fileKey,
+            _facet_cluster_id: cluster.id,
+            _facet_title: cluster.title || file.title || fileKey
+          };
+          facetRecords.push(record);
+          (facetRecordByProblem[record.problem_id] ||= []).push(record);
+        }
       }
     }
 
@@ -608,12 +794,55 @@ def build_html(data):
       return String(value);
     }
 
-    function displayValue(value) {
+    function rawDisplayValue(value) {
       if (value == null || value === '') return '';
-      if (Array.isArray(value)) return value.map(displayValue).join(', ');
+      if (Array.isArray(value)) return value.map(rawDisplayValue).join(', ');
       if (typeof value === 'object') return JSON.stringify(value);
       if (typeof value === 'boolean') return value ? 'true' : 'false';
       return String(value);
+    }
+
+    function selectedFacetCluster(clusterId = state.cluster) {
+      const file = selectedFacetFile(clusterId);
+      return (file?.clusters || []).find(cluster => cluster.id === clusterId) || null;
+    }
+
+    function mergeFacetLabels(clusterId = state.cluster) {
+      const file = selectedFacetFile(clusterId) || {};
+      const nested = selectedFacetCluster(clusterId) || {};
+      const fileLabels = file.display_labels || {};
+      const nestedLabels = nested.display_labels || {};
+      return {
+        facets: {
+          ...(topicFacetLabels.facets || {}),
+          ...(fileLabels.facets || {}),
+          ...(nestedLabels.facets || {})
+        },
+        values: {
+          ...(topicFacetLabels.values || {}),
+          ...(fileLabels.values || {}),
+          ...(nestedLabels.values || {})
+        }
+      };
+    }
+
+    function facetKeyLabel(key, clusterId = state.cluster) {
+      return mergeFacetLabels(clusterId).facets?.[key] || key;
+    }
+
+    function facetValueLabel(key, value, clusterId = state.cluster) {
+      const raw = rawDisplayValue(value);
+      if (raw === 'true') return 'да';
+      if (raw === 'false') return 'нет';
+      return mergeFacetLabels(clusterId).values?.[key]?.[raw] || raw;
+    }
+
+    function displayValue(value, key = null, clusterId = state.cluster) {
+      if (value == null || value === '') return '';
+      if (Array.isArray(value)) return value.map(item => displayValue(item, key, clusterId)).join(', ');
+      if (typeof value === 'object') return JSON.stringify(value);
+      if (!key) return rawDisplayValue(value);
+      return facetValueLabel(key, value, clusterId);
     }
 
     function cssId(value) {
@@ -687,9 +916,9 @@ def build_html(data):
       return null;
     }
 
-    function selectedFacetFile() {
-      if (state.cluster === 'all') return null;
-      const key = facetFileKeyForCluster(clusterById[state.cluster]);
+    function selectedFacetFile(clusterId = state.cluster) {
+      if (clusterId === 'all') return null;
+      const key = facetFileKeyForCluster(clusterById[clusterId]);
       return key ? clusterFacetFiles[key] : null;
     }
 
@@ -697,16 +926,25 @@ def build_html(data):
       const records = facetRecordByProblem[problemId] || [];
       if (!records.length) return null;
       const key = facetFileKeyForCluster(clusterById[clusterId]);
-      return records.find(record => record._facet_file === key) || records[0];
+      return records.find(record =>
+        record._facet_file === key && (!record._facet_cluster_id || record._facet_cluster_id === clusterId)
+      ) || records[0];
+    }
+
+    function localFacetSpec(clusterId = state.cluster) {
+      const file = selectedFacetFile(clusterId);
+      const nested = selectedFacetCluster(clusterId);
+      return nested?.local_facets || file?.local_facets || file?.facet_fields || {};
     }
 
     function localFacetKeys(clusterId = state.cluster) {
       if (clusterId === 'all') return [];
       const cluster = clusterById[clusterId];
       const keys = new Set(cluster?.local_facets || []);
-      const file = selectedFacetFile();
-      for (const key of Object.keys(file?.facet_fields || {})) keys.add(key);
+      for (const key of Object.keys(localFacetSpec(clusterId))) keys.add(key);
       keys.delete('problem_id');
+      keys.delete('path');
+      keys.delete('readiness');
       keys.delete('source_fragment');
       keys.delete('cluster_status');
       return [...keys].sort();
@@ -740,8 +978,8 @@ def build_html(data):
       for (const problem of problems) {
         if (!ids.has(problem.id)) continue;
         const value = facetValue(problem, state.facetKey, state.cluster);
-        if (Array.isArray(value)) value.forEach(item => values.add(displayValue(item)));
-        else if (value != null && value !== '') values.add(displayValue(value));
+        if (Array.isArray(value)) value.forEach(item => values.add(rawDisplayValue(item)));
+        else if (value != null && value !== '') values.add(rawDisplayValue(value));
       }
       return [...values].sort((a, b) => a.localeCompare(b, 'ru', { numeric: true }));
     }
@@ -753,18 +991,19 @@ def build_html(data):
       return `${flatten(problem)} ${clusters} ${facets} ${sourceText}`.toLocaleLowerCase('ru');
     }
 
-    function problemMatches(problem) {
-      if (state.fragment !== 'all' && problem.fragment !== state.fragment) return false;
-      if (state.difficulty !== 'all' && problem.difficulty?.main !== state.difficulty) return false;
-      if (state.status !== 'all' && problem.editorial?.review_status !== state.status && problem.difficulty?.status !== state.status) return false;
-      if (state.source !== 'all' && !sourceIdsForProblem(problem).includes(state.source)) return false;
-      if (state.cluster !== 'all' && !clusterProblemIds(state.cluster).has(problem.id)) return false;
-      if (state.cluster !== 'all' && state.facetKey !== 'all' && state.facetValue !== 'all') {
-        const value = facetValue(problem, state.facetKey, state.cluster);
-        const values = Array.isArray(value) ? value.map(displayValue) : [displayValue(value)];
-        if (!values.includes(state.facetValue)) return false;
+    function problemMatches(problem, overrides = {}) {
+      const filters = { ...state, ...overrides };
+      if (filters.fragment !== 'all' && problem.fragment !== filters.fragment) return false;
+      if (filters.difficulty !== 'all' && problem.difficulty?.main !== filters.difficulty) return false;
+      if (filters.status !== 'all' && problem.editorial?.review_status !== filters.status && problem.difficulty?.status !== filters.status) return false;
+      if (filters.source !== 'all' && !sourceIdsForProblem(problem).includes(filters.source)) return false;
+      if (filters.cluster !== 'all' && !clusterProblemIds(filters.cluster).has(problem.id)) return false;
+      if (filters.cluster !== 'all' && filters.facetKey !== 'all' && filters.facetValue !== 'all') {
+        const value = facetValue(problem, filters.facetKey, filters.cluster);
+        const values = Array.isArray(value) ? value.map(rawDisplayValue) : [rawDisplayValue(value)];
+        if (!values.includes(filters.facetValue)) return false;
       }
-      const q = state.query.trim().toLocaleLowerCase('ru');
+      const q = filters.query.trim().toLocaleLowerCase('ru');
       return !q || searchBlob(problem).includes(q);
     }
 
@@ -810,9 +1049,36 @@ def build_html(data):
       const current = value;
       select.innerHTML = `<option value="all">${esc(allLabel)}</option>` + options.map(option => {
         const optionValue = String(option.value);
-        return `<option value="${esc(optionValue)}">${esc(option.label)}</option>`;
+        const suffix = option.count == null ? '' : ` (${option.count})`;
+        return `<option value="${esc(optionValue)}">${esc(option.label)}${esc(suffix)}</option>`;
       }).join('');
       select.value = [...select.options].some(option => option.value === current) ? current : 'all';
+    }
+
+    function countProblems(overrides = {}) {
+      return problems.filter(problem => problemMatches(problem, overrides)).length;
+    }
+
+    function labelWithCount(labelText, count) {
+      return `${labelText} (${count})`;
+    }
+
+    function optionCountFor(overrides) {
+      return countProblems(overrides);
+    }
+
+    function hasFacetValue(problem, key, clusterId) {
+      const value = facetValue(problem, key, clusterId);
+      if (Array.isArray(value)) return value.length > 0;
+      return value != null && value !== '';
+    }
+
+    function facetKeyCount(key) {
+      if (state.cluster === 'all') return 0;
+      return problems.filter(problem =>
+        problemMatches(problem, { facetKey: 'all', facetValue: 'all' }) &&
+        hasFacetValue(problem, key, state.cluster)
+      ).length;
     }
 
     function renderFilters() {
@@ -821,39 +1087,39 @@ def build_html(data):
         'fragment-filter',
         [...new Set(problems.map(p => p.fragment).filter(Boolean))]
           .sort()
-          .map(id => ({ value: id, label: fragmentTitle(id) })),
+          .map(id => ({ value: id, label: fragmentTitle(id), count: optionCountFor({ fragment: id }) })),
         state.fragment,
-        'Все фрагменты'
+        labelWithCount('Все фрагменты', optionCountFor({ fragment: 'all' }))
       );
       populateSelect(
         'difficulty-filter',
         [...new Set(problems.map(p => p.difficulty?.main).filter(Boolean))]
           .sort()
-          .map(id => ({ value: id, label: difficultyTitle(id) })),
+          .map(id => ({ value: id, label: difficultyTitle(id), count: optionCountFor({ difficulty: id }) })),
         state.difficulty,
-        'Любая сложность'
+        labelWithCount('Любая сложность', optionCountFor({ difficulty: 'all' }))
       );
       populateSelect(
         'status-filter',
         [...new Set(problems.map(p => p.editorial?.review_status || p.difficulty?.status).filter(Boolean))]
           .sort()
-          .map(id => ({ value: id, label: label('statuses', id) })),
+          .map(id => ({ value: id, label: label('statuses', id), count: optionCountFor({ status: id }) })),
         state.status,
-        'Любой статус'
+        labelWithCount('Любой статус', optionCountFor({ status: 'all' }))
       );
       populateSelect(
         'source-filter',
         sources
           .filter(source => problems.some(problem => sourceIdsForProblem(problem).includes(source.id)))
-          .map(source => ({ value: source.id, label: source.title || source.id })),
+          .map(source => ({ value: source.id, label: source.title || source.id, count: optionCountFor({ source: source.id }) })),
         state.source,
-        'Все источники'
+        labelWithCount('Все источники', optionCountFor({ source: 'all' }))
       );
       populateSelect(
         'cluster-filter',
-        topicClusters.map(cluster => ({ value: cluster.id, label: cluster.title_ru || cluster.id })),
+        topicClusters.map(cluster => ({ value: cluster.id, label: cluster.title_ru || cluster.id, count: optionCountFor({ cluster: cluster.id, facetKey: 'all', facetValue: 'all' }) })),
         state.cluster,
-        'Все кластеры'
+        labelWithCount('Все кластеры', optionCountFor({ cluster: 'all', facetKey: 'all', facetValue: 'all' }))
       );
 
       const facetKeys = localFacetKeys();
@@ -863,22 +1129,26 @@ def build_html(data):
       }
       populateSelect(
         'facet-key-filter',
-        facetKeys.map(key => ({ value: key, label: key })),
+        facetKeys.map(key => ({ value: key, label: facetKeyLabel(key), count: facetKeyCount(key) })),
         state.facetKey,
-        state.cluster === 'all' ? 'Сначала выберите кластер' : 'Все локальные фасеты'
+        state.cluster === 'all'
+          ? 'Сначала выберите кластер'
+          : labelWithCount('Все локальные признаки', optionCountFor({ facetKey: 'all', facetValue: 'all' }))
       );
 
       const facetValues = facetValuesForSelection();
       if (!facetValues.includes(state.facetValue)) state.facetValue = 'all';
       populateSelect(
         'facet-value-filter',
-        facetValues.map(value => ({ value, label: value })),
+        facetValues.map(value => ({ value, label: facetValueLabel(state.facetKey, value), count: optionCountFor({ facetValue: value }) })),
         state.facetValue,
-        state.facetKey === 'all' ? 'Все значения фасета' : 'Все значения'
+        state.facetKey === 'all'
+          ? 'Все значения признака'
+          : labelWithCount('Все значения', optionCountFor({ facetValue: 'all' }))
       );
       byId('facet-note').textContent = state.cluster === 'all'
-        ? 'Локальные фасеты включаются после выбора кластера.'
-        : `${facetKeys.length} локальных фасетов для выбранного кластера.`;
+        ? 'Локальные признаки включаются после выбора кластера.'
+        : `${facetKeys.length} локальных признаков для выбранного кластера.`;
     }
 
     function applySidebarState() {
@@ -897,7 +1167,7 @@ def build_html(data):
       const facets = state.cluster !== 'all'
         ? localFacetKeys().slice(0, 2).map(key => {
             const value = facetValue(problem, key);
-            return value == null ? '' : `${key}: ${displayValue(value)}`;
+            return value == null ? '' : `${facetKeyLabel(key)}: ${displayValue(value, key)}`;
           }).filter(Boolean).join(' · ')
         : '';
       return `
@@ -969,13 +1239,13 @@ def build_html(data):
             ${pill(`${clusterCount} кластеров`)}
           </div>
           <h2 class="home-title">База задач о неполной информации</h2>
-          <p class="home-lead">Статический viewer для задач, где стратегия работает с неполным знанием: взвешивания, правдивцы и лжецы, публичные объявления, заранее согласованные протоколы, коды и нижние оценки.</p>
+          <p class="home-lead">Статический viewer для задач, где стратегия работает с неполным знанием: чашечные весы, рыцари и лжецы, публичные объявления, заранее договоренные правила, коды и нижние оценки.</p>
           <div class="home-actions">
             <button class="home-action primary" data-home-action="all" type="button">Все задачи</button>
             <button class="home-action" data-home-action="clusters" type="button">Кластеры</button>
             <button class="home-action" data-home-fragment="weighings" type="button">Взвешивания</button>
-            <button class="home-action" data-home-query="truth liar лжец правдив" type="button">Truth/liar</button>
-            <button class="home-action" data-home-cluster="prearranged-communication-protocols" type="button">Заранее согласованные протоколы</button>
+            <button class="home-action" data-home-query="truth liar лжец рыцарь" type="button">Рыцари и лжецы</button>
+            <button class="home-action" data-home-cluster="prearranged-communication-protocols" type="button">Заранее договориться</button>
             <button class="home-action" data-home-query="public common knowledge ложь вопросы" type="button">Публичное знание / вопросы с ложью</button>
           </div>
           <div class="home-stats">
@@ -991,11 +1261,11 @@ def build_html(data):
           <div class="grid">
             <div class="home-panel">
               <h3>Взвешивания</h3>
-              <p>${fragmentCounts.weighings || 0} карточек: чашечные, цифровые и нестандартные измерительные каналы, включая фильтр по локальному фасету <span class="code">weighing_count</span>.</p>
+              <p>${fragmentCounts.weighings || 0} карточек: чашечные весы, цифровые весы и нестандартные измерения; есть фильтр по признаку «сколько взвешиваний».</p>
             </div>
             <div class="home-panel">
-              <h3>Truth/liar</h3>
-              <p>Задачи про правдивцев, лжецов, нормализацию вопросов и восстановление состояния из ответов.</p>
+              <h3>Рыцари и лжецы</h3>
+              <p>Задачи про рыцарей, лжецов, вопросы к ним и восстановление ответа из сказанных фраз.</p>
             </div>
             <div class="home-panel">
               <h3>Публичное знание</h3>
@@ -1003,7 +1273,7 @@ def build_html(data):
             </div>
             <div class="home-panel">
               <h3>Протоколы</h3>
-              <p>Заранее согласованные стратегии с ограниченным каналом: один бит, порядок, общая память, последовательные ответы.</p>
+              <p>Стратегии, где участники могут заранее договориться, а потом передают мало сообщений: один бит, порядок, общая память, последовательные ответы.</p>
             </div>
             <div class="home-panel">
               <h3>Коды и вопросы с ложью</h3>
@@ -1138,16 +1408,16 @@ def build_html(data):
       const facetCards = (facetRecordByProblem[problem.id] || []).map(record => `
         <div class="card">
           <h4>${esc(record._facet_title)}</h4>
-          ${renderKeyValueTable(record, ['problem_id', '_facet_file', '_facet_title'])}
+          ${renderKeyValueTable(record, ['problem_id', 'path', 'readiness', '_facet_file', '_facet_cluster_id', '_facet_title'], record._facet_cluster_id || state.cluster)}
         </div>
       `);
       return [...cards, ...facetCards].join('') || '<div class="empty">Профиль не заполнен.</div>';
     }
 
-    function renderKeyValueTable(object, skip = []) {
+    function renderKeyValueTable(object, skip = [], clusterId = state.cluster) {
       const rows = Object.entries(object || {})
         .filter(([key, value]) => !skip.includes(key) && value != null && value !== '' && !(Array.isArray(value) && !value.length))
-        .map(([key, value]) => `<tr><th>${esc(key)}</th><td>${esc(displayValue(value))}</td></tr>`)
+        .map(([key, value]) => `<tr><th>${esc(facetKeyLabel(key, clusterId))}</th><td>${esc(displayValue(value, key, clusterId))}</td></tr>`)
         .join('');
       return rows ? `<table class="kv-table">${rows}</table>` : '<div class="empty">Нет значений.</div>';
     }
@@ -1218,10 +1488,62 @@ def build_html(data):
       `).join('');
     }
 
+    function renderDisclosure(title, body, note = '') {
+      return `
+        <details class="disclosure">
+          <summary>
+            <span class="summary-title">${esc(title)}</span>
+            ${note ? `<span class="summary-note">${esc(note)}</span>` : ''}
+          </summary>
+          <div class="disclosure-body">${body}</div>
+        </details>
+      `;
+    }
+
+    function countText(count, one, few, many) {
+      const n = Number(count) || 0;
+      const mod10 = n % 10;
+      const mod100 = n % 100;
+      const word = mod10 === 1 && mod100 !== 11 ? one : (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14) ? few : many);
+      return `${n} ${word}`;
+    }
+
     function renderProblem(problem) {
       state.view = 'problems';
       setModeButtons('problems');
       const memberships = topicMemberships(problem.id);
+      const tagBody = `
+        ${problem.difficulty?.comment ? `<div class="card">${esc(problem.difficulty.comment)}</div>` : ''}
+        <div class="card">
+          <h4>Метки</h4>
+          <div class="pill-row">${(problem.tags || []).map(tag => pill(tag)).join('') || '<span class="empty">Меток нет.</span>'}</div>
+        </div>
+        <div class="card">
+          <h4>Кластеры</h4>
+          <div class="pill-row">${memberships.map(cluster => `<a class="pill" href="#cluster/${routePart(cluster.id)}">${esc(cluster.title_ru || cluster.id)}</a>`).join('') || '<span class="empty">Кластеры не указаны.</span>'}</div>
+        </div>
+      `;
+      const solutionBody = `
+        <h3 class="subsection-title">Стратегии</h3>
+        ${renderTextItems(problem.strategies, 'Стратегии не заполнены.')}
+        <h3 class="subsection-title">Почему меньше нельзя</h3>
+        ${renderTextItems(problem.impossibility_proofs, 'Отдельного доказательства невозможности нет.')}
+      `;
+      const sourceAndEditorialBody = `
+        <h3 class="subsection-title">Источники</h3>
+        ${renderSources(problem)}
+        <h3 class="subsection-title">Комментарии</h3>
+        ${renderCommentsForProblem(problem)}
+        <h3 class="subsection-title">Редактура</h3>
+        <div class="card">
+          <div class="pill-row">
+            ${statusPill(problem.editorial?.review_status)}
+            ${readyPill(problem.editorial?.public_ready)}
+            ${problem.editorial?.relations_status ? pill(`связи: ${problem.editorial.relations_status}`) : ''}
+          </div>
+          ${textBlock(problem.editorial?.notes || [])}
+        </div>
+      `;
       byId('content').innerHTML = `
         <div class="topline">
           ${pill(problem.id, 'code')}
@@ -1229,31 +1551,17 @@ def build_html(data):
           ${statusPill(problem.editorial?.review_status)}
           ${readyPill(problem.editorial?.public_ready)}
           ${problem.difficulty?.main ? pill(difficultyTitle(problem.difficulty.main)) : ''}
-          ${problem.difficulty?.local_score != null ? pill(`score ${problem.difficulty.local_score}`) : ''}
+          ${problem.difficulty?.local_score != null ? pill(`сложность ${problem.difficulty.local_score}`) : ''}
         </div>
         <h2>${esc(problem.title)}</h2>
-        ${problem.difficulty?.comment ? `<div class="subtle">${esc(problem.difficulty.comment)}</div>` : ''}
-        <div class="pill-row">${(problem.tags || []).map(tag => pill(tag)).join('')}</div>
-        <div class="pill-row">${memberships.map(cluster => `<a class="pill" href="#cluster/${routePart(cluster.id)}">${esc(cluster.title_ru || cluster.id)}</a>`).join('')}</div>
 
         <div class="section"><h3>Формулировка</h3>${renderStatements(problem)}</div>
-        <div class="section"><h3>Идеи</h3>${renderIdeaBlocks(problem)}</div>
-        <div class="section"><h3>Стратегии</h3>${renderTextItems(problem.strategies, 'Стратегии не заполнены.')}</div>
-        <div class="section"><h3>Невозможность и нижние оценки</h3>${renderTextItems(problem.impossibility_proofs, 'Отдельного доказательства невозможности нет.')}</div>
-        <div class="section"><h3>Профиль и фасеты</h3>${renderProfiles(problem)}</div>
-        <div class="section"><h3>Источники</h3>${renderSources(problem)}</div>
-        <div class="section"><h3>Связи</h3>${renderRelations(problem)}</div>
-        <div class="section"><h3>Комментарии</h3>${renderCommentsForProblem(problem)}</div>
-        <div class="section"><h3>Редактура</h3>
-          <div class="card">
-            <div class="pill-row">
-              ${statusPill(problem.editorial?.review_status)}
-              ${readyPill(problem.editorial?.public_ready)}
-              ${problem.editorial?.relations_status ? pill(`relations: ${problem.editorial.relations_status}`) : ''}
-            </div>
-            ${textBlock(problem.editorial?.notes || [])}
-          </div>
-        </div>
+        ${renderDisclosure('Идеи', renderIdeaBlocks(problem), countText((problem.ideas || []).length, 'идея', 'идеи', 'идей'))}
+        ${renderDisclosure('Решение и оценки', solutionBody, countText((problem.strategies || []).length + (problem.impossibility_proofs || []).length, 'пункт', 'пункта', 'пунктов'))}
+        ${renderDisclosure('Родственные задачи', renderRelations(problem), countText(relations.filter(relation => relation.from === problem.id || relation.to === problem.id).length, 'связь', 'связи', 'связей'))}
+        ${renderDisclosure('Метки и кластеры', tagBody, countText((problem.tags || []).length + memberships.length, 'признак', 'признака', 'признаков'))}
+        ${renderDisclosure('Служебные признаки', renderProfiles(problem))}
+        ${renderDisclosure('Источники и редактура', sourceAndEditorialBody)}
       `;
       typeset();
     }
@@ -1323,8 +1631,9 @@ def build_html(data):
       const members = problems.filter(problem => ids.has(problem.id));
       const facetKeys = localFacetKeys(cluster.id);
       const file = clusterFacetFiles[facetFileKeyForCluster(cluster)] || null;
+      const facetSourceTitle = selectedFacetCluster(cluster.id)?.title || file?.title || file?.cluster_id || file?.id || '';
       byId('content').innerHTML = `
-        <div class="topline">${pill(cluster.id, 'code')}${pill(`${members.length} задач`)}</div>
+        <div class="topline">${pill('кластер')}${pill(`${members.length} задач`)}</div>
         <div class="cluster-head">
           <div>
             <h2>${esc(cluster.title_ru || cluster.id)}</h2>
@@ -1333,9 +1642,9 @@ def build_html(data):
           <button class="small-button" id="use-cluster-filter" type="button">Фильтровать задачи</button>
         </div>
         <div class="section">
-          <h3>Локальные фасеты</h3>
-          <div class="pill-row">${facetKeys.map(key => pill(key, key === 'weighing_count' ? 'status-public_ready' : '')).join('') || '<span class="empty">Нет локальных фасетов.</span>'}</div>
-          ${file ? `<div class="subtle">Источник фасетов: ${esc(file.title || file.cluster_id || '')}</div>` : ''}
+          <h3>Локальные признаки</h3>
+          <div class="pill-row">${facetKeys.map(key => pill(facetKeyLabel(key, cluster.id), key === 'weighing_count' ? 'status-public_ready' : '')).join('') || '<span class="empty">Нет локальных признаков.</span>'}</div>
+          ${file ? `<div class="subtle">Источник признаков: ${esc(facetSourceTitle)}</div>` : ''}
         </div>
         <div class="section"><h3>Критерии включения</h3>${renderCriteria(cluster)}</div>
         <div class="section"><h3>Задачи кластера</h3>${renderUsageProblems(members)}</div>
@@ -1434,7 +1743,7 @@ def build_html(data):
 
     byId('sidebar-toggle').addEventListener('click', () => {
       state.sidebarHidden = !state.sidebarHidden;
-      localStorage.setItem('iidb-sidebar-hidden', state.sidebarHidden ? '1' : '0');
+      storageSet('iidb-sidebar-hidden', state.sidebarHidden ? '1' : '0');
       applySidebarState();
     });
 
@@ -1444,7 +1753,11 @@ def build_html(data):
 </body>
 </html>
 """
-    return page.replace("__PAYLOAD__", payload)
+    return (
+        page.replace("__PAYLOAD__", payload)
+        .replace("__FALLBACK_LIST__", fallback_list)
+        .replace("__FALLBACK_CONTENT__", fallback_content)
+    )
 
 
 def output_path(value):

@@ -66,7 +66,7 @@
     "objective": "identify_stack"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классическое кодирование номера через величину дефицита.", "status": "ai_checked"},
-  "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy"],
+  "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [
     {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-nrich-money-measure", "role": "official_statement_and_student_solution", "status": "source_verified"},

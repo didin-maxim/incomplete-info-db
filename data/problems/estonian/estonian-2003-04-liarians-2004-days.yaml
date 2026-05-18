@@ -55,7 +55,7 @@
     "objective": "determine_lie_day_counts"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Три независимых подсчета истинных ответов по числу дней лжи.", "status": "ai_checked"},
-  "tags": ["lie_detection", "self_reference_truth", "structural_constraint"],
+  "tags": ["lie_detection", "self_reference_truth", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-estonian-2003-04-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

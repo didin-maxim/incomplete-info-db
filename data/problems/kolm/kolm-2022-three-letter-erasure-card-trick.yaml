@@ -20,8 +20,8 @@
   "ideas": [
     {
       "id": "idea-binary-symbol-with-separator",
-      "title": "Кодировать бит парой с разделителем",
-      "text": "Если каждый бит заменить двухбуквенным блоком, то при удалении одной из трех букв оставшаяся строка все еще сохраняет границы блоков или сами биты.",
+      "title": "Записывать каждый ноль и единицу парой букв",
+      "text": "Если каждый ноль или единицу заменить двухбуквенным блоком, то при удалении одной из трех букв оставшаяся строка все еще сохраняет границы блоков или сами нули и единицы.",
       "standard_idea_ids": ["error_correcting_code", "binary_encoding"],
       "status": "ai_checked"
     }
@@ -53,8 +53,8 @@
     "privacy_goal": "none",
     "objective": "communicate_hidden_number"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Конструктивный код против стирания всех символов одного типа.", "status": "ai_checked"},
-  "tags": ["error_correcting_code", "binary_code", "public_communication"],
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно придумать запись, которая переживает стирание всех букв одного типа.", "status": "ai_checked"},
+  "tags": ["error_correcting_code", "binary_code", "public_communication", "condition_older_students"],
   "sources": [{"source_id": "src-kolmogorov-2022-official", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

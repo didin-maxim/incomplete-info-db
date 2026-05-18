@@ -72,7 +72,7 @@
     "comment": "Базовая кодовая интерпретация неадаптивных вопросов.",
     "status": "ai_checked"
   },
-  "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound"],
+  "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
   ],

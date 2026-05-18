@@ -9,7 +9,7 @@
       {
         "id": "stmt-ukmt-stmc-2018-19-q9",
         "title": "Алекс, Беатрис, Чармиан и Дензил",
-        "text": "Алекс, Беатрис, Чармиан и Дензил либо всегда говорят правду, либо всегда лгут. Однажды они сказали следующее. Алекс: «Беатрис всегда лжет». Беатрис: «Алекс и Дензил либо оба правдивцы, либо оба лжецы». Чармиан: «Беатрис и Дензил либо оба лжецы, либо оба правдивцы». Дензил: «Я всегда говорю правду». Кто точно лжет?",
+        "text": "Алекс, Беатрис, Чармиан и Дензил либо рыцари, либо лжецы. Однажды они сказали следующее. Алекс: «Беатрис всегда лжет». Беатрис: «Алекс и Дензил либо оба рыцари, либо оба лжецы». Чармиан: «Беатрис и Дензил либо оба лжецы, либо оба рыцари». Дензил: «Я рыцарь». Кто точно лжет?",
         "source_ids": ["src-ukmt-stmc-2018-19-national-final-group-round", "src-ukmt-stmc-2018-19-national-final-supervisors"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -21,7 +21,7 @@
     {
       "id": "idea-check-possible-models-for-definite-liar",
       "title": "Искать не единственный полный расклад, а общий элемент всех раскладов",
-      "text": "Вопрос спрашивает, кто лжет обязательно. Поэтому достаточно перечислить совместимые расклады правдивцев и лжецов и пересечь множество лжецов во всех таких раскладах.",
+      "text": "Вопрос спрашивает, кто лжет обязательно. Поэтому достаточно перечислить совместимые расклады рыцарей и лжецов и пересечь множество лжецов во всех таких раскладах.",
       "standard_idea_ids": ["partition_state_space"],
       "status": "ai_checked"
     }
@@ -38,7 +38,7 @@
   ],
   "impossibility_proofs": [],
   "incomplete_information_profile": {
-    "hidden_state_space": "какие из четырех детей являются правдивцами, а какие лжецами",
+    "hidden_state_space": "кто из четырех детей рыцари, а кто лжецы",
     "observations": ["четыре публичных утверждения о типах участников"],
     "allowed_actions": ["перебирать совместимые назначения типов"],
     "goal": ["identify_definite_liar"],
@@ -55,7 +55,7 @@
     "objective": "identify_definite_liar"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно отличить полный расклад от свойства, общего для всех совместимых раскладов.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination"],
+  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination", "condition_middle_school"],
   "sources": [
     {"source_id": "src-ukmt-stmc-2018-19-national-final-group-round", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-ukmt-stmc-2018-19-national-final-supervisors", "role": "official_answer", "status": "source_verified"}

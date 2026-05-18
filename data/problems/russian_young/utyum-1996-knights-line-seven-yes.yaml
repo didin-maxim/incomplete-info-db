@@ -63,7 +63,7 @@
     "comment": "Небольшой разбор возможных миров по крайнему рыцарю.",
     "status": "ai_checked"
   },
-  "tags": ["lie_detection", "knowledge_induction", "indistinguishability_argument"],
+  "tags": ["lie_detection", "knowledge_induction", "indistinguishability_argument", "condition_middle_school"],
   "sources": [
     {"source_id": "src-utyum-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

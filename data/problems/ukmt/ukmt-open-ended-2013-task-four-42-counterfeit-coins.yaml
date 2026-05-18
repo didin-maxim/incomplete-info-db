@@ -66,7 +66,7 @@
     "objective": "find_counterfeit_coin"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Для 42 монет ответ получается из нижней оценки на пути дерева и стандартного тернарного кодирования.", "status": "ai_checked"},
-  "tags": ["balance_scale", "ternary_code", "decision_tree_lower_bound", "counting_lower_bound"],
+  "tags": ["balance_scale", "ternary_code", "decision_tree_lower_bound", "counting_lower_bound", "condition_older_students"],
   "sources": [{"source_id": "src-ukmt-open-ended-2013-primary", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Официальный источник содержит исследовательскую постановку; полное решение для случая 42 монет добавлено в карточку."]}
 }

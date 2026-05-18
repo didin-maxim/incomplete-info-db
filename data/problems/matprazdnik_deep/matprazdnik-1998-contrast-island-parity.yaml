@@ -22,7 +22,7 @@
       "id": "idea-two-parity-sentences-cannot-separate-types",
       "title": "При нечетном населении две фразы имеют одинаковую истинность",
       "text": "Если общее число жителей нечетно, то четность числа рыцарей противоположна четности числа лжецов. Поэтому утверждение «рыцарей четное число» эквивалентно утверждению «лжецов нечетное число».",
-      "standard_idea_ids": ["truth_liar_consistency"],
+      "standard_idea_ids": ["knowledge_elimination", "parity_encoding"],
       "status": "ai_checked"
     }
   ],
@@ -31,7 +31,7 @@
       "id": "str-odd-total-equivalence",
       "title": "Проверить эквивалентность двух заявлений",
       "text": "Пусть всего жителей нечетное число N, рыцарей R, лжецов L. Тогда R+L=N, поэтому R и L имеют разную четность. Значит, фразы «R четно» и «L нечетно» одновременно истинны или одновременно ложны.\n\nНо по условию каждый житель сказал одну из этих двух фраз. Если обе фразы истинны, то все сказавшие любую из них были бы рыцарями, и лжецов не осталось бы, что противоречит ложности лжецов только при отсутствии ложных фраз. Если обе фразы ложны, то все жители были бы лжецами, но тогда число рыцарей равно 0 и первая фраза стала бы истинной. В обоих случаях согласовать типы нельзя. Следовательно, нечетного числа жителей быть не может.",
-      "standard_idea_ids": ["truth_liar_consistency"],
+      "standard_idea_ids": ["knowledge_elimination", "parity_encoding"],
       "status": "needs_human_review",
       "definition_ids": ["truth_teller", "liar"]
     }
@@ -58,7 +58,7 @@
   "truth_liar_profile": {"agents": "unknown", "types": ["truth_teller", "liar"], "statements_count": 2, "objective": "determine_population_parity_possibility"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": "unknown_population", "lies_allowed": "systematic_by_type", "adaptive": false, "objective": "prove_population_parity_impossible"},
   "difficulty": {"main": "olympiad_medium", "local_score": 2, "comment": "7 класс, паритетная задача на совместимость двух типов утверждений.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "parity", "indistinguishability_argument"],
+  "tags": ["lie_detection", "parity", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-1998-problems", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная страница условий, 9-й Математический праздник, 7 класс, задача 4. Решение восстановлено редакционно; карточка оставлена не public-ready до сверки с официальным решением, если оно будет найдено."]}
 }

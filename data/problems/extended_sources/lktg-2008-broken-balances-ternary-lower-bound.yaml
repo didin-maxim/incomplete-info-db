@@ -24,7 +24,7 @@
     {
       "id": "idea-first-test-can-be-worthless",
       "title": "Первое сообщение может полностью принадлежать неисправному прибору",
-      "text": "Если очередное взвешивание сделано на сломанном приборе, противник может выбрать ответ, сохраняющий много кандидатов. Поэтому обычная оценка \\(3^k\\) листьев недостаточна: нужно платить за неизвестную надежность канала.",
+      "text": "Если очередное взвешивание сделано на сломанном приборе, противник может выбрать ответ, сохраняющий много кандидатов. Поэтому обычная оценка \\(3^k\\) листьев недостаточна: нужно учитывать, что часть ответов может быть ненадежной.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
       "status": "ai_checked"
     }
@@ -55,7 +55,7 @@
     "comment": "Короткая, но концептуальная нижняя оценка для задач с ненадежными измерителями.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "counting_lower_bound", "decision_tree_lower_bound", "ternary_code"],
+  "tags": ["balance_scale", "counting_lower_bound", "decision_tree_lower_bound", "ternary_code", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-lktg-2008-broken-balances-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],
@@ -63,8 +63,8 @@
     "created_by": "ai",
     "created_at": "2026-05-17",
     "review_status": "ai_checked",
-    "public_ready": true,
+    "public_ready": false,
     "relations_status": "new_links",
-    "notes": ["Карточка вынесена как чистый пример нижней оценки для неполной информации с одним ненадежным каналом."]
+    "notes": ["Карточка вынесена как чистый пример нижней оценки для неполной информации с одним ненадежным способом получать ответы."]
   }
 }

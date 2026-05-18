@@ -1,6 +1,6 @@
 {
   "id": "nrich-nine-weights-two-three-weighings",
-  "title": "NRICH: 9 Weights, тернарный поиск по весам",
+  "title": "NRICH: 9 гирек и три исхода взвешивания",
   "fragment": "weighings",
   "kind": {"primary": "nrich_problem", "secondary": ["multi_part_problem", "ternary_search"]},
   "language": "ru",
@@ -80,8 +80,8 @@
     "adaptive": true,
     "objective": "identify_weight_and_when_needed_sign"
   },
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Серия задач на тернарное дерево; последняя часть требует аккуратного разбора знака.", "status": "needs_human_review"},
-  "tags": ["balance_scale", "ternary_search", "ternary_code", "decision_tree_lower_bound"],
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Серия задач на дерево взвешиваний с тремя исходами; последняя часть требует аккуратного разбора знака.", "status": "needs_human_review"},
+  "tags": ["balance_scale", "ternary_search", "ternary_code", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-9-weights", "role": "official_statement_and_student_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

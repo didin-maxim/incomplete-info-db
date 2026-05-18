@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "какая из 101 монеты фальшивая и является ли она более легкой или более тяжелой", "observations": ["два результата чашечных весов из трех возможных"], "allowed_actions": ["класть равные по числу наборы монет на две чаши"], "goal": ["identify_counterfeit_direction_only"], "strategy_type": ["decision_tree", "known_genuine_reference"], "lower_bound_method": [], "keywords": ["direction_without_location", "leftover_genuine_coin", "counterfeit_coin"], "status": "ai_checked"},
   "weighing_profile": {"object_count": 101, "counterfeit_count": 1, "counterfeit_type": "heavier_or_lighter_unknown", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "determine_whether_counterfeit_is_heavier_or_lighter"},
   "difficulty": {"main": "standard", "local_score": 2, "comment": "Трюк в том, что найти монету не нужно: достаточно быстро получить эталон настоящей монеты.", "status": "ai_checked"},
-  "tags": ["balance_scale", "decision_tree", "knowledge_elimination"],
+  "tags": ["balance_scale", "decision_tree", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-kvantik-math-contest-2013", "role": "official_statement", "status": "source_verified"}, {"source_id": "src-lmo-1990-pdmi", "role": "earlier_official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2013 года, задача 8. На странице конкурса дано условие; решение восстановлено редакционно.", "2026-05-18: добавлен более ранний официальный источник: ЛМО-1990, задача 1990.02."]}
 }

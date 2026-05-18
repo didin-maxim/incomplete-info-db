@@ -65,7 +65,7 @@
     "comment": "Нестандартная модель весов; стратегия использует поломку как дополнительный исход.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "structural_constraint"],
+  "tags": ["balance_scale", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-yumt-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

@@ -65,7 +65,7 @@
     "comment": "Необычная бинарная модель сравнения; решение держится на инварианте четности.",
     "status": "ai_checked"
   },
-  "tags": ["parity", "parity_code", "nonadaptive_strategy"],
+  "tags": ["parity", "parity_code", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [
     {"source_id": "src-utyum-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

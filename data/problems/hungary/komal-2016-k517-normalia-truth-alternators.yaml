@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "типы трех жителей и перестановка трех фамилий", "observations": ["шесть публичных высказываний за два дня"], "allowed_actions": ["логически проверять совместимость истинности реплик с типами жителей"], "goal": ["identify_surnames", "identify_truth_patterns"], "strategy_type": ["state_elimination", "temporal_truth_pattern"], "lower_bound_method": [], "keywords": ["komal_2016_k517", "truth_tellers", "alternating_liars", "two_days"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 6, "lies_allowed": "non-truetellers alternate truth and lie by day", "adaptive": false, "objective": "deduce_types_and_surnames"},
   "difficulty": {"main": "standard", "local_score": 3, "comment": "K-level KöMaL; небольшая задача на исключение состояний с необычным режимом лжи.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination"],
+  "tags": ["lie_detection", "knowledge_elimination", "condition_older_students"],
   "sources": [{"source_id": "src-komal-2016-k517", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Не дублирует классических рыцарей/лжецов: здесь ложь зависит от дня."]}
 }

@@ -22,7 +22,7 @@
     "generalized": [
       {
         "id": "stmt-general-s-suits-m-ranks",
-        "title": "Масти, циклические ранги и перестановочный канал",
+        "title": "Масти, порядок достоинств и порядок карт как подсказка",
         "text": "Та же конструкция переносится на колоду с \\(s\\) мастями и \\(m\\) циклическими рангами, если в руке \\(s+1\\) карт и \\((s-1)!\\) перестановок оставшихся показанных карт хватает, чтобы закодировать расстояние между двумя картами одной масти: \\(\\lfloor m/2\\rfloor\\le (s-1)!\\). Стандартная колода дает \\(s=4\\), \\(m=13\\), \\(\\lfloor 13/2\\rfloor=6=3!\\).",
         "source_ids": ["src-fitch-cheney-five-card-trick", "src-problems-ru-98399"],
         "status": "ai_checked",
@@ -82,7 +82,7 @@
     "comment": "Классический карточный фокус с чистым комбинаторным кодированием.",
     "status": "ai_checked"
   },
-  "tags": ["card_trick", "permutation_order_code", "structural_constraint"],
+  "tags": ["card_trick", "permutation_order_code", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-fitch-cheney-five-card-trick", "role": "reference_topic", "status": "source_verified"},
     {"source_id": "src-problems-ru-98399", "role": "web_statement_and_solution_variant", "status": "source_verified"}

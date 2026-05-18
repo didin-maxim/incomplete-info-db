@@ -64,7 +64,7 @@
     "objective": "aggregate one visit signal from each participant"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Классический протокол с общей однобитной памятью.", "status": "ai_checked"},
-  "tags": ["single_bit_signal", "designated_counter_protocol"],
+  "tags": ["single_bit_signal", "designated_counter_protocol", "condition_middle_school"],
   "sources": [
     {"source_id": "src-prisoners-switch-puzzles", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-folklore", "role": "folklore_parameterized_statement", "status": "source_verified"}

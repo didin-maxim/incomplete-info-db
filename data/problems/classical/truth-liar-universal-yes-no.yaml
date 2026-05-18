@@ -55,7 +55,8 @@
     "objective": "determine_truth_value"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Стандартный шаблон для задач с правдивым и лжецом.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "self_reference_question"],
+  "tags": ["lie_detection", "truth_liar_normalization", "self_reference_question", "condition_middle_school"],
+  "novelty": {"status": "known_classic", "duplicate_risk": "high", "advantage_note": "Канонический шаблон универсального вопроса: новая задача с тем же приемом дает сильное преимущество тем, кто видел эту карточку."},
   "sources": [{"source_id": "src-truth-liar-questions", "role": "folklore_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-89935", "role": "web_statement_and_solution_variant", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "notes": ["2026-05-18: problems.ru 89935 добавлена как прямая версия универсального вопроса про ручного крокодила; отдельная карточка не заведена как дубль."]}
 }

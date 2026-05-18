@@ -49,7 +49,7 @@
   },
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 80, "lies_allowed": "liars always lie", "adaptive": false, "objective": "deduce_number_of_knights"},
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Сильная круговая задача: локальный порог превращается в периодическую структуру.", "status": "ai_checked"},
-  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination"],
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-vmo-2021-ii-sol-9-11", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "web_truth_liars_batch", "notes": ["Источник: муниципальный этап Всероссийской олимпиады школьников 2021/22, 9-11 классы, задача 10.6."]}
 }

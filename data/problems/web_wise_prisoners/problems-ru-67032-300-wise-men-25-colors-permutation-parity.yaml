@@ -56,7 +56,7 @@
     "objective": "guarantee at least 150 correct guesses"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Красивая олимпиадная стратегия: локальная двузначность переводится в четность глобальной перестановки.", "status": "ai_checked"},
-  "tags": ["hat_puzzle", "parity_code", "nonadaptive_strategy"],
+  "tags": ["hat_puzzle", "parity_code", "nonadaptive_strategy", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-67032", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

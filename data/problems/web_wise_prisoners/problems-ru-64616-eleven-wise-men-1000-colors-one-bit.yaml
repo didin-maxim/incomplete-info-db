@@ -20,8 +20,8 @@
   "ideas": [
     {
       "id": "idea-even-binary-code-1024",
-      "title": "Кодировать цвета четными 11-битными словами",
-      "text": "Среди 11-битных слов ровно 1024 имеют четное число единиц. Этого хватает для 1000 цветов, а четность всего слова позволит восстановить последний неизвестный бит.",
+      "title": "Записывать цвета строками из 11 нулей и единиц",
+      "text": "Среди строк из 11 нулей и единиц ровно 1024 имеют четное число единиц. Этого хватает для 1000 цветов, а четность всей строки позволит восстановить последний неизвестный знак.",
       "standard_idea_ids": ["parity_encoding"],
       "status": "ai_checked"
     }
@@ -55,8 +55,8 @@
     "privacy_goal": "none",
     "objective": "each participant identifies own hat color"
   },
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Чистый пример распределенного двоичного кода: каждый бит сообщает другой участник.", "status": "ai_checked"},
-  "tags": ["hat_puzzle", "binary_code", "parity_code", "public_communication"],
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Каждый участник сообщает одну проверку четности, и вместе эти проверки восстанавливают цвет.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "binary_code", "parity_code", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-64616", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

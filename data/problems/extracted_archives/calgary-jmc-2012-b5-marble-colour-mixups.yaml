@@ -53,7 +53,7 @@
     "objective": "deduce_hidden_counts_and_error_types"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевой шаг - заметить, что красный цвет может быть ошибочным только у одного счетчика.", "status": "ai_checked"},
-  "tags": ["knowledge_elimination", "structural_constraint"],
+  "tags": ["knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-calgary-jmc-2012-exam", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-calgary-jmc-2012-solutions", "role": "official_solution", "status": "source_verified"}

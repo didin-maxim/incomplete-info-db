@@ -65,7 +65,7 @@
     "comment": "8 класс ММО; стратегия использует две одинаковые скрытые тройки.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "symmetry_breaking", "structural_constraint"],
+  "tags": ["balance_scale", "symmetry_breaking", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mmo-2022-85-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

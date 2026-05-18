@@ -57,7 +57,7 @@
     "objective": "find_hidden_phone"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Нужно прочитать глубины листьев в заданном дереве поиска.", "status": "ai_checked"},
-  "tags": ["balance_scale", "binary_search", "decision_tree"],
+  "tags": ["balance_scale", "binary_search", "decision_tree", "condition_middle_school"],
   "sources": [{"source_id": "src-cemc-2024-bcc-7-8-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": []}
 }

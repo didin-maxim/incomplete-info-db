@@ -69,7 +69,7 @@
     "objective": "recover_hidden_layout"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Нужны явная стратегия восстановления и нижняя оценка через неразличимые раскладки.", "status": "ai_checked"},
-  "tags": ["nonadaptive_strategy", "knowledge_elimination", "indistinguishability_argument", "card_trick"],
+  "tags": ["nonadaptive_strategy", "knowledge_elimination", "indistinguishability_argument", "card_trick", "condition_middle_school"],
   "sources": [
     {"source_id": "src-tc-2018-39-oral-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

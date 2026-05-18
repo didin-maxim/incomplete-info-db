@@ -53,7 +53,7 @@
     "objective": "determine_bottom_row"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Идея проста, но карточка зависит от рисунка деталей.", "status": "needs_human_review"},
-  "tags": ["symmetry", "knowledge_elimination", "structural_constraint"],
+  "tags": ["symmetry", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mathcounts-colorful-caps", "role": "official_resource_page", "status": "source_verified"},
     {"source_id": "src-mathcounts-colorful-caps-poster", "role": "official_statement", "status": "source_verified"},

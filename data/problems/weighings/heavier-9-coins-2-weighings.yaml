@@ -23,7 +23,7 @@
       {
         "id": "stmt-general-known-sign",
         "title": "Известный знак и q взвешиваний",
-        "text": "Если знак отличия известен заранее, то та же стратегия работает для любой \\(N\\le 3^q\\): каждое взвешивание делит кандидатов на три группы, а \\(q\\) исходов дают тернарный адрес монеты. Вариант с 9 монетами - точный случай \\(N=3^2\\).",
+        "text": "Если заранее известно, что фальшивая монета тяжелее, то та же стратегия работает для любой \\(N\\le 3^q\\): каждое взвешивание делит кандидатов на три группы, а цепочка из \\(q\\) исходов указывает нужную монету. Вариант с 9 монетами - точный случай \\(N=3^2\\).",
         "source_ids": ["src-classical-coin-weighing", "src-unm-pnm-2025-round2-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -82,10 +82,10 @@
   "difficulty": {
     "main": "intro",
     "local_score": 1,
-    "comment": "Базовая задача на дерево решений и троичное разбиение.",
+    "comment": "Базовая задача: каждое взвешивание делит кандидатов на три группы.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
+  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [
     {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-unm-pnm-2025-round2-solutions", "role": "official_duplicate_statement_and_solution", "status": "source_verified"}

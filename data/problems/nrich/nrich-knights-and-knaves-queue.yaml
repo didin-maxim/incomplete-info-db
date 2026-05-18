@@ -55,7 +55,7 @@
     "objective": "infer_number_of_knights"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на согласование скрытых типов и истинности соседних утверждений.", "status": "needs_human_review"},
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-knights-and-knaves", "role": "official_statement_and_student_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

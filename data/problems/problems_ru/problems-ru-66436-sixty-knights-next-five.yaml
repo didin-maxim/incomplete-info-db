@@ -14,7 +14,7 @@
   "incomplete_information_profile": {"hidden_state_space": "расположение рыцарей и лжецов на цикле из 60 мест", "observations": ["одинаковая публичная фраза каждого участника о пяти соседях справа"], "allowed_actions": ["анализировать локальные блоки из шести мест"], "goal": ["count_truth_tellers"], "strategy_type": ["structural_counting", "local_constraint_propagation"], "lower_bound_method": [], "keywords": ["problems_ru_66436", "knights_liars", "block_of_six", "6m_cycle"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 60, "lies_allowed": "liars always lie", "adaptive": false, "objective": "deduce_number_of_knights"},
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Короткая задача на локальные ограничения правды и лжи.", "status": "ai_checked"},
-  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination"],
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-problems-ru-66436", "role": "web_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_batch", "generalization_status": "same_solution_parameterized", "notes": ["Источник: Окружная олимпиада (Москва), 2017, задача 6.5.", "2026-05-18: число 60 классифицировано как 10 блоков по 6; естественное обобщение на 6m сохраняет тот же подсчет."]}
 }

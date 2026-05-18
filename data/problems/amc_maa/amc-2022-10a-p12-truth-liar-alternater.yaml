@@ -55,7 +55,7 @@
     "objective": "maximize_number_of_alternaters"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключ - заметить, что правдивец и лжец дают одинаковую пару ответов на вопрос о себе.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-maa-2022-amc10a-problems", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-maa-2022-amc10a-solutions", "role": "official_solution", "status": "source_verified"},

@@ -72,7 +72,7 @@
     "comment": "Конструкция короткая, но требует увидеть кодирование десяти пар тремя числовыми тестами.",
     "status": "ai_checked"
   },
-  "tags": ["digital_scale", "binary_code", "weighted_sum_encoding", "nonadaptive_strategy"],
+  "tags": ["digital_scale", "binary_code", "weighted_sum_encoding", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [
     {"source_id": "src-omg-2005-06-first-stage-problems", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-omj-seminar-casework-czyzewska", "role": "official_training_statement", "status": "source_verified"}

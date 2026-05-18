@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "три различных целых номинала монет и распределение добавочных монет в коллекциях Джека и Джилл", "observations": ["число монет и общая стоимость двух коллекций"], "allowed_actions": ["сопоставлять возможные номиналы и кратности с двумя суммами"], "goal": ["determine_value_of_jimmys_three_coins"], "strategy_type": ["state_space_partition", "case_elimination"], "lower_bound_method": [], "keywords": ["aimo_2017", "coin_values", "hidden_denominations", "aggregate_sums"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": "positive integers", "question_count": 0, "lies_allowed": 0, "adaptive": false, "objective": "recover_hidden_denominations_from_aggregate_information"},
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Короткая задача на скрытые номиналы: сложность в том, что неизвестны и значения монет, и кратности в известных суммах.", "status": "ai_checked"},
-  "tags": ["knowledge_elimination", "structural_constraint"],
+  "tags": ["knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-amt-aimo-2017-paper-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "australia_batch", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как статическая задача на восстановление номиналов по двум суммам; нет проектируемого канала наблюдений, вопросов, взвешиваний или стратегии передачи информации."]}
 }

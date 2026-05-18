@@ -65,7 +65,7 @@
     "comment": "8 класс ММО; задача держится на сильном структурном ограничении скрытого состояния.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "structural_constraint", "symmetry_breaking"],
+  "tags": ["balance_scale", "structural_constraint", "symmetry_breaking", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mmo-2006-69-brochure", "role": "official_statement_and_solution", "status": "source_verified"},
     {"source_id": "src-problems-ru-105200", "role": "web_statement_and_solution", "status": "source_verified"}

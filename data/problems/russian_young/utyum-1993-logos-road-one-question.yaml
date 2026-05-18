@@ -63,7 +63,8 @@
     "comment": "Короткая задача на стандартную нейтрализацию лжеца.",
     "status": "ai_checked"
   },
-  "tags": ["lie_detection", "decision_tree", "truth_liar_normalization"],
+  "tags": ["lie_detection", "decision_tree", "truth_liar_normalization", "condition_middle_school"],
+  "novelty": {"status": "direct_template", "duplicate_risk": "high", "advantage_note": "Олимпиадная версия того же универсального вопроса: меняется оболочка, но основной вопрос переносится почти дословно."},
   "sources": [
     {"source_id": "src-utyum-official-local-archive", "role": "official_statement_and_answer", "status": "source_verified"}
   ],

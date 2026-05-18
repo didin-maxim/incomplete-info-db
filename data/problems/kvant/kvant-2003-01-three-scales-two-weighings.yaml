@@ -57,7 +57,7 @@
     "objective": "identify_faulty_scale"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Небольшая задача с нестандартным действием: взвешиваются сами весы.", "status": "ai_checked"},
-  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument"],
+  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-kvant-2003-02-young-solutions", "role": "official_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["Официальный PDF с решениями к задачам «Квант» для младших школьников, см. «Квант» №1 за 2003 г."]}
 }

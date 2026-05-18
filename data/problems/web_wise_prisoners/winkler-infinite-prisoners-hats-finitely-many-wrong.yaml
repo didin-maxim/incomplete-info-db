@@ -1,6 +1,6 @@
 {
   "id": "winkler-infinite-prisoners-hats-finitely-many-wrong",
-  "title": "Бесконечно много заключенных в шляпах: ошибиться лишь конечному числу",
+  "title": "Бесконечно много заключенных в колпаках: ошибиться лишь конечному числу",
   "fragment": "communication",
   "kind": {"primary": "classical_problem", "secondary": ["prearranged_protocol", "advanced_classic"]},
   "language": "ru",
@@ -9,7 +9,7 @@
       {
         "id": "stmt-winkler-infinite-hats",
         "title": "Все видят всех, кроме себя, и не общаются",
-        "text": "Бесконечно много заключенных пронумерованы числами \\(1,2,3,\\ldots\\). Каждому надевают красную или черную шляпу. По сигналу каждый видит цвета шляп всех остальных заключенных, но не своей, и после этого общаться нельзя. Затем каждый должен назвать цвет своей шляпы. Всех освободят, если ошибутся только конечное число заключенных. Могут ли они заранее договориться о стратегии, которая гарантирует освобождение при любой раскраске шляп?",
+        "text": "Бесконечно много заключенных пронумерованы числами \\(1,2,3,\\ldots\\). Каждому надевают красный или черный колпак. По сигналу каждый видит цвета колпаков всех остальных заключенных, но не своего, и после этого общаться нельзя. Затем каждый должен назвать цвет своего колпака. Всех освободят, если ошибутся только конечное число заключенных. Могут ли они заранее договориться о стратегии, которая гарантирует освобождение при любой раскраске колпаков?",
         "source_ids": ["src-dartmouth-winkler-mathematical-puzzles-ch23"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -20,8 +20,8 @@
   "ideas": [
     {
       "id": "idea-eventual-equality-representatives",
-      "title": "Считать одинаковыми раскраски, отличающиеся в конечном числе мест",
-      "text": "Если две бесконечные раскраски отличаются только в конечном числе позиций, то угадывание по одной фиксированной представительнице такого класса даст конечное число ошибок.",
+      "title": "Считать почти одинаковые раскраски одной группой",
+      "text": "Если две бесконечные раскраски отличаются только в конечном числе мест, будем считать их почти одинаковыми. Если заранее выбрать по одному образцу из каждой такой группы, то угадывание по образцу даст только конечное число ошибок.",
       "standard_idea_ids": ["equivalence_classes"],
       "status": "ai_checked"
     }
@@ -38,7 +38,7 @@
   ],
   "impossibility_proofs": [],
   "incomplete_information_profile": {
-    "hidden_state_space": "бесконечная двоичная последовательность цветов шляп",
+    "hidden_state_space": "бесконечная двоичная последовательность цветов колпаков",
     "observations": ["каждый видит все координаты, кроме своей", "после старта нет коммуникации"],
     "allowed_actions": ["заранее выбрать представителей классов эквивалентности", "одновременно назвать свой цвет"],
     "goal": ["guarantee_only_finitely_many_wrong"],
@@ -55,14 +55,14 @@
     "privacy_goal": "none",
     "objective": "only finitely many wrong guesses"
   },
-  "difficulty": {"main": "advanced_classic", "local_score": 6, "comment": "Условие школьное, но решение использует классы эквивалентности бесконечных последовательностей и выбор представителей.", "status": "ai_checked"},
-  "tags": ["hat_puzzle", "nonadaptive_strategy", "indistinguishability_argument"],
+  "difficulty": {"main": "research_like", "local_score": 6, "comment": "Условие простое, но идея решения для старших: нужны группы почти одинаковых бесконечных раскрасок и выбор представителей.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "nonadaptive_strategy", "indistinguishability_argument", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-dartmouth-winkler-mathematical-puzzles-ch23", "role": "book_chapter_statement_and_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-18",
     "review_status": "ai_checked",
-    "public_ready": true,
+    "public_ready": false,
     "relations_status": "web_wise_prisoners",
     "notes": ["Добавлена после уточнения фильтра: задача старше обычного школьного уровня, но условие простое и это классический протокол при неполной информации без коммуникации."]
   }

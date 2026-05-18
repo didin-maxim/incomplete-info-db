@@ -23,7 +23,7 @@
   "ideas": [
     {
       "id": "idea-linear-code-with-parity-check",
-      "title": "Сделать четыре числовых показания линейным кодом с проверкой ошибки",
+      "title": "Выбрать четыре взвешивания с проверкой ошибки",
       "text": "Взвешивания выбираются так, чтобы суммы и разности показаний восстанавливали массы, а остаток по модулю 3 и четность отдельных комбинаций указывали, было ли одно показание испорчено и какое именно.",
       "standard_idea_ids": ["error_correcting_code"],
       "status": "ai_checked"
@@ -43,7 +43,7 @@
   "incomplete_information_profile": {
     "hidden_state_space": "четыре целочисленные массы и, возможно, одно ошибочное числовое показание с неизвестной позицией и знаком ошибки",
     "observations": ["четыре целочисленные разности масс на двухчашечных весах"],
-    "allowed_actions": ["заранее выбрать четыре сравнения линейных комбинаций камней"],
+    "allowed_actions": ["заранее выбрать четыре сравнения сумм камней"],
     "goal": ["identify_all_weights", "correct_one_possible_measurement_error"],
     "strategy_type": ["nonadaptive_strategy", "linear_encoding", "error_correcting_code"],
     "lower_bound_method": [],
@@ -62,10 +62,10 @@
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 5,
-    "comment": "Junior A-Level Tournament of Towns; линейная кодировка с исправлением одной числовой ошибки.",
+    "comment": "Junior A-Level Tournament of Towns; четыре специально выбранных взвешивания позволяют исправить одну числовую ошибку.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "digital_scale", "linear_signature", "error_correcting_code", "nonadaptive_strategy"],
+  "tags": ["balance_scale", "digital_scale", "linear_signature", "error_correcting_code", "nonadaptive_strategy", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-tot-2008-fall-junior-a-uwa-solutions", "role": "statement_and_solution_mirror", "status": "source_verified"},
     {"source_id": "src-tot-toronto-2008-fall-junior-a-solutions", "role": "official_solution_archive", "status": "source_verified"}
@@ -78,7 +78,7 @@
     "relations_status": "web_weighings_batch",
     "notes": [
       "Источник UWA содержит полный текст условия и решение; архив Toronto Tournament of the Towns использован как официальный источник решения.",
-      "Задача добавлена не как классическая фальшивая монета, а как редкий чистый пример исправления одной ошибки в числовом канале взвешиваний."
+      "Задача добавлена не как классическая фальшивая монета, а как редкий чистый пример исправления одной ошибки в числовом показании весов."
     ]
   }
 }

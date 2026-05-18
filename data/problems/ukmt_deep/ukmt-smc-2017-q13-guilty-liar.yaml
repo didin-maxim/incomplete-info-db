@@ -10,8 +10,8 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "кто из четырех людей виновен и тем самым является единственным лжецом", "observations": ["четыре публичных высказывания о виновности и невиновности"], "allowed_actions": ["проверять совместимость предполагаемого виновного с истинностью всех фраз"], "goal": ["identify_guilty_person"], "strategy_type": ["state_elimination", "truth_guilt_coupling"], "lower_bound_method": [], "keywords": ["ukmt_smc_2017", "guilty_liar", "truth_tellers", "liar"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 5, "question_count": 0, "lies_allowed": "только виновный лжет, все невиновные говорят правду", "adaptive": false, "objective": "identify_guilty_person"},
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Небольшая truth-liar задача с дополнительным смыслом скрытого состояния: виновность.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination"],
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Небольшая задача про правдивца и лжеца с дополнительным смыслом скрытого состояния: виновность.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-smc-2017-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие и решение взяты из официальных расширенных решений UKMT SMC 2017, вопрос 13; публичный текст дан русским пересказом."]}
 }

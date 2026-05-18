@@ -72,7 +72,7 @@
     "comment": "Экстремальная задача о правдивости утверждений, близкая к задачам о лжецах.",
     "status": "ai_checked"
   },
-  "tags": ["self_reference_truth", "counting_lower_bound"],
+  "tags": ["self_reference_truth", "counting_lower_bound", "condition_middle_school"],
   "sources": [
     {"source_id": "src-yumt-official-local-archive", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

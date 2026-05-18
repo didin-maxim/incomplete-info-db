@@ -54,7 +54,7 @@
     "objective": "recover_hidden_square"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно построить явное адаптивное дерево поиска.", "status": "ai_checked"},
-  "tags": ["ternary_search", "decision_tree", "knowledge_elimination"],
+  "tags": ["ternary_search", "decision_tree", "knowledge_elimination", "condition_middle_school"],
   "sources": [
     {"source_id": "src-calgary-jmc-2010-exam", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-calgary-jmc-2010-solutions", "role": "official_solution", "status": "source_verified"}

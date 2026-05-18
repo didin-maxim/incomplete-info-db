@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "порядок рождения четырех братьев и истинность четырех высказываний", "observations": ["четыре публичных высказывания и условие, что ровно два из них истинны"], "allowed_actions": ["проверять совместимость высказываний с порядком рождения"], "goal": ["identify_truth_tellers"], "strategy_type": ["state_elimination", "consistency_check"], "lower_bound_method": [], "keywords": ["ukmt_imc_2013", "truth_tellers", "liars", "birth_order"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 5, "question_count": 0, "lies_allowed": "ровно два высказывания ложны", "adaptive": false, "objective": "identify_two_truth_tellers"},
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на совместимость истинности с относительным порядком.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-imc-2013-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие и решение взяты из официальных расширенных решений UKMT IMC 2013, вопрос 23; публичный текст дан русским пересказом."]}
 }

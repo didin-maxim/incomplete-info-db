@@ -65,7 +65,7 @@
     "comment": "Тренировочный листок LKTG; существенная часть сложности в том, что один источник информации ненадежен.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "ternary_code", "ternary_search"],
+  "tags": ["balance_scale", "ternary_code", "ternary_search", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-lktg-2008-broken-balances-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],
@@ -73,7 +73,7 @@
     "created_by": "ai",
     "created_at": "2026-05-17",
     "review_status": "ai_checked",
-    "public_ready": true,
+    "public_ready": false,
     "relations_status": "new_links",
     "notes": ["Источник - листок с решениями 'Weighings using broken balances' на olympiads.mccme.ru."]
   }

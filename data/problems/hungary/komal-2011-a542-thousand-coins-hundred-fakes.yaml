@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "100-элементные множества фальшивых монет среди 1000 монет", "observations": ["двоичный ответ каждого теста: содержит выбранный набор фальшивую монету или нет"], "allowed_actions": ["адаптивно выбирать подмножество монет для теста"], "goal": ["identify_one_counterfeit_coin"], "strategy_type": ["adaptive_strategy", "binary_search"], "lower_bound_method": ["decision_tree_leaf_count"], "keywords": ["komal_2011_a542", "group_testing", "find_one_defective", "binary_questions"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 10, "lies_allowed": "none", "adaptive": true, "objective": "identify_one_counterfeit"},
   "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "A-level KöMaL; простая стратегия, но нижняя оценка использует аккуратный подсчет возможных выходов алгоритма.", "status": "ai_checked"},
-  "tags": ["binary_search", "decision_tree_lower_bound"],
+  "tags": ["binary_search", "decision_tree_lower_bound", "condition_older_students"],
   "sources": [{"source_id": "src-komal-2011-a542", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Формально это групповое тестирование, а не чашечные весы: наблюдение двоичное."]}
 }

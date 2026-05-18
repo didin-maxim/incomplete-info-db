@@ -57,7 +57,7 @@
     "objective": "identify_all_counterfeits"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевое упрощение - использовать структурное ограничение подряд идущих фальшивых монет.", "status": "ai_checked"},
-  "tags": ["balance_scale", "ternary_code", "structural_constraint", "symmetry"],
+  "tags": ["balance_scale", "ternary_code", "structural_constraint", "symmetry", "condition_middle_school"],
   "sources": [{"source_id": "src-kvant-2003-02-young-solutions", "role": "official_corrected_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["В источнике указано, что в журнальном условии была неточность; карточка использует исправленный вариант из официального PDF решений."]}
 }

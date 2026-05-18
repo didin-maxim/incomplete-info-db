@@ -57,7 +57,7 @@
     "objective": "compute_conditional_probability"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Это не задача на стратегию взвешиваний, а на пересчет скрытых состояний после результата взвешивания.", "status": "ai_checked"},
-  "tags": ["balance_scale", "knowledge_elimination", "structural_constraint"],
+  "tags": ["balance_scale", "knowledge_elimination", "structural_constraint", "condition_older_students"],
   "sources": [
     {"source_id": "src-aops-2011-amc10a-p21-index", "role": "statement_index", "status": "source_verified"},
     {"source_id": "src-maa-2011-amc10a-solutions-mirror", "role": "official_solution_mirrored_pdf", "status": "source_verified"}

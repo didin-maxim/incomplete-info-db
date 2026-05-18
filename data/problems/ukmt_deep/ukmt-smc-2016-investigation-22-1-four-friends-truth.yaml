@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "какие из четырех друзей говорят правду", "observations": ["четыре публичных высказывания о количестве правдивых среди остальных"], "allowed_actions": ["перебирать совместимые наборы истинных высказываний"], "goal": ["deduce_invariant_truth_pattern", "show_non_identifiability_of_pair"], "strategy_type": ["state_elimination", "indistinguishable_models"], "lower_bound_method": ["indistinguishability"], "keywords": ["ukmt_smc_2016", "truth_tellers", "liars", "non_unique_solution", "investigation"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": "compatible truth assignments", "question_count": 0, "lies_allowed": "каждое высказывание либо истинно, либо ложно", "adaptive": false, "objective": "deduce_what_is_forced"},
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Расширение исходной задачи: появляется неединственность, которую нужно явно заметить.", "status": "ai_checked"},
-  "tags": ["lie_detection", "self_reference_truth", "indistinguishability_argument"],
+  "tags": ["lie_detection", "self_reference_truth", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-smc-2016-sol-extended", "role": "official_extension_problem", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие взято из раздела For investigation 22.1 официальных расширенных решений UKMT SMC 2016; решение восстановлено и записано русским пересказом."]}
 }

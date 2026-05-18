@@ -65,7 +65,7 @@
     "comment": "7 класс, Математический праздник; идея эталонного комплекта делает задачу короткой, но информационно нетривиальной.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "ternary_search", "linear_signature"],
+  "tags": ["balance_scale", "ternary_search", "linear_signature", "condition_middle_school"],
   "sources": [
     {"source_id": "src-matprazdnik-2023-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

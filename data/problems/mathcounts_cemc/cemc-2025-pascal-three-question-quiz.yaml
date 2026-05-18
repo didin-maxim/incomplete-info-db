@@ -53,7 +53,7 @@
     "objective": "recover_hidden_answer_key_sum"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно аккуратно использовать ровно одну ошибку у каждого ученика.", "status": "ai_checked"},
-  "tags": ["knowledge_elimination", "structural_constraint", "decision_tree"],
+  "tags": ["knowledge_elimination", "structural_constraint", "decision_tree", "condition_middle_school"],
   "sources": [
     {"source_id": "src-cemc-2025-pascal-contest", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-cemc-2025-pascal-solution", "role": "official_solution", "status": "source_verified"}

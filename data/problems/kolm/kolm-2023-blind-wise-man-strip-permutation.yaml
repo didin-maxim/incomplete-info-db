@@ -20,8 +20,8 @@
   "ideas": [
     {
       "id": "idea-enumerate-hidden-worlds",
-      "title": "Перебирать возможные скрытые миры как стратегии достижения края",
-      "text": "Хотя мудрец не видит ни перестановку, ни позицию, множество возможных конечных ситуаций счетно. Он может последовательно вести себя так, как будто текущая ситуация равна очередной гипотезе.",
+      "title": "По очереди проверять возможные устройства полоски",
+      "text": "Хотя мудрец не видит ни порядок чисел, ни позицию фишки, возможные конечные устройства полоски можно перечислять одно за другим. Он может последовательно вести себя так, как будто текущая ситуация равна очередной догадке.",
       "standard_idea_ids": ["partition_state_space"],
       "status": "needs_human_review"
     }
@@ -52,8 +52,8 @@
     "adaptive": true,
     "objective": "identify_n"
   },
-  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Стратегия использует счетный перебор скрытых состояний и постепенное восстановление локальных стрелок.", "status": "needs_human_review"},
-  "tags": ["decision_tree", "knowledge_elimination"],
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Стратегия перебирает возможные устройства полоски и постепенно восстанавливает направление стрелок.", "status": "needs_human_review"},
+  "tags": ["decision_tree", "knowledge_elimination", "condition_older_students"],
   "sources": [{"source_id": "src-kolmogorov-2023-official", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

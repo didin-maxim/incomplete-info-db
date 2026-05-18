@@ -1,21 +1,109 @@
 review_date: "2026-05-18"
-scope: "public knowledge / public ignorance and questions with lies / error-correcting codes"
+scope: "публичное знание / публичное незнание и вопросы с ложью / коды с исправлением ошибок"
 decision:
   split_into_two_clusters: true
   rationale: >
-    Public-knowledge tasks are about epistemic state updates caused by public
-    statements, silence, or "I do not know" answers. Lie/error-code tasks are
-    about a noisy answer channel and require code distance, repetition,
-    packing, covering, or erasure robustness. The overlap is mostly vocabulary:
-    both use messages, but the invariants and useful facets are different.
+    Задачи на публичное знание описывают обновление состояния знания после
+    публичных фраз, молчания или ответов «я не знаю». Задачи на ложь и ошибки
+    описывают ответы с шумом и требуют расстояния кода, повторений,
+    упаковки, покрытия или устойчивости к стираниям. Пересечение в основном
+    словарное: в обоих случаях есть сообщения, но инварианты и полезные
+    признаки разные.
+
+display_labels:
+  facets:
+    knowledge_event: "Что все услышали"
+    rounds: "Сколько раундов"
+    agent_visibility: "Что видит каждый"
+    announcement_type: "Тип публичной фразы"
+    goal: "Что надо узнать"
+    solution_pattern: "Главный прием"
+    answer_alphabet: "Какие ответы бывают"
+    question_count: "Сколько вопросов"
+    lies_allowed: "Сколько лжи или потерь"
+    adaptive: "Можно менять следующий вопрос?"
+    code_family: "Какой код результатов"
+    bound_type: "Почему хватает или не хватает"
+    objective: "Что надо получить"
+  values:
+    knowledge_event:
+      common_knowledge_seed: "всем дали общий начальный факт"
+      silence_or_nonaction: "молчание тоже стало фактом"
+      public_ignorance: "кто-то вслух сказал «не знаю»"
+      public_certainty: "кто-то вслух сказал «теперь знаю»"
+      public_answer_update: "публичный ответ убрал варианты"
+    rounds:
+      one: "один"
+      two: "два"
+      three: "три"
+      k: "k раундов"
+      version_dependent: "зависит от версии задачи"
+    agent_visibility:
+      complete_graph_except_self: "каждый видит всех, кроме себя"
+      split_attribute: "каждый знает только часть секрета"
+      own_cards_only: "каждый видит свои карты"
+      own_number_plus_public_card: "свое число и общую карту"
+    announcement_type:
+      existence_seed: "сообщили, что нужный случай существует"
+      silence_as_information: "молчание несет информацию"
+      dont_know: "«я не знаю»"
+      now_i_know: "«теперь я знаю»"
+      certainty_claim: "заявление уверенности"
+      yes_no_or_dont_know_answers: "да/нет/не знаю"
+    goal:
+      identify_own_state: "узнать свой случай"
+      identify_hidden_date: "найти дату"
+      identify_hidden_number: "найти число"
+      identify_other_agents_number: "найти число другого участника"
+      identify_hidden_property: "узнать скрытое свойство"
+      identify_hidden_object: "найти скрытый предмет"
+      maximize_success_probability_without_wrong_guess: "увеличить шанс успеха без неверной догадки"
+      guarantee_property_after_erasures: "сохранить свойство после стираний"
+    solution_pattern:
+      induction_on_count: "индукция по числу участников"
+      iterated_public_elimination: "по очереди вычеркиваем невозможные варианты"
+      public_ignorance_filter: "фраза «не знаю» отсекает варианты"
+      certainty_as_universal_quantifier: "уверенность означает проверку всех вариантов"
+    answer_alphabet:
+      binary: "да/нет"
+      binary_with_pass: "да/нет/пас"
+      ordered_digits_after_erasures: "порядок цифр после стираний"
+    question_count:
+      q: "q вопросов"
+      3m: "по три вопроса на каждый важный бит"
+      simultaneous: "одновременно"
+      none_fixed_object_order: "вопросов нет, задан порядок предметов"
+    lies_allowed:
+      one: "одна ложь"
+      two: "две лжи"
+      zero_but_pass_allowed: "лжи нет, но можно пасовать"
+      six_erasures: "шесть стираний"
+    adaptive:
+      "false": "нет, вопросы заданы заранее"
+      separate_cases: "разные случаи разбираются отдельно"
+      simultaneous: "все отвечают одновременно"
+    code_family:
+      repetition_code: "повторяем вопрос"
+      hamming_packing_code: "упаковка шаров Хэмминга"
+      perfect_hamming_covering_code: "совершенный покрывающий код Хэмминга"
+      erasure_robust_ordering: "порядок устойчив к стираниям"
+    bound_type:
+      hamming_ball_packing: "шары Хэмминга не должны пересечься"
+      sphere_covering: "каждый случай должен быть накрыт шаром"
+      constructive_no_bound: "главное - явное построение"
+    objective:
+      identify_hidden_object: "найти скрытый предмет"
+      identify_hidden_number: "найти число"
+      maximize_success_probability_without_wrong_guess: "увеличить шанс успеха без неверной догадки"
+      guarantee_property_after_erasures: "сохранить свойство после стираний"
 
 clusters:
   - id: public-knowledge-and-announcements
-    title: "Public knowledge and announcements"
+    title: "Все слышат: кто что теперь знает"
     inclusion_rule: >
-      Include tasks where a public statement, public silence, or a public
-      knowledge/ignorance claim is the main operation that changes the set of
-      possible worlds for all reasoners.
+      Включать задачи, где публичное утверждение, публичное молчание или
+      публичная фраза о знании/незнании является главным действием, меняющим
+      множество возможных миров для всех рассуждающих.
     local_facets:
       knowledge_event:
         - common_knowledge_seed
@@ -127,11 +215,11 @@ clusters:
         readiness: needs_human_review_family
 
   - id: questions-with-lies-and-error-correction
-    title: "Questions with lies and error correction"
+    title: "Запасные вопросы против лжи и ошибок"
     inclusion_rule: >
-      Include tasks where the central mechanism is a noisy, adversarial, or
-      erasure-like channel and the solution uses explicit redundancy:
-      Hamming balls, repetition, perfect codes, or a robust ordering.
+      Включать задачи, где центральный механизм - шумный, враждебный или
+      стирающий поток ответов, а решение использует явную избыточность: шары Хэмминга,
+      повторение, совершенные коды или устойчивый порядок.
     local_facets:
       answer_alphabet:
         - binary
@@ -229,8 +317,8 @@ excluded_or_adjacent:
   - problem_id: mmo-2000-seven-cards-public-communication
     reason: "privacy-preserving public communication, better as a separate cluster"
   - problem_id: utyum-1996-knights-line-seven-yes
-    reason: "static truth-liar line constraint despite current knowledge_induction tag"
+    reason: "статическое ограничение на линии рыцарей/лжецов, несмотря на текущий тег knowledge_induction"
   - problem_id: utyum-2010-vasya-two-liars-line
-    reason: "static truth-liar line constraint despite current knowledge_induction tag"
+    reason: "статическое ограничение на линии рыцарей/лжецов, несмотря на текущий тег knowledge_induction"
   - problem_id: problems-ru-66710-hats-with-madmen-oracle
     reason: "robust public protocol with faulty agents; adjacent to noisy channels but not Hamming/code-distance centered"

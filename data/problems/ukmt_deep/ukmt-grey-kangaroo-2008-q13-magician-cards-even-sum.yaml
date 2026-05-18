@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "распределение семи числовых карточек между Каном, Ру и шляпой", "observations": ["Кан видит свои три карточки", "Ру публично слышит утверждение Кана о выводимой четности его суммы"], "allowed_actions": ["использовать знание Кана о своих картах для вывода о возможных картах Ру"], "goal": ["identify_sum_of_kans_cards"], "strategy_type": ["knowledge_elimination", "parity_argument"], "lower_bound_method": [], "keywords": ["ukmt_grey_kangaroo_2008", "cards", "hidden_cards", "knows", "parity"], "status": "ai_checked"},
   "knowledge_profile": {"agents": ["Kan", "Roo"], "visibility": "Kan sees his own 3 cards; Roo knows his own cards and hears Kan's public statement", "public_announcements": 1, "objective": "deduce Kan's card sum from his certainty claim"},
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Нужно интерпретировать фразу о знании как ограничение на все возможные карты Ру.", "status": "ai_checked"},
-  "tags": ["knowledge_elimination", "public_announcement", "parity"],
+  "tags": ["knowledge_elimination", "public_announcement", "parity", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-imok-2008-solutions-inside", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие и решение взяты из официального буклета UKMT Intermediate follow-up competitions 2008, Grey Kangaroo question 13; публичный текст дан русским пересказом."]}
 }

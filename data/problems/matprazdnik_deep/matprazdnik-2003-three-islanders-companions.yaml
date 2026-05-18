@@ -22,7 +22,7 @@
       "id": "idea-answer-about-others-forces-type",
       "title": "Ответ о других проверяется против собственного типа",
       "text": "Фраза каждого островитянина говорит не о нем самом, а о двух остальных. Поэтому гипотеза о типе отвечающего сразу превращается в ограничение на типы его спутников.",
-      "standard_idea_ids": ["truth_liar_consistency"],
+      "standard_idea_ids": ["knowledge_elimination"],
       "status": "ai_checked"
     }
   ],
@@ -31,7 +31,7 @@
       "id": "str-eliminate-first-then-second",
       "title": "Сначала исключить рыцарство первого",
       "text": "Первый не может быть рыцарем: тогда двое остальных были бы лжецами, но второй, отвечая «один», сказал бы правду о своих спутниках. Значит, первый - лжец.\n\nЕсли второй был бы лжецом, то его ответ «один» ложен. Среди его спутников, первого и третьего, не может быть ровно одного рыцаря. Первый уже лжец, значит третьему тоже пришлось бы быть лжецом. Но тогда первый правдиво сказал бы, что среди его спутников нет рыцарей, противоречие. Следовательно, второй - рыцарь, а среди его спутников ровно один рыцарь; так как первый лжец, третий - рыцарь. Третий видит первого лжеца и второго рыцаря, поэтому должен сказать: «Один».",
-      "standard_idea_ids": ["truth_liar_consistency"],
+      "standard_idea_ids": ["knowledge_elimination"],
       "status": "ai_checked",
       "definition_ids": ["truth_teller", "liar"]
     }
@@ -50,7 +50,7 @@
   "truth_liar_profile": {"agents": 3, "types": ["truth_teller", "liar"], "statements_count": 3, "objective": "determine_forced_answer"},
   "questions_profile": {"answer_alphabet_size": 3, "question_count": 3, "lies_allowed": "systematic_by_type", "adaptive": false, "objective": "infer_forced_answer_from_truth_liar_statements"},
   "difficulty": {"main": "intro", "local_score": 1, "comment": "6 класс, короткая проверка совместимости ответов.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization"],
+  "tags": ["lie_detection", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2003-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_deep_batch", "notes": ["Официальная страница условий и решений, 14-й Математический праздник, 6 класс, задача 3."]}
 }

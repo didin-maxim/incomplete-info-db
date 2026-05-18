@@ -54,7 +54,7 @@
     "objective": "deduce_false_statement_and_possible_assignments"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Требуется аккуратно исключить трех возможных лжецов и сохранить две симметричные возможности.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-calgary-jmc-2025-exam", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-calgary-jmc-2025-solutions", "role": "official_solution", "status": "source_verified"}

@@ -61,7 +61,7 @@
     "comment": "Senior O-Level, но механизм близок к классическим sum-product задачам и полезен для базы.",
     "status": "ai_checked"
   },
-  "tags": ["common_knowledge", "knowledge_induction", "knowledge_elimination", "public_announcement"],
+  "tags": ["common_knowledge", "knowledge_induction", "knowledge_elimination", "public_announcement", "condition_older_students"],
   "sources": [
     {"source_id": "src-tot-2002-fall-senior-o-problems", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-tot-2002-fall-senior-o-solutions", "role": "official_solution", "status": "source_verified"}

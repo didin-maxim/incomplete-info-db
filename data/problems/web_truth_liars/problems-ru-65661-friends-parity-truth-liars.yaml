@@ -22,16 +22,16 @@
       "id": "idea-two-statements-force-odd-degree",
       "title": "Обе фразы вместе задают нечетную степень",
       "text": "Для рыцаря обе фразы истинны, для лжеца обе фразы ложны. В обоих случаях сумма числа друзей-рыцарей и друзей-лжецов, то есть общее число друзей, оказывается нечетной.",
-      "standard_idea_ids": ["parity_code"],
+      "standard_idea_ids": ["parity_encoding"],
       "status": "ai_checked"
     }
   ],
   "strategies": [
     {
       "id": "str-handshaking-lemma",
-      "title": "Свести к лемме о рукопожатиях",
-      "text": "Рассмотрим произвольного жителя. Если он рыцарь, то оба его заявления истинны: среди друзей нечетное число рыцарей и четное число лжецов. Поэтому всего друзей у него нечетное число. Если он лжец, то каждое из двух заявлений ложно: рыцарей среди его друзей четное число, а лжецов нечетное число. Сумма опять нечетна.\n\nЗначит, в графе дружбы у каждой вершины нечетная степень. По лемме о рукопожатиях число вершин нечетной степени в любом конечном графе четно, потому что сумма всех степеней равна удвоенному числу ребер. Следовательно, число жителей острова четно.",
-      "standard_idea_ids": ["parity_code"],
+      "title": "Посчитать концы всех дружб",
+      "text": "Рассмотрим произвольного жителя. Если он рыцарь, то оба его заявления истинны: среди друзей нечетное число рыцарей и четное число лжецов. Поэтому всего друзей у него нечетное число. Если он лжец, то каждое из двух заявлений ложно: рыцарей среди его друзей четное число, а лжецов нечетное число. Сумма опять нечетна.\n\nЗначит, у каждого жителя нечетное число друзей. Теперь посчитаем все дружбы с двух сторон: каждая дружба добавляет 2 к общей сумме чисел друзей. Поэтому сумма всех этих чисел четна. Сумма нечетных чисел четна только тогда, когда самих слагаемых четное число. Следовательно, число жителей острова четно.",
+      "standard_idea_ids": ["parity_encoding"],
       "status": "ai_checked",
       "definition_ids": ["state_space"]
     }
@@ -48,8 +48,8 @@
     "status": "ai_checked"
   },
   "questions_profile": {"answer_alphabet_size": 2, "question_count": "two_statements_per_person", "lies_allowed": "liars always lie", "adaptive": false, "objective": "deduce_population_parity"},
-  "difficulty": {"main": "standard", "local_score": 3, "comment": "Хороший пример, где правда/ложь превращает социальный граф в паритетный инвариант.", "status": "ai_checked"},
-  "tags": ["lie_detection", "parity", "structural_constraint"],
+  "difficulty": {"main": "standard", "local_score": 3, "comment": "Хороший пример, где правда и ложь приводят к четности числа дружб.", "status": "ai_checked"},
+  "tags": ["lie_detection", "parity", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-problems-ru-65661", "role": "web_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "web_truth_liars_batch", "notes": ["Источник problems.ru указывает Московскую математическую регату 2015/16, 7 класс, задача 7.3.3."]}
 }

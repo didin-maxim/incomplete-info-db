@@ -74,7 +74,7 @@
     "comment": "8 класс ММО; сильная часть - не только стратегия, но и оптимальность числа 110.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "structural_constraint", "decision_tree_lower_bound"],
+  "tags": ["balance_scale", "structural_constraint", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mmo-2026-89-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

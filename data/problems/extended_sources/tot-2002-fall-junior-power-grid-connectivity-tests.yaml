@@ -62,7 +62,7 @@
     "comment": "Junior A-Level; добавлена как неполная информация, но решение еще не верифицировано.",
     "status": "needs_human_review"
   },
-  "tags": ["decision_tree", "counting_lower_bound", "structural_constraint"],
+  "tags": ["decision_tree", "counting_lower_bound", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-tot-2002-fall-junior-a-problems", "role": "official_statement", "status": "source_verified"}
   ],

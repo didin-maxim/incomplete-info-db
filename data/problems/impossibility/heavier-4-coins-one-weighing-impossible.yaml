@@ -65,7 +65,7 @@
     "comment": "Минимальная карточка для фрагмента невозможности.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "decision_tree_lower_bound", "indistinguishability_argument"],
+  "tags": ["balance_scale", "decision_tree_lower_bound", "indistinguishability_argument", "condition_middle_school"],
   "sources": [
     {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}
   ],

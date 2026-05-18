@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "какие из трех друзей говорят правду", "observations": ["три публичных высказывания о правдивости остальных"], "allowed_actions": ["проверять совместимость набора правдивых с содержанием фраз"], "goal": ["identify_liar"], "strategy_type": ["state_elimination", "fixed_point_consistency"], "lower_bound_method": [], "keywords": ["ukmt_smc_2016", "truth_tellers", "liars", "mutual_statements"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 5, "question_count": 0, "lies_allowed": "каждое высказывание либо истинно, либо ложно", "adaptive": false, "objective": "identify_lying_friend"},
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Маленькая самосогласованная система из трех высказываний.", "status": "ai_checked"},
-  "tags": ["lie_detection", "self_reference_truth", "knowledge_elimination"],
+  "tags": ["lie_detection", "self_reference_truth", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-smc-2016-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_deep", "notes": ["Условие и решение взяты из официальных расширенных решений UKMT SMC 2016, вопрос 22; публичный текст дан русским пересказом."]}
 }

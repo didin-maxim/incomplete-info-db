@@ -55,7 +55,7 @@
     "objective": "choose_correct_sign"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Короткая AMC-версия стандартного приема с правдивцем и лжецом.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "self_reference_question"],
+  "tags": ["lie_detection", "truth_liar_normalization", "self_reference_question", "condition_middle_school"],
   "sources": [
     {"source_id": "src-aops-2010-amc12a-p12-index", "role": "statement_index", "status": "source_verified"},
     {"source_id": "src-maa-2010-amc12a-solutions-mirror", "role": "official_solution_mirrored_pdf", "status": "source_verified"}

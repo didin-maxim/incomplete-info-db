@@ -10,8 +10,8 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "6 вариантов фальшивой монеты и два неизвестных веса настоящей и фальшивой монет", "observations": ["три числовых суммарных веса"], "allowed_actions": ["выбирать подмножества монет для взвешивания на цифровых весах"], "goal": ["identify_counterfeit_coin"], "strategy_type": ["adaptive_strategy", "linear_signature"], "lower_bound_method": [], "keywords": ["problems_ru_65817", "unknown_true_weight", "unknown_fake_weight", "digital_scale"], "status": "ai_checked"},
   "weighing_profile": {"object_count": 6, "counterfeit_count": 1, "counterfeit_type": "unknown_sign_unknown_weights", "weighing_count": 3, "outcome_count_per_weighing": "numeric_weight", "adaptive": true, "objective": "identify_coin"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Числовые весы дают линейные подписи, хотя базовые веса не известны заранее.", "status": "ai_checked"},
-  "tags": ["digital_scale", "linear_signature"],
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Числовые весы дают различимые линейные ответы, хотя базовые веса не известны заранее.", "status": "ai_checked"},
+  "tags": ["digital_scale", "linear_signature", "condition_middle_school"],
   "sources": [{"source_id": "src-problems-ru-65817", "role": "web_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_deep_batch", "notes": ["problems.ru указывает первоисточники: Турнир городов 2005/2006, 27-й, осенний тур, тренировочный вариант, 8-9 классы задача 5 и 10-11 классы задача 3; также публикация в Кванте, 2006, №2, задача М1991."]}
 }

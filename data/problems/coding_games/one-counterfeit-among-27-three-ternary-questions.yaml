@@ -83,7 +83,7 @@
     "comment": "Троичный аналог бинарного поиска и взвешиваний с тремя исходами.",
     "status": "ai_checked"
   },
-  "tags": ["decision_tree", "ternary_code", "ternary_search", "decision_tree_lower_bound"],
+  "tags": ["decision_tree", "ternary_code", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
   ],

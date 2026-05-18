@@ -1,6 +1,6 @@
 {
   "id": "hat-line-k-colors-modulo",
-  "title": "Шляпы в ряд при k цветах: сумма по модулю k",
+  "title": "Колпаки в ряд при k цветах: остаток суммы",
   "fragment": "wise_people",
   "kind": {
     "primary": "classical_problem",
@@ -12,7 +12,7 @@
       {
         "id": "stmt-original",
         "title": "Обобщение четности на k цветов",
-        "text": "В ряд стоят \\(n\\) узников. Цвет каждой шляпы - один из \\(k\\) заранее занумерованных цветов \\(0,1,\\ldots,k-1\\). Каждый видит шляпы всех впереди. Ответы идут сзади наперед и слышны всем. Как гарантировать, что ошибется не более один узник?",
+        "text": "В ряд стоят \\(n\\) узников. Цвет каждого колпака - один из \\(k\\) заранее занумерованных цветов \\(0,1,\\ldots,k-1\\). Каждый видит колпаки всех впереди. Ответы идут сзади наперед и слышны всем. Как гарантировать, что ошибется не более один узник?",
         "source_ids": ["src-folklore", "src-problems-ru-109639"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
@@ -23,8 +23,8 @@
   "ideas": [
     {
       "id": "idea-modulo-sum",
-      "title": "Первый ответ передает сумму цветов по модулю k",
-      "text": "Номер цвета можно считать элементом группы \\(\\mathbb Z/k\\mathbb Z\\). Первый говорящий объявляет цвет с номером, равным сумме номеров всех видимых шляп по модулю \\(k\\).",
+      "title": "Первый ответ передает остаток суммы цветов",
+      "text": "Занумеруем цвета числами от 0 до \\(k-1\\). Первый говорящий складывает номера всех видимых колпаков, а если сумма стала не меньше \\(k\\), оставляет только остаток при делении на \\(k\\). Цвет с этим номером он и называет.",
       "standard_idea_ids": ["modular_sum_encoding"],
       "status": "ai_checked"
     }
@@ -41,8 +41,8 @@
   ],
   "impossibility_proofs": [],
   "incomplete_information_profile": {
-    "hidden_state_space": "k^n раскрасок шляп",
-    "observations": ["видимые шляпы впереди", "публичные ответы"],
+    "hidden_state_space": "k^n раскрасок колпаков",
+    "observations": ["видимые колпаки впереди", "публичные ответы"],
     "allowed_actions": ["назвать один из k цветов"],
     "goal": ["maximize_correct_guesses"],
     "strategy_type": ["encoding", "public_announcement"],
@@ -59,10 +59,10 @@
   "difficulty": {
     "main": "standard",
     "local_score": 4,
-    "comment": "То же ядро, что в бинарной задаче о шляпах, но с группой по модулю k.",
+    "comment": "То же ядро, что в бинарной задаче о колпаках, но с остатками по модулю k.",
     "status": "ai_checked"
   },
-  "tags": ["hat_puzzle", "modular_sum_code", "public_announcement"],
+  "tags": ["hat_puzzle", "modular_sum_code", "public_announcement", "condition_middle_school"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-problems-ru-109639", "role": "olympiad_three_color_variant", "status": "source_verified"}

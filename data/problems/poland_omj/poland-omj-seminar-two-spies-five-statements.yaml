@@ -63,7 +63,7 @@
     "comment": "Небольшая система ролей; ключевой шаг - заменить каждую реплику отношением одинаковости или противоположности.",
     "status": "ai_checked"
   },
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-omj-seminar-casework-czyzewska", "role": "official_training_statement", "status": "source_verified"}
   ],

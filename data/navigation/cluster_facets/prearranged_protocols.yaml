@@ -1,22 +1,22 @@
 id: prearranged_protocols
-title: "Prearranged protocols under limited communication"
+title: "Заранее договориться: мало сообщений"
 reviewed_on: "2026-05-18"
 member_count: 15
 description: >
-  Problems where cooperating agents can agree on a rule, codebook, or role
-  assignment before the trial, and after the trial starts they must act through
-  a restricted channel, silence, public statements, or private observations.
+  Задачи, где участники могут заранее договориться о правиле, кодовой таблице
+  или распределении ролей, а после начала испытания действуют через ограниченный
+  способ передачи: молчание, публичные высказывания или приватные наблюдения.
 scope:
   include:
-    - "multiple cooperating roles using a shared pre-trial rule"
-    - "magician-assistant and sender-receiver pairs when the code is the point"
-    - "public protocols with no secret code if the public rule is designed"
-    - "no-communication team strategies chosen before the trial"
+    - "несколько сотрудничающих ролей используют общее правило, выбранное до испытания"
+    - "пары фокусник-помощник и отправитель-получатель, если главное в задаче - код"
+    - "публичные протоколы без тайного кода, если публичное правило специально спроектировано"
+    - "командные стратегии без общения после начала испытания"
   exclude:
-    - "ordinary adaptive search by one solver"
-    - "common-knowledge puzzles where agents only announce true knowledge states"
-    - "single-controller code design without cooperating roles"
-    - "public processes whose speakers are not following an agreed strategy"
+    - "обычный адаптивный поиск одним решателем"
+    - "задачи на общее знание, где участники только объявляют истинные состояния своего знания"
+    - "проектирование кода одним управляющим без сотрудничающих ролей"
+    - "публичные процессы, где говорящие не следуют заранее согласованной стратегии"
 reviewed_areas:
   - communication
   - card_tricks
@@ -105,6 +105,86 @@ local_facets:
       - hamming_covering_code
       - modular_privacy_code
       - robust_oracle_code
+display_labels:
+  facets:
+    participants: "Кто договаривается"
+    prearrangement_type: "О чем договорились заранее"
+    communication_channel: "Как передают сообщение"
+    privacy_constraint: "Что запрещено или скрыто"
+    success_goal: "Что команда хочет получить"
+    simultaneous_or_sequential: "Как идут ответы"
+    guarantee_type: "Какая гарантия успеха"
+    code_family: "Какой код результатов"
+  values:
+    participants:
+      magician_assistant_pair: "фокусник и помощник"
+      prisoner_team: "команда заключенных"
+      hat_team: "команда с колпаками"
+      sender_receiver_pair: "отправитель и получатель"
+      public_card_players: "игроки с публичными картами"
+      robust_wise_people_line: "мудрецы в ряду с мешающими участниками"
+    prearrangement_type:
+      shared_codebook: "общая таблица правил"
+      role_assignment: "заранее распределили роли"
+      deterministic_team_protocol: "строгое командное правило"
+      probabilistic_team_strategy: "правило с вероятностью"
+      public_protocol_no_secret_code: "публичное правило без тайного кода"
+      robust_protocol_with_corrupt_agents: "правило выдерживает испорченные ответы"
+    communication_channel:
+      silence: "молчание"
+      no_post_start_communication: "после старта нельзя общаться"
+      public_statement: "фраза вслух"
+      order_permutation: "порядок предметов"
+      single_bit: "один бит"
+      persistent_single_bit: "один бит памяти"
+      parity: "четность"
+      xor_checksum: "xor-проверка"
+      modular_sum: "остаток суммы"
+      private_observation: "личное наблюдение"
+      pass_or_guess: "пас или догадка"
+      numeric_side_channel: "числовая подсказка"
+    privacy_constraint:
+      none: "нет"
+      hidden_from_receiver: "получатель не видит скрытый предмет"
+      no_direct_communication: "нельзя говорить напрямую"
+      observer_privacy: "наблюдатель не должен узнать секрет"
+      no_wrong_guess: "нельзя ошибочно угадать"
+      corrupted_speakers: "часть говорящих испорчена"
+    success_goal:
+      communicate_hidden_card: "передать скрытую карту"
+      communicate_hidden_message: "передать скрытое сообщение"
+      communicate_hidden_square: "передать скрытую клетку"
+      certify_all_visited: "доказать, что все побывали"
+      maximize_correct_hats: "получить как можно больше верных ответов про колпаки"
+      team_survival: "команда выживает"
+      mutual_identification_with_privacy: "узнать свои карты и сохранить секрет"
+      win_without_wrong_guess: "выиграть без неверной догадки"
+    simultaneous_or_sequential:
+      one_message: "одно сообщение"
+      sequential_public: "по очереди вслух"
+      asynchronous_repeated: "повторяется без общего расписания"
+      independent_sequential: "каждый действует по очереди независимо"
+      simultaneous: "одновременно"
+      two_round_public: "два публичных раунда"
+    guarantee_type:
+      deterministic: "гарантированно"
+      deterministic_all_but_one: "гарантированно, кроме одного"
+      deterministic_eventual: "гарантированно когда-нибудь"
+      probabilistic: "с вероятностью"
+      probabilistic_no_wrong_guess: "с вероятностью, но без неверной догадки"
+      deterministic_with_privacy: "гарантированно и с секретностью"
+      deterministic_except_corrupted_and_one: "гарантированно, кроме испорченных и одного"
+    code_family:
+      permutation_offset_code: "сдвиг в порядке карт"
+      factorial_order_code: "код числом порядков"
+      parity_accumulator: "накопление четности"
+      modular_sum_code: "код остатком суммы"
+      xor_checksum_code: "xor-проверка"
+      persistent_bit_counter: "один бит как счетчик"
+      permutation_cycle_following: "ход по циклам перестановки"
+      hamming_covering_code: "покрывающий код Хэмминга"
+      modular_privacy_code: "остатки с сохранением секрета"
+      robust_oracle_code: "код против испорченного оракула"
 members:
   - problem_id: fitch-cheney-five-card-trick
     participants: magician_assistant_pair

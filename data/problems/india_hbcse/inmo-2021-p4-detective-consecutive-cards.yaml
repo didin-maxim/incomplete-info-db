@@ -76,7 +76,7 @@
     "comment": "Верхняя оценка короткая, нижняя требует нетривиального графового аргумента против любой стратегии детектива.",
     "status": "ai_checked"
   },
-  "tags": ["decision_tree", "indistinguishability_argument", "knowledge_elimination"],
+  "tags": ["decision_tree", "indistinguishability_argument", "knowledge_elimination", "condition_older_students"],
   "sources": [
     {"source_id": "src-hbcse-inmo-2021-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

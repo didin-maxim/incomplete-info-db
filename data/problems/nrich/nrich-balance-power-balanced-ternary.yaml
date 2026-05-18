@@ -64,7 +64,7 @@
     "objective": "measure_all_integer_masses_with_few_weights"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Не фальшивая монета, а кодирование скрытой массы через размещение гирь на чашах.", "status": "needs_human_review"},
-  "tags": ["balance_scale", "binary_code", "ternary_code", "weighted_sum_encoding"],
+  "tags": ["balance_scale", "binary_code", "ternary_code", "weighted_sum_encoding", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-balance-power", "role": "official_statement_and_student_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

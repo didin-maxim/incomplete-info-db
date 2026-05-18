@@ -1,17 +1,17 @@
 {
   "id": "amc-au-2016-intermediate-q17-truth-liars-circle",
-  "title": "Australian AMC 2016 Intermediate Q17: правдивцы и лжецы за кругом",
+  "title": "Australian AMC 2016 Intermediate Q17: рыцари и лжецы за кругом",
   "fragment": "questions",
   "kind": {"primary": "olympiad_problem", "secondary": ["state_elimination"]},
   "language": "ru",
   "statements": {"original": [{"id": "stmt-amc-au-2016-i17-circle", "title": "Сколько человек говорят правду", "text": "Пять человек сидят по кругу. Некоторые из них всегда говорят правду, остальные всегда лгут. Каждый утверждает, что сидит между двумя лжецами. Сколько из них говорят правду?", "source_ids": ["src-amt-amc-2016-solutions"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["truth_value"]}]},
   "ideas": [{"id": "idea-local-truth-condition-on-cycle", "title": "Истинность фразы задает локальное условие на двух соседей", "text": "Правдивец действительно должен иметь двух соседей-лжецов. Лжец, наоборот, не может иметь двух соседей-лжецов. Поэтому на круге запрещены две соседние правдивые позиции и три подряд идущих лжеца.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
-  "strategies": [{"id": "str-forbidden-runs-on-cycle", "title": "Исключить запрещенные соседства", "text": "Если кто-то правдив, то его два соседа - лжецы, значит две правдивые позиции рядом невозможны. Если бы три лжеца сидели подряд, средний лжец на самом деле сидел бы между двумя лжецами и сказал бы правду, что невозможно. На цикле из пяти мест эти два запрета оставляют чередование с двумя правдивцами и тремя лжецами. Поэтому ответ: 2.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["truth_value"]}],
+  "strategies": [{"id": "str-forbidden-runs-on-cycle", "title": "Исключить запрещенные соседства", "text": "Если кто-то рыцарь, то его два соседа - лжецы, значит две позиции с рыцарями рядом невозможны. Если бы три лжеца сидели подряд, средний лжец на самом деле сидел бы между двумя лжецами и сказал бы правду, что невозможно. На цикле из пяти мест эти два запрета оставляют чередование с двумя рыцарями и тремя лжецами. Поэтому ответ: 2.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["truth_value"]}],
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "тип каждого из пяти людей: правдивец или лжец", "observations": ["пять одинаковых публичных утверждений о двух соседях"], "allowed_actions": ["проверять совместимость истинности утверждения с типами соседей"], "goal": ["determine_number_of_truth_tellers"], "strategy_type": ["state_elimination", "local_consistency"], "lower_bound_method": [], "keywords": ["australian_amc_2016", "truth_tellers", "liars", "cycle", "local_statement"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 5, "question_count": 0, "lies_allowed": "some people are systematic liars", "adaptive": false, "objective": "determine_number_of_truth_tellers"},
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Небольшая задача на локальные ограничения на круге.", "status": "ai_checked"},
-  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination"],
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-amt-amc-2016-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "australia_batch", "notes": ["Официальная книга AMC 2016 Solutions доступна как легальный цифровой продукт AMT; карточка содержит краткий русский пересказ."]}
 }

@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "кто из четырех мальчиков разбил окно и какие ответы истинны", "observations": ["четыре публичных ответа и общее число правдивых ответов"], "allowed_actions": ["логически сопоставлять возможного виновника с истинностью ответов"], "goal": ["determine_whether_dima_told_truth"], "strategy_type": ["truth_value_counting"], "lower_bound_method": [], "keywords": ["truth_count", "culprit_identification", "public_statements"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 4, "lies_allowed": "exactly two false statements among four", "adaptive": false, "objective": "determine_truth_value_of_one_statement"},
   "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткое исключение случая с тремя правдивыми отрицаниями.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination"],
+  "tags": ["lie_detection", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-kvantik-math-contest-2016", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2016 года, задача 11. На странице конкурса дано условие; решение восстановлено редакционно."]}
 }

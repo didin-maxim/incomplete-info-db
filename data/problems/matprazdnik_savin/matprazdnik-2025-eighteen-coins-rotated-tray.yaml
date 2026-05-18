@@ -49,7 +49,7 @@
   },
   "weighing_profile": {"object_count": 18, "counterfeit_count": 0, "counterfeit_type": "known_multiset_unknown_rotation", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_all_weights"},
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6 класс, решение опирается на рисунок и тернарное различение трех случаев.", "status": "ai_checked"},
-  "tags": ["balance_scale", "ternary_code", "symmetry_breaking", "linear_signature"],
+  "tags": ["balance_scale", "ternary_code", "symmetry_breaking", "linear_signature", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2025-book", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 36-й Математический праздник, 6 класс, задача 6; self_contained=needs_diagram из-за существенного рисунка.", "2026-05-18: public_ready снят до текстового переноса существенного рисунка или добавления самодостаточной схемы."]}
 }

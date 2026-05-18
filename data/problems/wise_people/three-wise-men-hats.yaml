@@ -54,7 +54,7 @@
     "comment": "Карточка-заготовка для семейства задач о шляпах.",
     "status": "needs_human_review"
   },
-  "tags": ["hat_puzzle", "common_knowledge", "public_announcement"],
+  "tags": ["hat_puzzle", "common_knowledge", "public_announcement", "condition_middle_school"],
   "sources": [
     {"source_id": "src-common-knowledge-puzzles", "role": "folklore_family", "status": "source_verified"}
   ],

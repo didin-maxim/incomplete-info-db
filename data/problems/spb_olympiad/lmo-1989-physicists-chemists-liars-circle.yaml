@@ -38,9 +38,9 @@
   ],
   "impossibility_proofs": [],
   "incomplete_information_profile": {
-    "hidden_state_space": "порядок физиков и химиков за столом и тип каждого участника: правдивый или лжец",
+    "hidden_state_space": "порядок физиков и химиков за столом и тип каждого участника: рыцарь или лжец",
     "observations": ["одинаковый публичный ответ всех участников на вопрос о соседе справа"],
-    "allowed_actions": ["использовать правило правдивости и лжи для ответа о локальном соседе"],
+    "allowed_actions": ["использовать правило правды и лжи для ответа о соседе справа"],
     "goal": ["prove_parity_property"],
     "strategy_type": ["state_elimination", "local_constraint_propagation"],
     "lower_bound_method": [],
@@ -50,7 +50,7 @@
   "questions_profile": {"answer_alphabet_size": 2, "question_count": "2n", "lies_allowed": "часть участников всегда говорит правду, остальные всегда лгут", "adaptive": false, "objective": "prove_parity_property"},
   "truth_liar_profile": {"agent_types": ["truth_teller", "liar"], "truth_rule": "fixed_truth_or_lie", "interaction_mode": ["public_answers", "local_neighborhood"], "topology": "circle", "goal": ["prove_parity_property"]},
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "8 класс; короткий счет лжецов по локальным переходам в цикле.", "status": "ai_checked"},
-  "tags": ["truth_liar_normalization", "structural_constraint"],
+  "tags": ["lie_detection", "structural_constraint", "condition_older_students"],
   "sources": [{"source_id": "src-lmo-1989-pdmi", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "spb_olympiad", "notes": ["Официальный PDF содержит условие; решение восстановлено редакционно."]}
 }

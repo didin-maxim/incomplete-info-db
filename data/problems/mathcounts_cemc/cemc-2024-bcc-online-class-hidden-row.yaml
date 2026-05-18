@@ -53,7 +53,7 @@
     "objective": "determine_middle_position"
   },
   "difficulty": {"main": "intro", "local_score": 1, "comment": "Восстановление цепочки из локальных наблюдений.", "status": "ai_checked"},
-  "tags": ["knowledge_elimination", "structural_constraint"],
+  "tags": ["knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-cemc-2024-bcc-7-8-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "scope_review_needed", "public_ready": false, "relations_status": "new_links", "notes": ["2026-05-18 scope-аудит: карточка снята с публичной готовности как обычное восстановление цепочки по полной таблице соседей; неполная информация здесь слишком близка к общей задаче на ограничения, без проектирования стратегии запросов или кодирования."]}
 }

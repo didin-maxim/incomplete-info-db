@@ -63,7 +63,7 @@
     "comment": "Неоптимальная, но полностью конструктивная стратегия.",
     "status": "ai_checked"
   },
-  "tags": ["binary_search", "lie_detection", "error_correcting_code", "repetition_code"],
+  "tags": ["binary_search", "lie_detection", "error_correcting_code", "repetition_code", "condition_middle_school"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
   ],

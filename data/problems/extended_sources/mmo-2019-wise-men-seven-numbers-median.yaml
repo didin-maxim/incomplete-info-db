@@ -62,7 +62,7 @@
     "comment": "9 класс ММО; хорошая короткая карточка про однозначное кодирование через один параметр.",
     "status": "ai_checked"
   },
-  "tags": ["public_communication", "linear_signature"],
+  "tags": ["public_communication", "linear_signature", "condition_middle_school"],
   "sources": [
     {"source_id": "src-mmo-2019-82-brochure", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

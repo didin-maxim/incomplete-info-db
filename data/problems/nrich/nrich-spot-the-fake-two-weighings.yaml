@@ -66,7 +66,7 @@
     "objective": "find_maximum_n_and_strategy"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Оптимальная задача на дерево решений с простой конструкцией и оценкой.", "status": "needs_human_review"},
-  "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "ternary_search"],
+  "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "ternary_search", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-spot-the-fake", "role": "official_statement_and_student_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

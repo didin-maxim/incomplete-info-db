@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "раскраска n шляп и множество k безумных мудрецов", "observations": ["видимые шляпы впереди", "публичная последовательность цветов и чисел"], "allowed_actions": ["заранее договориться о кодировании и правилах обновления оракула"], "goal": ["maximize_guaranteed_correct_answers"], "strategy_type": ["public_communication", "robust_protocol"], "lower_bound_method": ["indistinguishability"], "keywords": ["problems_ru_66710", "hat_puzzle", "madmen", "oracle_protocol"], "status": "ai_checked"},
   "communication_profile": {"senders": "n sequential agents", "receivers": "later agents", "message": "color plus arbitrary natural number", "message_capacity": "unbounded numeric side channel, corrupted by k uncontrolled agents"},
   "difficulty": {"main": "olympiad_hard", "local_score": 5, "comment": "Шляпная коммуникационная стратегия с отказоустойчивым публичным протоколом.", "status": "ai_checked"},
-  "tags": ["hat_puzzle", "public_communication", "indistinguishability_argument"],
+  "tags": ["hat_puzzle", "public_communication", "indistinguishability_argument", "condition_older_students"],
   "sources": [{"source_id": "src-problems-ru-66710", "role": "web_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_deep_batch", "notes": ["Первоисточник по problems.ru: Турнир городов, 2017/18, 39-й, весенний тур, сложный вариант, 10-11 классы, задача 7."]}
 }

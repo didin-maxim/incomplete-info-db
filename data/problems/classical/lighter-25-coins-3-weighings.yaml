@@ -19,7 +19,7 @@
     "reformulation": [
       {
         "id": "stmt-as-n-le-3q",
-        "title": "Частный случай тернарного поиска",
+        "title": "Каждое взвешивание дает три исхода",
         "text": "Это случай общей модели: если одна фальшивая монета заведомо легче, то \\(q\\) взвешиваний достаточно ровно тогда, когда \\(N\\le 3^q\\). Здесь \\(25\\le 3^3\\), поэтому тот же алгоритм делит кандидатов на три почти равные части.",
         "source_ids": ["src-kvant-2013-01-two-fake-coins-article"],
         "status": "ai_checked",
@@ -76,8 +76,8 @@
     "adaptive": true,
     "objective": "identify_coin"
   },
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистая тернарная версия поиска легкой монеты.", "status": "ai_checked"},
-  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound"],
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистый поиск легкой монеты, где каждое взвешивание дает три исхода.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [{"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "special_case_of_existing_N_q_card", "notes": ["2026-05-18: число 25 несущественно для стратегии; это запасной частный случай общей границы N <= 3^q для известной легкой монеты."]}
 }

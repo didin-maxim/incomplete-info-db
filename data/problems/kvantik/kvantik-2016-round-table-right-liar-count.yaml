@@ -11,7 +11,7 @@
   "incomplete_information_profile": {"hidden_state_space": "расположение рыцарей и лжецов на цикле из десяти мест", "observations": ["десять ответов о типе правого соседа"], "allowed_actions": ["логически нормализовать ответы лжецов и рыцарей"], "goal": ["decide_possible_number_of_specific_answers"], "strategy_type": ["truth_liar_normalization", "cycle_parity"], "lower_bound_method": [], "keywords": ["knights_liars_cycle", "type_changes", "right_neighbor"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 2, "question_count": 10, "lies_allowed": "liars always lie, knights always tell truth", "adaptive": false, "objective": "characterize_possible_answer_count"},
   "difficulty": {"main": "standard", "local_score": 2, "comment": "После нормализации ответов задача становится подсчетом границ двух цветов на цикле.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "parity"],
+  "tags": ["lie_detection", "truth_liar_normalization", "parity", "condition_middle_school"],
   "sources": [{"source_id": "src-kvantik-math-contest-2016", "role": "official_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvantik_batch", "notes": ["Математический конкурс Квантика 2016 года, задача 26. На странице конкурса дано условие; решение восстановлено редакционно."]}
 }

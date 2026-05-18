@@ -24,7 +24,7 @@
     {
       "id": "idea-average-signature",
       "title": "Сравнить средние веса пересекающихся наборов",
-      "text": "Если взвесить пары и тройку с пересечениями, то равенства и линейные соотношения между средними весами образуют подпись фальшивой монеты.",
+      "text": "Если взвесить пары и тройку с пересечениями, то равенства и линейные соотношения между средними весами однозначно указывают фальшивую монету.",
       "standard_idea_ids": ["partition_state_space"],
       "status": "ai_checked"
     }
@@ -65,7 +65,7 @@
     "comment": "Junior O-Level Tournament of Towns; решение является небольшой линейной кодировкой.",
     "status": "ai_checked"
   },
-  "tags": ["digital_scale", "linear_signature", "nonadaptive_strategy"],
+  "tags": ["digital_scale", "linear_signature", "nonadaptive_strategy", "condition_older_students"],
   "sources": [
     {"source_id": "src-tot-toronto-2005-fall-junior-o", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

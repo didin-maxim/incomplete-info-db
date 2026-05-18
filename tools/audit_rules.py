@@ -11,6 +11,12 @@ def main():
         public_ready = editorial.get("public_ready") is True
         has_strategy = bool(problem.get("strategies"))
         has_impossibility = bool(problem.get("impossibility_proofs"))
+        tags = set(problem.get("tags", []))
+        condition_tags = tags & {"condition_middle_school", "condition_older_students"}
+        if len(condition_tags) == 0:
+            errors.append(f"{pid}: missing condition accessibility tag")
+        elif len(condition_tags) > 1:
+            errors.append(f"{pid}: multiple condition accessibility tags")
         if public_ready and not (has_strategy or has_impossibility):
             errors.append(f"{pid}: public_ready without strategy or impossibility proof")
         if problem.get("fragment") == "weighings" and "weighing_profile" not in problem:

@@ -55,7 +55,7 @@
     "objective": "identify_day"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Нужно увидеть, что информативны только границы календарных режимов.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint"],
+  "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-ukmt-smc-2015-sol-extended", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "ukmt_batch", "notes": ["Условие и решение взяты из расширенных решений UKMT SMC 2015, вопрос 13; карточка содержит русский пересказ."]}
 }

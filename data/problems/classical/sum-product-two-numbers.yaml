@@ -46,7 +46,7 @@
     "objective": "determine both numbers"
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Карточка-заготовка: нужна конкретная версия перед стратегией.", "status": "needs_human_review"},
-  "tags": ["common_knowledge", "public_announcement", "knowledge_elimination"],
+  "tags": ["common_knowledge", "public_announcement", "knowledge_elimination", "condition_older_students"],
   "sources": [{"source_id": "src-common-knowledge-puzzles", "role": "folklore_family", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "seed_links", "notes": ["Добавлена только как явно помеченная расплывчатая классическая тема; стратегия не указана из-за неоднозначности формулировки."]}
 }

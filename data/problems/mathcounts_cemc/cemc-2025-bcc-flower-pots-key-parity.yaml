@@ -62,7 +62,7 @@
     "objective": "locate_hidden_key"
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Двоичный маршрут задается тремя проверками четности.", "status": "ai_checked"},
-  "tags": ["parity", "binary_code", "decision_tree", "single_bit_signal"],
+  "tags": ["parity", "binary_code", "decision_tree", "single_bit_signal", "condition_middle_school"],
   "sources": [
     {"source_id": "src-cemc-2025-bcc-7-8-contest", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-cemc-2025-bcc-7-8-solutions", "role": "official_solution", "status": "source_verified"}

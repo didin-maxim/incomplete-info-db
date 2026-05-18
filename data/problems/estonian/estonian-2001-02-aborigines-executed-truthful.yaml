@@ -55,13 +55,13 @@
     "objective": "determine type of removed islander and remaining majority"
   },
   "difficulty": {"main": "standard", "local_score": 3, "comment": "Ключевой шаг - строгие неравенства в составе друзей не могут смениться так сильно после удаления одного человека.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "indistinguishability_argument"],
+  "tags": ["lie_detection", "knowledge_elimination", "indistinguishability_argument", "condition_older_students"],
   "sources": [{"source_id": "src-estonian-2001-02-selected-problems", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-18",
     "review_status": "ai_checked",
-    "public_ready": true,
+    "public_ready": false,
     "relations_status": "estonian_batch",
     "notes": ["Официальный английский буклет содержит условие и решение; карточка является русским пересказом."]
   }

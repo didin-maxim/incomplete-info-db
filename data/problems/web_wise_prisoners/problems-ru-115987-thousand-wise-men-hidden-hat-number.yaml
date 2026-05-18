@@ -64,7 +64,7 @@
     "objective": "guarantee at least 999 correct answers"
   },
   "difficulty": {"main": "olympiad_hard", "local_score": 5, "comment": "Сильная версия сочетает последовательное декодирование с четностью перестановки и спрятанной позицией.", "status": "ai_checked"},
-  "tags": ["hat_puzzle", "modular_sum_code", "parity_code", "public_communication"],
+  "tags": ["hat_puzzle", "modular_sum_code", "parity_code", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [{"source_id": "src-problems-ru-115987", "role": "statement_and_solution_archive", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",

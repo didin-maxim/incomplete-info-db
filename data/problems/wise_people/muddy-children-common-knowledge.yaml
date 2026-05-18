@@ -63,7 +63,7 @@
     "comment": "Классический пример общего знания.",
     "status": "ai_checked"
   },
-  "tags": ["common_knowledge", "public_announcement", "public_announcement_induction"],
+  "tags": ["common_knowledge", "public_announcement", "public_announcement_induction", "condition_older_students"],
   "sources": [
     {"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"}
   ],

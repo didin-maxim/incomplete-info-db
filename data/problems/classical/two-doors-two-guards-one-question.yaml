@@ -54,8 +54,9 @@
     "adaptive": false,
     "objective": "choose_safe_door"
   },
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Базовая нормализация ответа при неизвестном типе отвечающего.", "status": "ai_checked"},
-  "tags": ["lie_detection", "truth_liar_normalization", "guard_paradox"],
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Базовый вопрос, который работает и для рыцаря, и для лжеца.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "guard_paradox", "condition_middle_school"],
+  "novelty": {"status": "known_classic", "duplicate_risk": "high", "advantage_note": "Канонический сюжет про две двери и одного рыцаря/лжеца; прямые варианты лучше считать шаблоном, а не новой задачей."},
   "sources": [{"source_id": "src-truth-liar-questions", "role": "folklore_statement", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "notes": []}
 }

@@ -1,16 +1,16 @@
 {
   "cluster_id": "weighings",
-  "title": "Weighings and quantitative measurement tests",
+  "title": "Взвешивания и количественные измерения",
   "scope": {
     "include": [
-      "physical balance-scale, pointer-scale and digital-scale weighing problems",
-      "quantitative tests where an instrument measures a chosen subset",
-      "weighing impossibility cards even when their primary fragment is impossibility"
+      "задачи на чашечные, стрелочные и цифровые весы",
+      "количественные тесты, где прибор измеряет выбранное подмножество",
+      "карточки о невозможности взвешивания, даже если их основной фрагмент - impossibility"
     ],
     "exclude": [
-      "coin problems with no weighing or measurement action",
-      "pure question/communication problems where sums are only messages or algebraic constraints",
-      "group-testing protocols with no weighing/measurement semantics"
+      "задачи про монеты без действия взвешивания или измерения",
+      "чистые задачи на вопросы/коммуникацию, где суммы являются только сообщениями или алгебраическими условиями",
+      "протоколы группового тестирования без смысла взвешивания или измерения"
     ]
   },
   "facet_fields": {
@@ -24,6 +24,114 @@
     "proof_method": ["ternary_search", "ternary_signature_code", "decision_tree_lower_bound", "numeric_linear_signature", "structural_partition", "indistinguishability", "adversary_lower_bound", "binary_search", "parity_or_pairing", "conditional_probability", "balanced_ternary_representation"],
     "signature_type": ["ternary_decision_tree", "ternary_signature", "numeric_linear", "binary_decision_tree", "binary_subset_code", "parity_or_equality", "balanced_ternary", "none"],
     "generalization_level": ["finite_instance", "capacity_bound", "parametric_generalization", "open_ended_investigation", "probability_instance", "boundary_included"]
+  },
+  "display_labels": {
+    "facets": {
+      "primary_family": "Главный тип задачи",
+      "weighing_count": "Сколько взвешиваний",
+      "scale_type": "Какие весы или прибор",
+      "counterfeit_model": "Какая фальшивка",
+      "adaptive": "Можно менять следующий ход?",
+      "known_genuine_available": "Есть настоящая монета для сравнения?",
+      "objective": "Что надо узнать",
+      "proof_method": "Главный прием решения",
+      "signature_type": "Как записан код результатов",
+      "generalization_level": "Насколько общий пример"
+    },
+    "values": {
+      "primary_family": {
+        "known_direction_search": "фальшивка уже известна легче или тяжелее",
+        "unknown_direction_counterfeit": "неизвестно, легче фальшивка или тяжелее",
+        "numeric_linear_signature": "ответ читается из чисел и сумм",
+        "structured_counterfeit": "фальшивки связаны расположением или группами",
+        "faulty_or_limited_instrument": "прибор сломан или дает не все ответы",
+        "measurement_coding": "измерения специально кодируют случай",
+        "probability_or_verification": "вероятность или проверка заявления",
+        "boundary_measurement_oracle": "пограничный пример с измерением"
+      },
+      "weighing_count": {
+        "n": "n взвешиваний",
+        "k": "k взвешиваний"
+      },
+      "scale_type": {
+        "balance": "чашечные весы",
+        "digital": "цифровые весы",
+        "pointer": "стрелочные весы",
+        "numeric_balance": "весы с числовой разностью",
+        "balance_binary": "весы с двумя ответами",
+        "unreliable_balance": "ненадежные весы",
+        "sensitive_balance": "очень чувствительные весы",
+        "equality_detector": "проверка равенства",
+        "group_test": "проверка группы",
+        "counting_detector": "прибор считает подходящие предметы",
+        "sum_oracle": "ответом служит сумма"
+      },
+      "counterfeit_model": {
+        "single_known_light": "одна фальшивка, точно легче",
+        "single_known_heavy": "одна фальшивка, точно тяжелее",
+        "single_known_direction": "одна фальшивка с известным отличием",
+        "single_unknown_direction": "одна фальшивка, легче или тяжелее неизвестно",
+        "multiple_known_direction": "несколько фальшивок с известным отличием",
+        "multiple_mixed_direction": "несколько фальшивок разных типов",
+        "structured_weight_assignment": "веса распределены по правилу",
+        "faulty_instrument": "сломанный прибор",
+        "no_counterfeit_measurement": "не про фальшивку, а про измерение",
+        "subset_property": "нужно проверить свойство группы"
+      },
+      "known_genuine_available": {
+        "yes": "да",
+        "no": "нет",
+        "derived": "можно получить по ходу",
+        "not_needed": "не нужна",
+        "reference_weights": "есть эталонные веса"
+      },
+      "objective": {
+        "identify_coin": "найти монету",
+        "identify_coin_and_sign": "найти монету и понять легче/тяжелее",
+        "identify_multiple": "найти несколько предметов",
+        "identify_stack": "найти стопку или мешок",
+        "identify_weight_assignment": "восстановить веса",
+        "identify_sign_only": "понять только легче или тяжелее",
+        "identify_faulty_instrument": "найти сломанный прибор",
+        "certify_genuine": "доказать, что монета настоящая",
+        "prove_bound": "доказать, что меньше нельзя",
+        "compute_probability": "посчитать вероятность",
+        "verify_claim": "проверить заявление",
+        "measure_all": "измерить все",
+        "detect_presence_or_property": "проверить наличие или свойство"
+      },
+      "proof_method": {
+        "ternary_search": "деление на три группы",
+        "ternary_signature_code": "код из трех исходов взвешивания",
+        "decision_tree_lower_bound": "счет листьев дерева решений",
+        "numeric_linear_signature": "числовые суммы как код",
+        "structural_partition": "разбиение по структуре",
+        "indistinguishability": "два случая выглядят одинаково",
+        "adversary_lower_bound": "противник мешает выбрать короче",
+        "binary_search": "деление пополам",
+        "parity_or_pairing": "четность или пары",
+        "conditional_probability": "условная вероятность",
+        "balanced_ternary_representation": "запись числа тремя вариантами"
+      },
+      "signature_type": {
+        "ternary_decision_tree": "дерево с тремя исходами",
+        "ternary_signature": "код результатов из трех исходов",
+        "numeric_linear": "числовой код",
+        "binary_decision_tree": "дерево да/нет",
+        "binary_subset_code": "код выбранных групп",
+        "parity_or_equality": "четность или равенство",
+        "balanced_ternary": "три варианта для каждой гири",
+        "none": "кода нет"
+      },
+      "generalization_level": {
+        "finite_instance": "конкретная задача",
+        "capacity_bound": "оценка по числу исходов",
+        "parametric_generalization": "общая формула",
+        "open_ended_investigation": "открытое исследование",
+        "probability_instance": "вероятностный пример",
+        "boundary_included": "пограничный пример"
+      }
+    }
   },
   "members": [
     {"problem_id": "heavier-9-coins-2-weighings", "source_fragment": "weighings", "cluster_status": "core", "primary_family": "known_direction_search", "weighing_count": 2, "scale_type": "balance", "counterfeit_model": "single_known_heavy", "adaptive": true, "known_genuine_available": "not_needed", "objective": "identify_coin", "proof_method": "ternary_search", "signature_type": "ternary_decision_tree", "generalization_level": "finite_instance"},
@@ -88,7 +196,7 @@
     {"problem_id": "matprazdnik-2022-digits-five-questions", "source_fragment": "questions", "reason": "questions about digit sums are a communication protocol, not a weighing/measurement test"},
     {"problem_id": "mmo-2019-wise-men-seven-numbers-median", "source_fragment": "communication", "reason": "linear statistic is communicated by a person; no physical or instrumented measurement is made"},
     {"problem_id": "prisoners-chessboard-one-coin-xor", "source_fragment": "communication", "reason": "coins are binary markers for a parity message, not weighed objects"},
-    {"problem_id": "kvantik-2015-parity-four-integers-three-questions", "source_fragment": "questions", "reason": "sum parity questions share signature logic but are not measurement/weighing tasks"},
+    {"problem_id": "kvantik-2015-parity-four-integers-three-questions", "source_fragment": "questions", "reason": "вопросы о четности суммы используют похожую кодовую логику, но не являются задачами на измерение или взвешивание"},
     {"problem_id": "fixed-questions-as-binary-code", "source_fragment": "questions", "reason": "abstract yes/no coding belongs to questions, not weighings"}
   ],
   "global_facet_candidates": [

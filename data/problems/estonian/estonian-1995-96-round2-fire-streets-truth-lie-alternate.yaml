@@ -55,7 +55,7 @@
     "objective": "determine_fire_street"
   },
   "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткий перебор трех типов говорящего.", "status": "ai_checked"},
-  "tags": ["lie_detection", "knowledge_elimination", "truth_liar_normalization"],
+  "tags": ["lie_detection", "knowledge_elimination", "truth_liar_normalization", "condition_middle_school"],
   "sources": [{"source_id": "src-estonian-1995-96-selected-problems", "role": "official_statement", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
