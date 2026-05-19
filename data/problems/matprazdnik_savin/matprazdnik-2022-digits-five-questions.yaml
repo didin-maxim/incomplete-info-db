@@ -49,7 +49,7 @@
   },
   "questions_profile": {"answer_alphabet_size": 10, "question_count": 5, "lies_allowed": "none", "adaptive": true, "objective": "decode_permutation"},
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6-7 класс, чистая стратегия вопросов к скрытой перестановке.", "status": "ai_checked"},
-  "tags": ["binary_code", "decision_tree", "permutation_order_code", "condition_middle_school"],
+  "tags": ["decision_tree", "linear_signature", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2022-book", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "matprazdnik_savin_batch", "notes": ["Официальная брошюра, 33-й Математический праздник, 6 класс задача 3 / 7 класс задача 6."]}
 }

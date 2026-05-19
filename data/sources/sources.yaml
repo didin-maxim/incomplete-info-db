@@ -212,6 +212,62 @@
       "language": "en"
     },
     {
+      "id": "src-lktg-2008-broken-balances-problems-ru",
+      "type": "official_training_material",
+      "title": "20-я летняя конференция Турнира городов 2008, задача 4: Взвешивания со сломанными весами. Задачи",
+      "authors": [
+        {
+          "name": "Константин Кноп",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Григорий Челноков",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Илья Богданов",
+          "role": "material_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://olympiads.mccme.ru/lktg/2008/4/4-1ru.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2008/4/index.htm; проект предложили Илья Богданов, Григорий Челноков, Борис Френкин."
+    },
+    {
+      "id": "src-lktg-2008-broken-balances-solutions-ru",
+      "type": "official_training_material",
+      "title": "20-я летняя конференция Турнира городов 2008, задача 4: Взвешивания со сломанными весами. Решения",
+      "authors": [
+        {
+          "name": "Константин Кноп",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Григорий Челноков",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Илья Богданов",
+          "role": "material_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://olympiads.mccme.ru/lktg/2008/4/4-2ru.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2008/4/index.htm; проект предложили Илья Богданов, Григорий Челноков, Борис Френкин."
+    },
+    {
       "id": "src-tot-2002-fall-senior-o-problems",
       "type": "official_olympiad_archive",
       "title": "Tournament of the Towns, Fall 2002 Senior O-Level problems",
@@ -346,7 +402,11 @@
       "type": "official_journal_archive",
       "title": "Квант, 2006, №2: задача М1991",
       "authors": [
-        {"name": "М. Малкин", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "М. Малкин",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://kvant.mccme.ru/pdf/2006-02s.pdf",
       "browser_openable": true,
@@ -360,7 +420,11 @@
       "type": "official_journal_article",
       "title": "К. Кноп. Две фальшивые монеты. Квант, 2013, №1",
       "authors": [
-        {"name": "К. Кноп", "role": "article_author", "status": "source_verified"}
+        {
+          "name": "К. Кноп",
+          "role": "article_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://kvant.mccme.ru/pdf/2013/2013-01-b.pdf",
       "browser_openable": true,
@@ -643,7 +707,11 @@
       "type": "author_archive",
       "title": "Peter Winkler, Seven Puzzles You Think You Must Not Have Heard Correctly",
       "authors": [
-        {"name": "Peter Winkler", "role": "source_author", "status": "source_verified"}
+        {
+          "name": "Peter Winkler",
+          "role": "source_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://math.dartmouth.edu/~pw/solutions.pdf",
       "browser_openable": true,
@@ -656,7 +724,11 @@
       "type": "book_reference",
       "title": "Peter Winkler, Mathematical Mind-Benders",
       "authors": [
-        {"name": "Peter Winkler", "role": "book_author", "status": "source_verified"}
+        {
+          "name": "Peter Winkler",
+          "role": "book_author",
+          "status": "source_verified"
+        }
       ],
       "url": "",
       "browser_openable": false,
@@ -669,7 +741,11 @@
       "type": "journal_article",
       "title": "George Boolos, The Hardest Logic Puzzle Ever, The Harvard Review of Philosophy 6(1), 1996",
       "authors": [
-        {"name": "George Boolos", "role": "article_author", "status": "source_verified"}
+        {
+          "name": "George Boolos",
+          "role": "article_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.pdcnet.org/scholarpdf/show?file_type=pdf&id=harvardreview_1996_0006_0001_0062_0065&pdfname=harvardreview_1996_0006_0001_0062_0065.pdf",
       "browser_openable": true,
@@ -798,7 +874,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 66705: расстояние до ближайшего лжеца",
       "authors": [
-        {"name": "Максим Дидин", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Максим Дидин",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://problems.ru/view_problem_details_new.php?id=66705",
       "browser_openable": true,
@@ -813,7 +893,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 67008: карточки 1-16 в таблице 4x4",
       "authors": [
-        {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Евдокимов М.А.",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=67008",
       "browser_openable": true,
@@ -1323,7 +1407,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 65817: шесть монет на весах с общим весом",
       "authors": [
-        {"name": "Малкин М.И.", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Малкин М.И.",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=65817",
       "browser_openable": true,
@@ -1338,7 +1426,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 66710: мудрецы в колпаках и k безумных",
       "authors": [
-        {"name": "Иван Митрофанов", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Иван Митрофанов",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=66710",
       "browser_openable": true,
@@ -1353,7 +1445,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 66722: рыцари, лжецы и подпевалы",
       "authors": [
-        {"name": "Михаил Кузнецов", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Михаил Кузнецов",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=66722",
       "browser_openable": true,
@@ -1692,7 +1788,11 @@
       "type": "web_archive",
       "title": "problems.ru, задача 116064: шесть гномов и спрятанный радужный колпак",
       "authors": [
-        {"name": "Шаповалов А.В.", "role": "problem_author", "status": "source_verified"}
+        {
+          "name": "Шаповалов А.В.",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://www.problems.ru/view_problem_details_new.php?id=116064",
       "browser_openable": true,
@@ -1707,15 +1807,18 @@
       "type": "book_chapter_online",
       "title": "Peter Winkler, Mathematical Puzzles, Chapter 23: Infinite Choice",
       "authors": [
-        {"name": "Peter Winkler", "role": "book_author", "status": "source_verified"}
+        {
+          "name": "Peter Winkler",
+          "role": "book_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://math.dartmouth.edu/news-resources/electronic/puzzlebook/book/ch23.pdf",
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
       "language": "en"
-    }
-    ,
+    },
     {
       "id": "src-mmo-2024-25-sol-11-tur1-final",
       "type": "official_olympiad_solution",
@@ -1836,8 +1939,7 @@
       "status": "source_verified",
       "language": "en",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
-    }
-    ,
+    },
     {
       "id": "src-spb-primary-2023-solutions",
       "type": "official_olympiad_archive",
@@ -1848,9 +1950,244 @@
       "status": "source_verified",
       "language": "ru"
     },
-    {"id": "src-lmo-1964-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1964: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1964/lmo_1964.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
-    {"id": "src-lmo-1980-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1980: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1980/lmo_1980.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
-    {"id": "src-lmo-1989-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1989: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1989/lmo_1989.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"},
-    {"id": "src-lmo-1990-pdmi", "type": "official_olympiad_archive", "title": "Ленинградская математическая олимпиада 1990: официальный PDF в архиве ПОМИ", "url": "https://www.pdmi.ras.ru/~olymp/lmo/1990/lmo_1990.pdf", "browser_openable": true, "official": true, "status": "source_verified", "language": "ru"}
+    {
+      "id": "src-lmo-1964-pdmi",
+      "type": "official_olympiad_archive",
+      "title": "Ленинградская математическая олимпиада 1964: официальный PDF в архиве ПОМИ",
+      "url": "https://www.pdmi.ras.ru/~olymp/lmo/1964/lmo_1964.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-lmo-1980-pdmi",
+      "type": "official_olympiad_archive",
+      "title": "Ленинградская математическая олимпиада 1980: официальный PDF в архиве ПОМИ",
+      "url": "https://www.pdmi.ras.ru/~olymp/lmo/1980/lmo_1980.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-lmo-1989-pdmi",
+      "type": "official_olympiad_archive",
+      "title": "Ленинградская математическая олимпиада 1989: официальный PDF в архиве ПОМИ",
+      "url": "https://www.pdmi.ras.ru/~olymp/lmo/1989/lmo_1989.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-lmo-1990-pdmi",
+      "type": "official_olympiad_archive",
+      "title": "Ленинградская математическая олимпиада 1990: официальный PDF в архиве ПОМИ",
+      "url": "https://www.pdmi.ras.ru/~olymp/lmo/1990/lmo_1990.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-mccme-circle-2016-weighings",
+      "type": "official_training_material",
+      "title": "Кружок МЦНМО, 6 класс, 16 января 2016: взвешивания",
+      "url": "https://mccme.ru/circles/mccme/2016/6/mccme-6-11.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru"
+    },
+    {
+      "id": "src-berkeley-math-circle-2020-encrypted-arithmetic-i",
+      "type": "official_training_material",
+      "title": "Berkeley Math Circle, Encrypted Arithmetic I, problem set",
+      "url": "https://mathcircle.berkeley.edu/sites/default/files/handouts/2020/Encrypted%20Arithmetic%20Problem%20Set%20I_0.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Problem 5 gives the three pairs of gold, silver and bronze coins; solution reconstructed editorially."
+    },
+    {
+      "id": "src-aops-2020-israel-national-olympiad",
+      "type": "olympiad_statement_mirror",
+      "title": "AoPS Community printable collection: 2020 Israel National Olympiad",
+      "url": "https://artofproblemsolving.com/downloads/printable_post_collections/3228714.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "2020 Israel National Olympiad, problem 1",
+      "access_note": "AoPS printable collection states the contest name and problem text; no official contest-hosted source was verified in this pass."
+    },
+    {
+      "id": "src-aops-wiki-unm-pnm-2015-problem4",
+      "type": "aops_wiki_problem_page",
+      "title": "AoPS Wiki: 2015 UNM-PNM Statewide High School Mathematics Contest II, Problem 4",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2015_UNM-PNM_Statewide_High_School_Mathematics_Contest_II_Problems/Problem_4",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "UNM-PNM Statewide High School Mathematics Contest 2015, Second Round, problem 4",
+      "access_note": "AoPS Wiki page links to the UNM-PNM resources page and repeats the classic 12-coin statement."
+    },
+    {
+      "id": "src-aops-wiki-unm-pnm-2017-problem6",
+      "type": "aops_wiki_problem_page",
+      "title": "AoPS Wiki: 2017 UNM-PNM Statewide High School Mathematics Contest II, Problem 6",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2017_UNM-PNM_Statewide_High_School_Mathematics_Contest_II_Problems/Problem_6",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "UNM-PNM Statewide High School Mathematics Contest 2017, Second Round, problem 6",
+      "access_note": "AoPS Wiki page gives the 12-stack digital-scale variant; it is the same weighted-deficit mechanism as the classical stack problem."
+    },
+    {
+      "id": "src-aops-wiki-2021-jmc10-p3",
+      "type": "aops_wiki_problem_page",
+      "title": "AoPS Wiki: 2021 JMC 10 Problems, Problem 3",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2021_JMC_10_Problems/Problem_3",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "2021 JMC 10, problem 3",
+      "access_note": "AoPS Wiki page gives the statement and a short solution; no separate official contest-hosted source was verified in this pass."
+    },
+    {
+      "id": "src-aops-wiki-imo-2012-p3",
+      "type": "aops_wiki_problem_page",
+      "title": "AoPS Wiki: 2012 IMO Problems, Problem 3",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2012_IMO_Problems/Problem_3",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "International Mathematical Olympiad 2012, problem 3"
+    },
+    {
+      "id": "src-imo-official-2012-shortlist-c6",
+      "type": "official_olympiad_solution",
+      "title": "IMO 2012 Shortlisted Problems with Solutions, C6: The liar's guessing game",
+      "url": "https://www.imo-official.org/problems/IMO2012SL.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "International Mathematical Olympiad 2012, problem 3; shortlist C6",
+      "access_note": "The official shortlist gives the problem as C6 with solution; author credit is stored separately from IMOMath."
+    },
+    {
+      "id": "src-imomath-imo-2012-problems",
+      "type": "olympiad_statement_archive",
+      "title": "IMOMath: IMO 2012 Problems and Solutions",
+      "authors": [
+        {
+          "name": "David Arthur",
+          "role": "problem_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://imomath.com/index.cgi?page=imo2012Problems",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "International Mathematical Olympiad 2012, problem 3",
+      "access_note": "The page labels Problem 3 as David Arthur, Canada; used only to cross-check authorship."
+    },
+    {
+      "id": "src-aops-wiki-imo-2000-p4",
+      "type": "aops_wiki_problem_page",
+      "title": "AoPS Wiki: 2000 IMO Problems, Problem 4",
+      "url": "https://artofproblemsolving.com/wiki/index.php/2000_IMO_Problems/Problem_4",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "International Mathematical Olympiad 2000, problem 4",
+      "access_note": "AoPS Wiki gives the statement and a concise solution, and links to the Singapore Mathematical Olympiad PDF mirror."
+    },
+    {
+      "id": "src-imo-official-2000-problems",
+      "type": "official_olympiad_statement",
+      "title": "41st IMO 2000 official problem statements",
+      "url": "https://www.imo-official.org/problems/2000/eng.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "International Mathematical Olympiad 2000, problem 4"
+    },
+    {
+      "id": "src-aops-community-1997-all-russian-olympiad",
+      "type": "olympiad_statement_mirror",
+      "title": "AoPS Community printable collection: 1997 All-Russian Olympiad",
+      "url": "https://artofproblemsolving.com/downloads/printable_post_collections/5157",
+      "browser_openable": true,
+      "official": false,
+      "status": "needs_human_review",
+      "language": "en",
+      "origin": "All-Russian Olympiad 1997, grade 9 day 1 problem 4 and grade 11 day 1 problem 2",
+      "access_note": "AoPS printable collection identifies the contest and includes the two-color and three-color Council of Sages variants; no official contest-hosted source was verified in this pass."
+    },
+    {
+      "id": "src-aops-wiki-kgs-math-club",
+      "type": "aops_wiki_problem_collection",
+      "title": "AoPS Wiki: KGS math club problem collection",
+      "url": "https://artofproblemsolving.com/wiki/index.php/KGS_math_club",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "access_note": "Клубная AoPS-страница с подборкой задач и ссылками на решения; в этом проходе использована как дополнительный источник для дубликата про 100 заключенных и ящики. Отдельные решения по ссылкам могут быть недоступны без входа или возвращать 403."
+    },
+    {
+      "id": "src-mathcircles-rodin-knights-and-knaves",
+      "type": "math_circle_facilitator_guide",
+      "title": "MathCircles.org: Knights and Knaves: A journey to the land of logic",
+      "authors": [
+        {"name": "Altha Rodin", "role": "facilitator_guide_author", "status": "source_verified"},
+        {"name": "Raymond Smullyan", "role": "original_collection_author", "status": "source_verified", "note": "MathCircles states that the puzzles in the guide come from What Is the Name of This Book?"}
+      ],
+      "url": "https://mathcircles.org/wp-content/uploads/2022/03/RodinKnightsandKnaves.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "Math Teachers' Circle of Austin, September 25, 2014; problems attributed by the guide to Raymond Smullyan, What Is the Name of This Book?",
+      "access_note": "The MathCircles activity page credits Altha Rodin and says the session's puzzles come from Raymond Smullyan's What Is the Name of This Book; the PDF gives the Scenario 11 statement on page 3."
+    },
+    {
+      "id": "src-mccme-circle-2020-card-tricks",
+      "type": "official_training_material",
+      "title": "Математический кружок МЦНМО, 6-7 класс: «Фокусы!»",
+      "url": "https://old.mccme.ru/circles/mccme/2020/7/6-7_29.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Открытый двухстраничный листок с задачами про карточные фокусы и протоколы; задача 1 использована для карточки о пяти пронумерованных карточках."
+    },
+    {
+      "id": "src-berkeley-math-circle-2013-hats-logic",
+      "type": "official_training_material",
+      "title": "Berkeley Math Circle: Colored Hats and Logic Puzzles",
+      "authors": [
+        {"name": "Alex Zorn", "role": "handout_author", "status": "source_verified"}
+      ],
+      "url": "https://mathcircle.berkeley.edu/sites/default/files/archivedocs/2012_2013/lectures/1213lecturespdf/BMC_Int_Jan22_2013_HatsAndLogicPuzzles.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "Berkeley Math Circle intermediate lecture handout, January 21, 2013",
+      "access_note": "Листок содержит разбор заключенных в ряд с остатком по модулю, вариант с несколькими цветами и версию с молчанием/Hamming codes; использован как дополнительный источник к уже существующим карточкам, а не как новая карточка."
+    }
   ]
 }

@@ -1,0 +1,72 @@
+{
+  "id": "lktg-2008-two-coins-broken-tester-impossible",
+  "title": "ЛКТГ-2008: почему двух проверок не хватает даже для двух монет",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-4",
+        "title": "Две монеты и хотя бы один сломанный прибор",
+        "text": "Даны две одинаковые на вид монеты, одна из них фальшивая. Докажите, что за два тестирования или взвешивания нельзя гарантированно найти фальшивую монету, если можно пользоваться любым числом приборов, но среди них есть хотя бы один сломанный прибор, способный отвечать произвольно.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-same-device-or-disagreement",
+      "title": "Либо один прибор бесполезен, либо ответы неразрешимы",
+      "text": "Если оба раза использован один прибор, он мог быть сломан. Если использованы два прибора и ответы противоречат друг другу, неизвестно, какой из них сломан.",
+      "standard_idea_ids": ["adversary_strategy", "indistinguishable_states"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-two-tests-not-enough",
+      "title": "Два случая использования приборов",
+      "text": "Если оба тестирования сделаны одним и тем же прибором, противник может объявить именно этот прибор сломанным; тогда оба ответа не дают надежной информации. Если тестирования сделаны разными приборами, возможна ветка, где ответы противоречат друг другу. В этой ветке одна модель говорит, что сломан первый прибор и фальшива первая монета, а другая - что сломан второй прибор и фальшива вторая монета. Наблюдения одинаково допустимы, поэтому гарантированного определения нет.",
+      "standard_idea_ids": ["adversary_strategy", "indistinguishable_states"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "2 варианта фальшивой монеты и неизвестный сломанный прибор",
+    "observations": ["два ответа приборов, один из приборов может быть произвольным"],
+    "allowed_actions": ["выбирать любые приборы и проверки"],
+    "goal": ["prove_no_strategy_identifies_false_coin"],
+    "strategy_type": ["adversary_argument", "indistinguishability_argument"],
+    "lower_bound_method": ["indistinguishable_states"],
+    "keywords": ["lktg_2008", "broken_tester", "two_coins_impossible"],
+    "status": "ai_checked"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Короткая невозможность через два неразличимых сценария.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree_lower_bound", "indistinguishability_argument", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.4."]
+  }
+}

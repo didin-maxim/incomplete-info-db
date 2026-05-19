@@ -1,0 +1,91 @@
+{
+  "id": "lktg-2008-one-broken-tester-significance-lower-bound",
+  "title": "ЛКТГ-2008: почему при одном сломанном приборе нужно больше проверок",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "coding", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-3-8",
+        "title": "Оценки, не зависящие от числа приборов",
+        "text": "Пусть \\(d\\) - минимальное число тестирований, за которое можно найти одну фальшивую монету среди \\(n\\) монет при любом числе детекторов с одним сломанным среди них. Докажите, что \\(2^d/(d+1)\\ge n\\). Аналогично, если \\(d\\) - минимальное число взвешиваний на чашечных весах при одном сломанном приборе, докажите, что \\(3^d/(2d+1)\\ge n\\).",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-lktg-2008-3-6-3-7",
+        "title": "Монотонность числа ходов по числу монет",
+        "text": "Докажите монотонность задач с одним сломанным прибором: если \\(n<N\\), то минимальное число тестирований или взвешиваний для \\(n\\) монет не больше, чем для \\(N\\) монет. В листе отдельно предлагаются частные формулировки для \\(N=2^k\\) в детекторной модели и \\(N=3^k\\) в весовой модели.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-error-transcripts-and-significance",
+      "title": "Нужен запас на один плохой ответ",
+      "text": "В детекторной модели каждая монета должна подходить не к одной строке ответов, а хотя бы к \\(d+1\\) строкам: без ошибки и с ошибкой на каждом из \\(d\\) ходов. Для весов удобнее вести счет подозреваемых монет и монет, которые исключены только одним возможным прибором; в худшем исходе такой счет уменьшается не быстрее чем втрое.",
+      "standard_idea_ids": ["error_correcting_code", "counting_bound", "adversary_strategy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-detector-transcripts",
+      "title": "Детекторы: \\(d+1\\) строк ответов на монету",
+      "text": "Зафиксируем алгоритм длины \\(d\\). Каждая строка из \\(d\\) ответов да/нет определяет все сделанные тестирования и в успешном алгоритме указывает на одну фальшивую монету. Для каждой монеты допустимы как минимум \\(d+1\\) строк: все ответы верны, либо ровно один из \\(d\\) ответов неверен. Эти строки различны. Значит, \\(n(d+1)\\le 2^d\\).",
+      "standard_idea_ids": ["error_correcting_code", "counting_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    },
+    {
+      "id": "proof-balance-significance",
+      "title": "Весы: считаем, сколько кандидаты еще могут выдержать",
+      "text": "После нескольких взвешиваний подозреваемыми считаем монеты, которые все приборы всегда помещали в возможную фальшивую группу; почти исключенными - монеты, которые исключил ровно один тип весов; настоящие монеты исключены как минимум двумя типами. Если до конца осталось \\(m\\) ходов, дадим подозреваемой монете вес в счете \\(2m+1\\), почти исключенной - 1, настоящей - 0. При очередном взвешивании сумма этих счетов для трех возможных ситуаций не меньше исходной суммы, значит есть исход, сохраняющий не меньше трети. В начале сумма равна \\((2d+1)n\\), а в конце успешного алгоритма она не должна превышать 1. Поэтому \\((2d+1)n\\le 3^d\\).",
+      "standard_idea_ids": ["adversary_strategy", "counting_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound", "balance_scale"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "\\(n\\) вариантов фальшивой монеты и неизвестный сломанный прибор",
+    "observations": ["\\(d\\) ответов да/нет или \\(d\\) трехисходных ответов"],
+    "allowed_actions": ["адаптивно выбирать прибор и проверку"],
+    "goal": ["prove_general_lower_bound"],
+    "strategy_type": ["transcript_counting", "significance_potential", "adversary_argument"],
+    "lower_bound_method": ["error_transcript_counting", "potential_function"],
+    "keywords": ["lktg_2008", "one_broken_tester", "significance_lower_bound"],
+    "status": "ai_checked"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 7,
+    "comment": "Верх базы: условие понятно, но доказательство для весов использует старший прием - специальный счет подозреваемых вариантов.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "counting_lower_bound", "decision_tree_lower_bound", "error_correcting_code", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 3.8. Монотонности 3.6-3.7 не вынесены отдельно: это технические служебные леммы, а не самостоятельный сюжет базы."]
+  }
+}

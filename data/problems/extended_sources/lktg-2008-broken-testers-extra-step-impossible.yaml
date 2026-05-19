@@ -1,0 +1,81 @@
+{
+  "id": "lktg-2008-broken-testers-extra-step-impossible",
+  "title": "ЛКТГ-2008: одного запасного хода все равно мало при сломанном приборе",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-6a",
+        "title": "Детекторы: \\(2^k\\) монет за \\(k+1\\) проверку",
+        "text": "Есть \\(2^k\\) одинаковых на вид монет, одна из них фальшивая. Можно пользоваться любым числом детекторов, но среди них есть сломанный, который может отвечать произвольно. Докажите, что за \\(k+1\\) тестирование нельзя гарантированно найти фальшивую монету.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["information_lower_bound"]
+      },
+      {
+        "id": "stmt-lktg-2008-2-6b",
+        "title": "Весы: \\(3^k\\) монет за \\(k+1\\) взвешивание",
+        "text": "Есть \\(3^k\\) одинаковых на вид монет, одна из них фальшивая и легче остальных. Можно пользоваться любым числом чашечных весов, но среди них есть сломанные весы, которые могут отвечать произвольно. Докажите, что за \\(k+1\\) взвешивание нельзя гарантированно найти фальшивую монету.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-refusals-after-two-tests",
+      "title": "После двух ходов остается слишком много кандидатов",
+      "text": "Даже если первый ход отказывает половине или трети монет, второй ход при некотором ответе добавляет еще кандидата, которому он не отказал. Поэтому после первых двух ходов кандидатов больше, чем позволяли бы оставшиеся обычные ходы.",
+      "standard_idea_ids": ["adversary_strategy", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-extra-step-refusal",
+      "title": "Аргумент через монеты, которым проверка не отказала",
+      "text": "Назовем, что проверка отказала монете, если ее ответ исключает эту монету при условии исправности прибора. Если за \\(k+1\\) ходов можно было бы найти фальшивую монету, то после первых двух ходов для детекторов оставалось бы не больше \\(2^{k-1}\\) кандидатов, а для весов - не больше \\(3^{k-1}\\). Но первый ход при некотором ответе не отказывает хотя бы половине монет в детекторной модели и хотя бы трети монет в весовой модели; второй ход при некотором ответе не отказывает еще какой-нибудь монете. Значит, после двух ходов остается строго больше допустимой доли кандидатов. Это противоречит возможности завершить поиск оставшимися \\(k-1\\) ходами.",
+      "standard_idea_ids": ["adversary_strategy", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "\\(2^k\\) или \\(3^k\\) вариантов фальшивой монеты и неизвестный сломанный прибор",
+    "observations": ["\\(k+1\\) ответ ненадежных детекторов или весов"],
+    "allowed_actions": ["адаптивно выбирать прибор и проверку"],
+    "goal": ["prove_no_strategy_identifies_false_coin"],
+    "strategy_type": ["adversary_argument", "decision_tree_lower_bound"],
+    "lower_bound_method": ["adversary_preserves_candidates", "refusal_counting"],
+    "keywords": ["lktg_2008", "broken_tester", "extra_step_lower_bound"],
+    "status": "ai_checked"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 6,
+    "comment": "Усиление простой нижней оценки: нужно анализировать первые два хода, а не только емкость дерева.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "binary_code", "ternary_code", "decision_tree_lower_bound", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.6a-b. Пункт 2.6c про двое сломанных весов вынесен отдельно, так как использует кодовую нижнюю оценку по числу ошибочных ответов."]
+  }
+}

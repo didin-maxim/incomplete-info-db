@@ -1,0 +1,18 @@
+{
+  "id": "aops-protocols",
+  "title": "AoPS: заранее согласованные протоколы и фокусы",
+  "created_at": "2026-05-19",
+  "status": "draft",
+  "items": [
+    {"problem_id": "aops-imo-2000-p4-card-box-sum-trick", "status": "needs_human_review"},
+    {"problem_id": "hat-line-k-colors-modulo", "status": "merged_into_existing", "source_id": "src-aops-community-1997-all-russian-olympiad", "notes": "Два AoPS-варианта Всероссийской олимпиады 1997 для двух и трех цветов совпадают с существующей карточкой по модульному протоколу линии колпаков."},
+    {"lead": "KGS math club: 100 prisoners and boxes", "status": "source_added_to_existing_duplicate", "problem_id": "prisoners-100-boxes-cycle-strategy", "source_id": "src-aops-wiki-kgs-math-club", "notes": "Механизм совпадает с существующей карточкой prisoners-100-boxes-cycle-strategy; новую карточку не создавал, AoPS-источник добавлен как дополнительная формулировка-дубль."},
+    {"lead": "AoPS Math Jam / IMOR 2017: одинаковая стратегия для всех в круге с колпаками", "status": "not_added_for_now", "notes": "Подходит по теме, но источник не содержит решения; нужна отдельная проверка значения гарантии перед карточкой."},
+    {"lead": "KGS math club: two sheriffs communicate over public channel", "status": "not_added_for_now", "notes": "Интересная коммуникационная задача, но источник клубный, а ссылка на решение в этом проходе возвращала 403; без самодостаточно проверенного решения карточку не создавал."},
+    {"lead": "KGS math club: N dwarfs with infinitely many red/blue hats choose a blue hat", "status": "not_added_for_now", "notes": "Релевантная задача на заранее согласованную стратегию и независимую скрытую информацию, но она существенно отличается от уже имеющейся бесконечной задачи Винклера и пока не имеет проверенного открытого решения из источника. Вероятный ответ для конечного N: стратегия не улучшает вероятность 2^{-N}, потому что выбранный номер каждого гнома не зависит от цветов на его собственной голове."}
+  ],
+  "source_notes": [
+    "AoPS Wiki/Community использовался только как проверяемый веб-источник; при наличии официальной формулировки добавлялся официальный источник.",
+    "Обычные вероятностные карточные и комбинаторные задачи без заранее согласованного протокола отсеивались."
+  ]
+}

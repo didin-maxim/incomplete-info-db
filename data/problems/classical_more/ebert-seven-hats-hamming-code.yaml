@@ -17,7 +17,8 @@
         "title": "Угадать без ошибок, разрешено промолчать",
         "text": "Семь участников получают черные или белые колпаки. Каждый видит колпаки всех остальных, но не свой. После предварительного сговора они одновременно либо называют цвет своего колпака, либо молчат. Команда выигрывает, если хотя бы один участник назвал свой цвет верно и никто не ошибся. Постройте стратегию с вероятностью успеха \\(7/8\\) при равновероятных независимых цветах.",
         "source_ids": [
-          "src-ebert-hat-game-reference"
+          "src-ebert-hat-game-reference",
+          "src-berkeley-math-circle-2013-hats-logic"
         ],
         "status": "ai_checked",
         "self_contained": {
@@ -34,7 +35,8 @@
         "title": "2^m-1 участников и два цвета колпаков",
         "text": "Есть \\(2^m-1\\) участников в черных или белых колпаках. Каждый видит колпаки всех остальных, но не свой, и после предварительной договоренности одновременно либо называет цвет своего колпака, либо молчит. Команда выигрывает, если хотя бы один участник назвал свой цвет верно и никто не ошибся. При независимых равновероятных цветах постройте стратегию с вероятностью успеха \\(1-2^{-m}\\).",
         "source_ids": [
-          "src-ebert-hat-game-reference"
+          "src-ebert-hat-game-reference",
+          "src-berkeley-math-circle-2013-hats-logic"
         ],
         "status": "ai_checked",
         "self_contained": {
@@ -122,6 +124,11 @@
       "source_id": "src-ebert-hat-game-reference",
       "role": "reference_topic",
       "status": "needs_human_review"
+    },
+    {
+      "source_id": "src-berkeley-math-circle-2013-hats-logic",
+      "role": "math_circle_statement_and_solution_duplicate",
+      "status": "source_verified"
     }
   ],
   "editorial": {

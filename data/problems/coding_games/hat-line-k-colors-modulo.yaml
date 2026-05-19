@@ -13,7 +13,7 @@
         "id": "stmt-original",
         "title": "Обобщение четности на k цветов",
         "text": "В ряд стоят \\(n\\) узников. Цвет каждого колпака - один из \\(k\\) заранее занумерованных цветов \\(0,1,\\ldots,k-1\\). Каждый видит колпаки всех впереди. Ответы идут сзади наперед и слышны всем. Как гарантировать, что ошибется не более одного узника?",
-        "source_ids": ["src-folklore", "src-problems-ru-109639"],
+        "source_ids": ["src-folklore", "src-problems-ru-109639", "src-aops-community-1997-all-russian-olympiad", "src-berkeley-math-circle-2013-hats-logic"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -45,7 +45,7 @@
     "observations": ["видимые колпаки впереди", "публичные ответы"],
     "allowed_actions": ["назвать один из k цветов"],
     "goal": ["maximize_correct_guesses"],
-    "strategy_type": ["encoding", "public_announcement"],
+    "strategy_type": ["encoding", "public_communication", "prearranged_protocol"],
     "lower_bound_method": [],
     "keywords": ["hat_puzzle", "modular_sum", "all_but_one", "n_prisoners_k_colors"],
     "status": "ai_checked"
@@ -62,10 +62,12 @@
     "comment": "Средняя: та же договоренность по четности обобщается до остатков по модулю k.",
     "status": "ai_checked"
   },
-  "tags": ["hat_puzzle", "modular_sum_code", "public_announcement", "condition_middle_school"],
+  "tags": ["hat_puzzle", "modular_sum_code", "public_communication", "condition_middle_school"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"},
-    {"source_id": "src-problems-ru-109639", "role": "olympiad_three_color_variant", "status": "source_verified"}
+    {"source_id": "src-problems-ru-109639", "role": "olympiad_three_color_variant", "status": "source_verified"},
+    {"source_id": "src-aops-community-1997-all-russian-olympiad", "role": "aops_statement_mirror_two_and_three_color_variants", "status": "needs_human_review"},
+    {"source_id": "src-berkeley-math-circle-2013-hats-logic", "role": "math_circle_statement_and_solution_duplicate", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -74,6 +76,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "already_parameterized_same_solution",
-    "notes": ["2026-05-18: карточка уже является естественным обобщением двоичной четности на n участников и k цветов; дополнительных числовых параметров не требуется.", "2026-05-18 web-wise-prisoners: добавлен источник problems.ru 109639 как олимпиадная версия для 100 мудрецов и трех цветов; отдельная карточка не создавалась, потому что решение буквально совпадает с суммой остатков по k=3."]
+    "notes": ["2026-05-18: карточка уже является естественным обобщением двоичной четности на n участников и k цветов; дополнительных числовых параметров не требуется.", "2026-05-18 web-wise-prisoners: добавлен источник problems.ru 109639 как олимпиадная версия для 100 мудрецов и трех цветов; отдельная карточка не создавалась, потому что решение буквально совпадает с суммой остатков по k=3.", "2026-05-19 aops-protocols: добавлен AoPS Community источник по Всероссийской олимпиаде 1997 с вариантами для двух и трех цветов; отдельная карточка не создана, так как порядок ответов можно выбрать сзади наперед и механизм остается тем же модульным протоколом."]
   }
 }

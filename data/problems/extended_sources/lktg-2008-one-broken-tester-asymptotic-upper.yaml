@@ -1,0 +1,96 @@
+{
+  "id": "lktg-2008-one-broken-tester-asymptotic-upper",
+  "title": "ЛКТГ-2008: почти обычная скорость поиска при одном сломанном приборе",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "asymptotic", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-3-4",
+        "title": "Бесконечно много приборов",
+        "text": "Докажите, что при бесконечном числе детекторов, из которых один сломан, можно выявить одну фальшивую монету из \\(2^k\\) за \\(k+o(k)\\) тестирований. Аналогично докажите, что при бесконечном числе пар чашечных весов, из которых одна пара сломана, можно выявить одну легкую фальшивую монету из \\(3^k\\) за \\(k+o(k)\\) взвешиваний.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      },
+      {
+        "id": "stmt-lktg-2008-3-5-3-5",
+        "title": "Достаточно некоторого конечного числа приборов",
+        "text": "Докажите, что существует такое число детекторов \\(x\\), что одну фальшивую монету из \\(2^k\\) можно найти за \\(k+o(k)\\) тестирований при одном сломанном детекторе среди \\(x\\). Аналогично, существует такое число пар весов \\(x\\), что одну легкую фальшивую монету из \\(3^k\\) можно найти за \\(k+o(k)\\) взвешиваний при одних сломанных весах среди \\(x\\).",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "needs_human_review",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-coordinate-tests-leave-few-candidates",
+      "title": "Координатные проверки оставляют мало подозрительных",
+      "text": "Если первые \\(k\\) приборов проверяют разряды двоичной или троичной записи, то все ответы одновременно могут ошибаться только в одном разряде. После контрольной проверки остается всего около \\(k\\) кандидатов, которых новый исправный прибор добирает за логарифмически малое число ходов.",
+      "standard_idea_ids": ["binary_encoding", "ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-infinite-detectors-coordinate-search",
+      "title": "Разряды, контроль и добор",
+      "text": "Для детекторов занумеруем \\(2^k\\) монет двоичными словами длины \\(k\\). Первые \\(k\\) детекторов проверяют соответствующие разряды. Если все ответы указывают на нулевые разряды, то у фальшивой монеты не больше одной единицы в номере, иначе сломаться должны были бы два разных детектора. Следующий детектор проверяет монету \\(00\\ldots0\\). Если ответ положителен, это истина; если отрицателен, остается не больше \\(k+1\\) кандидата, и еще один заведомо исправный детектор находит нужную монету за \\(O(\\log k)\\) тестирований. Весовая версия аналогична с троичными разрядами и дает \\(k+o(k)\\) взвешиваний.",
+      "standard_idea_ids": ["binary_encoding", "ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy", "balance_scale"]
+    },
+    {
+      "id": "str-finite-number-of-testers-by-block-construction",
+      "title": "Конечное число приборов через блочную конструкцию",
+      "text": "В листе конечное число приборов выводится из следующей серийной конструкции: для трех приборов с одним сломанным доказываются оценки вида \\(D_{3,1}(2^{k(k+1)})\\le (k+1)^2\\) и \\(B_{3,1}(3^{k(k+1)})\\le (k+1)^2\\). Они дают асимптотику \\(k+o(k)\\) после замены параметра блоками длины \\(k(k+1)\\). Полный алгоритм блочного шага технический и в карточке не разворачивается.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "экспоненциальное число вариантов фальшивой монеты и один неизвестный сломанный прибор",
+    "observations": ["почти минимальное число ответов детекторов или весов"],
+    "allowed_actions": ["использовать разные приборы для координатных и контрольных проверок"],
+    "goal": ["construct_asymptotically_optimal_fault_tolerant_search"],
+    "strategy_type": ["asymptotic_strategy", "coordinate_code", "fault_tolerant_testing"],
+    "lower_bound_method": [],
+    "keywords": ["lktg_2008", "asymptotic_upper_bound", "one_broken_tester"],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter_or_detected_by_membership",
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "asymptotically_optimal_counterfeit_search_with_one_broken_tester"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 7,
+    "comment": "Идея с бесконечным числом приборов проста, конечная версия использует технический блочный шаг.",
+    "status": "needs_human_review"
+  },
+  "tags": ["balance_scale", "binary_code", "ternary_code", "ternary_search", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задачи 3.4-3.5 и связанный серийный шаг 3.5/3.6 из листа. Требуется человеческая проверка, что сжатая формулировка конечного блочного алгоритма не потеряла условий."]
+  }
+}

@@ -4,12 +4,86 @@
   "created_at": "2026-05-17",
   "status": "draft",
   "items": [
-    {"problem_id": "matprazdnik-2023-seven-bags-two-weighings", "status": "added"},
-    {"problem_id": "mmo-2019-wise-men-seven-numbers-median", "status": "added"},
-    {"problem_id": "lktg-2008-three-balances-one-broken-nine-coins", "status": "added"},
-    {"problem_id": "lktg-2008-broken-balances-ternary-lower-bound", "status": "added"},
-    {"problem_id": "tot-2002-fall-senior-sum-product-2002-card", "status": "added"},
-    {"problem_id": "tot-2002-fall-junior-power-grid-connectivity-tests", "status": "lead_needs_solution"}
+    {
+      "problem_id": "matprazdnik-2023-seven-bags-two-weighings",
+      "status": "added"
+    },
+    {
+      "problem_id": "mmo-2019-wise-men-seven-numbers-median",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-three-balances-one-broken-nine-coins",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-broken-balances-ternary-lower-bound",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-three-balances-one-broken-three-coins",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-three-detectors-one-broken-eight-coins",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-three-detectors-balances-recursive-cases",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-two-coins-broken-tester-impossible",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-broken-detectors-binary-lower-bound",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-broken-testers-extra-step-impossible",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-two-broken-balances-eleven-weighings-bound",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-minimum-testers-k-broken",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-three-testers-one-broken-serial-upper-bounds",
+      "status": "needs_human_review"
+    },
+    {
+      "problem_id": "lktg-2008-one-broken-tester-significance-lower-bound",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-one-broken-tester-asymptotic-upper",
+      "status": "needs_human_review"
+    },
+    {
+      "problem_id": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests",
+      "status": "needs_human_review"
+    },
+    {
+      "problem_id": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "status": "added"
+    },
+    {
+      "problem_id": "lktg-2008-four-testers-one-broken-bounded-additive-question",
+      "status": "lead_needs_solution"
+    },
+    {
+      "problem_id": "tot-2002-fall-senior-sum-product-2002-card",
+      "status": "added"
+    },
+    {
+      "problem_id": "tot-2002-fall-junior-power-grid-connectivity-tests",
+      "status": "lead_needs_solution"
+    }
   ],
   "source_notes": [
     "Публичными сделаны только карточки с официальным условием и решением или с устойчивым разбором в официальном учебном материале.",

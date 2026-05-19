@@ -1,0 +1,96 @@
+{
+  "id": "lktg-2008-three-detectors-one-broken-eight-coins",
+  "title": "ЛКТГ-2008: 8 монет и три детектора, один сломан",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-2a",
+        "title": "Три детектора, один сломан",
+        "text": "Даны 8 одинаковых на вид монет, одна из них фальшивая. Есть три детектора, из которых один сломан. За одно тестирование выбранный детектор должен отвечать, есть ли фальшивая монета в указанном множестве монет; сломанный детектор может отвечать произвольно. Докажите, что фальшивую монету можно найти за 6 тестирований.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-four-groups-and-find-good-detector",
+      "title": "Сначала найти группу или исправный детектор",
+      "text": "Разбиение на четыре пары и три перекрестные проверки либо сразу выделяют одну пару, либо показывают, какой детектор точно исправен; после этого остается обычный двоичный поиск.",
+      "standard_idea_ids": ["partition_state_space", "one_lie_redundancy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-pairs",
+      "title": "Разбить на четыре пары",
+      "text": "Разделим монеты на группы 1, 2, 3, 4 по две монеты. Первым детектором проверим объединение групп 1 и 2, вторым - объединение групп 1 и 3. По симметрии можно разобрать случай, когда оба ответа положительны. Третьим детектором проверим группы 2 и 3.\n\nЕсли ответ отрицателен, то фальшивая монета находится в группе 1: иначе два детектора ошиблись бы. Тогда одну монету этой пары проверяем всеми тремя детекторами, и два совпавших ответа решают, какая из двух монет фальшивая.\n\nЕсли третий ответ положителен, один из первых трех ответов ложный. Проверим группы 1 и 2 вторым детектором. Если ответ снова положителен, он совпал с ответом первого детектора и потому верен: фальшивая в группах 1 или 2, а первый детектор на первом ходе сказал правду, так что исправен либо второй, либо третий. Если ответ отрицателен, то исправен третий детектор, а фальшивая в группах 2 или 3. В обоих случаях известен один исправный детектор и осталось четыре кандидата; двумя дальнейшими проверками он находит фальшивую монету.",
+      "standard_idea_ids": ["partition_state_space", "one_lie_redundancy"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "8 вариантов фальшивой монеты и 3 варианта сломанного детектора",
+    "observations": ["до 6 ответов да/нет, один детектор может отвечать произвольно"],
+    "allowed_actions": ["адаптивно выбирать детектор и проверяемое множество монет"],
+    "goal": ["identify_false_coin"],
+    "strategy_type": ["adaptive_strategy", "fault_tolerant_testing"],
+    "lower_bound_method": [],
+    "keywords": ["lktg_2008", "broken_detector", "binary_tests"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "question_count": 6,
+    "answer_options": 2,
+    "lies_allowed": "one tester may be arbitrary on every use"
+  },
+  "weighing_profile": {
+    "object_count": 8,
+    "counterfeit_count": 1,
+    "counterfeit_type": "unspecified",
+    "weighing_count": 6,
+    "outcome_count_per_weighing": 2,
+    "adaptive": true,
+    "objective": "identify_false_coin_with_one_broken_detector"
+  },
+  "interactive": {
+    "type": "broken_detector_counterfeit_coin",
+    "coin_count": 8,
+    "detector_count": 3,
+    "broken_detector_count": 1,
+    "detector_labels": ["A", "B", "C"],
+    "max_tests": 6,
+    "objective": "identify_coin",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Нужно аккуратно использовать совпадение ответов и после развилки получить исправный детектор.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_code", "decision_tree", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.2a. Детекторная версия оставлена в разделе взвешиваний как часть того же листа про ненадежные тестеры."]
+  }
+}

@@ -56,7 +56,17 @@
     "adaptive": true,
     "objective": "identify_faulty_scale"
   },
-  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: решение держится на нестандартном ходе взвешивать сами весы и на короткой проверке, почему одного взвешивания не хватает.", "status": "ai_checked"},
+  "interactive": {
+    "type": "faulty_scale_identification",
+    "scale_count": 3,
+    "faulty_scale_count": 1,
+    "scale_labels": ["A", "B", "C"],
+    "max_weighings": 2,
+    "objective": "identify_faulty_scale",
+    "modes": ["random", "cheater", "exhaustive"],
+    "weighable_objects": "scales"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: решение держится на неожиданном ходе взвешивать сами весы и на короткой проверке, почему одного взвешивания не хватает.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "indistinguishability_argument", "condition_middle_school"],
   "sources": [{"source_id": "src-kvant-2003-02-young-solutions", "role": "official_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["Официальный PDF с решениями к задачам «Квант» для младших школьников, см. «Квант» №1 за 2003 г.", "2026-05-19: условие уточнено по официальному решению: неисправные весы легче исправных как предмет, потому что в них потерялась часть деталей; это необходимо для хода с взвешиванием весов B и C на A. Также исправлена ветвь неравенства: она дает заведомо исправные более тяжелые весы, но не доказывает исправность A."]}

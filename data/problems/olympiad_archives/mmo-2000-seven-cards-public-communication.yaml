@@ -71,7 +71,7 @@
     "transmitted_cards": 3
   },
   "difficulty": {"main": "top_base", "local_score": 7, "comment": "Верх базы: публичное правило должно одновременно передать руки двум игрокам и сохранить секрет от Коли; это существенно сложнее обычной карточной подсказки.", "status": "ai_checked"},
-  "tags": ["card_trick", "modular_sum_code", "public_announcement", "public_communication", "condition_older_students", "solution_advanced_math"],
+  "tags": ["card_trick", "modular_sum_code", "public_communication", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-mmo-2000-63-archive", "role": "official_statement_and_solution", "status": "source_verified"}
   ],

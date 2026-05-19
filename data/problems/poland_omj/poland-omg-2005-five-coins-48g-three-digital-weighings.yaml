@@ -66,6 +66,21 @@
     "adaptive": false,
     "objective": "identify_two_counterfeit_coins"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "bag_count": 5,
+    "max_weighings": 3,
+    "objective": "identify_fake_coin_set",
+    "state_model": "fixed_fake_count",
+    "fake_bag_count": 2,
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "coin",
+    "selection_model": "subset",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

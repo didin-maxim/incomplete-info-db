@@ -1,0 +1,98 @@
+{
+  "id": "lktg-2008-three-detectors-balances-recursive-cases",
+  "title": "ЛКТГ-2008: рекурсивные случаи 32 детекторных и 81 весовая монета",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "recursion", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-3a",
+        "title": "32 монеты и три детектора",
+        "text": "Тремя детекторами, из которых один сломан, можно из 32 монет найти фальшивую за 9 тестирований. Детектор за одно тестирование отвечает, есть ли фальшивая монета в выбранном множестве; сломанный детектор может отвечать произвольно.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy"]
+      },
+      {
+        "id": "stmt-lktg-2008-2-3b",
+        "title": "81 монета и трое весов",
+        "text": "Тремя парами чашечных весов, из которых одна сломана, можно из 81 одинаковой на вид монеты найти одну легкую фальшивую за 7 взвешиваний.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-apply-small-case-to-blocks",
+      "title": "Применить малый алгоритм к блокам",
+      "text": "Алгоритм для 8 монет или для 9 монет используется не только внутри группы, но и как первый уровень поиска: сначала находятся большой блок или исправный прибор, затем оставшийся поиск становится обычным или уже известным малым случаем.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-32-detectors-by-eight-blocks",
+      "title": "32 монеты: четыре блока по 8",
+      "text": "Разделим 32 монеты на четыре группы по 8. Применим к этим группам тот же алгоритм, который в задаче про 8 монет применялся к четырем парам. В первом случае за три тестирования будет найдена группа из 8 монет, содержащая фальшивую; дальше внутри нее снова работает алгоритм для 8 монет. Во втором случае за четыре тестирования получаются две группы-кандидата и один исправный детектор; исправным детектором четыре дальнейших двоичных тестирования находят фальшивую среди 16 монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    },
+    {
+      "id": "str-81-balances-by-four-ternary-digits",
+      "title": "81 монета: четыре троичных разряда",
+      "text": "Занумеруем монеты четырехзначными троичными словами. Первые два взвешивания проверяют первые два разряда на первых и вторых весах. Если оба раза подозрительна цифра 0, то монеты с ненулевыми первыми двумя разрядами точно настоящие. Третьим взвешиванием на третьих весах сравниваются три большие группы: начинающиеся с 00, с 01 или 02, и с 10 или 20, дополненные настоящими монетами до равных размеров. Если ответ указывает на 00, остается задача о 9 монетах за 4 взвешивания. Если ответ указывает на одну из двух других групп, он противоречит одному из первых двух приборов, поэтому другой из первых приборов точно исправен; тогда известен один разряд, и исправные весы находят оставшуюся монету обычным троичным поиском.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "32 или 81 вариант фальшивой монеты плюс неизвестный сломанный прибор",
+    "observations": ["ответы ненадежных детекторов или чашечных весов"],
+    "allowed_actions": ["адаптивно выбирать проверяемые группы и прибор"],
+    "goal": ["identify_false_coin"],
+    "strategy_type": ["recursive_strategy", "fault_tolerant_testing", "ternary_code"],
+    "lower_bound_method": [],
+    "keywords": ["lktg_2008", "broken_balance", "broken_detector", "recursive_construction"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 81,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter",
+    "weighing_count": 7,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_false_coin_with_one_broken_balance"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 6,
+    "comment": "Нужна рекурсия и контроль противоречий между приборами.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "binary_code", "ternary_code", "ternary_search", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.3a-b. Объединено в одну карточку, потому что оба пункта являются рекурсивным усилением задач 2.2a-b."]
+  }
+}

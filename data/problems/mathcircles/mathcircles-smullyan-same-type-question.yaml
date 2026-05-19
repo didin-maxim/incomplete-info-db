@@ -1,0 +1,72 @@
+{
+  "id": "mathcircles-smullyan-same-type-question",
+  "title": "Листок Смальяна: что ответит C на вопрос об одинаковом типе",
+  "fragment": "questions",
+  "kind": {"primary": "math_circle_problem", "secondary": ["truth_liar_reasoning", "hidden_types"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Raymond Smullyan", "role": "original_collection_author", "status": "source_verified", "source_id": "src-mathcircles-rodin-knights-and-knaves", "note": "PDF MathCircles указывает, что задачи листка взяты из книги What Is the Name of This Book?; автор листка не вынесен как автор задачи."}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-same-type-question",
+        "title": "Трое островитян и вопрос к C",
+        "text": "На острове каждый житель либо рыцарь, который всегда говорит правду, либо лжец, который всегда лжет. Вы встретили трех островитян A, B и C. Два островитянина называются одного типа, если они оба рыцари или оба лжецы.\n\nA говорит: «B и C одного типа». После этого вы спрашиваете C: «A и B одного типа?» Можно ли заранее определить, что ответит C?",
+        "source_ids": ["src-mathcircles-rodin-knights-and-knaves"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-compare-two-equalities",
+      "title": "Сравнить два утверждения об одинаковом типе",
+      "text": "Нужно не угадывать типы по отдельности, а сравнить две фразы: сказанную A фразу «B и C одного типа» и вопрос к C про «A и B одного типа». Оказывается, эти две фразы всегда имеют одинаковую истинность относительно типа C.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-cases-for-a",
+      "title": "Разобрать, кто такой A",
+      "text": "Если A рыцарь, то его фраза верна, значит B и C одного типа. Тогда A и B одного типа ровно в том случае, когда C рыцарь: если C рыцарь, он честно ответит «да», а если C лжец, истинный ответ был бы «нет», и C соврет, тоже сказав «да».\n\nЕсли A лжец, то его фраза ложна, значит B и C разных типов. Тогда A и B одного типа снова ровно в том случае, когда C рыцарь: если C рыцарь, то B лжец, как и A, и C честно ответит «да»; если C лжец, то B рыцарь, A и B разных типов, и C соврет, снова сказав «да».\n\nВо всех возможных случаях C ответит «да».",
+      "standard_idea_ids": ["partition_state_space", "truth_liar_normalization"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar", "state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "типы A, B и C: каждый является рыцарем или лжецом",
+    "observations": ["публичная фраза A о том, что B и C одного типа", "ответ C на вопрос, одного ли типа A и B"],
+    "allowed_actions": ["сопоставлять истинность фраз с типом говорящего", "разбирать совместимые типы островитян"],
+    "goal": ["predict_answer_to_question"],
+    "strategy_type": ["state_elimination", "truth_liar_normalization"],
+    "lower_bound_method": [],
+    "keywords": ["mathcircles", "smullyan", "same_type", "knights_knaves", "asked_c"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 1,
+    "lies_allowed": "каждый островитянин либо всегда говорит правду, либо всегда лжет",
+    "adaptive": false,
+    "objective": "predict_yes_no_answer"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на четыре совместимых случая; трудность в том, что тип C влияет и на истинный ответ, и на то, соврет ли C.", "status": "ai_checked"},
+  "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination", "condition_middle_school"],
+  "novelty": {"status": "known_classic", "duplicate_risk": "medium", "advantage_note": "Это отдельный короткий вариант классических задач Смальяна: вместо поиска всех типов нужно предсказать ответ одного островитянина."},
+  "sources": [{"source_id": "src-mathcircles-rodin-knights-and-knaves", "role": "math_circle_statement_with_primary_pointer", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "mathcircles_batch",
+    "notes": ["Источник дает условие как Scenario 11 и отдельно указывает, что задачи листка взяты из книги Raymond Smullyan What Is the Name of This Book?; карточка является русским пересказом с собственным коротким решением. Altha Rodin оставлена автором листка только в реестре источников, не в авторах задачи."]
+  }
+}

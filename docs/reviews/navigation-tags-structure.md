@@ -6,7 +6,7 @@
 
 ## Краткий вывод
 
-База уже хорошо держится на содержательных связях, но основная навигация пока слишком часто проходит через источник, фрагмент или широкие метки. Самые полезные сущности для следующего слоя навигации - не новые папки, а canonical topic clusters: устойчивые механизмы вроде "тернарный поиск известной легкой монеты", "противоположные тернарные подписи", "самосогласованный счет правдивцев", "публичное объявление незнания", "линейная числовая подпись".
+База уже хорошо держится на содержательных связях, но основная навигация пока слишком часто проходит через источник, фрагмент или широкие метки. Самые полезные сущности для следующего слоя навигации - не новые папки, а тематические кластеры: устойчивые механизмы вроде "поиск легкой монеты, где каждый ход дает три исхода", "таблица взвешиваний для монеты легче/тяжелее", "подсчет правдивцев по их словам", "публичное объявление незнания", "числовая подсказка".
 
 Новые метки или standard ideas лучше добавлять точечно. В этом обзоре таксономия не изменялась; предложения ниже оставлены как редакционные рекомендации.
 
@@ -17,9 +17,9 @@
 - `ternary_code`: полезна, но внутри нее уже видны два разных подмеханизма: адаптивные тернарные деревья и неадаптивные подписи. Для навигации это лучше разводить кластером или новой узкой идеей, а не навешивать `ternary_code` шире.
 - `weighted_sum_encoding`, `linear_signature`, `digital_scale`: сильная связка для числовых подписей. Хорошо связывает `counterfeit-stack-one-weighing`, `poland-omg-2005-five-coins-48g-three-digital-weighings`, `tournament-towns-2005-six-coins-pointer-scale`, `matprazdnik-2024-six-boxes-one-sum`.
 - `permutation_order_code`: узкая и чистая метка для порядка как канала сообщения: `fitch-cheney-five-card-trick`, `permutation-encodes-six-messages`, `matprazdnik-2022-digits-five-questions`.
-- `truth_liar_normalization`: хорошая метка для конкретного приема нормализации ответа правдивца и лжеца; не стоит заменять ею все задачи с рыцарями и лжецами.
+- `truth_liar_normalization`: хорошая техническая метка для приема, где вопрос обезвреживает ложь; в публичных названиях лучше писать именно так, без слова "нормализация".
 - `public_announcement_induction`: удачно отделяет настоящую индукцию по публичным раундам от простого публичного сообщения.
-- `hamming_bound`, `error_correcting_code`, `repetition_code`: полезны, но стоит различать packing-bound для вопросов с ложью и covering-code для шляп Эберта.
+- `hamming_bound`, `error_correcting_code`, `repetition_code`: полезны, но стоит различать packing-bound для вопросов с ложью и covering-code для колпаков Эберта.
 - `parity_code`, `modular_sum_code`, `single_bit_signal`: работают как канальные метки, если применять их только когда бит/остаток действительно несет сообщение.
 
 ## Шумные или перегруженные метки
@@ -35,7 +35,7 @@
 
 Рекомендация: сначала добавить эти сущности в отчет/гайд и проставлять только после ручного review на 2-3 естественных карточках.
 
-- `truth_count_fixed_point`: самосогласованный счет числа правдивых/лжецов. Кандидаты: `wajo-2015-knaves-three-counts`, `ukmt-imc-2019-q14-truth-tellers-count`, `mathcounts-2020-state-island-census-truth-liars`, `sasmo-2019-g9-q12-number-clues-truth-tellers`.
+- `truth_count_fixed_point`: подсчет числа правдивых/лжецов по их собственным словам. Кандидаты: `wajo-2015-knaves-three-counts`, `ukmt-imc-2019-q14-truth-tellers-count`, `mathcounts-2020-state-island-census-truth-liars`, `sasmo-2019-g9-q12-number-clues-truth-tellers`.
 - `local_truth_constraint`: рыцари/лжецы на линии, круге или локальном окне, где истинность фразы задает локальный запрет. Кандидаты: `amc-au-2016-intermediate-q17-truth-liars-circle`, `problems-ru-66436-sixty-knights-next-five`, `kvantik-2016-round-table-right-liar-count`, `utyum-1996-knights-line-seven-yes`.
 - `opposite_ternary_signature_code` как standard idea: неадаптивные подписи для монеты неизвестного знака, где подписи идут противоположными парами. Кандидаты: `ternary-signature-code-heavy-or-light`, `thirteen-coins-known-genuine-three-weighings`, `komal-2010-a512-nonadaptive-counterfeit-code`.
 - `numeric_signature_decoding`: одно или несколько числовых наблюдений как линейная подпись скрытого источника. Кандидаты: `counterfeit-stack-one-weighing`, `poland-omg-2005-five-coins-48g-three-digital-weighings`, `tournament-towns-2005-six-coins-pointer-scale`, `matprazdnik-2024-six-boxes-one-sum`.
@@ -66,8 +66,8 @@
 - `heavy-or-light-ternary-signatures`: неизвестный знак фальшивой монеты, противоположные тернарные подписи.
 - `numeric-linear-signatures`: числовые веса/суммы как подпись скрытого состояния.
 - `faulty-or-noisy-observation-channels`: сломанные весы, unreliable equality/sign-only outcomes, adversary-preserved candidates.
-- `truth-liar-normalization`: универсальные вопросы и нормализация лжи.
-- `truth-count-fixed-points`: самосогласованный счет правдивых/лжецов.
+- `truth-liar-normalization`: универсальные вопросы, которые обезвреживают ложь.
+- `truth-count-fixed-points`: подсчет правдивых/лжецов по их словам.
 - `local-truth-constraints`: линии, круги, окна и локальные утверждения рыцарей/лжецов.
 - `public-announcement-knowledge`: common knowledge, молчание, публичное незнание.
 - `binary-parity-modular-codes`: бинарные признаки, parity/modular messages, single-bit public signal.

@@ -39,8 +39,8 @@ def cmd_neighbors(args):
     relations = load_relations()
     adjacency = {}
     for relation in relations:
-        adjacency.setdefault(relation["from"], []).append((relation["to"], relation))
-        adjacency.setdefault(relation["to"], []).append((relation["from"], relation))
+        adjacency.setdefault(relation["from"], []).append((relation["to"], relation, "forward"))
+        adjacency.setdefault(relation["to"], []).append((relation["from"], relation, "backward"))
 
     seen = {args.problem_id}
     queue = deque([(args.problem_id, 0)])
@@ -48,11 +48,12 @@ def cmd_neighbors(args):
         current, depth = queue.popleft()
         if depth == args.depth:
             continue
-        for nxt, relation in adjacency.get(current, []):
+        for nxt, relation, direction in adjacency.get(current, []):
             if nxt in seen:
                 continue
             seen.add(nxt)
-            print(f"{current} --{relation['type']}--> {nxt}: {relation['forward_text']}")
+            text = relation["forward_text"] if direction == "forward" else relation["backward_text"]
+            print(f"{current} --{relation['type']}--> {nxt}: {text}")
             queue.append((nxt, depth + 1))
 
 

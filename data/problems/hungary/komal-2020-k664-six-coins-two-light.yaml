@@ -103,6 +103,19 @@
     "adaptive": true,
     "objective": "identify_one_light_coin"
   },
+  "interactive": {
+    "type": "multiple_light_find_one",
+    "coin_count": 6,
+    "counterfeit_count": 2,
+    "max_weighings": 2,
+    "objective": "identify_one_light_coin",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: стратегия на два взвешивания короткая, но комментарий к сложности держится на нижней оценке, где нужно разобрать все типы одного взвешивания.", "status": "ai_checked"},
   "tags": [
     "balance_scale",

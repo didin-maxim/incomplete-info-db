@@ -1,0 +1,125 @@
+{
+  "relations": [
+    {
+      "id": "rel-lktg-significance-to-four-maximal-coins",
+      "from": "lktg-2008-one-broken-tester-significance-lower-bound",
+      "to": "lktg-2008-four-testers-one-broken-maximal-coins",
+      "type": "lower_bound_analogy",
+      "distance": 1,
+      "forward_text": "Общая оценка по строкам ответов и значимости сразу дает верхние границы для максимального числа монет в задаче 4.2.",
+      "backward_text": "Задача о максимальном числе монет является числовым применением общей нижней оценки: нужно только подставить 15, 13 или 40 ходов.",
+      "status": "ai_checked",
+      "confidence": 0.92
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-maximal-coins",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-testers-one-broken-maximal-coins",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Задача 4.2 является числовым частным случаем точной формулы 4.4: детекторный случай \\(D_{4,1}(2^k)=k+t\\) применяется при \\(k=11,t=4\\), а весовой случай \\(B_{4,1}(3^k)=k+t\\) - при \\((k,t)=(10,3)\\) и \\((36,4)\\). В самой карточке 4.2 эти случаи расписаны как самодостаточная конечная конструкция.",
+      "backward_text": "Числовая задача 4.2 показывает конкретные предельные случаи общей формулы 4.4 и служит проверкой вычислений: нижняя оценка совпадает с конструктивной верхней оценкой. Полная 4.4 для чтения 4.2 не требуется.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-lktg-four-maximal-to-four-beats-three",
+      "from": "lktg-2008-four-testers-one-broken-maximal-coins",
+      "to": "lktg-2008-four-balances-beat-three-example",
+      "type": "teaches_before",
+      "distance": 1,
+      "forward_text": "Пункт 4.2b дает верхнюю часть примера 4.3: \\(3^{10}\\) монет четырьмя весами находятся за 13 взвешиваний.",
+      "backward_text": "Пример 4.3 добавляет к числовому результату 4.2b доказательство, что три пары весов за 13 ходов с тем же числом монет не справляются.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-four-beats-three",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-balances-beat-three-example",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Задача 4.3 использует тот же метод значимости, что и весовая часть 4.4, но только в численном случае \\((k,t)=(10,3)\\): встроенная лемма доказывает \\(B_{4,1}(3^{10})\\le 13\\) без обращения к полной асимптотической теореме.",
+      "backward_text": "Пример 4.3 можно читать без полной 4.4: верхняя часть для четырех весов расписана как конечный частный случай, а затем отдельно доказано, что трех пар весов за 13 ходов недостаточно.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-bounded-additive-question",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-testers-one-broken-bounded-additive-question",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Основная карточка 4.4 доказывает точные формулы и ограниченность добавок; отдельная карточка оставляет только нерешенный подпункт 4.4c о более точной верхней оценке этих добавок.",
+      "backward_text": "Дополнительный вопрос 4.4c самодостаточно формулируется через точные формулы 4.4, но не имеет готового решения в источнике и не должен смешиваться с доказанной теоремой.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-ideal-number",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-testers-ideal-number-one-broken",
+      "type": "heavy_external_theorem",
+      "distance": 1,
+      "forward_text": "Задача 4.5 использует из доказательства 4.4 тяжелую лемму продолжения: при четырех приборах, если за \\(m\\) ходов до конца общий потенциал не превышает \\(2^m\\) в детекторной модели или \\(3^m\\) в весовой модели, а почти исключенные монеты имеют не более трех типов, то поиск можно закончить за эти \\(m\\) ходов; в весовой модели дополнительно используется выравнивание чаш известными настоящими монетами.",
+      "backward_text": "Идеальность четырех приборов не требует всей асимптотической формулы 4.4, но требует ее тяжелого внутреннего блока: леммы продолжения с потенциалом и контролем трех типов почти исключенных монет.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-three-asymptotic",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-three-testers-one-broken-sharp-asymptotic",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Четыре прибора дают почти точную формулу с явным предельным числом ходов; для трех приборов источник сохраняет тот же порядок добавки, но через более слабую конструкцию с добиванием малого числа кандидатов.",
+      "backward_text": "Трехприборная асимптотика отвечает на вопрос, насколько метод 4.4 зависит от четвертого прибора: порядок \\(\\log k\\) сохраняется, хотя точная формула уже не получается тем же способом. Карточка 4.6 разворачивает перенос метода, а не ссылается на 4.4 как на черный ящик.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-lktg-significance-to-three-asymptotic",
+      "from": "lktg-2008-one-broken-tester-significance-lower-bound",
+      "to": "lktg-2008-three-testers-one-broken-sharp-asymptotic",
+      "type": "lower_bound_analogy",
+      "distance": 1,
+      "forward_text": "Нижняя оценка из задачи 3.8 дает неизбежную добавку порядка \\(\\log k\\) и для трех приборов.",
+      "backward_text": "Асимптотика для трех приборов использует ту же нижнюю оценку, но добавляет конструктивное разбиение, которое почти достигает этой границы.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-lktg-serial-three-to-three-asymptotic",
+      "from": "lktg-2008-three-testers-one-broken-serial-upper-bounds",
+      "to": "lktg-2008-three-testers-one-broken-sharp-asymptotic",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Серийные верхние оценки дают первые блочные стратегии для трех приборов с одним сломанным. Карточка 4.6 заменяет эти отдельные серии общим разбиением по значимости и получает правильную добавку порядка \\(\\log k\\).",
+      "backward_text": "Асимптотика 4.6 объясняет, к чему стремятся серийные конструкции: не просто дать бесконечно много примеров, а удержать лишнее число ходов на уровне \\(\\log k\\).",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-lktg-one-lie-to-four-asymptotic",
+      "from": "one-lie-questions-coding-bound",
+      "to": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "Кодовая оценка для одной лжи объясняет множитель \\(d+1\\) в детекторной нижней оценке 4.4: одна монета должна иметь запас строк на место возможного испорченного ответа.",
+      "backward_text": "В 4.4 та же упаковочная идея встроена в адаптивную задачу с неизвестным сломанным прибором и затем дополняется конструкцией, которая почти достигает этой границы.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-kvant-broken-scale-to-lktg-four-beats-three",
+      "from": "kvant-2019-m2565-one-broken-scale",
+      "to": "lktg-2008-four-balances-beat-three-example",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе задачи используют скрытую неисправность весов как часть состояния, которое нужно контролировать стратегией. В квантовской задаче это локальный прием для поиска максимума, а в ЛКТГ он превращается в сравнение силы трех и четырех приборов.",
+      "backward_text": "Пример 4.3 показывает более жесткую версию той же идеи: неизвестно сломанные весы не просто мешают отдельному сравнению, а меняют предельное число монет, которое можно обработать за заданное число ходов.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    }
+  ]
+}

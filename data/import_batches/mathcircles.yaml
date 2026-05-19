@@ -1,0 +1,14 @@
+{
+  "id": "mathcircles",
+  "title": "MathCircles.org: листки про рыцарей, лжецов и вопросы",
+  "created_at": "2026-05-19",
+  "status": "draft",
+  "items": [
+    {"problem_id": "mathcircles-smullyan-same-type-question", "status": "added", "source_id": "src-mathcircles-rodin-knights-and-knaves"}
+  ],
+  "source_notes": [
+    "Просмотрен листок MathCircles.org Knights and Knaves: A journey to the land of logic, Altha Rodin, Math Teachers' Circle of Austin, 2014.",
+    "Страница MathCircles прямо указывает Raymond Smullyan, What Is the Name of This Book? как источник задач листка; поэтому MathCircles сохранен как проверенный листок, а Smullyan указан как автор исходной подборки, не как заново найденное издание конкретной задачи.",
+    "Не добавлялись короткие сценарии из того же листка, которые являются прямыми дублями уже имеющихся классических карточек про универсальный вопрос, неуслышанный ответ или простое согласование числа рыцарей."
+  ]
+}

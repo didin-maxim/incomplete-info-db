@@ -56,6 +56,17 @@
     "status": "ai_checked"
   },
   "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_light_with_group_constraints", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_two_counterfeits"},
+  "interactive": {
+    "type": "grouped_light_counterfeits",
+    "coin_count": 6,
+    "counterfeit_count": 2,
+    "groups": [[1, 2, 3, 4], [5, 6]],
+    "counterfeit_per_group": [1, 1],
+    "max_weighings": 2,
+    "objective": "identify_all_counterfeits",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Турнир Савина: есть версия, где второе взвешивание зависит от первого, и версия с двумя схемами, выбранными заранее.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "decision_tree", "condition_middle_school"],
   "sources": [{"source_id": "src-tursavin-12-problems", "role": "official_statement", "status": "source_verified"}],

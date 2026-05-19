@@ -3,6 +3,7 @@
     {"id": "same_mechanism", "title": "Одинаковый информационный механизм"},
     {"id": "strategy_transfer", "title": "Перенос стратегии"},
     {"id": "lower_bound_analogy", "title": "Одинаковая нижняя оценка"},
+    {"id": "heavy_external_theorem", "title": "Тяжелая внешняя теорема"},
     {"id": "special_case", "title": "Частный случай"},
     {"id": "variant", "title": "Вариант"},
     {"id": "contrast", "title": "Контраст"},

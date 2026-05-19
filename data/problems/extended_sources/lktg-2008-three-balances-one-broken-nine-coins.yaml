@@ -1,6 +1,6 @@
 {
   "id": "lktg-2008-three-balances-one-broken-nine-coins",
-  "title": "LKTG-2008: три пары весов, одна сломана, и фальшивая монета из 9 за 4 взвешивания",
+  "title": "ЛКТГ-2008: три пары весов, одна сломана, и фальшивая монета из 9 за 4 взвешивания",
   "fragment": "weighings",
   "kind": {
     "primary": "training_problem",
@@ -13,7 +13,7 @@
         "id": "stmt-lktg-2008-2-2b",
         "title": "Найти фальшивую монету, если одна из трех пар весов сломана",
         "text": "Даны 9 одинаковых на вид монет. Одна из них фальшивая и легче остальных. Есть три пары чашечных весов, причем одна пара сломана: при каждом использовании она может дать произвольный ответ. Покажите, как за 4 взвешивания найти фальшивую монету.",
-        "source_ids": ["src-lktg-2008-broken-balances-solutions"],
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru", "src-lktg-2008-broken-balances-solutions"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["balance_scale", "strategy"]
@@ -59,14 +59,28 @@
     "adaptive": true,
     "objective": "identify_false_coin_with_one_broken_balance"
   },
+  "interactive": {
+    "type": "broken_scale_counterfeit_coin",
+    "coin_count": 9,
+    "scale_count": 3,
+    "broken_scale_count": 1,
+    "scale_labels": ["A", "B", "C"],
+    "counterfeit_weight": "lighter",
+    "max_weighings": 4,
+    "objective": "identify_coin",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {
     "main": "top_base",
     "local_score": 6,
     "comment": "Верх базы: стратегия короткая по числу взвешиваний, но использует метки из цифр 0, 1, 2 и разбор противоречий между приборами.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "ternary_code", "ternary_search", "condition_older_students", "solution_advanced_math"],
+  "tags": ["balance_scale", "ternary_code", "condition_older_students", "solution_advanced_math"],
   "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"},
     {"source_id": "src-lktg-2008-broken-balances-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
   ],
   "editorial": {
@@ -75,6 +89,6 @@
     "review_status": "ai_checked",
     "public_ready": false,
     "relations_status": "new_links",
-    "notes": ["Источник - листок с решениями о взвешиваниях на сломанных весах на olympiads.mccme.ru."]
+    "notes": ["Источник - листок ЛКТГ-2008 «Взвешивания со сломанными весами» на olympiads.mccme.ru.", "2026-05-19: добавлены русские официальные PDF условий и решений; карточка соответствует пункту 2.2b."]
   }
 }

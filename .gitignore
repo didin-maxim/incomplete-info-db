@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 index/generated.sqlite
 _tmp_*/
+node_modules/
+tmp_screenshots/

@@ -1,0 +1,14 @@
+{
+  "id": "lktg-2008-section4-41",
+  "title": "ЛКТГ-2008, раздел 4.1: первые точные случаи для четырех приборов",
+  "created_at": "2026-05-19",
+  "status": "draft",
+  "items": [
+    {"problem_id": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests", "status": "added"},
+    {"problem_id": "lktg-2008-four-balances-one-broken-729-coins-nine-weighings", "status": "needs_human_review"}
+  ],
+  "source_notes": [
+    "Файл создан отдельно от общего extended-sources batch, чтобы не конфликтовать с параллельными правками shared import/relation файлов.",
+    "Пункт 4.1a развернут до самодостаточной публичной карточки; пункт 4.1b вынесен как самостоятельная постановка, но оставлен непубличным до развернутой проверки верхней оценки без ссылки на техническую задачу 4.4."
+  ]
+}

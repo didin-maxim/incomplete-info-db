@@ -4,7 +4,10 @@
   "fragment": "weighings",
   "kind": {
     "primary": "classical_problem",
-    "secondary": ["strategy_construction", "optimality"]
+    "secondary": [
+      "strategy_construction",
+      "optimality"
+    ]
   },
   "language": "ru",
   "statements": {
@@ -13,19 +16,35 @@
         "id": "stmt-original",
         "title": "Неизвестно, легче или тяжелее",
         "text": "Даны 12 одинаковых на вид монет. Одна монета фальшивая, но неизвестно, легче она настоящих или тяжелее. За три взвешивания на чашечных весах найдите фальшивую монету и определите, легче она или тяжелее.",
-        "source_ids": ["src-classical-coin-weighing", "src-problems-ru-60922"],
+        "source_ids": [
+          "src-classical-coin-weighing",
+          "src-problems-ru-60922",
+          "src-mccme-circle-2013-weighings",
+          "src-aops-wiki-unm-pnm-2015-problem4"
+        ],
         "status": "ai_checked",
-        "self_contained": {"status": "ai_checked"},
-        "definition_ids": ["balance_scale"]
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
       },
       {
         "id": "stmt-nrich-great-weights",
         "title": "NRICH: один из двенадцати грузиков отличается",
         "text": "Даны 12 внешне одинаковых грузиков. Один из них отличается от остальных, но неизвестно, тяжелее он или легче. Есть чашечные весы. Можно ли за три взвешивания определить, какой грузик отличается, и узнать, тяжелее он или легче остальных?",
-        "source_ids": ["src-nrich-great-weights-puzzle"],
+        "source_ids": [
+          "src-nrich-great-weights-puzzle",
+          "src-mccme-circle-2013-weighings"
+        ],
         "status": "source_verified",
-        "self_contained": {"status": "ai_checked"},
-        "definition_ids": ["balance_scale"]
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
       }
     ],
     "reformulation": [
@@ -33,10 +52,18 @@
         "id": "stmt-as-ternary-signature-code",
         "title": "Двенадцать монет и таблица трех взвешиваний",
         "text": "Классическую задачу можно читать так: каждой монете заранее назначают схему участия во взвешиваниях, а тяжелый и легкий случаи дают противоположные исходы. Число 12 существенно для версии без эталонной монеты: три взвешивания дают 27 вариантов исходов, но нулевой исход и требование уравновешенных чаш не позволяют просто взять все 13 противоположных пар.",
-        "source_ids": ["src-classical-coin-weighing"],
+        "source_ids": [
+          "src-classical-coin-weighing",
+          "src-mccme-circle-2013-weighings"
+        ],
         "status": "ai_checked",
-        "self_contained": {"status": "ai_checked"},
-        "definition_ids": ["balance_scale", "information_lower_bound"]
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "information_lower_bound"
+        ]
       }
     ]
   },
@@ -45,7 +72,9 @@
       "id": "idea-ternary-signatures",
       "title": "Дать каждой монете свою схему участия",
       "text": "Каждая монета получает схему участия в трех взвешиваниях. Если монета тяжелая, наблюдается одна цепочка исходов, а если легкая - противоположная цепочка. Эти цепочки должны различать все 24 состояния.",
-      "standard_idea_ids": ["ternary_weighing_code"],
+      "standard_idea_ids": [
+        "ternary_weighing_code"
+      ],
       "status": "ai_checked"
     }
   ],
@@ -54,9 +83,13 @@
       "id": "str-explicit-three-weighings",
       "title": "Разбор после первого взвешивания 4 против 4",
       "text": "Обозначим монеты числами от 1 до 12. Сначала взвесим \\(1,2,3,4\\) против \\(5,6,7,8\\).\n\nЕсли равновесие, то монеты 1-8 настоящие, а фальшивая среди 9-12. Взвесим \\(9,10,11\\) против \\(1,2,3\\). Если равновесие, фальшива 12-я; третьим взвешиванием сравним 12 с настоящей монетой и узнаем, легче она или тяжелее. Если левая чаша тяжелее, то одна из 9,10,11 тяжелая; третьим взвешиванием сравним 9 и 10, и либо тяжелая из них фальшива, либо при равновесии тяжелая 11. Если левая чаша легче, тот же разбор показывает, какая из 9,10,11 легкая.\n\nПусть теперь в первом взвешивании левая чаша тяжелее. Тогда возможны только два типа состояний: одна из 1,2,3,4 тяжелая или одна из 5,6,7,8 легкая; монеты 9-12 настоящие. Вторым взвешиванием сравним \\(1,2,5\\) против \\(3,6,9\\). Если левая чаша тяжелее, остаются варианты: 1 тяжелая, 2 тяжелая или 6 легкая. Третьим взвешиванием сравним 1 и 2: более тяжелая из них фальшива, а при равновесии фальшива легкая 6. Если во втором взвешивании правая чаша тяжелее, остаются варианты: 3 тяжелая или 5 легкая. Третьим взвешиванием сравним 3 с настоящей 9: если 3 тяжелее, фальшива 3; иначе фальшива легкая 5. Если второе взвешивание дает равновесие, остаются варианты: 4 тяжелая, 7 легкая или 8 легкая. Третьим взвешиванием сравним 7 и 8: если одна легче, она фальшива; если равновесие, фальшива тяжелая 4.\n\nСлучай, когда в первом взвешивании правая чаша тяжелее, полностью симметричен предыдущему: надо поменять местами группы 1-4 и 5-8, а слова \"тяжелая\" и \"легкая\" заменить на противоположные в соответствующих кандидатах.",
-      "standard_idea_ids": ["ternary_weighing_code"],
+      "standard_idea_ids": [
+        "ternary_weighing_code"
+      ],
       "status": "ai_checked",
-      "definition_ids": ["balance_scale"]
+      "definition_ids": [
+        "balance_scale"
+      ]
     }
   ],
   "impossibility_proofs": [
@@ -64,19 +97,41 @@
       "id": "lb-two-weighings-not-enough",
       "title": "Два взвешивания не могут хватить",
       "text": "Нужно различить 24 состояния: какая из 12 монет фальшивая и в какую сторону отличается. Два взвешивания дают не более \\(3^2=9\\) последовательностей исходов, поэтому двух взвешиваний недостаточно.",
-      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
       "status": "ai_checked",
-      "definition_ids": ["information_lower_bound"]
+      "definition_ids": [
+        "information_lower_bound"
+      ]
     }
   ],
   "incomplete_information_profile": {
     "hidden_state_space": "24 состояния: 12 монет, каждая может быть легкой или тяжелой",
-    "observations": ["три исхода каждого взвешивания"],
-    "allowed_actions": ["адаптивно выбирать равные по числу группы монет"],
-    "goal": ["identify_counterfeit_coin", "identify_heavy_or_light"],
-    "strategy_type": ["adaptive_strategy", "ternary_code"],
-    "lower_bound_method": ["decision_tree_leaf_count"],
-    "keywords": ["classic_12_coin_problem", "heavy_or_light", "ternary_signatures", "signature_code_capacity", "numbers_essential_without_genuine"],
+    "observations": [
+      "три исхода каждого взвешивания"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать равные по числу группы монет"
+    ],
+    "goal": [
+      "identify_counterfeit_coin",
+      "identify_heavy_or_light"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "ternary_code"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "classic_12_coin_problem",
+      "heavy_or_light",
+      "ternary_signatures",
+      "signature_code_capacity",
+      "numbers_essential_without_genuine"
+    ],
     "status": "ai_checked"
   },
   "weighing_profile": {
@@ -88,17 +143,56 @@
     "adaptive": true,
     "objective": "identify_coin_and_sign"
   },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 12,
+    "max_weighings": 3,
+    "objective": "identify_coin_and_sign",
+    "modes": [
+      "random",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,
     "comment": "Средняя: нужно построить адаптивное дерево на 24 состояния и удержать вместе поиск монеты и знак отличия.",
     "status": "ai_checked"
   },
-  "tags": ["balance_scale", "ternary_code", "decision_tree", "decision_tree_lower_bound", "condition_middle_school"],
+  "tags": [
+    "balance_scale",
+    "ternary_code",
+    "decision_tree",
+    "decision_tree_lower_bound",
+    "condition_middle_school"
+  ],
   "sources": [
-    {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
-    {"source_id": "src-problems-ru-60922", "role": "web_statement_and_solution", "status": "source_verified"},
-    {"source_id": "src-nrich-great-weights-puzzle", "role": "official_statement_and_student_solution", "status": "source_verified"}
+    {
+      "source_id": "src-classical-coin-weighing",
+      "role": "folklore_statement",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-problems-ru-60922",
+      "role": "web_statement_and_solution",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-nrich-great-weights-puzzle",
+      "role": "official_statement_and_student_solution",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-mccme-circle-2013-weighings",
+      "role": "official_training_duplicate_statement",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-aops-wiki-unm-pnm-2015-problem4",
+      "role": "aops_duplicate_statement",
+      "status": "source_verified"
+    }
   ],
   "editorial": {
     "created_by": "ai",
@@ -111,7 +205,9 @@
       "Стратегия записана в адаптивной форме; симметричный случай первого взвешивания указан явно как зеркальный.",
       "2026-05-18: в карточку слит NRICH-дубликат nrich-great-weights-puzzle-12; источник сохранен как альтернативная формулировка.",
       "2026-05-18: problems.ru 60922 добавлен как источник той же классической задачи; решение источника использует номера монет по трем возможным исходам.",
-      "2026-05-18: число 12 признано существенным для данной модели без эталона; родственная общая кодовая версия вынесена в отдельную карточку generalizations."
+      "2026-05-18: число 12 признано существенным для данной модели без эталона; родственная общая кодовая версия вынесена в отдельную карточку generalizations.",
+      "2026-05-19 web-weighings: МЦНМО 2013, занятие 8, задача 2 добавлена как официальный кружковый дубль классической задачи о 12 монетах.",
+      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2015 Contest II, Problem 4 добавлен как еще один дубль той же классической задачи о 12 монетах за три взвешивания."
     ]
   }
 }

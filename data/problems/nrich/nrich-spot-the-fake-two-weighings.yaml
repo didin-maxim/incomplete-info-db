@@ -65,6 +65,15 @@
     "adaptive": true,
     "objective": "find_maximum_n_and_strategy"
   },
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 9,
+    "counterfeit_weight": "heavier",
+    "max_weighings": 2,
+    "objective": "identify_coin",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Простая: максимальное число монет получается из прямого счета девяти листьев и конструкции делением на тройки.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "ternary_search", "condition_middle_school"],
   "sources": [{"source_id": "src-nrich-spot-the-fake", "role": "official_statement_and_student_solution", "status": "source_verified"}],

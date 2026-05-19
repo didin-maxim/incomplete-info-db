@@ -65,8 +65,19 @@
     "adaptive": true,
     "objective": "identify_heaviest_coin"
   },
+  "interactive": {
+    "type": "heaviest_coin_one_broken_scale",
+    "coin_count": 5,
+    "scale_count": 5,
+    "broken_scale_count": 1,
+    "scale_labels": ["A", "B", "C", "D", "E"],
+    "max_weighings": 9,
+    "objective": "identify_heaviest_coin",
+    "modes": ["random", "cheater"],
+    "weighable_objects": "coins"
+  },
   "difficulty": {"main": "top_base", "local_score": 6, "comment": "Верх базы: для общего числа монет нужно и построить стратегию по индукции, и доказать, что испорченные весы в худшем случае не дают сделать меньше.", "status": "ai_checked"},
-  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument", "lie_detection", "condition_older_students"],
+  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument", "condition_older_students"],
   "sources": [{"source_id": "src-kvant-2019-09-m2565", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["Нижняя оценка развернута по официальному решению Kvant 2019 №9, задача M2565(a)."]}
 }

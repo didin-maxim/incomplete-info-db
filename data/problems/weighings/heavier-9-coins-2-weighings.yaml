@@ -85,7 +85,7 @@
     "counterfeit_weight": "heavier",
     "max_weighings": 2,
     "objective": "identify_coin",
-    "modes": ["random"],
+    "modes": ["random", "cheater", "exhaustive"],
     "require_equal_pan_counts": true
   },
   "difficulty": {

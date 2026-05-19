@@ -1,0 +1,19 @@
+{
+  "id": "lktg-2008-section4-42-46",
+  "title": "ЛКТГ-2008, раздел 4: отдельные карточки для пунктов 4.2-4.6",
+  "created_at": "2026-05-19",
+  "status": "draft",
+  "items": [
+    {"problem_id": "lktg-2008-four-testers-one-broken-maximal-coins", "status": "needs_human_review"},
+    {"problem_id": "lktg-2008-four-balances-beat-three-example", "status": "needs_human_review"},
+    {"problem_id": "lktg-2008-four-testers-one-broken-asymptotic-sharp", "status": "added"},
+    {"problem_id": "lktg-2008-four-testers-one-broken-bounded-additive-question", "status": "lead_needs_solution"},
+    {"problem_id": "lktg-2008-four-testers-ideal-number-one-broken", "status": "needs_human_review"},
+    {"problem_id": "lktg-2008-three-testers-one-broken-sharp-asymptotic", "status": "needs_human_review"}
+  ],
+  "source_notes": [
+    "Пункты 4.2-4.6 вынесены из обзорной карточки lktg-2008-four-testers-one-broken-sharp-results.",
+    "Карточка 4.4a-b доведена до public_ready=true; открытый подпункт 4.4c вынесен в отдельную непубличную карточку без фальшивого решения.",
+    "Пункты 4.1a/4.1b в этот batch не включены."
+  ]
+}

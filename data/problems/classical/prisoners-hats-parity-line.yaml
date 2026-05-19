@@ -10,7 +10,7 @@
         "id": "stmt-original",
         "title": "Первый передает четность",
         "text": "Заключенным надевают черные или белые колпаки и ставят в ряд. Каждый видит колпаки всех стоящих перед ним, но не свой и не колпаки позади. Начиная с последнего в ряду, каждый по очереди вслух называет цвет своего колпака. Заранее можно договориться о стратегии. Как гарантировать, что все, кроме возможно первого отвечающего, назовут свой цвет правильно?",
-        "source_ids": ["src-common-knowledge-puzzles"],
+        "source_ids": ["src-common-knowledge-puzzles", "src-berkeley-math-circle-2013-hats-logic"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -87,7 +87,8 @@
   "tags": ["hat_puzzle", "parity_code", "public_communication", "indistinguishability_argument", "condition_middle_school"],
   "sources": [
     {"source_id": "src-common-knowledge-puzzles", "role": "folklore_statement", "status": "source_verified"},
-    {"source_id": "src-folklore", "role": "folklore_100_prisoners_variant", "status": "source_verified"}
+    {"source_id": "src-folklore", "role": "folklore_100_prisoners_variant", "status": "source_verified"},
+    {"source_id": "src-berkeley-math-circle-2013-hats-logic", "role": "math_circle_statement_and_solution_duplicate", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",

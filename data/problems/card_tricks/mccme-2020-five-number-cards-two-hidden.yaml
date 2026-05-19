@@ -1,0 +1,89 @@
+{
+  "id": "mccme-2020-five-number-cards-two-hidden",
+  "title": "Пять карточек: ассистент показывает две, фокусник угадывает две спрятанные",
+  "fragment": "card_tricks",
+  "kind": {
+    "primary": "math_circle_problem",
+    "secondary": ["prearranged_protocol", "communication_strategy"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-mccme-2020-five-number-cards",
+        "title": "Две спрятанные карточки из пяти",
+        "text": "Зрителю дают пять карточек с номерами от 1 до 5, а фокуснику завязывают глаза. Зритель прячет две карточки, а три оставшиеся отдаёт ассистенту фокусника. Ассистент указывает зрителю на две из этих трёх карточек, и зритель называет их номера фокуснику. Порядок, в котором зритель назовёт два номера, ассистент не контролирует. Как фокуснику и ассистенту заранее договориться, чтобы фокус всегда удавался?",
+        "source_ids": ["src-mccme-circle-2020-card-tricks"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-matching-on-disjoint-pairs",
+      "title": "Каждой спрятанной паре заранее поставить в пару показываемую пару",
+      "text": "Спрятанная пара и показанная пара не должны пересекаться. Если заранее разбить все десять пар карточек на пять непересекающихся пар пар, то ассистент сможет показать пару, заранее связанную со спрятанной, а фокусник восстановит спрятанную пару по таблице.",
+      "standard_idea_ids": ["prearranged_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-five-pair-matching",
+      "title": "Таблица из пяти пар непересекающихся пар",
+      "text": "Заранее договоримся о такой таблице:\n\n\\((1,2)\\leftrightarrow(3,4)\\), \\((1,3)\\leftrightarrow(2,5)\\), \\((1,4)\\leftrightarrow(3,5)\\), \\((1,5)\\leftrightarrow(2,4)\\), \\((2,3)\\leftrightarrow(4,5)\\).\n\nВ каждой строке две пары не имеют общих карточек. Поэтому, когда зритель спрятал пару, ассистент видит все карточки из парной ей пары и указывает именно на них. Фокусник слышит две показанные карточки как неупорядоченную пару, находит её в таблице и называет парную ей пару как спрятанную.\n\nНапример, если спрятаны 1 и 4, ассистент показывает 3 и 5; если фокусник услышал 3 и 5, по таблице он отвечает: спрятаны 1 и 4. Порядок произнесения двух номеров не важен, потому что таблица использует пары, а не перестановки.",
+      "standard_idea_ids": ["prearranged_code"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "10 вариантов: какие две из пяти карточек спрятаны",
+    "observations": ["фокусник слышит неупорядоченную пару показанных карточек"],
+    "allowed_actions": ["ассистент выбирает две из трёх видимых карточек"],
+    "goal": ["communicate_two_hidden_cards"],
+    "strategy_type": ["prearranged_protocol", "matching_code", "nonverbal_communication"],
+    "lower_bound_method": [],
+    "keywords": ["mccme_circle_2020", "five_number_cards", "two_hidden_cards", "matching_on_disjoint_pairs"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": 5,
+    "hand_size": 5,
+    "shown_cards": 2,
+    "hidden_cards": 2,
+    "ordering_channel": false,
+    "encoded_values_by_order": 1,
+    "strategy_type": "disjoint_pair_matching"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "выбор двух карточек из трёх видимых ассистенту",
+    "message_capacity": "для каждой спрятанной пары у ассистента есть три возможные показываемые пары; используется заранее выбранное паросочетание"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: небольшая конечная кодовая договоренность, но нужно заметить, что порядок двух названных карточек не несёт информации.",
+    "status": "ai_checked"
+  },
+  "tags": ["card_trick", "nonadaptive_strategy", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-mccme-circle-2020-card-tricks", "role": "official_training_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "mccme_card_tricks_batch",
+    "notes": [
+      "Добавлено из листка МЦНМО «Фокусы!», задача 1. Решение восстановлено редакционно: источник даёт условие без решения на открытой двухстраничной версии листка.",
+      "Не слито с фокусом Фитча-Чейни: здесь передаётся не одна скрытая карта порядком четырёх карт, а две скрытые карточки выбором неупорядоченной пары из трёх видимых."
+    ]
+  }
+}

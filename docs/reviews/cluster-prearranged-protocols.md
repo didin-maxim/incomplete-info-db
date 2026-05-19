@@ -68,7 +68,7 @@ Common-knowledge задачи отделяются. `blue-eyed-islanders`, `mudd
 - `protocol_timing`: simultaneous, sequential, asynchronous, one-message, no-post-start-communication.
 - `guarantee_type`: deterministic, probabilistic, all-but-one, eventual, no-wrong-guess, privacy-preserving.
 - `privacy_constraint`: особенно для публичной коммуникации и задач с наблюдателем.
-- `participants`: полезно для фильтрации "заключенные", "шляпы", "помощник-фокусник", "sender-receiver", но лучше как facet, не как набор новых tags.
+- `participants`: полезно для фильтрации "заключенные", "колпаки", "помощник-фокусник", "sender-receiver", но лучше как facet, не как набор новых tags.
 
 Стоит рассмотреть как глобальные узкие идеи или значения `code_family`:
 
@@ -81,4 +81,4 @@ Common-knowledge задачи отделяются. `blue-eyed-islanders`, `mudd
 - `robust_public_oracle_protocol`
 - `permutation_cycle_following`
 
-Не стоит делать глобальной широкой меткой `prearranged_protocol` на карточках без фасетной структуры: она быстро смешает шляпы, фокусы, заключенных, приватность и общие кодовые задачи. Лучше держать кластерный файл как curated layer, а глобализовать отдельные оси.
+Не стоит делать глобальной широкой меткой `prearranged_protocol` на карточках без фасетной структуры: она быстро смешает колпаки, фокусы, заключенных, приватность и общие кодовые задачи. Лучше держать кластерный файл как curated layer, а глобализовать отдельные оси.

@@ -1,0 +1,105 @@
+{
+  "id": "aops-imo-2000-p4-card-box-sum-trick",
+  "title": "IMO 2000 №4: фокус с тремя коробками карт и суммой",
+  "fragment": "card_tricks",
+  "kind": {
+    "primary": "official_olympiad_problem",
+    "secondary": ["strategy_construction", "coding", "classification"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-imo-2000-p4",
+        "title": "По сумме двух карт определить третью коробку",
+        "text": "У фокусника есть 100 карт с числами от 1 до 100. Он раскладывает их по трем коробкам: красной, белой и синей, причем каждая коробка непуста. Затем зритель выбирает две коробки, берет из каждой по одной карте и называет только сумму двух чисел. По этой сумме фокусник должен всегда определить, из какой коробки карта не была взята. Сколькими способами можно разложить карты по коробкам, чтобы такой фокус гарантированно работал? Два способа считаются разными, если хотя бы одна карта лежит в другой коробке.",
+        "source_ids": ["src-aops-wiki-imo-2000-p4", "src-imo-official-2000-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-disjoint-pair-sums",
+      "title": "Одинаковая сумма не должна подходить к двум разным парам коробок",
+      "text": "Если одна и та же сумма могла получиться из пары красная-белая и из пары красная-синяя, то по сумме нельзя было бы понять, какая коробка пропущена. Значит, суммы для трех пар коробок не должны совпадать между разными парами.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-residue-and-end-intervals",
+      "title": "Остаются остатки при делении на 3 и крайний разрез",
+      "text": "Условие непересечения сумм очень жесткое: первые числа 1, 2, 3 либо запускают раскладку по остаткам по модулю 3, либо вынуждают одну коробку стать одиночной крайней картой, другую - почти всем средним интервалом, а третью - противоположной крайней картой.",
+      "standard_idea_ids": ["modular_sum_encoding", "structural_constraint"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-working-families",
+      "title": "Две формы работающей раскладки",
+      "text": "Первая работающая форма: разложить карты по остаткам при делении на 3. Тогда сумма двух выбранных карт имеет остаток, который однозначно показывает пару использованных коробок, а значит и пропущенную коробку. Любая перестановка трех цветов коробок дает работающую раскладку.\n\nВторая форма: положить карту 1 в одну коробку, карты 2,3,\\ldots,99 во вторую, а карту 100 в третью. Сумма из крайних коробок равна 101. Суммы из коробок 1 и среднего интервала лежат от 3 до 100, а суммы из среднего интервала и коробки 100 лежат от 102 до 199. Эти три диапазона не пересекаются, поэтому пропущенная коробка определяется. Симметрично можно поменять роли нижнего и верхнего конца; цвета коробок снова можно переставить.",
+      "standard_idea_ids": ["modular_sum_encoding", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-classification-by-first-gap",
+      "title": "Почему других раскладок нет",
+      "text": "Пусть коробки обозначены только по содержимому. Если карты 1, 2 и 3 лежат в трех разных коробках, то карта 4 обязана лежать вместе с 1, иначе одна из сумм 1+4, 2+3 смешала бы две разные пары коробок. Затем тем же сдвигом получается, что 5 лежит вместе с 2, 6 вместе с 3 и далее вся раскладка идет по остаткам по модулю 3.\n\nЕсли среди 1, 2, 3 две карты лежат в одной коробке, то варианты, где вместе лежат 1 и 2 или 1 и 3, быстро делают третью коробку пустой: из запрета смешивания сумм следует, что все следующие числа остаются только в двух коробках. Остается случай, когда 1 лежит отдельно, а 2 и 3 вместе. Если средняя коробка содержит подряд 2,\\ldots,k и не содержит k+1, а m - наименьшая карта третьей коробки, то m не может быть больше k+1, иначе карта m-1 не сможет лежать ни в одной коробке без совпадения сумм. Значит, m=k+1; дальнейший такой же шаг вынуждает k=99. Получается только крайняя раскладка 1 | 2..99 | 100. С учетом перестановок цветов и двух зеркальных крайних вариантов всего получается \\(6+6=12\\) способов.",
+      "standard_idea_ids": ["indistinguishable_states", "structural_constraint"],
+      "status": "needs_human_review",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбранная зрителем пара коробок и две выбранные карты",
+    "observations": ["фокусник слышит только сумму двух выбранных карт"],
+    "allowed_actions": ["фокусник заранее раскладывает карты по трем непустым коробкам"],
+    "goal": ["identify_missing_box", "classify_all_working_protocols"],
+    "strategy_type": ["nonverbal_communication", "sum_signature", "modular_encoding", "state_space_partition"],
+    "lower_bound_method": ["sumset_collision", "structural_classification"],
+    "keywords": ["imo_2000_p4", "aops", "magician", "card_boxes", "pair_sum_signature", "mod_3"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": 100,
+    "hand_size": 2,
+    "hidden_cards": "98 карт не выбираются; скрытая информация - пропущенная коробка",
+    "ordering_channel": false,
+    "strategy_type": "prearranged_box_partition_by_pair_sums"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "одно число: сумма двух выбранных карт",
+    "message_capacity": "три непересекающихся класса сумм, соответствующие пропущенной коробке"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 7,
+    "comment": "Сложная классификация: построения короткие, но доказательство отсутствия других раскладок требует аккуратно использовать запрет совпадающих сумм.",
+    "status": "ai_checked"
+  },
+  "tags": ["card_trick", "modular_sum_code", "structural_constraint", "indistinguishability_argument", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-aops-wiki-imo-2000-p4", "role": "aops_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-imo-official-2000-problems", "role": "official_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "aops_protocols_batch",
+    "notes": [
+      "Добавлено как AoPS-находка с официальной формулировкой IMO; автор не указан, потому что в проверенных источниках этой карточки авторство не фиксировалось.",
+      "Формулировка переведена на русский в стиле школьной задачи.",
+      "Классификационная часть пересказана по сжатому решению AoPS, поэтому карточка оставлена needs_human_review."
+    ]
+  }
+}

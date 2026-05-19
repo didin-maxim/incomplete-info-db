@@ -1,0 +1,78 @@
+{
+  "id": "aops-2021-jmc10-p3-eight-liars-cycle",
+  "title": "JMC 2021 №3: восемь человек называют следующего лжецом",
+  "fragment": "questions",
+  "kind": {
+    "primary": "competition_problem",
+    "secondary": ["truth_liar_reasoning", "multiple_choice"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-aops-2021-jmc10-p3",
+        "title": "Каждый говорит, что следующий - лжец",
+        "text": "В кругу стоят восемь человек. Каждый из них либо рыцарь, который всегда говорит правду, либо лжец, который всегда лжет. Каждый человек сказал про следующего по кругу: «Он лжец». Сколько лжецов среди этих восьми человек?",
+        "source_ids": ["src-aops-wiki-2021-jmc10-p3"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-neighbor-types-opposite",
+      "title": "Соседние типы обязаны различаться",
+      "text": "Если человек говорит про следующего «он лжец», то рыцарь действительно указывает на лжеца, а лжец должен указывать на рыцаря. В обоих случаях сосед справа имеет тип, противоположный говорящему.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-alternate-around-cycle",
+      "title": "Чередование по всему кругу",
+      "text": "Возьмем любого человека. Из его фразы следует, что следующий по кругу имеет противоположный тип: после рыцаря стоит лжец, а после лжеца - рыцарь. Значит, типы по кругу вынужденно чередуются.\n\nТак как всего мест восемь, чередование замыкается без противоречия: четыре места одного типа и четыре места другого типа. Следовательно, лжецов ровно 4.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого из восьми людей на цикле: рыцарь или лжец",
+    "observations": ["восемь одинаковых публичных утверждений о следующем человеке"],
+    "allowed_actions": ["сопоставлять истинность фразы с типами двух соседей"],
+    "goal": ["count_liars"],
+    "strategy_type": ["local_constraint_propagation", "alternating_cycle"],
+    "lower_bound_method": [],
+    "keywords": ["aops", "jmc_2021", "knights_liars", "cycle", "alternation"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 8,
+    "lies_allowed": "лжецы всегда лгут",
+    "adaptive": false,
+    "objective": "deduce_number_of_liars"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 1,
+    "comment": "Очень простая задача на локальное чередование рыцарей и лжецов на четном цикле.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "structural_constraint", "knowledge_elimination", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-aops-wiki-2021-jmc10-p3", "role": "statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "aops_truth_liars_batch",
+    "notes": ["AoPS Wiki формулирует задачу как людей в line с условием P1 = P9; по сути это цикл из восьми мест. Русская формулировка дана сразу в круговой форме.", "Дублем NRICH-очереди не является: там первый участник делает глобальное утверждение о всех стоящих за ним, здесь все ограничения одинаково локальны и циклически замкнуты."]
+  }
+}

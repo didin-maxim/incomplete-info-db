@@ -1,0 +1,93 @@
+{
+  "id": "israel-2020-seven-coins-three-light-find-one",
+  "title": "Израильская олимпиада-2020: найти одну фальшивую среди семи, если фальшивых три",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-israel-seven-three",
+        "title": "Три легкие фальшивые монеты",
+        "text": "Даны семь одинаковых на вид монет. Из них четыре настоящие и три фальшивые. Все фальшивые монеты имеют один и тот же вес, все настоящие монеты тоже имеют один и тот же вес, причем фальшивая монета легче настоящей. За одно взвешивание можно положить на чаши одинаковое число монет и узнать, какая чаша легче, или что веса равны. Какое наименьшее число взвешиваний нужно, чтобы гарантированно найти хотя бы одну фальшивую монету?",
+        "source_ids": ["src-aops-2020-israel-national-olympiad"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-certify-one-coin-not-whole-state",
+      "title": "Достаточно сертифицировать одну монету",
+      "text": "Полностью определить все три фальшивые монеты не требуется. После первого сравнения нужно выбрать второе так, чтобы в каждой оставшейся ветви все совместимые состояния имели хотя бы одну общую фальшивую монету.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-weighings-certify-one",
+      "title": "Сравнить две пары, затем одну подходящую пару монет",
+      "text": "Занумеруем монеты от 1 до 7. Сначала сравним пары \\(1,2\\) и \\(3,4\\).\n\nЕсли левая пара легче, то среди монет 1 и 2 фальшивых больше, чем среди 3 и 4. Вторым взвешиванием сравним 1 и 2. Если одна из них легче, она фальшивая. Если они равны, то 1 и 2 имеют одинаковый тип; так как в первой паре фальшивых больше, чем во второй, обе монеты 1 и 2 фальшивые, и можно назвать любую из них.\n\nЕсли правая пара легче, сравним 1 и 3. В этой ветви вариант «1 легче 3» невозможен. Если 3 легче 1, то 3 фальшивая. Если 1 и 3 равны, то фальшивая 4: действительно, правая пара \\(3,4\\) содержит больше фальшивых, чем \\(1,2\\), а равенство 1 и 3 оставляет единственную гарантированную монету в правой паре - монету 4.\n\nЕсли первое взвешивание дало равновесие, сравним 1 и 2. Если одна из них легче, она фальшивая. Если 1 и 2 равны, то из равенства пар \\(1,2\\) и \\(3,4\\) следует, что среди первых четырех монет фальшивых поровну в каждой паре; при равенстве 1 и 2 это возможно только когда все три фальшивые монеты находятся среди 5,6,7. Тогда можно назвать любую из монет 5,6,7.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing-not-enough",
+      "title": "Одного взвешивания недостаточно",
+      "text": "В стандартной модели чашечных весов сравнивают одинаковые по числу наборы монет. Если одним взвешиванием сравнить одну монету с одной, то исход равновесия не сертифицирует ни одну монету: обе сравниваемые монеты могут быть настоящими, а могут быть фальшивыми. Если сравнить две монеты с двумя или три с тремя, то для каждого возможного исхода остаются совместимые наборы трех фальшивых монет без общей монеты. Поэтому после одного взвешивания нельзя гарантированно назвать монету, которая фальшива во всех оставшихся вариантах.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "35 вариантов: какие три из семи монет фальшивые",
+    "observations": ["исход чашечных весов: левая сторона легче, правая сторона легче или равновесие"],
+    "allowed_actions": ["адаптивно выбирать две группы монет для сравнения"],
+    "goal": ["identify_one_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "certificate_of_one_object"],
+    "lower_bound_method": ["case_check_after_one_weighing"],
+    "keywords": ["three_light_counterfeits", "find_one_fake", "seven_coins", "certificate"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 7,
+    "counterfeit_count": 3,
+    "counterfeit_type": "lighter_known_equal_fakes",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_one_counterfeit_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Средняя: цель слабее полного восстановления состояния, поэтому стратегия строит сертификат одной фальшивой монеты.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree", "decision_tree_lower_bound", "condition_middle_school"],
+  "sources": [
+    {
+      "source_id": "src-aops-2020-israel-national-olympiad",
+      "role": "aops_statement_with_olympiad_origin",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "aops-weighings",
+    "notes": [
+      "Печатная подборка AoPS указывает источник как Israel National Olympiad 2020; официальный источник на сайте соревнования в этом проходе не найден.",
+      "Решение редакционное: дерево из двух взвешиваний проверено перебором всех 35 возможных троек легких монет."
+    ]
+  }
+}

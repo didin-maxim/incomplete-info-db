@@ -1,0 +1,96 @@
+{
+  "id": "lktg-2008-three-testers-one-broken-serial-upper-bounds",
+  "title": "ЛКТГ-2008: серийные стратегии для трех приборов с одним сломанным",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "generalization", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-3-2",
+        "title": "Грубая серийная верхняя оценка",
+        "text": "Докажите, что тремя детекторами, из которых один сломан, можно найти одну фальшивую монету из \\(2^k\\) монет за \\(2k+1\\) тестирование. Докажите также, что тремя парами чашечных весов, из которых одна сломана, можно найти одну легкую фальшивую монету из \\(3^k\\) монет за \\(2k+1\\) взвешивание.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      },
+      {
+        "id": "stmt-lktg-2008-3-3",
+        "title": "Улучшение на квадратах степеней",
+        "text": "Докажите, что \\(3^{2k}\\) монет можно обработать тремя весами с одним сломанным за \\(3k+1\\) взвешивание. Аналогично докажите, что \\(2^{2k}\\) монет можно обработать тремя детекторами с одним сломанным за \\(3k+2\\) тестирования.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-induction-reuses-small-cases",
+      "title": "Индукция повторяет малые конструкции",
+      "text": "Для оценки \\(2k+1\\) первый шаг либо честно делит кандидатов пополам или на три части, либо обнаруживает, что третий прибор исправен. Улучшенная оценка строит блоки из двух разрядов и повторяет конструкцию для 9 или 81 монеты.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-induction-2k-plus-1",
+      "title": "Индукция для оценки \\(2k+1\\)",
+      "text": "Для детекторов база \\(k=1\\) получается проверкой одной монеты всеми тремя детекторами. Для перехода проверим половину монет первыми двумя детекторами. Если ответы совпали, они истинны, и задача сведена к \\(2^t\\) монетам. Если ответы различны, один из первых двух детекторов сломан, значит третий исправен; им обычным двоичным поиском завершаем задачу. Для весов та же схема использует деление на три равные группы и обычный троичный поиск исправными весами.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy", "balance_scale"]
+    },
+    {
+      "id": "str-square-power-recursion",
+      "title": "Блоки по два разряда",
+      "text": "Улучшение \\(3^{2k}\\) за \\(3k+1\\) для весов получается индукцией, где база \\(k=1\\) - задача о 9 монетах за 4 взвешивания, а переход повторяет идею задачи о 81 монете: первые проверки выделяют надежные эталоны или исправный прибор, затем остается меньшая задача. Детекторная оценка \\(2^{2k}\\) за \\(3k+2\\) строится аналогично от конструкции для 8 монет.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "needs_human_review",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "положение фальшивой монеты среди экспоненциального числа кандидатов и один неизвестный сломанный прибор",
+    "observations": ["серия ответов трех детекторов или трех весов"],
+    "allowed_actions": ["адаптивно выбирать приборы и проверяемые группы"],
+    "goal": ["construct_serial_fault_tolerant_search"],
+    "strategy_type": ["inductive_strategy", "recursive_strategy", "fault_tolerant_testing"],
+    "lower_bound_method": [],
+    "keywords": ["lktg_2008", "serial_upper_bound", "three_testers_one_broken"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter_or_detected_by_membership",
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "construct_serial_upper_bounds_with_one_broken_tester"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 6,
+    "comment": "Серийная конструкция с индукцией; второй пункт в карточке дан как идея, без полного формального разбора.",
+    "status": "needs_human_review"
+  },
+  "tags": ["balance_scale", "binary_code", "ternary_code", "ternary_search", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задачи 3.2 и 3.3. Пункт 3.3b в источнике ссылается на дальнейший более общий прием; карточка поэтому требует человеческой проверки полноты."]
+  }
+}

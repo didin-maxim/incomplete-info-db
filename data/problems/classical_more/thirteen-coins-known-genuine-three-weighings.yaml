@@ -1,20 +1,182 @@
 {
   "id": "thirteen-coins-known-genuine-three-weighings",
-  "title": "13 монет и одна эталонная монета за три взвешивания",
+  "title": "13 монет и одна точно настоящая монета за три взвешивания",
   "fragment": "weighings",
-  "kind": {"primary": "classical_problem", "secondary": ["weighing_strategy", "coding"]},
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": [
+      "weighing_strategy",
+      "coding"
+    ]
+  },
   "language": "ru",
   "statements": {
-    "original": [{"id": "stmt-13-with-known-good", "title": "Фальшивая монета легче или тяжелее", "text": "Есть 13 подозрительных монет и одна заведомо настоящая монета. Среди 13 подозрительных ровно одна фальшивая; неизвестно, легче она настоящих или тяжелее. Нужно за три взвешивания на чашечных весах определить фальшивую монету и сказать, легче она или тяжелее.", "source_ids": ["src-balance-puzzle-reference"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "decision_tree"]}],
-    "reformulation": [{"id": "stmt-as-q-signature-code", "title": "Три взвешивания и пары противоположных исходов", "text": "С эталонной монетой задача становится точным случаем общей схемы: \\(q\\) взвешиваний дают \\((3^q-1)/2\\) пар противоположных ненулевых цепочек исходов. Каждая пара отвечает за одну подозрительную монету и два возможных направления отличия. При \\(q=3\\) это ровно 13 монет.", "source_ids": ["src-balance-puzzle-reference"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "information_lower_bound"]}]
+    "original": [
+      {
+        "id": "stmt-13-with-known-good",
+        "title": "Одна монета точно настоящая",
+        "text": "Есть 13 подозрительных монет и одна заведомо настоящая монета. Среди 13 подозрительных ровно одна фальшивая; неизвестно, легче она настоящих или тяжелее. Нужно за три взвешивания на чашечных весах определить фальшивую монету и сказать, легче она или тяжелее.",
+        "source_ids": [
+          "src-balance-puzzle-reference",
+          "src-mccme-circle-2013-weighings"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "decision_tree"
+        ]
+      }
+    ],
+    "reformulation": [
+      {
+        "id": "stmt-as-q-signature-code",
+        "title": "Три взвешивания и пары противоположных результатов",
+        "text": "С точно настоящей монетой задача становится точным случаем общей схемы: \\(q\\) взвешиваний дают \\((3^q-1)/2\\) пар противоположных ненулевых цепочек результатов. Каждая пара отвечает за одну подозрительную монету и два возможных направления отличия. При \\(q=3\\) это ровно 13 монет.",
+        "source_ids": [
+          "src-balance-puzzle-reference",
+          "src-mccme-circle-2013-weighings"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "information_lower_bound"
+        ]
+      }
+    ]
   },
-  "ideas": [{"id": "idea-nonzero-ternary-signatures", "title": "Монетам назначаются противоположные цепочки исходов", "text": "Три взвешивания дают цепочку из трех исходов. Монета со схемой \\(v\\) при тяжелой фальшивости дает исходы \\(v\\), а при легкой - противоположные исходы. Нужно выбрать 13 представителей из 13 пар ненулевых противоположных цепочек.", "standard_idea_ids": ["ternary_weighing_code"], "status": "ai_checked"}],
-  "strategies": [{"id": "str-balanced-ternary-signature-table", "title": "Таблица трех взвешиваний", "text": "Обозначим исход каждого взвешивания как \\(+\\), если левая чаша тяжелее, \\(-\\), если правая тяжелее, и \\(0\\), если равновесие. Для каждой подозрительной монеты выберем ненулевую строку длины 3 над \\(\\{-,0,+\\}\\), причем никакие две строки не должны быть противоположными. Если монета стоит слева в данном взвешивании, пишем \\(+\\); справа - \\(-\\); не участвует - \\(0\\). Эталонную монету добавляем там, где нужно уравнять число монет на чашах.\n\nОдин сбалансированный набор строк для монет 1-13: \\((+++),(--0),(++-),(+0+),(+00),(-0+),(-+-),(-+0),(-++),(0--),(0-0),(0-+),(00-)\\). В каждом из трех взвешиваний кладем на левую чашу монеты со знаком \\(+\\), на правую - со знаком \\(-\\). В первом взвешивании справа на одну подозрительную монету больше, поэтому эталонную монету кладем слева; во втором и третьем слева на одну подозрительную монету больше, поэтому эталонную монету кладем справа.\n\nПосле трех взвешиваний получаем цепочку исходов \\(w\\). Если \\(w\\) совпала со строкой монеты, эта монета тяжелее настоящих. Если \\(w\\) противоположна строке монеты, эта монета легче настоящих. Нулевая цепочка невозможна, потому что по условию одна из 13 подозрительных монет фальшивая и каждая имеет ненулевую строку. Эталонная монета не создает нового случая: она нужна только для балансировки чаш.", "standard_idea_ids": ["ternary_weighing_code"], "status": "ai_checked", "definition_ids": ["balance_scale", "decision_tree"]}],
-  "impossibility_proofs": [{"id": "lb-13-is-capacity-with-known-good", "title": "Почему больше 13 монет не получится", "text": "Три взвешивания имеют \\(3^3=27\\) исходов. Сценарии «монета \\(i\\) тяжелая» и «монета \\(i\\) легкая» должны давать разные ненулевые исходы, причем они естественно идут противоположными парами. Ненулевых исходов 26, то есть 13 пар. Поэтому с известной настоящей монетой можно различить не больше 13 подозрительных монет.", "standard_idea_ids": ["decision_tree_lower_bound"], "status": "ai_checked", "definition_ids": ["information_lower_bound"]}],
-  "incomplete_information_profile": {"hidden_state_space": "26 состояний: какая из 13 монет фальшивая и легче/тяжелее ли она", "observations": ["три исхода чашечных весов"], "allowed_actions": ["три заранее заданных или адаптивных взвешивания с использованием эталонной монеты"], "goal": ["identify_counterfeit_coin", "identify_heavy_or_light"], "strategy_type": ["ternary_code", "nonadaptive_strategy"], "lower_bound_method": ["ternary_outcome_count"], "keywords": ["13_coins", "known_genuine_coin", "balanced_ternary_code", "q_ternary_signature_code", "(3^q-1)/2_capacity"], "status": "ai_checked"},
-  "weighing_profile": {"object_count": 13, "counterfeit_count": 1, "counterfeit_type": "heavier_or_lighter_unknown", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": false, "objective": "найти фальшивую монету и направление отличия, используя одну заведомо настоящую монету"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Средняя: это классическая таблица для трехисходных взвешиваний; эталонная монета упрощает балансировку, но нужно аккуратно считать цепочки исходов.", "status": "ai_checked"},
-  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_middle_school"],
-  "sources": [{"source_id": "src-balance-puzzle-reference", "role": "reference_topic", "status": "needs_human_review"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": false, "relations_status": "new_links", "generalization_status": "special_case_of_new_signature_generalization", "notes": ["Проверено: в первом взвешивании эталонная монета добавляется слева, во втором и третьем - справа; выбранные строки не содержат противоположных пар.", "2026-05-18: добавлена формулировка как q=3 общей схемы противоположных исходов; общая карточка вынесена в data/problems/generalizations/.", "needs_human_review остается только на источнике: текущая ссылка является общей справкой по balance puzzle, нужна стабильная ссылка на вариант с 13 подозрительными монетами и одной заведомо настоящей."]}
+  "ideas": [
+    {
+      "id": "idea-nonzero-ternary-signatures",
+      "title": "Монетам назначаются противоположные цепочки результатов",
+      "text": "Три взвешивания дают цепочку из трех результатов. Монета со схемой \\(v\\) при тяжелой фальшивости дает результаты \\(v\\), а при легкой - противоположные результаты. Нужно выбрать 13 представителей из 13 пар ненулевых противоположных цепочек.",
+      "standard_idea_ids": [
+        "ternary_weighing_code"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-balanced-ternary-signature-table",
+      "title": "Таблица трех взвешиваний",
+      "text": "Обозначим результат каждого взвешивания как \\(+\\), если левая чаша тяжелее, \\(-\\), если правая тяжелее, и \\(0\\), если равновесие. Для каждой подозрительной монеты выберем ненулевую строку длины 3 над \\(\\{-,0,+\\}\\), причем никакие две строки не должны быть противоположными. Если монета стоит слева в данном взвешивании, пишем \\(+\\); справа - \\(-\\); не участвует - \\(0\\). Точно настоящую монету добавляем там, где нужно уравнять число монет на чашах.\n\nОдин сбалансированный набор строк для монет 1-13: \\((+++),(--0),(++-),(+0+),(+00),(-0+),(-+-),(-+0),(-++),(0--),(0-0),(0-+),(00-)\\). В каждом из трех взвешиваний кладем на левую чашу монеты со знаком \\(+\\), на правую - со знаком \\(-\\). В первом взвешивании справа на одну подозрительную монету больше, поэтому точно настоящую монету кладем слева; во втором и третьем слева на одну подозрительную монету больше, поэтому точно настоящую монету кладем справа.\n\nПосле трех взвешиваний получаем цепочку результатов \\(w\\). Если \\(w\\) совпала со строкой монеты, эта монета тяжелее настоящих. Если \\(w\\) противоположна строке монеты, эта монета легче настоящих. Нулевая цепочка невозможна, потому что по условию одна из 13 подозрительных монет фальшивая и каждая имеет ненулевую строку. Точно настоящая монета не создает нового случая: она нужна только для балансировки чаш.",
+      "standard_idea_ids": [
+        "ternary_weighing_code"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "decision_tree"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-13-is-capacity-with-known-good",
+      "title": "Почему больше 13 монет не получится",
+      "text": "Три взвешивания имеют \\(3^3=27\\) исходов. Сценарии «монета \\(i\\) тяжелая» и «монета \\(i\\) легкая» должны давать разные ненулевые исходы, причем они естественно идут противоположными парами. Ненулевых исходов 26, то есть 13 пар. Поэтому с известной настоящей монетой можно различить не больше 13 подозрительных монет.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "26 состояний: какая из 13 монет фальшивая и легче/тяжелее ли она",
+    "observations": [
+      "три исхода чашечных весов"
+    ],
+    "allowed_actions": [
+      "три заранее заданных или адаптивных взвешивания с использованием точно настоящей монеты"
+    ],
+    "goal": [
+      "identify_counterfeit_coin",
+      "identify_heavy_or_light"
+    ],
+    "strategy_type": [
+      "ternary_code",
+      "nonadaptive_strategy"
+    ],
+    "lower_bound_method": [
+      "ternary_outcome_count"
+    ],
+    "keywords": [
+      "13_coins",
+      "known_genuine_coin",
+      "balanced_ternary_code",
+      "q_ternary_signature_code",
+      "(3^q-1)/2_capacity"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 13,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "найти фальшивую монету и направление отличия, используя одну заведомо настоящую монету"
+  },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 13,
+    "known_genuine_count": 1,
+    "has_known_genuine": true,
+    "max_weighings": 3,
+    "objective": "identify_coin_and_sign",
+    "modes": [
+      "random",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Средняя: это классическая таблица для взвешиваний с тремя результатами; точно настоящая монета упрощает балансировку, но нужно аккуратно считать цепочки результатов.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "ternary_code",
+    "nonadaptive_strategy",
+    "counting_lower_bound",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-balance-puzzle-reference",
+      "role": "reference_topic",
+      "status": "needs_human_review"
+    },
+    {
+      "source_id": "src-mccme-circle-2013-weighings",
+      "role": "official_training_statement",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "special_case_of_new_signature_generalization",
+    "notes": [
+      "Проверено: в первом взвешивании точно настоящая монета добавляется слева, во втором и третьем - справа; выбранные строки не содержат противоположных пар.",
+      "2026-05-18: добавлена формулировка как q=3 общей схемы противоположных исходов; общая карточка вынесена в data/problems/generalizations/.",
+      "needs_human_review остается только на источнике: текущая ссылка является общей справкой по balance puzzle, нужна стабильная ссылка на вариант с 13 подозрительными монетами и одной заведомо настоящей.",
+      "2026-05-19 web-weighings: МЦНМО 2013, занятие 8, задача 3 добавлена как проверяемый кружковый источник для версии с 13 монетами и одной точно настоящей."
+    ]
+  }
 }

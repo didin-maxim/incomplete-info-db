@@ -1,0 +1,72 @@
+{
+  "id": "lktg-2008-broken-detectors-binary-lower-bound",
+  "title": "ЛКТГ-2008: почему сломанный детектор мешает найти монету из 2^k за k проверок",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-5a",
+        "title": "Двоичная нижняя оценка для детекторов",
+        "text": "Есть \\(2^k\\) одинаковых на вид монет, одна из них фальшивая. Можно пользоваться любым числом детекторов, но среди них есть сломанный; при каждом использовании сломанный детектор может отвечать произвольно. За одно тестирование детектор отвечает, есть ли фальшивая монета в выбранном множестве. Докажите, что за \\(k\\) тестирований гарантированно найти фальшивую монету невозможно.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-detector-can-be-worthless",
+      "title": "Первый ответ может не дать надежной информации",
+      "text": "Обычная двоичная емкость \\(2^k\\) не достигается, потому что один из \\(k\\) ответов может принадлежать сломанному прибору и ничего не ограничивать.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "adversary_strategy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-detector-candidates-halving",
+      "title": "Противник оставляет не меньше половины кандидатов",
+      "text": "После уже сделанных тестирований рассмотрим монеты, которые еще могут быть фальшивыми. Для каждой такой монеты существует хотя бы один ответ следующего детектора, при котором она остается возможной: неудобный ответ можно объяснить тем, что использованный детектор сломан. Значит, найдется ответ, который оставляет не меньше половины текущих кандидатов. На первом ходе противник вообще может считать использованный детектор сломанным, так что надежного уменьшения нет. За оставшиеся \\(k-1\\) ходов кандидатов можно уменьшить в худшем случае не более чем в \\(2^{k-1}\\) раз, и из \\(2^k\\) монет останется больше одной.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "adversary_strategy"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "\\(2^k\\) вариантов фальшивой монеты и неизвестный сломанный детектор",
+    "observations": ["до \\(k\\) ответов да/нет, один источник может быть произвольным"],
+    "allowed_actions": ["адаптивно выбирать детектор и проверяемое множество"],
+    "goal": ["prove_no_strategy_identifies_false_coin"],
+    "strategy_type": ["adversary_argument", "decision_tree_lower_bound"],
+    "lower_bound_method": ["adversary_preserves_candidates", "faulty_channel"],
+    "keywords": ["lktg_2008", "broken_detector", "binary_lower_bound"],
+    "status": "ai_checked"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Аналог обычной двоичной нижней оценки, но с учетом одного ненадежного ответа.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_code", "counting_lower_bound", "decision_tree_lower_bound", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.5a. Балансовый аналог 2.5b уже был в базе как отдельная карточка."]
+  }
+}

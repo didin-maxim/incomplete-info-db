@@ -31,7 +31,7 @@
 `knowledge_profile`, `card_trick_profile`, `questions_profile`,
 `communication_profile`.
 
-Необязательное поле `interactive` описывает конфиг интерактивного слоя viewer. Оно передается в статический payload вместе с карточкой и выбирает JS-рендерер по `interactive.type`. Базовый поддержанный тип:
+Необязательное поле `interactive` описывает конфиг интерактивного слоя viewer. Оно передается в статический payload вместе с карточкой и выбирает JS-рендерер по `interactive.type`. Поддержанные типы для одной фальшивой монеты:
 
 ```json
 "interactive": {
@@ -45,6 +45,12 @@
 ```
 
 Для `single_counterfeit_weighing` обязательны `coin_count`, `counterfeit_weight`, `max_weighings` и `objective`. Поле хранит только параметры модели и режима; стратегию, подсказки и решение оно не содержит.
+
+Для числовых весов используется `numeric_linear_signature`. Вариант `objective: "identify_fake_bag_subset"` задает подмножество фальшивых мешков через `bag_count`, `allow_empty_subset` и `exclude_all_fake`; вариант `objective: "identify_fake_bag"` задает ровно одну фальшивую стопку/мешок и дополнительно требует `state_model: "single_fake_bag"`, `fake_bag_count: 1`, `counterfeit_weight`, `counterfeit_delta`, `genuine_weight` и `observation_model: "actual_weight"`. Для нескольких цифровых взвешиваний выбранных подмножеств монет используется тот же тип с `objective: "identify_fake_coin_set"`, `state_model: "fixed_fake_count"`, `object_kind: "coin"` и `selection_model: "subset"`.
+
+Для неизвестного направления используется `single_counterfeit_unknown_direction`: кандидаты перебора являются парами `(coin, heavier/lighter)`, а цель задается как `identify_coin_and_sign` или `identify_coin_and_direction`. Если кроме подозрительных монет есть заведомо настоящая монета для сравнения, укажите `known_genuine_count` и/или `has_known_genuine`.
+
+Для сломанного прибора используется отдельный тип `faulty_scale_identification`: скрытое состояние - неисправные весы, а не монета. Конфиг задает `scale_count`, `faulty_scale_count: 1`, `max_weighings`, `objective: "identify_faulty_scale"` и `weighable_objects: "scales"`. Viewer в этом режиме отдельно выбирает прибор и предметы на чашах.
 
 ### `data/relations/`
 

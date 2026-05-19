@@ -1,0 +1,91 @@
+{
+  "id": "lktg-2008-minimum-testers-k-broken",
+  "title": "ЛКТГ-2008: сколько приборов нужно, если k из них сломаны",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "impossibility", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-3-1",
+        "title": "Минимальное число детекторов или весов",
+        "text": "Для каждого натурального \\(k\\) найдите минимальное число \\(K\\) такое, что при \\(K\\) детекторах и \\(k\\) сломанных среди них можно гарантированно найти одну фальшивую монету среди любого числа монет. Тот же вопрос для чашечных весов.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked",
+          "review_notes": "В условии явно раскрыта стандартная модель листа: сломанный прибор может отвечать произвольно; детектор дает ответ да/нет, весы - один из трех исходов."
+        },
+        "definition_ids": ["balance_scale", "strategy", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-majority-needs-2k-plus-1",
+      "title": "Большинство против k сломанных приборов",
+      "text": "Чтобы получить надежный ответ на один вопрос, нужно задать его \\(2k+1\\) приборам: тогда хотя бы \\(k+1\\) совпадающих ответов принадлежат исправным приборам. При \\(2k\\) приборах два противоположных сценария неразличимы.",
+      "standard_idea_ids": ["one_lie_redundancy", "indistinguishable_states"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-2k-plus-1-majority",
+      "title": "Проверять каждый нужный вопрос на всех приборах",
+      "text": "Ответ: \\(K=2k+1\\). Если есть \\(2k+1\\) приборов, любой шаг обычного алгоритма можно продублировать на всех приборах. Среди \\(2k+1\\) ответов не более \\(k\\) произвольных, значит некоторый ответ встречается хотя бы \\(k+1\\) раз и является истинным. Повторяя так обычный поиск, можно найти фальшивую монету при любом числе монет.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "proof-2k-testers-not-enough",
+      "title": "Две симметричные версии поломки",
+      "text": "Пусть приборов не больше \\(2k\\). Возьмем две разные монеты \\(A\\) и \\(B\\). Противник может заставить одну половину приборов вести себя так, как если бы фальшива была \\(A\\), а другую - так, как если бы фальшива была \\(B\\). Тогда наблюдения совместимы и со сценарием, где первая половина исправна и фальшива \\(A\\), и со сценарием, где вторая половина исправна и фальшива \\(B\\). Эти сценарии алгоритм не различит.",
+      "standard_idea_ids": ["indistinguishable_states", "adversary_strategy"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "фальшивая монета и множество из \\(k\\) сломанных приборов",
+    "observations": ["ответы нескольких приборов на выбранные проверки"],
+    "allowed_actions": ["задавать один и тот же вопрос разным приборам"],
+    "goal": ["find_minimum_number_of_testers_for_unbounded_number_of_coins"],
+    "strategy_type": ["majority_vote", "fault_tolerant_testing", "indistinguishability_argument"],
+    "lower_bound_method": ["symmetry_between_two_hidden_states"],
+    "keywords": ["lktg_2008", "k_broken_testers", "2k_plus_1"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter_or_detected_by_membership",
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "minimum_testers_for_unbounded_counterfeit_search"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Классическая идея большинства плюс симметричная нижняя оценка.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree", "indistinguishability_argument", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 3.1."]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "id": "rel-lktg-significance-to-four-balances-729",
+      "from": "lktg-2008-one-broken-tester-significance-lower-bound",
+      "to": "lktg-2008-four-balances-one-broken-729-coins-nine-weighings",
+      "type": "lower_bound_analogy",
+      "distance": 1,
+      "forward_text": "Общая нижняя оценка для чашечных весов с одним сломанным прибором сразу дает невозможность восьми взвешиваний для 729 монет.",
+      "backward_text": "Случай 729 монет является первым точным весовым примером, где нижняя оценка \\((2d+1)n\\le 3^d\\) совпадает с верхней оценкой из конструкции для четырех весов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-lktg-sixteen-detectors-to-four-balances-729",
+      "from": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests",
+      "to": "lktg-2008-four-balances-one-broken-729-coins-nine-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи являются двумя частями 4.1: в детекторной модели счет делится пополам, а в весовой модели тот же прием заменяется трехчастным делением.",
+      "backward_text": "Весовая задача переносит идею почти исключенных монет из детекторного случая на три исхода чашечных весов, но требует дополнительного условия равных чаш.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-four-balances-729",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-balances-one-broken-729-coins-nine-weighings",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Пункт 4.1b является конечным весовым частным случаем метода 4.4 при \\(k=6\\): та же идея значимости дает \\(3^6\\) монет за \\(6+3=9\\) взвешиваний, но карточка 4.1b раскрывает этот случай прямой конструкцией.",
+      "backward_text": "Для чтения пункта 4.1b полная теорема 4.4 не нужна: нижняя оценка самодостаточна, а верхняя оценка расписана как специальная конструкция для 729 монет и малого остатка.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-lktg-four-asymptotic-to-sixteen-detectors",
+      "from": "lktg-2008-four-testers-one-broken-asymptotic-sharp",
+      "to": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests",
+      "type": "special_case",
+      "distance": 1,
+      "forward_text": "Точная формула 4.4 для четырех детекторов при \\(2^4\\) монетах дает ровно семь тестирований; карточка 4.1a раскрывает этот предельный случай без всего технического аппарата.",
+      "backward_text": "Задача на 16 монет является удобным конечным входом в метод 4.4: уже видны значимость, почти исключенные монеты и цена одного сломанного детектора.",
+      "status": "ai_checked",
+      "confidence": 0.92
+    },
+    {
+      "id": "rel-lktg-sixteen-detectors-to-one-lie-hamming",
+      "from": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests",
+      "to": "one-lie-questions-coding-bound",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "Нижняя оценка для 16 монет считает строки ответов так же, как задача с одной возможной ложью: у каждой монеты есть правильная строка и строки с одним испорченным ответом.",
+      "backward_text": "Кодовая задача про одну ложь дает чистую модель шаров Хэмминга радиуса 1; в ЛКТГ та же упаковка появляется из-за неизвестного сломанного детектора.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-lktg-kvant-light-bound-to-four-balances-729",
+      "from": "kvant-2013-one-light-coin-information-bound",
+      "to": "lktg-2008-four-balances-one-broken-729-coins-nine-weighings",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "Квантовская карточка дает обычную троичную границу для одной легкой монеты. В ЛКТГ к той же емкости \\(3^d\\) добавляется множитель \\(2d+1\\), потому что один ответ весов мог быть произвольным.",
+      "backward_text": "Задача про 729 монет является отказоустойчивым усилением обычного троичного поиска: вместо простого деления кандидатов на три нужно делить значимость с запасом на сломанные весы.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    }
+  ]
+}

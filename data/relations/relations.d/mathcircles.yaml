@@ -1,0 +1,26 @@
+{
+  "relations": [
+    {
+      "id": "rel-mathcircles-same-type-to-universal-question",
+      "from": "mathcircles-smullyan-same-type-question",
+      "to": "truth-liar-universal-yes-no",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "В задаче из листка Смальяна не нужно самому строить универсальный вопрос, но ответ C получается одинаково полезным при двух типах C: ложь лжеца компенсирует изменение истинного ответа.",
+      "backward_text": "Универсальный вопрос является более общим приемом: там вопрос специально строится так, чтобы рыцарь и лжец дали один и тот же полезный да/нет-сигнал о любом утверждении.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-mathcircles-same-type-to-nrich-queue",
+      "from": "mathcircles-smullyan-same-type-question",
+      "to": "nrich-knights-and-knaves-queue",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Здесь тот же базовый механизм, что в очереди NRICH: фраза об одинаковости или различии типов переводится в ограничение на соседние скрытые типы.",
+      "backward_text": "Очередь NRICH развивает этот прием в длинную цепочку: вместо трех людей и одного вопроса типы последовательно восстанавливаются по утверждениям о предыдущем человеке.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    }
+  ]
+}

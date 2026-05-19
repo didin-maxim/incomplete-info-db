@@ -1,0 +1,81 @@
+{
+  "id": "lktg-2008-two-broken-balances-eleven-weighings-bound",
+  "title": "ЛКТГ-2008: двое сломанных весов и 11 взвешиваний не покрывают больше 3^6 монет",
+  "fragment": "impossibility",
+  "kind": {
+    "primary": "impossibility_problem",
+    "secondary": ["lower_bound", "fault_tolerance", "coding"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-6c",
+        "title": "Двое сломанных весов",
+        "text": "Есть \\(n\\) одинаковых на вид монет, одна из них фальшивая и легче остальных. Можно пользоваться любым числом чашечных весов, но среди них есть двое сломанных весов, которые при каждом использовании могут отвечать произвольно. Докажите, что если \\(n>3^6\\), то за 11 взвешиваний фальшивую монету гарантированно найти нельзя.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-errors-need-many-transcripts",
+      "title": "Одна монета должна покрывать все варианты двух ошибок",
+      "text": "Для фиксированной фальшивой монеты возможны как полностью правильная строка ответов, так и строки с одним или двумя неверными ответами. Эти строки должны оставаться за той же монетой, иначе алгоритм не выдержит двух сломанных приборов.",
+      "standard_idea_ids": ["error_correcting_code", "counting_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-243-transcripts",
+      "title": "Подсчет строк ответов",
+      "text": "Пусть алгоритм за 11 ходов всегда находит фальшивую монету. Каждая строка из 11 трехисходных ответов должна указывать на одну монету. Для каждой фиксированной монеты допустимы как минимум \\(1+2\\cdot 11+4\\cdot 55=243\\) различных строк: все ответы правильны; ровно один ответ неверен; ровно два ответа неверны. Эти строки различны и должны соответствовать той же монете. Поэтому всего строк не меньше \\(243n\\), но трехисходных строк длины 11 только \\(3^{11}\\). Получаем \\(243n\\le 3^{11}\\), то есть \\(n\\le 3^6\\).",
+      "standard_idea_ids": ["error_correcting_code", "counting_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "\\(n\\) вариантов фальшивой монеты и два неизвестных сломанных прибора",
+    "observations": ["11 трехисходных ответов, до двух приборов могут отвечать произвольно"],
+    "allowed_actions": ["адаптивно выбирать весы и сравниваемые группы"],
+    "goal": ["prove_no_strategy_identifies_false_coin_for_n_gt_3_6"],
+    "strategy_type": ["counting_lower_bound", "error_correcting_code"],
+    "lower_bound_method": ["transcript_counting", "two_error_redundancy"],
+    "keywords": ["lktg_2008", "two_broken_balances", "transcript_counting"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 729,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter",
+    "weighing_count": 11,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "prove_impossible_above_3_6_with_two_broken_balances"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 6,
+    "comment": "Кодовая нижняя оценка с подсчетом строк, выдерживающих две ошибки.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "counting_lower_bound", "error_correcting_code", "decision_tree_lower_bound", "condition_older_students", "solution_advanced_math"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, задача 2.6c; в листе решение приведено в конце раздела 3."]
+  }
+}

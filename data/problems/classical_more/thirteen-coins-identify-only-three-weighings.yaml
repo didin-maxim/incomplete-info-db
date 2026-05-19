@@ -1,0 +1,124 @@
+{
+  "id": "thirteen-coins-identify-only-three-weighings",
+  "title": "13 монет за три взвешивания: найти монету, но не знак",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "optimality", "variant"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Фальшивая монета может быть легче или тяжелее",
+        "text": "Даны 13 одинаковых на вид монет. Ровно одна из них фальшивая: она отличается по весу от остальных, но неизвестно, легче она или тяжелее. За три взвешивания на чашечных весах нужно определить, какая монета фальшивая. Определять, легче она или тяжелее, не требуется.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale"]
+      }
+    ],
+    "reformulation": [
+      {
+        "id": "stmt-weaker-goal-than-twelve-coin-classic",
+        "title": "Отличие от классической задачи о 12 монетах",
+        "text": "В классической задаче о 12 монетах нужно найти фальшивую монету и сказать, легче она или тяжелее. Здесь монет 13, но цель слабее: после трех взвешиваний достаточно указать номер фальшивой монеты.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-n-q-identify-only",
+        "title": "Естественное обобщение",
+        "text": "Даны \\(N\\) одинаковых на вид монет, ровно одна фальшивая, и она может быть как легче, так и тяжелее настоящих. За \\(q\\) взвешиваний на чашечных весах нужно гарантированно указать фальшивую монету; направление отличия указывать не требуется. Какое наибольшее \\(N\\) допускает такая постановка?",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-weighing-creates-genuine-coins",
+      "title": "Первое взвешивание само дает настоящие монеты",
+      "text": "Если сначала взвесить 4 монеты против 4, то при равновесии эти 8 монет становятся известными настоящими, а искать нужно среди оставшихся 5. Если равновесия нет, то все 5 невзвешенных монет настоящие, а среди 8 взвешенных для каждой монеты уже известно единственное возможное направление отличия.",
+      "standard_idea_ids": ["ternary_weighing_code", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-four-against-four",
+      "title": "Стратегия с разбором двух веток",
+      "text": "Пронумеруем монеты от 1 до 13. В первом взвешивании сравним \\(1,2,3,4\\) с \\(5,6,7,8\\). Будем писать \\(+\\), если левая чаша тяжелее, \\(-\\), если правая чаша тяжелее, и \\(0\\), если равновесие.\n\nЕсли первое взвешивание дало равновесие, то монеты 1-8 настоящие, а фальшивая среди 9-13. Оставшиеся два взвешивания делаем так:\n\n| взвешивание | левая чаша | правая чаша |\n|---|---|---|\n| 2 | 10, 11, 12 | 1, 2, 3 |\n| 3 | 10, 13 | 12, 1 |\n\nПосле этих двух взвешиваний читаем пару исходов. Пары \\(00\\), \\(++\\) или \\(--\\), \\(+0\\) или \\(-0\\), \\(+-\\) или \\(-+\\), \\(0+\\) или \\(0-\\) указывают соответственно монеты 9, 10, 11, 12, 13. Например, если монета 12 тяжелая, получим \\(+-\\), а если легкая, получим \\(-+\\); в обоих случаях номер найден.\n\nТеперь пусть первое взвешивание не дало равновесия. Обозначим через \\(A_1,A_2,A_3,A_4\\) четыре монеты с более тяжелой чаши первого взвешивания, а через \\(B_1,B_2,B_3,B_4\\) - четыре монеты с более легкой чаши. Тогда возможны только такие случаи: одна из монет \\(A\\) тяжелая или одна из монет \\(B\\) легкая. Любые две монеты из 9-13 теперь заведомо настоящие; назовем их \\(G_1\\) и \\(G_2\\). Оставшиеся два взвешивания:\n\n| взвешивание | левая чаша | правая чаша |\n|---|---|---|\n| 2 | \\(A_4, B_1, G_1\\) | \\(A_1, A_2, B_4\\) |\n| 3 | \\(B_2, B_4, G_2\\) | \\(A_1, B_1, B_3\\) |\n\nТаблица расшифровки пары исходов второго и третьего взвешиваний:\n\n| исходы | фальшивая монета |\n|---|---|\n| \\(--\\) | \\(A_1\\) |\n| \\(-0\\) | \\(A_2\\) |\n| \\(00\\) | \\(A_3\\) |\n| \\(+0\\) | \\(A_4\\) |\n| \\(-+\\) | \\(B_1\\) |\n| \\(0-\\) | \\(B_2\\) |\n| \\(0+\\) | \\(B_3\\) |\n| \\(+-\\) | \\(B_4\\) |\n\nПочему таблица работает: тяжелая монета из группы \\(A\\) тянет вниз ту чашу, на которой лежит; легкая монета из группы \\(B\\) дает противоположный исход. Выбранные положения восьми кандидатов дают восемь разных пар исходов. Случай, когда в первом взвешивании правая чаша тяжелее, обрабатывается той же таблицей: просто группой \\(A\\) называем монеты 5-8, а группой \\(B\\) - монеты 1-4.",
+      "standard_idea_ids": ["ternary_weighing_code", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-not-enough",
+      "title": "Почему двух взвешиваний недостаточно",
+      "text": "Даже если не требуется определять, легче фальшивая монета или тяжелее, в конце нужно различить 13 возможных ответов: какая из 13 монет фальшивая. Два взвешивания на чашечных весах дают не более \\(3^2=9\\) разных последовательностей исходов. Поэтому двух взвешиваний не может хватить, а приведенная стратегия показывает, что трех достаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "26 состояний: какая из 13 монет фальшивая и легче/тяжелее ли она",
+    "observations": ["три исхода каждого взвешивания на чашечных весах"],
+    "allowed_actions": ["адаптивно выбирать равные по числу группы монет для чаш"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "case_split", "ternary_code"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["13_coins", "identify_coin_only", "unknown_heavy_or_light", "no_known_genuine_coin", "three_weighings"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 13,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin_only"
+  },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 13,
+    "max_weighings": 3,
+    "objective": "identify_coin_only_unknown_direction",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Средняя: условие школьное, но решение требует аккуратно использовать ослабленную цель и после первого взвешивания вести две разные таблицы кандидатов.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_code", "decision_tree", "decision_tree_lower_bound", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_variant", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "has_condition_only_generalization",
+    "notes": [
+      "Точный первоисточник не установлен; автор не указан. Карточка оформлена как классический фольклорный вариант задачи о фальшивой монете.",
+      "Стратегия проверена перебором всех 26 состояний: каждая монета в тяжелом и легком варианте декодируется в правильный номер.",
+      "2026-05-19: добавлен интерактив identify_coin_only_unknown_direction: скрытые состояния остаются парами монета/легче-тяжелее, но ответ проверяется только по номеру монеты."
+    ]
+  }
+}

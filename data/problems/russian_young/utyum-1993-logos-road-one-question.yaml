@@ -60,7 +60,7 @@
   "difficulty": {
     "main": "intro",
     "local_score": 1,
-    "comment": "Короткая задача на стандартную нейтрализацию лжеца.",
+    "comment": "Простая: нужен один вопрос, который одинаково работает для рыцаря и для лжеца.",
     "status": "ai_checked"
   },
   "tags": ["lie_detection", "decision_tree", "truth_liar_normalization", "condition_middle_school"],

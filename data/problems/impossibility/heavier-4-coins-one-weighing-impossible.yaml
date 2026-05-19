@@ -59,6 +59,15 @@
     "adaptive": false,
     "objective": "prove_impossible"
   },
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 4,
+    "counterfeit_weight": "heavier",
+    "max_weighings": 1,
+    "objective": "prove_impossible",
+    "modes": ["exhaustive"],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {
     "main": "intro",
     "local_score": 1,

@@ -53,7 +53,7 @@
     "adaptive": false,
     "objective": "determine_number_of_liars"
   },
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая проверка самосогласованности двух возможных групп.", "status": "ai_checked"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая проверка двух вариантов: какой из них не противоречит ответам.", "status": "ai_checked"},
   "tags": ["lie_detection", "knowledge_elimination", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-mathcounts-potw-2021-03-22-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": []}

@@ -1,0 +1,125 @@
+{
+  "relations": [
+    {
+      "id": "rel-lktg-three-coins-to-nine-coins",
+      "from": "lktg-2008-three-balances-one-broken-three-coins",
+      "to": "lktg-2008-three-balances-one-broken-nine-coins",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Задача про 3 монеты показывает базовый прием: один и тот же вопрос задается трем приборам, и совпавшие ответы считаются надежными. В задаче про 9 монет этот прием заменяется более тонкой проверкой противоречий между троичными разрядами.",
+      "backward_text": "Задача про 9 монет является первым нетривиальным развитием вводного большинства: уже нельзя просто повторить один вопрос, нужно кодировать монеты разрядами и выявлять, какой прибор точно исправен.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-lktg-eight-detectors-to-recursive-cases",
+      "from": "lktg-2008-three-detectors-one-broken-eight-coins",
+      "to": "lktg-2008-three-detectors-balances-recursive-cases",
+      "type": "strategy_transfer",
+      "distance": 1,
+      "forward_text": "Алгоритм для 8 монет используется как строительный блок в задаче про 32 монеты: вместо четырех пар берутся четыре блока по 8 монет, а затем тот же разбор либо выделяет блок, либо дает исправный детектор.",
+      "backward_text": "Рекурсивная задача про 32 монеты прямо опирается на разбор четырех групп из задачи про 8 монет; весовой пункт про 81 монету является троичным аналогом той же идеи.",
+      "status": "ai_checked",
+      "confidence": 0.94
+    },
+    {
+      "id": "rel-lktg-nine-to-recursive-81",
+      "from": "lktg-2008-three-balances-one-broken-nine-coins",
+      "to": "lktg-2008-three-detectors-balances-recursive-cases",
+      "type": "strategy_transfer",
+      "distance": 1,
+      "forward_text": "Конструкция для 9 монет является базой рекурсии для пункта про 81 монету: первые два разряда выделяют крупные блоки, а при попадании в блок 00 остается ровно задача на 9 монет.",
+      "backward_text": "Задача про 81 монету показывает, как прием с троичными метками из задачи про 9 монет масштабируется на четыре разряда и превращается в рекурсивную стратегию.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-lktg-two-coins-to-basic-lower-bound",
+      "from": "lktg-2008-two-coins-broken-tester-impossible",
+      "to": "lktg-2008-broken-balances-ternary-lower-bound",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Две монеты дают самый короткий пример неразличимости из-за неизвестного сломанного прибора. Общая нижняя оценка для \\(3^k\\) монет использует ту же враждебную идею, но следит за числом кандидатов в дереве решений.",
+      "backward_text": "Нижняя оценка для \\(3^k\\) монет обобщает простую невозможность для двух монет: ненадежный прибор может сделать часть ответов информационно бесполезной.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-lktg-detector-lower-to-balance-lower",
+      "from": "lktg-2008-broken-detectors-binary-lower-bound",
+      "to": "lktg-2008-broken-balances-ternary-lower-bound",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Детекторная и весовая нижние оценки одинаковы по устройству: противник выбирает исход, который оставляет не меньше одной доли кандидатов, а первый ответ может быть полностью ненадежным.",
+      "backward_text": "Весовая версия заменяет двоичное деление кандидатов на троичное, но сохраняет тот же аргумент про один сломанный источник ответов.",
+      "status": "ai_checked",
+      "confidence": 0.96
+    },
+    {
+      "id": "rel-lktg-basic-lower-to-extra-step",
+      "from": "lktg-2008-broken-balances-ternary-lower-bound",
+      "to": "lktg-2008-broken-testers-extra-step-impossible",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обычная нижняя оценка показывает, что \\(k\\) ходов недостаточно; задача про \\(k+1\\) ход усиливает ее, анализируя первые две проверки и монеты, которым проверка не отказала.",
+      "backward_text": "Невозможность за \\(k+1\\) ход является более сильной версией той же идеи: один запасной ход еще не компенсирует неизвестный сломанный прибор.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-lktg-extra-step-to-two-broken-bound",
+      "from": "lktg-2008-broken-testers-extra-step-impossible",
+      "to": "lktg-2008-two-broken-balances-eleven-weighings-bound",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "Обе карточки доказывают цену ненадежных ответов сверх обычного подсчета листьев. В задаче с двумя сломанными весами это оформлено как подсчет строк ответов с двумя возможными ошибками.",
+      "backward_text": "Подсчет строк для двух сломанных весов является кодовым аналогом аргумента про запасные ходы: каждая монета должна занимать много возможных протоколов ответов.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-lktg-minimum-testers-to-three-coins",
+      "from": "lktg-2008-minimum-testers-k-broken",
+      "to": "lktg-2008-three-balances-one-broken-three-coins",
+      "type": "special_case",
+      "distance": 2,
+      "forward_text": "При \\(k=1\\) общий ответ \\(2k+1\\) дает три прибора; вводная задача про 3 монеты демонстрирует этот принцип большинства в самом малом весовом случае.",
+      "backward_text": "Задача про минимальное число приборов обобщает прием большинства из случая трех весов на произвольное число сломанных приборов.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-lktg-serial-upper-to-asymptotic-upper",
+      "from": "lktg-2008-three-testers-one-broken-serial-upper-bounds",
+      "to": "lktg-2008-one-broken-tester-asymptotic-upper",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Серийные оценки дают явные рекурсивные конструкции для трех приборов. Асимптотическая карточка использует те же блочные идеи, чтобы приблизиться к обычной скорости поиска \\(k+o(k)\\).",
+      "backward_text": "Асимптотическая верхняя оценка объясняет цель серийных конструкций: уменьшить добавку, которую приходится платить за один сломанный прибор.",
+      "status": "needs_human_review",
+      "confidence": 0.76
+    },
+    {
+      "id": "rel-lktg-significance-to-sixteen-four-detectors",
+      "from": "lktg-2008-one-broken-tester-significance-lower-bound",
+      "to": "lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests",
+      "type": "lower_bound_analogy",
+      "distance": 1,
+      "forward_text": "Общая оценка \\(n(d+1)\\le 2^d\\) сразу дает нижнюю часть точного результата: для 16 монет шести тестирований недостаточно.",
+      "backward_text": "Случай 16 монет показывает, как абстрактная оценка через строки ответов превращается в конкретную оптимальность: \\(16\\cdot 7>2^6\\), но семь ходов уже достигаются конструкцией для четырех детекторов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-lktg-two-broken-to-error-correcting-code",
+      "from": "lktg-2008-two-broken-balances-eleven-weighings-bound",
+      "to": "two-lies-questions-hamming-bound",
+      "type": "lower_bound_analogy",
+      "distance": 3,
+      "forward_text": "Обе задачи считают, сколько протоколов ответов должно приходиться на один скрытый случай при допустимых ошибках. В ЛКТГ ошибки привязаны к сломанным приборам, но подсчет строк устроен как кодовая нижняя оценка.",
+      "backward_text": "Задача про вопросы с двумя ложными ответами дает чистую кодовую модель; ЛКТГ переносит ее на трехисходные ответы чашечных весов и неизвестные сломанные приборы.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    }
+  ]
+}

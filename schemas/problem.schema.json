@@ -146,6 +146,41 @@
           "minimum": 2,
           "description": "Number of visually identical numbered coins."
         },
+        "pair_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of coin pairs when exactly one light counterfeit is hidden in each pair."
+        },
+        "counterfeit_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of counterfeit coins in multiple-counterfeit interactives."
+        },
+        "coin_pairs": {
+          "type": "array",
+          "description": "Explicit two-coin pairs for paired counterfeit interactives.",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"type": "integer", "minimum": 1}
+          }
+        },
+        "groups": {
+          "type": "array",
+          "description": "Explicit groups for grouped counterfeit interactives.",
+          "items": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "integer", "minimum": 1},
+            "uniqueItems": true
+          }
+        },
+        "counterfeit_per_group": {
+          "type": "array",
+          "description": "How many light counterfeits are hidden in each group.",
+          "items": {"type": "integer", "minimum": 0}
+        },
         "counterfeit_weight": {
           "type": "string",
           "enum": ["lighter", "heavier"],
@@ -156,22 +191,126 @@
           "minimum": 1,
           "description": "Maximum number of balance-scale weighings allowed."
         },
+        "max_tests": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of binary detector tests allowed."
+        },
         "objective": {
           "type": "string",
-          "enum": ["identify_coin"],
+          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_one_from_each_pair", "identify_one_light_coin", "identify_all_counterfeits", "prove_impossible"],
           "description": "Goal checked by the interactive layer."
         },
         "modes": {
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["random", "challenge", "sandbox", "guided"]
+            "enum": ["random", "cheater", "exhaustive", "challenge", "sandbox", "guided"]
           },
           "uniqueItems": true
         },
         "require_equal_pan_counts": {
           "type": "boolean",
           "description": "Whether the UI should require the two pans to contain the same number of coins before weighing."
+        },
+        "known_genuine_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of known genuine comparison coins available in addition to suspicious coins."
+        },
+        "has_known_genuine": {
+          "type": "boolean",
+          "description": "Shortcut flag for a single known genuine comparison coin."
+        },
+        "scale_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of balance-scale instruments when the hidden state is a faulty instrument."
+        },
+        "detector_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of binary detector instruments when one detector may answer arbitrarily."
+        },
+        "faulty_scale_count": {
+          "type": "integer",
+          "const": 1,
+          "description": "Number of faulty scale instruments."
+        },
+        "broken_scale_count": {
+          "type": "integer",
+          "const": 1,
+          "description": "Number of broken scale instruments when the hidden state also includes a counterfeit coin."
+        },
+        "broken_detector_count": {
+          "type": "integer",
+          "const": 1,
+          "description": "Number of broken binary detector instruments."
+        },
+        "scale_labels": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true,
+          "description": "Optional labels for scale instruments."
+        },
+        "detector_labels": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true,
+          "description": "Optional labels for detector instruments."
+        },
+        "weighable_objects": {
+          "type": "string",
+          "enum": ["scales", "coins"],
+          "description": "Objects that can be placed on the pans in a faulty-scale interactive."
+        },
+        "bag_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of bags in a numeric linear-signature weighing interactive."
+        },
+        "fake_bag_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of fake bags/stacks when the numeric linear-signature state space is not an arbitrary subset."
+        },
+        "counterfeit_delta": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Known per-coin weight difference for fake coins in numeric linear-signature interactives."
+        },
+        "genuine_weight": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Known genuine coin weight used to display numeric scale readings."
+        },
+        "state_model": {
+          "type": "string",
+          "enum": ["fake_bag_subset", "single_fake_bag", "fixed_fake_count"],
+          "description": "Hidden-state model for numeric linear-signature interactives."
+        },
+        "observation_model": {
+          "type": "string",
+          "enum": ["deficit_residue", "actual_weight"],
+          "description": "Numeric observation model for linear-signature interactives."
+        },
+        "object_kind": {
+          "type": "string",
+          "enum": ["bag", "stack", "coin"],
+          "description": "Viewer label family for numeric linear-signature objects."
+        },
+        "selection_model": {
+          "type": "string",
+          "enum": ["quantities", "subset"],
+          "description": "Whether each numeric weighing uses per-object quantities or a selected subset."
+        },
+        "allow_empty_subset": {
+          "type": "boolean",
+          "description": "Whether the hidden fake-bag subset may be empty."
+        },
+        "exclude_all_fake": {
+          "type": "boolean",
+          "description": "Whether the all-bags-fake state is excluded from the hidden state space."
         }
       },
       "allOf": [
@@ -182,6 +321,116 @@
           },
           "then": {
             "required": ["coin_count", "counterfeit_weight", "max_weighings", "objective"]
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "single_counterfeit_unknown_direction"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "paired_light_counterfeits"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "pair_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_one_from_each_pair"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "multiple_light_find_one"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "counterfeit_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_one_light_coin"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "grouped_light_counterfeits"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "counterfeit_count", "groups", "counterfeit_per_group", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_all_counterfeits"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "faulty_scale_identification"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["scale_count", "faulty_scale_count", "max_weighings", "objective", "weighable_objects"],
+            "properties": {
+              "objective": {"enum": ["identify_faulty_scale"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "broken_scale_counterfeit_coin"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "scale_count", "broken_scale_count", "counterfeit_weight", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_coin"]},
+              "counterfeit_weight": {"enum": ["lighter", "heavier"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "broken_detector_counterfeit_coin"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "detector_count", "broken_detector_count", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_coin"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "heaviest_coin_one_broken_scale"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "scale_count", "broken_scale_count", "max_weighings", "objective", "weighable_objects"],
+            "properties": {
+              "objective": {"enum": ["identify_heaviest_coin"]},
+              "weighable_objects": {"enum": ["coins"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "numeric_linear_signature"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["bag_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set"]}
+            }
           }
         }
       ]

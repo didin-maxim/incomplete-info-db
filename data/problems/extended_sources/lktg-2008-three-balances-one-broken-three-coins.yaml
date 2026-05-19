@@ -1,0 +1,93 @@
+{
+  "id": "lktg-2008-three-balances-one-broken-three-coins",
+  "title": "ЛКТГ-2008: фальшивая монета из 3, если одни из трех весов сломаны",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["strategy_construction", "fault_tolerance"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-lktg-2008-2-1",
+        "title": "Три монеты и трое весов",
+        "text": "Даны три одинаковые на вид монеты, одна из них фальшивая и легче остальных. Есть три пары чашечных весов, из которых одна сломана и при каждом использовании может дать произвольный ответ. Докажите, что фальшивую монету можно найти за три взвешивания.",
+        "source_ids": ["src-lktg-2008-broken-balances-problems-ru", "src-lktg-2008-broken-balances-solutions-ru"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-repeat-same-question-majority",
+      "title": "Два совпавших результата верны",
+      "text": "Если один и тот же вопрос задать всем трем весам, то как минимум двое исправных весов дадут один и тот же правильный результат.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-compare-two-coins-on-all-scales",
+      "title": "Сравнить две монеты на всех весах",
+      "text": "Сравним первую и вторую монеты последовательно на всех трех весах. Среди трех ответов хотя бы два совпадут; эти совпавшие ответы получены исправными весами и потому верны. Если первая легче второй, фальшива первая; если вторая легче первой, фальшива вторая; если равенство, фальшива третья.",
+      "standard_idea_ids": ["one_lie_redundancy"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "3 варианта фальшивой монеты и 3 варианта сломанных весов",
+    "observations": ["три ответа на один и тот же вопрос, один прибор может отвечать произвольно"],
+    "allowed_actions": ["выбирать весы и сравнивать равные группы монет"],
+    "goal": ["identify_false_coin"],
+    "strategy_type": ["majority_vote", "fault_tolerant_testing"],
+    "lower_bound_method": [],
+    "keywords": ["lktg_2008", "broken_balance", "majority_vote"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 3,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "identify_false_coin_with_one_broken_balance"
+  },
+  "interactive": {
+    "type": "broken_scale_counterfeit_coin",
+    "coin_count": 3,
+    "scale_count": 3,
+    "broken_scale_count": 1,
+    "scale_labels": ["A", "B", "C"],
+    "counterfeit_weight": "lighter",
+    "max_weighings": 3,
+    "objective": "identify_coin",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Вводный пример: все сводится к большинству из трех одинаковых проверок.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-lktg-2008-broken-balances-problems-ru", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-lktg-2008-broken-balances-solutions-ru", "role": "official_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-19",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "lktg_2008_batch",
+    "notes": ["ЛКТГ-2008, лист «Взвешивания со сломанными весами», задача 2.1."]
+  }
+}

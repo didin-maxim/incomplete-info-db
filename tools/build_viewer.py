@@ -340,6 +340,16 @@ def build_html(data):
       gap: 8px;
     }
 
+    .filter-toggle-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter-toggle[aria-pressed="true"] {
+      background: var(--soft);
+      border-color: #9acfc4;
+    }
+
     .facet-note {
       color: var(--muted);
       font-size: 13px;
@@ -995,6 +1005,38 @@ def build_html(data):
       align-content: start;
     }
 
+    .coin-pair-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+      gap: 10px;
+      min-height: 52px;
+    }
+
+    .coin-pair-group {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fbfaf7;
+    }
+
+    .coin-pair-label {
+      color: var(--muted);
+      font-size: .82rem;
+      font-weight: 800;
+    }
+
+    .coin-pair-coins {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      min-height: 42px;
+      align-items: center;
+    }
+
     .coin {
       width: 42px;
       height: 42px;
@@ -1014,6 +1056,11 @@ def build_html(data):
       cursor: grabbing;
     }
 
+    .coin.active {
+      outline: 3px solid #176b5f;
+      outline-offset: 2px;
+    }
+
     .coin.answer-pick {
       outline: 3px solid #2d7dd2;
       outline-offset: 2px;
@@ -1029,6 +1076,12 @@ def build_html(data):
       outline-offset: 2px;
     }
 
+    .coin.known-genuine {
+      border-color: #7a869a;
+      background: radial-gradient(circle at 35% 28%, #ffffff 0, #d9dee8 52%, #8a94a6 100%);
+      color: #1f2937;
+    }
+
     .coin.correct-answer.real-counterfeit {
       outline-color: #1f7a45;
     }
@@ -1036,6 +1089,101 @@ def build_html(data):
     .coin[disabled] {
       cursor: default;
       opacity: .86;
+    }
+
+    .scale-device-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 46px;
+      align-items: flex-start;
+    }
+
+    .scale-device {
+      min-width: 46px;
+      min-height: 38px;
+      border: 1px solid #879994;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #f8fbfb 0, #dce8e5 100%);
+      color: #243331;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 1px 2px rgba(0,0,0,.1);
+    }
+
+    .scale-device.active {
+      border-color: var(--accent);
+      background: var(--soft);
+      outline: 2px solid #9acfc4;
+      outline-offset: 1px;
+    }
+
+    .scale-device.answer-pick {
+      outline: 3px solid #2d7dd2;
+      outline-offset: 2px;
+    }
+
+    .scale-device.correct-answer {
+      outline: 3px solid #1f7a45;
+      outline-offset: 2px;
+    }
+
+    .scale-device.real-faulty {
+      outline: 3px solid #9b2c2c;
+      outline-offset: 2px;
+    }
+
+    .scale-device[disabled] {
+      cursor: default;
+      opacity: .75;
+    }
+
+    .numeric-bag-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+
+    .numeric-bag {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .numeric-bag label,
+    .numeric-answer label {
+      display: grid;
+      gap: 6px;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .numeric-bag input {
+      width: 100%;
+      border: 1px solid #b8c6c2;
+      border-radius: 6px;
+      padding: 8px;
+      color: #20302d;
+      background: #fbfdfc;
+    }
+
+    .numeric-answer {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      margin-top: 10px;
+    }
+
+    .numeric-result {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      min-height: 54px;
     }
 
     .scale-visual {
@@ -1237,17 +1385,29 @@ def build_html(data):
     @media (max-width: 900px) {
       .shell {
         grid-template-columns: 1fr;
+        grid-template-rows: minmax(0, 52vh) minmax(0, 1fr);
         height: 100vh;
       }
 
       .sidebar {
         border-right: 0;
         border-bottom: 1px solid var(--line);
-        max-height: 52vh;
+        max-height: none;
+        min-height: 0;
+        overflow-y: auto;
+        position: relative;
+        z-index: 2;
       }
 
       .shell.sidebar-hidden { grid-template-columns: 1fr; }
       .shell.sidebar-hidden .sidebar { display: none; }
+
+      main {
+        height: auto;
+        min-height: 0;
+        position: relative;
+        z-index: 1;
+      }
 
       .grid, .two-grid, .home-stats, .interactive-config { grid-template-columns: 1fr; }
       .weighing-board,
@@ -1291,6 +1451,9 @@ def build_html(data):
           <button class="small-button" id="local-import" type="button">Импорт</button>
           <button class="small-button" id="local-reset" type="button">Сброс</button>
           <input id="local-import-file" type="file" accept="application/json,.json" hidden>
+        </div>
+        <div class="filter-toggle-row" id="interactive-filter-row" hidden>
+          <button class="small-button filter-toggle" id="interactive-filter" type="button" aria-pressed="false">С интерактивом</button>
         </div>
         <select id="fragment-filter"></select>
         <select id="difficulty-filter"></select>
@@ -1425,6 +1588,7 @@ __WEIGHING_CHEATER_JS__
       fragment: 'all',
       difficulty: 'all',
       status: 'all',
+      interactive: 'all',
       source: 'all',
       year: 'all',
       author: 'all',
@@ -1631,6 +1795,26 @@ __WEIGHING_CHEATER_JS__
 
     function difficultyTitle(id) {
       return label('difficulty', id) || id || '';
+    }
+
+    function interactiveTypeLabel(type) {
+      const labels = {
+        single_counterfeit_weighing: 'взвешивания',
+        single_counterfeit_unknown_direction: 'взвешивания',
+        paired_light_counterfeits: 'легкие монеты по парам',
+        multiple_light_find_one: 'несколько легких монет',
+        grouped_light_counterfeits: 'легкие монеты по группам',
+        faulty_scale_identification: 'неисправные весы',
+        broken_scale_counterfeit_coin: 'монета и сломанные весы',
+        broken_detector_counterfeit_coin: 'монета и сломанный детектор',
+        heaviest_coin_one_broken_scale: 'самая тяжелая монета',
+        numeric_linear_signature: 'числовой код мешков'
+      };
+      return labels[type] || type || 'интерактив';
+    }
+
+    function hasInteractive(problem) {
+      return Boolean(problem.interactive?.type);
     }
 
     function sourceTitle(id) {
@@ -1887,6 +2071,7 @@ __WEIGHING_CHEATER_JS__
       if (filters.fragment !== 'all' && problem.fragment !== filters.fragment) return false;
       if (filters.difficulty !== 'all' && problem.difficulty?.main !== filters.difficulty) return false;
       if (filters.status !== 'all' && problem.editorial?.review_status !== filters.status && problem.difficulty?.status !== filters.status) return false;
+      if (filters.interactive === 'with' && !hasInteractive(problem)) return false;
       if (filters.source !== 'all' && !sourceFamilyKeysForProblem(problem).includes(filters.source)) return false;
       if (filters.year !== 'all' && !sourceYearsForProblem(problem).includes(filters.year)) return false;
       if (filters.author !== 'all' && !problemAuthorKeys(problem).includes(filters.author)) return false;
@@ -1912,7 +2097,9 @@ __WEIGHING_CHEATER_JS__
     }
 
     function setRoute(type, id) {
-      location.hash = id ? `${type}/${routePart(id)}` : type;
+      const nextHash = id ? `${type}/${routePart(id)}` : type;
+      if (location.hash === `#${nextHash}`) render();
+      else location.hash = nextHash;
     }
 
     function setHome() {
@@ -1925,6 +2112,7 @@ __WEIGHING_CHEATER_JS__
       state.fragment = 'all';
       state.difficulty = 'all';
       state.status = 'all';
+      state.interactive = 'all';
       state.source = 'all';
       state.year = 'all';
       state.author = 'all';
@@ -1946,6 +2134,7 @@ __WEIGHING_CHEATER_JS__
         || state.fragment !== 'all'
         || state.difficulty !== 'all'
         || state.status !== 'all'
+        || state.interactive !== 'all'
         || state.source !== 'all'
         || state.year !== 'all'
         || state.author !== 'all'
@@ -2011,6 +2200,13 @@ __WEIGHING_CHEATER_JS__
 
     function renderFilters() {
       byId('search-input').value = state.query;
+      const interactiveTotal = countProblems({ interactive: 'with' });
+      const interactiveRow = byId('interactive-filter-row');
+      const interactiveButton = byId('interactive-filter');
+      interactiveRow.hidden = interactiveTotal === 0 && state.interactive === 'all';
+      interactiveButton.hidden = interactiveTotal === 0 && state.interactive === 'all';
+      interactiveButton.textContent = labelWithCount('С интерактивом', interactiveTotal);
+      interactiveButton.setAttribute('aria-pressed', state.interactive === 'with' ? 'true' : 'false');
       populateSelect(
         'local-progress-filter',
         PROGRESS_OPTIONS.map(item => ({
@@ -2158,6 +2354,7 @@ __WEIGHING_CHEATER_JS__
         progress !== 'not_started' ? `прогресс: ${PROGRESS_LABELS[progress]}` : '',
         localNote(problem.id) ? 'есть заметка' : ''
       ].filter(Boolean).join(' · ');
+      const interactiveInfo = hasInteractive(problem) ? `интерактив: ${interactiveTypeLabel(problem.interactive.type)}` : '';
       const facets = state.cluster !== 'all'
         ? localFacetKeys().slice(0, 2).map(key => {
             const value = facetValue(problem, key);
@@ -2169,6 +2366,7 @@ __WEIGHING_CHEATER_JS__
           <strong>${esc(problem.title)}</strong>
           <div class="id">${esc(problem.id)} · ${esc(fragmentTitle(problem.fragment))}</div>
           ${localInfo ? `<div class="id">${esc(localInfo)}</div>` : ''}
+          ${interactiveInfo ? `<div class="id">${esc(interactiveInfo)}</div>` : ''}
           ${clusters ? `<div class="id">${esc(clusters)}</div>` : ''}
           ${facets ? `<div class="id">${esc(facets)}</div>` : ''}
         </a>
@@ -2347,14 +2545,28 @@ __WEIGHING_CHEATER_JS__
     function interactiveWeightLabel(value) {
       const labels = {
         lighter: 'легче',
-        heavier: 'тяжелее'
+        heavier: 'тяжелее',
+        unknown: 'легче или тяжелее'
       };
       return labels[value] || value || '';
     }
 
     function interactiveObjectiveLabel(value) {
       const labels = {
-        identify_coin: 'найти фальшивую монету'
+        identify_coin: 'найти фальшивую монету',
+        identify_coin_only: 'найти фальшивую монету',
+        identify_coin_only_unknown_direction: 'найти фальшивую монету',
+        identify_coin_and_sign: 'найти монету и знак',
+        identify_coin_and_direction: 'найти монету и знак',
+        identify_faulty_scale: 'найти неисправные весы',
+        identify_heaviest_coin: 'найти самую тяжелую монету',
+        identify_fake_bag: 'найти фальшивую стопку',
+        identify_fake_bag_subset: 'найти фальшивые мешки',
+        identify_fake_coin_set: 'найти фальшивые монеты',
+        identify_one_from_each_pair: 'выбрать по одной монете из каждой пары',
+        identify_one_light_coin: 'найти одну легкую монету',
+        identify_all_counterfeits: 'найти все фальшивые монеты',
+        prove_impossible: 'показать невозможность'
       };
       return labels[value] || value || '';
     }
@@ -2381,19 +2593,68 @@ __WEIGHING_CHEATER_JS__
       if (!counterfeitWeight && (profileType.includes('light') || profileType.includes('lighter'))) counterfeitWeight = 'lighter';
       if (counterfeitWeight === 'heavy') counterfeitWeight = 'heavier';
       if (counterfeitWeight === 'light') counterfeitWeight = 'lighter';
-      const modes = asArray(config.modes || config.mode || 'random').filter(Boolean);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random')
+        .filter(mode => supportedModes.includes(mode));
       if (!Number.isInteger(coinCount) || coinCount < 2) return null;
       if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
       if (!['heavier', 'lighter'].includes(counterfeitWeight)) return null;
+      const objective = config.objective || profile.objective || 'identify_coin';
+      if (!['identify_coin', 'prove_impossible'].includes(objective)) return null;
+      const normalizedModes = modes.length ? modes : ['random'];
       return {
         type: 'single_counterfeit_weighing',
         coinCount,
+        knownGenuineCount: 0,
+        directionUnknown: false,
         maxWeighings,
         counterfeitWeight,
-        objective: config.objective || profile.objective || 'identify_coin',
-        modes,
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0],
         requireEqualPanCounts: config.require_equal_pan_counts !== false
       };
+    }
+
+    function normalizeSingleCounterfeitUnknownDirectionConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      const knownGenuineCount = Number(config.known_genuine_count ?? config.genuine_coin_count ?? (config.has_known_genuine ? 1 : 0) ?? 0);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random')
+        .filter(mode => supportedModes.includes(mode));
+      const rawObjective = config.objective || profile.objective || 'identify_coin_and_sign';
+      const objectiveAliases = {
+        identify_coin_and_direction: 'identify_coin_and_sign',
+        identify_coin: 'identify_coin_only_unknown_direction',
+        identify_coin_only: 'identify_coin_only_unknown_direction'
+      };
+      const objective = objectiveAliases[rawObjective] || rawObjective;
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (!Number.isInteger(knownGenuineCount) || knownGenuineCount < 0) return null;
+      if (!['identify_coin_and_sign', 'identify_coin_only_unknown_direction'].includes(objective)) return null;
+      const normalizedModes = modes.length ? modes : ['random'];
+      return {
+        type: 'single_counterfeit_unknown_direction',
+        coinCount,
+        knownGenuineCount,
+        directionUnknown: true,
+        maxWeighings,
+        counterfeitWeight: 'unknown',
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0],
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function normalizeCounterfeitInteractiveConfig(problem, config) {
+      if (config?.type === 'single_counterfeit_unknown_direction') {
+        return normalizeSingleCounterfeitUnknownDirectionConfig(problem, config);
+      }
+      return normalizeSingleCounterfeitConfig(problem, config);
     }
 
     function renderSingleCounterfeitWeighingPlaceholder(normalized) {
@@ -2417,36 +2678,50 @@ __WEIGHING_CHEATER_JS__
     }
 
     function renderSingleCounterfeitWeighingInteractive(problem, config) {
-      const normalized = normalizeSingleCounterfeitConfig(problem, config);
+      const normalized = normalizeCounterfeitInteractiveConfig(problem, config);
       if (!normalized) {
         return renderUnknownInteractive(problem, config);
       }
+      const candidateTotal = normalized.directionUnknown ? normalized.coinCount * 2 : normalized.coinCount;
+      const totalCoins = normalized.coinCount + normalized.knownGenuineCount;
+      const coinOnlyUnknownDirection = normalized.directionUnknown && normalized.objective === 'identify_coin_only_unknown_direction';
+      const heading = normalized.directionUnknown
+        ? (coinOnlyUnknownDirection ? 'Одна фальшивая монета: нужно найти только номер' : 'Одна фальшивая монета: легче или тяжелее?')
+        : `Одна фальшивая монета ${interactiveWeightLabel(normalized.counterfeitWeight)}`;
+      const modeOptions = normalized.directionUnknown && !normalized.modes.includes('cheater')
+        ? [...normalized.modes, 'cheater']
+        : normalized.modes;
       return `
-        <div class="card interactive-panel" data-interactive-type="single_counterfeit_weighing" data-config="${esc(JSON.stringify(normalized))}">
+        <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
             ${pill(normalized.type, 'code')}
-            <span class="pill" data-current-mode-pill>${esc(interactiveModeLabel('random'))}</span>
+            <span class="pill" data-current-mode-pill>${esc(interactiveModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
-            <h4>Одна фальшивая монета ${esc(interactiveWeightLabel(normalized.counterfeitWeight))}</h4>
+            <h4>${esc(heading)}</h4>
             <div class="interactive-meta">
               <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
-              <span class="pill" data-candidate-counter>${esc(normalized.coinCount)} кандидатов</span>
-              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(candidateTotal, 'кандидат', 'кандидата', 'кандидатов'))}</span>
+              <span class="pill">${esc(countText(totalCoins, 'монета', 'монеты', 'монет'))}</span>
+              ${normalized.knownGenuineCount ? `<span class="pill">${esc(normalized.knownGenuineCount)} настоящая для сравнения</span>` : ''}
               <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
             </div>
           </div>
           <div class="interactive-actions">
             <label>Режим
               <select data-interactive-run-mode>
-                <option value="random">Случайная монета</option>
-                <option value="cheater">Шулер</option>
-                <option value="exhaustive">Полный перебор</option>
+                ${modeOptions.map(mode => `<option value="${esc(mode)}" ${normalized.modes.includes(mode) ? '' : 'disabled'}>${esc(interactiveModeLabel(mode))}${normalized.modes.includes(mode) ? '' : ' (позже)'}</option>`).join('')}
+              </select>
+            </label>
+            <label data-answer-direction-wrap ${normalized.directionUnknown && !coinOnlyUnknownDirection ? '' : 'hidden'}>Знак
+              <select data-answer-direction>
+                <option value="heavier">тяжелее</option>
+                <option value="lighter">легче</option>
               </select>
             </label>
             <button class="small-button" type="button" data-weigh>Взвесить</button>
-            <button class="small-button" type="button" data-answer-mode>Указать монету</button>
+            <button class="small-button" type="button" data-answer-mode>${normalized.directionUnknown && !coinOnlyUnknownDirection ? 'Указать монету и знак' : 'Указать монету'}</button>
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
@@ -2481,6 +2756,792 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizePairedLightConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const pairCount = Number(config.pair_count ?? 3);
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count ?? pairCount * 2);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 2);
+      const explicitPairs = asArray(config.coin_pairs).filter(Array.isArray);
+      const coinPairs = explicitPairs.length
+        ? explicitPairs.map(pair => pair.map(Number))
+        : Array.from({ length: pairCount }, (_item, index) => [index * 2 + 1, index * 2 + 2]);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(pairCount) || pairCount < 1) return null;
+      if (!Number.isInteger(coinCount) || coinCount !== pairCount * 2) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (coinPairs.length !== pairCount || coinPairs.some(pair => pair.length !== 2)) return null;
+      if ((config.objective || profile.objective || 'identify_one_from_each_pair') !== 'identify_one_from_each_pair') return null;
+      return {
+        type: 'paired_light_counterfeits',
+        coinCount,
+        pairCount,
+        coinPairs,
+        maxWeighings,
+        objective: 'identify_one_from_each_pair',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function pairedLightModeLabel(value) {
+      const labels = {
+        random: 'random hidden state',
+        cheater: 'cheater',
+        exhaustive: 'exhaustive'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderPairedLightCounterfeitsInteractive(problem, config) {
+      const normalized = normalizePairedLightConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = 2 ** normalized.pairCount;
+      return `
+        <div class="card interactive-panel" data-interactive-type="paired_light_counterfeits" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(pairedLightModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Three pairs, one light counterfeit in each pair</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(stateCount)} states</span>
+              <span class="pill">${esc(normalized.coinCount)} coins</span>
+              <span class="pill">${esc(normalized.pairCount)} pairs</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Mode
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(pairedLightModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-paired-weigh>Weigh</button>
+            <button class="small-button" type="button" data-paired-answer-mode>Choose answer</button>
+            <button class="small-button" type="button" data-reset-interactive>Reset</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Exhaustive branches</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Pairs</h4>
+              <div class="coin-pair-grid" data-paired-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Scale</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-paired-zone="left">
+                  <div class="pan-title"><span>Left pan</span><span data-left-count>0 coins</span></div>
+                  <div class="coin-grid" data-paired-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-paired-zone="right">
+                  <div class="pan-title"><span>Right pan</span><span data-right-count>0 coins</span></div>
+                  <div class="coin-grid" data-paired-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>History</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeMultipleLightFindOneConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const counterfeitCount = Number(config.counterfeit_count ?? profile.counterfeit_count ?? 2);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 2);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_one_light_coin';
+      const grouped = config.type === 'grouped_light_counterfeits';
+      const groups = asArray(config.groups || config.state_groups).filter(Array.isArray).map(group => group.map(Number));
+      const perGroup = asArray(config.counterfeit_per_group || config.group_light_counts).map(Number);
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(counterfeitCount) || counterfeitCount < 1 || counterfeitCount >= coinCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (grouped) {
+        if (objective !== 'identify_all_counterfeits') return null;
+        if (!groups.length || !perGroup.length || groups.length !== perGroup.length) return null;
+        const seen = new Set();
+        for (let index = 0; index < groups.length; index += 1) {
+          const group = [...new Set(groups[index])].sort((a, b) => a - b);
+          if (!group.length || group.some(coin => !Number.isInteger(coin) || coin < 1 || coin > coinCount)) return null;
+          if (!Number.isInteger(perGroup[index]) || perGroup[index] < 0 || perGroup[index] > group.length) return null;
+          for (const coin of group) {
+            if (seen.has(coin)) return null;
+            seen.add(coin);
+          }
+          groups[index] = group;
+        }
+        if (perGroup.reduce((sum, value) => sum + value, 0) !== counterfeitCount) return null;
+      } else if (objective !== 'identify_one_light_coin') return null;
+      return {
+        type: grouped ? 'grouped_light_counterfeits' : 'multiple_light_find_one',
+        coinCount,
+        counterfeitCount,
+        groups,
+        counterfeitPerGroup: perGroup,
+        maxWeighings,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function binomialCount(n, k) {
+      if (!Number.isInteger(n) || !Number.isInteger(k) || k < 0 || k > n) return 0;
+      let result = 1;
+      for (let i = 1; i <= k; i += 1) result = result * (n - k + i) / i;
+      return Math.round(result);
+    }
+
+    function multipleLightStateCount(config) {
+      if (config.type === 'grouped_light_counterfeits') {
+        return config.groups.reduce((product, group, index) =>
+          product * binomialCount(group.length, config.counterfeitPerGroup[index]), 1);
+      }
+      return binomialCount(config.coinCount, config.counterfeitCount);
+    }
+
+    function multipleLightModeLabel(value) {
+      const labels = {
+        random: 'случайная пара',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderMultipleLightFindOneInteractive(problem, config) {
+      const normalized = normalizeMultipleLightFindOneConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = multipleLightStateCount(normalized);
+      const groupSummary = normalized.type === 'grouped_light_counterfeits'
+        ? normalized.groups.map((group, index) => `${normalized.counterfeitPerGroup[index]} из {${group.join(', ')}}`).join('; ')
+        : '';
+      const title = normalized.type === 'grouped_light_counterfeits'
+        ? 'Фальшивые монеты по группам'
+        : 'Две легкие монеты: найти одну';
+      const answerText = normalized.objective === 'identify_all_counterfeits' ? 'Выбрать пару' : 'Выбрать монету';
+      return `
+        <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(multipleLightModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>${esc(title)}</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(countText(normalized.counterfeitCount, 'легкая', 'легкие', 'легких'))}</span>
+              ${groupSummary ? `<span class="pill">${esc(groupSummary)}</span>` : ''}
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(multipleLightModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-multiple-light-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-multiple-light-answer-mode>${esc(answerText)}</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветки полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Монеты</h4>
+              <div class="coin-grid" data-multiple-light-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Весы</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-multiple-light-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-multiple-light-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-multiple-light-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-multiple-light-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeFaultyScaleConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const scaleCount = Number(config.scale_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      const labels = asArray(config.scale_labels).map(String).filter(Boolean);
+      const scaleLabels = labels.length ? labels : Array.from({ length: scaleCount }, (_item, index) => String.fromCharCode(65 + index));
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(scaleCount) || scaleCount < 2) return null;
+      if (scaleLabels.length !== scaleCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      return {
+        type: 'faulty_scale_identification',
+        scaleCount,
+        scaleLabels,
+        maxWeighings,
+        objective: config.objective || profile.objective || 'identify_faulty_scale',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        weighableObjects: config.weighable_objects || 'scales'
+      };
+    }
+
+    function faultyScaleModeLabel(value) {
+      const labels = {
+        random: 'случайные весы',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderFaultyScaleIdentificationInteractive(problem, config) {
+      const normalized = normalizeFaultyScaleConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      return `
+        <div class="card interactive-panel" data-interactive-type="faulty_scale_identification" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(faultyScaleModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Неисправный прибор среди весов</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(normalized.scaleCount, 'кандидат', 'кандидата', 'кандидатов'))}</span>
+              <span class="pill">${esc(countText(normalized.scaleCount, 'пара весов', 'пары весов', 'пар весов'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(faultyScaleModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-faulty-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-faulty-answer-mode>Указать неисправные</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="scale-area">
+            <h4>Выбранный прибор</h4>
+            <div class="scale-device-grid" data-instrument-choices></div>
+          </div>
+          <div class="scale-area" data-faulty-answer-panel hidden>
+            <h4>Ответ</h4>
+            <div class="scale-device-grid" data-faulty-answers></div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветки полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Весы как предметы</h4>
+              <div class="scale-device-grid" data-faulty-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Чаши выбранного прибора</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-faulty-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 предметов</span></div>
+                  <div class="scale-device-grid" data-faulty-pan-objects="left"></div>
+                </div>
+                <div class="pan pan-right" data-faulty-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 предметов</span></div>
+                  <div class="scale-device-grid" data-faulty-pan-objects="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeBrokenScaleCoinConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const scaleCount = Number(config.scale_count ?? 3);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      const labels = asArray(config.scale_labels).map(String).filter(Boolean);
+      const scaleLabels = labels.length ? labels : Array.from({ length: scaleCount }, (_item, index) => String.fromCharCode(65 + index));
+      let counterfeitWeight = String(config.counterfeit_weight || profile.counterfeit_type || 'lighter').toLowerCase();
+      if (counterfeitWeight === 'light') counterfeitWeight = 'lighter';
+      if (counterfeitWeight === 'heavy') counterfeitWeight = 'heavier';
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(scaleCount) || scaleCount < 2) return null;
+      if (scaleLabels.length !== scaleCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (!['lighter', 'heavier'].includes(counterfeitWeight)) return null;
+      if ((config.objective || 'identify_coin') !== 'identify_coin') return null;
+      return {
+        type: 'broken_scale_counterfeit_coin',
+        coinCount,
+        scaleCount,
+        scaleLabels,
+        brokenScaleCount: 1,
+        maxWeighings,
+        counterfeitWeight,
+        objective: 'identify_coin',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function brokenScaleCoinModeLabel(value) {
+      const labels = {
+        random: 'случайная монета и весы',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderBrokenScaleCounterfeitCoinInteractive(problem, config) {
+      const normalized = normalizeBrokenScaleCoinConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = normalized.coinCount * normalized.scaleCount;
+      return `
+        <div class="card interactive-panel" data-interactive-type="broken_scale_counterfeit_coin" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(brokenScaleCoinModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Одна легкая фальшивая монета и одна сломанная пара весов</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(countText(normalized.scaleCount, 'пара весов', 'пары весов', 'пар весов'))}</span>
+              <span class="pill">ответ: только монета</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(brokenScaleCoinModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-broken-coin-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-broken-coin-answer-mode>Указать монету</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="scale-area">
+            <h4>Выбранная пара весов</h4>
+            <div class="scale-device-grid" data-instrument-choices></div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветки полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Запас монет</h4>
+              <div class="coin-grid" data-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Чаши выбранных весов</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeBrokenDetectorCoinConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const detectorCount = Number(config.detector_count ?? config.scale_count ?? 3);
+      const maxTests = Number(config.max_tests ?? config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      const labels = asArray(config.detector_labels ?? config.scale_labels).map(String).filter(Boolean);
+      const detectorLabels = labels.length ? labels : Array.from({ length: detectorCount }, (_item, index) => String.fromCharCode(65 + index));
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(detectorCount) || detectorCount < 2) return null;
+      if (detectorLabels.length !== detectorCount) return null;
+      if (!Number.isInteger(maxTests) || maxTests < 1) return null;
+      if ((config.objective || 'identify_coin') !== 'identify_coin') return null;
+      return {
+        type: 'broken_detector_counterfeit_coin',
+        coinCount,
+        detectorCount,
+        detectorLabels,
+        brokenDetectorCount: 1,
+        maxTests,
+        maxWeighings: maxTests,
+        objective: 'identify_coin',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function brokenDetectorCoinModeLabel(value) {
+      const labels = {
+        random: 'случайное состояние',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderBrokenDetectorCounterfeitCoinInteractive(problem, config) {
+      const normalized = normalizeBrokenDetectorCoinConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = normalized.coinCount * normalized.detectorCount;
+      return `
+        <div class="card interactive-panel" data-interactive-type="broken_detector_counterfeit_coin" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(brokenDetectorCoinModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Одна фальшивая монета и один сломанный детектор</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(countText(normalized.detectorCount, 'детектор', 'детектора', 'детекторов'))}</span>
+              <span class="pill">ответ: только монета</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(brokenDetectorCoinModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-detector-test>Проверить</button>
+            <button class="small-button" type="button" data-detector-answer-mode>Указать монету</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="scale-area">
+            <h4>Детектор</h4>
+            <div class="scale-device-grid" data-detector-choices></div>
+          </div>
+          <div class="scale-area">
+            <h4>Проверяемое множество</h4>
+            <div class="coin-grid" data-detector-subset></div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-history">
+            <h4>История</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeHeaviestBrokenScaleConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const scaleCount = Number(config.scale_count ?? coinCount);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? (Number.isInteger(coinCount) ? 2 * coinCount - 1 : NaN));
+      const labels = asArray(config.scale_labels).map(String).filter(Boolean);
+      const scaleLabels = labels.length ? labels : Array.from({ length: scaleCount }, (_item, index) => String.fromCharCode(65 + index));
+      const supportedModes = ['random', 'cheater'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(coinCount) || coinCount < 3 || coinCount > 6) return null;
+      if (!Number.isInteger(scaleCount) || scaleCount < 2) return null;
+      if (scaleLabels.length !== scaleCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if ((config.objective || profile.objective || 'identify_heaviest_coin') !== 'identify_heaviest_coin') return null;
+      return {
+        type: 'heaviest_coin_one_broken_scale',
+        coinCount,
+        scaleCount,
+        scaleLabels,
+        brokenScaleCount: 1,
+        maxWeighings,
+        objective: 'identify_heaviest_coin',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function heaviestBrokenScaleModeLabel(value) {
+      const labels = {
+        random: 'случайный порядок',
+        cheater: 'Шулер'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderHeaviestBrokenScaleInteractive(problem, config) {
+      const normalized = normalizeHeaviestBrokenScaleConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      return `
+        <div class="card interactive-panel" data-interactive-type="heaviest_coin_one_broken_scale" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(heaviestBrokenScaleModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Самая тяжелая монета при одних сломанных весах</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(normalized.coinCount, 'кандидат', 'кандидата', 'кандидатов'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(countText(normalized.scaleCount, 'пара весов', 'пары весов', 'пар весов'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(heaviestBrokenScaleModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-heaviest-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-heaviest-answer-mode>Указать монету</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="scale-area">
+            <h4>Выбранная пара весов</h4>
+            <div class="scale-device-grid" data-heaviest-instrument-choices></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Запас монет</h4>
+              <div class="coin-grid" data-heaviest-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Чаши выбранных весов</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-heaviest-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-heaviest-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-heaviest-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-heaviest-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeNumericLinearSignatureConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const bagCount = Number(config.bag_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 1);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      const objectiveAliases = {
+        identify_stack: 'identify_fake_bag'
+      };
+      const rawObjective = config.objective || profile.objective || 'identify_fake_bag_subset';
+      const objective = objectiveAliases[rawObjective] || rawObjective;
+      const stateModel = config.state_model || (objective === 'identify_fake_bag' ? 'single_fake_bag' : (objective === 'identify_fake_coin_set' ? 'fixed_fake_count' : 'fake_bag_subset'));
+      const fakeBagCount = Number(config.fake_bag_count ?? config.fake_count ?? config.counterfeit_count ?? (stateModel === 'single_fake_bag' ? 1 : NaN));
+      const counterfeitWeight = String(config.counterfeit_weight || 'lighter').toLowerCase();
+      const counterfeitDelta = Number(config.counterfeit_delta ?? 1);
+      const genuineWeight = Number(config.genuine_weight ?? 10);
+      const observationModel = config.observation_model || (stateModel === 'single_fake_bag' ? 'actual_weight' : 'deficit_residue');
+      const objectKind = config.object_kind || (objective === 'identify_fake_coin_set' ? 'coin' : (stateModel === 'single_fake_bag' ? 'stack' : 'bag'));
+      const selectionModel = config.selection_model || (objectKind === 'coin' ? 'subset' : 'quantities');
+      if (!Number.isInteger(bagCount) || bagCount < 2 || bagCount > 12) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1 || maxWeighings > 5) return null;
+      if (!['identify_fake_bag_subset', 'identify_fake_bag', 'identify_fake_coin_set'].includes(objective)) return null;
+      if (!['bag', 'stack', 'coin'].includes(objectKind)) return null;
+      if (!['quantities', 'subset'].includes(selectionModel)) return null;
+      if (stateModel === 'single_fake_bag') {
+        if (fakeBagCount !== 1) return null;
+        if (!['lighter', 'heavier'].includes(counterfeitWeight)) return null;
+        if (!Number.isFinite(counterfeitDelta) || counterfeitDelta <= 0) return null;
+        if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
+        if (observationModel !== 'actual_weight') return null;
+      } else if (stateModel === 'fixed_fake_count') {
+        if (!Number.isInteger(fakeBagCount) || fakeBagCount < 1 || fakeBagCount > bagCount) return null;
+        if (!['lighter', 'heavier'].includes(counterfeitWeight)) return null;
+        if (!Number.isFinite(counterfeitDelta) || counterfeitDelta <= 0) return null;
+        if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
+        if (observationModel !== 'actual_weight') return null;
+      } else if (observationModel !== 'deficit_residue') {
+        return null;
+      }
+      return {
+        type: 'numeric_linear_signature',
+        bagCount,
+        maxWeighings,
+        objective,
+        stateModel,
+        fakeBagCount: stateModel === 'single_fake_bag' || stateModel === 'fixed_fake_count' ? fakeBagCount : null,
+        counterfeitWeight,
+        counterfeitDelta,
+        genuineWeight,
+        observationModel,
+        objectKind,
+        selectionModel,
+        allowEmptySubset: config.allow_empty_subset !== false,
+        excludeAllFake: config.exclude_all_fake !== false,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function numericSignatureModeLabel(value) {
+      const labels = {
+        random: 'случайный набор',
+        cheater: 'Шулер',
+        exhaustive: 'Проверка вектора'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function smallCombinationCount(n, k) {
+      if (!Number.isInteger(n) || !Number.isInteger(k) || k < 0 || k > n) return 0;
+      let result = 1;
+      for (let step = 1; step <= k; step += 1) {
+        result = result * (n - k + step) / step;
+      }
+      return Math.round(result);
+    }
+
+    function renderNumericLinearSignatureInteractive(problem, config) {
+      const normalized = normalizeNumericLinearSignatureConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const singleFake = normalized.stateModel === 'single_fake_bag';
+      const fixedFakeCount = normalized.stateModel === 'fixed_fake_count';
+      const objectLabels = normalized.objectKind === 'stack'
+        ? { singular: 'Стопка', lower: 'стопка', genitivePlural: 'стопок', countOne: 'стопка', countFew: 'стопки', countMany: 'стопок' }
+        : (normalized.objectKind === 'coin'
+          ? { singular: 'Монета', lower: 'монета', genitivePlural: 'монет', countOne: 'монета', countFew: 'монеты', countMany: 'монет' }
+          : { singular: 'Мешок', lower: 'мешок', genitivePlural: 'мешков', countOne: 'мешок', countFew: 'мешка', countMany: 'мешков' });
+      const bagInputs = Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map(id => `
+        <div class="numeric-bag">
+          <strong>${esc(objectLabels.singular)} ${esc(id)}</strong>
+          ${normalized.selectionModel === 'subset'
+            ? `<label><input data-numeric-amount="${esc(id)}" type="checkbox"> положить на весы</label>`
+            : `<label>Сколько монет взять
+                <input data-numeric-amount="${esc(id)}" type="number" min="0" step="1" inputmode="numeric" placeholder="0">
+              </label>`}
+        </div>
+      `).join('');
+      const answerInputs = Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map(id => singleFake
+        ? `<label><input data-numeric-answer="${esc(id)}" name="numeric-answer-${esc(problem.id)}" type="radio"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
+        : `<label><input data-numeric-answer="${esc(id)}" type="checkbox"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
+      ).join('');
+      const stateCount = singleFake
+        ? normalized.bagCount
+        : (fixedFakeCount
+          ? smallCombinationCount(normalized.bagCount, normalized.fakeBagCount)
+          : (1 << normalized.bagCount) - (normalized.excludeAllFake ? 1 : 0) - (normalized.allowEmptySubset ? 0 : 1));
+      const heading = normalized.maxWeighings === 1
+        ? `Одно числовое взвешивание ${objectLabels.genitivePlural}`
+        : `До ${normalized.maxWeighings} числовых взвешиваний ${objectLabels.genitivePlural}`;
+      return `
+        <div class="card interactive-panel" data-interactive-type="numeric_linear_signature" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(numericSignatureModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>${esc(heading)}</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.bagCount, objectLabels.countOne, objectLabels.countFew, objectLabels.countMany))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(numericSignatureModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-numeric-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-numeric-answer-submit>Ответить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="numeric-bag-grid">${bagInputs}</div>
+          <div class="numeric-result" data-numeric-result></div>
+          <div class="scale-area">
+            <h4>Ответ</h4>
+            <div class="numeric-answer">${answerInputs}</div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Классы результатов для выбранных взвешиваний</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderUnknownInteractive(_problem, config) {
       return `
         <div class="card interactive-panel" data-interactive-type="${esc(config?.type || '')}">
@@ -2494,7 +3555,16 @@ __WEIGHING_CHEATER_JS__
     }
 
     const INTERACTIVE_RENDERERS = {
-      single_counterfeit_weighing: renderSingleCounterfeitWeighingInteractive
+      single_counterfeit_weighing: renderSingleCounterfeitWeighingInteractive,
+      single_counterfeit_unknown_direction: renderSingleCounterfeitWeighingInteractive,
+      paired_light_counterfeits: renderPairedLightCounterfeitsInteractive,
+      multiple_light_find_one: renderMultipleLightFindOneInteractive,
+      grouped_light_counterfeits: renderMultipleLightFindOneInteractive,
+      faulty_scale_identification: renderFaultyScaleIdentificationInteractive,
+      broken_scale_counterfeit_coin: renderBrokenScaleCounterfeitCoinInteractive,
+      broken_detector_counterfeit_coin: renderBrokenDetectorCounterfeitCoinInteractive,
+      heaviest_coin_one_broken_scale: renderHeaviestBrokenScaleInteractive,
+      numeric_linear_signature: renderNumericLinearSignatureInteractive
     };
 
     function renderInteractive(problem) {
@@ -2507,7 +3577,14 @@ __WEIGHING_CHEATER_JS__
     function hasRunnableInteractive(problem) {
       const config = problem.interactive;
       if (!config?.type) return false;
-      if (config.type === 'single_counterfeit_weighing') return !!normalizeSingleCounterfeitConfig(problem, config);
+      if (config.type === 'single_counterfeit_weighing' || config.type === 'single_counterfeit_unknown_direction') return !!normalizeCounterfeitInteractiveConfig(problem, config);
+      if (config.type === 'paired_light_counterfeits') return !!normalizePairedLightConfig(problem, config);
+      if (config.type === 'multiple_light_find_one' || config.type === 'grouped_light_counterfeits') return !!normalizeMultipleLightFindOneConfig(problem, config);
+      if (config.type === 'faulty_scale_identification') return !!normalizeFaultyScaleConfig(problem, config);
+      if (config.type === 'broken_scale_counterfeit_coin') return !!normalizeBrokenScaleCoinConfig(problem, config);
+      if (config.type === 'broken_detector_counterfeit_coin') return !!normalizeBrokenDetectorCoinConfig(problem, config);
+      if (config.type === 'heaviest_coin_one_broken_scale') return !!normalizeHeaviestBrokenScaleConfig(problem, config);
+      if (config.type === 'numeric_linear_signature') return !!normalizeNumericLinearSignatureConfig(problem, config);
       return false;
     }
 
@@ -2547,16 +3624,2056 @@ __WEIGHING_CHEATER_JS__
     }
 
     function bindInteractiveControls() {
-      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config]')) {
+      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="numeric_linear_signature"][data-config]')) {
         let config = null;
         try { config = JSON.parse(panel.dataset.config || '{}'); }
         catch (_error) { config = null; }
-        if (config?.type === 'single_counterfeit_weighing') initSingleCounterfeitInteractive(panel, config);
+        if (config?.type === 'single_counterfeit_weighing' || config?.type === 'single_counterfeit_unknown_direction') initSingleCounterfeitInteractive(panel, config);
+        if (config?.type === 'paired_light_counterfeits') initPairedLightInteractive(panel, config);
+        if (config?.type === 'multiple_light_find_one' || config?.type === 'grouped_light_counterfeits') initMultipleLightFindOneInteractive(panel, config);
+        if (config?.type === 'faulty_scale_identification') initFaultyScaleInteractive(panel, config);
+        if (config?.type === 'broken_scale_counterfeit_coin') initBrokenScaleCounterfeitCoinInteractive(panel, config);
+        if (config?.type === 'broken_detector_counterfeit_coin') initBrokenDetectorCounterfeitCoinInteractive(panel, config);
+        if (config?.type === 'heaviest_coin_one_broken_scale') initHeaviestBrokenScaleInteractive(panel, config);
+        if (config?.type === 'numeric_linear_signature') initNumericLinearSignatureInteractive(panel, config);
       }
     }
 
-    function initSingleCounterfeitInteractive(panel, config) {
+    function initNumericLinearSignatureInteractive(panel, config) {
+      const bagIds = Array.from({ length: config.bagCount }, (_item, index) => index + 1);
+      const helper = window.WeighingCheater;
+      let model = null;
+      const singleFake = config.stateModel === 'single_fake_bag';
+      const fixedFakeCount = config.stateModel === 'fixed_fake_count';
+      const objectLabels = config.objectKind === 'stack'
+        ? { lower: 'стопка', plural: 'стопки', genitivePlural: 'стопок', fromEach: 'из каждой стопки', none: 'нет фальшивой стопки' }
+        : (config.objectKind === 'coin'
+          ? { lower: 'монета', plural: 'монеты', genitivePlural: 'монет', fromEach: 'какие монеты положить на весы', none: 'нет фальшивых монет' }
+          : { lower: 'мешок', plural: 'мешки', genitivePlural: 'мешков', fromEach: 'из каждого мешка', none: 'нет фальшивых мешков' });
+      const statusLabels = {
+        solved: 'решено',
+        failed: 'неоднозначно',
+        open: 'открыто'
+      };
+
+      function numericOptions() {
+        return {
+          objective: config.objective,
+          stateModel: config.stateModel,
+          fakeBagCount: config.fakeBagCount,
+          counterfeitWeight: config.counterfeitWeight,
+          counterfeitDelta: config.counterfeitDelta,
+          genuineWeight: config.genuineWeight,
+          observationModel: config.observationModel,
+          objectKind: config.objectKind,
+          allowEmptySubset: config.allowEmptySubset,
+          excludeAllFake: config.excludeAllFake
+        };
+      }
+
+      function allStates() {
+        return helper.numericSignatureInitialStates(config.bagCount, {
+          ...numericOptions()
+        });
+      }
+
+      function randomState(states) {
+        return states[Math.floor(Math.random() * states.length)] || { mask: 0, bags: [] };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const states = allStates();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? randomState(states) : null,
+          candidates: states,
+          history: [],
+          exhaustiveChildren: [],
+          lastObservation: null,
+          answer: null,
+          revealedState: null,
+          locked: false
+        };
+      }
+
+      function readAmounts() {
+        return bagIds.map(id => {
+          const input = panel.querySelector(`[data-numeric-amount="${id}"]`);
+          if (input?.type === 'checkbox') return input.checked ? 1 : 0;
+          const value = Number(input?.value || 0);
+          return Number.isInteger(value) && value > 0 ? value : 0;
+        });
+      }
+
+      function rawAmountValues() {
+        return bagIds.map(id => {
+          const input = panel.querySelector(`[data-numeric-amount="${id}"]`);
+          if (input?.type === 'checkbox') return input.checked ? 1 : 0;
+          return input?.value ?? '';
+        });
+      }
+
+      function amountValidation() {
+        if (config.selectionModel === 'subset') {
+          const amounts = readAmounts();
+          if (helper.numericSignatureTotal(amounts) <= 0) {
+            return { valid: false, empty: true, error: 'Выберите хотя бы одну монету для взвешивания.' };
+          }
+          return { valid: true, error: '' };
+        }
+        return helper?.numericSignatureAmountsValidation
+          ? helper.numericSignatureAmountsValidation(rawAmountValues(), config.bagCount)
+          : { valid: true, error: '' };
+      }
+
+      function selectedBags() {
+        return bagIds.filter(id => panel.querySelector(`[data-numeric-answer="${id}"]`)?.checked);
+      }
+
+      function stateLabel(state) {
+        const bags = state?.bags || [];
+        if (singleFake) return bags.length ? `${objectLabels.lower} ${bags[0]}` : objectLabels.none;
+        return bags.length ? `${objectLabels.plural} ${bags.join(', ')}` : objectLabels.none;
+      }
+
+      function amountsLabel(amounts) {
+        if (config.selectionModel === 'subset') {
+          const selected = amounts.map((amount, index) => amount > 0 ? index + 1 : null).filter(Boolean);
+          return selected.length ? `${objectLabels.plural} ${selected.join(', ')}` : 'пусто';
+        }
+        return amounts.map((amount, index) => `${index + 1}:${amount}`).join(', ');
+      }
+
+      function observationForDecision(amounts, decision) {
+        if (decision?.observation) return decision.observation;
+        return helper.numericSignatureObservationForState({ bags: [] }, amounts, {
+          bagCount: config.bagCount,
+          ...numericOptions(),
+          ...(decision?.residue != null ? { deficitResidue: decision.residue } : {})
+        });
+      }
+
+      function weigh() {
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        const validation = amountValidation();
+        if (!validation.valid) {
+          setInteractiveStatus(
+            validation.error || 'Количество должно быть неотрицательным целым числом.',
+            validation.empty ? '' : 'error'
+          );
+          return;
+        }
+        const amounts = readAmounts();
+        const total = helper.numericSignatureTotal(amounts);
+        if (model.mode === 'exhaustive') {
+          const baseNodes = model.exhaustiveChildren.length
+            ? model.exhaustiveChildren
+            : [{ id: '0', states: allStates(), candidates: allStates(), status: 'open', usedWeighings: 0 }];
+          const nextNodes = [];
+          for (const node of baseNodes) {
+            if (node.status !== 'open') {
+              nextNodes.push(node);
+              continue;
+            }
+            const expansion = helper.numericSignatureExpandExhaustiveNode({
+              bag_count: config.bagCount,
+              amounts,
+              currentStates: node.states,
+              ...numericOptions(),
+              usedWeighings: model.history.length,
+              maxWeighings: config.maxWeighings
+            });
+            expansion.children.forEach((child, index) => {
+              nextNodes.push({
+                ...child,
+                id: `${node.id}.${index + 1}`
+              });
+            });
+          }
+          model.exhaustiveChildren = nextNodes;
+          model.history.push({ amounts, total });
+          model.locked = model.history.length >= config.maxWeighings || nextNodes.every(node => node.status !== 'open');
+          renderInteractiveState();
+          return;
+        }
+
+        let observation = null;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.numericSignatureChooseCheaterOutcome({
+            bag_count: config.bagCount,
+            amounts,
+            currentStates: model.candidates,
+            ...numericOptions()
+          });
+          model.candidates = decision.states;
+          scores = decision.scores;
+          observation = observationForDecision(amounts, decision);
+        } else {
+          observation = helper.numericSignatureObservationForState(model.hiddenState, amounts, {
+            bagCount: config.bagCount,
+            ...numericOptions()
+          });
+          model.candidates = helper.numericSignatureFilterStates({
+            bag_count: config.bagCount,
+            amounts,
+            currentStates: model.candidates,
+            deficitResidue: observation.deficitResidue,
+            observedDeviation: observation.observedDeviation,
+            weight: observation.weight,
+            ...numericOptions()
+          });
+        }
+        model.lastObservation = observation;
+        model.history.push({ amounts, total, observation, candidates: [...model.candidates], scores });
+        renderInteractiveState();
+      }
+
+      function submitAnswer() {
+        if (model.mode === 'exhaustive' || model.locked || !model.history.length) return;
+        const selected = selectedBags();
+        if (fixedFakeCount && selected.length !== config.fakeBagCount) {
+          setInteractiveStatus(`Нужно отметить ровно ${config.fakeBagCount} ${objectLabels.genitivePlural}.`, 'error');
+          return;
+        }
+        model.answer = selected;
+        const result = helper.numericSignatureFinalizeAnswer({
+          bag_count: config.bagCount,
+          currentStates: model.candidates,
+          selectedBags: selected,
+          ...numericOptions()
+        });
+        model.revealedState = model.mode === 'random'
+          ? (model.candidates.length === 1 ? model.candidates[0] : model.hiddenState)
+          : result.actualState;
+        model.locked = true;
+        renderInteractiveState();
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-numeric-result]');
+        if (!model.history.length) {
+          container.innerHTML = config.selectionModel === 'subset'
+            ? '<div class="empty">Выберите подмножество и выполните числовое взвешивание.</div>'
+            : '<div class="empty">Введите количества монет для мешков и выполните числовое взвешивание.</div>';
+          return;
+        }
+        if (model.mode === 'exhaustive') {
+          const solved = model.exhaustiveChildren.filter(child => child.status === 'solved').length;
+          const failed = model.exhaustiveChildren.filter(child => child.status === 'failed').length;
+          const open = model.exhaustiveChildren.filter(child => child.status === 'open').length;
+          container.innerHTML = `
+            <div><strong>Проверенные взвешивания:</strong></div>
+            ${model.history.map((item, index) => `<div>${esc(index + 1)}. ${esc(amountsLabel(item.amounts))}; объектов на весах: ${esc(item.total)}</div>`).join('')}
+            <div class="local-muted">Однозначных ветвей: ${esc(solved)}, открытых: ${esc(open)}, неоднозначных после лимита: ${esc(failed)}.</div>
+          `;
+          return;
+        }
+        container.innerHTML = model.history.map((item, index) => {
+          const observation = item.observation;
+          const detail = config.observationModel === 'actual_weight'
+            ? `если все выбранные объекты настоящие: ${observation?.expectedWeight ?? 0} г; дефицит: ${Math.abs(observation?.observedDeviation ?? 0)} г`
+            : `нормализованный остаток дефицита: ${observation?.deficitResidue ?? 0}`;
+          return `
+            <div><strong>${esc(index + 1)}. Показание весов:</strong> ${esc(observation?.weight ?? 0)} г</div>
+            <div class="local-muted">Взвешено: ${esc(amountsLabel(item.amounts))}; объектов на весах: ${esc(observation?.total ?? 0)}; ${esc(detail)}.</div>
+          `;
+        }).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive' || !model.exhaustiveChildren.length;
+        if (block.hidden) return;
+        container.innerHTML = model.exhaustiveChildren.map(child => {
+          const classes = `exhaustive-branch ${child.status}`;
+          const candidates = child.states.map(stateLabel).join('; ');
+          const branchTitle = config.observationModel === 'actual_weight'
+            ? `Показание ${child.weight} г`
+            : `Остаток ${child.residue}`;
+          return `
+            <div class="${esc(classes)}">
+              <span class="exhaustive-branch-title">${esc(branchTitle)}: ${esc(statusLabels[child.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(child.states.length, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="exhaustive-branch-history">${esc(candidates)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderResult();
+        renderExhaustiveBranches();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = numericSignatureModeLabel(model.mode);
+        panel.querySelector('[data-weighing-counter]').textContent = `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive' && model.exhaustiveChildren.length
+          ? countText(model.exhaustiveChildren.length, 'ветвь', 'ветви', 'ветвей')
+          : countText(model.candidates.length, 'состояние', 'состояния', 'состояний');
+
+        const weighed = model.history.length > 0;
+        const noWeighingsLeft = model.history.length >= config.maxWeighings;
+        const validation = amountValidation();
+        for (const input of panel.querySelectorAll('[data-numeric-amount]')) input.disabled = model.locked || noWeighingsLeft;
+        for (const input of panel.querySelectorAll('[data-numeric-answer]')) input.disabled = model.locked || model.mode === 'exhaustive' || !weighed;
+        panel.querySelector('[data-numeric-weigh]').disabled = model.locked || noWeighingsLeft || !validation.valid;
+        panel.querySelector('[data-numeric-weigh]').textContent = model.mode === 'exhaustive' ? 'Добавить взвешивание' : 'Взвесить';
+        panel.querySelector('[data-numeric-answer-submit]').hidden = model.mode === 'exhaustive';
+        panel.querySelector('[data-numeric-answer-submit]').disabled = model.locked || model.mode === 'exhaustive' || !weighed;
+
+        if (!validation.valid && !model.locked) {
+          setInteractiveStatus(
+            validation.error || 'Количество должно быть неотрицательным целым числом.',
+            validation.empty ? '' : 'error'
+          );
+        } else if (model.mode === 'exhaustive') {
+          if (!model.exhaustiveChildren.length) {
+            setInteractiveStatus(config.selectionModel === 'subset'
+              ? 'Выберите первое подмножество. Полный перебор проверит только введенную последовательность взвешиваний.'
+              : 'Введите первый вектор количеств. Полный перебор проверит только введенную последовательность взвешиваний.');
+          } else {
+            const failed = model.exhaustiveChildren.filter(child => child.status === 'failed').length;
+            const open = model.exhaustiveChildren.filter(child => child.status === 'open').length;
+            if (open === 0 && failed === 0) setInteractiveStatus('Последовательность взвешиваний различает все допустимые состояния.', 'success');
+            else if (open === 0) setInteractiveStatus(`Последовательность не различает состояния: неоднозначных классов ${failed}.`, 'error');
+            else setInteractiveStatus(`Открытых ветвей: ${open}. Можно добавить еще взвешивание.`);
+          }
+        } else if (model.locked) {
+          const correct = helper.numericSignatureStateKey(model.answer) === helper.numericSignatureStateKey(model.revealedState) && model.candidates.length === 1;
+          const text = correct
+            ? `Верно: ${stateLabel(model.revealedState)}.`
+            : `Ответ не принят: после взвешивания совместимо ${countText(model.candidates.length, 'состояние', 'состояния', 'состояний')}; например, ${stateLabel(model.revealedState)}.`;
+          setInteractiveStatus(text, correct ? 'success' : 'error');
+        } else if (weighed && model.candidates.length === 1) {
+          setInteractiveStatus(`Осталось одно совместимое состояние: ${stateLabel(model.candidates[0])}. Можно отметить ответ.`);
+        } else if (weighed) {
+          setInteractiveStatus(noWeighingsLeft
+            ? `Взвешивания закончились; осталось ${countText(model.candidates.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}. Ответ примется только при единственном состоянии.`
+            : `Осталось ${countText(model.candidates.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}. Можно выбрать следующее взвешивание.`);
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер выберет самый неоднозначный числовой ответ для введенного вектора.'
+            : (singleFake
+              ? `Введите, сколько монет взять ${objectLabels.fromEach}. Фальшивая ${objectLabels.lower} ровно одна.`
+              : (fixedFakeCount
+                ? `Выберите подмножество для взвешивания. Фальшивых ${objectLabels.genitivePlural}: ${config.fakeBagCount}.`
+                : 'Введите, сколько монет взять из каждого мешка. Пустой набор фальшивых мешков допустим, состояние "все мешки фальшивые" исключено.')));
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer]')) {
+          if (input.type === 'checkbox') input.checked = false;
+          else input.value = '';
+        }
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-numeric-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-numeric-answer-submit]')?.addEventListener('click', submitAnswer);
+      for (const input of panel.querySelectorAll('[data-numeric-amount]')) {
+        input.addEventListener('input', renderInteractiveState);
+        input.addEventListener('change', renderInteractiveState);
+      }
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer]')) {
+          if (input.type === 'checkbox') input.checked = false;
+          else input.value = '';
+        }
+        renderInteractiveState();
+      });
+
+      if (!helper?.numericSignatureChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initFaultyScaleInteractive(panel, config) {
+      const scaleLabels = [...config.scaleLabels];
+      const helper = window.WeighingCheater;
+      let model = null;
+      const outcomes = helper?.OUTCOMES || ['left_down', 'right_down', 'balance'];
+      const outcomeToResult = {
+        left_down: 'left_heavy',
+        right_down: 'right_heavy',
+        balance: 'balanced'
+      };
+      const resultToOutcome = {
+        left_heavy: 'left_down',
+        right_heavy: 'right_down',
+        balanced: 'balance'
+      };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+      const statusLabels = {
+        open: 'открыта',
+        solved: 'решена',
+        failed: 'лимит исчерпан'
+      };
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const root = makeRootNode();
+        const faultyScale = scaleLabels[Math.floor(Math.random() * scaleLabels.length)];
+        return {
+          mode: normalizedMode,
+          faultyScale: normalizedMode === 'random' ? faultyScale : null,
+          revealedScale: null,
+          candidates: [...scaleLabels],
+          instrument: scaleLabels[0],
+          locations: Object.fromEntries(scaleLabels.map(label => [label, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function makeRootNode() {
+        const candidates = [...scaleLabels];
+        return {
+          id: 's1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          candidates,
+          usedWeighings: 0,
+          status: helper.faultyScaleBranchStatus(candidates, 0, config.maxWeighings),
+          children: []
+        };
+      }
+
+      function objectsIn(zone) {
+        return scaleLabels.filter(label => label !== model.instrument && model.locations[label] === zone);
+      }
+
+      function clearPans() {
+        for (const label of scaleLabels) {
+          if (model.locations[label] === 'left' || model.locations[label] === 'right') model.locations[label] = 'pool';
+        }
+      }
+
+      function setInstrument(label) {
+        if (model.locked || model.answerMode || !scaleLabels.includes(label)) return;
+        model.instrument = label;
+        model.locations[label] = 'pool';
+        renderInteractiveState();
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked || model.answerMode) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function moveObject(label, zone) {
+        if (!canEditPans() || label === model.instrument || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[label] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleObject(label) {
+        if (!canEditPans() || label === model.instrument) return;
+        const current = model.locations[label];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveObject(label, next);
+      }
+
+      function randomResultForHiddenState(left, right) {
+        const outcome = helper.faultyScaleOutcomeForCandidate(model.faultyScale, model.instrument, left, right);
+        const actualOutcome = outcome === 'arbitrary'
+          ? outcomes[Math.floor(Math.random() * outcomes.length)]
+          : outcome;
+        return outcomeToResult[actualOutcome] || 'balanced';
+      }
+
+      function weigh() {
+        const left = objectsIn('left');
+        const right = objectsIn('right');
+        if (!left.length && !right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let result;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.faultyScaleChooseCheaterOutcome({
+            scaleLabels,
+            currentCandidates: model.candidates,
+            instrument: model.instrument,
+            leftObjects: left,
+            rightObjects: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] }))
+          });
+          result = outcomeToResult[decision.outcome] || 'balanced';
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          result = randomResultForHiddenState(left, right);
+          model.candidates = helper.faultyScaleFilterCandidates({
+            scaleLabels,
+            currentCandidates: model.candidates,
+            instrument: model.instrument,
+            leftObjects: left,
+            rightObjects: right,
+            outcome: resultToOutcome[result]
+          });
+        }
+        model.history.push({
+          instrument: model.instrument,
+          left: [...left],
+          right: [...right],
+          result,
+          candidates: [...model.candidates],
+          scores
+        });
+        model.lastResult = result;
+        model.answerMode = false;
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.faultyScaleExpandExhaustiveNode({
+          scaleLabels,
+          currentCandidates: node.candidates,
+          instrument: model.instrument,
+          leftObjects: left,
+          rightObjects: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings
+        });
+        node.weighing = { instrument: model.instrument, left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `s${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { instrument: model.instrument, left: [...left], right: [...right], outcome: child.outcome }],
+          candidates: [...child.candidates],
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        model.answerMode = false;
+        clearPans();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer(label) {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        model.answer = label;
+        if (model.mode === 'cheater') {
+          const result = helper.faultyScaleFinalizeAnswer({
+            scaleLabels,
+            currentCandidates: model.candidates,
+            selectedScale: label
+          });
+          model.faultyScale = result.actualScale;
+          model.revealedScale = result.actualScale;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeScaleButton(label, options = {}) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'scale-device';
+        button.textContent = label;
+        button.dataset.scaleLabel = label;
+        if (options.active) button.classList.add('active');
+        if (model.answer === label) button.classList.add(model.answer === model.faultyScale ? 'correct-answer' : 'answer-pick');
+        if (model.locked && model.faultyScale === label) button.classList.add('real-faulty');
+        if (options.disabled) button.disabled = true;
+        if (options.draggable) {
+          button.draggable = true;
+          button.addEventListener('dragstart', event => {
+            if (!canEditPans()) {
+              event.preventDefault();
+              return;
+            }
+            event.dataTransfer.setData('text/plain', label);
+            event.dataTransfer.effectAllowed = 'move';
+          });
+        }
+        button.addEventListener('click', () => options.onClick?.(label));
+        return button;
+      }
+
+      function renderInstrumentChoices() {
+        const container = panel.querySelector('[data-instrument-choices]');
+        container.innerHTML = '';
+        for (const label of scaleLabels) {
+          container.appendChild(makeScaleButton(label, {
+            active: label === model.instrument,
+            disabled: model.locked || model.answerMode,
+            onClick: setInstrument
+          }));
+        }
+      }
+
+      function renderAnswerChoices() {
+        const block = panel.querySelector('[data-faulty-answer-panel]');
+        const container = panel.querySelector('[data-faulty-answers]');
+        block.hidden = !model.answerMode && !model.locked;
+        container.innerHTML = '';
+        for (const label of scaleLabels) {
+          container.appendChild(makeScaleButton(label, {
+            disabled: model.locked || model.mode === 'exhaustive',
+            onClick: submitAnswer
+          }));
+        }
+      }
+
+      function renderZone(zone, container) {
+        container.innerHTML = '';
+        for (const label of objectsIn(zone)) {
+          container.appendChild(makeScaleButton(label, {
+            draggable: canEditPans(),
+            disabled: !canEditPans(),
+            onClick: cycleObject
+          }));
+        }
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = zone === 'pool' ? 'Все доступные предметы на чашах или выбран прибор.' : 'Перетащите сюда весы-предметы.';
+          container.appendChild(empty);
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> На весах ${esc(item.instrument)}: ${esc(item.left.join(', ') || 'пусто')} против ${esc(item.right.join(', ') || 'пусто')}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
+              ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'кандидат', 'кандидата', 'кандидатов'))}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = node.status === 'solved' ? `; неисправны ${node.candidates[0]}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${step.instrument}, ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень дерева';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'кандидат', 'кандидата', 'кандидатов'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderInstrumentChoices();
+        renderAnswerChoices();
+        renderZone('pool', panel.querySelector('[data-faulty-zone="pool"]'));
+        renderZone('left', panel.querySelector('[data-faulty-pan-objects="left"]'));
+        renderZone('right', panel.querySelector('[data-faulty-pan-objects="right"]'));
+        renderHistory();
+        renderExhaustiveBranches();
+
+        const left = objectsIn('left');
+        const right = objectsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'предмет', 'предмета', 'предметов');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'предмет', 'предмета', 'предметов');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? countText(activeNode?.candidates.length || 0, 'кандидат', 'кандидата', 'кандидатов')
+          : countText(model.candidates.length, 'кандидат', 'кандидата', 'кандидатов');
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = faultyScaleModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length);
+        const weighButton = panel.querySelector('[data-faulty-weigh]');
+        weighButton.disabled = !canWeigh;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
+        const answerButton = panel.querySelector('[data-faulty-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const open = leaves.filter(node => node.status === 'open').length;
+          if (open === 0 && failed === 0) {
+            setInteractiveStatus(`Полная стратегия принята: решены все ${solved} веток.`, 'success');
+          } else if (open === 0 && failed > 0) {
+            setInteractiveStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственного прибора.`, 'error');
+          } else if (activeNode?.status === 'open') {
+            setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'кандидат', 'кандидата', 'кандидатов')}.`);
+          } else if (activeNode?.status === 'solved') {
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: неисправны ${activeNode.candidates[0]}. Выберите открытую ветку.`);
+          } else {
+            setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} проиграна: лимит исчерпан, кандидатов больше одного.`, 'error');
+          }
+        } else if (model.locked) {
+          const correct = model.answer === model.faultyScale;
+          const text = correct
+            ? `Верно: неисправные весы ${model.faultyScale}.`
+            : `Не угадали: выбраны ${model.answer}, неисправные весы ${model.faultyScale}.`;
+          setInteractiveStatus(text, correct ? 'success' : 'error');
+        } else if (model.answerMode) {
+          setInteractiveStatus('Выберите неисправный прибор в блоке ответа.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus('Взвешивания закончились. Укажите неисправные весы.');
+        } else if (model.mode === 'cheater' && model.candidates.length === 1) {
+          setInteractiveStatus(`Остался один возможный прибор: ${model.candidates[0]}. Можно указать его как ответ.`);
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер выберет самый неудобный исход, совместимый с одной неисправной парой весов.'
+            : 'Выберите прибор, положите другие весы на чаши и нажмите «Взвесить».');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-faulty-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const label = event.dataTransfer.getData('text/plain');
+          if (scaleLabels.includes(label)) moveObject(label, zone.dataset.faultyZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-faulty-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-faulty-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        model.answerMode = !model.answerMode;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.faultyScaleChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel();
+      renderInteractiveState();
+    }
+
+    function initHeaviestBrokenScaleInteractive(panel, config) {
       const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const scaleLabels = [...config.scaleLabels];
+      const helper = window.WeighingCheater;
+      let model = null;
+      const outcomes = helper?.OUTCOMES || ['left_down', 'right_down', 'balance'];
+      const outcomeToResult = {
+        left_down: 'left_heavy',
+        right_down: 'right_heavy',
+        balance: 'balanced'
+      };
+      const resultToOutcome = {
+        left_heavy: 'left_down',
+        right_heavy: 'right_down',
+        balanced: 'balance'
+      };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+
+      function randomOrder() {
+        const order = [...coinIds];
+        for (let index = order.length - 1; index > 0; index -= 1) {
+          const swap = Math.floor(Math.random() * (index + 1));
+          [order[index], order[swap]] = [order[swap], order[index]];
+        }
+        return order;
+      }
+
+      function allStates() {
+        return helper.initialHeaviestBrokenScaleStates(config.coinCount, scaleLabels);
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const states = allStates();
+        const order = randomOrder();
+        return {
+          mode: normalizedMode,
+          hiddenOrder: normalizedMode === 'random' ? order : null,
+          brokenScale: normalizedMode === 'random' ? scaleLabels[Math.floor(Math.random() * scaleLabels.length)] : null,
+          heaviestCoin: normalizedMode === 'random' ? order[order.length - 1] : null,
+          states,
+          candidates: helper.possibleHeaviestCoins(states),
+          instrument: scaleLabels[0],
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          answerMode: false,
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function setInstrument(label) {
+        if (model.locked || model.answerMode || !scaleLabels.includes(label)) return;
+        model.instrument = label;
+        renderInteractiveState();
+      }
+
+      function canEditPans() {
+        return model && !model.locked && !model.answerMode;
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        if (zone === 'left' || zone === 'right') {
+          for (const other of coinIds) {
+            if (other !== id && model.locations[other] === zone) model.locations[other] = 'pool';
+          }
+        }
+        model.locations[id] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleCoin(id) {
+        if (model.answerMode) {
+          submitAnswer(id);
+          return;
+        }
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveCoin(id, next);
+      }
+
+      function randomResult(leftCoin, rightCoin) {
+        const outcome = helper.heaviestBrokenScaleOutcomeForState(
+          { order: model.hiddenOrder, brokenScale: model.brokenScale },
+          model.instrument,
+          leftCoin,
+          rightCoin
+        );
+        const actualOutcome = outcome === 'arbitrary'
+          ? outcomes[Math.floor(Math.random() * outcomes.length)]
+          : outcome;
+        return outcomeToResult[actualOutcome] || 'balanced';
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (left.length !== 1 || right.length !== 1) return;
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        const leftCoin = left[0];
+        const rightCoin = right[0];
+        let result;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.heaviestBrokenScaleChooseCheaterOutcome({
+            coin_count: config.coinCount,
+            scaleLabels,
+            currentStates: model.states,
+            instrument: model.instrument,
+            leftCoin,
+            rightCoin,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] }))
+          });
+          result = outcomeToResult[decision.outcome] || 'balanced';
+          model.states = decision.states;
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          result = randomResult(leftCoin, rightCoin);
+          model.states = helper.heaviestBrokenScaleFilterStates({
+            coin_count: config.coinCount,
+            scaleLabels,
+            currentStates: model.states,
+            instrument: model.instrument,
+            leftCoin,
+            rightCoin,
+            outcome: resultToOutcome[result]
+          });
+          model.candidates = helper.possibleHeaviestCoins(model.states);
+        }
+        model.history.push({
+          instrument: model.instrument,
+          left: leftCoin,
+          right: rightCoin,
+          result,
+          candidates: [...model.candidates],
+          stateCount: model.states.length,
+          scores
+        });
+        model.lastResult = result;
+        model.answerMode = false;
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function submitAnswer(id) {
+        if (model.locked) return;
+        model.answer = id;
+        if (model.mode === 'cheater') {
+          const result = helper.heaviestBrokenScaleFinalizeAnswer({
+            coin_count: config.coinCount,
+            scaleLabels,
+            currentStates: model.states,
+            selectedCoin: id
+          });
+          model.heaviestCoin = result.actualCoin;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeScaleButton(label) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'scale-device';
+        button.textContent = label;
+        if (label === model.instrument) button.classList.add('active');
+        button.disabled = model.locked || model.answerMode;
+        button.addEventListener('click', () => setInstrument(label));
+        return button;
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.coin = String(id);
+        button.draggable = canEditPans();
+        button.title = model.answerMode ? `Указать монету ${id}` : `Монета ${id}`;
+        if (!canEditPans() && !model.answerMode) button.disabled = true;
+        if (model.answer === id) button.classList.add(model.answer === model.heaviestCoin ? 'correct-answer' : 'answer-pick');
+        if (model.locked && model.heaviestCoin === id) button.classList.add('real-counterfeit');
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderInstrumentChoices() {
+        const container = panel.querySelector('[data-heaviest-instrument-choices]');
+        container.innerHTML = '';
+        for (const label of scaleLabels) container.appendChild(makeScaleButton(label));
+      }
+
+      function renderZone(zone, container) {
+        container.innerHTML = '';
+        for (const id of coinsIn(zone)) container.appendChild(makeCoinButton(id));
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = zone === 'pool' ? 'Пусто.' : 'Перетащите сюда одну монету.';
+          container.appendChild(empty);
+        }
+      }
+
+      function renderPool(container) {
+        if (config.type !== 'grouped_light_counterfeits') {
+          renderZone('pool', container);
+          return;
+        }
+        container.innerHTML = '';
+        config.groups.forEach((groupCoins, index) => {
+          const group = document.createElement('div');
+          group.className = 'coin-pair-group';
+          const label = document.createElement('div');
+          label.className = 'coin-pair-label';
+          label.textContent = `Group ${index + 1}: choose ${config.counterfeitPerGroup[index]}`;
+          const coins = document.createElement('div');
+          coins.className = 'coin-pair-coins';
+          for (const id of groupCoins) {
+            if (model.locations[id] === 'pool') coins.appendChild(makeCoinButton(id));
+          }
+          if (!coins.children.length) {
+            const empty = document.createElement('span');
+            empty.className = 'empty';
+            empty.textContent = 'on pans';
+            coins.appendChild(empty);
+          }
+          group.append(label, coins);
+          container.appendChild(group);
+        });
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!model.history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = model.history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> На весах ${esc(item.instrument)}: ${esc(item.left)} против ${esc(item.right)}</div>
+              <div class="history-result">${esc(resultLabels[item.result])}</div>
+              <div class="local-muted">Возможных ответов: ${esc(item.candidates.length)}; скрытых состояний: ${esc(item.stateCount)}</div>
+            </div>
+          `).join('');
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderInstrumentChoices();
+        renderZone('pool', panel.querySelector('[data-heaviest-zone="pool"]'));
+        renderZone('left', panel.querySelector('[data-heaviest-pan-coins="left"]'));
+        renderZone('right', panel.querySelector('[data-heaviest-pan-coins="right"]'));
+        renderHistory();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(model.candidates.length, 'кандидат', 'кандидата', 'кандидатов');
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = heaviestBrokenScaleModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked && model.history.length < config.maxWeighings && left.length === 1 && right.length === 1;
+        panel.querySelector('[data-heaviest-weigh]').disabled = !canWeigh;
+        const answerButton = panel.querySelector('[data-heaviest-answer-mode]');
+        answerButton.disabled = model.locked;
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.locked) {
+          const correct = model.answer === model.heaviestCoin;
+          const text = correct
+            ? `Верно: самая тяжелая монета ${model.heaviestCoin}.`
+            : `Не угадали: выбрана ${model.answer}, возможна самая тяжелая монета ${model.heaviestCoin}.`;
+          setInteractiveStatus(text, correct ? 'success' : 'error');
+        } else if (model.answerMode) {
+          setInteractiveStatus('Нажмите на номер монеты, которую считаете самой тяжелой.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus('Взвешивания закончились. Укажите самую тяжелую монету.');
+        } else if (left.length !== 1 || right.length !== 1) {
+          setInteractiveStatus('Положите ровно по одной монете на каждую чашу.');
+        } else if (model.mode === 'cheater') {
+          setInteractiveStatus(`Шулер оставит как можно больше возможных ответов; сейчас ${countText(model.states.length, 'скрытое состояние', 'скрытых состояния', 'скрытых состояний')}.`);
+        } else {
+          setInteractiveStatus('Сравните две монеты на выбранных весах. Одни весы могут отвечать произвольно.');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-heaviest-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.heaviestZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-heaviest-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-heaviest-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        model.answerMode = !model.answerMode;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.heaviestBrokenScaleChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initBrokenScaleCounterfeitCoinInteractive(panel, config) {
+      const scaleLabels = [...config.scaleLabels];
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const helper = window.WeighingCheater;
+      let model = null;
+      const outcomes = helper?.OUTCOMES || ['left_down', 'right_down', 'balance'];
+      const outcomeToResult = { left_down: 'left_heavy', right_down: 'right_heavy', balance: 'balanced' };
+      const resultToOutcome = { left_heavy: 'left_down', right_heavy: 'right_down', balanced: 'balance' };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'лимит исчерпан' };
+
+      function cheaterWeight() {
+        return config.counterfeitWeight === 'heavier' ? 'heavy' : 'light';
+      }
+
+      function possibleCoins(candidates) {
+        return [...new Set((candidates || []).map(candidate => Number(candidate.coin)).filter(Number.isInteger))];
+      }
+
+      function possibleBrokenScalesForCoin(candidates, coin) {
+        return [...new Set((candidates || []).filter(candidate => candidate.coin === coin).map(candidate => candidate.brokenScale))];
+      }
+
+      function formatSolvedCandidate(candidates) {
+        const coins = possibleCoins(candidates);
+        if (coins.length !== 1) return '';
+        return `монета ${coins[0]}; сломанные весы ${possibleBrokenScalesForCoin(candidates, coins[0]).join(', ') || '?'}`;
+      }
+
+      function makeRootNode() {
+        const candidates = helper.initialBrokenScaleCoinCandidates(config.coinCount, scaleLabels);
+        return {
+          id: 'b1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          candidates,
+          usedWeighings: 0,
+          status: helper.brokenScaleCoinBranchStatus(candidates, 0, config.maxWeighings),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const fakeCoin = 1 + Math.floor(Math.random() * config.coinCount);
+        const brokenScale = scaleLabels[Math.floor(Math.random() * scaleLabels.length)];
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          fakeCoin: normalizedMode === 'random' ? fakeCoin : null,
+          brokenScale: normalizedMode === 'random' ? brokenScale : null,
+          candidates: helper.initialBrokenScaleCoinCandidates(config.coinCount, scaleLabels),
+          instrument: scaleLabels[0],
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function setInstrument(label) {
+        if (model.locked || model.answerMode || !scaleLabels.includes(label)) return;
+        model.instrument = label;
+        renderInteractiveState();
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[id] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleCoin(id) {
+        if (model.answerMode) {
+          submitAnswer(id);
+          return;
+        }
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveCoin(id, next);
+      }
+
+      function randomResultForHiddenState(left, right) {
+        if (model.instrument === model.brokenScale) {
+          return outcomeToResult[outcomes[Math.floor(Math.random() * outcomes.length)]] || 'balanced';
+        }
+        const outcome = helper.outcomeForKnownCounterfeitWithCounts(
+          model.fakeCoin,
+          cheaterWeight(),
+          left,
+          right,
+          { requireEqualPanCounts: config.requireEqualPanCounts }
+        );
+        return outcomeToResult[outcome] || 'balanced';
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let result;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.brokenScaleCoinChooseCheaterOutcome({
+            coin_count: config.coinCount,
+            scaleLabels,
+            counterfeit_weight: cheaterWeight(),
+            currentCandidates: model.candidates,
+            instrument: model.instrument,
+            leftCoins: left,
+            rightCoins: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+          result = outcomeToResult[decision.outcome] || 'balanced';
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          result = randomResultForHiddenState(left, right);
+          model.candidates = helper.brokenScaleCoinFilterCandidates({
+            coin_count: config.coinCount,
+            scaleLabels,
+            counterfeit_weight: cheaterWeight(),
+            currentCandidates: model.candidates,
+            instrument: model.instrument,
+            leftCoins: left,
+            rightCoins: right,
+            outcome: resultToOutcome[result],
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+        }
+        model.history.push({ instrument: model.instrument, left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
+        model.lastResult = result;
+        model.answerMode = false;
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.brokenScaleCoinExpandExhaustiveNode({
+          coin_count: config.coinCount,
+          scaleLabels,
+          counterfeit_weight: cheaterWeight(),
+          currentCandidates: node.candidates,
+          instrument: model.instrument,
+          leftCoins: left,
+          rightCoins: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings,
+          require_equal_pan_counts: config.requireEqualPanCounts
+        });
+        node.weighing = { instrument: model.instrument, left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `b${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { instrument: model.instrument, left: [...left], right: [...right], outcome: child.outcome }],
+          candidates: [...child.candidates],
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        model.answerMode = false;
+        clearPans();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer(id) {
+        if (model.mode === 'exhaustive') return;
+        model.answer = Number(id);
+        if (model.mode === 'cheater') {
+          const result = helper.brokenScaleCoinFinalizeAnswer({
+            coin_count: config.coinCount,
+            scaleLabels,
+            currentCandidates: model.candidates,
+            selectedCoin: id
+          });
+          model.fakeCoin = result.actualCoin;
+          model.brokenScale = result.actualBrokenScale;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeScaleButton(label) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'scale-device';
+        button.textContent = label;
+        if (label === model.instrument) button.classList.add('active');
+        button.disabled = model.locked || model.answerMode;
+        button.addEventListener('click', () => setInstrument(label));
+        return button;
+      }
+
+      function renderInstrumentChoices() {
+        const container = panel.querySelector('[data-instrument-choices]');
+        container.innerHTML = '';
+        for (const label of scaleLabels) container.appendChild(makeScaleButton(label));
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.coin = String(id);
+        button.draggable = canEditPans() && !model.answerMode;
+        button.title = model.answerMode ? `Указать монету ${id}` : `Монета ${id}`;
+        if (!canEditPans() && !model.answerMode) button.disabled = true;
+        if (model.answer === id) button.classList.add(model.answer === model.fakeCoin ? 'correct-answer' : 'answer-pick');
+        if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderZone(zone, container) {
+        container.innerHTML = '';
+        for (const id of coinsIn(zone)) container.appendChild(makeCoinButton(id));
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = zone === 'pool' ? 'Пусто.' : 'Перетащите сюда монеты.';
+          container.appendChild(empty);
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> Весы ${esc(item.instrument)}: ${esc(item.left.join(', ') || 'пусто')} против ${esc(item.right.join(', ') || 'пусто')}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
+              ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'состояние', 'состояния', 'состояний'))}; монет: ${esc(possibleCoins(item.candidates).join(', '))}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = node.status === 'solved' ? `; найдено: ${formatSolvedCandidate(node.candidates)}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${step.instrument}, ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень дерева';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; монет: ${esc(possibleCoins(node.candidates).join(', ') || '-')}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderInstrumentChoices();
+        renderZone('pool', panel.querySelector('[data-zone="pool"]'));
+        renderZone('left', panel.querySelector('[data-pan-coins="left"]'));
+        renderZone('right', panel.querySelector('[data-pan-coins="right"]'));
+        renderHistory();
+        renderExhaustiveBranches();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? `${countText(activeNode?.candidates.length || 0, 'состояние', 'состояния', 'состояний')}; ${countText(possibleCoins(activeNode?.candidates || []).length, 'монета', 'монеты', 'монет')}`
+          : `${countText(model.candidates.length, 'состояние', 'состояния', 'состояний')}; ${countText(possibleCoins(model.candidates).length, 'монета', 'монеты', 'монет')}`;
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = brokenScaleCoinModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        const weighButton = panel.querySelector('[data-broken-coin-weigh]');
+        weighButton.disabled = !canWeigh;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
+        const answerButton = panel.querySelector('[data-broken-coin-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const open = leaves.filter(node => node.status === 'open').length;
+          if (open === 0 && failed === 0) {
+            setInteractiveStatus(`Полная стратегия принята: решены все ${solved} веток. Сломанные весы могут остаться неоднозначными, проверяется только монета.`, 'success');
+          } else if (open === 0 && failed > 0) {
+            setInteractiveStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственной возможной монеты.`, 'error');
+          } else if (activeNode?.status === 'open') {
+            setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'состояние', 'состояния', 'состояний')} и ${countText(possibleCoins(activeNode.candidates).length, 'монета', 'монеты', 'монет')}.`);
+          } else if (activeNode?.status === 'solved') {
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: ${formatSolvedCandidate(activeNode.candidates)}. Для зачета достаточно монеты; выберите открытую ветку.`);
+          } else {
+            setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} проиграна: лимит исчерпан, возможных монет больше одной.`, 'error');
+          }
+        } else if (model.locked) {
+          const correct = model.answer === model.fakeCoin;
+          const brokenNote = model.brokenScale ? ` Сломанные весы были ${model.brokenScale}, но это не требовалось указывать.` : '';
+          const text = correct
+            ? `Верно: фальшивая монета ${model.fakeCoin}.${brokenNote}`
+            : `Не угадали: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.${brokenNote}`;
+          setInteractiveStatus(text, correct ? 'success' : 'error');
+        } else if (model.answerMode) {
+          setInteractiveStatus('Нажмите на номер фальшивой монеты. Сломанные весы указывать не нужно.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus('Взвешивания закончились. Назовите фальшивую монету; сломанные весы не проверяются.');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setInteractiveStatus('На чашах должно быть одинаковое число монет.');
+        } else if (model.mode === 'cheater' && possibleCoins(model.candidates).length === 1) {
+          setInteractiveStatus(`Осталась одна возможная монета: ${possibleCoins(model.candidates)[0]}. Сломанные весы могут быть еще неоднозначны.`);
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер выберет исход с максимальным числом совместимых пар (монета, сломанные весы).'
+            : 'Выберите пару весов, положите одинаковое число монет на чаши и нажмите «Взвесить».');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.zone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-broken-coin-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-broken-coin-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        model.answerMode = !model.answerMode;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.brokenScaleCoinChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initBrokenDetectorCounterfeitCoinInteractive(panel, config) {
+      const detectorLabels = [...config.detectorLabels];
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const helper = window.WeighingCheater;
+      let model = null;
+      const outcomes = helper?.YES_NO_OUTCOMES || ['yes', 'no'];
+      const answerLabels = { yes: 'да', no: 'нет' };
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'достигнут лимит' };
+
+      function possibleCoins(candidates) {
+        return [...new Set((candidates || []).map(candidate => Number(candidate.coin)).filter(Number.isInteger))];
+      }
+
+      function possibleBrokenDetectorsForCoin(candidates, coin) {
+        return [...new Set((candidates || []).filter(candidate => candidate.coin === coin).map(candidate => candidate.brokenDetector))];
+      }
+
+      function subsetLabel(ids) {
+        return (ids || []).join(', ') || 'пусто';
+      }
+
+      function formatSolvedCandidate(candidates) {
+        const coins = possibleCoins(candidates);
+        if (coins.length !== 1) return '';
+        const detectors = possibleBrokenDetectorsForCoin(candidates, coins[0]).join(', ') || '?';
+        return `монета ${coins[0]}; сломанный детектор ${detectors}`;
+      }
+
+      function allCandidates() {
+        return helper.initialBrokenDetectorCoinCandidates(config.coinCount, detectorLabels);
+      }
+
+      function makeRootNode() {
+        const candidates = allCandidates();
+        return {
+          id: 'd1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          candidates,
+          usedTests: 0,
+          usedWeighings: 0,
+          status: helper.brokenDetectorCoinBranchStatus(candidates, 0, config.maxTests),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const fakeCoin = 1 + Math.floor(Math.random() * config.coinCount);
+        const brokenDetector = detectorLabels[Math.floor(Math.random() * detectorLabels.length)];
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          fakeCoin: normalizedMode === 'random' ? fakeCoin : null,
+          brokenDetector: normalizedMode === 'random' ? brokenDetector : null,
+          candidates: allCandidates(),
+          detector: detectorLabels[0],
+          subset: new Set(),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answer: null,
+          locked: false,
+          lastAnswer: null
+        };
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditSubset() {
+        if (!model || model.locked) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function setDetector(label) {
+        if (model.locked || model.answerMode || !detectorLabels.includes(label)) return;
+        model.detector = label;
+        renderInteractiveState();
+      }
+
+      function toggleCoin(id) {
+        if (model.answerMode) {
+          submitAnswer(id);
+          return;
+        }
+        if (!canEditSubset()) return;
+        if (model.subset.has(id)) model.subset.delete(id);
+        else model.subset.add(id);
+        renderInteractiveState();
+      }
+
+      function currentSubset() {
+        return [...model.subset].sort((a, b) => a - b);
+      }
+
+      function randomAnswerForHiddenState(subset) {
+        if (model.detector === model.brokenDetector) return outcomes[Math.floor(Math.random() * outcomes.length)];
+        return subset.includes(model.fakeCoin) ? 'yes' : 'no';
+      }
+
+      function runTest() {
+        const subset = currentSubset();
+        const validation = helper?.brokenDetectorCoinTestValidation
+          ? helper.brokenDetectorCoinTestValidation(subset, { coinCount: config.coinCount })
+          : { valid: subset.length > 0, error: 'Выберите хотя бы одну монету для проверки.' };
+        if (!validation.valid) {
+          setInteractiveStatus('Выберите хотя бы одну монету для проверки.', 'error');
+          return;
+        }
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(subset);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxTests) return;
+        let answer;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.brokenDetectorCoinChooseCheaterOutcome({
+            coin_count: config.coinCount,
+            detectorLabels,
+            currentCandidates: model.candidates,
+            detector: model.detector,
+            subsetCoins: subset,
+            history: model.history.map(item => ({ outcome: item.answer }))
+          });
+          answer = decision.outcome;
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          answer = randomAnswerForHiddenState(subset);
+          model.candidates = helper.brokenDetectorCoinFilterCandidates({
+            coin_count: config.coinCount,
+            detectorLabels,
+            currentCandidates: model.candidates,
+            detector: model.detector,
+            subsetCoins: subset,
+            outcome: answer
+          });
+        }
+        model.history.push({ detector: model.detector, subset, answer, candidates: [...model.candidates], scores });
+        model.lastAnswer = answer;
+        model.answerMode = false;
+        model.subset = new Set();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(subset) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.brokenDetectorCoinExpandExhaustiveNode({
+          coin_count: config.coinCount,
+          detectorLabels,
+          currentCandidates: node.candidates,
+          detector: model.detector,
+          subsetCoins: subset,
+          usedTests: node.usedTests,
+          maxTests: config.maxTests
+        });
+        node.test = { detector: model.detector, subset: [...subset] };
+        node.children = expansion.children.map(child => ({
+          id: `d${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { detector: model.detector, subset: [...subset], outcome: child.outcome }],
+          candidates: [...child.candidates],
+          usedTests: child.usedTests,
+          usedWeighings: child.usedTests,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastAnswer = null;
+        model.answerMode = false;
+        model.subset = new Set();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer(id) {
+        if (model.mode === 'exhaustive') return;
+        model.answer = Number(id);
+        if (model.mode === 'cheater') {
+          const result = helper.brokenDetectorCoinFinalizeAnswer({
+            coin_count: config.coinCount,
+            detectorLabels,
+            currentCandidates: model.candidates,
+            selectedCoin: id
+          });
+          model.fakeCoin = result.actualCoin;
+          model.brokenDetector = result.actualBrokenDetector;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeDetectorButton(label) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'scale-device';
+        button.textContent = label;
+        if (label === model.detector) button.classList.add('active');
+        button.disabled = model.locked || model.answerMode;
+        button.addEventListener('click', () => setDetector(label));
+        return button;
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        if (model.subset.has(id)) button.classList.add('active');
+        if (!canEditSubset() && !model.answerMode) button.disabled = true;
+        if (model.answer === id) button.classList.add(model.answer === model.fakeCoin ? 'correct-answer' : 'answer-pick');
+        if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
+        button.title = model.answerMode ? `Указать монету ${id}` : `Переключить монету ${id}`;
+        button.addEventListener('click', () => toggleCoin(id));
+        return button;
+      }
+
+      function renderDetectorChoices() {
+        const container = panel.querySelector('[data-detector-choices]');
+        container.innerHTML = '';
+        for (const label of detectorLabels) container.appendChild(makeDetectorButton(label));
+      }
+
+      function renderCoinSubset() {
+        const container = panel.querySelector('[data-detector-subset]');
+        container.innerHTML = '';
+        for (const id of coinIds) container.appendChild(makeCoinButton(id));
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Проверок пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> Детектор ${esc(item.detector)} проверяет {${esc(subsetLabel(item.subset))}}</div>
+              <div class="history-result">${esc(answerLabels[item.answer || item.outcome])}</div>
+              ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'состояние', 'состояния', 'состояний'))}; возможных монет: ${esc(possibleCoins(item.candidates).length)}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = node.status === 'solved' ? `; found: ${formatSolvedCandidate(node.candidates)}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${step.detector}, ${answerLabels[step.outcome]}`).join(' -> ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветвь ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; возможных монет: ${esc(possibleCoins(node.candidates).length)}; ${esc(node.usedTests)} / ${esc(config.maxTests)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            model.subset = new Set();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderDetectorChoices();
+        renderCoinSubset();
+        renderHistory();
+        renderExhaustiveBranches();
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-test-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedTests || 0} / ${config.maxTests}`
+          : `${model.history.length} / ${config.maxTests}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? `${countText(activeNode?.candidates.length || 0, 'состояние', 'состояния', 'состояний')}; ${countText(possibleCoins(activeNode?.candidates || []).length, 'монета', 'монеты', 'монет')}`
+          : `${countText(model.candidates.length, 'состояние', 'состояния', 'состояний')}; ${countText(possibleCoins(model.candidates).length, 'монета', 'монеты', 'монет')}`;
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = brokenDetectorCoinModeLabel(model.mode);
+        const testButton = panel.querySelector('[data-detector-test]');
+        const hasSubset = currentSubset().length > 0;
+        testButton.disabled = model.locked || !hasSubset || (model.mode === 'exhaustive' ? activeNode?.status !== 'open' : model.history.length >= config.maxTests);
+        testButton.textContent = model.mode === 'exhaustive' ? 'Развернуть да/нет' : 'Проверить';
+        const answerButton = panel.querySelector('[data-detector-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const open = leaves.filter(node => node.status === 'open').length;
+          if (open === 0 && failed === 0) {
+            setInteractiveStatus(`Полная стратегия принята: все ${solved} ветви определяют монету. Сломанный детектор может оставаться неизвестным.`, 'success');
+          } else if (open === 0 && failed > 0) {
+            setInteractiveStatus(`Дерево неполное: ${failed} ветви дошли до лимита с более чем одной возможной монетой.`, 'error');
+          } else if (activeNode?.status === 'open') {
+            setInteractiveStatus(`Продолжите ветвь ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'состояние', 'состояния', 'состояний')} и ${countText(possibleCoins(activeNode.candidates).length, 'монета', 'монеты', 'монет')}.`);
+          } else if (activeNode?.status === 'solved') {
+            setInteractiveStatus(`Ветвь ${activeNode.id.slice(1)} решена: ${formatSolvedCandidate(activeNode.candidates)}. Выберите открытую ветвь.`);
+          } else {
+            setInteractiveStatus(`Ветвь ${activeNode?.id.slice(1)} не решена: лимит проверок достигнут, а возможных монет больше одной.`, 'error');
+          }
+        } else if (model.locked) {
+          const correct = model.answer === model.fakeCoin;
+          const brokenNote = model.brokenDetector ? ` Сломанным был детектор ${model.brokenDetector}; называть его не требовалось.` : '';
+          const text = correct
+            ? `Верно: фальшивая монета ${model.fakeCoin}.${brokenNote}`
+            : `Неверно: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.${brokenNote}`;
+          setInteractiveStatus(text, correct ? 'success' : 'error');
+        } else if (model.answerMode) {
+          setInteractiveStatus('Выберите фальшивую монету. Сломанный детектор называть не нужно.');
+        } else if (model.history.length >= config.maxTests) {
+          setInteractiveStatus('Проверок больше нет. Назовите фальшивую монету.');
+        } else if (model.mode === 'cheater' && possibleCoins(model.candidates).length === 1) {
+          setInteractiveStatus(`Осталась только одна возможная монета: ${possibleCoins(model.candidates)[0]}. Сломанный детектор может оставаться неизвестным.`);
+        } else {
+          const detectorList = detectorLabels.join('/');
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер выбирает ответ да/нет с самым большим числом совместимых состояний, затем с самым большим числом возможных монет.'
+            : `Выберите детектор ${detectorList}, отметьте хотя бы одну монету и запустите проверку.`);
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-detector-test]')?.addEventListener('click', runTest);
+      panel.querySelector('[data-detector-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        model.answerMode = !model.answerMode;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.brokenDetectorCoinChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initSingleCounterfeitInteractive(panel, config) {
+      const totalCoinCount = config.coinCount + (config.knownGenuineCount || 0);
+      const coinIds = Array.from({ length: totalCoinCount }, (_item, index) => index + 1);
       let model = null;
       const helper = window.WeighingCheater;
       const resultLabels = {
@@ -2587,8 +5704,53 @@ __WEIGHING_CHEATER_JS__
         return config.counterfeitWeight === 'heavier' ? 'heavy' : 'light';
       }
 
+      function isKnownGenuineCoin(id) {
+        return id > config.coinCount;
+      }
+
+      function isCoinOnlyUnknownDirection() {
+        return config.directionUnknown && config.objective === 'identify_coin_only_unknown_direction';
+      }
+
+      function directionLabel(direction) {
+        return direction === 'lighter' ? 'легче' : 'тяжелее';
+      }
+
+      function formatCandidate(candidate) {
+        if (config.directionUnknown) {
+          return isCoinOnlyUnknownDirection()
+            ? `монета ${candidate.coin}`
+            : `монета ${candidate.coin}, ${directionLabel(candidate.direction)}`;
+        }
+        return `монета ${candidate}`;
+      }
+
+      function possibleCandidateCoins(candidates) {
+        return [...new Set((candidates || []).map(candidate => Number(candidate?.coin)).filter(Number.isInteger))];
+      }
+
+      function coinLabel(id) {
+        return isKnownGenuineCoin(Number(id)) ? `G${Number(id) - config.coinCount}` : String(id);
+      }
+
+      function coinListLabel(ids) {
+        return (ids || []).map(coinLabel).join(', ') || 'пусто';
+      }
+
+      function initialInteractiveCandidates() {
+        return config.directionUnknown
+          ? helper.initialUnknownDirectionCandidates(config.coinCount)
+          : helper.initialCandidates(config.coinCount);
+      }
+
+      function branchStatus(candidates, usedWeighings) {
+        return config.directionUnknown
+          ? helper.exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings, config.maxWeighings, config.objective)
+          : helper.exhaustiveBranchStatus(candidates, usedWeighings, config.maxWeighings);
+      }
+
       function makeRootNode() {
-        const candidates = helper.initialCandidates(config.coinCount);
+        const candidates = initialInteractiveCandidates();
         return {
           id: 'n1',
           parentId: null,
@@ -2596,20 +5758,24 @@ __WEIGHING_CHEATER_JS__
           history: [],
           candidates,
           usedWeighings: 0,
-          status: helper.exhaustiveBranchStatus(candidates, 0, config.maxWeighings),
+          status: branchStatus(candidates, 0),
           children: []
         };
       }
 
-      function newModel(mode = 'random') {
-        const normalizedMode = ['random', 'cheater', 'exhaustive'].includes(mode) ? mode : 'random';
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
         const fakeCoin = 1 + Math.floor(Math.random() * config.coinCount);
+        const fakeDirection = Math.random() < 0.5 ? 'heavier' : 'lighter';
         const root = makeRootNode();
         return {
           mode: normalizedMode,
           fakeCoin: normalizedMode === 'random' ? fakeCoin : null,
+          fakeDirection: normalizedMode === 'random' && config.directionUnknown ? fakeDirection : config.counterfeitWeight,
           revealedCoin: null,
-          candidates: [...coinIds],
+          revealedDirection: null,
+          candidates: initialInteractiveCandidates(),
           locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
           history: [],
           exhaustiveNodes: [root],
@@ -2627,8 +5793,9 @@ __WEIGHING_CHEATER_JS__
       }
 
       function coinWeight(id) {
+        if (isKnownGenuineCoin(id)) return 1;
         if (id !== model.fakeCoin) return 1;
-        return config.counterfeitWeight === 'heavier' ? 2 : 0;
+        return (config.directionUnknown ? model.fakeDirection : config.counterfeitWeight) === 'heavier' ? 2 : 0;
       }
 
       function sumWeight(ids) {
@@ -2685,15 +5852,25 @@ __WEIGHING_CHEATER_JS__
         let result;
         let scores = null;
         if (model.mode === 'cheater' && window.WeighingCheater) {
-          const decision = WeighingCheater.chooseCheaterOutcome({
-            coin_count: config.coinCount,
-            counterfeit_weight: cheaterWeight(),
-            currentCandidates: model.candidates,
-            leftCoins: left,
-            rightCoins: right,
-            remainingWeighings: config.maxWeighings - model.history.length,
-            history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] }))
-          });
+          const decision = config.directionUnknown
+            ? WeighingCheater.chooseCheaterUnknownDirectionOutcome({
+              coin_count: config.coinCount,
+              currentCandidates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              remainingWeighings: config.maxWeighings - model.history.length,
+              history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] })),
+              require_equal_pan_counts: config.requireEqualPanCounts
+            })
+            : WeighingCheater.chooseCheaterOutcome({
+              coin_count: config.coinCount,
+              counterfeit_weight: cheaterWeight(),
+              currentCandidates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              remainingWeighings: config.maxWeighings - model.history.length,
+              history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] }))
+            });
           result = cheaterOutcomeToResult[decision.outcome] || 'balanced';
           model.candidates = decision.candidates;
           scores = decision.scores;
@@ -2702,14 +5879,23 @@ __WEIGHING_CHEATER_JS__
           const rightWeight = sumWeight(right);
           result = leftWeight === rightWeight ? 'balanced' : (leftWeight > rightWeight ? 'left_heavy' : 'right_heavy');
           if (window.WeighingCheater) {
-            model.candidates = WeighingCheater.filterCandidates({
-              coin_count: config.coinCount,
-              counterfeit_weight: cheaterWeight(),
-              currentCandidates: model.candidates,
-              leftCoins: left,
-              rightCoins: right,
-              outcome: resultToCheaterOutcome[result]
-            });
+            model.candidates = config.directionUnknown
+              ? WeighingCheater.filterUnknownDirectionCandidates({
+                coin_count: config.coinCount,
+                currentCandidates: model.candidates,
+                leftCoins: left,
+                rightCoins: right,
+                outcome: resultToCheaterOutcome[result],
+                require_equal_pan_counts: config.requireEqualPanCounts
+              })
+              : WeighingCheater.filterCandidates({
+                coin_count: config.coinCount,
+                counterfeit_weight: cheaterWeight(),
+                currentCandidates: model.candidates,
+                leftCoins: left,
+                rightCoins: right,
+                outcome: resultToCheaterOutcome[result]
+              });
           }
         }
         model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
@@ -2722,15 +5908,25 @@ __WEIGHING_CHEATER_JS__
       function expandActiveBranch(left, right) {
         const node = activeExhaustiveNode();
         if (!node || node.status !== 'open') return;
-        const expansion = helper.expandExhaustiveNode({
-          coin_count: config.coinCount,
-          counterfeit_weight: cheaterWeight(),
-          currentCandidates: node.candidates,
-          leftCoins: left,
-          rightCoins: right,
-          usedWeighings: node.usedWeighings,
-          maxWeighings: config.maxWeighings
-        });
+        const expansion = config.directionUnknown
+          ? helper.expandUnknownDirectionExhaustiveNode({
+            coin_count: config.coinCount,
+            currentCandidates: node.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            usedWeighings: node.usedWeighings,
+            maxWeighings: config.maxWeighings,
+            objective: config.objective
+          })
+          : helper.expandExhaustiveNode({
+            coin_count: config.coinCount,
+            counterfeit_weight: cheaterWeight(),
+            currentCandidates: node.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            usedWeighings: node.usedWeighings,
+            maxWeighings: config.maxWeighings
+          });
         node.weighing = { left: [...left], right: [...right] };
         node.children = expansion.children.map(child => ({
           id: `n${model.nextNodeId++}`,
@@ -2754,9 +5950,13 @@ __WEIGHING_CHEATER_JS__
       }
 
       function submitAnswer(id) {
-        if (model.mode === 'exhaustive') return;
-        model.answer = id;
-        if (model.mode === 'cheater' && window.WeighingCheater) {
+        if (model.mode === 'exhaustive' || config.objective === 'prove_impossible') return;
+        if (isKnownGenuineCoin(id)) return;
+        const selectedDirection = panel.querySelector('[data-answer-direction]')?.value || 'heavier';
+        model.answer = config.directionUnknown
+          ? (isCoinOnlyUnknownDirection() ? { coin: id } : { coin: id, direction: selectedDirection })
+          : id;
+        if (!config.directionUnknown && model.mode === 'cheater' && window.WeighingCheater) {
           const result = WeighingCheater.finalizeCheaterAnswer({
             coin_count: config.coinCount,
             currentCandidates: model.candidates,
@@ -2764,6 +5964,18 @@ __WEIGHING_CHEATER_JS__
           });
           model.fakeCoin = result.actualCoin;
           model.revealedCoin = result.actualCoin;
+        } else if (config.directionUnknown && model.mode === 'cheater' && window.WeighingCheater) {
+          const result = WeighingCheater.finalizeCheaterUnknownDirectionAnswer({
+            coin_count: config.coinCount,
+            currentCandidates: model.candidates,
+            selectedCoin: id,
+            selectedDirection,
+            objective: config.objective
+          });
+          model.fakeCoin = result.actualCoin;
+          model.fakeDirection = result.actualDirection;
+          model.revealedCoin = result.actualCoin;
+          model.revealedDirection = result.actualDirection;
         }
         model.locked = true;
         model.answerMode = false;
@@ -2774,12 +5986,19 @@ __WEIGHING_CHEATER_JS__
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'coin';
-        button.textContent = String(id);
+        button.textContent = isKnownGenuineCoin(id) ? `G${id - config.coinCount}` : String(id);
         button.dataset.coin = String(id);
-        button.draggable = canEditPans();
-        button.title = model.answerMode ? `Указать монету ${id}` : `Монета ${id}`;
+        button.draggable = canEditPans() && !model.answerMode;
+        button.title = isKnownGenuineCoin(id)
+          ? `Заведомо настоящая монета G${id - config.coinCount}`
+          : (model.answerMode ? `Указать монету ${id}` : `Монета ${id}`);
+        if (isKnownGenuineCoin(id)) button.classList.add('known-genuine');
         if (!canEditPans() && !model.answerMode) button.disabled = true;
-        if (model.answer === id) button.classList.add(model.answer === model.fakeCoin ? 'correct-answer' : 'answer-pick');
+        if (model.answerMode && isKnownGenuineCoin(id)) button.disabled = true;
+        const answeredCoin = config.directionUnknown ? model.answer?.coin : model.answer;
+        const answeredDirection = config.directionUnknown ? model.answer?.direction : config.counterfeitWeight;
+        const correctAnswer = answeredCoin === model.fakeCoin && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
+        if (answeredCoin === id) button.classList.add(correctAnswer ? 'correct-answer' : 'answer-pick');
         if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
@@ -2816,7 +6035,7 @@ __WEIGHING_CHEATER_JS__
           .reverse()
           .map(({ item, index }) => `
             <div class="history-item">
-              <div><strong>${index}.</strong> ${esc(item.left.join(', ') || 'пусто')} против ${esc(item.right.join(', ') || 'пусто')}</div>
+              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} против ${esc(coinListLabel(item.right))}</div>
               <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
               ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'кандидат', 'кандидата', 'кандидатов'))}</div>` : ''}
             </div>
@@ -2831,7 +6050,7 @@ __WEIGHING_CHEATER_JS__
         const leaves = frontierNodes();
         container.innerHTML = leaves.map(node => {
           const active = node.id === model.activeNodeId ? ' active' : '';
-          const found = node.status === 'solved' ? `; найдена монета ${node.candidates[0]}` : '';
+          const found = node.status === 'solved' ? `; найдено: ${formatCandidate(node.candidates[0])}` : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
             : 'корень дерева';
@@ -2894,44 +6113,58 @@ __WEIGHING_CHEATER_JS__
         weighButton.disabled = !canWeigh;
         weighButton.textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
         const answerButton = panel.querySelector('[data-answer-mode]');
-        answerButton.hidden = model.mode === 'exhaustive';
-        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.hidden = model.mode === 'exhaustive' || config.objective === 'prove_impossible';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive' || config.objective === 'prove_impossible';
         answerButton.classList.toggle('answer-mode', model.answerMode);
+        const answerDirectionWrap = panel.querySelector('[data-answer-direction-wrap]');
+        if (answerDirectionWrap) answerDirectionWrap.hidden = !config.directionUnknown || isCoinOnlyUnknownDirection() || model.mode === 'exhaustive';
 
         if (model.mode === 'exhaustive') {
           const leaves = frontierNodes();
           const solved = leaves.filter(node => node.status === 'solved').length;
           const failed = leaves.filter(node => node.status === 'failed').length;
           const open = leaves.filter(node => node.status === 'open').length;
-          if (open === 0 && failed === 0) {
+          if (config.objective === 'prove_impossible' && open === 0 && failed > 0) {
+            setInteractiveStatus(`Невозможность показана: ${failed} веток дошли до лимита с несколькими кандидатами.`, 'success');
+          } else if (config.objective === 'prove_impossible' && open === 0 && failed === 0) {
+            setInteractiveStatus(`Такой полный перебор нашел все ${solved} веток; для этой карточки ожидалась невозможность.`, 'error');
+          } else if (open === 0 && failed === 0) {
             setInteractiveStatus(`Полная стратегия принята: решены все ${solved} веток.`, 'success');
           } else if (open === 0 && failed > 0) {
-            setInteractiveStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственной монеты.`, 'error');
+            setInteractiveStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственного кандидата.`, 'error');
           } else if (activeNode?.status === 'open') {
             setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'кандидат', 'кандидата', 'кандидатов')}.`);
           } else if (activeNode?.status === 'solved') {
-            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: монета ${activeNode.candidates[0]}. Выберите открытую ветку.`);
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: ${formatCandidate(activeNode.candidates[0])}. Выберите открытую ветку.`);
           } else {
             setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} проиграна: лимит исчерпан, кандидатов больше одного.`, 'error');
           }
         } else if (model.locked) {
-          const correct = model.answer === model.fakeCoin;
+          const answeredCoin = config.directionUnknown ? model.answer?.coin : model.answer;
+          const answeredDirection = config.directionUnknown ? model.answer?.direction : config.counterfeitWeight;
+          const correct = answeredCoin === model.fakeCoin && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
           const text = correct
-            ? `Верно: фальшивая монета ${model.fakeCoin}.`
-            : `Не угадали: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.`;
+            ? (config.directionUnknown
+              ? (isCoinOnlyUnknownDirection() ? `Верно: фальшивая монета ${model.fakeCoin}.` : `Верно: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`)
+              : `Верно: фальшивая монета ${model.fakeCoin}.`)
+            : (config.directionUnknown
+              ? (isCoinOnlyUnknownDirection() ? `Не угадали: выбрана монета ${answeredCoin}, фальшивая монета ${model.fakeCoin}.` : `Не угадали: выбрано ${formatCandidate(model.answer)}, верно: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`)
+              : `Не угадали: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.`);
           setInteractiveStatus(text, correct ? 'success' : 'error');
         } else if (model.answerMode) {
-          setInteractiveStatus('Нажмите на номер фальшивой монеты.');
+          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите знак и нажмите на номер фальшивой монеты.' : 'Нажмите на номер фальшивой монеты.');
         } else if (model.history.length >= config.maxWeighings) {
-          setInteractiveStatus('Взвешивания закончились. Назовите фальшивую монету.');
-        } else if (model.mode === 'cheater' && model.candidates.length === 1) {
+          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Взвешивания закончились. Назовите фальшивую монету и укажите, легче она или тяжелее.' : 'Взвешивания закончились. Назовите фальшивую монету.');
+        } else if (!config.directionUnknown && model.mode === 'cheater' && model.candidates.length === 1) {
           setInteractiveStatus(`Осталась одна возможная монета: ${model.candidates[0]}. Можно указать ее как ответ.`);
+        } else if (isCoinOnlyUnknownDirection() && model.mode === 'cheater' && possibleCandidateCoins(model.candidates).length === 1) {
+          setInteractiveStatus(`Осталась одна возможная монета: ${possibleCandidateCoins(model.candidates)[0]}. Можно указать ее как ответ.`);
         } else if (config.requireEqualPanCounts && left.length !== right.length) {
           setInteractiveStatus('На чашах должно быть одинаковое число монет.');
         } else {
           setInteractiveStatus(model.mode === 'cheater'
             ? 'Шулер выберет самый неудобный возможный исход взвешивания.'
-            : 'Положите одинаковое число монет на чаши и нажмите «Взвесить».');
+            : (config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Нужно найти фальшивую монету и понять, легче она или тяжелее. Положите одинаковое число монет на чаши и нажмите «Взвесить».' : 'Положите одинаковое число монет на чаши и нажмите «Взвесить».'));
         }
       }
 
@@ -2965,7 +6198,1032 @@ __WEIGHING_CHEATER_JS__
         renderInteractiveState();
       });
 
-      model = newModel();
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initMultipleLightFindOneInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const outcomeToResult = {
+        left_down: 'left_heavy',
+        right_down: 'right_heavy',
+        balance: 'balanced'
+      };
+      const resultToOutcome = {
+        left_heavy: 'left_down',
+        right_heavy: 'right_down',
+        balanced: 'balance'
+      };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+      const statusLabels = {
+        open: 'открыто',
+        solved: 'решено',
+        failed: 'лимит исчерпан'
+      };
+      let model = null;
+
+      function isFullObjective() {
+        return config.objective === 'identify_all_counterfeits';
+      }
+
+      function allStates() {
+        if (config.type === 'grouped_light_counterfeits') {
+          return helper.initialGroupedMultipleLightCandidates(
+            config.coinCount,
+            config.groups,
+            config.counterfeitPerGroup
+          );
+        }
+        return helper.initialMultipleLightCandidates(config.coinCount, config.counterfeitCount);
+      }
+
+      function guaranteedCoins(states) {
+        return helper.commonLightCoins(states);
+      }
+
+      function formatState(state) {
+        return (state?.coins || []).join(', ') || '?';
+      }
+
+      function stateKey(state) {
+        return helper.multipleLightStateKey(state);
+      }
+
+      function makeRootNode() {
+        const candidates = allStates();
+        return {
+          id: 'm1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          candidates,
+          usedWeighings: 0,
+          status: helper.multipleLightBranchStatus(candidates, 0, config.maxWeighings, config.objective),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const hiddenState = states[Math.floor(Math.random() * states.length)] || { coins: [] };
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          hiddenCoins: normalizedMode === 'random' ? [...hiddenState.coins] : [],
+          revealedCoins: [],
+          candidates: states,
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answerSelections: {},
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function groupIndexForCoin(id) {
+        if (config.type !== 'grouped_light_counterfeits') return -1;
+        return config.groups.findIndex(group => group.includes(Number(id)));
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked || model.answerMode) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[id] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleCoin(id) {
+        if (model.answerMode) {
+          if (isFullObjective()) selectAnswerCoin(id);
+          else submitAnswer(id);
+          return;
+        }
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveCoin(id, next);
+      }
+
+      function selectAnswerCoin(id) {
+        if (!model.answerMode || model.locked || model.mode === 'exhaustive') return;
+        if (config.type === 'grouped_light_counterfeits') {
+          const groupIndex = groupIndexForCoin(id);
+          if (groupIndex < 0) return;
+          model.answerSelections[groupIndex] = Number(id);
+        } else {
+          const selected = new Set(Object.values(model.answerSelections).map(Number));
+          if (selected.has(Number(id))) selected.delete(Number(id));
+          else if (selected.size < config.counterfeitCount) selected.add(Number(id));
+          model.answerSelections = Object.fromEntries([...selected].map((coin, index) => [index, coin]));
+        }
+        renderInteractiveState();
+      }
+
+      function selectedAnswerCoins() {
+        return Object.values(model.answerSelections).map(Number).filter(Number.isInteger).sort((a, b) => a - b);
+      }
+
+      function hasCompleteAnswer() {
+        if (!isFullObjective()) return false;
+        if (config.type === 'grouped_light_counterfeits') {
+          return config.groups.every((_group, index) => Number.isInteger(model.answerSelections[index]));
+        }
+        return selectedAnswerCoins().length === config.counterfeitCount;
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let outcome;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.multipleLightChooseCheaterOutcome({
+            coin_count: config.coinCount,
+            light_count: config.counterfeitCount,
+            groups: config.groups,
+            counterfeit_per_group: config.counterfeitPerGroup,
+            objective: config.objective,
+            currentCandidates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+          outcome = decision.outcome;
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          outcome = helper.outcomeForMultipleLightCandidate(
+            { coins: model.hiddenCoins },
+            left,
+            right,
+            {
+              coinCount: config.coinCount,
+              lightCount: config.counterfeitCount,
+              requireEqualPanCounts: config.requireEqualPanCounts
+            }
+          );
+          model.candidates = helper.multipleLightFilterCandidates({
+            coin_count: config.coinCount,
+            light_count: config.counterfeitCount,
+            groups: config.groups,
+            counterfeit_per_group: config.counterfeitPerGroup,
+            currentCandidates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            outcome,
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+        }
+        const result = outcomeToResult[outcome] || 'balanced';
+        model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
+        model.lastResult = result;
+        model.answerMode = false;
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.multipleLightExpandExhaustiveNode({
+          coin_count: config.coinCount,
+          light_count: config.counterfeitCount,
+          groups: config.groups,
+          counterfeit_per_group: config.counterfeitPerGroup,
+          objective: config.objective,
+          currentCandidates: node.candidates,
+          leftCoins: left,
+          rightCoins: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings,
+          require_equal_pan_counts: config.requireEqualPanCounts
+        });
+        node.weighing = { left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `m${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { left: [...left], right: [...right], outcome: child.outcome }],
+          candidates: [...child.candidates],
+          guaranteedCoins: child.guaranteedCoins,
+          solvedState: child.solvedState,
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        clearPans();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer(id) {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        if (isFullObjective() && !hasCompleteAnswer()) return;
+        if (isFullObjective()) {
+          const answerCoins = selectedAnswerCoins();
+          model.answer = { coins: answerCoins };
+          if (model.mode === 'random') {
+            model.revealedCoins = [...model.hiddenCoins];
+          } else {
+            const result = helper.multipleLightFinalizeAnswer({
+              coin_count: config.coinCount,
+              light_count: config.counterfeitCount,
+              groups: config.groups,
+              counterfeit_per_group: config.counterfeitPerGroup,
+              objective: config.objective,
+              currentCandidates: model.candidates,
+              selectedCoins: answerCoins
+            });
+            model.hiddenCoins = result.actualCoins;
+            model.revealedCoins = result.actualCoins;
+          }
+        } else {
+          model.answer = Number(id);
+          const result = helper.multipleLightFinalizeAnswer({
+            coin_count: config.coinCount,
+            light_count: config.counterfeitCount,
+            currentCandidates: model.candidates,
+            selectedCoin: id
+          });
+          model.hiddenCoins = result.actualCoins;
+          model.revealedCoins = result.actualCoins;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.coin = String(id);
+        button.draggable = canEditPans();
+        const selected = selectedAnswerCoins().includes(Number(id));
+        const answered = isFullObjective()
+          ? model.answer?.coins?.includes(Number(id))
+          : model.answer === Number(id);
+        const real = model.revealedCoins.includes(Number(id)) || (model.locked && model.hiddenCoins.includes(Number(id)));
+        const correct = isFullObjective()
+          ? answered && model.hiddenCoins.includes(Number(id))
+          : answered && guaranteedCoins(model.candidates).includes(Number(id));
+        if (selected && model.answerMode) button.classList.add('answer-pick');
+        if (answered) button.classList.add(correct ? 'correct-answer' : 'answer-pick');
+        if (real) button.classList.add('real-counterfeit');
+        if (!canEditPans() && !model.answerMode) button.disabled = true;
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderZone(zone, container) {
+        container.innerHTML = '';
+        for (const id of coinsIn(zone)) container.appendChild(makeCoinButton(id));
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = zone === 'pool' ? 'Пусто.' : 'Перетащите сюда монеты.';
+          container.appendChild(empty);
+        }
+      }
+
+      function coinListLabel(ids) {
+        return (ids || []).join(', ') || 'пусто';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} против ${esc(coinListLabel(item.right))}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
+              ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'состояние', 'состояния', 'состояний'))}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const guaranteed = guaranteedCoins(node.candidates);
+          const found = node.status === 'solved'
+            ? (isFullObjective()
+              ? `; найдено: ${formatState(helper.uniqueLightState(node.candidates))}`
+              : `; гарантировано: ${guaranteed.join(', ')}`)
+            : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень дерева';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderZone('pool', panel.querySelector('[data-multiple-light-zone="pool"]'));
+        renderZone('left', panel.querySelector('[data-multiple-light-pan-coins="left"]'));
+        renderZone('right', panel.querySelector('[data-multiple-light-pan-coins="right"]'));
+        renderHistory();
+        renderExhaustiveBranches();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? countText(activeNode?.candidates.length || 0, 'состояние', 'состояния', 'состояний')
+          : countText(model.candidates.length, 'состояние', 'состояния', 'состояний');
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = multipleLightModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked
+          && !model.answerMode
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        const weighButton = panel.querySelector('[data-multiple-light-weigh]');
+        weighButton.disabled = !canWeigh;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
+        const answerButton = panel.querySelector('[data-multiple-light-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive' || (isFullObjective() && model.answerMode && !hasCompleteAnswer());
+        answerButton.textContent = isFullObjective()
+          ? (model.answerMode ? 'Ответить' : 'Выбрать пару')
+          : 'Выбрать монету';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const open = leaves.filter(node => node.status === 'open').length;
+          if (open === 0 && failed === 0) {
+            setInteractiveStatus(isFullObjective()
+              ? `Полная стратегия принята: во всех ${solved} ветках осталась одна совместимая пара.`
+              : `Полная стратегия принята: во всех ${solved} ветках есть гарантированно легкая монета.`, 'success');
+          } else if (open === 0 && failed > 0) {
+            setInteractiveStatus(isFullObjective()
+              ? `Осталась неоднозначность: ${failed} веток дошли до лимита с несколькими парами.`
+              : `Осталась неоднозначность: ${failed} веток дошли до лимита без гарантированно легкой монеты.`, 'error');
+          } else if (activeNode?.status === 'open') {
+            setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'состояние', 'состояния', 'состояний')}.`);
+          } else if (activeNode?.status === 'solved') {
+            setInteractiveStatus(isFullObjective()
+              ? `Ветка ${activeNode.id.slice(1)} решена: ${formatState(helper.uniqueLightState(activeNode.candidates))}.`
+              : `Ветка ${activeNode.id.slice(1)} решена: монета ${guaranteedCoins(activeNode.candidates).join(' или ')} гарантированно легкая.`);
+          } else {
+            setInteractiveStatus(isFullObjective()
+              ? `Ветка ${activeNode?.id.slice(1)} осталась неоднозначной после ${config.maxWeighings} взвешиваний.`
+              : `Ветка ${activeNode?.id.slice(1)} не дала гарантированно легкой монеты после ${config.maxWeighings} взвешиваний.`, 'error');
+          }
+        } else if (model.locked) {
+          const guaranteed = guaranteedCoins(model.candidates);
+          const correct = isFullObjective()
+            ? stateKey(model.answer) === stateKey({ coins: model.hiddenCoins })
+            : guaranteed.includes(Number(model.answer));
+          setInteractiveStatus(
+            isFullObjective()
+              ? (correct
+                ? `Верно: легкие монеты ${model.hiddenCoins.join(', ')}.`
+                : `Ответ не принят: выбрано ${formatState(model.answer)}, совместимая пара ${model.hiddenCoins.join(', ')}.`)
+              : (correct
+                ? `Верно: монета ${model.answer} легкая во всех совместимых состояниях.`
+                : `Не гарантировано: ответ ${model.answer}; совместимая легкая пара ${model.hiddenCoins.join(', ')}.`),
+            correct ? 'success' : 'error'
+          );
+        } else if (model.answerMode) {
+          setInteractiveStatus(isFullObjective()
+            ? `Выберите фальшивые монеты: ${selectedAnswerCoins().length} / ${config.counterfeitCount}.`
+            : 'Выберите монету, которая легкая во всех совместимых состояниях.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus(isFullObjective()
+            ? 'Взвешивания закончились. Выберите две фальшивые монеты.'
+            : 'Взвешивания закончились. Выберите гарантированно легкую монету.');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setInteractiveStatus('На чашах должно быть одинаковое число монет.');
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер сохраняет самый неудобный совместимый исход.'
+            : 'Положите на чаши равные по размеру группы и сравните их.');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-multiple-light-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.multipleLightZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-multiple-light-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-multiple-light-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        if (isFullObjective() && model.answerMode) submitAnswer();
+        else {
+          model.answerMode = !model.answerMode;
+          if (model.answerMode) model.answerSelections = {};
+          clearPans();
+          renderInteractiveState();
+        }
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.multipleLightChooseCheaterOutcome) {
+        setInteractiveStatus('Interactive logic is not loaded.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initPairedLightInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const pairs = config.coinPairs;
+      const coinIds = pairs.flat();
+      const outcomeToResult = {
+        left_down: 'left_heavy',
+        right_down: 'right_heavy',
+        balance: 'balanced'
+      };
+      const resultToOutcome = {
+        left_heavy: 'left_down',
+        right_heavy: 'right_down',
+        balanced: 'balance'
+      };
+      const resultLabels = {
+        left_down: 'left pan heavier',
+        right_down: 'right pan heavier',
+        balance: 'balance',
+        left_heavy: 'left pan heavier',
+        right_heavy: 'right pan heavier',
+        balanced: 'balance'
+      };
+      const statusLabels = {
+        open: 'open',
+        solved: 'solved',
+        failed: 'limit reached'
+      };
+      let model = null;
+
+      function allStates() {
+        return helper.initialPairedLightCandidates(pairs);
+      }
+
+      function stateKey(state) {
+        return helper.pairedLightStateKey(state);
+      }
+
+      function formatState(state) {
+        return (state?.coins || []).join(', ') || '?';
+      }
+
+      function makeRootNode() {
+        const candidates = allStates();
+        return {
+          id: 'p1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          candidates,
+          usedWeighings: 0,
+          status: helper.pairedLightBranchStatus(candidates, 0, config.maxWeighings),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const hiddenState = states[Math.floor(Math.random() * states.length)] || { coins: [] };
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          hiddenCoins: normalizedMode === 'random' ? [...hiddenState.coins] : [],
+          revealedCoins: [],
+          candidates: states,
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answerSelections: {},
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function pairIndexForCoin(id) {
+        return pairs.findIndex(pair => pair.includes(Number(id)));
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked || model.answerMode) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[id] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleCoin(id) {
+        if (model.answerMode) {
+          selectAnswerCoin(id);
+          return;
+        }
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveCoin(id, next);
+      }
+
+      function selectAnswerCoin(id) {
+        if (!model.answerMode || model.locked || model.mode === 'exhaustive') return;
+        const pairIndex = pairIndexForCoin(id);
+        if (pairIndex < 0) return;
+        model.answerSelections[pairIndex] = Number(id);
+        renderInteractiveState();
+      }
+
+      function selectedAnswerCoins() {
+        return pairs.map((_pair, index) => model.answerSelections[index]).filter(Number.isInteger);
+      }
+
+      function hasCompleteAnswer() {
+        return selectedAnswerCoins().length === pairs.length;
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let outcome;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.pairedLightChooseCheaterOutcome({
+            pairs,
+            currentCandidates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+          outcome = decision.outcome;
+          model.candidates = decision.candidates;
+          scores = decision.scores;
+        } else {
+          outcome = helper.outcomeForPairedLightCandidate(
+            { coins: model.hiddenCoins },
+            left,
+            right,
+            { pairs, requireEqualPanCounts: config.requireEqualPanCounts }
+          );
+          model.candidates = helper.pairedLightFilterCandidates({
+            pairs,
+            currentCandidates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            outcome,
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+        }
+        const result = outcomeToResult[outcome] || 'balanced';
+        model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
+        model.lastResult = result;
+        model.answerMode = false;
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.pairedLightExpandExhaustiveNode({
+          pairs,
+          currentCandidates: node.candidates,
+          leftCoins: left,
+          rightCoins: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings,
+          require_equal_pan_counts: config.requireEqualPanCounts
+        });
+        node.weighing = { left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `p${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { left: [...left], right: [...right], outcome: child.outcome }],
+          candidates: [...child.candidates],
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        clearPans();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer() {
+        if (model.mode === 'exhaustive' || model.locked || !hasCompleteAnswer()) return;
+        const answerCoins = selectedAnswerCoins();
+        model.answer = { coins: answerCoins };
+        const result = helper.pairedLightFinalizeAnswer({
+          pairs,
+          currentCandidates: model.candidates,
+          selectedCoins: answerCoins
+        });
+        model.hiddenCoins = result.actualCoins;
+        model.revealedCoins = result.actualCoins;
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.coin = String(id);
+        button.draggable = canEditPans();
+        const selected = Object.values(model.answerSelections).map(Number).includes(Number(id));
+        const answered = model.answer?.coins?.includes(Number(id));
+        const real = model.revealedCoins.includes(Number(id)) || (model.locked && model.hiddenCoins.includes(Number(id)));
+        const correct = answered && model.hiddenCoins.includes(Number(id));
+        if (selected && model.answerMode) button.classList.add('answer-pick');
+        if (answered) button.classList.add(correct ? 'correct-answer' : 'answer-pick');
+        if (real) button.classList.add('real-counterfeit');
+        if (!canEditPans() && !model.answerMode) button.disabled = true;
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderPool(container) {
+        container.innerHTML = '';
+        pairs.forEach((pair, index) => {
+          const group = document.createElement('div');
+          group.className = 'coin-pair-group';
+          const label = document.createElement('div');
+          label.className = 'coin-pair-label';
+          label.textContent = `Pair ${index + 1}`;
+          const coins = document.createElement('div');
+          coins.className = 'coin-pair-coins';
+          for (const id of pair) {
+            if (model.locations[id] === 'pool') coins.appendChild(makeCoinButton(id));
+          }
+          if (!coins.children.length) {
+            const empty = document.createElement('span');
+            empty.className = 'empty';
+            empty.textContent = 'on pans';
+            coins.appendChild(empty);
+          }
+          group.append(label, coins);
+          container.appendChild(group);
+        });
+      }
+
+      function renderPan(zone, container) {
+        container.innerHTML = '';
+        for (const id of coinsIn(zone)) container.appendChild(makeCoinButton(id));
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = 'Drop coins here.';
+          container.appendChild(empty);
+        }
+      }
+
+      function coinListLabel(ids) {
+        return (ids || []).join(', ') || 'empty';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">No weighings yet.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} vs ${esc(coinListLabel(item.right))}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
+              ${item.candidates ? `<div class="local-muted">Remaining: ${esc(item.candidates.length)} states</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = node.status === 'solved' ? `; found: ${formatState(node.candidates[0])}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'root';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Branch ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(node.candidates.length)} states; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderPool(panel.querySelector('[data-paired-zone="pool"]'));
+        renderPan('left', panel.querySelector('[data-paired-pan-coins="left"]'));
+        renderPan('right', panel.querySelector('[data-paired-pan-coins="right"]'));
+        renderHistory();
+        renderExhaustiveBranches();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = `${left.length} coins`;
+        panel.querySelector('[data-right-count]').textContent = `${right.length} coins`;
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.candidates.length || 0} states`
+          : `${model.candidates.length} states`;
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = pairedLightModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked
+          && !model.answerMode
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        const weighButton = panel.querySelector('[data-paired-weigh]');
+        weighButton.disabled = !canWeigh;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Check all outcomes' : 'Weigh';
+        const answerButton = panel.querySelector('[data-paired-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive' || (model.answerMode && !hasCompleteAnswer());
+        answerButton.textContent = model.answerMode ? 'Submit answer' : 'Choose answer';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const open = leaves.filter(node => node.status === 'open').length;
+          if (open === 0 && failed === 0) {
+            setInteractiveStatus(`Complete strategy accepted: all ${solved} branches are solved.`, 'success');
+          } else if (open === 0 && failed > 0) {
+            setInteractiveStatus(`Ambiguity remains: ${failed} branches reached the limit with more than one state.`, 'error');
+          } else if (activeNode?.status === 'open') {
+            setInteractiveStatus(`Continue branch ${activeNode.id.slice(1)}: ${activeNode.candidates.length} states remain.`);
+          } else if (activeNode?.status === 'solved') {
+            setInteractiveStatus(`Branch ${activeNode.id.slice(1)} solved: ${formatState(activeNode.candidates[0])}.`);
+          } else {
+            setInteractiveStatus(`Branch ${activeNode?.id.slice(1)} is still ambiguous after ${config.maxWeighings} weighings.`, 'error');
+          }
+        } else if (model.locked) {
+          const correct = stateKey(model.answer) === stateKey({ coins: model.hiddenCoins });
+          setInteractiveStatus(
+            correct
+              ? `Correct: light coins are ${model.hiddenCoins.join(', ')}.`
+              : `Not unique or wrong: answer ${formatState(model.answer)}, compatible state ${model.hiddenCoins.join(', ')}.`,
+            correct ? 'success' : 'error'
+          );
+        } else if (model.answerMode) {
+          setInteractiveStatus(`Choose exactly one coin in each pair: ${selectedAnswerCoins().length} / ${pairs.length} selected.`);
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus('No weighings left. Choose one coin from each pair.');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setInteractiveStatus('Both pans must contain the same number of coins.');
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Cheater mode keeps the largest compatible branch.'
+            : 'Put equal-size groups on the pans and compare them.');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-paired-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.pairedZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-paired-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-paired-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        if (model.answerMode) submitAnswer();
+        else {
+          model.answerMode = true;
+          model.answerSelections = {};
+          clearPans();
+          renderInteractiveState();
+        }
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.pairedLightChooseCheaterOutcome) {
+        setInteractiveStatus('Interactive logic is not loaded.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
       renderInteractiveState();
     }
 
@@ -3508,6 +7766,7 @@ __WEIGHING_CHEATER_JS__
           ${readyPill(problem.editorial?.public_ready)}
           ${problem.difficulty?.main ? pill(difficultyTitle(problem.difficulty.main)) : ''}
           ${problem.difficulty?.local_score != null ? pill(`сложность ${problem.difficulty.local_score}`) : ''}
+          ${hasInteractive(problem) ? pill(`интерактив: ${interactiveTypeLabel(problem.interactive.type)}`) : ''}
         </div>
         <h2>${esc(problem.title)}</h2>
         ${renderLocalTools(problem)}
@@ -3874,6 +8133,10 @@ __WEIGHING_CHEATER_JS__
     });
     byId('difficulty-filter').addEventListener('change', event => { state.difficulty = event.target.value; selectFirstVisibleProblem(); });
     byId('status-filter').addEventListener('change', event => { state.status = event.target.value; selectFirstVisibleProblem(); });
+    byId('interactive-filter').addEventListener('click', () => {
+      state.interactive = state.interactive === 'with' ? 'all' : 'with';
+      selectFirstVisibleProblem();
+    });
     byId('source-filter').addEventListener('change', event => { state.source = event.target.value; selectFirstVisibleProblem(); });
     byId('year-filter').addEventListener('change', event => { state.year = event.target.value; selectFirstVisibleProblem(); });
     byId('author-filter').addEventListener('change', event => { state.author = event.target.value; selectFirstVisibleProblem(); });

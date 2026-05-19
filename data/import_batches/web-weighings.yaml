@@ -11,14 +11,99 @@
     "site:mathcontest.unm.edu counterfeit coin balance scale solution",
     "site:math.toronto.edu/oz/turgor coin weighing fake coins balance",
     "\"Suppose now a mistake of 1 gram is possible\" \"Tournament of the Towns\"",
-    "\"Weigh 64 of the coins against the other 64\" \"Tournament of the Towns\""
+    "\"Weigh 64 of the coins against the other 64\" \"Tournament of the Towns\"",
+    "site:mccme.ru/circles/mccme взвешивания монеты pdf",
+    "site:mathcircle.berkeley.edu counterfeit coins balance scale math circle pdf",
+    "\"pair of gold coins\" \"pair of silver coins\" \"bronze\" \"counterfeit\"",
+    "site:artofproblemsolving.com/wiki weighing counterfeit coins balance scale",
+    "site:artofproblemsolving.com/downloads/printable_post_collections counterfeit coin weighings balance",
+    "\"Seven identical-looking coins\" \"four are real and three are counterfeit\""
   ],
   "items": [
-    {"problem_id": "tournament-towns-2008-four-stones-one-error", "status": "added", "source_id": "src-tot-2008-fall-junior-a-uwa-solutions", "supporting_source_id": "src-tot-toronto-2008-fall-junior-a-solutions"},
-    {"problem_id": "heavier-9-coins-2-weighings", "status": "source_merged_duplicate", "source_id": "src-unm-pnm-2025-round2-solutions", "note": "официальное решение заново покрывает 9 монет за 2 взвешивания и 27 монет за 3 взвешивания при известной тяжелой фальшивой монете"},
-    {"problem_id": "tournament-towns-2002-two-types-coins", "status": "lead_not_added", "source_id": "src-tot-2002-spring-junior-o-solutions", "note": "найден сильный кандидат про выбор двух монет разных типов из 128 или 8 монет; не добавлен в этом проходе, потому что доступный официальный PDF с условиями плохо извлекается, а вторичные копии не дают достаточно надежного первичного текста"},
-    {"problem_id": "counterfeit-12-coins-3-weighings", "status": "skipped_duplicate", "source_id": "src-unm-pnm-2014-2015-solutions", "note": "поисковая выдача содержит классическую задачу о 12 монетах; уже покрыта карточкой counterfeit-12-coins-3-weighings"},
-    {"problem_id": "counterfeit-stack-one-weighing", "status": "skipped_duplicate", "source_id": "src-berkeley-math-circle-2007-2008-contest4", "note": "найден вариант с десятью мешками и цифровыми весами; механизм уже покрыт классической карточкой о стопках и источником problems.ru 88014"}
+    {
+      "problem_id": "tournament-towns-2008-four-stones-one-error",
+      "status": "added",
+      "source_id": "src-tot-2008-fall-junior-a-uwa-solutions",
+      "supporting_source_id": "src-tot-toronto-2008-fall-junior-a-solutions"
+    },
+    {
+      "problem_id": "heavier-9-coins-2-weighings",
+      "status": "source_merged_duplicate",
+      "source_id": "src-unm-pnm-2025-round2-solutions",
+      "note": "официальное решение заново покрывает 9 монет за 2 взвешивания и 27 монет за 3 взвешивания при известной тяжелой фальшивой монете"
+    },
+    {
+      "problem_id": "tournament-towns-2002-two-types-coins",
+      "status": "lead_not_added",
+      "source_id": "src-tot-2002-spring-junior-o-solutions",
+      "note": "найден сильный кандидат про выбор двух монет разных типов из 128 или 8 монет; не добавлен в этом проходе, потому что доступный официальный PDF с условиями плохо извлекается, а вторичные копии не дают достаточно надежного первичного текста"
+    },
+    {
+      "problem_id": "counterfeit-12-coins-3-weighings",
+      "status": "skipped_duplicate",
+      "source_id": "src-unm-pnm-2014-2015-solutions",
+      "note": "поисковая выдача содержит классическую задачу о 12 монетах; уже покрыта карточкой counterfeit-12-coins-3-weighings"
+    },
+    {
+      "problem_id": "counterfeit-stack-one-weighing",
+      "status": "skipped_duplicate",
+      "source_id": "src-berkeley-math-circle-2007-2008-contest4",
+      "note": "найден вариант с десятью мешками и цифровыми весами; механизм уже покрыт классической карточкой о стопках и источником problems.ru 88014"
+    },
+    {
+      "problem_id": "berkeley-mathcircle-three-pairs-two-weighings",
+      "status": "added",
+      "source_id": "src-berkeley-math-circle-2020-encrypted-arithmetic-i",
+      "note": "новая структурная задача: в каждой из трех пар одна легкая фальшивая монета, две проверки дают тернарную подпись для 8 состояний"
+    },
+    {
+      "problem_id": "mccme-2016-three-piles-one-genuine-pile",
+      "status": "added",
+      "source_id": "src-mccme-circle-2016-weighings",
+      "note": "новая сертификационная задача: нужно найти настоящую кучку, а не саму фальшивую монету"
+    },
+    {
+      "problem_id": "mccme-2013-six-bags-subset-one-numeric-weighing",
+      "status": "added",
+      "source_id": "src-mccme-circle-2013-weighings",
+      "note": "добавлен пункт 11б; пункт 11а не добавлялся как дубль классического взвешенного дефицита для одного мешка"
+    },
+    {
+      "problem_id": "thirteen-coins-known-genuine-three-weighings",
+      "status": "source_merged_duplicate",
+      "source_id": "src-mccme-circle-2013-weighings",
+      "note": "МЦНМО 2013 задача 3 добавлена как явный источник формулировки с 13 монетами и эталоном"
+    },
+    {
+      "problem_id": "israel-2020-seven-coins-three-light-find-one",
+      "status": "added",
+      "source_id": "src-aops-2020-israel-national-olympiad",
+      "note": "AoPS printable collection указывает 2020 Israel National Olympiad; задача новая для базы, потому что нужно найти одну из трех легких фальшивых среди семи, а не все фальшивки"
+    },
+    {
+      "problem_id": "counterfeit-12-coins-3-weighings",
+      "status": "source_merged_duplicate",
+      "source_id": "src-aops-wiki-unm-pnm-2015-problem4",
+      "note": "AoPS Wiki / UNM-PNM 2015 Problem 4 повторяет классическую задачу о 12 монетах за три взвешивания"
+    },
+    {
+      "problem_id": "counterfeit-stack-one-weighing",
+      "status": "source_merged_duplicate",
+      "source_id": "src-aops-wiki-unm-pnm-2017-problem6",
+      "note": "AoPS Wiki / UNM-PNM 2017 Problem 6 повторяет цифровое кодирование дефицита веса по номеру стопки"
+    },
+    {
+      "problem_id": "israel-2019-manhattan-16-coins-two-fakes",
+      "status": "lead_not_added",
+      "source_id": "",
+      "note": "AoPS printable collection for 2019 Manhattan Mathematical Olympiad has a promising 16-coin problem, but in this pass no reliable solution/source beyond a forum collection was verified"
+    },
+    {
+      "problem_id": "israel-2020-seven-coins-arithmetic-weight-only",
+      "status": "lead_not_added",
+      "source_id": "",
+      "note": "AMC/AHSME-style задачи про массу, толщину или денежные номиналы монет без стратегии взвешиваний не добавлялись"
+    }
   ],
   "notes": [
     "Богатые источники: архив Tournament of the Towns на math.toronto.edu и зеркало UWA с полным текстом; UNM-PNM 2025 как официальный источник для тернарной нижней оценки.",

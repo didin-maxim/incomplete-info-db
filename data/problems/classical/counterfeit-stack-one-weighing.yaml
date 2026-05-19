@@ -10,7 +10,7 @@
         "id": "stmt-original",
         "title": "Одна стопка легче на известную величину",
         "text": "Есть 10 стопок монет. В одной стопке все монеты фальшивые и каждая весит на 1 грамм меньше настоящей; в остальных стопках монеты настоящие. Есть весы, показывающие общий вес выбранных монет числом. Как одним взвешиванием определить фальшивую стопку?",
-        "source_ids": ["src-classical-coin-weighing", "src-problems-ru-88014"],
+        "source_ids": ["src-classical-coin-weighing", "src-problems-ru-88014", "src-aops-wiki-unm-pnm-2017-problem6"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -65,12 +65,14 @@
     "adaptive": false,
     "objective": "identify_stack"
   },
+  "interactive": {"type": "numeric_linear_signature", "bag_count": 10, "max_weighings": 1, "objective": "identify_fake_bag", "state_model": "single_fake_bag", "fake_bag_count": 1, "counterfeit_weight": "lighter", "counterfeit_delta": 1, "genuine_weight": 10, "observation_model": "actual_weight", "object_kind": "stack", "modes": ["random", "cheater", "exhaustive"]},
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классическое кодирование номера через величину дефицита.", "status": "ai_checked"},
   "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [
     {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-nrich-money-measure", "role": "official_statement_and_student_solution", "status": "source_verified"},
-    {"source_id": "src-problems-ru-88014", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+    {"source_id": "src-problems-ru-88014", "role": "web_statement_and_solution_variant", "status": "source_verified"},
+    {"source_id": "src-aops-wiki-unm-pnm-2017-problem6", "role": "aops_duplicate_statement_and_solution", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -80,7 +82,8 @@
     "relations_status": "seed_links",
     "notes": [
       "Здесь используются числовые весы, а не чашечные; это отражено в профиле.",
-      "2026-05-18: в карточку слит NRICH-дубликат nrich-money-measure-one-weighing; источник сохранен как альтернативная формулировка."
+      "2026-05-18: в карточку слит NRICH-дубликат nrich-money-measure-one-weighing; источник сохранен как альтернативная формулировка.",
+      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2017 Contest II, Problem 6 добавлен как дубль с 12 стопками по 12 монет и цифровыми весами; механизм тот же дефицит веса по номеру стопки."
     ]
   }
 }
