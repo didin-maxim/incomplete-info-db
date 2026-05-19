@@ -2556,8 +2556,8 @@ __WEIGHING_CHEATER_JS__
         identify_coin: 'найти фальшивую монету',
         identify_coin_only: 'найти фальшивую монету',
         identify_coin_only_unknown_direction: 'найти фальшивую монету',
-        identify_coin_and_sign: 'найти монету и знак',
-        identify_coin_and_direction: 'найти монету и знак',
+        identify_coin_and_sign: 'найти монету и легче/тяжелее',
+        identify_coin_and_direction: 'найти монету и легче/тяжелее',
         identify_faulty_scale: 'найти неисправные весы',
         identify_heaviest_coin: 'найти самую тяжелую монету',
         identify_fake_bag: 'найти фальшивую стопку',
@@ -2711,10 +2711,10 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(interactiveModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
-            <label data-answer-direction-wrap ${normalized.directionUnknown && !coinOnlyUnknownDirection ? '' : 'hidden'}>Знак
+            <label data-answer-direction-wrap hidden>Фальшивая монета
               <select data-answer-direction>
-                <option value="heavier">тяжелее</option>
-                <option value="lighter">легче</option>
+                <option value="heavier">тяжелее настоящих</option>
+                <option value="lighter">легче настоящих</option>
               </select>
             </label>
             <button class="small-button" type="button" data-weigh>Взвесить</button>
@@ -2829,25 +2829,25 @@ __WEIGHING_CHEATER_JS__
           </div>
           <div class="weighing-board">
             <div class="coin-area">
-              <h4>Pairs</h4>
+              <h4>Пары монет</h4>
               <div class="coin-pair-grid" data-paired-zone="pool"></div>
             </div>
             <div class="scale-area">
-              <h4>Scale</h4>
+              <h4>Весы</h4>
               <div class="scale-visual" data-scale>
                 <div class="pan pan-left" data-paired-zone="left">
-                  <div class="pan-title"><span>Left pan</span><span data-left-count>0 coins</span></div>
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
                   <div class="coin-grid" data-paired-pan-coins="left"></div>
                 </div>
                 <div class="pan pan-right" data-paired-zone="right">
-                  <div class="pan-title"><span>Right pan</span><span data-right-count>0 coins</span></div>
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
                   <div class="coin-grid" data-paired-pan-coins="right"></div>
                 </div>
               </div>
             </div>
           </div>
           <div class="weighing-history">
-            <h4>History</h4>
+            <h4>История взвешиваний</h4>
             <div class="history-list" data-history></div>
           </div>
         </div>
@@ -4696,7 +4696,7 @@ __WEIGHING_CHEATER_JS__
           group.className = 'coin-pair-group';
           const label = document.createElement('div');
           label.className = 'coin-pair-label';
-          label.textContent = `Group ${index + 1}: choose ${config.counterfeitPerGroup[index]}`;
+          label.textContent = `Группа ${index + 1}: выбрать ${config.counterfeitPerGroup[index]}`;
           const coins = document.createElement('div');
           coins.className = 'coin-pair-coins';
           for (const id of groupCoins) {
@@ -4705,7 +4705,7 @@ __WEIGHING_CHEATER_JS__
           if (!coins.children.length) {
             const empty = document.createElement('span');
             empty.className = 'empty';
-            empty.textContent = 'on pans';
+            empty.textContent = 'на чашах';
             coins.appendChild(empty);
           }
           group.append(label, coins);
@@ -6114,7 +6114,7 @@ __WEIGHING_CHEATER_JS__
         answerButton.disabled = model.locked || model.mode === 'exhaustive' || config.objective === 'prove_impossible';
         answerButton.classList.toggle('answer-mode', model.answerMode);
         const answerDirectionWrap = panel.querySelector('[data-answer-direction-wrap]');
-        if (answerDirectionWrap) answerDirectionWrap.hidden = !config.directionUnknown || isCoinOnlyUnknownDirection() || model.mode === 'exhaustive';
+        if (answerDirectionWrap) answerDirectionWrap.hidden = !config.directionUnknown || isCoinOnlyUnknownDirection() || model.mode === 'exhaustive' || !model.answerMode;
 
         if (model.mode === 'exhaustive') {
           const leaves = frontierNodes();
@@ -6149,7 +6149,7 @@ __WEIGHING_CHEATER_JS__
               : `Не угадали: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.`);
           setInteractiveStatus(text, correct ? 'success' : 'error');
         } else if (model.answerMode) {
-          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите знак и нажмите на номер фальшивой монеты.' : 'Нажмите на номер фальшивой монеты.');
+          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите, фальшивая монета легче или тяжелее настоящих, затем нажмите на ее номер.' : 'Нажмите на номер фальшивой монеты.');
         } else if (model.history.length >= config.maxWeighings) {
           setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Взвешивания закончились. Назовите фальшивую монету и укажите, легче она или тяжелее.' : 'Взвешивания закончились. Назовите фальшивую монету.');
         } else if (!config.directionUnknown && model.mode === 'cheater' && model.candidates.length === 1) {
@@ -6740,7 +6740,7 @@ __WEIGHING_CHEATER_JS__
       });
 
       if (!helper?.multipleLightChooseCheaterOutcome) {
-        setInteractiveStatus('Interactive logic is not loaded.', 'error');
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
         return;
       }
       model = newModel(config.defaultMode);
@@ -7017,7 +7017,7 @@ __WEIGHING_CHEATER_JS__
           group.className = 'coin-pair-group';
           const label = document.createElement('div');
           label.className = 'coin-pair-label';
-          label.textContent = `Pair ${index + 1}`;
+          label.textContent = `Пара ${index + 1}`;
           const coins = document.createElement('div');
           coins.className = 'coin-pair-coins';
           for (const id of pair) {
@@ -7026,7 +7026,7 @@ __WEIGHING_CHEATER_JS__
           if (!coins.children.length) {
             const empty = document.createElement('span');
             empty.className = 'empty';
-            empty.textContent = 'on pans';
+            empty.textContent = 'на чашах';
             coins.appendChild(empty);
           }
           group.append(label, coins);
@@ -7217,7 +7217,7 @@ __WEIGHING_CHEATER_JS__
       });
 
       if (!helper?.pairedLightChooseCheaterOutcome) {
-        setInteractiveStatus('Interactive logic is not loaded.', 'error');
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
         return;
       }
       model = newModel(config.defaultMode);

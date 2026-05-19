@@ -46,6 +46,8 @@ ENGLISH_RESIDUE_RE = re.compile(
     r"Submit answer|Choose answer|Complete strategy|Ambiguity remains|states remain|"
     r"No weighings yet|No weighings left|Both pans must|Put equal-size|"
     r"Check all outcomes|Cheater mode|Three pairs|Exhaustive branches|"
+    r"Pairs|Scale|Left pan|Right pan|History|Pair\s+\$\{|Group\s+\$\{[^`'\"]*choose|"
+    r"on pans|0 coins|Interactive logic is not loaded|"
     r"compatible hidden state|known-light counterfeit|final answer is accepted|"
     r"A-level|O-Level|truth/lie|logic-grid|matching-нижн|"
     r"Try to find|official site links|Official Solutions|pages \d|"
