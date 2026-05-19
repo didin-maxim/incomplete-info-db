@@ -1,6 +1,6 @@
 import re
 
-from lib import flatten_text, load_problems, load_relations
+from lib import ROOT, flatten_text, load_problems, load_relations, load_json
 
 
 PUBLIC_TECHNICAL_TERMS = [
@@ -40,57 +40,52 @@ GENERALIZED_PROBLEM_MARKERS = [
     "какой",
 ]
 
-LATIN_WORD_RE = re.compile(r"\b[A-Za-z]{4,}\b")
-ALLOWED_PUBLIC_LATIN = {
-    "aabBDDccee".lower(),
-    "abcdeabcde",
-    "aimo",
-    "berkeley",
-    "beaver",
-    "binom",
-    "calgary",
-    "cemc",
-    "circle",
-    "cdots",
-    "intermediate",
-    "inmo",
-    "junior",
-    "komal",
-    "kvant",
-    "ldots",
-    "lktg",
-    "math",
-    "mathcounts",
-    "mccme",
-    "mcya",
-    "nrich",
-    "numble",
-    "pamo",
-    "problems",
-    "rrggg",
-    "samf",
-    "samo",
-    "sasmo",
-    "stmc",
-    "times",
-    "ukmt",
-    "wajo",
-    "yrggg",
-    "yyggg",
-    "yyygg",
-    "yyyyg",
-}
+ENGLISH_RESIDUE_RE = re.compile(
+    r"\b("
+    r"Choose at least|Drop coins here|random hidden|same type|source verified|"
+    r"Submit answer|Choose answer|Complete strategy|Ambiguity remains|states remain|"
+    r"No weighings yet|No weighings left|Both pans must|Put equal-size|"
+    r"Check all outcomes|Cheater mode|Three pairs|Exhaustive branches|"
+    r"compatible hidden state|known-light counterfeit|final answer is accepted|"
+    r"A-level|O-Level|truth/lie|logic-grid|matching-нижн|"
+    r"Try to find|official site links|Official Solutions|pages \d|"
+    r"practice book|keywords|Mode|Reset"
+    r")\b",
+    re.IGNORECASE,
+)
+PUBLIC_TEXT_FIELDS = {"title", "text", "comment", "notes", "forward_text", "backward_text", "intro", "description", "summary"}
+PUBLIC_DOC_FILES = [
+    ROOT / "docs" / "AI_CARD_RULES.md",
+    ROOT / "docs" / "INTRO_CARD_TRICKS.md",
+    ROOT / "docs" / "INTRO_QUESTIONS_AND_LIES.md",
+    ROOT / "docs" / "INTRO_WEIGHINGS.md",
+    ROOT / "docs" / "INTRO_WISE_PEOPLE.md",
+    ROOT / "docs" / "INFORMATION_AMOUNT.md",
+]
+PUBLIC_VIEWER_FILES = [ROOT / "tools" / "build_viewer.py", ROOT / "viewer" / "weighing_cheater.js"]
+
+
+def iter_public_problem_texts(problem):
+    yield "title", str(problem.get("title", ""))
+    for group_name, group in problem.get("statements", {}).items():
+        for statement in group:
+            sid = statement.get("id", "<missing>")
+            yield f"statements.{group_name}.{sid}.title", str(statement.get("title", ""))
+            yield f"statements.{group_name}.{sid}.text", str(statement.get("text", ""))
+    for group_name in ["ideas", "strategies", "impossibility_proofs"]:
+        for item in problem.get(group_name, []):
+            item_id = item.get("id", "<missing>")
+            yield f"{group_name}.{item_id}.title", str(item.get("title", ""))
+            yield f"{group_name}.{item_id}.text", str(item.get("text", ""))
+    difficulty = problem.get("difficulty", {})
+    yield "difficulty.comment", str(difficulty.get("comment", ""))
+    editorial = problem.get("editorial", {})
+    for index, note in enumerate(editorial.get("notes", []) or []):
+        yield f"editorial.notes[{index}]", str(note)
 
 
 def public_text(problem):
-    parts = [str(problem.get("title", ""))]
-    for group in problem.get("statements", {}).values():
-        for statement in group:
-            parts.append(str(statement.get("title", "")))
-            parts.append(str(statement.get("text", "")))
-    for idea in problem.get("ideas", []):
-        parts.append(str(idea.get("title", "")))
-        parts.append(str(idea.get("text", "")))
+    parts = [text for _, text in iter_public_problem_texts(problem)]
     return "\n".join(parts)
 
 
@@ -102,10 +97,41 @@ def warn_public_language(warnings, pid, problem):
             warnings.append(f"{pid}: public text contains technical term '{term}'")
             break
 
-    latin_words = {word for word in LATIN_WORD_RE.findall(text) if word.lower() not in ALLOWED_PUBLIC_LATIN}
-    if latin_words:
-        sample = ", ".join(sorted(latin_words)[:5])
-        warnings.append(f"{pid}: public text may contain untranslated English residue: {sample}")
+    for label, fragment in iter_public_problem_texts(problem):
+        match = ENGLISH_RESIDUE_RE.search(fragment)
+        if match:
+            warnings.append(f"{pid}: {label} contains English UI/statement residue: {match.group(0)!r}")
+            break
+
+def warn_public_fragment_language(warnings, label, text):
+    match = ENGLISH_RESIDUE_RE.search(text)
+    if match:
+        warnings.append(f"{label}: contains English UI/statement residue: {match.group(0)!r}")
+
+
+def iter_named_public_texts(value, path=()):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield from iter_named_public_texts(item, (*path, str(key)))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            yield from iter_named_public_texts(item, (*path, str(index)))
+    elif isinstance(value, str) and path and path[-1] in PUBLIC_TEXT_FIELDS:
+        yield ".".join(path), value
+
+
+def strip_markdown_code(text):
+    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
+    return re.sub(r"`[^`]*`", "", text)
+
+
+def iter_js_string_literals(text):
+    pattern = re.compile(r"""(?P<quote>['"`])(?P<body>(?:\\.|(?!\1).)*?)(?P=quote)""", re.DOTALL)
+    for index, match in enumerate(pattern.finditer(text), start=1):
+        body = match.group("body")
+        if "\n" in body and match.group("quote") != "`":
+            continue
+        yield index, body
 
 
 def warn_generalized_statements(warnings, pid, problem):
@@ -214,6 +240,26 @@ def main():
             warnings.append(f"{rid}: short relation explanation")
         if any(phrase in text for phrase in weak_phrases) and relation.get("confidence", 0) >= 0.8:
             warnings.append(f"{rid}: relation text may rely on weak thematic similarity")
+        warn_public_fragment_language(warnings, f"{rid}: relation text", f"{relation.get('forward_text', '')}\n{relation.get('backward_text', '')}")
+
+    import_root = ROOT / "data" / "import_batches"
+    if import_root.exists():
+        for path in sorted(import_root.rglob("*.yaml")):
+            data = load_json(path)
+            rel = path.relative_to(ROOT)
+            for label, text in iter_named_public_texts(data):
+                warn_public_fragment_language(warnings, f"{rel}:{label}", text)
+
+    for path in PUBLIC_DOC_FILES:
+        if path.exists():
+            rel = path.relative_to(ROOT)
+            warn_public_fragment_language(warnings, str(rel), strip_markdown_code(path.read_text(encoding="utf-8")))
+
+    for path in PUBLIC_VIEWER_FILES:
+        if path.exists():
+            rel = path.relative_to(ROOT)
+            for index, literal in iter_js_string_literals(path.read_text(encoding="utf-8")):
+                warn_public_fragment_language(warnings, f"{rel}:string[{index}]", literal)
 
     for error in errors:
         print(f"ERROR: {error}")

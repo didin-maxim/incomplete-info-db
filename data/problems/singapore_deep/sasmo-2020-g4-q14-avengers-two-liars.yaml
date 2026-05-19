@@ -54,8 +54,8 @@
     "adaptive": false,
     "objective": "deduce_unique_watcher"
   },
-  "difficulty": {"main": "intro", "local_score": 1, "comment": "Минимальная truth/lie-задача: три скрытых состояния и счет ложных фраз.", "status": "ai_checked"},
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "Минимальная задача о правде и лжи: три скрытых состояния и счет ложных фраз.", "status": "ai_checked"},
   "tags": ["lie_detection", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g4-book", "role": "official_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски.", "Оставлена как чистая маленькая карточка по lie_detection; это не рядовая logic-grid задача, а счет лжи в ограниченном наборе публичных ответов."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального сборника практических задач SIMCC/SASMO пересказаны по-русски.", "Оставлена как чистая маленькая карточка на распознавание лжи; это не рядовая задача с логической таблицей, а счет лжи в ограниченном наборе публичных ответов."]}
 }

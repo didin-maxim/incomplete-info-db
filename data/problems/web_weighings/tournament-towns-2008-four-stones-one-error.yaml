@@ -62,7 +62,7 @@
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 5,
-    "comment": "Junior A-Level Турнира городов; четыре специально выбранных взвешивания позволяют исправить одну числовую ошибку.",
+    "comment": "Младший уровень A Турнира городов; четыре специально выбранных взвешивания позволяют исправить одну числовую ошибку.",
     "status": "ai_checked"
   },
   "tags": ["balance_scale", "digital_scale", "linear_signature", "error_correcting_code", "nonadaptive_strategy", "condition_older_students", "solution_advanced_math"],

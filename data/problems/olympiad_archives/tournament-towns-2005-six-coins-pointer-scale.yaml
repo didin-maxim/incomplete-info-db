@@ -62,7 +62,7 @@
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,
-    "comment": "Junior O-Level Турнира городов; решение строит небольшую линейную систему подсказок.",
+    "comment": "Младший уровень O Турнира городов; решение строит небольшую линейную систему подсказок.",
     "status": "ai_checked"
   },
   "tags": ["digital_scale", "linear_signature", "nonadaptive_strategy", "condition_older_students"],
@@ -75,6 +75,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Источник: архив Турнира городов в Торонто, Fall 2005 Junior O-Level problems and solutions."]
+    "notes": ["Источник: архив Турнира городов в Торонто, осень 2005, младший уровень O, условия и решения."]
   }
 }

@@ -57,5 +57,5 @@
   "difficulty": {"main": "intro", "local_score": 1, "comment": "Короткая проверка четырех кандидатов на роль единственного лжеца.", "status": "ai_checked"},
   "tags": ["lie_detection", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-simcc-sasmo-2019-2020-g5-book", "role": "official_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального SIMCC/SASMO practice book пересказаны по-русски.", "Добавлено после дубль-чека: это не дубль SASMO G6 marathon, но использует тот же прием единственного лжеца на другой модели крайних ролей."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "singapore_deep", "notes": ["Англоязычное условие и решение из официального сборника практических задач SIMCC/SASMO пересказаны по-русски.", "Добавлено после проверки дублей: это не дубль задачи SASMO G6 о марафоне, но использует тот же прием единственного лжеца на другой модели крайних ролей."]}
 }

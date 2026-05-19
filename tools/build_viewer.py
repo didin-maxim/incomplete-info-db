@@ -2688,9 +2688,6 @@ __WEIGHING_CHEATER_JS__
       const heading = normalized.directionUnknown
         ? (coinOnlyUnknownDirection ? 'Одна фальшивая монета: нужно найти только номер' : 'Одна фальшивая монета: легче или тяжелее?')
         : `Одна фальшивая монета ${interactiveWeightLabel(normalized.counterfeitWeight)}`;
-      const modeOptions = normalized.directionUnknown && !normalized.modes.includes('cheater')
-        ? [...normalized.modes, 'cheater']
-        : normalized.modes;
       return `
         <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
@@ -2711,7 +2708,7 @@ __WEIGHING_CHEATER_JS__
           <div class="interactive-actions">
             <label>Режим
               <select data-interactive-run-mode>
-                ${modeOptions.map(mode => `<option value="${esc(mode)}" ${normalized.modes.includes(mode) ? '' : 'disabled'}>${esc(interactiveModeLabel(mode))}${normalized.modes.includes(mode) ? '' : ' (позже)'}</option>`).join('')}
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(interactiveModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
             <label data-answer-direction-wrap ${normalized.directionUnknown && !coinOnlyUnknownDirection ? '' : 'hidden'}>Знак
@@ -2787,9 +2784,9 @@ __WEIGHING_CHEATER_JS__
 
     function pairedLightModeLabel(value) {
       const labels = {
-        random: 'random hidden state',
-        cheater: 'cheater',
-        exhaustive: 'exhaustive'
+        random: 'случайное скрытое состояние',
+        cheater: 'неудобный исход',
+        exhaustive: 'проверка всех ветвей'
       };
       return labels[value] || interactiveModeLabel(value);
     }
@@ -2806,28 +2803,28 @@ __WEIGHING_CHEATER_JS__
             <span class="pill" data-current-mode-pill>${esc(pairedLightModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
-            <h4>Three pairs, one light counterfeit in each pair</h4>
+            <h4>Три пары, в каждой ровно одна легкая фальшивая монета</h4>
             <div class="interactive-meta">
               <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
-              <span class="pill" data-candidate-counter>${esc(stateCount)} states</span>
-              <span class="pill">${esc(normalized.coinCount)} coins</span>
-              <span class="pill">${esc(normalized.pairCount)} pairs</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(countText(normalized.pairCount, 'пара', 'пары', 'пар'))}</span>
               <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
             </div>
           </div>
           <div class="interactive-actions">
-            <label>Mode
+            <label>Режим
               <select data-interactive-run-mode>
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(pairedLightModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
-            <button class="small-button" type="button" data-paired-weigh>Weigh</button>
-            <button class="small-button" type="button" data-paired-answer-mode>Choose answer</button>
-            <button class="small-button" type="button" data-reset-interactive>Reset</button>
+            <button class="small-button" type="button" data-paired-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-paired-answer-mode>Выбрать ответ</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
           <div class="exhaustive-panel" data-exhaustive-panel hidden>
-            <h4>Exhaustive branches</h4>
+            <h4>Ветви полной проверки</h4>
             <div class="exhaustive-branches" data-exhaustive-branches></div>
           </div>
           <div class="weighing-board">
@@ -7043,20 +7040,20 @@ __WEIGHING_CHEATER_JS__
         if (!container.children.length) {
           const empty = document.createElement('span');
           empty.className = 'empty';
-          empty.textContent = 'Drop coins here.';
+          empty.textContent = 'Перетащите монеты сюда.';
           container.appendChild(empty);
         }
       }
 
       function coinListLabel(ids) {
-        return (ids || []).join(', ') || 'empty';
+        return (ids || []).join(', ') || 'пусто';
       }
 
       function renderHistory() {
         const container = panel.querySelector('[data-history]');
         const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
         if (!history.length) {
-          container.innerHTML = '<div class="empty">No weighings yet.</div>';
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
           return;
         }
         container.innerHTML = history
@@ -7064,9 +7061,9 @@ __WEIGHING_CHEATER_JS__
           .reverse()
           .map(({ item, index }) => `
             <div class="history-item">
-              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} vs ${esc(coinListLabel(item.right))}</div>
+              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} против ${esc(coinListLabel(item.right))}</div>
               <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
-              ${item.candidates ? `<div class="local-muted">Remaining: ${esc(item.candidates.length)} states</div>` : ''}
+              ${item.candidates ? `<div class="local-muted">Осталось: ${esc(countText(item.candidates.length, 'состояние', 'состояния', 'состояний'))}</div>` : ''}
             </div>
           `).join('');
       }
@@ -7079,14 +7076,14 @@ __WEIGHING_CHEATER_JS__
         const leaves = frontierNodes();
         container.innerHTML = leaves.map(node => {
           const active = node.id === model.activeNodeId ? ' active' : '';
-          const found = node.status === 'solved' ? `; found: ${formatState(node.candidates[0])}` : '';
+          const found = node.status === 'solved' ? `; найдено: ${formatState(node.candidates[0])}` : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
-            : 'root';
+            : 'корень';
           return `
             <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
-              <span class="exhaustive-branch-title">Branch ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
-              <span class="exhaustive-branch-meta">${esc(node.candidates.length)} states; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
               <span class="exhaustive-branch-history">${esc(history)}</span>
             </button>
           `;
@@ -7117,14 +7114,14 @@ __WEIGHING_CHEATER_JS__
         const left = coinsIn('left');
         const right = coinsIn('right');
         const activeNode = activeExhaustiveNode();
-        panel.querySelector('[data-left-count]').textContent = `${left.length} coins`;
-        panel.querySelector('[data-right-count]').textContent = `${right.length} coins`;
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
         panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
           ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
           : `${model.history.length} / ${config.maxWeighings}`;
         panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
-          ? `${activeNode?.candidates.length || 0} states`
-          : `${model.candidates.length} states`;
+          ? countText(activeNode?.candidates.length || 0, 'состояние', 'состояния', 'состояний')
+          : countText(model.candidates.length, 'состояние', 'состояния', 'состояний');
         const modeSelect = panel.querySelector('[data-interactive-run-mode]');
         if (modeSelect) modeSelect.value = model.mode;
         const modePill = panel.querySelector('[data-current-mode-pill]');
@@ -7140,11 +7137,11 @@ __WEIGHING_CHEATER_JS__
           && (!config.requireEqualPanCounts || left.length === right.length);
         const weighButton = panel.querySelector('[data-paired-weigh]');
         weighButton.disabled = !canWeigh;
-        weighButton.textContent = model.mode === 'exhaustive' ? 'Check all outcomes' : 'Weigh';
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
         const answerButton = panel.querySelector('[data-paired-answer-mode]');
         answerButton.hidden = model.mode === 'exhaustive';
         answerButton.disabled = model.locked || model.mode === 'exhaustive' || (model.answerMode && !hasCompleteAnswer());
-        answerButton.textContent = model.answerMode ? 'Submit answer' : 'Choose answer';
+        answerButton.textContent = model.answerMode ? 'Ответить' : 'Выбрать ответ';
         answerButton.classList.toggle('answer-mode', model.answerMode);
 
         if (model.mode === 'exhaustive') {
@@ -7153,34 +7150,34 @@ __WEIGHING_CHEATER_JS__
           const failed = leaves.filter(node => node.status === 'failed').length;
           const open = leaves.filter(node => node.status === 'open').length;
           if (open === 0 && failed === 0) {
-            setInteractiveStatus(`Complete strategy accepted: all ${solved} branches are solved.`, 'success');
+            setInteractiveStatus(`Стратегия принята: решены все ветви (${solved}).`, 'success');
           } else if (open === 0 && failed > 0) {
-            setInteractiveStatus(`Ambiguity remains: ${failed} branches reached the limit with more than one state.`, 'error');
+            setInteractiveStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита с несколькими состояниями.`, 'error');
           } else if (activeNode?.status === 'open') {
-            setInteractiveStatus(`Continue branch ${activeNode.id.slice(1)}: ${activeNode.candidates.length} states remain.`);
+            setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: ${countText(activeNode.candidates.length, 'состояние осталось', 'состояния осталось', 'состояний осталось')}.`);
           } else if (activeNode?.status === 'solved') {
-            setInteractiveStatus(`Branch ${activeNode.id.slice(1)} solved: ${formatState(activeNode.candidates[0])}.`);
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: ${formatState(activeNode.candidates[0])}.`);
           } else {
-            setInteractiveStatus(`Branch ${activeNode?.id.slice(1)} is still ambiguous after ${config.maxWeighings} weighings.`, 'error');
+            setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} остается неоднозначной после ${config.maxWeighings} взвешиваний.`, 'error');
           }
         } else if (model.locked) {
           const correct = stateKey(model.answer) === stateKey({ coins: model.hiddenCoins });
           setInteractiveStatus(
             correct
-              ? `Correct: light coins are ${model.hiddenCoins.join(', ')}.`
-              : `Not unique or wrong: answer ${formatState(model.answer)}, compatible state ${model.hiddenCoins.join(', ')}.`,
+              ? `Верно: легкие монеты ${model.hiddenCoins.join(', ')}.`
+              : `Ответ не единственный или неверный: ${formatState(model.answer)}, совместимое состояние ${model.hiddenCoins.join(', ')}.`,
             correct ? 'success' : 'error'
           );
         } else if (model.answerMode) {
-          setInteractiveStatus(`Choose exactly one coin in each pair: ${selectedAnswerCoins().length} / ${pairs.length} selected.`);
+          setInteractiveStatus(`Выберите ровно одну монету в каждой паре: выбрано ${selectedAnswerCoins().length} / ${pairs.length}.`);
         } else if (model.history.length >= config.maxWeighings) {
-          setInteractiveStatus('No weighings left. Choose one coin from each pair.');
+          setInteractiveStatus('Взвешиваний не осталось. Выберите по одной монете из каждой пары.');
         } else if (config.requireEqualPanCounts && left.length !== right.length) {
-          setInteractiveStatus('Both pans must contain the same number of coins.');
+          setInteractiveStatus('На чашах должно быть одинаковое число монет.');
         } else {
           setInteractiveStatus(model.mode === 'cheater'
-            ? 'Cheater mode keeps the largest compatible branch.'
-            : 'Put equal-size groups on the pans and compare them.');
+            ? 'Режим неудобного исхода оставляет самую большую совместимую ветвь.'
+            : 'Положите на чаши равные по размеру группы и сравните их.');
         }
       }
 

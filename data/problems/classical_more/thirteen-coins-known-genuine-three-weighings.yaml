@@ -136,6 +136,7 @@
     "objective": "identify_coin_and_sign",
     "modes": [
       "random",
+      "cheater",
       "exhaustive"
     ],
     "require_equal_pan_counts": true

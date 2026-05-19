@@ -83,6 +83,17 @@ python tools\check_encoding.py
 `Фальшивая монета за три взвешивания`, а не `Тернарные подписи неизвестного
 знака`.
 
+Публичный русский текст не должен содержать английские хвосты из импорта,
+viewer или чернового перевода: UI-подписи вроде `Choose at least`, `Drop coins
+here`, `Mode`, `Reset`; служебные слова `random hidden`, `cheater`,
+`exhaustive`, `same type`, `source verified`; английские остатки в `title`,
+`statements.*.title/text`, `ideas`, `strategies`, `impossibility_proofs`,
+`difficulty.comment`, `editorial.notes`, `relation forward_text/backward_text`,
+intro/docs и видимых строках viewer. Официальные названия источников и
+конкурсов, ID, URL и LaTeX-команды не считаются ошибкой. Если человек указал
+один такой хвост, используйте его как скрытый маркер класса ошибок и проверьте
+все похожие публичные поля, а не только найденную строку.
+
 ## 0.3. Понятность условия и старшая математика
 
 Каждая карточка обязана иметь ровно одну метку понятности условия:
@@ -271,9 +282,9 @@ python tools\check_encoding.py
 
 Для числовых взвешиваний стопок/мешков/монет используйте `type: "numeric_linear_signature"`. Для ровно одной фальшивой стопки задавайте `objective: "identify_fake_bag"`, `state_model: "single_fake_bag"`, `fake_bag_count: 1`, `counterfeit_weight`, `counterfeit_delta`, `genuine_weight`, `observation_model: "actual_weight"` и не кладите в YAML готовый вектор количеств монет. Для подмножества фальшивых мешков используйте `objective: "identify_fake_bag_subset"` с `allow_empty_subset`/`exclude_all_fake`. Для фиксированного числа фальшивых монет используйте `objective: "identify_fake_coin_set"`, `state_model: "fixed_fake_count"`, `fake_bag_count`, `object_kind: "coin"` и `selection_model: "subset"`; конфиг не должен содержать готовую последовательность подмножеств.
 
-Для модели, где неизвестно, легче или тяжелее фальшивая монета, используйте `type: "single_counterfeit_unknown_direction"`. В ней обязательны `coin_count`, `max_weighings`, `objective: "identify_coin_and_sign"` или `"identify_coin_and_direction"`; `counterfeit_weight` не задается. Если в условии дана настоящая монета для сравнения, добавьте `known_genuine_count` или `has_known_genuine`.
+Для модели, где неизвестно, легче или тяжелее фальшивая монета, используйте `type: "single_counterfeit_unknown_direction"`. В ней обязательны `coin_count`, `max_weighings`, `objective: "identify_coin_and_sign"`/`"identify_coin_and_direction"` или, если знак не требуется, `"identify_coin_only_unknown_direction"`; `counterfeit_weight` не задается. Если в условии дана настоящая монета для сравнения, добавьте `known_genuine_count` или `has_known_genuine`. Режим `cheater` в этой модели хранит совместимые скрытые состояния `(монета, heavier/lighter)` и после каждого взвешивания выбирает честный исход с максимальным числом оставшихся состояний; при равенстве используется стабильный tie-breaker по истории исходов.
 
-For tasks with exactly several known-light counterfeit coins where the goal is to name at least one light coin, use `type: "multiple_light_find_one"` with `coin_count`, `counterfeit_count`, `max_weighings`, and `objective: "identify_one_light_coin"`. A branch or final answer is accepted only when the named coin is present in every compatible hidden state.
+Для задач с несколькими заведомо легкими фальшивыми монетами, где достаточно назвать хотя бы одну легкую монету, используйте `type: "multiple_light_find_one"` с `coin_count`, `counterfeit_count`, `max_weighings` и `objective: "identify_one_light_coin"`. Ветка или финальный ответ принимается только тогда, когда названная монета есть в каждом совместимом скрытом состоянии.
 
 Для модели, где скрыто сломан не объект, а прибор, используйте отдельный тип `faulty_scale_identification`. Обязательные поля: `scale_count`, `faulty_scale_count: 1`, `max_weighings`, `objective: "identify_faulty_scale"`, `weighable_objects: "scales"`. Такой интерактив должен явно давать пользователю выбор прибора для взвешивания и не описывать неисправность как фальшивую монету.
 
@@ -287,6 +298,6 @@ For tasks with exactly several known-light counterfeit coins where the goal is t
 среди попарно разных масс, когда одна пара весов испорчена. Проверка ответа не
 должна требовать восстановить полный порядок масс или назвать сломанные весы.
 
-`modes` необязателен; допустимые значения сейчас: `random`, `cheater`, `exhaustive`, `challenge`, `sandbox`, `guided`. Для `single_counterfeit_weighing` во viewer открыты `random`, `cheater`, `exhaustive`. Не добавляйте интерактив массово: сначала нужна явно подходящая карточка и проверка, что условие, профили и интерактив описывают одну и ту же модель.
+`modes` необязателен; допустимые значения сейчас: `random`, `cheater`, `exhaustive`, `challenge`, `sandbox`, `guided`. Для `single_counterfeit_weighing` и `single_counterfeit_unknown_direction` во viewer открыты `random`, `cheater`, `exhaustive`; показывайте в UI только режимы, явно перечисленные в `modes` конкретной карточки. Не добавляйте интерактив массово: сначала нужна явно подходящая карточка и проверка, что условие, профили и интерактив описывают одну и ту же модель.
 
 Во viewer переключение на вкладку `Интерактив` не раскрывает блоки `Идеи` и `Решение и оценки`. Эти блоки остаются обычными закрытыми `details`, и интерактивный рендерер не должен программно их открывать.

@@ -1297,7 +1297,7 @@
     if (!subset.length) {
       return {
         valid: false,
-        error: 'Choose at least one coin for the detector test.',
+        error: 'Выберите хотя бы одну монету для проверки детектором.',
         subset
       };
     }

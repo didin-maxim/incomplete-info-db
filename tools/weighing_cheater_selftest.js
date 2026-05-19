@@ -1,5 +1,25 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const cheater = require('../viewer/weighing_cheater.js');
+
+function loadProblemConfig(relativePath) {
+  const filePath = path.join(__dirname, '..', relativePath);
+  return JSON.parse(fs.readFileSync(filePath, 'utf8')).interactive;
+}
+
+const twelveCoinConfig = loadProblemConfig('data/problems/weighings/counterfeit-12-coins-3-weighings.yaml');
+const thirteenIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-identify-only-three-weighings.yaml');
+const thirteenKnownGenuineConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-known-genuine-three-weighings.yaml');
+
+assert.deepEqual(twelveCoinConfig.type, 'single_counterfeit_unknown_direction');
+assert.equal(twelveCoinConfig.modes.includes('cheater'), true);
+assert.deepEqual(thirteenIdentifyOnlyConfig.type, 'single_counterfeit_unknown_direction');
+assert.equal(thirteenIdentifyOnlyConfig.objective, 'identify_coin_only_unknown_direction');
+assert.equal(thirteenIdentifyOnlyConfig.modes.includes('cheater'), true);
+assert.deepEqual(thirteenKnownGenuineConfig.type, 'single_counterfeit_unknown_direction');
+assert.equal(thirteenKnownGenuineConfig.known_genuine_count, 1);
+assert.equal(thirteenKnownGenuineConfig.modes.includes('cheater'), true);
 
 let candidates = cheater.initialCandidates(9);
 let history = [];
@@ -399,6 +419,49 @@ assert.deepEqual(unknownCheaterFirst.scores, {
   right_down: 8,
   balance: 8
 });
+assert.deepEqual(
+  unknownCheaterFirst.candidates,
+  cheater.filterUnknownDirectionCandidates({
+    coin_count: 12,
+    currentCandidates: cheater.initialUnknownDirectionCandidates(12),
+    leftCoins: [1, 2, 3, 4],
+    rightCoins: [5, 6, 7, 8],
+    outcome: unknownCheaterFirst.outcome,
+    require_equal_pan_counts: true
+  })
+);
+
+const unknownTwelveInefficientFirstMoves = [
+  { leftCoins: [1], rightCoins: [2], expected: 'balance', scores: { left_down: 2, right_down: 2, balance: 20 } },
+  { leftCoins: [1, 2], rightCoins: [3, 4], expected: 'balance', scores: { left_down: 4, right_down: 4, balance: 16 } },
+  { leftCoins: [1, 2, 3], rightCoins: [4, 5, 6], expected: 'balance', scores: { left_down: 6, right_down: 6, balance: 12 } },
+  { leftCoins: [1, 2, 3, 4], rightCoins: [5, 6, 7, 8], expected: 'left_down', scores: { left_down: 8, right_down: 8, balance: 8 } },
+  { leftCoins: [1, 2, 3, 4, 5], rightCoins: [6, 7, 8, 9, 10], expected: 'left_down', scores: { left_down: 10, right_down: 10, balance: 4 } },
+  { leftCoins: [1, 2, 3, 4, 5, 6], rightCoins: [7, 8, 9, 10, 11, 12], expected: 'left_down', scores: { left_down: 12, right_down: 12, balance: 0 } }
+];
+for (const item of unknownTwelveInefficientFirstMoves) {
+  const decision = cheater.chooseCheaterUnknownDirectionOutcome({
+    coin_count: twelveCoinConfig.coin_count,
+    currentCandidates: cheater.initialUnknownDirectionCandidates(twelveCoinConfig.coin_count),
+    leftCoins: item.leftCoins,
+    rightCoins: item.rightCoins,
+    history: [],
+    require_equal_pan_counts: twelveCoinConfig.require_equal_pan_counts
+  });
+  assert.equal(decision.outcome, item.expected);
+  assert.deepEqual(decision.scores, item.scores);
+  assert.equal(decision.candidates.length, Math.max(...Object.values(item.scores)));
+}
+
+const unknownTieWithHistory = cheater.chooseCheaterUnknownDirectionOutcome({
+  coin_count: twelveCoinConfig.coin_count,
+  currentCandidates: cheater.initialUnknownDirectionCandidates(twelveCoinConfig.coin_count),
+  leftCoins: [1, 2, 3, 4],
+  rightCoins: [5, 6, 7, 8],
+  history: [{ outcome: 'left_down' }],
+  require_equal_pan_counts: true
+});
+assert.equal(unknownTieWithHistory.outcome, 'right_down');
 
 const unknownAmbiguousAnswer = cheater.finalizeCheaterUnknownDirectionAnswer({
   coin_count: 12,
@@ -408,6 +471,15 @@ const unknownAmbiguousAnswer = cheater.finalizeCheaterUnknownDirectionAnswer({
 });
 assert.equal(unknownAmbiguousAnswer.win, false);
 assert.deepEqual(unknownAmbiguousAnswer.actualCandidate, { coin: 9, direction: 'lighter' });
+
+const unknownCoinOnlyRejectedForSignObjective = cheater.finalizeCheaterUnknownDirectionAnswer({
+  coin_count: 12,
+  currentCandidates: [{ coin: 4, direction: 'heavier' }],
+  selectedCoin: 4,
+  objective: 'identify_coin_and_sign'
+});
+assert.equal(unknownCoinOnlyRejectedForSignObjective.win, false);
+assert.deepEqual(unknownCoinOnlyRejectedForSignObjective.actualCandidate, { coin: 4, direction: 'heavier' });
 
 const unknownForcedWin = cheater.finalizeCheaterUnknownDirectionAnswer({
   coin_count: 12,
@@ -454,6 +526,137 @@ const unknownCoinOnlyAmbiguous = cheater.finalizeCheaterUnknownDirectionAnswer({
 });
 assert.equal(unknownCoinOnlyAmbiguous.win, false);
 assert.equal(unknownCoinOnlyAmbiguous.actualCoin, 8);
+
+const thirteenIdentifyOnlyFirst = cheater.chooseCheaterUnknownDirectionOutcome({
+  coin_count: thirteenIdentifyOnlyConfig.coin_count,
+  currentCandidates: cheater.initialUnknownDirectionCandidates(thirteenIdentifyOnlyConfig.coin_count),
+  leftCoins: [1, 2, 3, 4],
+  rightCoins: [5, 6, 7, 8],
+  history: [],
+  require_equal_pan_counts: thirteenIdentifyOnlyConfig.require_equal_pan_counts
+});
+assert.equal(thirteenIdentifyOnlyFirst.outcome, 'balance');
+assert.deepEqual(thirteenIdentifyOnlyFirst.scores, {
+  left_down: 8,
+  right_down: 8,
+  balance: 10
+});
+assert.deepEqual(thirteenIdentifyOnlyFirst.candidates, [
+  { coin: 9, direction: 'heavier' },
+  { coin: 9, direction: 'lighter' },
+  { coin: 10, direction: 'heavier' },
+  { coin: 10, direction: 'lighter' },
+  { coin: 11, direction: 'heavier' },
+  { coin: 11, direction: 'lighter' },
+  { coin: 12, direction: 'heavier' },
+  { coin: 12, direction: 'lighter' },
+  { coin: 13, direction: 'heavier' },
+  { coin: 13, direction: 'lighter' }
+]);
+
+const thirteenIdentifyOnlySecond = cheater.chooseCheaterUnknownDirectionOutcome({
+  coin_count: thirteenIdentifyOnlyConfig.coin_count,
+  currentCandidates: thirteenIdentifyOnlyFirst.candidates,
+  leftCoins: [10, 11, 12],
+  rightCoins: [1, 2, 3],
+  history: [{ outcome: thirteenIdentifyOnlyFirst.outcome }],
+  require_equal_pan_counts: thirteenIdentifyOnlyConfig.require_equal_pan_counts
+});
+assert.equal(thirteenIdentifyOnlySecond.outcome, 'balance');
+assert.deepEqual(thirteenIdentifyOnlySecond.scores, {
+  left_down: 3,
+  right_down: 3,
+  balance: 4
+});
+assert.equal(
+  cheater.exhaustiveUnknownDirectionBranchStatus(
+    [{ coin: 9, direction: 'heavier' }, { coin: 9, direction: 'lighter' }],
+    thirteenIdentifyOnlyConfig.max_weighings,
+    thirteenIdentifyOnlyConfig.max_weighings,
+    thirteenIdentifyOnlyConfig.objective
+  ),
+  'solved'
+);
+
+const thirteenKnownGenuineFirst = cheater.chooseCheaterUnknownDirectionOutcome({
+  coin_count: thirteenKnownGenuineConfig.coin_count,
+  currentCandidates: cheater.initialUnknownDirectionCandidates(thirteenKnownGenuineConfig.coin_count),
+  leftCoins: [1, 2, 3, 14],
+  rightCoins: [4, 5, 6, 7],
+  history: [],
+  require_equal_pan_counts: thirteenKnownGenuineConfig.require_equal_pan_counts
+});
+assert.equal(thirteenKnownGenuineFirst.outcome, 'balance');
+assert.deepEqual(thirteenKnownGenuineFirst.scores, {
+  left_down: 7,
+  right_down: 7,
+  balance: 12
+});
+
+assert.equal(cheater.initialUnknownDirectionCandidates(thirteenKnownGenuineConfig.coin_count).length, 26);
+assert.equal(cheater.initialUnknownDirectionCandidates(thirteenKnownGenuineConfig.coin_count).some(candidate => candidate.coin === 14), false);
+
+assert.equal(
+  cheater.outcomeForUnknownDirectionCandidate(
+    { coin: 1, direction: 'heavier' },
+    [1, 14],
+    [2, 3],
+    { requireEqualPanCounts: thirteenKnownGenuineConfig.require_equal_pan_counts }
+  ),
+  'left_down'
+);
+assert.equal(
+  cheater.outcomeForUnknownDirectionCandidate(
+    { coin: 4, direction: 'lighter' },
+    [1, 14],
+    [2, 3],
+    { requireEqualPanCounts: thirteenKnownGenuineConfig.require_equal_pan_counts }
+  ),
+  'balance'
+);
+
+const thirteenKnownGenuineStrategy = [
+  { leftCoins: [1, 3, 4, 5, 14], rightCoins: [2, 6, 7, 8, 9] },
+  { leftCoins: [1, 3, 7, 8, 9], rightCoins: [2, 10, 11, 12, 14] },
+  { leftCoins: [1, 4, 6, 9, 12], rightCoins: [3, 7, 10, 13, 14] }
+];
+let thirteenKnownGenuineCandidates = cheater.initialUnknownDirectionCandidates(thirteenKnownGenuineConfig.coin_count);
+let thirteenKnownGenuineHistory = [];
+for (const [index, weighing] of thirteenKnownGenuineStrategy.entries()) {
+  const decision = cheater.chooseCheaterUnknownDirectionOutcome({
+    coin_count: thirteenKnownGenuineConfig.coin_count,
+    currentCandidates: thirteenKnownGenuineCandidates,
+    leftCoins: weighing.leftCoins,
+    rightCoins: weighing.rightCoins,
+    history: thirteenKnownGenuineHistory,
+    require_equal_pan_counts: thirteenKnownGenuineConfig.require_equal_pan_counts
+  });
+  assert.equal(Object.values(decision.scores).reduce((sum, count) => sum + count, 0), thirteenKnownGenuineCandidates.length);
+  assert.equal(decision.candidates.some(candidate => candidate.coin === 14), false);
+  thirteenKnownGenuineCandidates = decision.candidates;
+  thirteenKnownGenuineHistory.push({ outcome: decision.outcome });
+  if (index < thirteenKnownGenuineStrategy.length - 1) assert.equal(thirteenKnownGenuineCandidates.length > 1, true);
+}
+assert.equal(thirteenKnownGenuineCandidates.length, 1);
+
+const thirteenKnownGenuineSolved = thirteenKnownGenuineCandidates[0];
+const thirteenKnownGenuineMissingSign = cheater.finalizeCheaterUnknownDirectionAnswer({
+  coin_count: thirteenKnownGenuineConfig.coin_count,
+  currentCandidates: thirteenKnownGenuineCandidates,
+  selectedCoin: thirteenKnownGenuineSolved.coin,
+  objective: thirteenKnownGenuineConfig.objective
+});
+assert.equal(thirteenKnownGenuineMissingSign.win, false);
+
+const thirteenKnownGenuineForcedWin = cheater.finalizeCheaterUnknownDirectionAnswer({
+  coin_count: thirteenKnownGenuineConfig.coin_count,
+  currentCandidates: thirteenKnownGenuineCandidates,
+  selectedCoin: thirteenKnownGenuineSolved.coin,
+  selectedDirection: thirteenKnownGenuineSolved.direction,
+  objective: thirteenKnownGenuineConfig.objective
+});
+assert.equal(thirteenKnownGenuineForcedWin.win, true);
+assert.deepEqual(thirteenKnownGenuineForcedWin.actualCandidate, thirteenKnownGenuineSolved);
 
 assert.equal(
   cheater.outcomeForUnknownDirectionCandidate(
