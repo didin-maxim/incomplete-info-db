@@ -156,6 +156,20 @@ def warn_interactive_profile(warnings, pid, problem):
     interactive = problem.get("interactive")
     if not interactive:
         return
+    weighing_interactive_types = {
+        "single_counterfeit_weighing",
+        "single_counterfeit_unknown_direction",
+        "paired_light_counterfeits",
+        "multiple_light_find_one",
+        "grouped_light_counterfeits",
+        "faulty_scale_identification",
+        "broken_scale_counterfeit_coin",
+        "broken_detector_counterfeit_coin",
+        "heaviest_coin_one_broken_scale",
+        "numeric_linear_signature",
+    }
+    if interactive.get("type") not in weighing_interactive_types:
+        return
     if problem.get("fragment") not in {"weighings", "impossibility"}:
         warnings.append(f"{pid}: interactive weighing task outside weighings fragment")
     profile = problem.get("weighing_profile", {})

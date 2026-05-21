@@ -2188,6 +2188,70 @@
       "language": "en",
       "origin": "Berkeley Math Circle intermediate lecture handout, January 21, 2013",
       "access_note": "Листок содержит разбор заключенных в ряд с остатком по модулю, вариант с несколькими цветами и версию с молчанием/Hamming codes; использован как дополнительный источник к уже существующим карточкам, а не как новая карточка."
+    },
+    {
+      "id": "src-moebius-tour-cupscales-2",
+      "type": "official_interactive_puzzle",
+      "title": "Турнир Мёбиуса: Взвешивания-2",
+      "url": "https://moebiustour.ru/puzzle/cupscales-2",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "access_note": "Официальная страница-интерактив без опубликованного решения. HTML/JS задает диапазон количества монет 3-30, случайный выбор фальшивой монеты и знака легче/тяжелее, разные массы серебряных и медных монет и лимит ceil(log_3 n)."
+    },
+    {
+      "id": "src-moebius-tour-10-problems",
+      "type": "official_olympiad_statement",
+      "title": "X Турнир Мёбиуса: задачи",
+      "url": "https://drive.google.com/uc?export=download&id=1211V1XPBU1HVlI5ac4PE77HNMVgIP5Vp",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "origin": "X Турнир Мёбиуса, ноябрь 2022; задача 48, повтор как задача 80",
+      "access_note": "Ссылка извлечена с официальной страницы https://moebiustour.ru/archive/tour10; PDF содержит условия без опубликованных решений."
+    },
+    {
+      "id": "src-usamts-2011-12-round1-problems",
+      "type": "official_olympiad_statement",
+      "title": "USA Mathematical Talent Search, Year 23, Round 1 problems",
+      "url": "https://old.usamts.org/Tests/Problems_23_1.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "USAMTS Year 23, Round 1, problem 3",
+      "access_note": "Official USAMTS PDF contains the corrected Zoltar statement about 14 coins, seven real and seven counterfeit."
+    },
+    {
+      "id": "src-usamts-2011-12-round1-solutions",
+      "type": "official_olympiad_solution",
+      "title": "USA Mathematical Talent Search, Year 23, Round 1 solutions",
+      "url": "https://files.usamts.org/Solutions_23_1.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "USAMTS Year 23, Round 1, problem 3",
+      "access_note": "Official USAMTS solution gives the reduction by known counterfeit coins and the final two-real two-fake pairing argument."
+    },
+    {
+      "id": "src-lktg-2005-robbers-boxes-ru",
+      "type": "official_training_material",
+      "title": "17-я летняя конференция Турнира городов 2005, задача 4: Игра разбойников в ящики",
+      "authors": [
+        {"name": "Илья Богданов", "role": "material_author", "status": "source_verified"},
+        {"name": "Евгений Куликов", "role": "material_author", "status": "source_verified"},
+        {"name": "Григорий Челноков", "role": "material_author", "status": "source_verified"}
+      ],
+      "url": "https://olympiads.mccme.ru/lktg/2005/4/razbrus.ps",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "origin": "ЛКТГ-2005, проект 4, русские условия и решения",
+      "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2005/4/index.htm; исходники LaTeX доступны в https://olympiads.mccme.ru/lktg/2005/4/latex.zip."
     }
   ]
 }

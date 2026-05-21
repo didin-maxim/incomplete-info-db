@@ -146,6 +146,17 @@
           "minimum": 2,
           "description": "Number of visually identical numbered coins."
         },
+        "object_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of named objects in non-weighing subset-test interactives."
+        },
+        "object_labels": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true,
+          "description": "Optional viewer labels for named objects."
+        },
         "pair_count": {
           "type": "integer",
           "minimum": 1,
@@ -155,6 +166,11 @@
           "type": "integer",
           "minimum": 1,
           "description": "Number of counterfeit coins in multiple-counterfeit interactives."
+        },
+        "real_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of genuine coins in Zoltar-style removal interactives."
         },
         "coin_pairs": {
           "type": "array",
@@ -194,11 +210,11 @@
         "max_tests": {
           "type": "integer",
           "minimum": 1,
-          "description": "Maximum number of binary detector tests allowed."
+          "description": "Maximum number of detector or subset tests allowed."
         },
         "objective": {
           "type": "string",
-          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_one_from_each_pair", "identify_one_light_coin", "identify_all_counterfeits", "prove_impossible"],
+          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_magic_subset", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_genuine_coin_not_removed", "identify_all_counterfeits", "prove_impossible"],
           "description": "Goal checked by the interactive layer."
         },
         "modes": {
@@ -361,6 +377,18 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "zoltar_heavier_hand_removal"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "real_count", "counterfeit_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_one_genuine_coin_not_removed"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "grouped_light_counterfeits"}},
             "required": ["type"]
           },
@@ -430,6 +458,18 @@
             "required": ["bag_count", "max_weighings", "objective"],
             "properties": {
               "objective": {"enum": ["identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "subset_signature_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["object_count", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_magic_subset"]}
             }
           }
         }

@@ -35,9 +35,9 @@ REQUIRED_RELATION_FIELDS = [
 IMAGE_EXTENSIONS = {".webp", ".png", ".jpg", ".jpeg"}
 MAX_IMAGE_BYTES = 2_000_000
 INTERACTIVE_COUNTERFEIT_WEIGHTS = {"lighter", "heavier"}
-INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_one_from_each_pair", "identify_one_light_coin", "identify_all_counterfeits", "prove_impossible"}
+INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_hidden_pair", "identify_magic_subset", "identify_one_from_each_pair", "identify_one_light_coin", "identify_all_counterfeits", "prove_impossible"}
 INTERACTIVE_MODES = {"random", "cheater", "exhaustive", "challenge", "sandbox", "guided"}
-INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "numeric_linear_signature"}
+INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "numeric_linear_signature", "subset_signature_protocol", "finite_pair_matching_protocol"}
 
 
 def fail(errors, message):
@@ -137,7 +137,12 @@ def validate_interactive(errors, label, problem):
     if interactive_type not in INTERACTIVE_TYPES:
         return
     required_fields = ["objective"]
-    if interactive_type == "broken_detector_counterfeit_coin":
+    if interactive_type in {"finite_pair_matching_protocol", "subset_signature_protocol"}:
+        if interactive_type == "subset_signature_protocol":
+            required_fields.extend(["object_count", "max_tests"])
+        else:
+            required_fields.extend(["card_count", "hidden_count", "shown_count"])
+    elif interactive_type == "broken_detector_counterfeit_coin":
         required_fields.append("max_tests")
     else:
         required_fields.append("max_weighings")
@@ -235,6 +240,19 @@ def validate_interactive(errors, label, problem):
         not isinstance(bag_count, int) or isinstance(bag_count, bool) or bag_count < 2
     ):
         fail(errors, f"{label}: interactive.bag_count must be an integer >= 2")
+    object_count = interactive.get("object_count")
+    if interactive_type == "subset_signature_protocol" and (
+        not isinstance(object_count, int) or isinstance(object_count, bool) or object_count < 1
+    ):
+        fail(errors, f"{label}: interactive.object_count must be an integer >= 1")
+    card_count = interactive.get("card_count")
+    if interactive_type == "finite_pair_matching_protocol":
+        if not isinstance(card_count, int) or isinstance(card_count, bool) or card_count < 4:
+            fail(errors, f"{label}: interactive.card_count must be an integer >= 4")
+        if interactive.get("hidden_count") != 2:
+            fail(errors, f"{label}: interactive.hidden_count must be 2 for finite_pair_matching_protocol")
+        if interactive.get("shown_count") != 2:
+            fail(errors, f"{label}: interactive.shown_count must be 2 for finite_pair_matching_protocol")
     scale_count = interactive.get("scale_count")
     if interactive_type in {"faulty_scale_identification", "broken_scale_counterfeit_coin", "heaviest_coin_one_broken_scale"} and (
         not isinstance(scale_count, int) or isinstance(scale_count, bool) or scale_count < 2
@@ -270,10 +288,10 @@ def validate_interactive(errors, label, problem):
         elif len(set(detector_labels)) != len(detector_labels):
             fail(errors, f"{label}: interactive.detector_labels must be unique")
     max_weighings = interactive.get("max_weighings")
-    if interactive_type != "broken_detector_counterfeit_coin" and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
+    if interactive_type not in {"broken_detector_counterfeit_coin", "finite_pair_matching_protocol", "subset_signature_protocol"} and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
         fail(errors, f"{label}: interactive.max_weighings must be an integer >= 1")
     max_tests = interactive.get("max_tests")
-    if interactive_type == "broken_detector_counterfeit_coin" and (
+    if interactive_type in {"broken_detector_counterfeit_coin", "subset_signature_protocol"} and (
         not isinstance(max_tests, int) or isinstance(max_tests, bool) or max_tests < 1
     ):
         fail(errors, f"{label}: interactive.max_tests must be an integer >= 1")
@@ -313,6 +331,10 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective must be identify_all_counterfeits for grouped_light_counterfeits")
     if interactive_type == "numeric_linear_signature" and interactive.get("objective") not in {"identify_fake_bag_subset", "identify_fake_bag", "identify_fake_coin_set"}:
         fail(errors, f"{label}: interactive.objective must be identify_fake_bag_subset, identify_fake_bag, or identify_fake_coin_set for numeric_linear_signature")
+    if interactive_type == "finite_pair_matching_protocol" and interactive.get("objective") != "identify_hidden_pair":
+        fail(errors, f"{label}: interactive.objective must be identify_hidden_pair for finite_pair_matching_protocol")
+    if interactive_type == "subset_signature_protocol" and interactive.get("objective") != "identify_magic_subset":
+        fail(errors, f"{label}: interactive.objective must be identify_magic_subset for subset_signature_protocol")
     if interactive_type == "numeric_linear_signature":
         state_model = interactive.get("state_model", "single_fake_bag" if interactive.get("objective") == "identify_fake_bag" else ("fixed_fake_count" if interactive.get("objective") == "identify_fake_coin_set" else "fake_bag_subset"))
         if state_model not in {"fake_bag_subset", "single_fake_bag", "fixed_fake_count"}:

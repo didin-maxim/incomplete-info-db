@@ -67,6 +67,27 @@ const forcedWin = cheater.finalizeCheaterAnswer({
 assert.equal(forcedWin.win, true);
 assert.equal(forcedWin.actualCoin, 4);
 
+assert.deepEqual(
+  cheater.knownDirectionCoinStatuses([2, 4], 5),
+  {
+    1: 'genuine',
+    2: 'possible_fake',
+    3: 'genuine',
+    4: 'possible_fake',
+    5: 'genuine'
+  }
+);
+assert.deepEqual(
+  cheater.knownDirectionCoinStatuses([4], 5),
+  {
+    1: 'genuine',
+    2: 'genuine',
+    3: 'genuine',
+    4: 'definite_fake',
+    5: 'genuine'
+  }
+);
+
 const scaleLabels = ['A', 'B', 'C'];
 assert.equal(
   cheater.faultyScaleOutcomeForCandidate('B', 'A', ['B'], ['C']),
@@ -350,7 +371,9 @@ assert.deepEqual(firstExhaustive.children.map(child => child.candidates), [
   [4, 5, 6],
   [7, 8, 9]
 ]);
-assert.deepEqual(firstExhaustive.children.map(child => child.status), ['open', 'open', 'open']);
+assert.deepEqual(firstExhaustive.children.map(child => child.status), ['open', 'covered', 'open']);
+assert.equal(firstExhaustive.children[1].coveredByOutcome, 'left_down');
+assert.equal(firstExhaustive.children[1].symmetryReason, 'pan_mirror_coin_permutation');
 
 const secondWeighings = [
   { node: firstExhaustive.children[0], leftCoins: [1], rightCoins: [2], expected: [[1], [2], [3]] },
@@ -368,7 +391,8 @@ for (const item of secondWeighings) {
     maxWeighings: 2
   });
   assert.deepEqual(expanded.children.map(child => child.candidates), item.expected);
-  assert.deepEqual(expanded.children.map(child => child.status), ['solved', 'solved', 'solved']);
+  assert.deepEqual(expanded.children.map(child => child.status), ['solved', 'covered', 'solved']);
+  assert.equal(expanded.children[1].coveredByOutcome, 'left_down');
 }
 
 const impossibleOneWeighing = cheater.expandExhaustiveNode({
@@ -381,7 +405,19 @@ const impossibleOneWeighing = cheater.expandExhaustiveNode({
   maxWeighings: 1
 });
 assert.deepEqual(impossibleOneWeighing.children.map(child => child.candidates), [[1], [2], [3, 4]]);
-assert.deepEqual(impossibleOneWeighing.children.map(child => child.status), ['solved', 'solved', 'failed']);
+assert.deepEqual(impossibleOneWeighing.children.map(child => child.status), ['solved', 'covered', 'failed']);
+
+const knownDirectionAsymmetricSameSizes = cheater.expandExhaustiveNode({
+  coin_count: 6,
+  counterfeit_weight: 'heavy',
+  currentCandidates: [1, 2, 4, 5],
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(knownDirectionAsymmetricSameSizes.children.map(child => child.candidates), [[1, 2], [4], [5]]);
+assert.equal(knownDirectionAsymmetricSameSizes.children.some(child => child.status === 'covered'), false);
 
 const unknownFirst = cheater.expandUnknownDirectionExhaustiveNode({
   coin_count: 12,
@@ -393,7 +429,9 @@ const unknownFirst = cheater.expandUnknownDirectionExhaustiveNode({
 });
 assert.equal(unknownFirst.children.length, 3);
 assert.deepEqual(unknownFirst.children.map(child => child.candidates.length), [8, 8, 8]);
-assert.deepEqual(unknownFirst.children.map(child => child.status), ['open', 'open', 'open']);
+assert.deepEqual(unknownFirst.children.map(child => child.status), ['open', 'covered', 'open']);
+assert.equal(unknownFirst.children[1].coveredByOutcome, 'left_down');
+assert.equal(unknownFirst.children[1].symmetryReason, 'direction_flip');
 assert.deepEqual(unknownFirst.children[0].candidates, [
   { coin: 1, direction: 'heavier' },
   { coin: 2, direction: 'heavier' },
@@ -404,6 +442,57 @@ assert.deepEqual(unknownFirst.children[0].candidates, [
   { coin: 7, direction: 'lighter' },
   { coin: 8, direction: 'lighter' }
 ]);
+assert.equal(
+  cheater.flippedUnknownDirectionCandidateSetKey(unknownFirst.children[0].candidates),
+  cheater.unknownDirectionCandidateSetKey(unknownFirst.children[1].candidates)
+);
+
+const unknownFirstEssentialBranches = unknownFirst.children.filter(child => child.status !== 'covered');
+assert.deepEqual(unknownFirstEssentialBranches.map(child => child.outcome), ['left_down', 'balance']);
+
+const unknownBalanceBranch = unknownFirst.children.find(child => child.outcome === 'balance');
+const unknownDeeperSymmetry = cheater.expandUnknownDirectionExhaustiveNode({
+  coin_count: 12,
+  currentCandidates: unknownBalanceBranch.candidates,
+  leftCoins: [9],
+  rightCoins: [10],
+  usedWeighings: unknownBalanceBranch.usedWeighings,
+  maxWeighings: 3
+});
+assert.deepEqual(unknownDeeperSymmetry.children.map(child => child.candidates.length), [2, 2, 4]);
+assert.deepEqual(unknownDeeperSymmetry.children.map(child => child.status), ['open', 'covered', 'open']);
+assert.equal(unknownDeeperSymmetry.children[1].coveredByOutcome, 'left_down');
+assert.equal(unknownDeeperSymmetry.children[1].symmetryReason, 'direction_flip');
+
+const unknownAsymmetricSplit = cheater.expandUnknownDirectionExhaustiveNode({
+  coin_count: 3,
+  currentCandidates: [
+    { coin: 1, direction: 'heavier' },
+    { coin: 1, direction: 'lighter' },
+    { coin: 2, direction: 'heavier' }
+  ],
+  leftCoins: [1],
+  rightCoins: [2],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.equal(unknownAsymmetricSplit.children.some(child => child.status === 'covered'), false);
+
+const unknownEqualSizeNonEquivalent = cheater.expandUnknownDirectionExhaustiveNode({
+  coin_count: 4,
+  currentCandidates: [
+    { coin: 1, direction: 'heavier' },
+    { coin: 2, direction: 'lighter' },
+    { coin: 3, direction: 'heavier' },
+    { coin: 4, direction: 'lighter' }
+  ],
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(unknownEqualSizeNonEquivalent.children.map(child => child.candidates.length), [2, 2]);
+assert.equal(unknownEqualSizeNonEquivalent.children.some(child => child.status === 'covered'), false);
 
 const unknownCheaterFirst = cheater.chooseCheaterUnknownDirectionOutcome({
   coin_count: 12,
@@ -517,6 +606,31 @@ const unknownCoinOnlyWin = cheater.finalizeCheaterUnknownDirectionAnswer({
 assert.equal(unknownCoinOnlyWin.win, true);
 assert.equal(unknownCoinOnlyWin.actualCoin, 7);
 assert.deepEqual(unknownCoinOnlyWin.possibleCoins, [7]);
+
+assert.deepEqual(
+  cheater.unknownDirectionCoinStatuses([
+    { coin: 2, direction: 'lighter' },
+    { coin: 3, direction: 'heavier' },
+    { coin: 3, direction: 'lighter' }
+  ], 4),
+  {
+    1: 'genuine',
+    2: 'possible_lighter',
+    3: 'possible_lighter_or_heavier',
+    4: 'genuine'
+  }
+);
+assert.deepEqual(
+  cheater.unknownDirectionCoinStatuses([
+    { coin: 7, direction: 'heavier' },
+    { coin: 7, direction: 'lighter' }
+  ], 8)[7],
+  'definite_fake_unknown_direction'
+);
+assert.equal(
+  cheater.unknownDirectionCoinStatuses([{ coin: 5, direction: 'lighter' }], 8)[5],
+  'definite_lighter'
+);
 
 const unknownCoinOnlyAmbiguous = cheater.finalizeCheaterUnknownDirectionAnswer({
   coin_count: 13,
@@ -671,6 +785,17 @@ const pairedPairs = [[1, 2], [3, 4], [5, 6]];
 const pairedStates = cheater.initialPairedLightCandidates(pairedPairs);
 assert.equal(pairedStates.length, 8);
 assert.deepEqual(pairedStates[0], { coins: [1, 3, 5] });
+assert.deepEqual(
+  cheater.pairedLightCoinStatuses([{ coins: [1, 3, 5] }, { coins: [1, 3, 6] }], pairedPairs),
+  {
+    1: 'definite_fake',
+    2: 'genuine',
+    3: 'definite_fake',
+    4: 'genuine',
+    5: 'possible_fake',
+    6: 'possible_fake'
+  }
+);
 assert.equal(
   cheater.outcomeForPairedLightCandidate(
     { coins: [1, 3, 5] },
@@ -745,10 +870,43 @@ const forcedPairedAnswer = cheater.pairedLightFinalizeAnswer({
 assert.equal(forcedPairedAnswer.win, true);
 assert.deepEqual(forcedPairedAnswer.actualCoins, [2, 4, 6]);
 
+const pairedMirrorSymmetry = cheater.pairedLightExpandExhaustiveNode({
+  pairs: [[1, 2], [3, 4]],
+  currentCandidates: cheater.initialPairedLightCandidates([[1, 2], [3, 4]]),
+  leftCoins: [1, 3],
+  rightCoins: [2, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(pairedMirrorSymmetry.children.map(child => child.candidates.length), [1, 1, 2]);
+assert.deepEqual(pairedMirrorSymmetry.children.map(child => child.status), ['solved', 'covered', 'open']);
+assert.equal(pairedMirrorSymmetry.children[1].coveredByOutcome, 'left_down');
+assert.equal(pairedMirrorSymmetry.children[1].symmetryReason, 'pan_mirror_pair_permutation');
+
+const pairedMirrorNotPairPreserving = cheater.pairedLightExpandExhaustiveNode({
+  pairs: [[1, 2], [3, 4]],
+  currentCandidates: cheater.initialPairedLightCandidates([[1, 2], [3, 4]]),
+  leftCoins: [1],
+  rightCoins: [3],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.equal(pairedMirrorNotPairPreserving.children.some(child => child.status === 'covered'), false);
+
 const multipleStates = cheater.initialMultipleLightCandidates(6, 2);
 assert.equal(multipleStates.length, 15);
 assert.deepEqual(multipleStates[0], { coins: [1, 2] });
 assert.deepEqual(multipleStates.at(-1), { coins: [5, 6] });
+assert.deepEqual(
+  cheater.lightCoinSetStatuses([{ coins: [1, 2] }, { coins: [1, 3] }, { coins: [1, 4] }], 5, { lightCount: 2 }),
+  {
+    1: 'definite_fake',
+    2: 'possible_fake',
+    3: 'possible_fake',
+    4: 'possible_fake',
+    5: 'genuine'
+  }
+);
 assert.equal(
   cheater.outcomeForMultipleLightCandidate(
     { coins: [1, 2] },
@@ -835,6 +993,20 @@ const multipleForcedAnswer = cheater.multipleLightFinalizeAnswer({
 assert.equal(multipleForcedAnswer.win, true);
 assert.deepEqual(multipleForcedAnswer.guaranteedCoins, [1]);
 
+const multipleMirrorSymmetry = cheater.multipleLightExpandExhaustiveNode({
+  coin_count: 4,
+  light_count: 2,
+  currentCandidates: cheater.initialMultipleLightCandidates(4, 2),
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(multipleMirrorSymmetry.children.map(child => child.candidates.length), [1, 1, 4]);
+assert.deepEqual(multipleMirrorSymmetry.children.map(child => child.status), ['solved', 'covered', 'open']);
+assert.equal(multipleMirrorSymmetry.children[1].coveredByOutcome, 'left_down');
+assert.equal(multipleMirrorSymmetry.children[1].symmetryReason, 'pan_mirror_coin_permutation');
+
 const groupedStates = cheater.initialGroupedMultipleLightCandidates(6, [[1, 2, 3, 4], [5, 6]], [1, 1]);
 assert.equal(groupedStates.length, 8);
 assert.deepEqual(groupedStates[0], { coins: [1, 5] });
@@ -893,6 +1065,37 @@ for (const child of groupedFirst.children) {
   assert.equal(expanded.children.every(branch => cheater.uniqueLightState(branch.candidates)), true);
 }
 
+const groupedMirrorSymmetry = cheater.multipleLightExpandExhaustiveNode({
+  coin_count: 4,
+  light_count: 2,
+  groups: [[1, 2], [3, 4]],
+  counterfeit_per_group: [1, 1],
+  objective: 'identify_all_counterfeits',
+  currentCandidates: cheater.initialGroupedMultipleLightCandidates(4, [[1, 2], [3, 4]], [1, 1]),
+  leftCoins: [1, 3],
+  rightCoins: [2, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(groupedMirrorSymmetry.children.map(child => child.candidates.length), [1, 1, 2]);
+assert.deepEqual(groupedMirrorSymmetry.children.map(child => child.status), ['solved', 'covered', 'open']);
+assert.equal(groupedMirrorSymmetry.children[1].coveredByOutcome, 'left_down');
+assert.equal(groupedMirrorSymmetry.children[1].symmetryReason, 'pan_mirror_group_permutation');
+
+const groupedMirrorNotConstraintPreserving = cheater.multipleLightExpandExhaustiveNode({
+  coin_count: 4,
+  light_count: 2,
+  groups: [[1, 2], [3, 4]],
+  counterfeit_per_group: [1, 1],
+  objective: 'identify_all_counterfeits',
+  currentCandidates: cheater.initialGroupedMultipleLightCandidates(4, [[1, 2], [3, 4]], [1, 1]),
+  leftCoins: [1],
+  rightCoins: [3],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.equal(groupedMirrorNotConstraintPreserving.children.some(child => child.status === 'covered'), false);
+
 const groupedCheaterFirst = cheater.multipleLightChooseCheaterOutcome({
   coin_count: 6,
   light_count: 2,
@@ -930,6 +1133,75 @@ const groupedForcedAnswer = cheater.multipleLightFinalizeAnswer({
 });
 assert.equal(groupedForcedAnswer.win, true);
 assert.deepEqual(groupedForcedAnswer.actualCoins, [2, 6]);
+
+const zoltarStates = cheater.zoltarInitialStates(14, 7);
+assert.equal(zoltarStates.length, 3432);
+const zoltarInitialPartition = cheater.zoltarPartitionStates({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarStates,
+  leftCoins: [1, 2],
+  rightCoins: [3, 4]
+});
+assert.deepEqual(zoltarInitialPartition.map(branch => branch.key), [
+  'left_down:1',
+  'left_down:2',
+  'right_down:3',
+  'right_down:4',
+  'balance'
+]);
+assert.equal(zoltarInitialPartition.reduce((sum, branch) => sum + branch.states.length, 0) > zoltarStates.length, true);
+const zoltarKnownState = [{ real: [1, 2, 5, 6, 7, 8, 9], removed: [] }];
+const zoltarKnownExpansion = cheater.zoltarExpandExhaustiveNode({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarKnownState,
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  usedWeighings: 0,
+  maxWeighings: 2
+});
+assert.deepEqual(zoltarKnownExpansion.children.map(child => child.key), ['left_down:1', 'left_down:2']);
+assert.deepEqual(zoltarKnownExpansion.children.map(child => child.states[0].removed), [[1], [2]]);
+
+const zoltarGuaranteed = [
+  { real: [1, 2, 3, 4, 5, 6, 7], removed: [2] },
+  { real: [1, 3, 4, 5, 6, 7, 8], removed: [2] }
+];
+assert.deepEqual(cheater.zoltarGuaranteedRealCoins(zoltarGuaranteed, 14, 7), [1, 3, 4, 5, 6, 7]);
+assert.equal(cheater.zoltarFinalizeAnswer({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarGuaranteed,
+  selectedCoin: 1
+}).win, true);
+assert.equal(cheater.zoltarFinalizeAnswer({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarGuaranteed,
+  selectedCoin: 2
+}).win, false);
+assert.equal(cheater.zoltarFinalizeAnswer({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarGuaranteed,
+  selectedCoin: 8
+}).win, false);
+
+const zoltarCheater = cheater.zoltarChooseCheaterBranch({
+  coin_count: 14,
+  real_count: 7,
+  currentStates: zoltarStates,
+  leftCoins: [1],
+  rightCoins: [2],
+  history: []
+});
+assert.equal(zoltarCheater.key, 'balance');
+assert.equal(zoltarCheater.states.length, Math.max(...Object.values(zoltarCheater.scores).map(score => score.states)));
+
+assert.equal(cheater.zoltarBranchStatus(zoltarGuaranteed, 1, 2, { coinCount: 14, realCount: 7 }), 'solved');
+assert.equal(cheater.zoltarBranchStatus(zoltarStates, 25, 25, { coinCount: 14, realCount: 7 }), 'failed');
+assert.equal(cheater.zoltarBranchStatus(zoltarStates, 2, 25, { coinCount: 14, realCount: 7 }), 'open');
 
 const numericStates = cheater.numericSignatureInitialStates(6, {
   allowEmptySubset: true,
@@ -1171,5 +1443,95 @@ const firstFiveCoinExpansion = cheater.numericSignatureExpandExhaustiveNode({
 });
 assert.equal(firstFiveCoinExpansion.children.some(child => child.status === 'open'), true);
 assert.equal(firstFiveCoinExpansion.children.every(child => child.status !== 'failed'), true);
+
+const magicBallGoodTests = [[3, 4], [2, 4], [1, 2, 3]];
+const magicBallGoodCheck = cheater.subsetSignatureCheckStrategy({
+  object_count: 4,
+  max_tests: 3,
+  tests: magicBallGoodTests
+});
+assert.equal(magicBallGoodCheck.success, true);
+assert.equal(magicBallGoodCheck.partitions.length, 16);
+assert.equal(magicBallGoodCheck.partitions.every(part => part.states.length === 1), true);
+assert.deepEqual(
+  cheater.subsetSignatureForState({ objects: [1, 2, 3, 4] }, magicBallGoodTests),
+  [2, 2, 3]
+);
+
+const magicBallMissingFourthCheck = cheater.subsetSignatureCheckStrategy({
+  object_count: 4,
+  max_tests: 3,
+  tests: [[1], [2], [3]]
+});
+assert.equal(magicBallMissingFourthCheck.success, false);
+assert.equal(magicBallMissingFourthCheck.conflicts.some(part => part.states.length === 2), true);
+
+const magicBallRepeatedCheck = cheater.subsetSignatureCheckStrategy({
+  object_count: 4,
+  max_tests: 3,
+  tests: [[1, 2], [1, 2], [1, 2]]
+});
+assert.equal(magicBallRepeatedCheck.success, false);
+assert.equal(Math.max(...magicBallRepeatedCheck.conflicts.map(part => part.states.length)) > 2, true);
+
+const magicBallCheater = cheater.subsetSignatureChooseCheaterOutcome({
+  object_count: 4,
+  max_tests: 3,
+  tests: magicBallRepeatedCheck.tests
+});
+assert.equal(magicBallCheater.states.length > 1, true);
+assert.deepEqual(
+  cheater.subsetSignatureFilterStates({
+    object_count: 4,
+    max_tests: 3,
+    tests: magicBallGoodTests,
+    signature: [0, 0, 1]
+  }).map(state => state.objects),
+  [[1]]
+);
+
+const finitePairs = cheater.finitePairAllPairs(5);
+assert.equal(finitePairs.length, 10);
+assert.deepEqual(cheater.finitePairAllowedShownPairs([1, 2], 5), [[3, 4], [3, 5], [4, 5]]);
+
+const validPairProtocol = {
+  '1,2': '3,4',
+  '3,4': '1,2',
+  '1,3': '2,5',
+  '2,5': '1,3',
+  '1,4': '3,5',
+  '3,5': '1,4',
+  '1,5': '2,4',
+  '2,4': '1,5',
+  '2,3': '4,5',
+  '4,5': '2,3'
+};
+const validPairCheck = cheater.finitePairMatchingValidate({
+  card_count: 5,
+  assignments: validPairProtocol
+});
+assert.equal(validPairCheck.ok, true);
+assert.equal(Object.keys(validPairCheck.decodedByShown).length, 10);
+
+const conflictingPairCheck = cheater.finitePairMatchingValidate({
+  card_count: 5,
+  assignments: {
+    ...validPairProtocol,
+    '1,5': '3,4'
+  }
+});
+assert.equal(conflictingPairCheck.ok, false);
+assert.equal(conflictingPairCheck.conflicts.length, 1);
+assert.deepEqual(conflictingPairCheck.conflicts[0].hiddenKeys.sort(), ['1,2', '1,5']);
+
+const intersectingPairCheck = cheater.finitePairMatchingValidate({
+  card_count: 5,
+  assignments: {
+    ...validPairProtocol,
+    '1,2': '2,3'
+  }
+});
+assert.equal(intersectingPairCheck.ok, false);
+assert.equal(intersectingPairCheck.errors.some(error => error.includes('пересекается')), true);
 
 console.log('weighing_cheater_selftest: ok');

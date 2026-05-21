@@ -1,0 +1,37 @@
+{
+  "relations": [
+    {
+      "id": "rel-moebius-cupscales-2-to-heavier-9",
+      "from": "moebius-cupscales-2-silver-copper-counterfeit",
+      "to": "heavier-9-coins-2-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Интерактив Мёбиуса использует тот же троичный поиск фальшивой монеты известного знака, но добавляет два видимых металла с разными нормальными массами.",
+      "backward_text": "Задача про девять тяжелых монет - чистая базовая версия того же дерева решений без необходимости балансировать серебро и медь отдельно.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-moebius-cupscales-2-to-lighter-25",
+      "from": "moebius-cupscales-2-silver-copper-counterfeit",
+      "to": "lighter-25-coins-3-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "В обеих задачах при известном направлении отличия каждое корректно сбалансированное взвешивание делит кандидатов на три части.",
+      "backward_text": "Задача про 25 легких монет показывает тот же счет \\(N\\le 3^q\\) в однородной модели, где равные по числу группы автоматически имеют равную нормальную массу.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-moebius-3x3-line-fakes-to-mmo-2026-row-fakes",
+      "from": "moebius-2022-3x3-line-of-three-light-fakes",
+      "to": "mmo-2026-row-of-12-fakes-110-genuine",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "В обеих задачах скрыто не произвольное множество фальшивых монет, а целая строка или столбец; маленькая задача Мёбиуса требует полностью найти одну из шести линий.",
+      "backward_text": "ММО-2026 развивает ту же структурную идею на доске 12 на 12, но цель слабее: не найти фальшивый ряд, а гарантированно указать много настоящих монет.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    }
+  ]
+}

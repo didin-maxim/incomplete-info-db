@@ -59,6 +59,14 @@
     "encoded_values_by_order": 1,
     "strategy_type": "disjoint_pair_matching"
   },
+  "interactive": {
+    "type": "finite_pair_matching_protocol",
+    "card_count": 5,
+    "hidden_count": 2,
+    "shown_count": 2,
+    "objective": "identify_hidden_pair",
+    "modes": ["sandbox", "exhaustive", "random"]
+  },
   "communication_profile": {
     "senders": 1,
     "receivers": 1,

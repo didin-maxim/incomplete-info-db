@@ -975,6 +975,49 @@ def build_html(data):
       background: #fff0ed;
     }
 
+    .finite-pair-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .finite-pair-table th,
+    .finite-pair-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .finite-pair-table th {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      background: #f6f5ef;
+    }
+
+    .finite-pair-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .finite-pair-table select {
+      width: 100%;
+      min-width: 120px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 9px;
+    }
+
+    .finite-pair-row-error {
+      color: #9b3d2e;
+      font-size: 13px;
+    }
+
     .weighing-board {
       display: grid;
       grid-template-columns: minmax(220px, .9fr) minmax(320px, 1.35fr);
@@ -1076,6 +1119,59 @@ def build_html(data):
       outline-offset: 2px;
     }
 
+    .coin.coin-status-genuine {
+      border-color: #47736b;
+      background: radial-gradient(circle at 35% 28%, #ffffff 0, #d7eee8 52%, #79a99d 100%);
+    }
+
+    .coin.coin-status-possible-fake {
+      border-color: #9a6a12;
+      background: radial-gradient(circle at 35% 28%, #fff7cf 0, #efd27c 50%, #b8892e 100%);
+    }
+
+    .coin.coin-status-definite-fake {
+      border-color: #9b2c2c;
+      background: radial-gradient(circle at 35% 28%, #ffe8e1 0, #e28a79 52%, #a83b35 100%);
+      color: #351516;
+    }
+
+    .coin.coin-status-possible-lighter {
+      border-color: #366d88;
+      background: radial-gradient(circle at 35% 28%, #edf9ff 0, #9bd0e4 52%, #4386a1 100%);
+    }
+
+    .coin.coin-status-possible-heavier {
+      border-color: #8b5a2b;
+      background: radial-gradient(circle at 35% 28%, #fff0d9 0, #dca86a 52%, #94612f 100%);
+    }
+
+    .coin.coin-status-possible-both {
+      border-color: #6f5a9a;
+      background: radial-gradient(circle at 35% 28%, #f5efff 0, #b9a7df 52%, #7562a2 100%);
+    }
+
+    .coin.coin-status-definite-lighter {
+      border-color: #23586f;
+      background: radial-gradient(circle at 35% 28%, #e5f7ff 0, #69b9d5 52%, #2b718f 100%);
+      color: #092734;
+    }
+
+    .coin.coin-status-definite-heavier {
+      border-color: #7f3424;
+      background: radial-gradient(circle at 35% 28%, #ffe5da 0, #d9795f 52%, #91412e 100%);
+      color: #2f120d;
+    }
+
+    .coin.coin-status-definite-unknown {
+      border-color: #5e4d8c;
+      background: radial-gradient(circle at 35% 28%, #f2ecff 0, #9d8bd0 52%, #645391 100%);
+      color: #211836;
+    }
+
+    .coin.coin-status-wrong {
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 1px 2px rgba(0,0,0,.12), 0 0 0 3px rgba(190, 51, 36, .38);
+    }
+
     .coin.known-genuine {
       border-color: #7a869a;
       background: radial-gradient(circle at 35% 28%, #ffffff 0, #d9dee8 52%, #8a94a6 100%);
@@ -1090,6 +1186,44 @@ def build_html(data):
       cursor: default;
       opacity: .86;
     }
+
+    .status-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+    }
+
+    .status-chip::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #c9c5ba;
+    }
+
+    .status-chip.coin-status-genuine::before { background: #79a99d; }
+    .status-chip.coin-status-possible-fake::before { background: #d2a648; }
+    .status-chip.coin-status-definite-fake::before { background: #c84c43; }
+    .status-chip.coin-status-possible-lighter::before { background: #5fa8c4; }
+    .status-chip.coin-status-possible-heavier::before { background: #bf7f43; }
+    .status-chip.coin-status-possible-both::before { background: #8570b5; }
+    .status-chip.coin-status-definite-lighter::before { background: #2f86a8; }
+    .status-chip.coin-status-definite-heavier::before { background: #aa503b; }
+    .status-chip.coin-status-definite-unknown::before { background: #7562a2; }
 
     .scale-device-grid {
       display: flex;
@@ -1184,6 +1318,62 @@ def build_html(data):
       background: #fff;
       padding: 12px;
       min-height: 54px;
+    }
+
+    .subset-test-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .subset-test-row {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .subset-test-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #263631;
+      font-weight: 800;
+    }
+
+    .subset-ball-grid,
+    .subset-code-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .subset-ball {
+      min-width: 54px;
+      border: 1px solid #b8c6c2;
+      border-radius: 999px;
+      background: #fbfdfc;
+      color: #20302d;
+      padding: 8px 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .subset-ball[aria-pressed="true"] {
+      background: #dceee5;
+      border-color: #4f8f6a;
+      color: #163424;
+    }
+
+    .subset-code {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7f4e9;
+      padding: 8px 10px;
+      font-size: .9rem;
+      font-weight: 800;
     }
 
     .scale-visual {
@@ -1332,6 +1522,11 @@ def build_html(data):
     .exhaustive-branch.failed {
       border-color: #dfa193;
       background: #fff0ed;
+    }
+
+    .exhaustive-branch.covered {
+      border-color: #b8abd9;
+      background: #f5f1ff;
     }
 
     .exhaustive-branch-title {
@@ -1801,6 +1996,7 @@ __WEIGHING_CHEATER_JS__
       const labels = {
         single_counterfeit_weighing: 'взвешивания',
         single_counterfeit_unknown_direction: 'взвешивания',
+        zoltar_heavier_hand_removal: 'Золтар забирает монету',
         paired_light_counterfeits: 'легкие монеты по парам',
         multiple_light_find_one: 'несколько легких монет',
         grouped_light_counterfeits: 'легкие монеты по группам',
@@ -1808,7 +2004,8 @@ __WEIGHING_CHEATER_JS__
         broken_scale_counterfeit_coin: 'монета и сломанные весы',
         broken_detector_counterfeit_coin: 'монета и сломанный детектор',
         heaviest_coin_one_broken_scale: 'самая тяжелая монета',
-        numeric_linear_signature: 'числовой код мешков'
+        numeric_linear_signature: 'числовой код мешков',
+        finite_pair_matching_protocol: 'таблица пар карточек'
       };
       return labels[type] || type || 'интерактив';
     }
@@ -2563,8 +2760,11 @@ __WEIGHING_CHEATER_JS__
         identify_fake_bag: 'найти фальшивую стопку',
         identify_fake_bag_subset: 'найти фальшивые мешки',
         identify_fake_coin_set: 'найти фальшивые монеты',
+        identify_magic_subset: 'найти все волшебные объекты',
+        identify_hidden_pair: 'угадать спрятанную пару',
         identify_one_from_each_pair: 'выбрать по одной монете из каждой пары',
         identify_one_light_coin: 'найти одну легкую монету',
+        identify_one_genuine_coin_not_removed: 'назвать настоящую монету',
         identify_all_counterfeits: 'найти все фальшивые монеты',
         prove_impossible: 'показать невозможность'
       };
@@ -2711,6 +2911,13 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(interactiveModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
+            <label>Статусы
+              <select data-status-mode>
+                <option value="manual">ручной</option>
+                <option value="checked">с проверкой</option>
+                <option value="auto">авто</option>
+              </select>
+            </label>
             <label data-answer-direction-wrap hidden>Фальшивая монета
               <select data-answer-direction>
                 <option value="heavier">тяжелее настоящих</option>
@@ -2722,6 +2929,7 @@ __WEIGHING_CHEATER_JS__
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
+          <div class="status-legend" data-status-legend></div>
           <div class="exhaustive-panel" data-exhaustive-panel hidden>
             <h4>Ветки полного перебора</h4>
             <div class="exhaustive-branches" data-exhaustive-branches></div>
@@ -2818,11 +3026,19 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(pairedLightModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
+            <label>Статусы
+              <select data-status-mode>
+                <option value="manual">ручной</option>
+                <option value="checked">с проверкой</option>
+                <option value="auto">авто</option>
+              </select>
+            </label>
             <button class="small-button" type="button" data-paired-weigh>Взвесить</button>
             <button class="small-button" type="button" data-paired-answer-mode>Выбрать ответ</button>
             <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
+          <div class="status-legend" data-status-legend></div>
           <div class="exhaustive-panel" data-exhaustive-panel hidden>
             <h4>Ветви полной проверки</h4>
             <div class="exhaustive-branches" data-exhaustive-branches></div>
@@ -2957,11 +3173,19 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(multipleLightModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
+            <label>Статусы
+              <select data-status-mode>
+                <option value="manual">ручной</option>
+                <option value="checked">с проверкой</option>
+                <option value="auto">авто</option>
+              </select>
+            </label>
             <button class="small-button" type="button" data-multiple-light-weigh>Взвесить</button>
             <button class="small-button" type="button" data-multiple-light-answer-mode>${esc(answerText)}</button>
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
+          <div class="status-legend" data-status-legend></div>
           <div class="exhaustive-panel" data-exhaustive-panel hidden>
             <h4>Ветки полного перебора</h4>
             <div class="exhaustive-branches" data-exhaustive-branches></div>
@@ -3539,6 +3763,312 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function finitePairAllPairs(cardCount) {
+      const pairs = [];
+      for (let first = 1; first <= cardCount; first += 1) {
+        for (let second = first + 1; second <= cardCount; second += 1) pairs.push([first, second]);
+      }
+      return pairs;
+    }
+
+    function finitePairKey(pair) {
+      return pair.join(',');
+    }
+
+    function finitePairLabel(pair) {
+      return pair.join('-');
+    }
+
+    function finitePairDisjoint(firstPair, secondPair) {
+      const first = new Set(firstPair);
+      return secondPair.every(card => !first.has(card));
+    }
+
+    function normalizeFinitePairMatchingConfig(problem, config) {
+      const profile = problem.card_trick_profile || {};
+      const cardCount = Number(config.card_count ?? config.deck_size ?? profile.deck_size ?? 5);
+      const hiddenCount = Number(config.hidden_count ?? config.hidden_cards ?? profile.hidden_cards ?? 2);
+      const shownCount = Number(config.shown_count ?? config.shown_cards ?? profile.shown_cards ?? 2);
+      const supportedModes = ['sandbox', 'exhaustive', 'random'];
+      const modes = asArray(config.modes || config.mode || ['sandbox', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_hidden_pair';
+      if (!Number.isInteger(cardCount) || cardCount < 4 || cardCount > 9) return null;
+      if (hiddenCount !== 2 || shownCount !== 2) return null;
+      if (objective !== 'identify_hidden_pair') return null;
+      const normalizedModes = modes.length ? modes : ['sandbox', 'exhaustive'];
+      return {
+        type: 'finite_pair_matching_protocol',
+        cardCount,
+        hiddenCount,
+        shownCount,
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0]
+      };
+    }
+
+    function finitePairModeLabel(value) {
+      const labels = {
+        sandbox: 'ручная таблица',
+        exhaustive: 'полный перебор',
+        random: 'случайная проверка'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderFinitePairMatchingProtocolInteractive(problem, config) {
+      const normalized = normalizeFinitePairMatchingConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const hiddenPairs = finitePairAllPairs(normalized.cardCount);
+      const rows = hiddenPairs.map(hiddenPair => {
+        const options = finitePairAllPairs(normalized.cardCount)
+          .filter(shownPair => finitePairDisjoint(hiddenPair, shownPair))
+          .map(shownPair => `<option value="${esc(finitePairKey(shownPair))}">${esc(finitePairLabel(shownPair))}</option>`)
+          .join('');
+        return `
+          <tr data-finite-hidden-row="${esc(finitePairKey(hiddenPair))}">
+            <td><strong>${esc(finitePairLabel(hiddenPair))}</strong></td>
+            <td>
+              <select data-finite-pair-select="${esc(finitePairKey(hiddenPair))}" aria-label="Показанная пара для ${esc(finitePairLabel(hiddenPair))}">
+                <option value="">выберите пару</option>
+                ${options}
+              </select>
+            </td>
+            <td class="finite-pair-row-error" data-finite-row-status="${esc(finitePairKey(hiddenPair))}"></td>
+          </tr>
+        `;
+      }).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="finite_pair_matching_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(finitePairModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Таблица для неупорядоченных пар карточек</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.cardCount, 'карточка', 'карточки', 'карточек'))}</span>
+              <span class="pill" data-finite-filled-counter>0 / ${esc(hiddenPairs.length)}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(finitePairModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-finite-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Очистить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <table class="finite-pair-table">
+            <thead>
+              <tr>
+                <th>Спрятанная пара</th>
+                <th>Что показывает ассистент</th>
+                <th>Проверка строки</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function normalizeSubsetSignatureConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const objectCount = Number(config.object_count ?? config.objectCount ?? profile.object_count ?? 4);
+      const maxTests = Number(config.max_tests ?? config.maxTests ?? profile.question_count ?? 3);
+      const supportedModes = ['exhaustive', 'sandbox', 'random', 'cheater'];
+      const modes = asArray(config.modes || config.mode || ['exhaustive', 'sandbox', 'random', 'cheater'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_magic_subset';
+      if (!Number.isInteger(objectCount) || objectCount < 1 || objectCount > 8) return null;
+      if (!Number.isInteger(maxTests) || maxTests < 1 || maxTests > 6) return null;
+      if (objective !== 'identify_magic_subset') return null;
+      const fallbackLabels = ['К', 'С', 'З', 'Ч', '5', '6', '7', '8'];
+      const objectLabels = asArray(config.object_labels || config.objectLabels)
+        .map(String)
+        .filter(Boolean)
+        .slice(0, objectCount);
+      while (objectLabels.length < objectCount) objectLabels.push(fallbackLabels[objectLabels.length] || String(objectLabels.length + 1));
+      return {
+        type: 'subset_signature_protocol',
+        objectCount,
+        maxTests,
+        objective,
+        objectLabels,
+        modes: modes.length ? modes : ['exhaustive'],
+        defaultMode: modes[0] || 'exhaustive'
+      };
+    }
+
+    function subsetSignatureModeLabel(value) {
+      const labels = {
+        exhaustive: 'проверка всех 16 состояний',
+        sandbox: 'свободная проба',
+        random: 'случайный набор',
+        cheater: 'самый неоднозначный ответ'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderSubsetSignatureInteractive(problem, config) {
+      const normalized = normalizeSubsetSignatureConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const tests = Array.from({ length: normalized.maxTests }, (_item, testIndex) => {
+        const buttons = normalized.objectLabels.map((label, objectIndex) => `
+          <button class="subset-ball" type="button" data-subset-toggle="${esc(testIndex)}:${esc(objectIndex + 1)}" aria-pressed="false">${esc(label)}</button>
+        `).join('');
+        return `
+          <div class="subset-test-row">
+            <div class="subset-test-title">
+              <span>Тест ${esc(testIndex + 1)}</span>
+              <span class="pill" data-subset-test-signature="${esc(testIndex)}">пусто</span>
+            </div>
+            <div class="subset-ball-grid">${buttons}</div>
+          </div>
+        `;
+      }).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="subset_signature_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(subsetSignatureModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Три числовых теста для четырех шариков</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill" data-state-counter>${esc(countText(2 ** normalized.objectCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(subsetSignatureModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-subset-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="subset-test-grid">${tests}</div>
+          <div class="scale-area">
+            <h4>Подписи шариков</h4>
+            <div class="subset-code-grid" data-subset-codes></div>
+          </div>
+          <div class="numeric-result" data-subset-result></div>
+        </div>
+      `;
+    }
+
+    function normalizeZoltarConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count ?? 14);
+      const realCount = Number(config.real_count ?? config.genuine_count ?? 7);
+      const counterfeitCount = Number(config.counterfeit_count ?? (coinCount - realCount));
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? 25);
+      const objective = config.objective || profile.objective || 'identify_one_genuine_coin_not_removed';
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(coinCount) || coinCount < 2 || coinCount > 20) return null;
+      if (!Number.isInteger(realCount) || realCount < 1 || realCount >= coinCount) return null;
+      if (!Number.isInteger(counterfeitCount) || realCount + counterfeitCount !== coinCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (objective !== 'identify_one_genuine_coin_not_removed') return null;
+      const normalizedModes = modes.length ? modes : ['random'];
+      return {
+        type: 'zoltar_heavier_hand_removal',
+        coinCount,
+        realCount,
+        counterfeitCount,
+        maxWeighings,
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0]
+      };
+    }
+
+    function zoltarModeLabel(value) {
+      const labels = {
+        random: 'случайный Золтар',
+        cheater: 'худший допустимый выбор',
+        exhaustive: 'все состояния и изъятия'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderZoltarInteractive(problem, config) {
+      const normalized = normalizeZoltarConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      return `
+        <div class="card interactive-panel" data-interactive-type="zoltar_heavier_hand_removal" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(zoltarModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Золтар: тяжелая рука теряет одну монету</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(3432, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(normalized.realCount)} настоящих</span>
+              <span class="pill">${esc(normalized.counterfeitCount)} легких фальшивых</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(zoltarModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-zoltar-weigh>Сравнить руки</button>
+            <button class="small-button" type="button" data-zoltar-answer-mode>Назвать монету</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветки полной проверки</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Оставшиеся монеты</h4>
+              <div class="coin-grid" data-zoltar-zone="pool"></div>
+              <h4>Забрал Золтар</h4>
+              <div class="coin-grid" data-zoltar-removed></div>
+            </div>
+            <div class="scale-area">
+              <h4>Руки Золтара</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-zoltar-zone="left">
+                  <div class="pan-title"><span>Левая рука</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-zoltar-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-zoltar-zone="right">
+                  <div class="pan-title"><span>Правая рука</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-zoltar-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История сравнений</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderUnknownInteractive(_problem, config) {
       return `
         <div class="card interactive-panel" data-interactive-type="${esc(config?.type || '')}">
@@ -3554,6 +4084,7 @@ __WEIGHING_CHEATER_JS__
     const INTERACTIVE_RENDERERS = {
       single_counterfeit_weighing: renderSingleCounterfeitWeighingInteractive,
       single_counterfeit_unknown_direction: renderSingleCounterfeitWeighingInteractive,
+      zoltar_heavier_hand_removal: renderZoltarInteractive,
       paired_light_counterfeits: renderPairedLightCounterfeitsInteractive,
       multiple_light_find_one: renderMultipleLightFindOneInteractive,
       grouped_light_counterfeits: renderMultipleLightFindOneInteractive,
@@ -3561,7 +4092,9 @@ __WEIGHING_CHEATER_JS__
       broken_scale_counterfeit_coin: renderBrokenScaleCounterfeitCoinInteractive,
       broken_detector_counterfeit_coin: renderBrokenDetectorCounterfeitCoinInteractive,
       heaviest_coin_one_broken_scale: renderHeaviestBrokenScaleInteractive,
-      numeric_linear_signature: renderNumericLinearSignatureInteractive
+      numeric_linear_signature: renderNumericLinearSignatureInteractive,
+      subset_signature_protocol: renderSubsetSignatureInteractive,
+      finite_pair_matching_protocol: renderFinitePairMatchingProtocolInteractive
     };
 
     function renderInteractive(problem) {
@@ -3575,6 +4108,7 @@ __WEIGHING_CHEATER_JS__
       const config = problem.interactive;
       if (!config?.type) return false;
       if (config.type === 'single_counterfeit_weighing' || config.type === 'single_counterfeit_unknown_direction') return !!normalizeCounterfeitInteractiveConfig(problem, config);
+      if (config.type === 'zoltar_heavier_hand_removal') return !!normalizeZoltarConfig(problem, config);
       if (config.type === 'paired_light_counterfeits') return !!normalizePairedLightConfig(problem, config);
       if (config.type === 'multiple_light_find_one' || config.type === 'grouped_light_counterfeits') return !!normalizeMultipleLightFindOneConfig(problem, config);
       if (config.type === 'faulty_scale_identification') return !!normalizeFaultyScaleConfig(problem, config);
@@ -3582,6 +4116,8 @@ __WEIGHING_CHEATER_JS__
       if (config.type === 'broken_detector_counterfeit_coin') return !!normalizeBrokenDetectorCoinConfig(problem, config);
       if (config.type === 'heaviest_coin_one_broken_scale') return !!normalizeHeaviestBrokenScaleConfig(problem, config);
       if (config.type === 'numeric_linear_signature') return !!normalizeNumericLinearSignatureConfig(problem, config);
+      if (config.type === 'subset_signature_protocol') return !!normalizeSubsetSignatureConfig(problem, config);
+      if (config.type === 'finite_pair_matching_protocol') return !!normalizeFinitePairMatchingConfig(problem, config);
       return false;
     }
 
@@ -3621,11 +4157,12 @@ __WEIGHING_CHEATER_JS__
     }
 
     function bindInteractiveControls() {
-      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="numeric_linear_signature"][data-config]')) {
+      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config]')) {
         let config = null;
         try { config = JSON.parse(panel.dataset.config || '{}'); }
         catch (_error) { config = null; }
         if (config?.type === 'single_counterfeit_weighing' || config?.type === 'single_counterfeit_unknown_direction') initSingleCounterfeitInteractive(panel, config);
+        if (config?.type === 'zoltar_heavier_hand_removal') initZoltarInteractive(panel, config);
         if (config?.type === 'paired_light_counterfeits') initPairedLightInteractive(panel, config);
         if (config?.type === 'multiple_light_find_one' || config?.type === 'grouped_light_counterfeits') initMultipleLightFindOneInteractive(panel, config);
         if (config?.type === 'faulty_scale_identification') initFaultyScaleInteractive(panel, config);
@@ -3633,7 +4170,684 @@ __WEIGHING_CHEATER_JS__
         if (config?.type === 'broken_detector_counterfeit_coin') initBrokenDetectorCounterfeitCoinInteractive(panel, config);
         if (config?.type === 'heaviest_coin_one_broken_scale') initHeaviestBrokenScaleInteractive(panel, config);
         if (config?.type === 'numeric_linear_signature') initNumericLinearSignatureInteractive(panel, config);
+        if (config?.type === 'subset_signature_protocol') initSubsetSignatureInteractive(panel, config);
+        if (config?.type === 'finite_pair_matching_protocol') initFinitePairMatchingInteractive(panel, config);
       }
+    }
+
+    function initZoltarInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const statusLabels = { open: 'открыта', solved: 'есть сертификат', failed: 'лимит исчерпан' };
+      let model = null;
+
+      function allStates() {
+        return helper.zoltarInitialStates(config.coinCount, config.realCount);
+      }
+
+      function randomItem(items) {
+        return items[Math.floor(Math.random() * items.length)] || null;
+      }
+
+      function rootNode() {
+        const states = allStates();
+        return {
+          id: 'z1',
+          states,
+          candidates: states,
+          history: [],
+          children: [],
+          usedWeighings: 0,
+          status: helper.zoltarBranchStatus(states, 0, config.maxWeighings, config)
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const root = rootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? randomItem(states) : null,
+          candidates: states,
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          removedCoins: [],
+          history: [],
+          answerMode: false,
+          answer: null,
+          result: null,
+          lastOutcome: 'balance',
+          locked: false,
+          nodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2
+        };
+      }
+
+      function activeNode() {
+        return model.nodes.find(node => node.id === model.activeNodeId) || model.nodes[0];
+      }
+
+      function leaves() {
+        return model.nodes.filter(node => !node.children.length);
+      }
+
+      function activeRemovedCoins() {
+        if (model.mode !== 'exhaustive') return model.removedCoins;
+        return (activeNode()?.history || []).map(step => step.removedCoin).filter(Number.isInteger);
+      }
+
+      function activeStates() {
+        return model.mode === 'exhaustive' ? (activeNode()?.states || []) : model.candidates;
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearHands() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function canEditHands() {
+        if (!model || model.locked || model.answerMode) return false;
+        if (model.mode === 'exhaustive') return activeNode()?.status === 'open';
+        return model.history.length < config.maxWeighings;
+      }
+
+      function setRemoved(coin) {
+        if (coin == null || model.removedCoins.includes(coin)) return;
+        model.removedCoins.push(coin);
+        model.locations[coin] = 'removed';
+      }
+
+      function updateHiddenRemoved(coin) {
+        if (coin == null || !model.hiddenState) return;
+        model.hiddenState = helper.zoltarNormalizeState({
+          realMask: model.hiddenState.realMask,
+          removedMask: model.hiddenState.removedMask | (1 << (coin - 1))
+        }, config.coinCount, config.realCount);
+      }
+
+      function actualBranch(left, right) {
+        const outcome = helper.zoltarCompareState(model.hiddenState, left, right, config);
+        const heavier = outcome === 'left_down' ? left : (outcome === 'right_down' ? right : []);
+        const removedCoin = outcome === 'balance' ? null : randomItem(heavier);
+        return { outcome, removedCoin, key: helper.zoltarBranchKey(outcome, removedCoin) };
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let branch = null;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          branch = helper.zoltarChooseCheaterBranch({
+            coin_count: config.coinCount,
+            real_count: config.realCount,
+            currentStates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            history: model.history
+          });
+          model.candidates = branch.states;
+          scores = branch.scores;
+        } else {
+          branch = actualBranch(left, right);
+          updateHiddenRemoved(branch.removedCoin);
+          model.candidates = helper.zoltarFilterStates({
+            coin_count: config.coinCount,
+            real_count: config.realCount,
+            currentStates: model.candidates,
+            leftCoins: left,
+            rightCoins: right,
+            branchKey: branch.key
+          });
+        }
+        setRemoved(branch.removedCoin);
+        model.lastOutcome = branch.outcome;
+        model.history.push({ left, right, outcome: branch.outcome, removedCoin: branch.removedCoin ?? null, branchKey: branch.key, states: model.candidates, scores });
+        model.answerMode = false;
+        clearHands();
+        renderState();
+      }
+
+      function expandBranch(left, right) {
+        const node = activeNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.zoltarExpandExhaustiveNode({
+          coin_count: config.coinCount,
+          real_count: config.realCount,
+          currentStates: node.states,
+          leftCoins: left,
+          rightCoins: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings
+        });
+        node.children = expansion.children.map(child => ({
+          id: `z${model.nextNodeId++}`,
+          states: child.states,
+          candidates: child.states,
+          outcome: child.outcome,
+          removedCoin: child.removedCoin,
+          branchKey: child.key,
+          history: [...node.history, { left, right, outcome: child.outcome, removedCoin: child.removedCoin, branchKey: child.key }],
+          children: [],
+          usedWeighings: child.usedWeighings,
+          status: child.status
+        }));
+        model.nodes.push(...node.children);
+        model.activeNodeId = (leaves().find(item => item.status === 'open') || node.children[0] || node).id;
+        model.lastOutcome = 'balance';
+        clearHands();
+        model.locked = leaves().length > 0 && leaves().every(item => item.status !== 'open');
+        renderState();
+      }
+
+      function submitAnswer(coin) {
+        if (model.mode === 'exhaustive' || model.locked || activeRemovedCoins().includes(coin)) return;
+        model.answer = coin;
+        model.result = helper.zoltarFinalizeAnswer({
+          coin_count: config.coinCount,
+          real_count: config.realCount,
+          currentStates: model.candidates,
+          selectedCoin: coin
+        });
+        model.locked = true;
+        model.answerMode = false;
+        renderState();
+      }
+
+      function moveCoin(coin, zone) {
+        if (!canEditHands() || activeRemovedCoins().includes(coin)) return;
+        model.locations[coin] = zone;
+        renderState();
+      }
+
+      function clickCoin(coin) {
+        if (model.answerMode) {
+          submitAnswer(coin);
+          return;
+        }
+        if (!canEditHands()) return;
+        const current = model.locations[coin];
+        moveCoin(coin, current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool'));
+      }
+
+      function coinButton(coin, removed = false) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(coin);
+        const guaranteed = helper.zoltarGuaranteedRealCoins(activeStates(), config.coinCount, config.realCount).includes(coin);
+        if (removed) button.classList.add('coin-status-definite-unknown');
+        if (guaranteed && !removed) button.classList.add('coin-status-genuine');
+        if (model.answerMode && !removed) button.classList.add('answer-pick');
+        if (model.answer === coin) button.classList.add(model.result?.win ? 'correct-answer' : 'answer-pick');
+        button.disabled = removed || (!canEditHands() && !model.answerMode);
+        button.title = removed ? `монета ${coin}: забрана` : `монета ${coin}`;
+        button.addEventListener('click', () => clickCoin(coin));
+        return button;
+      }
+
+      function renderZone(zone, selector) {
+        const container = panel.querySelector(selector);
+        container.innerHTML = '';
+        const removed = new Set(activeRemovedCoins());
+        const coins = coinIds.filter(id => model.locations[id] === zone && !removed.has(id));
+        for (const coin of coins) container.appendChild(coinButton(coin));
+        if (!container.children.length) container.innerHTML = '<span class="empty">пусто</span>';
+      }
+
+      function renderRemoved() {
+        const container = panel.querySelector('[data-zoltar-removed]');
+        container.innerHTML = '';
+        for (const coin of activeRemovedCoins()) container.appendChild(coinButton(coin, true));
+        if (!container.children.length) container.innerHTML = '<span class="empty">пока ни одной</span>';
+      }
+
+      function coinList(coins) {
+        return (coins || []).join(', ') || 'пусто';
+      }
+
+      function renderHistory() {
+        const history = model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
+        const container = panel.querySelector('[data-history]');
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Сравнений пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history.map((item, index) => ({ item, index: index + 1 })).reverse().map(({ item, index }) => `
+          <div class="history-item">
+            <div><strong>${esc(index)}.</strong> ${esc(coinList(item.left))} против ${esc(coinList(item.right))}</div>
+            <div class="history-result">${esc(helper.zoltarOutcomeLabel(item.outcome, item.removedCoin))}</div>
+            ${item.states ? `<div class="local-muted">Совместимо: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}</div>` : ''}
+          </div>
+        `).join('');
+      }
+
+      function renderBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        container.innerHTML = leaves().map(node => {
+          const guaranteed = helper.zoltarGuaranteedRealCoins(node.states, config.coinCount, config.realCount);
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = guaranteed.length ? `; можно назвать: ${guaranteed.join(' или ')}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${helper.zoltarOutcomeLabel(step.outcome, step.removedCoin)}`).join(' -> ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-zoltar-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-zoltar-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.zoltarBranch;
+            clearHands();
+            renderState();
+          });
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderZone('pool', '[data-zoltar-zone="pool"]');
+        renderZone('left', '[data-zoltar-pan-coins="left"]');
+        renderZone('right', '[data-zoltar-pan-coins="right"]');
+        renderRemoved();
+        renderHistory();
+        renderBranches();
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const currentNode = activeNode();
+        const states = activeStates();
+        const guaranteed = helper.zoltarGuaranteedRealCoins(states, config.coinCount, config.realCount);
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${currentNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(states.length, 'состояние', 'состояния', 'состояний');
+        panel.querySelector('[data-current-mode-pill]').textContent = zoltarModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastOutcome === 'left_down');
+        scale.classList.toggle('tilt-right', model.lastOutcome === 'right_down');
+        panel.querySelector('[data-zoltar-weigh]').disabled = model.locked || model.answerMode || (!left.length && !right.length)
+          || (model.mode === 'exhaustive' ? currentNode?.status !== 'open' : model.history.length >= config.maxWeighings);
+        const answerButton = panel.querySelector('[data-zoltar-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+        answerButton.textContent = model.answerMode ? 'Отменить выбор' : 'Назвать монету';
+
+        if (model.mode === 'exhaustive') {
+          const open = leaves().filter(node => node.status === 'open').length;
+          const failed = leaves().filter(node => node.status === 'failed').length;
+          if (!open && !failed) setStatus('Полная стратегия принята: каждая ветвь имеет сертификат настоящей монеты.', 'success');
+          else if (!open) setStatus(`Стратегия не закрыта: ${failed} ветвей дошли до лимита без сертификата.`, 'error');
+          else if (currentNode?.status === 'open') setStatus(`Продолжайте ветку ${currentNode.id.slice(1)}.`);
+          else if (currentNode?.status === 'solved') setStatus(`Ветка закрыта: можно назвать ${guaranteed.join(' или ')}.`);
+          else setStatus('Эта ветка не дала сертификат.', 'error');
+        } else if (model.locked && model.result) {
+          const bit = 1 << (model.answer - 1);
+          const actualCorrect = model.mode === 'random' && model.hiddenState && (model.hiddenState.realMask & bit) && !(model.hiddenState.removedMask & bit);
+          if (model.result.win) setStatus(`Ответ принят: монета ${model.answer} настоящая во всех совместимых состояниях.`, 'success');
+          else if (actualCorrect) setStatus(`В скрытом состоянии ответ верный, но по наблюдениям монета ${model.answer} не гарантирована.`, 'error');
+          else setStatus(`Ответ не принят: монета ${model.answer} не является гарантированным сертификатом.`, 'error');
+        } else if (model.answerMode) {
+          setStatus('Выберите монету, которая точно настоящая и не забрана.');
+        } else if (guaranteed.length) {
+          setStatus(`Уже можно назвать: ${guaranteed.join(' или ')}.`);
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Шулер выбирает допустимую ветку с максимальной неопределенностью.'
+            : 'Выберите монеты для двух рук Золтара.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-zoltar-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-zoltar-answer-mode]')?.addEventListener('click', () => {
+        model.answerMode = !model.answerMode;
+        clearHands();
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.zoltarChooseCheaterBranch) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initSubsetSignatureInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let mode = config.defaultMode || 'exhaustive';
+      let lastCheck = null;
+
+      function readTests() {
+        return Array.from({ length: config.maxTests }, (_item, testIndex) => {
+          const selected = [];
+          for (let object = 1; object <= config.objectCount; object += 1) {
+            const button = panel.querySelector(`[data-subset-toggle="${testIndex}:${object}"]`);
+            if (button?.getAttribute('aria-pressed') === 'true') selected.push(object);
+          }
+          return selected;
+        });
+      }
+
+      function stateLabel(state) {
+        const objects = helper.subsetSignatureNormalizeState(state).objects;
+        if (!objects.length) return 'нет волшебных';
+        return objects.map(object => config.objectLabels[object - 1] || String(object)).join(', ');
+      }
+
+      function testLabel(test) {
+        return test.length
+          ? test.map(object => config.objectLabels[object - 1] || String(object)).join(', ')
+          : 'пусто';
+      }
+
+      function signatureLabel(signature) {
+        return `(${(signature || []).join(', ')})`;
+      }
+
+      function renderCodes(tests) {
+        const container = panel.querySelector('[data-subset-codes]');
+        container.innerHTML = Array.from({ length: config.objectCount }, (_item, index) => {
+          const object = index + 1;
+          const code = tests.map(test => test.includes(object) ? '1' : '0').join('');
+          return `<span class="subset-code">${esc(config.objectLabels[index] || object)}: ${esc(code)}</span>`;
+        }).join('');
+      }
+
+      function renderRows(tests) {
+        for (let index = 0; index < config.maxTests; index += 1) {
+          const label = panel.querySelector(`[data-subset-test-signature="${index}"]`);
+          if (label) label.textContent = testLabel(tests[index] || []);
+        }
+        const filled = tests.filter(test => test.length > 0).length;
+        panel.querySelector('[data-test-counter]').textContent = `${filled} / ${config.maxTests}`;
+      }
+
+      function renderResult(tests) {
+        const container = panel.querySelector('[data-subset-result]');
+        if (!lastCheck) {
+          container.innerHTML = '<div class="empty">Выберите три подмножества. Проверка переберет все скрытые наборы волшебных шариков.</div>';
+          return;
+        }
+        if (lastCheck.kind === 'random') {
+          container.innerHTML = `
+            <div><strong>Ответы детектора:</strong> ${esc(signatureLabel(lastCheck.signature))}</div>
+            <div class="local-muted">Случайный скрытый набор: ${esc(stateLabel(lastCheck.hiddenState))}. Совместимые наборы: ${esc(lastCheck.states.map(stateLabel).join('; '))}.</div>
+          `;
+          return;
+        }
+        if (lastCheck.kind === 'cheater') {
+          container.innerHTML = `
+            <div><strong>Самая неоднозначная подпись:</strong> ${esc(signatureLabel(lastCheck.signature))}</div>
+            <div class="local-muted">Совместимые наборы: ${esc(lastCheck.states.map(stateLabel).join('; '))}.</div>
+          `;
+          return;
+        }
+        const partitions = lastCheck.partitions || [];
+        const rows = partitions.map(part => `
+          <div class="exhaustive-branch ${part.states.length === 1 ? 'solved' : 'failed'}">
+            <span class="exhaustive-branch-title">${esc(signatureLabel(part.signature))}: ${esc(countText(part.states.length, 'состояние', 'состояния', 'состояний'))}</span>
+            <span class="exhaustive-branch-history">${esc(part.states.map(stateLabel).join('; '))}</span>
+          </div>
+        `).join('');
+        container.innerHTML = `
+          <div><strong>Проверенные тесты:</strong> ${tests.map((test, index) => `${index + 1}. ${testLabel(test)}`).join(' | ')}</div>
+          <div class="exhaustive-branches">${rows}</div>
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function check() {
+        const tests = readTests();
+        if (mode === 'random') {
+          const states = helper.subsetSignatureInitialStates(config.objectCount);
+          const hiddenState = states[Math.floor(Math.random() * states.length)] || { mask: 0, objects: [] };
+          const signature = helper.subsetSignatureForState(hiddenState, tests);
+          const compatible = helper.subsetSignatureFilterStates({
+            object_count: config.objectCount,
+            max_tests: config.maxTests,
+            tests,
+            signature
+          });
+          lastCheck = { kind: 'random', hiddenState, signature, states: compatible };
+        } else if (mode === 'cheater') {
+          const decision = helper.subsetSignatureChooseCheaterOutcome({
+            object_count: config.objectCount,
+            max_tests: config.maxTests,
+            tests
+          });
+          lastCheck = { kind: 'cheater', signature: decision.signature, states: decision.states, partitions: decision.partitions };
+        } else {
+          lastCheck = {
+            kind: mode,
+            ...helper.subsetSignatureCheckStrategy({
+              object_count: config.objectCount,
+              max_tests: config.maxTests,
+              tests
+            })
+          };
+        }
+        renderInteractiveState();
+      }
+
+      function renderInteractiveState() {
+        const tests = readTests();
+        renderRows(tests);
+        renderCodes(tests);
+        renderResult(tests);
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = subsetSignatureModeLabel(mode);
+        const stateCounter = panel.querySelector('[data-state-counter]');
+        if (lastCheck?.kind === 'cheater' || lastCheck?.kind === 'random') {
+          stateCounter.textContent = countText(lastCheck.states.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний');
+        } else if (lastCheck?.partitions) {
+          stateCounter.textContent = countText(lastCheck.partitions.length, 'подпись', 'подписи', 'подписей');
+        } else {
+          stateCounter.textContent = countText(2 ** config.objectCount, 'состояние', 'состояния', 'состояний');
+        }
+
+        if (!lastCheck) {
+          setInteractiveStatus(mode === 'exhaustive'
+            ? 'Главная проверка: все 16 скрытых наборов должны получить разные тройки ответов.'
+            : 'Выберите подмножества и запустите проверку.');
+        } else if (lastCheck.kind === 'random') {
+          setInteractiveStatus(lastCheck.states.length === 1
+            ? 'По этим ответам скрытый набор восстанавливается однозначно.'
+            : `По этим ответам осталось ${countText(lastCheck.states.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}.`,
+            lastCheck.states.length === 1 ? 'success' : 'error');
+        } else if (lastCheck.kind === 'cheater') {
+          setInteractiveStatus(lastCheck.states.length === 1
+            ? 'Даже самый неудобный ответ однозначен.'
+            : `Шулер оставляет ${countText(lastCheck.states.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}.`,
+            lastCheck.states.length === 1 ? 'success' : 'error');
+        } else if (lastCheck.success) {
+          setInteractiveStatus('Стратегия принята: все 16 сигнатур различны.', 'success');
+        } else {
+          const conflict = lastCheck.conflict;
+          const states = conflict?.states || [];
+          setInteractiveStatus(
+            states.length >= 2
+              ? `Конфликт: наборы "${stateLabel(states[0])}" и "${stateLabel(states[1])}" дают одинаковые ответы ${signatureLabel(conflict.signature)}.`
+              : 'Сигнатуры не различают все скрытые наборы.',
+            'error'
+          );
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-subset-toggle]')) {
+        button.addEventListener('click', () => {
+          const pressed = button.getAttribute('aria-pressed') === 'true';
+          button.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+          lastCheck = null;
+          renderInteractiveState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        lastCheck = null;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-subset-check]')?.addEventListener('click', check);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        for (const button of panel.querySelectorAll('[data-subset-toggle]')) button.setAttribute('aria-pressed', 'false');
+        lastCheck = null;
+        renderInteractiveState();
+      });
+
+      if (!helper?.subsetSignatureCheckStrategy) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      renderInteractiveState();
+    }
+
+    function initFinitePairMatchingInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let mode = config.defaultMode || 'sandbox';
+      let lastChecked = false;
+
+      function readAssignments() {
+        const assignments = {};
+        for (const select of panel.querySelectorAll('[data-finite-pair-select]')) {
+          assignments[select.dataset.finitePairSelect] = select.value;
+        }
+        return assignments;
+      }
+
+      function clearRowStatuses() {
+        for (const cell of panel.querySelectorAll('[data-finite-row-status]')) cell.textContent = '';
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function markRows(result) {
+        clearRowStatuses();
+        const duplicateShown = new Set(result.conflicts.flatMap(conflict => conflict.hiddenKeys));
+        for (const row of result.rows) {
+          const cell = panel.querySelector(`[data-finite-row-status="${CSS.escape(row.hiddenKey)}"]`);
+          if (!cell) continue;
+          if (row.errors.length) cell.textContent = row.errors.join(' ');
+          else if (duplicateShown.has(row.hiddenKey)) cell.textContent = 'Эта показанная пара уже используется в другой строке.';
+          else if (row.shownKey) cell.textContent = 'годится';
+        }
+      }
+
+      function renderState({ checked = false } = {}) {
+        if (!helper?.finitePairMatchingValidate) {
+          setInteractiveStatus('Логика интерактива не загружена.', 'error');
+          return;
+        }
+        const assignments = readAssignments();
+        const result = helper.finitePairMatchingValidate({
+          card_count: config.cardCount,
+          assignments,
+          requireComplete: checked || mode === 'exhaustive'
+        });
+        const filled = Object.values(assignments).filter(Boolean).length;
+        const total = result.rows.length || helper.finitePairAllPairs(config.cardCount).length;
+        const filledCounter = panel.querySelector('[data-finite-filled-counter]');
+        if (filledCounter) filledCounter.textContent = `${filled} / ${total}`;
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = finitePairModeLabel(mode);
+        markRows(result);
+        if (!checked && mode === 'sandbox') {
+          if (!filled) setInteractiveStatus('Заполните таблицу: для каждой спрятанной пары выберите пару из видимых карточек.');
+          else if (result.conflicts.length) setInteractiveStatus(`Есть конфликт декодирования: ${result.conflicts.length}.`, 'error');
+          else setInteractiveStatus(`Заполнено строк: ${filled}. Ручной режим показывает локальные ошибки и конфликты.`);
+          return;
+        }
+        if (mode === 'random' && checked) {
+          const chosenRows = result.rows.filter(row => row.shownKey);
+          const row = chosenRows[Math.floor(Math.random() * chosenRows.length)] || result.rows[Math.floor(Math.random() * result.rows.length)];
+          if (!row?.shownKey) {
+            setInteractiveStatus('Случайная проверка попала в незаполненную строку.', 'error');
+            return;
+          }
+          const reverse = result.decodedByShown[row.shownKey] || [];
+          if (row.valid && reverse.length === 1) {
+            setInteractiveStatus(`Случай: спрятано ${helper.finitePairLabel(row.hiddenPair)}, показано ${helper.finitePairLabel(row.shownPair)}; декодируется однозначно.`, 'success');
+          } else {
+            setInteractiveStatus(`Случай: спрятано ${helper.finitePairLabel(row.hiddenPair)}. Эта строка не проходит проверку.`, 'error');
+          }
+          return;
+        }
+        if (result.ok) {
+          setInteractiveStatus('Стратегия принята: все 10 случаев допустимы, а каждая показанная пара декодируется однозначно.', 'success');
+        } else {
+          const firstError = result.errors[0] || 'Таблица пока не задает однозначную стратегию.';
+          setInteractiveStatus(firstError, 'error');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        lastChecked = false;
+        renderState({ checked: mode === 'exhaustive' });
+      });
+      for (const select of panel.querySelectorAll('[data-finite-pair-select]')) {
+        select.addEventListener('change', () => renderState({ checked: lastChecked || mode === 'exhaustive' }));
+      }
+      panel.querySelector('[data-finite-check]')?.addEventListener('click', () => {
+        lastChecked = true;
+        renderState({ checked: true });
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        for (const select of panel.querySelectorAll('[data-finite-pair-select]')) select.value = '';
+        lastChecked = false;
+        renderState();
+      });
+      renderState({ checked: mode === 'exhaustive' });
     }
 
     function initNumericLinearSignatureInteractive(panel, config) {
@@ -4651,6 +5865,7 @@ __WEIGHING_CHEATER_JS__
         button.className = 'coin';
         button.textContent = String(id);
         button.dataset.coin = String(id);
+        button.title = `монета ${id}`;
         button.draggable = canEditPans();
         button.title = model.answerMode ? `Указать монету ${id}` : `Монета ${id}`;
         if (!canEditPans() && !model.answerMode) button.disabled = true;
@@ -5684,7 +6899,8 @@ __WEIGHING_CHEATER_JS__
       const statusLabels = {
         open: 'открыта',
         solved: 'решена',
-        failed: 'лимит исчерпан'
+        failed: 'лимит исчерпан',
+        covered: 'закрыта симметрией'
       };
       const cheaterOutcomeToResult = {
         left_down: 'left_heavy',
@@ -5740,6 +6956,98 @@ __WEIGHING_CHEATER_JS__
           : helper.initialCandidates(config.coinCount);
       }
 
+      function statusModelKind() {
+        return config.directionUnknown ? 'unknown_direction' : 'known_direction';
+      }
+
+      function statusOptions() {
+        return helper.coinStatusOptions(statusModelKind());
+      }
+
+      function computedCoinStatuses() {
+        const source = model.mode === 'exhaustive'
+          ? (activeExhaustiveNode()?.candidates || [])
+          : model.candidates;
+        const statuses = config.directionUnknown
+          ? helper.unknownDirectionCoinStatuses(source, config.coinCount)
+          : helper.knownDirectionCoinStatuses(source, config.coinCount);
+        for (let coin = config.coinCount + 1; coin <= totalCoinCount; coin += 1) statuses[coin] = 'genuine';
+        return statuses;
+      }
+
+      function visibleCoinStatus(id) {
+        if (model.statusMode === 'auto') return model.computedCoinStatuses[id] || 'unmarked';
+        return model.coinStatuses[id] || 'unmarked';
+      }
+
+      function cycleCoinStatus(id) {
+        if (model.statusMode === 'auto') return false;
+        const options = statusOptions();
+        const current = visibleCoinStatus(id);
+        const next = options[(Math.max(0, options.indexOf(current)) + 1) % options.length];
+        if (next === 'unmarked') delete model.coinStatuses[id];
+        else model.coinStatuses[id] = next;
+        renderInteractiveState();
+        return true;
+      }
+
+      function applyStatusClasses(button, id) {
+        const statusKey = visibleCoinStatus(id);
+        const definition = helper.statusDefinition(statusKey);
+        if (statusKey && statusKey !== 'unmarked') {
+          button.classList.add(definition.className);
+          button.title = `${button.title}; статус: ${definition.label}`;
+        }
+        if (
+          model.statusMode === 'checked'
+          && statusKey !== 'unmarked'
+          && statusKey !== (model.computedCoinStatuses[id] || 'unmarked')
+        ) {
+          button.classList.add('coin-status-wrong');
+          button.title = `${button.title}; не совпадает со всеми совместимыми состояниями`;
+        }
+      }
+
+      function renderStatusLegend() {
+        const container = panel.querySelector('[data-status-legend]');
+        if (!container) return;
+        const options = statusOptions().filter(key => key !== 'unmarked');
+        container.innerHTML = options.map(key => {
+          const definition = helper.statusDefinition(key);
+          return `<span class="status-chip ${esc(definition.className)}">${esc(definition.label)}</span>`;
+        }).join('');
+      }
+
+      function maybeAutoComplete() {
+        if (model.statusMode !== 'auto' || model.mode === 'exhaustive' || model.locked) return false;
+        const statuses = computedCoinStatuses();
+        if (!config.directionUnknown) {
+          const solvedCoin = Object.entries(statuses).find(([_coin, status]) => status === 'definite_fake')?.[0];
+          if (!solvedCoin) return false;
+          model.fakeCoin = Number(solvedCoin);
+          model.revealedCoin = Number(solvedCoin);
+          model.answer = Number(solvedCoin);
+        } else if (isCoinOnlyUnknownDirection()) {
+          const possibleCoins = possibleCandidateCoins(model.candidates);
+          if (possibleCoins.length !== 1) return false;
+          model.fakeCoin = possibleCoins[0];
+          model.revealedCoin = possibleCoins[0];
+          model.answer = { coin: possibleCoins[0] };
+        } else {
+          if (model.candidates.length !== 1) return false;
+          const solved = model.candidates[0];
+          model.fakeCoin = solved.coin;
+          model.fakeDirection = solved.direction;
+          model.revealedCoin = solved.coin;
+          model.revealedDirection = solved.direction;
+          model.answer = { coin: solved.coin, direction: solved.direction };
+        }
+        model.autoCompleted = true;
+        model.locked = true;
+        model.computedCoinStatuses = statuses;
+        return true;
+      }
+
       function branchStatus(candidates, usedWeighings) {
         return config.directionUnknown
           ? helper.exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings, config.maxWeighings, config.objective)
@@ -5780,6 +7088,10 @@ __WEIGHING_CHEATER_JS__
           nextNodeId: 2,
           answerMode: false,
           answer: null,
+          statusMode: 'manual',
+          coinStatuses: {},
+          computedCoinStatuses: {},
+          autoCompleted: false,
           locked: false,
           lastResult: 'balanced'
         };
@@ -5829,6 +7141,10 @@ __WEIGHING_CHEATER_JS__
         if (!canEditPans() && !model.answerMode) return;
         if (model.answerMode) {
           submitAnswer(id);
+          return;
+        }
+        if (model.statusMode !== 'auto') {
+          cycleCoinStatus(id);
           return;
         }
         const current = model.locations[id];
@@ -5898,7 +7214,7 @@ __WEIGHING_CHEATER_JS__
         model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
         model.lastResult = result;
         model.answerMode = false;
-        clearPans();
+        if (!maybeAutoComplete()) clearPans();
         renderInteractiveState();
       }
 
@@ -5933,8 +7249,16 @@ __WEIGHING_CHEATER_JS__
           candidates: [...child.candidates],
           usedWeighings: child.usedWeighings,
           status: child.status,
+          coveredByOutcome: child.coveredByOutcome || null,
+          coveredByLabel: child.coveredByLabel || null,
+          symmetryReason: child.symmetryReason || null,
           children: []
         }));
+        for (const childNode of node.children) {
+          if (!childNode.coveredByOutcome) continue;
+          const representative = node.children.find(item => item.outcome === childNode.coveredByOutcome);
+          if (representative) childNode.coveredById = representative.id;
+        }
         model.exhaustiveNodes.push(...node.children);
         const nextOpen = frontierNodes().find(item => item.status === 'open');
         model.activeNodeId = (nextOpen || node.children[0] || node).id;
@@ -5997,6 +7321,7 @@ __WEIGHING_CHEATER_JS__
         const correctAnswer = answeredCoin === model.fakeCoin && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
         if (answeredCoin === id) button.classList.add(correctAnswer ? 'correct-answer' : 'answer-pick');
         if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
+        applyStatusClasses(button, id);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -6048,13 +7373,16 @@ __WEIGHING_CHEATER_JS__
         container.innerHTML = leaves.map(node => {
           const active = node.id === model.activeNodeId ? ' active' : '';
           const found = node.status === 'solved' ? `; найдено: ${formatCandidate(node.candidates[0])}` : '';
+          const covered = node.status === 'covered'
+            ? `; симметрична ветке ${node.coveredById ? node.coveredById.slice(1) : '?'}`
+            : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
             : 'корень дерева';
           return `
             <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
               <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
-              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'кандидат', 'кандидата', 'кандидатов'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'кандидат', 'кандидата', 'кандидатов'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}${esc(covered)}</span>
               <span class="exhaustive-branch-history">${esc(history)}</span>
             </button>
           `;
@@ -6076,6 +7404,8 @@ __WEIGHING_CHEATER_JS__
       }
 
       function renderInteractiveState() {
+        model.computedCoinStatuses = computedCoinStatuses();
+        renderStatusLegend();
         renderZone('pool', panel.querySelector('[data-zone="pool"]'));
         renderZone('left', panel.querySelector('[data-pan-coins="left"]'));
         renderZone('right', panel.querySelector('[data-pan-coins="right"]'));
@@ -6097,6 +7427,8 @@ __WEIGHING_CHEATER_JS__
         if (modeSelect) modeSelect.value = model.mode;
         const modePill = panel.querySelector('[data-current-mode-pill]');
         if (modePill) modePill.textContent = interactiveModeLabel(model.mode);
+        const statusSelect = panel.querySelector('[data-status-mode]');
+        if (statusSelect) statusSelect.value = model.statusMode;
 
         const scale = panel.querySelector('[data-scale]');
         scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
@@ -6121,21 +7453,29 @@ __WEIGHING_CHEATER_JS__
           const solved = leaves.filter(node => node.status === 'solved').length;
           const failed = leaves.filter(node => node.status === 'failed').length;
           const open = leaves.filter(node => node.status === 'open').length;
+          const covered = leaves.filter(node => node.status === 'covered').length;
           if (config.objective === 'prove_impossible' && open === 0 && failed > 0) {
             setInteractiveStatus(`Невозможность показана: ${failed} веток дошли до лимита с несколькими кандидатами.`, 'success');
           } else if (config.objective === 'prove_impossible' && open === 0 && failed === 0) {
             setInteractiveStatus(`Такой полный перебор нашел все ${solved} веток; для этой карточки ожидалась невозможность.`, 'error');
           } else if (open === 0 && failed === 0) {
-            setInteractiveStatus(`Полная стратегия принята: решены все ${solved} веток.`, 'success');
+            setInteractiveStatus(`Полная стратегия принята: решены ${solved} веток, закрыты по симметрии ${covered}.`, 'success');
           } else if (open === 0 && failed > 0) {
             setInteractiveStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственного кандидата.`, 'error');
           } else if (activeNode?.status === 'open') {
             setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.candidates.length, 'кандидат', 'кандидата', 'кандидатов')}.`);
           } else if (activeNode?.status === 'solved') {
             setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: ${formatCandidate(activeNode.candidates[0])}. Выберите открытую ветку.`);
+          } else if (activeNode?.status === 'covered') {
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} закрыта по симметрии с веткой ${activeNode.coveredById ? activeNode.coveredById.slice(1) : '?'}. Выберите открытую ветку.`);
           } else {
             setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} проиграна: лимит исчерпан, кандидатов больше одного.`, 'error');
           }
+        } else if (model.autoCompleted) {
+          const text = config.directionUnknown && !isCoinOnlyUnknownDirection()
+            ? `Статусы однозначны: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`
+            : `Статусы достаточны: фальшивая монета ${model.fakeCoin}.`;
+          setInteractiveStatus(text, 'success');
         } else if (model.locked) {
           const answeredCoin = config.directionUnknown ? model.answer?.coin : model.answer;
           const answeredDirection = config.directionUnknown ? model.answer?.direction : config.counterfeitWeight;
@@ -6184,6 +7524,11 @@ __WEIGHING_CHEATER_JS__
         model = newModel(event.target.value);
         renderInteractiveState();
       });
+      panel.querySelector('[data-status-mode]')?.addEventListener('change', event => {
+        model.statusMode = event.target.value;
+        if (model.statusMode === 'auto') maybeAutoComplete();
+        renderInteractiveState();
+      });
       panel.querySelector('[data-weigh]').addEventListener('click', weigh);
       panel.querySelector('[data-answer-mode]').addEventListener('click', () => {
         if (model.locked) return;
@@ -6223,7 +7568,8 @@ __WEIGHING_CHEATER_JS__
       const statusLabels = {
         open: 'открыто',
         solved: 'решено',
-        failed: 'лимит исчерпан'
+        failed: 'лимит исчерпан',
+        covered: 'закрыто симметрией'
       };
       let model = null;
 
@@ -6252,6 +7598,81 @@ __WEIGHING_CHEATER_JS__
 
       function stateKey(state) {
         return helper.multipleLightStateKey(state);
+      }
+
+      function statusOptions() {
+        return helper.coinStatusOptions('light_set');
+      }
+
+      function computedCoinStatuses() {
+        const source = model.mode === 'exhaustive'
+          ? (activeExhaustiveNode()?.candidates || [])
+          : model.candidates;
+        return helper.lightCoinSetStatuses(source, config.coinCount, { lightCount: config.counterfeitCount });
+      }
+
+      function visibleCoinStatus(id) {
+        if (model.statusMode === 'auto') return model.computedCoinStatuses[id] || 'unmarked';
+        return model.coinStatuses[id] || 'unmarked';
+      }
+
+      function cycleCoinStatus(id) {
+        if (model.statusMode === 'auto') return false;
+        const options = statusOptions();
+        const current = visibleCoinStatus(id);
+        const next = options[(Math.max(0, options.indexOf(current)) + 1) % options.length];
+        if (next === 'unmarked') delete model.coinStatuses[id];
+        else model.coinStatuses[id] = next;
+        renderInteractiveState();
+        return true;
+      }
+
+      function applyStatusClasses(button, id) {
+        const statusKey = visibleCoinStatus(id);
+        const definition = helper.statusDefinition(statusKey);
+        if (statusKey && statusKey !== 'unmarked') {
+          button.classList.add(definition.className);
+          button.title = `${button.title || `монета ${id}`}; статус: ${definition.label}`;
+        }
+        if (
+          model.statusMode === 'checked'
+          && statusKey !== 'unmarked'
+          && statusKey !== (model.computedCoinStatuses[id] || 'unmarked')
+        ) {
+          button.classList.add('coin-status-wrong');
+          button.title = `${button.title}; не совпадает со всеми совместимыми состояниями`;
+        }
+      }
+
+      function renderStatusLegend() {
+        const container = panel.querySelector('[data-status-legend]');
+        if (!container) return;
+        container.innerHTML = statusOptions()
+          .filter(key => key !== 'unmarked')
+          .map(key => {
+            const definition = helper.statusDefinition(key);
+            return `<span class="status-chip ${esc(definition.className)}">${esc(definition.label)}</span>`;
+          }).join('');
+      }
+
+      function maybeAutoComplete() {
+        if (model.statusMode !== 'auto' || model.mode === 'exhaustive' || model.locked) return false;
+        if (isFullObjective()) {
+          const solved = helper.uniqueLightState(model.candidates);
+          if (!solved) return false;
+          model.answer = { coins: [...solved.coins] };
+          model.hiddenCoins = [...solved.coins];
+          model.revealedCoins = [...solved.coins];
+        } else {
+          const guaranteed = guaranteedCoins(model.candidates);
+          if (!guaranteed.length) return false;
+          model.answer = guaranteed[0];
+          model.revealedCoins = [...new Set([...model.hiddenCoins, guaranteed[0]])];
+        }
+        model.autoCompleted = true;
+        model.locked = true;
+        model.computedCoinStatuses = computedCoinStatuses();
+        return true;
       }
 
       function makeRootNode() {
@@ -6286,6 +7707,10 @@ __WEIGHING_CHEATER_JS__
           answerMode: false,
           answerSelections: {},
           answer: null,
+          statusMode: 'manual',
+          coinStatuses: {},
+          computedCoinStatuses: {},
+          autoCompleted: false,
           locked: false,
           lastResult: 'balanced'
         };
@@ -6330,6 +7755,10 @@ __WEIGHING_CHEATER_JS__
         if (model.answerMode) {
           if (isFullObjective()) selectAnswerCoin(id);
           else submitAnswer(id);
+          return;
+        }
+        if (model.statusMode !== 'auto') {
+          cycleCoinStatus(id);
           return;
         }
         if (!canEditPans()) return;
@@ -6420,7 +7849,7 @@ __WEIGHING_CHEATER_JS__
         model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
         model.lastResult = result;
         model.answerMode = false;
-        clearPans();
+        if (!maybeAutoComplete()) clearPans();
         renderInteractiveState();
       }
 
@@ -6451,8 +7880,16 @@ __WEIGHING_CHEATER_JS__
           solvedState: child.solvedState,
           usedWeighings: child.usedWeighings,
           status: child.status,
+          coveredByOutcome: child.coveredByOutcome || null,
+          coveredByLabel: child.coveredByLabel || null,
+          symmetryReason: child.symmetryReason || null,
           children: []
         }));
+        for (const childNode of node.children) {
+          if (!childNode.coveredByOutcome) continue;
+          const representative = node.children.find(item => item.outcome === childNode.coveredByOutcome);
+          if (representative) childNode.coveredById = representative.id;
+        }
         model.exhaustiveNodes.push(...node.children);
         const nextOpen = frontierNodes().find(item => item.status === 'open');
         model.activeNodeId = (nextOpen || node.children[0] || node).id;
@@ -6506,6 +7943,7 @@ __WEIGHING_CHEATER_JS__
         button.className = 'coin';
         button.textContent = String(id);
         button.dataset.coin = String(id);
+        button.title = `монета ${id}`;
         button.draggable = canEditPans();
         const selected = selectedAnswerCoins().includes(Number(id));
         const answered = isFullObjective()
@@ -6518,6 +7956,7 @@ __WEIGHING_CHEATER_JS__
         if (selected && model.answerMode) button.classList.add('answer-pick');
         if (answered) button.classList.add(correct ? 'correct-answer' : 'answer-pick');
         if (real) button.classList.add('real-counterfeit');
+        applyStatusClasses(button, id);
         if (!canEditPans() && !model.answerMode) button.disabled = true;
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
@@ -6579,13 +8018,16 @@ __WEIGHING_CHEATER_JS__
               ? `; найдено: ${formatState(helper.uniqueLightState(node.candidates))}`
               : `; гарантировано: ${guaranteed.join(', ')}`)
             : '';
+          const covered = node.status === 'covered'
+            ? `; симметрична ветке ${node.coveredById ? node.coveredById.slice(1) : '?'}`
+            : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
             : 'корень дерева';
           return `
             <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
               <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
-              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}${esc(covered)}</span>
               <span class="exhaustive-branch-history">${esc(history)}</span>
             </button>
           `;
@@ -6607,6 +8049,8 @@ __WEIGHING_CHEATER_JS__
       }
 
       function renderInteractiveState() {
+        model.computedCoinStatuses = computedCoinStatuses();
+        renderStatusLegend();
         renderZone('pool', panel.querySelector('[data-multiple-light-zone="pool"]'));
         renderZone('left', panel.querySelector('[data-multiple-light-pan-coins="left"]'));
         renderZone('right', panel.querySelector('[data-multiple-light-pan-coins="right"]'));
@@ -6628,6 +8072,8 @@ __WEIGHING_CHEATER_JS__
         if (modeSelect) modeSelect.value = model.mode;
         const modePill = panel.querySelector('[data-current-mode-pill]');
         if (modePill) modePill.textContent = multipleLightModeLabel(model.mode);
+        const statusSelect = panel.querySelector('[data-status-mode]');
+        if (statusSelect) statusSelect.value = model.statusMode;
         const scale = panel.querySelector('[data-scale]');
         scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
         scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
@@ -6653,10 +8099,9 @@ __WEIGHING_CHEATER_JS__
           const solved = leaves.filter(node => node.status === 'solved').length;
           const failed = leaves.filter(node => node.status === 'failed').length;
           const open = leaves.filter(node => node.status === 'open').length;
+          const covered = leaves.filter(node => node.status === 'covered').length;
           if (open === 0 && failed === 0) {
-            setInteractiveStatus(isFullObjective()
-              ? `Полная стратегия принята: во всех ${solved} ветках осталась одна совместимая пара.`
-              : `Полная стратегия принята: во всех ${solved} ветках есть гарантированно легкая монета.`, 'success');
+            setInteractiveStatus(`Полная стратегия принята: решены ${solved} веток, закрыты по симметрии ${covered}.`, 'success');
           } else if (open === 0 && failed > 0) {
             setInteractiveStatus(isFullObjective()
               ? `Осталась неоднозначность: ${failed} веток дошли до лимита с несколькими парами.`
@@ -6667,11 +8112,19 @@ __WEIGHING_CHEATER_JS__
             setInteractiveStatus(isFullObjective()
               ? `Ветка ${activeNode.id.slice(1)} решена: ${formatState(helper.uniqueLightState(activeNode.candidates))}.`
               : `Ветка ${activeNode.id.slice(1)} решена: монета ${guaranteedCoins(activeNode.candidates).join(' или ')} гарантированно легкая.`);
+          } else if (activeNode?.status === 'covered') {
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} закрыта по симметрии с веткой ${activeNode.coveredById ? activeNode.coveredById.slice(1) : '?'}. Выберите открытую ветку.`);
           } else {
             setInteractiveStatus(isFullObjective()
               ? `Ветка ${activeNode?.id.slice(1)} осталась неоднозначной после ${config.maxWeighings} взвешиваний.`
               : `Ветка ${activeNode?.id.slice(1)} не дала гарантированно легкой монеты после ${config.maxWeighings} взвешиваний.`, 'error');
           }
+        } else if (model.autoCompleted) {
+          setInteractiveStatus(isFullObjective()
+            ? `Статусы однозначны: фальшивые монеты ${model.hiddenCoins.join(', ')}.`
+            : `Статусы достаточны: монета ${model.answer} фальшивая во всех совместимых состояниях.`,
+            'success'
+          );
         } else if (model.locked) {
           const guaranteed = guaranteedCoins(model.candidates);
           const correct = isFullObjective()
@@ -6723,6 +8176,11 @@ __WEIGHING_CHEATER_JS__
         model = newModel(event.target.value);
         renderInteractiveState();
       });
+      panel.querySelector('[data-status-mode]')?.addEventListener('change', event => {
+        model.statusMode = event.target.value;
+        if (model.statusMode === 'auto') maybeAutoComplete();
+        renderInteractiveState();
+      });
       panel.querySelector('[data-multiple-light-weigh]')?.addEventListener('click', weigh);
       panel.querySelector('[data-multiple-light-answer-mode]')?.addEventListener('click', () => {
         if (model.locked) return;
@@ -6762,17 +8220,18 @@ __WEIGHING_CHEATER_JS__
         balanced: 'balance'
       };
       const resultLabels = {
-        left_down: 'left pan heavier',
-        right_down: 'right pan heavier',
-        balance: 'balance',
-        left_heavy: 'left pan heavier',
-        right_heavy: 'right pan heavier',
-        balanced: 'balance'
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
       };
       const statusLabels = {
-        open: 'open',
-        solved: 'solved',
-        failed: 'limit reached'
+        open: 'открыта',
+        solved: 'решена',
+        failed: 'лимит исчерпан',
+        covered: 'закрыта симметрией'
       };
       let model = null;
 
@@ -6786,6 +8245,74 @@ __WEIGHING_CHEATER_JS__
 
       function formatState(state) {
         return (state?.coins || []).join(', ') || '?';
+      }
+
+      function statusOptions() {
+        return helper.coinStatusOptions('paired_light');
+      }
+
+      function computedCoinStatuses() {
+        const source = model.mode === 'exhaustive'
+          ? (activeExhaustiveNode()?.candidates || [])
+          : model.candidates;
+        return helper.pairedLightCoinStatuses(source, pairs);
+      }
+
+      function visibleCoinStatus(id) {
+        if (model.statusMode === 'auto') return model.computedCoinStatuses[id] || 'unmarked';
+        return model.coinStatuses[id] || 'unmarked';
+      }
+
+      function cycleCoinStatus(id) {
+        if (model.statusMode === 'auto') return false;
+        const options = statusOptions();
+        const current = visibleCoinStatus(id);
+        const next = options[(Math.max(0, options.indexOf(current)) + 1) % options.length];
+        if (next === 'unmarked') delete model.coinStatuses[id];
+        else model.coinStatuses[id] = next;
+        renderInteractiveState();
+        return true;
+      }
+
+      function applyStatusClasses(button, id) {
+        const statusKey = visibleCoinStatus(id);
+        const definition = helper.statusDefinition(statusKey);
+        if (statusKey && statusKey !== 'unmarked') {
+          button.classList.add(definition.className);
+          button.title = `${button.title || `монета ${id}`}; статус: ${definition.label}`;
+        }
+        if (
+          model.statusMode === 'checked'
+          && statusKey !== 'unmarked'
+          && statusKey !== (model.computedCoinStatuses[id] || 'unmarked')
+        ) {
+          button.classList.add('coin-status-wrong');
+          button.title = `${button.title}; не совпадает со всеми совместимыми состояниями`;
+        }
+      }
+
+      function renderStatusLegend() {
+        const container = panel.querySelector('[data-status-legend]');
+        if (!container) return;
+        container.innerHTML = statusOptions()
+          .filter(key => key !== 'unmarked')
+          .map(key => {
+            const definition = helper.statusDefinition(key);
+            return `<span class="status-chip ${esc(definition.className)}">${esc(definition.label)}</span>`;
+          }).join('');
+      }
+
+      function maybeAutoComplete() {
+        if (model.statusMode !== 'auto' || model.mode === 'exhaustive' || model.locked) return false;
+        if (model.candidates.length !== 1) return false;
+        const solved = model.candidates[0];
+        model.answer = { coins: [...solved.coins] };
+        model.hiddenCoins = [...solved.coins];
+        model.revealedCoins = [...solved.coins];
+        model.autoCompleted = true;
+        model.locked = true;
+        model.computedCoinStatuses = computedCoinStatuses();
+        return true;
       }
 
       function makeRootNode() {
@@ -6820,6 +8347,10 @@ __WEIGHING_CHEATER_JS__
           answerMode: false,
           answerSelections: {},
           answer: null,
+          statusMode: 'manual',
+          coinStatuses: {},
+          computedCoinStatuses: {},
+          autoCompleted: false,
           locked: false,
           lastResult: 'balanced'
         };
@@ -6862,6 +8393,10 @@ __WEIGHING_CHEATER_JS__
       function cycleCoin(id) {
         if (model.answerMode) {
           selectAnswerCoin(id);
+          return;
+        }
+        if (model.statusMode !== 'auto') {
+          cycleCoinStatus(id);
           return;
         }
         if (!canEditPans()) return;
@@ -6930,7 +8465,7 @@ __WEIGHING_CHEATER_JS__
         model.history.push({ left: [...left], right: [...right], result, candidates: [...model.candidates], scores });
         model.lastResult = result;
         model.answerMode = false;
-        clearPans();
+        if (!maybeAutoComplete()) clearPans();
         renderInteractiveState();
       }
 
@@ -6955,8 +8490,16 @@ __WEIGHING_CHEATER_JS__
           candidates: [...child.candidates],
           usedWeighings: child.usedWeighings,
           status: child.status,
+          coveredByOutcome: child.coveredByOutcome || null,
+          coveredByLabel: child.coveredByLabel || null,
+          symmetryReason: child.symmetryReason || null,
           children: []
         }));
+        for (const childNode of node.children) {
+          if (!childNode.coveredByOutcome) continue;
+          const representative = node.children.find(item => item.outcome === childNode.coveredByOutcome);
+          if (representative) childNode.coveredById = representative.id;
+        }
         model.exhaustiveNodes.push(...node.children);
         const nextOpen = frontierNodes().find(item => item.status === 'open');
         model.activeNodeId = (nextOpen || node.children[0] || node).id;
@@ -6989,6 +8532,7 @@ __WEIGHING_CHEATER_JS__
         button.className = 'coin';
         button.textContent = String(id);
         button.dataset.coin = String(id);
+        button.title = `монета ${id}`;
         button.draggable = canEditPans();
         const selected = Object.values(model.answerSelections).map(Number).includes(Number(id));
         const answered = model.answer?.coins?.includes(Number(id));
@@ -6997,6 +8541,7 @@ __WEIGHING_CHEATER_JS__
         if (selected && model.answerMode) button.classList.add('answer-pick');
         if (answered) button.classList.add(correct ? 'correct-answer' : 'answer-pick');
         if (real) button.classList.add('real-counterfeit');
+        applyStatusClasses(button, id);
         if (!canEditPans() && !model.answerMode) button.disabled = true;
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
@@ -7077,13 +8622,16 @@ __WEIGHING_CHEATER_JS__
         container.innerHTML = leaves.map(node => {
           const active = node.id === model.activeNodeId ? ' active' : '';
           const found = node.status === 'solved' ? `; найдено: ${formatState(node.candidates[0])}` : '';
+          const covered = node.status === 'covered'
+            ? `; симметрична ветке ${node.coveredById ? node.coveredById.slice(1) : '?'}`
+            : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
             : 'корень';
           return `
             <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
               <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
-              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.candidates.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}${esc(found)}${esc(covered)}</span>
               <span class="exhaustive-branch-history">${esc(history)}</span>
             </button>
           `;
@@ -7105,6 +8653,8 @@ __WEIGHING_CHEATER_JS__
       }
 
       function renderInteractiveState() {
+        model.computedCoinStatuses = computedCoinStatuses();
+        renderStatusLegend();
         renderPool(panel.querySelector('[data-paired-zone="pool"]'));
         renderPan('left', panel.querySelector('[data-paired-pan-coins="left"]'));
         renderPan('right', panel.querySelector('[data-paired-pan-coins="right"]'));
@@ -7126,6 +8676,8 @@ __WEIGHING_CHEATER_JS__
         if (modeSelect) modeSelect.value = model.mode;
         const modePill = panel.querySelector('[data-current-mode-pill]');
         if (modePill) modePill.textContent = pairedLightModeLabel(model.mode);
+        const statusSelect = panel.querySelector('[data-status-mode]');
+        if (statusSelect) statusSelect.value = model.statusMode;
         const scale = panel.querySelector('[data-scale]');
         scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
         scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
@@ -7149,17 +8701,22 @@ __WEIGHING_CHEATER_JS__
           const solved = leaves.filter(node => node.status === 'solved').length;
           const failed = leaves.filter(node => node.status === 'failed').length;
           const open = leaves.filter(node => node.status === 'open').length;
+          const covered = leaves.filter(node => node.status === 'covered').length;
           if (open === 0 && failed === 0) {
-            setInteractiveStatus(`Стратегия принята: решены все ветви (${solved}).`, 'success');
+            setInteractiveStatus(`Стратегия принята: решены ${solved} ветвей, закрыты по симметрии ${covered}.`, 'success');
           } else if (open === 0 && failed > 0) {
             setInteractiveStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита с несколькими состояниями.`, 'error');
           } else if (activeNode?.status === 'open') {
             setInteractiveStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: ${countText(activeNode.candidates.length, 'состояние осталось', 'состояния осталось', 'состояний осталось')}.`);
           } else if (activeNode?.status === 'solved') {
             setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} решена: ${formatState(activeNode.candidates[0])}.`);
+          } else if (activeNode?.status === 'covered') {
+            setInteractiveStatus(`Ветка ${activeNode.id.slice(1)} закрыта по симметрии с веткой ${activeNode.coveredById ? activeNode.coveredById.slice(1) : '?'}. Выберите открытую ветку.`);
           } else {
             setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} остается неоднозначной после ${config.maxWeighings} взвешиваний.`, 'error');
           }
+        } else if (model.autoCompleted) {
+          setInteractiveStatus(`Статусы однозначны: легкие монеты ${model.hiddenCoins.join(', ')}.`, 'success');
         } else if (model.locked) {
           const correct = stateKey(model.answer) === stateKey({ coins: model.hiddenCoins });
           setInteractiveStatus(
@@ -7198,6 +8755,11 @@ __WEIGHING_CHEATER_JS__
 
       panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
         model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-status-mode]')?.addEventListener('change', event => {
+        model.statusMode = event.target.value;
+        if (model.statusMode === 'auto') maybeAutoComplete();
         renderInteractiveState();
       });
       panel.querySelector('[data-paired-weigh]')?.addEventListener('click', weigh);

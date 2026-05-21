@@ -1,0 +1,144 @@
+{
+  "id": "usamts-2011-zoltar-fourteen-coins-real-coin",
+  "title": "USAMTS 2011: робот Золтар и настоящая монета среди четырнадцати",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-zoltar-fourteen-coins",
+        "title": "Семь настоящих и семь легких фальшивых",
+        "text": "Есть 14 одинаковых на вид монет. Семь настоящих монет весят по 1 унции, а семь фальшивых - по 0.999 унции. Неизвестно, какие монеты настоящие. Робот Золтар умеет сравнивать две выбранные кучки монет. Если веса равны, он сообщает равенство и возвращает все монеты. Если одна рука тяжелее другой, он забирает одну случайную монету из более тяжелой руки, сообщает, какая рука была тяжелее, и возвращает остальные монеты. Нужно понять, существует ли стратегия, которая гарантированно позволит назвать одну настоящую монету, не забранную Золтаром.",
+        "source_ids": [
+          "src-usamts-2011-12-round1-problems",
+          "src-usamts-2011-12-round1-solutions"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-unbalanced-single-comparison-produces-known-fake",
+      "title": "Неравенство двух одиночных монет оставляет известную фальшивую",
+      "text": "Если сравнить две одиночные монеты разных типов, более тяжелая настоящая монета будет забрана, а оставшаяся на другой стороне монета точно фальшивая. После этого известную фальшивую можно отложить, и среди неизвестных монет снова останется поровну настоящих и фальшивых.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-reduce-to-two-real-two-fake",
+      "title": "Последовательно уменьшить равные группы настоящих и фальшивых",
+      "text": "Сначала сравниваем две одиночные монеты. Если они равны, заменяем одну из них новой монетой и снова сравниваем одиночные монеты; поскольку настоящих и фальшивых по семь, рано или поздно попадутся монеты разных типов. Тогда Золтар заберет настоящую монету из более тяжелой руки, а монета из другой руки станет известной фальшивой. Откладываем эту известную фальшивую. Среди оставшихся неизвестных монет теперь 6 настоящих и 6 фальшивых.\n\nПовторяем тот же прием: среди равного числа настоящих и фальшивых монет сравниваем одиночные монеты, пока не получим неравенство; после неравенства Золтар снова забирает одну настоящую монету, а у нас остается еще одна известная фальшивая, которую можно отложить. После четырех таких сокращений останутся 4 неизвестные монеты: 2 настоящие и 2 фальшивые.\n\nДля четырех монет пробуем разбиения на две пары и кладем одну пару в левую руку, другую - в правую. Среди трех способов разбить четыре монеты на две пары есть такой, где в одной руке лежат обе настоящие, а в другой обе фальшивые. Два остальных разбиения дают равенство, поэтому, перебрав разбиения до первого неравенства, мы найдем нужное. При неравенстве более тяжелая рука содержит две настоящие монеты; Золтар заберет одну из них, а вторая вернется и будет гарантированно настоящей.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "decision_tree"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбор 7 настоящих монет из 14; дополнительно случайные изъятия Золтара при неравных взвешиваниях",
+    "observations": [
+      "равенство или указание более тяжелой руки",
+      "какая монета была забрана при сравнении одиночных монет известна по стороне, но не выбирается стратегом"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать по одной монете или пары монет для сравнения в руках Золтара",
+      "откладывать монеты, чей тип стал известен"
+    ],
+    "goal": [
+      "identify_one_genuine_coin_not_removed"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "state_space_partition",
+      "certificate_of_one_object"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "usamts_2011_round1",
+      "zoltar_robot",
+      "seven_real_seven_fake",
+      "random_tribute",
+      "known_fake_reduction"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 14,
+    "counterfeit_count": 7,
+    "counterfeit_type": "lighter_known_equal_fakes",
+    "weighing_count": "finite adaptive; exactly six unbalanced comparisons in the source strategy",
+    "outcome_count_per_weighing": "comparison_with_random_removal",
+    "adaptive": true,
+    "objective": "identify_one_genuine_coin_not_removed"
+  },
+  "interactive": {
+    "type": "zoltar_heavier_hand_removal",
+    "coin_count": 14,
+    "real_count": 7,
+    "counterfeit_count": 7,
+    "max_weighings": 25,
+    "objective": "identify_one_genuine_coin_not_removed",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Средняя: нужно заметить, что каждое неравенство одиночных монет одновременно расходует одну настоящую монету и создает известную фальшивую, сохраняя равенство чисел неизвестных типов.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-usamts-2011-12-round1-problems",
+      "role": "official_statement",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-usamts-2011-12-round1-solutions",
+      "role": "official_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-21",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_weighings",
+    "notes": [
+      "Проверка на дубли: в базе есть задачи про поиск фальшивых и про сертификацию настоящей монеты, но здесь скрытое состояние включает семь настоящих и семь легких фальшивых, а прибор при неравенстве случайно удаляет монету с более тяжелой стороны. Математическая модель не совпадает с существующими карточками.",
+      "Интерактив добавлен отдельным типом zoltar_heavier_hand_removal: в режиме random выбор удаляемой монеты случаен, а в cheater/exhaustive перебираются все допустимые удаления из более тяжелой руки."
+    ]
+  }
+}

@@ -83,6 +83,10 @@
     {
       "problem_id": "tot-2002-fall-junior-power-grid-connectivity-tests",
       "status": "lead_needs_solution"
+    },
+    {
+      "problem_id": "lktg-2005-robbers-two-valuations-no-finite-protocol",
+      "status": "added"
     }
   ],
   "source_notes": [
