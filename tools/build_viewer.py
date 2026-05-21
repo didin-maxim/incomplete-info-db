@@ -95,25 +95,51 @@ def source_ids_for_problem(problem):
 
 
 def short_source_label(source):
+    explicit_label = source.get("short_name") or source.get("short_title") or source.get("display_name")
+    if explicit_label:
+        return explicit_label
     source_id = str(source.get("id", "")).lower()
     source_type = str(source.get("type", "")).lower()
     title = str(source.get("title", "")).lower()
+    origin = str(source.get("origin", "")).lower()
     if "folklore" in source_type or "folklore" in source_id or "classical" in source_id or (source_type == "reference_topic" and not source.get("official")):
         return "Классика"
     rules = [
         ("AMC", ["amc10", "amc12", "amc"]),
         ("Турнир Городов", ["tot", "tournament of the towns", "турнир городов"]),
+        ("ЛКТГ", ["lktg", "летняя конференция турнира городов"]),
         ("Матпраздник", ["matprazdnik", "математический праздник"]),
+        ("Турнир Савина", ["tursavin", "турнир математических боёв имени а. п. савина", "турнир савина"]),
         ("Квантик", ["kvantik", "квантик"]),
         ("Квант", ["kvant", "квант"]),
-        ("problems.ru", ["problems-ru", "problems.ru"]),
         ("ММО", ["mmo", "московская математическая олимпиада"]),
+        ("ЛМО", ["lmo", "ленинградская математическая олимпиада"]),
+        ("КОЛМ", ["kolmogorov", "математический турнир им. а. н. колмогорова", "турнир им. а. н. колмогорова"]),
+        ("Эйлер", ["олимпиада имени леонарда эйлера"]),
+        ("Окружная олимпиада", ["окружная олимпиада"]),
+        ("Матрегата", ["математическая регата"]),
+        ("Всерос", ["всероссийская олимпиада школьников"]),
+        ("ЮМТ", ["yumt", "южного математического турнира", "южный математический турнир"]),
+        ("УТЮМ", ["utyum", "уральского турнира юных математиков", "уральский турнир юных математиков"]),
+        ("KöMaL", ["komal", "kömal"]),
+        ("SMS", ["singapore mathematical society"]),
+        ("UCT", ["uct mathematics olympiad"]),
+        ("AIMO", ["australian intermediate mathematics olympiad", "aimo"]),
+        ("AMT", ["amt", "mathematics contests: the australian scene"]),
+        ("OMJ", ["omj", "olimpiada matematyczna gimnazjalistów"]),
+        ("UNM-PNM", ["unm-pnm"]),
+        ("Berkeley Math Circle", ["berkeley math circle"]),
+        ("IMO", ["imo official", "imo 2012", "imo 2000", "international mathematical olympiad"]),
+        ("MathCircles", ["mathcircles"]),
+        ("Турнир Мёбиуса", ["moebiustour", "турнир мёбиуса"]),
+        ("USAMTS", ["usamts", "usa mathematical talent search"]),
+        ("problems.ru", ["problems-ru", "problems.ru"]),
     ]
-    blob = f"{source_id} {title}"
+    blob = f"{source_id} {title} {origin}"
     for label, needles in rules:
         if any(needle in blob for needle in needles):
             return label
-    return source.get("short_name") or source.get("title") or source.get("id")
+    return source.get("title") or source.get("id")
 
 
 def build_fallback_list(problems, taxonomy):
@@ -2027,12 +2053,13 @@ __WEIGHING_CHEATER_JS__
       { key: 'classic', label: 'Классика', aliases: ['классика', 'классический', 'folklore'], idPatterns: ['folklore', 'classical'], titlePatterns: ['классическ', 'folklore'] },
       { key: 'amc', label: 'AMC', aliases: ['amc'], idPatterns: ['amc10', 'amc12', 'amc'], titlePatterns: ['amc 10', 'amc 12', 'amc'] },
       { key: 'tournament-towns', label: 'Турнир Городов', aliases: ['турнир городов', 'tournament of the towns', 'tot'], idPatterns: ['tot', 'tournament-towns'], titlePatterns: ['турнир городов', 'tournament of the towns'] },
+      { key: 'lktg', label: 'ЛКТГ', aliases: ['лктг', 'летняя конференция турнира городов'], idPatterns: ['lktg'], titlePatterns: ['летняя конференция турнира городов'] },
       { key: 'matprazdnik', label: 'Матпраздник', aliases: ['матпраздник', 'математический праздник'], idPatterns: ['matprazdnik'], titlePatterns: ['математический праздник', 'матпраздник'] },
+      { key: 'tursavin', label: 'Турнир Савина', aliases: ['турнир савина', 'турнир математических боев имени савина', 'турнир математических боёв имени савина'], idPatterns: ['tursavin', 'savin'], titlePatterns: ['турнир математических боёв имени а. п. савина', 'турнир математических боев имени а. п. савина', 'турнир савина'] },
       { key: 'kvantik', label: 'Квантик', aliases: ['квантик'], idPatterns: ['kvantik'], titlePatterns: ['квантик'] },
       { key: 'kvant', label: 'Квант', aliases: ['квант'], idPatterns: ['kvant'], titlePatterns: ['квант'] },
-      { key: 'problems-ru', label: 'problems.ru', aliases: ['problems.ru'], idPatterns: ['problems-ru'], titlePatterns: ['problems.ru'] },
       { key: 'mmo', label: 'ММО', aliases: ['ммо', 'московская математическая олимпиада'], idPatterns: ['mmo'], titlePatterns: ['московская математическая олимпиада'] },
-      { key: 'kolmogorov', label: 'Колмогоров', aliases: ['колмогоров'], idPatterns: ['kolmogorov'], titlePatterns: ['колмогоров'] },
+      { key: 'kolm', label: 'КОЛМ', aliases: ['колм', 'колмогоров'], idPatterns: ['kolmogorov', 'kolm'], titlePatterns: ['математический турнир им. а. н. колмогорова', 'турнир им. а. н. колмогорова', 'колмогоров'] },
       { key: 'ukmt', label: 'UKMT', aliases: ['ukmt'], idPatterns: ['ukmt'], titlePatterns: ['ukmt'] },
       { key: 'mathcounts', label: 'MATHCOUNTS', aliases: ['mathcounts'], idPatterns: ['mathcounts'], titlePatterns: ['mathcounts'] },
       { key: 'cemc', label: 'CEMC', aliases: ['cemc'], idPatterns: ['cemc'], titlePatterns: ['cemc'] },
@@ -2041,7 +2068,28 @@ __WEIGHING_CHEATER_JS__
       { key: 'sasmo', label: 'SASMO', aliases: ['sasmo'], idPatterns: ['sasmo'], titlePatterns: ['sasmo'] },
       { key: 'wajo', label: 'WAJO', aliases: ['wajo'], idPatterns: ['wajo'], titlePatterns: ['wajo'] },
       { key: 'inmo', label: 'INMO', aliases: ['inmo'], idPatterns: ['inmo'], titlePatterns: ['inmo'] },
-      { key: 'lmo', label: 'ЛМО', aliases: ['лмо'], idPatterns: ['lmo'], titlePatterns: ['ленинградская математическая олимпиада', 'лмо'] }
+      { key: 'lmo', label: 'ЛМО', aliases: ['лмо'], idPatterns: ['lmo'], titlePatterns: ['ленинградская математическая олимпиада', 'лмо'] },
+      { key: 'euler', label: 'Эйлер', aliases: ['олимпиада эйлера', 'олимпиада имени леонарда эйлера'], idPatterns: ['euler'], titlePatterns: ['олимпиада имени леонарда эйлера'] },
+      { key: 'moscow-district', label: 'Окружная олимпиада', aliases: ['окружная олимпиада'], idPatterns: [], titlePatterns: ['окружная олимпиада'] },
+      { key: 'matregata', label: 'Матрегата', aliases: ['математическая регата'], idPatterns: [], titlePatterns: ['математическая регата'] },
+      { key: 'vmo', label: 'Всерос', aliases: ['всероссийская олимпиада школьников', 'всош'], idPatterns: ['vmo'], titlePatterns: ['всероссийская олимпиада школьников'] },
+      { key: 'mccme-circle', label: 'Кружок МЦНМО', aliases: ['кружок мцнмо', 'математический кружок мцнмо'], idPatterns: ['mccme-circle'], titlePatterns: ['кружок мцнмо', 'математический кружок мцнмо'] },
+      { key: 'spb-primary', label: 'СПб олимпиада', aliases: ['санкт-петербургская математическая олимпиада'], idPatterns: ['spb-primary'], titlePatterns: ['санкт-петербургская математическая олимпиада'] },
+      { key: 'yumt', label: 'ЮМТ', aliases: ['южный математический турнир'], idPatterns: ['yumt'], titlePatterns: ['южного математического турнира', 'южный математический турнир'] },
+      { key: 'utyum', label: 'УТЮМ', aliases: ['уральский турнир юных математиков'], idPatterns: ['utyum'], titlePatterns: ['уральского турнира юных математиков', 'уральский турнир юных математиков'] },
+      { key: 'komal', label: 'KöMaL', aliases: ['komal', 'kömal'], idPatterns: ['komal'], titlePatterns: ['kömal'] },
+      { key: 'sms', label: 'SMS', aliases: ['singapore mathematical society'], idPatterns: ['sms-smo', 'sms-medley'], titlePatterns: ['singapore mathematical society'] },
+      { key: 'uct', label: 'UCT', aliases: ['uct mathematics olympiad'], idPatterns: ['uct'], titlePatterns: ['uct mathematics olympiad'] },
+      { key: 'aimo', label: 'AIMO', aliases: ['australian intermediate mathematics olympiad'], idPatterns: ['aimo'], titlePatterns: ['australian intermediate mathematics olympiad'] },
+      { key: 'amt', label: 'AMT', aliases: ['australian mathematics trust'], idPatterns: ['amt'], titlePatterns: ['mathematics contests: the australian scene'] },
+      { key: 'omj', label: 'OMJ', aliases: ['olimpiada matematyczna gimnazjalistów'], idPatterns: ['omj', 'omg'], titlePatterns: ['olimpiada matematyczna gimnazjalistów', 'seminarium olimpijskie omj'] },
+      { key: 'unm-pnm', label: 'UNM-PNM', aliases: ['unm-pnm statewide high school mathematics contest'], idPatterns: ['unm-pnm'], titlePatterns: ['unm-pnm statewide high school mathematics contest'] },
+      { key: 'berkeley-math-circle', label: 'Berkeley Math Circle', aliases: ['berkeley math circle'], idPatterns: ['berkeley-math-circle'], titlePatterns: ['berkeley math circle'] },
+      { key: 'imo', label: 'IMO', aliases: ['international mathematical olympiad', 'imo official'], idPatterns: ['imo-official'], titlePatterns: ['imo official', 'international mathematical olympiad'] },
+      { key: 'mathcircles', label: 'MathCircles', aliases: ['mathcircles.org'], idPatterns: ['mathcircles'], titlePatterns: ['mathcircles.org'] },
+      { key: 'moebius', label: 'Турнир Мёбиуса', aliases: ['moebiustour', 'турнир мёбиуса'], idPatterns: ['moebius-tour'], titlePatterns: ['турнир мёбиуса'] },
+      { key: 'usamts', label: 'USAMTS', aliases: ['usa mathematical talent search'], idPatterns: ['usamts'], titlePatterns: ['usa mathematical talent search'] },
+      { key: 'problems-ru', label: 'problems.ru', aliases: ['problems.ru'], idPatterns: ['problems-ru'], titlePatterns: ['problems.ru'] }
     ];
 
     const SOURCE_FAMILY_BY_KEY = Object.fromEntries(SOURCE_FAMILIES.map(family => [family.key, family]));
@@ -2057,9 +2105,15 @@ __WEIGHING_CHEATER_JS__
       const id = String(source.id || '').toLocaleLowerCase('ru').replace(/^src[-_]/, '');
       const type = String(source.type || '').toLocaleLowerCase('ru');
       const title = String(source.title || '').toLocaleLowerCase('ru');
+      const origin = String(source.origin || '').toLocaleLowerCase('ru');
       const compactId = normalizeCompact(id);
       const compactTitle = normalizeCompact(title);
+      const compactOrigin = normalizeCompact(origin);
       if (type.includes('folklore') || (type === 'reference_topic' && !source.official)) return SOURCE_FAMILY_BY_KEY.classic;
+      for (const family of SOURCE_FAMILIES) {
+        if (family.key === 'problems-ru') continue;
+        if ((family.titlePatterns || []).some(pattern => compactOrigin.includes(normalizeCompact(pattern)))) return family;
+      }
       for (const family of SOURCE_FAMILIES) {
         if ((family.idPatterns || []).some(pattern => compactId.includes(normalizeCompact(pattern)))) return family;
         if ((family.titlePatterns || []).some(pattern => compactTitle.includes(normalizeCompact(pattern)))) return family;
@@ -2082,7 +2136,7 @@ __WEIGHING_CHEATER_JS__
       const source = sourceById[id] || { id };
       const family = sourceFamilyForSource(source) || fallbackSourceFamily(source);
       const year = String(source.source_year || source.year || firstYear(source.id) || firstYear(source.title) || firstYear(source.url) || '');
-      const aliases = new Set([id, source.title || '', family.label || '', ...(family.aliases || [])]);
+      const aliases = new Set([id, source.title || '', source.origin || '', family.label || '', ...(family.aliases || [])]);
       if (year) {
         aliases.add(`${family.label || family.key} ${year}`);
         aliases.add(`${family.key}${year}`);
@@ -2793,7 +2847,8 @@ __WEIGHING_CHEATER_JS__
       if (!counterfeitWeight && (profileType.includes('light') || profileType.includes('lighter'))) counterfeitWeight = 'lighter';
       if (counterfeitWeight === 'heavy') counterfeitWeight = 'heavier';
       if (counterfeitWeight === 'light') counterfeitWeight = 'lighter';
-      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const adaptive = config.adaptive === false ? false : true;
+      const supportedModes = adaptive ? ['random', 'cheater', 'exhaustive'] : ['exhaustive', 'sandbox'];
       const modes = asArray(config.modes || config.mode || 'random')
         .filter(mode => supportedModes.includes(mode));
       if (!Number.isInteger(coinCount) || coinCount < 2) return null;
@@ -2801,7 +2856,14 @@ __WEIGHING_CHEATER_JS__
       if (!['heavier', 'lighter'].includes(counterfeitWeight)) return null;
       const objective = config.objective || profile.objective || 'identify_coin';
       if (!['identify_coin', 'prove_impossible'].includes(objective)) return null;
-      const normalizedModes = modes.length ? modes : ['random'];
+      const normalizedModes = modes.length ? modes : (adaptive ? ['random'] : ['exhaustive']);
+      const presetWeighings = asArray(config.preset_weighings || config.preassigned_weighings || config.weighings)
+        .map(row => ({
+          left: asArray(row?.left ?? row?.leftCoins ?? row?.left_coins).map(Number).filter(Number.isInteger),
+          right: asArray(row?.right ?? row?.rightCoins ?? row?.right_coins).map(Number).filter(Number.isInteger)
+        }))
+        .filter(row => row.left.length || row.right.length)
+        .slice(0, maxWeighings);
       return {
         type: 'single_counterfeit_weighing',
         coinCount,
@@ -2810,9 +2872,11 @@ __WEIGHING_CHEATER_JS__
         maxWeighings,
         counterfeitWeight,
         objective,
+        adaptive,
         modes: normalizedModes,
         defaultMode: normalizedModes[0],
-        requireEqualPanCounts: config.require_equal_pan_counts !== false
+        requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        presetWeighings
       };
     }
 
@@ -2821,7 +2885,8 @@ __WEIGHING_CHEATER_JS__
       const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
       const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
       const knownGenuineCount = Number(config.known_genuine_count ?? config.genuine_coin_count ?? (config.has_known_genuine ? 1 : 0) ?? 0);
-      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const adaptive = config.adaptive === false ? false : true;
+      const supportedModes = adaptive ? ['random', 'cheater', 'exhaustive'] : ['exhaustive', 'sandbox'];
       const modes = asArray(config.modes || config.mode || 'random')
         .filter(mode => supportedModes.includes(mode));
       const rawObjective = config.objective || profile.objective || 'identify_coin_and_sign';
@@ -2836,6 +2901,13 @@ __WEIGHING_CHEATER_JS__
       if (!Number.isInteger(knownGenuineCount) || knownGenuineCount < 0) return null;
       if (!['identify_coin_and_sign', 'identify_coin_only_unknown_direction'].includes(objective)) return null;
       const normalizedModes = modes.length ? modes : ['random'];
+      const presetWeighings = asArray(config.preset_weighings || config.preassigned_weighings || config.weighings)
+        .map(row => ({
+          left: asArray(row?.left ?? row?.leftCoins ?? row?.left_coins).map(Number).filter(Number.isInteger),
+          right: asArray(row?.right ?? row?.rightCoins ?? row?.right_coins).map(Number).filter(Number.isInteger)
+        }))
+        .filter(row => row.left.length || row.right.length)
+        .slice(0, maxWeighings);
       return {
         type: 'single_counterfeit_unknown_direction',
         coinCount,
@@ -2844,9 +2916,11 @@ __WEIGHING_CHEATER_JS__
         maxWeighings,
         counterfeitWeight: 'unknown',
         objective,
+        adaptive,
         modes: normalizedModes,
         defaultMode: normalizedModes[0],
-        requireEqualPanCounts: config.require_equal_pan_counts !== false
+        requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        presetWeighings
       };
     }
 
@@ -2881,6 +2955,9 @@ __WEIGHING_CHEATER_JS__
       const normalized = normalizeCounterfeitInteractiveConfig(problem, config);
       if (!normalized) {
         return renderUnknownInteractive(problem, config);
+      }
+      if (normalized.adaptive === false) {
+        return renderNonadaptiveUnknownDirectionInteractive(problem, normalized);
       }
       const candidateTotal = normalized.directionUnknown ? normalized.coinCount * 2 : normalized.coinCount;
       const totalCoins = normalized.coinCount + normalized.knownGenuineCount;
@@ -2956,6 +3033,66 @@ __WEIGHING_CHEATER_JS__
           <div class="weighing-history">
               <h4>История взвешиваний</h4>
             <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderNonadaptiveUnknownDirectionInteractive(problem, normalized) {
+      const candidateTotal = normalized.directionUnknown ? normalized.coinCount * 2 : normalized.coinCount;
+      const stateLabel = normalized.directionUnknown ? 'состояние' : 'скрытая монета';
+      const presetButton = normalized.presetWeighings?.length
+        ? '<button class="small-button" type="button" data-fill-preset>Подставить таблицу из решения</button>'
+        : '';
+      const rows = Array.from({ length: normalized.maxWeighings }, (_item, index) => {
+        const preset = normalized.presetWeighings?.[index] || { left: [], right: [] };
+        return `
+          <tr>
+            <th scope="row">${index + 1}</th>
+            <td><input type="text" data-nonadaptive-left="${index}" value="${esc((preset.left || []).join(' '))}" aria-label="Левая чаша, взвешивание ${index + 1}"></td>
+            <td><input type="text" data-nonadaptive-right="${index}" value="${esc((preset.right || []).join(' '))}" aria-label="Правая чаша, взвешивание ${index + 1}"></td>
+          </tr>
+        `;
+      }).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill('заранее заданные взвешивания')}
+            <span class="pill" data-current-mode-pill>${esc(interactiveModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Проверка заранее объявленных взвешиваний</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(normalized.maxWeighings)} взвешивания</span>
+              <span class="pill">${esc(countText(candidateTotal, stateLabel, normalized.directionUnknown ? 'состояния' : 'скрытые монеты', normalized.directionUnknown ? 'состояний' : 'скрытых монет'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(interactiveModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            ${presetButton}
+            <button class="small-button" type="button" data-check-nonadaptive>Проверить все ${esc(candidateTotal)} состояния</button>
+            <button class="small-button" type="button" data-reset-interactive>Очистить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="weighing-history">
+            <h4>План взвешиваний</h4>
+            <table class="local-table">
+              <thead>
+                <tr><th>№</th><th>Левая чаша</th><th>Правая чаша</th></tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel>
+            <h4>Разбор сигнатур</h4>
+            <div class="exhaustive-branches" data-nonadaptive-results></div>
           </div>
         </div>
       `;
@@ -6883,7 +7020,148 @@ __WEIGHING_CHEATER_JS__
       renderInteractiveState();
     }
 
+    function initNonadaptiveUnknownDirectionInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const status = panel.querySelector('[data-interactive-status]');
+      const results = panel.querySelector('[data-nonadaptive-results]');
+      const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+
+      function setStatus(text, kind = '') {
+        if (!status) return;
+        status.textContent = text || '';
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function parseCoinList(value) {
+        return String(value || '')
+          .split(/[^0-9]+/)
+          .filter(Boolean)
+          .map(Number)
+          .filter(Number.isInteger);
+      }
+
+      function collectPlan() {
+        return Array.from({ length: config.maxWeighings }, (_item, index) => ({
+          left: parseCoinList(panel.querySelector(`[data-nonadaptive-left="${index}"]`)?.value),
+          right: parseCoinList(panel.querySelector(`[data-nonadaptive-right="${index}"]`)?.value)
+        }));
+      }
+
+      function outcomeSymbol(outcome) {
+        if (outcome === 'left_down') return '+';
+        if (outcome === 'right_down') return '-';
+        return '0';
+      }
+
+      function directionLabel(direction) {
+        return direction === 'lighter' ? 'легкая' : 'тяжелая';
+      }
+
+      function stateLabel(state) {
+        if (!config.directionUnknown) return `монета ${state}`;
+        return `монета ${state.coin}, ${directionLabel(state.direction)}`;
+      }
+
+      function renderCheck(check) {
+        if (!results) return;
+        const conflicts = check.conflicts || [];
+        const rows = (check.partitions || []).map(part => {
+          const signature = (part.signatures?.length ? part.signatures : [part.signature || []])
+            .map(item => item.map(outcomeSymbol).join(''))
+            .join(' / ');
+          const states = part.states.map(stateLabel).join('; ');
+          const statusClass = part.solved ? 'solved' : 'failed';
+          return `
+            <div class="exhaustive-branch ${statusClass}">
+              <div class="exhaustive-branch-title">${esc(signature || 'пусто')}</div>
+              <div class="exhaustive-branch-meta">${esc(states)}</div>
+            </div>
+          `;
+        }).join('');
+        const errorRows = (check.errors || []).map(error => `
+          <div class="exhaustive-branch failed">
+            <div class="exhaustive-branch-title">Ошибка</div>
+            <div class="exhaustive-branch-meta">${esc(error)}</div>
+          </div>
+        `).join('');
+        results.innerHTML = errorRows + rows;
+        if (check.success) {
+          const verb = check.coinOnly ? 'находит номер монеты для всех' : 'различает все';
+          const noun = config.directionUnknown
+            ? countText(check.states.length, 'скрытое состояние', 'скрытых состояния', 'скрытых состояний')
+            : countText(check.states.length, 'скрытую монету', 'скрытые монеты', 'скрытых монет');
+          setStatus(`План ${verb} ${noun}.`, 'success');
+        } else if (conflicts.length) {
+          const first = conflicts[0];
+          const signature = (first.signatures?.length ? first.signatures : [first.signature || []])
+            .map(item => item.map(outcomeSymbol).join(''))
+            .join(' / ');
+          setStatus(`Есть совпадение: результат ${signature} подходит для ${first.states.length} состояний и нескольких монет.`, 'error');
+        } else {
+          setStatus('План пока не проходит проверку.', 'error');
+        }
+      }
+
+      function runCheck() {
+        const checker = config.directionUnknown
+          ? helper?.checkUnknownDirectionNonadaptiveStrategy
+          : helper?.checkKnownDirectionNonadaptiveStrategy;
+        if (!checker) {
+          setStatus('Логика проверки не загружена.', 'error');
+          return;
+        }
+        const check = checker({
+          coin_count: config.coinCount,
+          max_weighings: config.maxWeighings,
+          weighings: collectPlan(),
+          objective: config.objective,
+          counterfeit_weight: config.counterfeitWeight,
+          require_equal_pan_counts: config.requireEqualPanCounts
+        });
+        renderCheck(check);
+      }
+
+      function fillPreset() {
+        for (let index = 0; index < config.maxWeighings; index += 1) {
+          const row = config.presetWeighings?.[index] || { left: [], right: [] };
+          const left = panel.querySelector(`[data-nonadaptive-left="${index}"]`);
+          const right = panel.querySelector(`[data-nonadaptive-right="${index}"]`);
+          if (left) left.value = (row.left || []).join(' ');
+          if (right) right.value = (row.right || []).join(' ');
+        }
+        runCheck();
+      }
+
+      function clearPlan() {
+        for (let index = 0; index < config.maxWeighings; index += 1) {
+          const left = panel.querySelector(`[data-nonadaptive-left="${index}"]`);
+          const right = panel.querySelector(`[data-nonadaptive-right="${index}"]`);
+          if (left) left.value = '';
+          if (right) right.value = '';
+        }
+        if (results) results.innerHTML = '';
+        setStatus('Введите все взвешивания заранее и запустите проверку.');
+      }
+
+      modeSelect?.addEventListener('change', event => {
+        panel.querySelector('[data-current-mode-pill]').textContent = interactiveModeLabel(event.target.value);
+      });
+      panel.querySelector('[data-check-nonadaptive]')?.addEventListener('click', runCheck);
+      panel.querySelector('[data-fill-preset]')?.addEventListener('click', fillPreset);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', clearPlan);
+      for (const input of panel.querySelectorAll('[data-nonadaptive-left], [data-nonadaptive-right]')) {
+        input.addEventListener('change', runCheck);
+      }
+      setStatus('Введите все взвешивания заранее и запустите проверку.');
+      if (config.presetWeighings?.length === config.maxWeighings) runCheck();
+    }
+
     function initSingleCounterfeitInteractive(panel, config) {
+      if (config?.adaptive === false) {
+        initNonadaptiveUnknownDirectionInteractive(panel, config);
+        return;
+      }
       const totalCoinCount = config.coinCount + (config.knownGenuineCount || 0);
       const coinIds = Array.from({ length: totalCoinCount }, (_item, index) => index + 1);
       let model = null;

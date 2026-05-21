@@ -1490,6 +1490,230 @@
     };
   }
 
+  function normalizeUnknownDirectionWeighingPlan(weighings, coinCount = null, maxWeighings = null) {
+    const limit = Number(coinCount);
+    const hasLimit = Number.isInteger(limit) && limit > 0;
+    const rows = Array.isArray(weighings) ? weighings : [];
+    const normalized = rows.map(row => ({
+      leftCoins: uniqueCoins(row?.leftCoins ?? row?.left_coins ?? row?.left ?? [], hasLimit ? limit : null),
+      rightCoins: uniqueCoins(row?.rightCoins ?? row?.right_coins ?? row?.right ?? [], hasLimit ? limit : null)
+    }));
+    const max = Number(maxWeighings);
+    return maxWeighings != null && Number.isInteger(max) && max >= 0 ? normalized.slice(0, max) : normalized;
+  }
+
+  function unknownDirectionSignatureForCandidate(candidate, weighings, options = {}) {
+    const coinCount = Number(options.coinCount ?? options.coin_count);
+    const normalized = normalizeUnknownDirectionCandidates(
+      [candidate],
+      Number.isInteger(coinCount) ? coinCount : null
+    )[0];
+    if (!normalized) return null;
+    const rows = normalizeUnknownDirectionWeighingPlan(weighings, coinCount);
+    const signature = [];
+    for (const row of rows) {
+      const outcome = outcomeForUnknownDirectionCandidate(normalized, row.leftCoins, row.rightCoins, {
+        requireEqualPanCounts: options.requireEqualPanCounts ?? options.require_equal_pan_counts
+      });
+      if (!outcome) return null;
+      signature.push(outcome);
+    }
+    return signature;
+  }
+
+  function unknownDirectionSignatureKey(signature) {
+    return (signature || []).join('|');
+  }
+
+  function oppositeUnknownDirectionOutcome(outcome) {
+    if (outcome === 'left_down') return 'right_down';
+    if (outcome === 'right_down') return 'left_down';
+    return outcome;
+  }
+
+  function oppositeUnknownDirectionSignature(signature) {
+    return (signature || []).map(oppositeUnknownDirectionOutcome);
+  }
+
+  function canonicalCoinOnlyUnknownDirectionSignatureKey(signature) {
+    const key = unknownDirectionSignatureKey(signature);
+    const oppositeKey = unknownDirectionSignatureKey(oppositeUnknownDirectionSignature(signature));
+    return key <= oppositeKey ? key : oppositeKey;
+  }
+
+  function isCoinOnlyUnknownDirectionObjective(objective) {
+    return ['identify_coin', 'identify_coin_only', 'identify_coin_only_unknown_direction'].includes(objective);
+  }
+
+  function knownDirectionSignatureForCandidate(candidate, counterfeitWeight, weighings, options = {}) {
+    const coinCount = Number(options.coinCount ?? options.coin_count);
+    const coin = Number(candidate?.coin ?? candidate?.id ?? candidate);
+    if (!Number.isInteger(coin) || coin < 1 || (Number.isInteger(coinCount) && coin > coinCount)) return null;
+    const rows = normalizeUnknownDirectionWeighingPlan(weighings, coinCount);
+    const signature = [];
+    for (const row of rows) {
+      if (options.requireEqualPanCounts !== false && options.require_equal_pan_counts !== false && row.leftCoins.length !== row.rightCoins.length) return null;
+      const outcome = outcomeForCandidate(coin, counterfeitWeight, row.leftCoins, row.rightCoins);
+      if (!outcome) return null;
+      signature.push(outcome);
+    }
+    return signature;
+  }
+
+  function checkKnownDirectionNonadaptiveStrategy(params = {}) {
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    const maxWeighings = Number(params.max_weighings ?? params.maxWeighings ?? params.weighing_count ?? params.weighingCount);
+    const counterfeitWeight = params.counterfeit_weight ?? params.counterfeitWeight ?? params.weight ?? 'lighter';
+    const requireEqualPanCounts = params.requireEqualPanCounts ?? params.require_equal_pan_counts;
+    const weighings = normalizeUnknownDirectionWeighingPlan(
+      params.weighings ?? params.plan ?? params.tests,
+      coinCount,
+      Number.isInteger(maxWeighings) ? maxWeighings : null
+    );
+    const errors = [];
+    if (!Number.isInteger(coinCount) || coinCount < 2) {
+      errors.push('coin_count must be an integer >= 2');
+    }
+    if (!Number.isInteger(maxWeighings) || maxWeighings < 1) {
+      errors.push('max_weighings must be an integer >= 1');
+    }
+    if (!normalizeWeight(counterfeitWeight)) {
+      errors.push('counterfeit_weight must be lighter or heavier');
+    }
+    if (Number.isInteger(maxWeighings) && weighings.length !== maxWeighings) {
+      errors.push(`Нужно задать ровно ${maxWeighings} взвешивания.`);
+    }
+    for (let index = 0; index < weighings.length; index += 1) {
+      const row = weighings[index];
+      const left = row.leftCoins;
+      const right = row.rightCoins;
+      const leftSet = new Set(left);
+      if (!left.length && !right.length) {
+        errors.push(`Взвешивание ${index + 1}: обе чаши пусты.`);
+      }
+      if (right.some(coin => leftSet.has(coin))) {
+        errors.push(`Взвешивание ${index + 1}: одна и та же монета есть на обеих чашах.`);
+      }
+      if (requireEqualPanCounts !== false && left.length !== right.length) {
+        errors.push(`Взвешивание ${index + 1}: на чашах должно быть поровну монет.`);
+      }
+    }
+    const states = Number.isInteger(coinCount) ? initialCandidates(coinCount) : [];
+    const partitionsByKey = new Map();
+    for (const state of states) {
+      const signature = knownDirectionSignatureForCandidate(state, counterfeitWeight, weighings, {
+        coinCount,
+        requireEqualPanCounts
+      });
+      if (!signature || (Number.isInteger(maxWeighings) && signature.length !== maxWeighings)) continue;
+      const key = unknownDirectionSignatureKey(signature);
+      if (!partitionsByKey.has(key)) partitionsByKey.set(key, { key, signature, states: [] });
+      partitionsByKey.get(key).states.push(state);
+    }
+    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== states.length) {
+      errors.push('Не для всех скрытых состояний удалось посчитать результаты.');
+    }
+    const partitions = [...partitionsByKey.values()].sort((a, b) =>
+      a.key.localeCompare(b.key, undefined, { numeric: true })
+    ).map(part => ({ ...part, solved: part.states.length === 1 }));
+    const conflicts = partitions.filter(part => !part.solved);
+    return {
+      success: errors.length === 0 && states.length > 0 && conflicts.length === 0,
+      ok: errors.length === 0 && states.length > 0 && conflicts.length === 0,
+      complete: Number.isInteger(maxWeighings) && weighings.length === maxWeighings,
+      coinCount,
+      maxWeighings,
+      counterfeitWeight: normalizeWeight(counterfeitWeight),
+      weighings,
+      states,
+      partitions,
+      conflicts,
+      conflict: conflicts[0] || null,
+      errors
+    };
+  }
+
+  function checkUnknownDirectionNonadaptiveStrategy(params = {}) {
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    const maxWeighings = Number(params.max_weighings ?? params.maxWeighings ?? params.weighing_count ?? params.weighingCount);
+    const requireEqualPanCounts = params.requireEqualPanCounts ?? params.require_equal_pan_counts;
+    const objective = params.objective || params.goal || 'identify_coin_and_sign';
+    const coinOnly = isCoinOnlyUnknownDirectionObjective(objective);
+    const weighings = normalizeUnknownDirectionWeighingPlan(
+      params.weighings ?? params.plan ?? params.tests,
+      coinCount,
+      Number.isInteger(maxWeighings) ? maxWeighings : null
+    );
+    const errors = [];
+    if (!Number.isInteger(coinCount) || coinCount < 2) {
+      errors.push('coin_count must be an integer >= 2');
+    }
+    if (!Number.isInteger(maxWeighings) || maxWeighings < 1) {
+      errors.push('max_weighings must be an integer >= 1');
+    }
+    if (Number.isInteger(maxWeighings) && weighings.length !== maxWeighings) {
+      errors.push(`Нужно задать ровно ${maxWeighings} взвешивания.`);
+    }
+    for (let index = 0; index < weighings.length; index += 1) {
+      const row = weighings[index];
+      const left = row.leftCoins;
+      const right = row.rightCoins;
+      const leftSet = new Set(left);
+      if (!left.length && !right.length) {
+        errors.push(`Взвешивание ${index + 1}: обе чаши пусты.`);
+      }
+      if (right.some(coin => leftSet.has(coin))) {
+        errors.push(`Взвешивание ${index + 1}: одна и та же монета есть на обеих чашах.`);
+      }
+      if (requireEqualPanCounts !== false && left.length !== right.length) {
+        errors.push(`Взвешивание ${index + 1}: на чашах должно быть поровну монет.`);
+      }
+    }
+    const states = Number.isInteger(coinCount) ? initialUnknownDirectionCandidates(coinCount) : [];
+    const partitionsByKey = new Map();
+    for (const state of states) {
+      const signature = unknownDirectionSignatureForCandidate(state, weighings, {
+        coinCount,
+        requireEqualPanCounts
+      });
+      if (!signature || (Number.isInteger(maxWeighings) && signature.length !== maxWeighings)) continue;
+      const signatureKey = unknownDirectionSignatureKey(signature);
+      const key = coinOnly ? canonicalCoinOnlyUnknownDirectionSignatureKey(signature) : signatureKey;
+      if (!partitionsByKey.has(key)) partitionsByKey.set(key, { key, signature, signatures: [], states: [] });
+      const part = partitionsByKey.get(key);
+      if (!part.signatures.some(item => unknownDirectionSignatureKey(item) === signatureKey)) {
+        part.signatures.push(signature);
+      }
+      part.states.push(state);
+    }
+    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== states.length) {
+      errors.push('Не для всех скрытых состояний удалось посчитать результаты.');
+    }
+    const partitions = [...partitionsByKey.values()].sort((a, b) =>
+      a.key.localeCompare(b.key, undefined, { numeric: true })
+    ).map(part => {
+      const possibleCoins = [...new Set(part.states.map(state => state.coin))].sort((a, b) => a - b);
+      const solved = coinOnly ? possibleCoins.length === 1 : part.states.length === 1;
+      return { ...part, possibleCoins, solved };
+    });
+    const conflicts = partitions.filter(part => !part.solved);
+    return {
+      success: errors.length === 0 && states.length > 0 && conflicts.length === 0,
+      ok: errors.length === 0 && states.length > 0 && conflicts.length === 0,
+      complete: Number.isInteger(maxWeighings) && weighings.length === maxWeighings,
+      coinCount,
+      maxWeighings,
+      objective,
+      coinOnly,
+      weighings,
+      states,
+      partitions,
+      conflicts,
+      conflict: conflicts[0] || null,
+      errors
+    };
+  }
+
   function finalizeCheaterAnswer(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
     const candidates = uniqueCoins(
@@ -2925,6 +3149,14 @@
     expandUnknownDirectionExhaustiveNode,
     chooseCheaterOutcome,
     chooseCheaterUnknownDirectionOutcome,
+    normalizeUnknownDirectionWeighingPlan,
+    unknownDirectionSignatureForCandidate,
+    unknownDirectionSignatureKey,
+    oppositeUnknownDirectionSignature,
+    canonicalCoinOnlyUnknownDirectionSignatureKey,
+    knownDirectionSignatureForCandidate,
+    checkKnownDirectionNonadaptiveStrategy,
+    checkUnknownDirectionNonadaptiveStrategy,
     finalizeCheaterAnswer,
     finalizeCheaterUnknownDirectionAnswer,
     initialScaleCandidates,

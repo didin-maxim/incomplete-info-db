@@ -32,6 +32,72 @@
       "backward_text": "ММО-2026 развивает ту же структурную идею на доске 12 на 12, но цель слабее: не найти фальшивый ряд, а гарантированно указать много настоящих монет.",
       "status": "ai_checked",
       "confidence": 0.86
+    },
+    {
+      "id": "rel-moebius-three-coins-liar-to-truth-liar-normalization",
+      "from": "moebius-2018-three-coins-knight-liar-genuine",
+      "to": "truth-liar-universal-yes-no",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Задача Мёбиуса использует более простую форму нормализации лжеца: две реплики одного человека дают общий гарантированный вывод, даже если тип отвечающего неизвестен.",
+      "backward_text": "Классический универсальный вопрос дает общий шаблон снятия неизвестности о правдивом и лжеце; здесь вместо одного вложенного вопроса работает короткая таблица двух ответов.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-moebius-five-circle-to-six-circle-fakes",
+      "from": "moebius-2019-five-circle-light-fakes-count",
+      "to": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Обе задачи используют геометрическое ограничение на расположение легких фальшивых монет по кругу и малое дерево исходов взвешиваний.",
+      "backward_text": "Шестимонетная задача является более коротким примером той же идеи: одно сравнение разбивает возможные соседние пары так, что в каждом исходе есть общая фальшивая монета.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-moebius-six-circle-to-kvant-eight-circle",
+      "from": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing",
+      "to": "kvant-2002-05-eight-circle-three-heavy",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "В обеих задачах фальшивые монеты образуют подряд идущий блок на круге; у Мёбиуса цель слабее - найти хотя бы одну из двух легких фальшивых монет.",
+      "backward_text": "Квантовская задача развивает структурное ограничение подряд идущих фальшивых монет, но требует восстановить весь блок из трех тяжелых монет.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-moebius-baron-stacks-to-counterfeit-stack",
+      "from": "moebius-2020-baron-three-stacks-one-genuine",
+      "to": "counterfeit-stack-one-weighing",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "У Мёбиуса цель не найти фальшивую стопку, а сертифицировать любую настоящую стопку; поэтому хватает одного сравнения без числового показания веса.",
+      "backward_text": "Классическая стопочная задача кодирует номер фальшивой стопки числовым дефицитом, что является более сильной задачей с другим типом весов.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-moebius-spies-to-omj-spies",
+      "from": "moebius-2022-four-knights-liars-spies",
+      "to": "poland-omj-seminar-two-spies-five-statements",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе задачи сводят публичные реплики о шпионах к системе ограничений на роли говорящих и скрытое множество шпионов.",
+      "backward_text": "Семинарская задача OMJ показывает тот же механизм в более линейной форме: реплики непосредственно дают равенства и неравенства между ролями.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-moebius-line-liar-to-binary-search",
+      "from": "moebius-2023-ten-line-one-liar-four-questions",
+      "to": "twenty-questions-binary-search",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "После нормализации ответов задача Мёбиуса становится адаптивным поиском скрытой позиции по да/нет-тестам, но тесты имеют фиксированную локальную форму.",
+      "backward_text": "Обычный бинарный поиск дает базовую идею делить множество кандидатов ответами да/нет; в задаче Мёбиуса деления приходится строить из окон соседства.",
+      "status": "ai_checked",
+      "confidence": 0.78
     }
   ]
 }

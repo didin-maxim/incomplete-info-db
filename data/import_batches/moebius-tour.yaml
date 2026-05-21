@@ -1,10 +1,11 @@
 {
   "id": "moebius-tour",
-  "title": "Турнир Мёбиуса: интерактивные задачи про неполную информацию",
+  "title": "Турнир Мёбиуса: задачи про неполную информацию",
   "created_at": "2026-05-21",
   "status": "draft",
   "queries": [
     "https://moebiustour.ru/puzzle/cupscales-2",
+    "https://moebiustour.ru/archive/tour1 ... https://moebiustour.ru/archive/tour17",
     "\"Взвешивания-2\" \"Мёбиуса\" решение",
     "\"Перед вами несколько серебряных и медных монет\" \"фальшивая\""
   ],
@@ -20,12 +21,69 @@
       "status": "added_ai_checked",
       "source_id": "src-moebius-tour-10-problems",
       "note": "X Турнир Мёбиуса, задача 48; повторяется в PDF как задача 80. Официальное условие проверено, решение восстановлено редакционно."
+    },
+    {
+      "problem_id": "moebius-2018-three-coins-knight-liar-genuine",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-1-problems",
+      "note": "I Турнир Мёбиуса, задача 89; повторяется как задача 97. Гибрид фальшивой монеты и неизвестного рыцаря/лжеца."
+    },
+    {
+      "problem_id": "moebius-2019-five-circle-light-fakes-count",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-3-problems",
+      "note": "III Турнир Мёбиуса, задача 28. Решение восстановлено и проверено перебором допустимых состояний."
+    },
+    {
+      "problem_id": "moebius-2020-baron-three-stacks-one-genuine",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-5-problems",
+      "note": "V Турнир Мёбиуса, задача про стопки 10, 13 и 2020 монет. Минимум - одно взвешивание."
+    },
+    {
+      "problem_id": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-8-problems",
+      "note": "VIII Турнир Мёбиуса, задача 22; повторяется в нескольких лигах. Одно взвешивание 1 против 3."
+    },
+    {
+      "problem_id": "moebius-2022-four-knights-liars-spies",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-9-problems",
+      "note": "IX Турнир Мёбиуса, задача 19; повторяется как задача 66. Единственный совместимый вариант проверен перебором."
+    },
+    {
+      "problem_id": "moebius-2023-ten-line-one-liar-four-questions",
+      "status": "added_ai_checked",
+      "source_id": "src-moebius-tour-11-problems",
+      "note": "XI Турнир Мёбиуса, задача 202. Дерево из четырех вопросов проверено перебором десяти положений лжеца."
     }
+  ],
+  "candidate_review": [
+    {"tour": "I", "tasks": "30/70, 33/77", "verdict": "deferred", "note": "хорошие системы рыцарей/лжецов, но не успел довести полные решения и проверку дублей"},
+    {"tour": "I", "tasks": "89/97", "verdict": "added", "problem_id": "moebius-2018-three-coins-knight-liar-genuine"},
+    {"tour": "II", "tasks": "23, 31, 47, 87/120", "verdict": "deferred", "note": "релевантные взвешивания и рыцари/лжецы; требуют отдельной проверки стратегий или дублей"},
+    {"tour": "III", "tasks": "14, 39", "verdict": "deferred", "note": "релевантные взвешивания, решения не доведены в этом проходе"},
+    {"tour": "III", "tasks": "28", "verdict": "added", "problem_id": "moebius-2019-five-circle-light-fakes-count"},
+    {"tour": "IV", "tasks": "10, 22, 32", "verdict": "deferred", "note": "релевантные, но решения требуют аккуратной отдельной проверки"},
+    {"tour": "V", "tasks": "5 (стопки 10,13,2020)", "verdict": "added", "problem_id": "moebius-2020-baron-three-stacks-one-genuine"},
+    {"tour": "V", "tasks": "2, 5, 6, 7, 11, 12 и повторы в лигах", "verdict": "deferred", "note": "есть релевантные рыцари/лжецы, тестеры и игровые протоколы; часть номеров относится к разным лигам"},
+    {"tour": "VI", "tasks": "5, 9, 29", "verdict": "deferred", "note": "быстрый скан подтвердил кандидатов, но полное чтение/решения не завершены"},
+    {"tour": "VII", "tasks": "5, 38, 48", "verdict": "deferred", "note": "релевантные монетные задачи, требуют проверки на дубли и корректность стратегий"},
+    {"tour": "VIII", "tasks": "22/54/91/123", "verdict": "added", "problem_id": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing"},
+    {"tour": "VIII", "tasks": "32/64/104/136, 48, 84/116, 175/207", "verdict": "deferred", "note": "релевантные рыцари/лжецы и публичное знание, но не все решения восстановлены"},
+    {"tour": "IX", "tasks": "19/66", "verdict": "added", "problem_id": "moebius-2022-four-knights-liars-spies"},
+    {"tour": "IX", "tasks": "5/90, 43, 49/82, 80, 126, 155", "verdict": "deferred", "note": "часть релевантна; часть вроде задачи 80 про карточки вне строгого фильтра передачи информации"},
+    {"tour": "X", "tasks": "48/80", "verdict": "added_existing", "problem_id": "moebius-2022-3x3-line-of-three-light-fakes"},
+    {"tour": "X", "tasks": "1, 22, 88, 111, 132", "verdict": "deferred_or_duplicate", "note": "1 и 88 близки к существующим карточкам про направление фальшивой монеты; 22 обычное разделение гирь; 111 и 132 требуют отдельной проверки"},
+    {"tour": "XI", "tasks": "202", "verdict": "added", "problem_id": "moebius-2023-ten-line-one-liar-four-questions"},
+    {"tour": "XI", "tasks": "23/224, 30/77, 154, 194, 232/272", "verdict": "deferred", "note": "релевантные, но часть зависит от рисунка/неоднозначной интерпретации или требует отдельного решения"},
+    {"tour": "XII-XVII", "tasks": "archive pages", "verdict": "rejected_out_of_scope", "note": "официальные страницы проверены; ссылок на PDF с задачами не найдено, в основном результаты/таблицы/информация о турнире"}
   ],
   "source_notes": [
     "Официального опубликованного решения на странице не найдено; страница содержит условие, интерактив и JS-модель.",
-    "Официальные PDF с задачами найдены для I-XI турниров; на страницах XII-XVII в этом проходе обнаружены только результаты или нет ссылок на задачи.",
+    "Официальные PDF с задачами найдены для I-XI турниров; на страницах XII-XVII в этом проходе обнаружены результаты, таблицы и оргинформация, но не PDF с задачами.",
     "Черновик Hume из соседнего workspace использован только как список мест для проверки; формулировка была исправлена по официальному HTML/JS.",
-    "Карточка оставлена public_ready=false из-за нестандартной смешанной модели и необходимости ручной редакторской проверки решения."
+    "Карточка cupscales-2 оставлена public_ready=false из-за нестандартной смешанной модели и необходимости ручной редакторской проверки решения."
   ]
 }

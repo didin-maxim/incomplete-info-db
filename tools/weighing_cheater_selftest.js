@@ -9,14 +9,27 @@ function loadProblemConfig(relativePath) {
 }
 
 const twelveCoinConfig = loadProblemConfig('data/problems/weighings/counterfeit-12-coins-3-weighings.yaml');
+const twelveCoinPreassignedConfig = loadProblemConfig('data/problems/weighings/counterfeit-12-coins-3-preassigned-weighings.yaml');
+const limitedTwoUsesPreassignedConfig = loadProblemConfig('data/problems/generalizations/light-coin-limited-two-uses-preassigned-weighings.yaml');
 const thirteenIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-identify-only-three-weighings.yaml');
+const thirteenPreassignedIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-preassigned-identify-only-three-weighings.yaml');
 const thirteenKnownGenuineConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-known-genuine-three-weighings.yaml');
 
 assert.deepEqual(twelveCoinConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(twelveCoinConfig.modes.includes('cheater'), true);
+assert.deepEqual(twelveCoinPreassignedConfig.type, 'single_counterfeit_unknown_direction');
+assert.equal(twelveCoinPreassignedConfig.adaptive, false);
+assert.equal(twelveCoinPreassignedConfig.modes.includes('exhaustive'), true);
+assert.deepEqual(limitedTwoUsesPreassignedConfig.type, 'single_counterfeit_weighing');
+assert.equal(limitedTwoUsesPreassignedConfig.adaptive, false);
+assert.equal(limitedTwoUsesPreassignedConfig.counterfeit_weight, 'lighter');
 assert.deepEqual(thirteenIdentifyOnlyConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(thirteenIdentifyOnlyConfig.objective, 'identify_coin_only_unknown_direction');
 assert.equal(thirteenIdentifyOnlyConfig.modes.includes('cheater'), true);
+assert.deepEqual(thirteenPreassignedIdentifyOnlyConfig.type, 'single_counterfeit_unknown_direction');
+assert.equal(thirteenPreassignedIdentifyOnlyConfig.adaptive, false);
+assert.equal(thirteenPreassignedIdentifyOnlyConfig.objective, 'identify_coin_only_unknown_direction');
+assert.equal(thirteenPreassignedIdentifyOnlyConfig.modes.includes('exhaustive'), true);
 assert.deepEqual(thirteenKnownGenuineConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(thirteenKnownGenuineConfig.known_genuine_count, 1);
 assert.equal(thirteenKnownGenuineConfig.modes.includes('cheater'), true);
@@ -551,6 +564,101 @@ const unknownTieWithHistory = cheater.chooseCheaterUnknownDirectionOutcome({
   require_equal_pan_counts: true
 });
 assert.equal(unknownTieWithHistory.outcome, 'right_down');
+
+const twelveCoinPreassignedCheck = cheater.checkUnknownDirectionNonadaptiveStrategy({
+  coin_count: twelveCoinPreassignedConfig.coin_count,
+  max_weighings: twelveCoinPreassignedConfig.max_weighings,
+  weighings: twelveCoinPreassignedConfig.preset_weighings,
+  require_equal_pan_counts: twelveCoinPreassignedConfig.require_equal_pan_counts
+});
+assert.equal(twelveCoinPreassignedCheck.success, true);
+assert.equal(twelveCoinPreassignedCheck.states.length, 24);
+assert.equal(twelveCoinPreassignedCheck.partitions.length, 24);
+assert.deepEqual(twelveCoinPreassignedCheck.conflicts, []);
+assert.deepEqual(
+  cheater.unknownDirectionSignatureForCandidate(
+    { coin: 7, direction: 'heavier' },
+    twelveCoinPreassignedConfig.preset_weighings,
+    { coinCount: twelveCoinPreassignedConfig.coin_count, requireEqualPanCounts: true }
+  ),
+  ['left_down', 'balance', 'right_down']
+);
+
+const twelveCoinBadPreassignedCheck = cheater.checkUnknownDirectionNonadaptiveStrategy({
+  coin_count: twelveCoinPreassignedConfig.coin_count,
+  max_weighings: twelveCoinPreassignedConfig.max_weighings,
+  weighings: [
+    twelveCoinPreassignedConfig.preset_weighings[0],
+    twelveCoinPreassignedConfig.preset_weighings[1],
+    twelveCoinPreassignedConfig.preset_weighings[1]
+  ],
+  require_equal_pan_counts: true
+});
+assert.equal(twelveCoinBadPreassignedCheck.success, false);
+assert.equal(twelveCoinBadPreassignedCheck.conflicts.length > 0, true);
+
+const limitedTwoUsesPreassignedCheck = cheater.checkKnownDirectionNonadaptiveStrategy({
+  coin_count: limitedTwoUsesPreassignedConfig.coin_count,
+  max_weighings: limitedTwoUsesPreassignedConfig.max_weighings,
+  counterfeit_weight: limitedTwoUsesPreassignedConfig.counterfeit_weight,
+  weighings: limitedTwoUsesPreassignedConfig.preset_weighings,
+  require_equal_pan_counts: limitedTwoUsesPreassignedConfig.require_equal_pan_counts
+});
+assert.equal(limitedTwoUsesPreassignedCheck.success, true);
+assert.equal(limitedTwoUsesPreassignedCheck.states.length, 99);
+assert.equal(limitedTwoUsesPreassignedCheck.partitions.length, 99);
+assert.deepEqual(limitedTwoUsesPreassignedCheck.conflicts, []);
+assert.deepEqual(
+  cheater.knownDirectionSignatureForCandidate(
+    20,
+    'lighter',
+    limitedTwoUsesPreassignedConfig.preset_weighings,
+    { coinCount: limitedTwoUsesPreassignedConfig.coin_count, requireEqualPanCounts: true }
+  ),
+  ['right_down', 'balance', 'right_down', 'balance', 'balance', 'balance', 'balance']
+);
+
+const limitedTwoUsesBadPreassignedCheck = cheater.checkKnownDirectionNonadaptiveStrategy({
+  coin_count: limitedTwoUsesPreassignedConfig.coin_count,
+  max_weighings: limitedTwoUsesPreassignedConfig.max_weighings,
+  counterfeit_weight: limitedTwoUsesPreassignedConfig.counterfeit_weight,
+  weighings: [
+    limitedTwoUsesPreassignedConfig.preset_weighings[0],
+    limitedTwoUsesPreassignedConfig.preset_weighings[1],
+    limitedTwoUsesPreassignedConfig.preset_weighings[2],
+    limitedTwoUsesPreassignedConfig.preset_weighings[3],
+    limitedTwoUsesPreassignedConfig.preset_weighings[4],
+    limitedTwoUsesPreassignedConfig.preset_weighings[5],
+    limitedTwoUsesPreassignedConfig.preset_weighings[5]
+  ],
+  require_equal_pan_counts: true
+});
+assert.equal(limitedTwoUsesBadPreassignedCheck.success, false);
+assert.equal(limitedTwoUsesBadPreassignedCheck.conflicts.length > 0, true);
+
+const thirteenPreassignedIdentifyOnlyCheck = cheater.checkUnknownDirectionNonadaptiveStrategy({
+  coin_count: thirteenPreassignedIdentifyOnlyConfig.coin_count,
+  max_weighings: thirteenPreassignedIdentifyOnlyConfig.max_weighings,
+  weighings: thirteenPreassignedIdentifyOnlyConfig.preset_weighings,
+  objective: thirteenPreassignedIdentifyOnlyConfig.objective,
+  require_equal_pan_counts: thirteenPreassignedIdentifyOnlyConfig.require_equal_pan_counts
+});
+assert.equal(thirteenPreassignedIdentifyOnlyCheck.success, true);
+assert.equal(thirteenPreassignedIdentifyOnlyCheck.coinOnly, true);
+assert.equal(thirteenPreassignedIdentifyOnlyCheck.states.length, 26);
+assert.equal(thirteenPreassignedIdentifyOnlyCheck.partitions.length, 13);
+assert.deepEqual(thirteenPreassignedIdentifyOnlyCheck.conflicts, []);
+assert.deepEqual(
+  thirteenPreassignedIdentifyOnlyCheck.partitions.find(part => part.key === 'balance|balance|balance').states,
+  [
+    { coin: 13, direction: 'heavier' },
+    { coin: 13, direction: 'lighter' }
+  ]
+);
+assert.equal(
+  thirteenPreassignedIdentifyOnlyCheck.partitions.every(part => part.possibleCoins.length === 1),
+  true
+);
 
 const unknownAmbiguousAnswer = cheater.finalizeCheaterUnknownDirectionAnswer({
   coin_count: 12,

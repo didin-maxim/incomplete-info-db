@@ -305,6 +305,44 @@ def validate_interactive(errors, label, problem):
     has_known_genuine = interactive.get("has_known_genuine")
     if has_known_genuine is not None and not isinstance(has_known_genuine, bool):
         fail(errors, f"{label}: interactive.has_known_genuine must be a boolean")
+    adaptive = interactive.get("adaptive")
+    if adaptive is not None and not isinstance(adaptive, bool):
+        fail(errors, f"{label}: interactive.adaptive must be a boolean")
+    require_equal_pan_counts = interactive.get("require_equal_pan_counts")
+    if require_equal_pan_counts is not None and not isinstance(require_equal_pan_counts, bool):
+        fail(errors, f"{label}: interactive.require_equal_pan_counts must be a boolean")
+    preset_weighings = interactive.get("preset_weighings")
+    if preset_weighings is not None:
+        if interactive_type not in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction"}:
+            fail(errors, f"{label}: interactive.preset_weighings is only supported for single-counterfeit interactives")
+        elif not isinstance(preset_weighings, list):
+            fail(errors, f"{label}: interactive.preset_weighings must be a list")
+        else:
+            if isinstance(max_weighings, int) and not isinstance(max_weighings, bool) and len(preset_weighings) > max_weighings:
+                fail(errors, f"{label}: interactive.preset_weighings length must not exceed max_weighings")
+            for row_index, row in enumerate(preset_weighings):
+                if not isinstance(row, dict):
+                    fail(errors, f"{label}: interactive.preset_weighings[{row_index}] must be an object")
+                    continue
+                left = row.get("left", row.get("left_coins", row.get("leftCoins")))
+                right = row.get("right", row.get("right_coins", row.get("rightCoins")))
+                for side_name, coins in [("left", left), ("right", right)]:
+                    if not isinstance(coins, list):
+                        fail(errors, f"{label}: interactive.preset_weighings[{row_index}].{side_name} must be a list")
+                        continue
+                    seen = set()
+                    for coin in coins:
+                        if not isinstance(coin, int) or isinstance(coin, bool) or not isinstance(coin_count, int) or coin < 1 or coin > coin_count:
+                            fail(errors, f"{label}: interactive.preset_weighings[{row_index}].{side_name} contains invalid coin {coin}")
+                        if coin in seen:
+                            fail(errors, f"{label}: interactive.preset_weighings[{row_index}].{side_name} contains duplicate coin {coin}")
+                        seen.add(coin)
+                if isinstance(left, list) and isinstance(right, list):
+                    overlap = set(left) & set(right)
+                    if overlap:
+                        fail(errors, f"{label}: interactive.preset_weighings[{row_index}] has coin on both pans: {sorted(overlap)}")
+                    if require_equal_pan_counts is not False and len(left) != len(right):
+                        fail(errors, f"{label}: interactive.preset_weighings[{row_index}] must have equal pan sizes")
     if interactive_type in {"single_counterfeit_weighing", "broken_scale_counterfeit_coin"} and interactive.get("counterfeit_weight") not in INTERACTIVE_COUNTERFEIT_WEIGHTS:
         fail(errors, f"{label}: interactive.counterfeit_weight must be one of {sorted(INTERACTIVE_COUNTERFEIT_WEIGHTS)}")
     if interactive_type == "single_counterfeit_unknown_direction" and interactive.get("counterfeit_weight") not in (None, "unknown"):

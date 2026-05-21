@@ -163,12 +163,14 @@ clusters:
       - "Если цель - определить только легче/тяжелее без поиска объекта, держать как кандидат, а не как ядро."
     core_problem_ids:
       - counterfeit-12-coins-3-weighings
+      - thirteen-coins-preassigned-identify-only-three-weighings
       - ternary-signature-code-heavy-or-light
       - thirteen-coins-known-genuine-three-weighings
       - komal-2010-a512-nonadaptive-counterfeit-code
       - ukmt-open-ended-2013-task-four-42-counterfeit-coins
     problem_ids:
       - counterfeit-12-coins-3-weighings
+      - thirteen-coins-preassigned-identify-only-three-weighings
       - ternary-signature-code-heavy-or-light
       - thirteen-coins-known-genuine-three-weighings
       - komal-2010-a512-nonadaptive-counterfeit-code

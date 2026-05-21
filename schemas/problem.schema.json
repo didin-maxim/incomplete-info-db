@@ -225,9 +225,32 @@
           },
           "uniqueItems": true
         },
+        "adaptive": {
+          "type": "boolean",
+          "description": "Whether later tests or weighings may depend on earlier outcomes."
+        },
         "require_equal_pan_counts": {
           "type": "boolean",
           "description": "Whether the UI should require the two pans to contain the same number of coins before weighing."
+        },
+        "preset_weighings": {
+          "type": "array",
+          "description": "Fixed balance-scale weighings shown and checked by nonadaptive interactives.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "left": {
+                "type": "array",
+                "items": {"type": "integer", "minimum": 1},
+                "uniqueItems": true
+              },
+              "right": {
+                "type": "array",
+                "items": {"type": "integer", "minimum": 1},
+                "uniqueItems": true
+              }
+            }
+          }
         },
         "known_genuine_count": {
           "type": "integer",

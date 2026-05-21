@@ -1,0 +1,116 @@
+{
+  "id": "thirteen-coins-preassigned-identify-only-three-weighings",
+  "title": "13 монет: три взвешивания объявлены заранее, нужно найти монету",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": ["strategy_construction", "nonadaptive_strategy", "variant"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-13-preassigned-identify-only",
+        "title": "План нельзя менять после результатов",
+        "text": "Даны 13 одинаковых на вид монет. Ровно одна из них фальшивая: она отличается по весу от остальных, но неизвестно, легче она или тяжелее. Нужно за три взвешивания на чашечных весах определить номер фальшивой монеты. Определять, легче она или тяжелее, не требуется. Все три взвешивания надо объявить заранее, до получения первого результата.",
+        "source_ids": ["src-classical-coin-weighing"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-opposite-outcomes-name-same-coin",
+      "title": "Противоположные результаты называют ту же монету",
+      "text": "Для каждой монеты заранее записываем три символа: Л - монета лежит на левой чаше, П - на правой, 0 - не участвует. Если эта монета тяжелая, результаты совпадают с ее записью. Если она легкая, Л и П меняются местами. Так как знак отличия называть не надо, запись и противоположная запись могут вести к одному и тому же ответу: к номеру этой монеты.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-zero-record-for-one-coin",
+      "title": "Одну монету можно не взвешивать ни разу",
+      "text": "В версии, где нужно найти только номер, запись 000 уже не бесполезна: тяжелая и легкая фальшивость такой монеты дают один и тот же результат 000, но обе версии указывают на одну и ту же монету. Остальным 12 монетам назначаем по одному представителю из противоположных пар ненулевых записей и выбираем знаки так, чтобы в каждом взвешивании слева и справа было поровну монет.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-zero-record-and-twelve-pairs",
+      "title": "Готовая таблица из Л, П и 0",
+      "text": "Пронумеруем монеты от 1 до 13. В записи монеты символ Л означает: положить ее на левую чашу в этом взвешивании; П - на правую; 0 - не класть.\n\n| монета | запись |\n|---|---|\n| 1 | 00Л |\n| 2 | 0ЛП |\n| 3 | 0Л0 |\n| 4 | 0ЛЛ |\n| 5 | ЛП0 |\n| 6 | ПЛП |\n| 7 | Л0П |\n| 8 | Л00 |\n| 9 | Л0Л |\n| 10 | ППЛ |\n| 11 | ПП0 |\n| 12 | ППП |\n| 13 | 000 |\n\nОтсюда получаются три заранее объявленных взвешивания:\n\n| взвешивание | левая чаша | правая чаша |\n|---|---|---|\n| 1 | 5, 7, 8, 9 | 6, 10, 11, 12 |\n| 2 | 2, 3, 4, 6 | 5, 10, 11, 12 |\n| 3 | 1, 4, 9, 10 | 2, 6, 7, 12 |\n\nВ каждой строке таблицы четыре буквы Л и четыре буквы П, поэтому все три взвешивания законны: если бы все монеты были настоящими, чаши были бы уравновешены. Монета 13 не участвует нигде.\n\nТеперь проведем эти три взвешивания и запишем результат тоже тремя символами: Л, если левая чаша тяжелее, П, если правая тяжелее, и 0, если равновесие. Если результат совпал с записью монеты, то эта монета могла быть тяжелой фальшивой. Если результат противоположен записи монеты, то эта же монета могла быть легкой фальшивой. Нам не нужно выбирать между этими двумя случаями, поэтому в обоих вариантах ответом является один и тот же номер монеты.\n\nРасшифровка выглядит так:\n\n| результат взвешиваний | фальшивая монета |\n|---|---|\n| 000 | 13 |\n| 00Л или 00П | 1 |\n| 0ЛП или 0ПЛ | 2 |\n| 0Л0 или 0П0 | 3 |\n| 0ЛЛ или 0ПП | 4 |\n| ЛП0 или ПЛ0 | 5 |\n| ПЛП или ЛПЛ | 6 |\n| Л0П или П0Л | 7 |\n| Л00 или П00 | 8 |\n| Л0Л или П0П | 9 |\n| ППЛ или ЛЛП | 10 |\n| ПП0 или ЛЛ0 | 11 |\n| ППП или ЛЛЛ | 12 |\n\nПочему здесь нет путаницы между разными монетами: у монет 1-12 выбраны 12 записей, никакие две из них не совпадают и не являются противоположными. Запись 000 отдана только монете 13. Значит каждый возможный результат или его противоположность указывает ровно на одну монету.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-not-enough",
+      "title": "Почему двух взвешиваний мало",
+      "text": "В конце нужно различить 13 возможных ответов: какая именно монета фальшивая. Два чашечных взвешивания дают не более \\(3^2=9\\) разных цепочек результатов, поэтому двух взвешиваний недостаточно. Построенная таблица показывает, что трех заранее заданных взвешиваний хватает.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "26 состояний: одна из 13 монет фальшивая и может быть легче или тяжелее",
+    "observations": ["три результата заранее объявленных чашечных взвешиваний"],
+    "allowed_actions": ["до первого результата назначить все три взвешивания с равным числом монет на чашах"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["nonadaptive_strategy", "ternary_code", "signature_code"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["13_coins", "preassigned_weighings", "identify_coin_only", "unknown_heavy_or_light", "zero_signature"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 13,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "identify_coin_only"
+  },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 13,
+    "max_weighings": 3,
+    "objective": "identify_coin_only_unknown_direction",
+    "adaptive": false,
+    "modes": ["exhaustive", "sandbox"],
+    "require_equal_pan_counts": true,
+    "preset_weighings": [
+      {"left": [5, 7, 8, 9], "right": [6, 10, 11, 12]},
+      {"left": [2, 3, 4, 6], "right": [5, 10, 11, 12]},
+      {"left": [1, 4, 9, 10], "right": [2, 6, 7, 12]}
+    ]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Средняя: решение школьное по формулировке, но нужно заметить, что отказ от определения знака позволяет использовать нулевую запись для одной монеты и объединять противоположные результаты.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "decision_tree_lower_bound", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_variant", "status": "source_verified"},
+    {"source_id": "src-komal-2010-a512", "role": "related_nonadaptive_signature_method", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-21",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "variant_of_signature_code_with_coin_only_objective",
+    "notes": [
+      "Создано по выводу Archimedes как отдельная родственная карточка, чтобы не смешивать адаптивную 13-монетную стратегию с заранее заданной таблицей.",
+      "От 13 монет с эталоном отличается отсутствием заведомо настоящей монеты и более слабой целью: знак отличия не определяется.",
+      "Интерактив проверяет все 26 скрытых состояний, но считает противоположные результаты одной группы успешными, если они указывают на один и тот же номер монеты."
+    ]
+  }
+}
