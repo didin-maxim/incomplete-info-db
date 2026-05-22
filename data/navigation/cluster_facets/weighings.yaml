@@ -35,17 +35,17 @@
       "known_genuine_available": "Есть настоящая монета для сравнения?",
       "objective": "Что надо узнать",
       "proof_method": "Главный прием решения",
-      "signature_type": "Как узнать случай по результатам",
+      "signature_type": "Как результаты указывают случай",
       "generalization_level": "Насколько общий пример"
     },
     "values": {
       "primary_family": {
         "known_direction_search": "уже известно, легче фальшивая монета или тяжелее",
-        "preassigned_weighing_code": "заранее заданная таблица взвешиваний",
+        "preassigned_weighing_code": "заранее заданная таблица исходов",
         "erasure_resilient_weighing_code": "план с запасом на потерю одного или нескольких взвешиваний",
         "mixed_type_counterfeit_signs": "тип монеты задает, легче или тяжелее будет фальшивая",
         "unknown_direction_counterfeit": "неизвестно, легче фальшивая монета или тяжелее",
-      "numeric_linear_signature": "ответ читается из чисел и сумм",
+        "numeric_linear_signature": "ответ читается из чисел и сумм",
         "structured_counterfeit": "фальшивые монеты связаны расположением или группами",
         "faulty_or_limited_instrument": "прибор сломан или дает не все ответы",
         "expert_judge_certificate": "эксперт знает ответ и убеждает судью взвешиваниями",
@@ -81,7 +81,7 @@
         "single_unknown_direction": "одна фальшивая монета, легче или тяжелее неизвестно",
         "multiple_known_direction": "несколько фальшивых монет с известным отличием",
         "multiple_mixed_direction": "несколько фальшивых монет разных типов",
-        "known_weight_multiset": "набор весов известен, подписи неизвестны",
+        "known_weight_multiset": "набор весов известен, соответствие неизвестно",
         "uniformity_property": "проверяется, что все веса одинаковы",
         "zero_or_k_counterfeits": "фальшивых нет или их ровно k",
         "structured_weight_assignment": "веса распределены по правилу",
@@ -108,7 +108,7 @@
         "identify_weight_assignment": "восстановить веса",
         "identify_sign_only": "понять только легче или тяжелее",
         "identify_faulty_instrument": "найти сломанный прибор",
-        "certify_labeling": "доказать маркировку или подписи",
+        "certify_labeling": "доказать маркировку или таблицу",
         "certify_all_weights": "доказать все веса",
         "certify_counterfeit_set": "доказать набор фальшивых",
         "verify_all_weights_equal": "проверить, что все веса одинаковы",
@@ -122,9 +122,9 @@
       },
       "proof_method": {
         "ternary_search": "деление на три группы",
-      "ternary_signature_code": "таблица из трех исходов взвешивания",
+        "ternary_signature_code": "таблица из трех исходов взвешивания",
         "decision_tree_lower_bound": "счет листьев дерева решений",
-      "numeric_linear_signature": "числовые суммы как подсказка",
+        "numeric_linear_signature": "числовые суммы как подсказка",
         "structural_partition": "разбиение по структуре",
         "indistinguishability": "два случая выглядят одинаково",
         "adversary_lower_bound": "противник мешает выбрать короче",
@@ -141,7 +141,7 @@
         "binary_subset_code": "подсказка выбранными группами",
         "parity_or_equality": "четность или равенство",
         "balanced_ternary": "три варианта для каждой гири",
-        "none": "кода нет"
+        "none": "отдельной таблицы нет"
       },
       "generalization_level": {
         "finite_instance": "конкретная задача",
@@ -238,7 +238,7 @@
     {"problem_id": "matprazdnik-2022-digits-five-questions", "source_fragment": "questions", "reason": "вопросы о суммах цифр относятся к вопросам, а не к взвешиванию или измерению"},
     {"problem_id": "mmo-2019-wise-men-seven-numbers-median", "source_fragment": "communication", "reason": "линейную величину сообщает человек; физического или приборного измерения нет"},
     {"problem_id": "prisoners-chessboard-one-coin-xor", "source_fragment": "communication", "reason": "монеты служат отметками для сообщения о четности, а не предметами для взвешивания"},
-    {"problem_id": "kvantik-2015-parity-four-integers-three-questions", "source_fragment": "questions", "reason": "вопросы о четности суммы используют похожую кодовую логику, но не являются задачами на измерение или взвешивание"},
+    {"problem_id": "kvantik-2015-parity-four-integers-three-questions", "source_fragment": "questions", "reason": "вопросы о четности суммы используют похожую табличную логику, но не являются задачами на измерение или взвешивание"},
     {"problem_id": "fixed-questions-as-binary-code", "source_fragment": "questions", "reason": "абстрактные да/нет-вопросы относятся к вопросам, а не к взвешиваниям"}
   ],
   "global_facet_candidates": [

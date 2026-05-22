@@ -59,6 +59,24 @@
     "adaptive": false,
     "objective": "identify_coin_and_sign_after_one_erased_weighing"
   },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "coin_count": 12,
+    "max_weighings": 4,
+    "objective": "identify_coin_and_sign",
+    "adaptive": false,
+    "modes": ["sandbox", "exhaustive"],
+    "require_equal_pan_counts": true,
+    "erasure_count": 1,
+    "auto_check": false,
+    "preset_weighings": [
+      {"left": [1, 2, 3, 10], "right": [4, 5, 6, 11]},
+      {"left": [4, 5, 6, 10], "right": [7, 8, 9, 11]},
+      {"left": [1, 4, 7, 11], "right": [2, 5, 8, 12]},
+      {"left": [2, 5, 8, 11], "right": [3, 6, 9, 12]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_hard",
     "local_score": 7,
@@ -76,6 +94,6 @@
     "public_ready": true,
     "relations_status": "new_links",
     "generalization_status": "erasure_resilient_variant_of_saladin",
-    "notes": ["Кноп, занятие 6, задача 6.10. Интерактив пока не добавлен: нужен новый тип для плана с одним запасным взвешиванием."]
+    "notes": ["Кноп, занятие 6, задача 6.10.", "2026-05-22: добавлен интерактив как неадаптивная проверка `single_counterfeit_unknown_direction` с `erasure_count: 1`. Поле `one spare` трактуется как потеря/отбрасывание одного из четырех заранее объявленных результатов; номер отброшенной строки известен, и любая оставшаяся тройка строк должна восстановить монету и знак."]
   }
 }

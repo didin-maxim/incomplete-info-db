@@ -80,6 +80,19 @@
     ],
     "status": "ai_checked"
   },
+  "interactive": {
+    "type": "expert_judge_certificate",
+    "object_counts": [8],
+    "max_weighings": 1,
+    "objective": "identify_all_weights",
+    "modes": ["sandbox", "exhaustive"],
+    "weight_model": "equal_halves_binary",
+    "certificate_goal": "all_forced_weights",
+    "light_weight": 3,
+    "heavy_weight": 4,
+    "light_count": 4,
+    "heavy_count": 4
+  },
   "weighing_profile": {
     "object_count": 8,
     "counterfeit_count": 0,

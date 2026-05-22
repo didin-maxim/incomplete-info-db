@@ -84,6 +84,24 @@
     "adaptive": false,
     "objective": "identify_fake_bag_subset"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 3,
+    "max_weighings": 2,
+    "objective": "identify_fake_bag_subset",
+    "state_model": "fake_bag_subset",
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "bag",
+    "selection_model": "quantities",
+    "allow_empty_subset": true,
+    "exclude_all_fake": false,
+    "max_sampled_coins": 4,
+    "modes": ["random", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

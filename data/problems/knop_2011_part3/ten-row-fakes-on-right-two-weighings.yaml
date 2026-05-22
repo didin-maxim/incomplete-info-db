@@ -107,6 +107,28 @@
     "adaptive": true,
     "objective": "identify_all_fakes"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "coin_count": 10,
+    "counterfeit_weight": "lighter",
+    "max_weighings": 2,
+    "objective": "identify_all_counterfeits",
+    "modes": ["random", "cheater", "exhaustive"],
+    "layout": "line",
+    "require_equal_pan_counts": false,
+    "hidden_states": [
+      {"id": "B1", "label": "граница после 1: фальшивые 2-10", "coins": [2, 3, 4, 5, 6, 7, 8, 9, 10]},
+      {"id": "B2", "label": "граница после 2: фальшивые 3-10", "coins": [3, 4, 5, 6, 7, 8, 9, 10]},
+      {"id": "B3", "label": "граница после 3: фальшивые 4-10", "coins": [4, 5, 6, 7, 8, 9, 10]},
+      {"id": "B4", "label": "граница после 4: фальшивые 5-10", "coins": [5, 6, 7, 8, 9, 10]},
+      {"id": "B5", "label": "граница после 5: фальшивые 6-10", "coins": [6, 7, 8, 9, 10]},
+      {"id": "B6", "label": "граница после 6: фальшивые 7-10", "coins": [7, 8, 9, 10]},
+      {"id": "B7", "label": "граница после 7: фальшивые 8-10", "coins": [8, 9, 10]},
+      {"id": "B8", "label": "граница после 8: фальшивые 9-10", "coins": [9, 10]},
+      {"id": "B9", "label": "граница после 9: фальшивая 10", "coins": [10]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

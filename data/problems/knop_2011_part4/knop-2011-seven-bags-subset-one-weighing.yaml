@@ -32,7 +32,7 @@
   "ideas": [
     {
       "id": "idea-subset-sum-deficit",
-      "title": "Недостача веса кодирует подмножество",
+      "title": "Недостача веса указывает подмножество",
       "text": "Если взять из мешков разные степени двойки монет, то общая недостача веса равна сумме тех степеней двойки, которые соответствуют фальшивым мешкам. Двоичная запись этой недостачи восстанавливает весь набор мешков.",
       "status": "ai_checked",
       "standard_idea_ids": [
@@ -84,6 +84,23 @@
     "outcome_count_per_weighing": "numeric_weight",
     "adaptive": false,
     "objective": "identify_fake_bag_subset"
+  },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 7,
+    "max_weighings": 1,
+    "objective": "identify_fake_bag_subset",
+    "state_model": "fake_bag_subset",
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "bag",
+    "selection_model": "quantities",
+    "allow_empty_subset": true,
+    "exclude_all_fake": false,
+    "modes": ["random", "exhaustive"]
   },
   "difficulty": {
     "main": "olympiad_medium",

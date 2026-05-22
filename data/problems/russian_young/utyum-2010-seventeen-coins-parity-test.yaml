@@ -59,6 +59,15 @@
     "adaptive": false,
     "objective": "identify_selected_coin_type"
   },
+  "interactive": {
+    "type": "selected_coin_parity_detector",
+    "coin_count": 17,
+    "counterfeit_count": 8,
+    "selected_coin": 1,
+    "max_tests": 8,
+    "objective": "identify_selected_coin_type",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

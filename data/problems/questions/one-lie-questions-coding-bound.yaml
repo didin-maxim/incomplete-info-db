@@ -57,7 +57,7 @@
     "adaptive": "по отдельным случаям",
     "objective": "identify_one_of_N_states"
   },
-  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: карточка фиксирует нижнюю оценку через шары Хэмминга радиуса 1; это проще случая двух лжей и не содержит полной оптимальной стратегии.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: карточка фиксирует нижнюю оценку через запас на одну ложь вокруг каждого честного набора ответов; это проще случая двух лжей и не содержит полной оптимальной стратегии.", "status": "ai_checked"},
   "tags": ["lie_detection", "error_correcting_code", "hamming_bound", "decision_tree", "condition_older_students", "solution_advanced_math"],
   "sources": [
     {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}

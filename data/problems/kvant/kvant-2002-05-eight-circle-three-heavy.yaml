@@ -56,6 +56,26 @@
     "adaptive": true,
     "objective": "identify_all_counterfeits"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "coin_count": 8,
+    "counterfeit_weight": "heavier",
+    "max_weighings": 2,
+    "objective": "identify_all_counterfeits",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true,
+    "layout": "circle",
+    "hidden_states": [
+      {"id": "H123", "label": "1-2-3", "coins": [1, 2, 3]},
+      {"id": "H234", "label": "2-3-4", "coins": [2, 3, 4]},
+      {"id": "H345", "label": "3-4-5", "coins": [3, 4, 5]},
+      {"id": "H456", "label": "4-5-6", "coins": [4, 5, 6]},
+      {"id": "H567", "label": "5-6-7", "coins": [5, 6, 7]},
+      {"id": "H678", "label": "6-7-8", "coins": [6, 7, 8]},
+      {"id": "H781", "label": "7-8-1", "coins": [7, 8, 1]},
+      {"id": "H812", "label": "8-1-2", "coins": [8, 1, 2]}
+    ]
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: вместо поиска среди всех троек нужно закодировать восемь возможных подряд идущих блоков двумя сравнениями.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "structural_constraint", "symmetry", "condition_middle_school"],
   "sources": [{"source_id": "src-kvant-2003-02-young-solutions", "role": "official_corrected_statement_and_solution", "status": "source_verified"}],

@@ -107,6 +107,29 @@
     "adaptive": true,
     "objective": "identify_two_adjacent_light_objects"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "coin_count": 9,
+    "counterfeit_weight": "lighter",
+    "counterfeit_weight_model": "variable_lighter",
+    "max_weighings": 2,
+    "objective": "identify_all_counterfeits",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true,
+    "layout": "circle",
+    "hidden_states": [
+      {"id": "L12", "label": "1-2", "coins": [1, 2]},
+      {"id": "L23", "label": "2-3", "coins": [2, 3]},
+      {"id": "L34", "label": "3-4", "coins": [3, 4]},
+      {"id": "L45", "label": "4-5", "coins": [4, 5]},
+      {"id": "L56", "label": "5-6", "coins": [5, 6]},
+      {"id": "L67", "label": "6-7", "coins": [6, 7]},
+      {"id": "L78", "label": "7-8", "coins": [7, 8]},
+      {"id": "L89", "label": "8-9", "coins": [8, 9]},
+      {"id": "L91", "label": "9-1", "coins": [9, 1]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

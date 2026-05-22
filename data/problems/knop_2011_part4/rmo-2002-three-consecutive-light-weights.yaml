@@ -84,6 +84,43 @@
     "adaptive": true,
     "objective": "identify_consecutive_block"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 18,
+    "max_weighings": 2,
+    "objective": "identify_fake_bag_subset",
+    "state_model": "explicit_fake_sets",
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 100,
+    "observation_model": "actual_weight",
+    "object_kind": "coin",
+    "selection_model": "subset",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "hidden_states": [
+      {"id": "W1", "label": "гири 1-2-3", "coins": [1, 2, 3]},
+      {"id": "W2", "label": "гири 2-3-4", "coins": [2, 3, 4]},
+      {"id": "W3", "label": "гири 3-4-5", "coins": [3, 4, 5]},
+      {"id": "W4", "label": "гири 4-5-6", "coins": [4, 5, 6]},
+      {"id": "W5", "label": "гири 5-6-7", "coins": [5, 6, 7]},
+      {"id": "W6", "label": "гири 6-7-8", "coins": [6, 7, 8]},
+      {"id": "W7", "label": "гири 7-8-9", "coins": [7, 8, 9]},
+      {"id": "W8", "label": "гири 8-9-10", "coins": [8, 9, 10]},
+      {"id": "W9", "label": "гири 9-10-11", "coins": [9, 10, 11]},
+      {"id": "W10", "label": "гири 10-11-12", "coins": [10, 11, 12]},
+      {"id": "W11", "label": "гири 11-12-13", "coins": [11, 12, 13]},
+      {"id": "W12", "label": "гири 12-13-14", "coins": [12, 13, 14]},
+      {"id": "W13", "label": "гири 13-14-15", "coins": [13, 14, 15]},
+      {"id": "W14", "label": "гири 14-15-16", "coins": [14, 15, 16]},
+      {"id": "W15", "label": "гири 15-16-17", "coins": [15, 16, 17]},
+      {"id": "W16", "label": "гири 16-17-18", "coins": [16, 17, 18]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

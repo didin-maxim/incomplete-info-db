@@ -523,7 +523,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-imc-2019-sol-extended",
@@ -534,7 +535,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-smc-2015-sol-extended",
@@ -545,7 +547,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-open-ended-2013-primary",
@@ -556,7 +559,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-stmc-2018-19-national-final-group-round",
@@ -567,7 +571,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-stmc-2018-19-national-final-supervisors",
@@ -578,7 +583,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-mathcounts-potw-2021-03-22-solutions",
@@ -589,7 +595,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "MATHCOUNTS"
     },
     {
       "id": "src-mathcounts-colorful-caps",
@@ -600,7 +607,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "MATHCOUNTS"
     },
     {
       "id": "src-mathcounts-colorful-caps-poster",
@@ -611,7 +619,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "MATHCOUNTS"
     },
     {
       "id": "src-mathcounts-colorful-caps-solution",
@@ -622,7 +631,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "MATHCOUNTS"
     },
     {
       "id": "src-cemc-2025-bcc-7-8-contest",
@@ -633,7 +643,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Канада"
+      "country": "Канада",
+      "short_name": "CEMC Beaver Challenge"
     },
     {
       "id": "src-cemc-2025-bcc-7-8-solutions",
@@ -644,7 +655,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Канада"
+      "country": "Канада",
+      "short_name": "CEMC Beaver Challenge"
     },
     {
       "id": "src-cemc-2024-bcc-7-8-solutions",
@@ -655,7 +667,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Канада"
+      "country": "Канада",
+      "short_name": "CEMC Beaver Challenge"
     },
     {
       "id": "src-cemc-2025-pascal-contest",
@@ -666,7 +679,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Канада"
+      "country": "Канада",
+      "short_name": "CEMC Pascal Contest"
     },
     {
       "id": "src-cemc-2025-pascal-solution",
@@ -677,7 +691,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Канада"
+      "country": "Канада",
+      "short_name": "CEMC Pascal Contest"
     },
     {
       "id": "src-nrich-knights-and-knaves",
@@ -688,7 +703,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-nrich-money-measure",
@@ -699,7 +715,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-nrich-spot-the-fake",
@@ -710,7 +727,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-nrich-9-weights",
@@ -721,7 +739,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-nrich-great-weights-puzzle",
@@ -732,7 +751,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-nrich-balance-power",
@@ -743,7 +763,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "NRICH"
     },
     {
       "id": "src-sasmo-2015-grade-9-solutions",
@@ -754,7 +775,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-winkler-seven-puzzles",
@@ -1019,7 +1041,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-maa-2022-amc10a-solutions",
@@ -1030,7 +1053,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-aops-2022-amc10a-p12-index",
@@ -1041,7 +1065,8 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-aops-2010-amc12a-p12-index",
@@ -1052,7 +1077,8 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-maa-2010-amc12a-solutions-mirror",
@@ -1063,7 +1089,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-aops-2011-amc10a-p21-index",
@@ -1074,7 +1101,8 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-maa-2011-amc10a-solutions-mirror",
@@ -1085,7 +1113,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "AMC"
     },
     {
       "id": "src-wajo-2015-qns-solns",
@@ -1096,7 +1125,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Австралия"
+      "country": "Австралия",
+      "short_name": "WA Junior Olympiad"
     },
     {
       "id": "src-wajo-2022-qns-solns",
@@ -1107,7 +1137,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Австралия"
+      "country": "Австралия",
+      "short_name": "WA Junior Olympiad"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g4-book",
@@ -1118,7 +1149,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g5-book",
@@ -1129,7 +1161,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g6-book",
@@ -1140,7 +1173,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g8-book",
@@ -1151,7 +1185,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g9-book",
@@ -1162,7 +1197,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Сингапур"
+      "country": "Сингапур",
+      "short_name": "SASMO"
     },
     {
       "id": "src-sms-smo-solution-books-page",
@@ -1195,7 +1231,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Индия"
+      "country": "Индия",
+      "short_name": "Indian National Mathematical Olympiad"
     },
     {
       "id": "src-komal-2010-a512",
@@ -1281,7 +1318,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "ЮАР"
+      "country": "ЮАР",
+      "short_name": "UCT Mathematics Olympiad"
     },
     {
       "id": "src-pamo-2002-aops",
@@ -1314,7 +1352,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Австралия"
+      "country": "Австралия",
+      "short_name": "Australian Intermediate Math Olympiad"
     },
     {
       "id": "src-amt-amc-2016-solutions",
@@ -1326,8 +1365,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Австралия",
-      "short_name": "Australian AMC",
-      "display_name": "Australian AMC 2016",
+      "short_name": "Australian Mathematics Competition",
+      "display_name": "Australian Mathematics Competition 2016",
       "origin": "Australian Mathematics Competition 2016, Intermediate, problem 17"
     },
     {
@@ -1339,7 +1378,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Австралия"
+      "country": "Австралия",
+      "short_name": "Australian Mathematics Trust"
     },
     {
       "id": "src-amt-australian-scene-2022",
@@ -1350,7 +1390,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Австралия"
+      "country": "Австралия",
+      "short_name": "Australian Mathematics Trust"
     },
     {
       "id": "src-omg-2005-06-first-stage-problems",
@@ -1379,7 +1420,8 @@
           "role": "material_author",
           "status": "source_verified"
         }
-      ]
+      ],
+      "short_name": "Polish Junior Mathematical Olympiad"
     },
     {
       "id": "src-ukmt-imc-2013-sol-extended",
@@ -1390,7 +1432,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-smc-2016-sol-extended",
@@ -1401,7 +1444,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-smc-2017-sol-extended",
@@ -1412,7 +1456,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-ukmt-imok-2008-solutions-inside",
@@ -1423,7 +1468,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "Великобритания"
+      "country": "Великобритания",
+      "short_name": "UKMT Mathematical Challenge"
     },
     {
       "id": "src-kvantik-math-contest-2016-2017",
@@ -1818,7 +1864,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "США",
-      "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2022 volume, not a duplicate source record."
+      "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2022 volume, not a duplicate source record.",
+      "short_name": "UNM-PNM Math Contest"
     },
     {
       "id": "src-tot-2002-spring-junior-o-solutions",
@@ -1840,7 +1887,8 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
-      "country": "США"
+      "country": "США",
+      "short_name": "UNM-PNM Math Contest"
     },
     {
       "id": "src-berkeley-math-circle-2007-2008-contest4",
@@ -2010,7 +2058,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2010-solutions",
@@ -2022,7 +2071,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2012-exam",
@@ -2034,7 +2084,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2012-solutions",
@@ -2046,7 +2097,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2021-exam",
@@ -2058,7 +2110,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2021-solutions",
@@ -2070,7 +2123,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2025-exam",
@@ -2082,7 +2136,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-calgary-jmc-2025-solutions",
@@ -2094,7 +2149,8 @@
       "status": "source_verified",
       "language": "en",
       "country": "Канада",
-      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
+      "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml.",
+      "short_name": "Calgary Junior Math Contest"
     },
     {
       "id": "src-spb-primary-2023-solutions",
@@ -2188,7 +2244,9 @@
       "language": "en",
       "country": "Израиль",
       "origin": "2020 Israel National Olympiad, problem 1",
-      "access_note": "AoPS printable collection states the contest name and problem text; no official contest-hosted source was verified in this pass."
+      "access_note": "AoPS printable collection states the contest name and problem text; no official contest-hosted source was verified in this pass.",
+      "short_name": "Israel National Olympiad",
+      "display_name": "Israel National Olympiad 2020 (AoPS mirror)"
     },
     {
       "id": "src-aops-wiki-unm-pnm-2015-problem4",
@@ -2201,7 +2259,9 @@
       "language": "en",
       "country": "США",
       "origin": "UNM-PNM Statewide High School Mathematics Contest 2015, Second Round, problem 4",
-      "access_note": "AoPS Wiki page links to the UNM-PNM resources page and repeats the classic 12-coin statement."
+      "access_note": "AoPS Wiki page links to the UNM-PNM resources page and repeats the classic 12-coin statement.",
+      "short_name": "UNM-PNM Math Contest",
+      "display_name": "UNM-PNM Math Contest 2015 (AoPS)"
     },
     {
       "id": "src-aops-wiki-unm-pnm-2017-problem6",
@@ -2214,7 +2274,9 @@
       "language": "en",
       "country": "США",
       "origin": "UNM-PNM Statewide High School Mathematics Contest 2017, Second Round, problem 6",
-      "access_note": "AoPS Wiki page gives the 12-stack digital-scale variant; it is the same weighted-deficit mechanism as the classical stack problem."
+      "access_note": "AoPS Wiki page gives the 12-stack digital-scale variant; it is the same weighted-deficit mechanism as the classical stack problem.",
+      "short_name": "UNM-PNM Math Contest",
+      "display_name": "UNM-PNM Math Contest 2017 (AoPS)"
     },
     {
       "id": "src-aops-wiki-2021-jmc10-p3",
@@ -2227,7 +2289,9 @@
       "language": "en",
       "country": "Канада",
       "origin": "2021 JMC 10, problem 3; country kept as Canada according to the existing source pass, but no official contest-hosted source was verified.",
-      "access_note": "AoPS Wiki page gives the statement and a short solution; no separate official contest-hosted source was verified in this pass."
+      "access_note": "AoPS Wiki page gives the statement and a short solution; no separate official contest-hosted source was verified in this pass.",
+      "short_name": "Canadian JMC",
+      "display_name": "Canadian JMC 2021 (AoPS)"
     },
     {
       "id": "src-aops-wiki-imo-2012-p3",
@@ -2308,9 +2372,11 @@
       "official": false,
       "status": "needs_human_review",
       "language": "en",
-      "country": "США",
+      "country": "Россия",
       "origin": "All-Russian Olympiad 1997, grade 9 day 1 problem 4 and grade 11 day 1 problem 2",
-      "access_note": "AoPS printable collection identifies the contest and includes the two-color and three-color Council of Sages variants; no official contest-hosted source was verified in this pass."
+      "access_note": "AoPS printable collection identifies the contest and includes the two-color and three-color Council of Sages variants; no official contest-hosted source was verified in this pass.",
+      "short_name": "Всерос",
+      "display_name": "Всерос 1997 (AoPS mirror)"
     },
     {
       "id": "src-aops-wiki-kgs-math-club",
@@ -2322,7 +2388,9 @@
       "status": "source_verified",
       "language": "en",
       "country": "США",
-      "access_note": "Клубная AoPS-страница с подборкой задач и ссылками на решения; в этом проходе использована как дополнительный источник для дубликата про 100 заключенных и ящики. Отдельные решения по ссылкам могут быть недоступны без входа или возвращать 403."
+      "access_note": "Клубная AoPS-страница с подборкой задач и ссылками на решения; в этом проходе использована как дополнительный источник для дубликата про 100 заключенных и ящики. Отдельные решения по ссылкам могут быть недоступны без входа или возвращать 403.",
+      "short_name": "KGS Math Club",
+      "display_name": "KGS Math Club (AoPS)"
     },
     {
       "id": "src-mathcircles-rodin-knights-and-knaves",
@@ -2495,7 +2563,8 @@
       "language": "en",
       "country": "США",
       "origin": "USAMTS Year 23, Round 1, problem 3",
-      "access_note": "Official USAMTS PDF contains the corrected Zoltar statement about 14 coins, seven real and seven counterfeit."
+      "access_note": "Official USAMTS PDF contains the corrected Zoltar statement about 14 coins, seven real and seven counterfeit.",
+      "short_name": "USA Mathematical Talent Search"
     },
     {
       "id": "src-usamts-2011-12-round1-solutions",
@@ -2508,7 +2577,8 @@
       "language": "en",
       "country": "США",
       "origin": "USAMTS Year 23, Round 1, problem 3",
-      "access_note": "Official USAMTS solution gives the reduction by known counterfeit coins and the final two-real two-fake pairing argument."
+      "access_note": "Official USAMTS solution gives the reduction by known counterfeit coins and the final two-real two-fake pairing argument.",
+      "short_name": "USA Mathematical Talent Search"
     },
     {
       "id": "src-lktg-2005-robbers-boxes-ru",
@@ -2560,8 +2630,8 @@
       "id": "src-israelmath-5783-final-en-45",
       "type": "official_olympiad_statement",
       "title": "Israeli Mathematical Olympiad, 4th-5th Grades, Final Stage, Year 5783",
-      "short_name": "IsraelMath",
-      "display_name": "IsraelMath 5783 final 4-5",
+      "short_name": "Israeli Mathematical Olympiad",
+      "display_name": "Israeli Mathematical Olympiad 5783 final 4-5",
       "url": "https://israelmath.com/wp-content/uploads/olymp_5783_final_en_4-5.pdf",
       "browser_openable": true,
       "official": true,
@@ -2575,8 +2645,8 @@
       "id": "src-israelmath-5783-final-en-67",
       "type": "official_olympiad_statement",
       "title": "Israeli Mathematical Olympiad, 6th-7th Grades, Final Stage, Year 5783",
-      "short_name": "IsraelMath",
-      "display_name": "IsraelMath 5783 final 6-7",
+      "short_name": "Israeli Mathematical Olympiad",
+      "display_name": "Israeli Mathematical Olympiad 5783 final 6-7",
       "url": "https://israelmath.com/wp-content/uploads/olymp_5783_final_en_6-7.pdf",
       "browser_openable": true,
       "official": true,
@@ -2590,8 +2660,8 @@
       "id": "src-israelmath-5781-final-en-56",
       "type": "official_olympiad_statement",
       "title": "The Israeli Mathematics Olympiad for Grades 5 & 6, Final Round, 2021",
-      "short_name": "IsraelMath",
-      "display_name": "IsraelMath 2021 final 5-6",
+      "short_name": "Israeli Mathematical Olympiad",
+      "display_name": "Israeli Mathematical Olympiad 2021 final 5-6",
       "url": "https://www.israelmath.com/wp-content/uploads/2021/02/olymp5781_f_eng_5-6.pdf",
       "browser_openable": true,
       "official": true,
@@ -2605,8 +2675,8 @@
       "id": "src-bas-2001-all-problems",
       "type": "official_olympiad_archive",
       "title": "BAS Bulgarian Competitions in Mathematics: All 2001 problems",
-      "short_name": "BAS",
-      "display_name": "BAS / Болгарская олимпиада",
+      "short_name": "Bulgarian Competitions in Mathematics",
+      "display_name": "Bulgarian Competitions in Mathematics 2001",
       "url": "https://www.math.bas.bg/bcmi/c2001.ps",
       "browser_openable": true,
       "official": true,
@@ -2620,8 +2690,8 @@
       "id": "src-belmath-1995-republic-final",
       "type": "olympiad_statement_archive",
       "title": "BelMath archive: 1995 Republican Olympiad problem set",
-      "short_name": "BelMath",
-      "display_name": "BelMath: Беларусь 1995",
+      "short_name": "Republican Olympiad",
+      "display_name": "Republican Olympiad 1995",
       "url": "https://belmath.org/archive/1995/republic_95.pdf",
       "browser_openable": true,
       "official": false,
@@ -2635,8 +2705,8 @@
       "id": "src-dms-jsmo-2016-problems",
       "type": "official_olympiad_statement",
       "title": "DMS: 10. Srpska matematička olimpijada učenika osnovnih škola, 2016",
-      "short_name": "Сербская олимпиада",
-      "display_name": "JSMO 2016",
+      "short_name": "Serbian Mathematical Olympiad",
+      "display_name": "Serbian Mathematical Olympiad 2016",
       "url": "https://dms.rs/wp-content/uploads/2016/12/JSMO16.pdf",
       "browser_openable": true,
       "official": true,
@@ -2651,7 +2721,7 @@
       "type": "official_olympiad_archive",
       "title": "XX олимпиада по математике Русановского лицея, 2015: условия и решения",
       "short_name": "Русановский лицей",
-      "display_name": "Русановский лицей-2015",
+      "display_name": "Русановский лицей 2015",
       "url": "http://www.rl.kiev.ua/wp-content/uploads/2015/04/XX-olimpiada-z-matematiki.pdf",
       "browser_openable": true,
       "official": true,
@@ -2666,7 +2736,7 @@
       "type": "official_olympiad_archive",
       "title": "XXII олимпиада по математике Русановского лицея, 2017: условия и решения",
       "short_name": "Русановский лицей",
-      "display_name": "Русановский лицей-2017",
+      "display_name": "Русановский лицей 2017",
       "url": "http://www.rl.kiev.ua/wp-content/uploads/2012/01/Olimpiada-2017-redaktirov.pdf",
       "browser_openable": true,
       "official": true,
@@ -2681,7 +2751,7 @@
       "type": "official_olympiad_archive",
       "title": "XXV олимпиада по математике Русановского лицея, 2021: условия и решения",
       "short_name": "Русановский лицей",
-      "display_name": "Русановский лицей-2021",
+      "display_name": "Русановский лицей 2021",
       "url": "https://www.rl.kiev.ua/wp-content/uploads/2021/05/XXV-OLIMPIADI-Z-MATEMATIKI-RL.pdf",
       "browser_openable": true,
       "official": true,
@@ -2696,7 +2766,7 @@
       "type": "official_olympiad_archive",
       "title": "XXVIII олимпиада по математике Русановского лицея, 2025: условия и решения",
       "short_name": "Русановский лицей",
-      "display_name": "Русановский лицей-2025",
+      "display_name": "Русановский лицей 2025",
       "url": "https://www.rl.kyiv.ua/wp-content/uploads/2025/04/XXVIII-olimpiada-z-matematiki-Rusanivskogo-litseyu-2025.pdf",
       "browser_openable": true,
       "official": true,

@@ -1,17 +1,19 @@
 # Interactive Review: Knop 2011 Part 6
 
-Scope: new cards in `data/problems/knop_2011_part6/`. Do not add `interactive` YAML yet; this file is a worklist for a later viewer pass.
+Scope: new cards in `data/problems/knop_2011_part6/`. This file is a worklist for viewer passes; completed entries are kept here as handoff notes.
 
 ## Candidate Types
 
 - `spare_weighing_plan`
   - Card: `knop-saladin-four-weighings-one-spare`.
+  - 2026-05-22: implemented with `single_counterfeit_unknown_direction`, `adaptive: false`, `erasure_count: 1`, and `presentation: exercise`.
   - Hidden states: one counterfeit among 12 coins, sign unknown.
   - User action: inspect or construct 4 preassigned weighings; adversary/user removes one; the remaining three outcomes must still decode coin and sign.
-  - Needs support for erasure-aware exhaustive checking: every deleted row must leave a valid decoding table.
+  - Erasure-aware exhaustive checking verifies every deleted row: the row number is known, and the remaining three outcomes must leave a unique `(coin, sign)` state.
 
 - `identify_coin_only_unknown_direction` extension
   - Card: `knop-saladin-14-known-genuine-identify-only`.
+  - 2026-05-22: implemented with `single_counterfeit_unknown_direction`, `coin_count: 14`, one known genuine coin, and `objective: identify_coin_only_unknown_direction`.
   - Existing nearby type: `single_counterfeit_unknown_direction`, but objective should permit identifying the coin without sign and should allow a zero-signature coin whose two sign states are intentionally merged.
   - Also relevant as a negative/explanatory sandbox for `knop-six-coins-two-weighings-identify-only-impossible`.
 
@@ -29,6 +31,7 @@ Scope: new cards in `data/problems/knop_2011_part6/`. Do not add `interactive` Y
 
 - `uniformity_verification`
   - Card: `knop-coin-uniformity-verification`.
+  - 2026-05-22: implemented as a small case with 4 coins and 2 planned equal-pan weighings.
   - Hidden states: all assignments of two possible weights, including the all-equal case.
   - Objective: certify all weights equal; any imbalance is a negative certificate.
   - Important: this is inherently nonadaptive for positive verification because the only successful branch is all equalities.
@@ -38,6 +41,7 @@ Scope: new cards in `data/problems/knop_2011_part6/`. Do not add `interactive` Y
   - Hidden states are known to the expert but not to the judge.
   - User action should model the expert choosing demonstrations; checker verifies that the judge has a unique compatible hidden state or claimed property after public outcomes.
   - For `knop-expert-judge-one-weighing-one-weight`, the claimed property is weaker than full reconstruction: at least one named гирька must have a unique forced weight after the public weighing.
+  - 2026-05-22: `knop-expert-judge-eight-coins-3-4g-one-weighing` is implemented as the same renderer with `weight_model: equal_halves_binary` and goal `all_forced_weights`.
   - This should not reveal the intended certificate as a hint in normal mode.
 
 - `optional_no_counterfeit_signature`

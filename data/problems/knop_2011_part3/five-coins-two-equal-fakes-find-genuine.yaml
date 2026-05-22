@@ -107,6 +107,44 @@
     "adaptive": false,
     "objective": "find_one_genuine_coin"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "coin_count": 5,
+    "counterfeit_count": 2,
+    "max_weighings": 2,
+    "objective": "identify_one_genuine_coin",
+    "counterfeit_weight": "lighter",
+    "counterfeit_weight_model": "unknown_equal_sign",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true,
+    "hidden_states": [
+      {"id": "12-light", "label": "1 и 2 легче", "coins": [1, 2], "counterfeit_weight": "lighter"},
+      {"id": "12-heavy", "label": "1 и 2 тяжелее", "coins": [1, 2], "counterfeit_weight": "heavier"},
+      {"id": "13-light", "label": "1 и 3 легче", "coins": [1, 3], "counterfeit_weight": "lighter"},
+      {"id": "13-heavy", "label": "1 и 3 тяжелее", "coins": [1, 3], "counterfeit_weight": "heavier"},
+      {"id": "14-light", "label": "1 и 4 легче", "coins": [1, 4], "counterfeit_weight": "lighter"},
+      {"id": "14-heavy", "label": "1 и 4 тяжелее", "coins": [1, 4], "counterfeit_weight": "heavier"},
+      {"id": "15-light", "label": "1 и 5 легче", "coins": [1, 5], "counterfeit_weight": "lighter"},
+      {"id": "15-heavy", "label": "1 и 5 тяжелее", "coins": [1, 5], "counterfeit_weight": "heavier"},
+      {"id": "23-light", "label": "2 и 3 легче", "coins": [2, 3], "counterfeit_weight": "lighter"},
+      {"id": "23-heavy", "label": "2 и 3 тяжелее", "coins": [2, 3], "counterfeit_weight": "heavier"},
+      {"id": "24-light", "label": "2 и 4 легче", "coins": [2, 4], "counterfeit_weight": "lighter"},
+      {"id": "24-heavy", "label": "2 и 4 тяжелее", "coins": [2, 4], "counterfeit_weight": "heavier"},
+      {"id": "25-light", "label": "2 и 5 легче", "coins": [2, 5], "counterfeit_weight": "lighter"},
+      {"id": "25-heavy", "label": "2 и 5 тяжелее", "coins": [2, 5], "counterfeit_weight": "heavier"},
+      {"id": "34-light", "label": "3 и 4 легче", "coins": [3, 4], "counterfeit_weight": "lighter"},
+      {"id": "34-heavy", "label": "3 и 4 тяжелее", "coins": [3, 4], "counterfeit_weight": "heavier"},
+      {"id": "35-light", "label": "3 и 5 легче", "coins": [3, 5], "counterfeit_weight": "lighter"},
+      {"id": "35-heavy", "label": "3 и 5 тяжелее", "coins": [3, 5], "counterfeit_weight": "heavier"},
+      {"id": "45-light", "label": "4 и 5 легче", "coins": [4, 5], "counterfeit_weight": "lighter"},
+      {"id": "45-heavy", "label": "4 и 5 тяжелее", "coins": [4, 5], "counterfeit_weight": "heavier"}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

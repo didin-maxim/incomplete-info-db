@@ -59,6 +59,17 @@
     "adaptive": true,
     "objective": "identify_selected_bag_weight"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "bag_count": 7,
+    "weight_values": [7, 8, 9, 10, 11, 12, 13],
+    "reference_total": 70,
+    "max_coins_per_bag": 100,
+    "max_weighings": 2,
+    "objective": "identify_selected_bag_weight",
+    "state_model": "selected_bag_weight",
+    "modes": ["random", "cheater"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

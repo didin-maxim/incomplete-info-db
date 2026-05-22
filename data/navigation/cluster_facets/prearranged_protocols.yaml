@@ -116,7 +116,7 @@ display_labels:
     success_goal: "Что команда хочет получить"
     simultaneous_or_sequential: "Как идут ответы"
     guarantee_type: "Какая гарантия успеха"
-    code_family: "Как устроено правило или код"
+    code_family: "Как устроено правило или таблица"
   values:
     participants:
       magician_assistant_pair: "фокусник и помощник"

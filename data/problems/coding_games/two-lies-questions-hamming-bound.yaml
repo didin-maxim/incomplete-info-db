@@ -92,7 +92,7 @@
     "adaptive": false,
     "objective": "identify_one_of_N_states"
   },
-  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Сложная: это не стратегия угадывания, а кодовая нижняя оценка с шарами Хэмминга радиуса 2; нужно считать 1+q+binom(q,2) возможных поврежденных ответов на объект.", "status": "ai_checked"},
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Сложная: это не стратегия угадывания, а нижняя оценка с запасом на две лжи; для каждого объекта нужно считать 1+q+binom(q,2) возможных поврежденных ответов.", "status": "ai_checked"},
   "tags": [
     "lie_detection",
     "error_correcting_code",

@@ -12,9 +12,9 @@
 
   const THRESHOLD_BALANCE_OUTCOMES = ['left_reliable_lighter', 'right_reliable_lighter', 'no_reliable_tilt'];
   const THRESHOLD_BALANCE_LABELS = {
-    left_reliable_lighter: 'левая чаша надежно легче',
-    right_reliable_lighter: 'правая чаша надежно легче',
-    no_reliable_tilt: 'нет надежного перекоса'
+    left_reliable_lighter: 'левая чаша надёжно легче',
+    right_reliable_lighter: 'правая чаша надёжно легче',
+    no_reliable_tilt: 'нет надёжного перевеса'
   };
 
   const YES_NO_OUTCOMES = ['yes', 'no'];
@@ -211,7 +211,86 @@
     return null;
   }
 
-  function outcomeForCandidate(candidate, counterfeitWeight, leftCoins, rightCoins) {
+  function hasTypedMassModel(options = {}) {
+    return Boolean(
+      options.coinTypes || options.coin_types
+      || options.genuineWeights || options.genuine_weights
+      || options.counterfeitWeights || options.counterfeit_weights
+    );
+  }
+
+  function normalizeCoinTypes(options = {}, coinCount = null) {
+    const raw = options.coinTypes ?? options.coin_types;
+    const count = Number(coinCount ?? options.coinCount ?? options.coin_count);
+    if (!Array.isArray(raw)) return [];
+    const limit = Number.isInteger(count) && count > 0 ? count : raw.length;
+    return raw.slice(0, limit).map(item => String(item || 'coin'));
+  }
+
+  function coinTypeFor(coin, options = {}) {
+    const coinCount = Number(options.coinCount ?? options.coin_count);
+    const types = normalizeCoinTypes(options, Number.isInteger(coinCount) ? coinCount : null);
+    return types[Number(coin) - 1] || 'coin';
+  }
+
+  function genuineWeightForType(type, options = {}) {
+    const weights = options.genuineWeights ?? options.genuine_weights ?? {};
+    const value = Number(weights?.[type] ?? weights?.coin ?? options.genuineWeight ?? options.genuine_weight ?? 1);
+    return Number.isFinite(value) ? value : 1;
+  }
+
+  function counterfeitWeightForType(type, direction, options = {}) {
+    const weights = options.counterfeitWeights ?? options.counterfeit_weights ?? {};
+    const normalizedDirection = direction === 'heavy' ? 'heavier' : 'lighter';
+    const nested = weights?.[type]?.[normalizedDirection];
+    const flat = weights?.[`${type}_${normalizedDirection}`] ?? weights?.[normalizedDirection];
+    const value = Number(nested ?? flat);
+    if (Number.isFinite(value)) return value;
+    const genuine = genuineWeightForType(type, options);
+    return normalizedDirection === 'heavier' ? genuine + 1 : genuine - 1;
+  }
+
+  function typedCoinWeight(coin, fakeCoin, counterfeitWeight, options = {}) {
+    const type = coinTypeFor(coin, options);
+    if (Number(coin) !== Number(fakeCoin)) return genuineWeightForType(type, options);
+    const weight = normalizeWeight(counterfeitWeight);
+    if (!weight) return null;
+    return counterfeitWeightForType(type, weight, options);
+  }
+
+  function compareWeights(leftWeight, rightWeight) {
+    const difference = leftWeight - rightWeight;
+    if (Math.abs(difference) < 1e-9) return 'balance';
+    return difference > 0 ? 'left_down' : 'right_down';
+  }
+
+  function outcomeForTypedCandidate(candidate, counterfeitWeight, leftCoins, rightCoins, options = {}) {
+    if (Number(candidate) === 0) {
+      const leftWeight = uniqueCoins(leftCoins, options.coinCount ?? options.coin_count ?? null)
+        .reduce((sum, coin) => sum + genuineWeightForType(coinTypeFor(coin, options), options), 0);
+      const rightWeight = uniqueCoins(rightCoins, options.coinCount ?? options.coin_count ?? null)
+        .reduce((sum, coin) => sum + genuineWeightForType(coinTypeFor(coin, options), options), 0);
+      return compareWeights(leftWeight, rightWeight);
+    }
+    const weight = normalizeWeight(counterfeitWeight);
+    if (!weight) return null;
+    const coinCount = options.coinCount ?? options.coin_count ?? null;
+    const leftList = uniqueCoins(leftCoins, coinCount);
+    const rightList = uniqueCoins(rightCoins, coinCount);
+    const right = new Set(rightList);
+    for (const coin of leftList) if (right.has(coin)) return null;
+    const sideWeight = coins => coins.reduce((sum, coin) => {
+      const value = typedCoinWeight(coin, candidate, counterfeitWeight, options);
+      return value == null ? NaN : sum + value;
+    }, 0);
+    const leftWeight = sideWeight(leftList);
+    const rightWeight = sideWeight(rightList);
+    if (!Number.isFinite(leftWeight) || !Number.isFinite(rightWeight)) return null;
+    return compareWeights(leftWeight, rightWeight);
+  }
+
+  function outcomeForCandidate(candidate, counterfeitWeight, leftCoins, rightCoins, options = {}) {
+    if (hasTypedMassModel(options)) return outcomeForTypedCandidate(candidate, counterfeitWeight, leftCoins, rightCoins, options);
     if (Number(candidate) === 0) return 'balance';
     const weight = normalizeWeight(counterfeitWeight);
     if (!weight) return null;
@@ -314,7 +393,7 @@
     const rightCoins = uniqueCoins(params?.rightCoins, Number.isInteger(coinCount) ? coinCount : null);
     const outcome = params?.outcome;
     return currentCandidates.filter(candidate =>
-      outcomeForCandidate(candidate, params?.counterfeit_weight ?? params?.counterfeitWeight, leftCoins, rightCoins) === outcome
+      outcomeForCandidate(candidate, params?.counterfeit_weight ?? params?.counterfeitWeight, leftCoins, rightCoins, params) === outcome
     );
   }
 
@@ -1459,7 +1538,13 @@
     if (!coins.length) return null;
     const id = String(raw?.id ?? raw?.key ?? raw?.name ?? raw?.label ?? `s${index + 1}`);
     const label = String(raw?.label ?? raw?.name ?? id);
-    return { id, label, coins };
+    const rawWeight = raw?.counterfeitWeight ?? raw?.counterfeit_weight ?? raw?.weight ?? raw?.sign;
+    const counterfeitWeight = normalizeWeight(rawWeight);
+    const rawCoinCount = Number(raw?.coinCount ?? raw?.coin_count);
+    const stateCoinCount = hasLimit
+      ? count
+      : (Number.isInteger(rawCoinCount) && rawCoinCount > 0 ? rawCoinCount : null);
+    return { id, label, coins, counterfeitWeight, coinCount: stateCoinCount };
   }
 
   function constrainedLightInitialStates(params = {}) {
@@ -1520,21 +1605,56 @@
   }
 
   function outcomeForConstrainedLightState(state, leftCoins, rightCoins, options = {}) {
+    const possible = outcomesForConstrainedLightState(state, leftCoins, rightCoins, options);
+    return possible[0] || null;
+  }
+
+  function constrainedLightVariableWeightModel(options = {}) {
+    const value = String(
+      options.counterfeitWeightModel
+      ?? options.counterfeit_weight_model
+      ?? options.fakeWeightModel
+      ?? options.fake_weight_model
+      ?? ''
+    ).toLowerCase();
+    return ['variable_lighter', 'unequal_lighter', 'variable_light', 'not_necessarily_equal_lighter'].includes(value);
+  }
+
+  function outcomesForConstrainedLightState(state, leftCoins, rightCoins, options = {}) {
     const normalized = constrainedLightNormalizeState(state, options.coinCount ?? options.coin_count ?? null, 0);
-    if (!normalized) return null;
+    if (!normalized) return [];
     const leftList = uniqueCoins(leftCoins, options.coinCount ?? options.coin_count ?? null);
     const rightList = uniqueCoins(rightCoins, options.coinCount ?? options.coin_count ?? null);
-    if (options.requireEqualPanCounts !== false && leftList.length !== rightList.length) return null;
+    if (options.requireEqualPanCounts !== false && leftList.length !== rightList.length) return [];
     const left = new Set(leftList);
     const right = new Set(rightList);
-    for (const coin of left) if (right.has(coin)) return null;
+    for (const coin of left) if (right.has(coin)) return [];
     const fakeCoins = new Set(normalized.coins);
-    const sideWeight = coins => coins.reduce((sum, coin) => sum + (fakeCoins.has(coin) ? 0 : 1), 0);
+    const counterfeitWeight = normalized.counterfeitWeight || normalizeWeight(options.counterfeitWeight ?? options.counterfeit_weight ?? 'lighter') || 'light';
+    if (constrainedLightVariableWeightModel(options) && counterfeitWeight !== 'heavy') {
+      let minDiff = leftList.length - rightList.length;
+      let maxDiff = minDiff;
+      let variableCount = 0;
+      for (const coin of fakeCoins) {
+        const coefficient = (right.has(coin) ? 1 : 0) - (left.has(coin) ? 1 : 0);
+        if (!coefficient) continue;
+        variableCount += 1;
+        if (coefficient > 0) maxDiff += coefficient;
+        if (coefficient < 0) minDiff += coefficient;
+      }
+      const outcomes = [];
+      if (maxDiff > 0) outcomes.push('left_down');
+      if ((variableCount === 0 && minDiff === 0 && maxDiff === 0) || (minDiff < 0 && maxDiff > 0)) outcomes.push('balance');
+      if (minDiff < 0) outcomes.push('right_down');
+      return outcomes;
+    }
+    const fakeWeight = counterfeitWeight === 'heavy' ? 2 : 0;
+    const sideWeight = coins => coins.reduce((sum, coin) => sum + (fakeCoins.has(coin) ? fakeWeight : 1), 0);
     const leftWeight = sideWeight(leftList);
     const rightWeight = sideWeight(rightList);
-    if (leftWeight > rightWeight) return 'left_down';
-    if (rightWeight > leftWeight) return 'right_down';
-    return 'balance';
+    if (leftWeight > rightWeight) return ['left_down'];
+    if (rightWeight > leftWeight) return ['right_down'];
+    return ['balance'];
   }
 
   function constrainedLightFilterStates(params = {}) {
@@ -1542,15 +1662,17 @@
     if (!outcome) return [];
     const coinCount = Number(params.coin_count ?? params.coinCount);
     return constrainedLightCurrentStates(params).filter(state =>
-      outcomeForConstrainedLightState(
+      outcomesForConstrainedLightState(
         state,
         params.leftCoins ?? params.left_coins,
         params.rightCoins ?? params.right_coins,
         {
           coinCount,
-          requireEqualPanCounts: params.requireEqualPanCounts ?? params.require_equal_pan_counts
+          requireEqualPanCounts: params.requireEqualPanCounts ?? params.require_equal_pan_counts,
+          counterfeitWeight: params.counterfeitWeight ?? params.counterfeit_weight,
+          counterfeitWeightModel: params.counterfeitWeightModel ?? params.counterfeit_weight_model
         }
-      ) === outcome
+      ).includes(outcome)
     );
   }
 
@@ -1563,6 +1685,32 @@
 
   function constrainedLightPossibleCounts(states) {
     return [...new Set(constrainedLightNormalizeStates(states).map(state => state.coins.length))].sort((a, b) => a - b);
+  }
+
+  function constrainedLightCoinCountFromStates(states) {
+    const normalized = constrainedLightNormalizeStates(states);
+    let count = 0;
+    for (const state of normalized) {
+      const stateCount = Number(state.coinCount ?? state.coin_count);
+      if (Number.isInteger(stateCount) && stateCount > count) count = stateCount;
+      for (const coin of state.coins || []) if (coin > count) count = coin;
+    }
+    return count;
+  }
+
+  function constrainedLightGuaranteedGenuineCoins(states) {
+    const current = constrainedLightNormalizeStates(states);
+    const coinCount = constrainedLightCoinCountFromStates(current);
+    if (!current.length || !coinCount) return [];
+    const possiblyFake = new Set();
+    for (const state of current) {
+      for (const coin of state.coins || []) possiblyFake.add(coin);
+    }
+    const result = [];
+    for (let coin = 1; coin <= coinCount; coin += 1) {
+      if (!possiblyFake.has(coin)) result.push(coin);
+    }
+    return result;
   }
 
   function constrainedLightUniqueCoinSet(states) {
@@ -1585,6 +1733,9 @@
     if (objective === 'identify_one_light_coin' || objective === 'identify_one_counterfeit_coin') {
       return commonLightCoins(current).length > 0;
     }
+    if (objective === 'identify_one_genuine_coin') {
+      return constrainedLightGuaranteedGenuineCoins(current).length > 0;
+    }
     if (objective === 'identify_counterfeit_count') {
       return constrainedLightPossibleCounts(current).length === 1;
     }
@@ -1598,6 +1749,9 @@
     const current = constrainedLightNormalizeStates(states);
     if (objective === 'identify_one_light_coin' || objective === 'identify_one_counterfeit_coin') {
       return possibleLightCoins(current).map(coin => ({ kind: 'coin', value: coin, label: String(coin) }));
+    }
+    if (objective === 'identify_one_genuine_coin') {
+      return constrainedLightGuaranteedGenuineCoins(current).map(coin => ({ kind: 'coin', value: coin, label: String(coin) }));
     }
     if (objective === 'identify_counterfeit_count') {
       return constrainedLightPossibleCounts(current).map(count => ({ kind: 'count', value: count, label: String(count) }));
@@ -1691,6 +1845,15 @@
         return { win: true, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
       }
       const actualState = states.find(state => !state.coins.includes(selectedCoin)) ?? states[0] ?? null;
+      return { win: false, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
+    }
+    if (objective === 'identify_one_genuine_coin') {
+      const guaranteedCoins = constrainedLightGuaranteedGenuineCoins(states);
+      if (guaranteedCoins.includes(selectedCoin)) {
+        const actualState = states.find(state => !state.coins.includes(selectedCoin)) ?? states[0] ?? null;
+        return { win: true, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
+      }
+      const actualState = states.find(state => state.coins.includes(selectedCoin)) ?? states[0] ?? null;
       return { win: false, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
     }
     if (objective === 'identify_counterfeit_count') {
@@ -2115,6 +2278,7 @@
     const used = Number(usedWeighings);
     const limit = Number(maxWeighings);
     const objective = typeof arguments[3] === 'string' ? arguments[3] : arguments[3]?.objective;
+    if (isUnknownDirectionSignOnlyObjective(objective) && uniqueCandidateDirections(remaining).length === 1) return 'solved';
     if (isUnknownDirectionCoinOnlyObjective(objective) && uniqueCandidateCoins(remaining).length === 1) return 'solved';
     if (remaining.length === 1) return 'solved';
     if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
@@ -2123,6 +2287,10 @@
 
   function isUnknownDirectionCoinOnlyObjective(objective) {
     return ['identify_coin', 'identify_coin_only', 'identify_coin_only_unknown_direction'].includes(String(objective || ''));
+  }
+
+  function isUnknownDirectionSignOnlyObjective(objective) {
+    return ['identify_sign_only', 'identify_sign_only_unknown_direction'].includes(String(objective || ''));
   }
 
   function maxCoinFromCandidates(candidates) {
@@ -2228,8 +2396,17 @@
   function chooseCheaterUnknownDirectionOutcome(params) {
     const partitions = partitionUnknownDirectionCandidates(params || {});
     const history = Array.isArray(params?.history) ? params.history : [];
-    const maxSize = Math.max(...OUTCOMES.map(outcome => partitions[outcome].length));
-    const tied = OUTCOMES.filter(outcome => partitions[outcome].length === maxSize);
+    const signOnly = isUnknownDirectionSignOnlyObjective(params?.objective || params?.goal);
+    const scored = OUTCOMES.map(outcome => ({
+      outcome,
+      candidates: partitions[outcome],
+      directionClasses: signOnly ? uniqueCandidateDirections(partitions[outcome]).length : 0
+    }));
+    const maxDirectionClasses = Math.max(...scored.map(item => item.directionClasses));
+    const maxSize = Math.max(...scored.filter(item => item.directionClasses === maxDirectionClasses).map(item => item.candidates.length));
+    const tied = scored
+      .filter(item => item.directionClasses === maxDirectionClasses && item.candidates.length === maxSize)
+      .map(item => item.outcome);
     const frequencies = Object.fromEntries(OUTCOMES.map(outcome => [outcome, 0]));
     for (const entry of history) {
       const outcome = typeof entry === 'string' ? entry : entry?.outcome;
@@ -2247,7 +2424,10 @@
       label: OUTCOME_LABELS[outcome],
       candidates: partitions[outcome],
       partitions,
-      scores: Object.fromEntries(OUTCOMES.map(item => [item, partitions[item].length]))
+      scores: Object.fromEntries(OUTCOMES.map(item => [
+        item,
+        signOnly ? { candidates: partitions[item].length, directions: uniqueCandidateDirections(partitions[item]) } : partitions[item].length
+      ]))
     };
   }
 
@@ -2286,6 +2466,32 @@
     return (signature || []).join('|');
   }
 
+  function indexCombinations(count, choose) {
+    if (!Number.isInteger(count) || !Number.isInteger(choose) || choose < 0 || count < choose) return [];
+    if (choose === 0) return [[]];
+    const result = [];
+    const current = [];
+    function visit(start) {
+      if (current.length === choose) {
+        result.push([...current]);
+        return;
+      }
+      const remaining = choose - current.length;
+      for (let index = start; index <= count - remaining; index += 1) {
+        current.push(index);
+        visit(index + 1);
+        current.pop();
+      }
+    }
+    visit(0);
+    return result;
+  }
+
+  function eraseSignatureCoordinates(signature, erasedIndices) {
+    const erased = new Set(erasedIndices || []);
+    return (signature || []).filter((_outcome, index) => !erased.has(index));
+  }
+
   function oppositeUnknownDirectionOutcome(outcome) {
     if (outcome === 'left_down') return 'right_down';
     if (outcome === 'right_down') return 'left_down';
@@ -2314,7 +2520,7 @@
     const signature = [];
     for (const row of rows) {
       if (options.requireEqualPanCounts !== false && options.require_equal_pan_counts !== false && row.leftCoins.length !== row.rightCoins.length) return null;
-      const outcome = outcomeForCandidate(coin, counterfeitWeight, row.leftCoins, row.rightCoins);
+      const outcome = outcomeForCandidate(coin, counterfeitWeight, row.leftCoins, row.rightCoins, options);
       if (!outcome) return null;
       signature.push(outcome);
     }
@@ -2324,6 +2530,7 @@
   function checkKnownDirectionNonadaptiveStrategy(params = {}) {
     const coinCount = Number(params.coin_count ?? params.coinCount);
     const maxWeighings = Number(params.max_weighings ?? params.maxWeighings ?? params.weighing_count ?? params.weighingCount);
+    const erasureCount = Number(params.erasure_count ?? params.erasureCount ?? params.lost_result_count ?? params.lostResultCount ?? 0);
     const counterfeitWeight = params.counterfeit_weight ?? params.counterfeitWeight ?? params.weight ?? 'lighter';
     const requireEqualPanCounts = params.requireEqualPanCounts ?? params.require_equal_pan_counts;
     const weighings = normalizeUnknownDirectionWeighingPlan(
@@ -2340,6 +2547,11 @@
     }
     if (!normalizeWeight(counterfeitWeight)) {
       errors.push('counterfeit_weight must be lighter or heavier');
+    }
+    if (!Number.isInteger(erasureCount) || erasureCount < 0) {
+      errors.push('erasure_count must be a non-negative integer');
+    } else if (Number.isInteger(maxWeighings) && erasureCount >= maxWeighings) {
+      errors.push('Число потерянных результатов должно быть меньше числа взвешиваний.');
     }
     if (Number.isInteger(maxWeighings) && weighings.length !== maxWeighings) {
       errors.push(`Нужно задать ровно ${maxWeighings} взвешивания.`);
@@ -2360,6 +2572,7 @@
       }
     }
     const states = Number.isInteger(coinCount) ? initialCandidates(coinCount) : [];
+    const stateSignatures = [];
     const partitionsByKey = new Map();
     for (const state of states) {
       const signature = knownDirectionSignatureForCandidate(state, counterfeitWeight, weighings, {
@@ -2367,11 +2580,37 @@
         requireEqualPanCounts
       });
       if (!signature || (Number.isInteger(maxWeighings) && signature.length !== maxWeighings)) continue;
+      stateSignatures.push({ state, signature });
+      if (erasureCount > 0) continue;
       const key = unknownDirectionSignatureKey(signature);
       if (!partitionsByKey.has(key)) partitionsByKey.set(key, { key, signature, states: [] });
       partitionsByKey.get(key).states.push(state);
     }
-    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== states.length) {
+    const erasurePatterns = erasureCount > 0 && Number.isInteger(maxWeighings)
+      ? indexCombinations(maxWeighings, erasureCount)
+      : [];
+    if (erasureCount > 0) {
+      for (const erasedIndices of erasurePatterns) {
+        const erasedKey = erasedIndices.join(',');
+        for (const item of stateSignatures) {
+          const signature = eraseSignatureCoordinates(item.signature, erasedIndices);
+          const key = `${erasedKey}::${unknownDirectionSignatureKey(signature)}`;
+          if (!partitionsByKey.has(key)) {
+            partitionsByKey.set(key, {
+              key,
+              signature,
+              fullSignature: item.signature,
+              erasedIndices,
+              erasedPositions: erasedIndices.map(index => index + 1),
+              states: []
+            });
+          }
+          partitionsByKey.get(key).states.push(item.state);
+        }
+      }
+    }
+    const expectedStateRows = erasureCount > 0 ? states.length * erasurePatterns.length : states.length;
+    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== expectedStateRows) {
       errors.push('Не для всех скрытых состояний удалось посчитать результаты.');
     }
     const partitions = [...partitionsByKey.values()].sort((a, b) =>
@@ -2384,6 +2623,8 @@
       complete: Number.isInteger(maxWeighings) && weighings.length === maxWeighings,
       coinCount,
       maxWeighings,
+      erasureCount,
+      erasurePatterns,
       counterfeitWeight: normalizeWeight(counterfeitWeight),
       weighings,
       states,
@@ -2397,9 +2638,11 @@
   function checkUnknownDirectionNonadaptiveStrategy(params = {}) {
     const coinCount = Number(params.coin_count ?? params.coinCount);
     const maxWeighings = Number(params.max_weighings ?? params.maxWeighings ?? params.weighing_count ?? params.weighingCount);
+    const erasureCount = Number(params.erasure_count ?? params.erasureCount ?? params.lost_result_count ?? params.lostResultCount ?? 0);
     const requireEqualPanCounts = params.requireEqualPanCounts ?? params.require_equal_pan_counts;
     const objective = params.objective || params.goal || 'identify_coin_and_sign';
     const coinOnly = isCoinOnlyUnknownDirectionObjective(objective);
+    const signOnly = isUnknownDirectionSignOnlyObjective(objective);
     const weighings = normalizeUnknownDirectionWeighingPlan(
       params.weighings ?? params.plan ?? params.tests,
       coinCount,
@@ -2411,6 +2654,11 @@
     }
     if (!Number.isInteger(maxWeighings) || maxWeighings < 1) {
       errors.push('max_weighings must be an integer >= 1');
+    }
+    if (!Number.isInteger(erasureCount) || erasureCount < 0) {
+      errors.push('erasure_count must be a non-negative integer');
+    } else if (Number.isInteger(maxWeighings) && erasureCount >= maxWeighings) {
+      errors.push('Число потерянных результатов должно быть меньше числа взвешиваний.');
     }
     if (Number.isInteger(maxWeighings) && weighings.length !== maxWeighings) {
       errors.push(`Нужно задать ровно ${maxWeighings} взвешивания.`);
@@ -2431,6 +2679,7 @@
       }
     }
     const states = Number.isInteger(coinCount) ? initialUnknownDirectionCandidates(coinCount) : [];
+    const stateSignatures = [];
     const partitionsByKey = new Map();
     for (const state of states) {
       const signature = unknownDirectionSignatureForCandidate(state, weighings, {
@@ -2438,6 +2687,8 @@
         requireEqualPanCounts
       });
       if (!signature || (Number.isInteger(maxWeighings) && signature.length !== maxWeighings)) continue;
+      stateSignatures.push({ state, signature });
+      if (erasureCount > 0) continue;
       const signatureKey = unknownDirectionSignatureKey(signature);
       const key = coinOnly ? canonicalCoinOnlyUnknownDirectionSignatureKey(signature) : signatureKey;
       if (!partitionsByKey.has(key)) partitionsByKey.set(key, { key, signature, signatures: [], states: [] });
@@ -2447,15 +2698,46 @@
       }
       part.states.push(state);
     }
-    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== states.length) {
+    const erasurePatterns = erasureCount > 0 && Number.isInteger(maxWeighings)
+      ? indexCombinations(maxWeighings, erasureCount)
+      : [];
+    if (erasureCount > 0) {
+      for (const erasedIndices of erasurePatterns) {
+        const erasedKey = erasedIndices.join(',');
+        for (const item of stateSignatures) {
+          const signature = eraseSignatureCoordinates(item.signature, erasedIndices);
+          const signatureKey = unknownDirectionSignatureKey(signature);
+          const key = `${erasedKey}::${coinOnly ? canonicalCoinOnlyUnknownDirectionSignatureKey(signature) : signatureKey}`;
+          if (!partitionsByKey.has(key)) {
+            partitionsByKey.set(key, {
+              key,
+              signature,
+              signatures: [],
+              fullSignature: item.signature,
+              erasedIndices,
+              erasedPositions: erasedIndices.map(index => index + 1),
+              states: []
+            });
+          }
+          const part = partitionsByKey.get(key);
+          if (!part.signatures.some(existing => unknownDirectionSignatureKey(existing) === signatureKey)) {
+            part.signatures.push(signature);
+          }
+          part.states.push(item.state);
+        }
+      }
+    }
+    const expectedStateRows = erasureCount > 0 ? states.length * erasurePatterns.length : states.length;
+    if (states.length && [...partitionsByKey.values()].reduce((sum, part) => sum + part.states.length, 0) !== expectedStateRows) {
       errors.push('Не для всех скрытых состояний удалось посчитать результаты.');
     }
     const partitions = [...partitionsByKey.values()].sort((a, b) =>
       a.key.localeCompare(b.key, undefined, { numeric: true })
     ).map(part => {
       const possibleCoins = [...new Set(part.states.map(state => state.coin))].sort((a, b) => a - b);
-      const solved = coinOnly ? possibleCoins.length === 1 : part.states.length === 1;
-      return { ...part, possibleCoins, solved };
+      const possibleDirections = uniqueCandidateDirections(part.states);
+      const solved = signOnly ? possibleDirections.length === 1 : (coinOnly ? possibleCoins.length === 1 : part.states.length === 1);
+      return { ...part, possibleCoins, possibleDirections, solved };
     });
     const conflicts = partitions.filter(part => !part.solved);
     return {
@@ -2464,8 +2746,11 @@
       complete: Number.isInteger(maxWeighings) && weighings.length === maxWeighings,
       coinCount,
       maxWeighings,
+      erasureCount,
+      erasurePatterns,
       objective,
       coinOnly,
+      signOnly,
       weighings,
       states,
       partitions,
@@ -2506,8 +2791,24 @@
     }], Number.isInteger(coinCount) ? coinCount : null, allowNoCounterfeit)[0];
     const selectedKey = selected ? unknownDirectionCandidateKey(selected) : null;
     const selectedCoin = params?.selectedCoin === 'none' ? 0 : Number(params?.selectedCoin);
+    const selectedDirection = normalizeDirection(params?.selectedDirection ?? params?.selectedWeight);
     const coinOnly = isUnknownDirectionCoinOnlyObjective(params?.objective);
+    const signOnly = isUnknownDirectionSignOnlyObjective(params?.objective);
     const possibleCoins = uniqueCandidateCoins(candidates);
+    const possibleDirections = uniqueCandidateDirections(candidates);
+    if (signOnly && possibleDirections.length === 1) {
+      const actualCandidate = candidates[0] ?? null;
+      const actualDirection = possibleDirections[0] ?? null;
+      return {
+        win: actualDirection === selectedDirection,
+        actualCoin: actualCandidate?.coin ?? null,
+        actualDirection,
+        actualCandidate,
+        candidates,
+        possibleCoins,
+        possibleDirections
+      };
+    }
     if (coinOnly && possibleCoins.length === 1) {
       const actualCandidate = candidates[0] ?? null;
       return {
@@ -2530,7 +2831,9 @@
         possibleCoins
       };
     }
-    const actualCandidate = coinOnly
+    const actualCandidate = signOnly
+      ? (candidates.find(candidate => candidate.direction !== selectedDirection) ?? candidates[0] ?? null)
+      : coinOnly
       ? (candidates.find(candidate => candidate.coin !== selectedCoin) ?? candidates[0] ?? null)
       : (candidates.find(candidate => unknownDirectionCandidateKey(candidate) !== selectedKey) ?? candidates[0] ?? null);
     return {
@@ -2539,7 +2842,8 @@
       actualDirection: actualCandidate?.direction ?? null,
       actualCandidate,
       candidates,
-      possibleCoins
+      possibleCoins,
+      possibleDirections
     };
   }
 
@@ -3045,8 +3349,10 @@
     const personCount = validation.personCount;
     const colorCount = validation.colorCount;
     const failures = [];
+    const layoutCount = colorCount ** personCount;
+    const recoveryCount = layoutCount * personCount;
     if (!validation.ok) {
-      return { success: false, checked: 0, validation, failures };
+      return { success: false, checked: 0, layoutCount, recoveryCount, validation, failures };
     }
     for (let person = 0; person < personCount; person += 1) {
       for (let color = 1; color <= colorCount; color += 1) {
@@ -3059,6 +3365,9 @@
     return {
       success: failures.length === 0,
       checked: personCount * colorCount,
+      layoutCount,
+      recoveryCount,
+      symbolic: true,
       validation,
       failures
     };
@@ -4425,6 +4734,13 @@
     return [...new Set((candidates || []).map(candidate => Number(candidate?.coin)).filter(Number.isInteger))];
   }
 
+  function uniqueCandidateDirections(candidates) {
+    return [...new Set((candidates || [])
+      .map(candidate => normalizeDirection(candidate?.direction ?? candidate?.weight))
+      .filter(Boolean))]
+      .sort();
+  }
+
   function brokenScaleCoinBranchStatus(candidates, usedWeighings, maxWeighings) {
     const remainingCoins = uniqueCandidateCoins(candidates);
     const used = Number(usedWeighings);
@@ -5091,12 +5407,244 @@
     return { win: false, actualState, candidates };
   }
 
+  function rotatedTrayBaseWeights(params = {}) {
+    const raw = params.baseWeights ?? params.base_weights;
+    const weights = Array.isArray(raw) ? raw.map(value => Number(value)) : [];
+    if (!weights.length || weights.length > 36) return [];
+    if (!weights.every(value => Number.isInteger(value) && value > 0)) return [];
+    const positionCount = Number(params.positionCount ?? params.position_count ?? weights.length);
+    if (Number.isInteger(positionCount) && positionCount > 0 && positionCount !== weights.length) return [];
+    return weights;
+  }
+
+  function rotatedTrayPositionCount(params = {}) {
+    return rotatedTrayBaseWeights(params).length;
+  }
+
+  function rotatedTrayWeightsForRotation(baseWeights, rotation) {
+    const count = baseWeights.length;
+    const shift = ((Number(rotation) || 0) % count + count) % count;
+    return Array.from({ length: count }, (_item, index) => baseWeights[(index - shift + count) % count]);
+  }
+
+  function rotatedTrayStateKey(state) {
+    if (state?.weights && Array.isArray(state.weights)) return state.weights.join(',');
+    return String(Number(state?.rotation ?? state) || 0);
+  }
+
+  function rotatedTrayInitialStates(params = {}) {
+    const baseWeights = rotatedTrayBaseWeights(params);
+    const seen = new Set();
+    const states = [];
+    for (let rotation = 0; rotation < baseWeights.length; rotation += 1) {
+      const weights = rotatedTrayWeightsForRotation(baseWeights, rotation);
+      const key = weights.join(',');
+      if (seen.has(key)) continue;
+      seen.add(key);
+      states.push({ rotation, weights });
+    }
+    return states;
+  }
+
+  function rotatedTrayNormalizeStates(states, params = {}) {
+    const allowed = new Map(rotatedTrayInitialStates(params).map(state => [rotatedTrayStateKey(state), state]));
+    const byRotation = new Map(rotatedTrayInitialStates(params).map(state => [String(state.rotation), state]));
+    const seen = new Set();
+    const result = [];
+    for (const raw of states || []) {
+      const key = rotatedTrayStateKey(raw);
+      const state = allowed.get(key) || byRotation.get(String(Number(raw?.rotation ?? raw)));
+      if (!state) continue;
+      const stateKey = rotatedTrayStateKey(state);
+      if (seen.has(stateKey)) continue;
+      seen.add(stateKey);
+      result.push(state);
+    }
+    return result;
+  }
+
+  function rotatedTrayNormalizeWeighing(params = {}) {
+    const count = rotatedTrayPositionCount(params);
+    const left = uniqueCoins(params.left ?? params.leftPositions ?? params.left_positions, count);
+    const right = uniqueCoins(params.right ?? params.rightPositions ?? params.right_positions, count);
+    const leftSet = new Set(left);
+    const overlap = right.filter(position => leftSet.has(position));
+    return {
+      valid: count > 0 && overlap.length === 0 && (left.length > 0 || right.length > 0),
+      empty: left.length === 0 && right.length === 0,
+      positionCount: count,
+      left,
+      right,
+      overlap,
+      error: overlap.length ? `Позиции на обеих чашах: ${overlap.join(', ')}.` : ''
+    };
+  }
+
+  function rotatedTrayOutcomeForState(state, params = {}) {
+    const weighing = rotatedTrayNormalizeWeighing(params);
+    if (!weighing.valid) return null;
+    const weights = state?.weights || [];
+    const leftSum = weighing.left.reduce((sum, position) => sum + (weights[position - 1] || 0), 0);
+    const rightSum = weighing.right.reduce((sum, position) => sum + (weights[position - 1] || 0), 0);
+    const outcome = leftSum > rightSum ? 'left_down' : (rightSum > leftSum ? 'right_down' : 'balance');
+    return { outcome, label: OUTCOME_LABELS[outcome], leftSum, rightSum };
+  }
+
+  function rotatedTrayPartitionStates(params = {}) {
+    const states = params.currentStates?.length
+      ? rotatedTrayNormalizeStates(params.currentStates, params)
+      : rotatedTrayInitialStates(params);
+    const weighing = rotatedTrayNormalizeWeighing(params);
+    if (!weighing.valid) return [];
+    const partitions = Object.fromEntries(OUTCOMES.map(outcome => [outcome, []]));
+    for (const state of states) {
+      const observed = rotatedTrayOutcomeForState(state, params);
+      if (observed) partitions[observed.outcome].push(state);
+    }
+    return OUTCOMES
+      .filter(outcome => partitions[outcome].length)
+      .map(outcome => ({
+        outcome,
+        label: OUTCOME_LABELS[outcome],
+        states: partitions[outcome],
+        candidates: partitions[outcome],
+        status: rotatedTrayBranchStatus(partitions[outcome], Number(params.usedWeighings ?? params.used_weighings ?? 0) + 1, params.maxWeighings ?? params.max_weighings)
+      }));
+  }
+
+  function rotatedTrayFilterStates(params = {}) {
+    const outcome = String(params.outcome || '').toLowerCase();
+    const part = rotatedTrayPartitionStates(params).find(item => item.outcome === outcome);
+    return part ? part.states : [];
+  }
+
+  function rotatedTrayChooseCheaterOutcome(params = {}) {
+    const partitions = rotatedTrayPartitionStates(params);
+    const order = Object.fromEntries(OUTCOMES.map((outcome, index) => [outcome, index]));
+    const chosen = partitions.slice().sort((a, b) =>
+      b.states.length - a.states.length || order[a.outcome] - order[b.outcome]
+    )[0] || { outcome: 'balance', label: OUTCOME_LABELS.balance, states: [], candidates: [] };
+    return {
+      outcome: chosen.outcome,
+      label: chosen.label,
+      states: chosen.states,
+      candidates: chosen.states,
+      partitions,
+      scores: Object.fromEntries(partitions.map(part => [part.outcome, part.states.length]))
+    };
+  }
+
+  function rotatedTrayForcedWeights(states, params = {}) {
+    const candidates = states?.length ? rotatedTrayNormalizeStates(states, params) : rotatedTrayInitialStates(params);
+    const count = rotatedTrayPositionCount(params);
+    return Array.from({ length: count }, (_item, index) => {
+      const values = new Set(candidates.map(state => state.weights[index]));
+      return values.size === 1 ? [...values][0] : null;
+    });
+  }
+
+  function rotatedTrayBranchStatus(states, usedWeighings, maxWeighings) {
+    const remaining = states || [];
+    if (remaining.length <= 1) return 'solved';
+    const count = remaining[0]?.weights?.length || 0;
+    const allForced = count > 0 && Array.from({ length: count }, (_item, index) =>
+      new Set(remaining.map(state => state.weights[index])).size === 1
+    ).every(Boolean);
+    if (allForced) return 'solved';
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function rotatedTrayExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings ?? 1);
+    const partitions = rotatedTrayPartitionStates(params);
+    const children = partitions.map(part => ({
+      outcome: part.outcome,
+      label: part.label,
+      states: part.states,
+      candidates: part.states,
+      usedWeighings: usedWeighings + 1,
+      status: rotatedTrayBranchStatus(part.states, usedWeighings + 1, maxWeighings)
+    }));
+    return { partitions, children };
+  }
+
+  function rotatedTrayNormalizeAnswer(answer, params = {}) {
+    const count = rotatedTrayPositionCount(params);
+    const values = Array.isArray(answer)
+      ? answer
+      : (answer?.weights ?? answer?.assignment ?? params.answer ?? params.weights ?? []);
+    const weights = Array.isArray(values) ? values.map(value => Number(value)) : [];
+    if (weights.length !== count || !weights.every(value => Number.isInteger(value) && value > 0)) return null;
+    return weights;
+  }
+
+  function rotatedTrayFinalizeAnswer(params = {}) {
+    const candidates = params.currentStates?.length
+      ? rotatedTrayNormalizeStates(params.currentStates, params)
+      : rotatedTrayInitialStates(params);
+    const answer = rotatedTrayNormalizeAnswer(params.answer ?? params.weights, params);
+    if (!answer) {
+      return { win: false, actualState: candidates[0] || null, candidates, error: 'Нужно указать вес каждой позиции.' };
+    }
+    const win = candidates.length > 0 && candidates.every(state =>
+      state.weights.length === answer.length && state.weights.every((weight, index) => weight === answer[index])
+    );
+    const actualState = win
+      ? candidates[0]
+      : (candidates.find(state => !state.weights.every((weight, index) => weight === answer[index])) ?? candidates[0] ?? null);
+    return { win, actualState, candidates, answer };
+  }
+
   function expertJudgeObjectCount(params = {}) {
     const count = Number(params.objectCount ?? params.object_count ?? params.weightCount ?? params.weight_count);
     return Number.isInteger(count) && count >= 2 && count <= 30 ? count : 0;
   }
 
+  function expertJudgeWeightModel(params = {}) {
+    const model = String(params.weightModel ?? params.weight_model ?? 'permutation_1_to_N').toLowerCase();
+    return model === 'equal_halves_binary' ? 'equal_halves_binary' : 'permutation_1_to_N';
+  }
+
+  function expertJudgeBinarySpec(params = {}) {
+    const count = expertJudgeObjectCount(params);
+    const lightWeight = Number(params.lightWeight ?? params.light_weight ?? 3);
+    const heavyWeight = Number(params.heavyWeight ?? params.heavy_weight ?? 4);
+    const lightCount = Number(params.lightCount ?? params.light_count ?? Math.floor(count / 2));
+    const heavyCount = Number(params.heavyCount ?? params.heavy_count ?? (count - lightCount));
+    if (
+      !Number.isInteger(count) || count < 2 ||
+      !Number.isInteger(lightWeight) || lightWeight <= 0 ||
+      !Number.isInteger(heavyWeight) || heavyWeight <= 0 ||
+      lightWeight === heavyWeight ||
+      !Number.isInteger(lightCount) || lightCount < 0 ||
+      !Number.isInteger(heavyCount) || heavyCount < 0 ||
+      lightCount + heavyCount !== count
+    ) return null;
+    const low = Math.min(lightWeight, heavyWeight);
+    const high = Math.max(lightWeight, heavyWeight);
+    return {
+      count,
+      lightWeight: low,
+      heavyWeight: high,
+      lightCount: lightWeight < heavyWeight ? lightCount : heavyCount,
+      heavyCount: lightWeight < heavyWeight ? heavyCount : lightCount
+    };
+  }
+
   function expertJudgeWeightValues(params = {}) {
+    if (expertJudgeWeightModel(params) === 'equal_halves_binary') {
+      const spec = expertJudgeBinarySpec(params);
+      return spec
+        ? [
+          ...Array.from({ length: spec.lightCount }, () => spec.lightWeight),
+          ...Array.from({ length: spec.heavyCount }, () => spec.heavyWeight)
+        ]
+        : [];
+    }
     const explicit = params.weightValues ?? params.weight_values;
     if (Array.isArray(explicit)) {
       const values = explicit.map(value => Number(value));
@@ -5111,13 +5659,29 @@
   function expertJudgeNormalizeAssignment(assignment, params = {}) {
     const values = expertJudgeWeightValues(params);
     const count = values.length;
-    const allowed = new Set(values);
     const raw = Array.isArray(assignment)
       ? assignment
       : (assignment?.weights ?? assignment?.assignment ?? params.assignment ?? params.weights ?? []);
     const normalized = Array.isArray(raw)
       ? raw.map(value => Number(value))
       : [];
+    if (expertJudgeWeightModel(params) === 'equal_halves_binary') {
+      const spec = expertJudgeBinarySpec(params);
+      if (!spec) return [];
+      const lightUsed = normalized.filter(value => value === spec.lightWeight).length;
+      const heavyUsed = normalized.filter(value => value === spec.heavyWeight).length;
+      if (
+        normalized.length === count &&
+        lightUsed === spec.lightCount &&
+        heavyUsed === spec.heavyCount &&
+        lightUsed + heavyUsed === normalized.length
+      ) return normalized;
+      return [
+        ...Array.from({ length: spec.lightCount }, () => spec.lightWeight),
+        ...Array.from({ length: spec.heavyCount }, () => spec.heavyWeight)
+      ];
+    }
+    const allowed = new Set(values);
     if (normalized.length === count && normalized.every(value => allowed.has(value)) && new Set(normalized).size === count) {
       return normalized;
     }
@@ -5179,6 +5743,42 @@
     return false;
   }
 
+  function expertJudgeBinaryAssignments(params = {}) {
+    const spec = expertJudgeBinarySpec(params);
+    if (!spec) return [];
+    const states = [];
+    function add(index, remainingLight, assignment) {
+      if (index === spec.count) {
+        if (remainingLight === 0) states.push([...assignment]);
+        return;
+      }
+      const remainingSlots = spec.count - index;
+      if (remainingLight > 0) {
+        assignment.push(spec.lightWeight);
+        add(index + 1, remainingLight - 1, assignment);
+        assignment.pop();
+      }
+      if (remainingSlots > remainingLight) {
+        assignment.push(spec.heavyWeight);
+        add(index + 1, remainingLight, assignment);
+        assignment.pop();
+      }
+    }
+    add(0, spec.lightCount, []);
+    return states;
+  }
+
+  function expertJudgeCompatibleBinaryAssignments(params = {}) {
+    const weighing = expertJudgeNormalizeWeighing(params);
+    const outcome = String(params.outcome || '').toLowerCase();
+    if (!weighing.valid || !OUTCOMES.includes(outcome)) return [];
+    return expertJudgeBinaryAssignments(params).filter(assignment => {
+      const leftSum = weighing.left.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+      const rightSum = weighing.right.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+      return expertJudgeCompareMatches(leftSum, rightSum, outcome);
+    });
+  }
+
   function expertJudgeSubsetSums(values, size) {
     const targetSize = Number(size);
     if (!Number.isInteger(targetSize) || targetSize < 0 || targetSize > values.length) return new Set();
@@ -5222,6 +5822,21 @@
 
   function expertJudgeForcedWeights(params = {}) {
     const weighing = expertJudgeNormalizeWeighing(params);
+    if (expertJudgeWeightModel(params) === 'equal_halves_binary') {
+      const compatible = expertJudgeCompatibleBinaryAssignments(params);
+      const roleFor = item => (
+        weighing.left.includes(item) ? 'left' : (weighing.right.includes(item) ? 'right' : 'outside')
+      );
+      return Array.from({ length: weighing.objectCount }, (_item, index) => index + 1).map(object => {
+        const possibleWeights = [...new Set(compatible.map(assignment => assignment[object - 1]))].sort((a, b) => a - b);
+        return {
+          role: roleFor(object),
+          object,
+          possibleWeights,
+          forcedWeight: possibleWeights.length === 1 ? possibleWeights[0] : null
+        };
+      });
+    }
     const roles = [
       { role: 'left', items: weighing.left },
       { role: 'right', items: weighing.right },
@@ -5246,6 +5861,14 @@
       ? { outcome: String(params.outcome).toLowerCase(), label: OUTCOME_LABELS[String(params.outcome).toLowerCase()] }
       : expertJudgeOutcomeForAssignment(assignment, params);
     const forced = expertJudgeForcedWeights({ ...params, outcome: observed?.outcome });
+    const compatible = expertJudgeWeightModel(params) === 'equal_halves_binary'
+      ? expertJudgeCompatibleBinaryAssignments({ ...params, outcome: observed?.outcome })
+      : null;
+    const goal = String(params.certificateGoal ?? params.certificate_goal ?? 'one_forced_weight').toLowerCase();
+    const learned = forced.filter(item => item.forcedWeight != null);
+    const success = goal === 'all_forced_weights'
+      ? forced.length > 0 && forced.every(item => item.forcedWeight != null)
+      : learned.length > 0;
     return {
       valid: !!observed && OUTCOMES.includes(observed.outcome),
       assignment,
@@ -5254,8 +5877,9 @@
       leftSum: observed?.leftSum ?? null,
       rightSum: observed?.rightSum ?? null,
       forced,
-      learned: forced.filter(item => item.forcedWeight != null),
-      success: forced.some(item => item.forcedWeight != null)
+      learned,
+      compatibleCount: compatible ? compatible.length : null,
+      success
     };
   }
 
@@ -5264,6 +5888,28 @@
     if (!Number.isInteger(count) || count < 1 || count > 20) return [];
     const stateModel = String(options.stateModel ?? options.state_model ?? '').toLowerCase();
     const objective = String(options.objective || '').toLowerCase();
+    if (stateModel === 'explicit_fake_sets') {
+      const rawStates = options.hiddenStates ?? options.hidden_states ?? options.states ?? [];
+      const states = [];
+      const seen = new Set();
+      if (!Array.isArray(rawStates)) return states;
+      rawStates.forEach((raw, index) => {
+        const source = raw?.bags ?? raw?.coins ?? raw?.fakeBags ?? raw?.fake_bags ?? raw?.fakeCoins ?? raw?.fake_coins ?? [];
+        const bags = uniqueCoins(source, count);
+        if (!bags.length) return;
+        let mask = 0;
+        for (const bag of bags) mask |= (1 << (bag - 1));
+        if (seen.has(mask)) return;
+        seen.add(mask);
+        states.push({
+          mask,
+          bags,
+          id: String(raw?.id || raw?.key || `S${index + 1}`),
+          label: String(raw?.label || raw?.name || raw?.id || raw?.key || bags.join(', '))
+        });
+      });
+      return states;
+    }
     const fakeBagCount = Number(options.fakeBagCount ?? options.fake_bag_count);
     const singleFake = stateModel === 'single_fake_bag' || objective === 'identify_fake_bag' || fakeBagCount === 1;
     if (singleFake) {
@@ -5327,13 +5973,21 @@
         if (rawMask & (1 << index)) bags.push(index + 1);
       }
       const fakeBag = bags.length === 1 ? bags[0] : undefined;
-      return { mask: rawMask, bags, ...(fakeBag ? { fakeBag } : {}) };
+      const metadata = {
+        ...(state?.id ? { id: String(state.id) } : {}),
+        ...(state?.label ? { label: String(state.label) } : {})
+      };
+      return { mask: rawMask, bags, ...(fakeBag ? { fakeBag } : {}), ...metadata };
     }
-    const bags = uniqueCoins(state?.bags ?? state?.fakeBags ?? state?.fake_bags ?? state);
+    const bags = uniqueCoins(state?.bags ?? state?.coins ?? state?.fakeBags ?? state?.fake_bags ?? state?.fakeCoins ?? state?.fake_coins ?? state);
     let mask = 0;
     for (const bag of bags) mask |= (1 << (bag - 1));
     const fakeBag = bags.length === 1 ? bags[0] : undefined;
-    return { mask, bags, ...(fakeBag ? { fakeBag } : {}) };
+    const metadata = {
+      ...(state?.id ? { id: String(state.id) } : {}),
+      ...(state?.label ? { label: String(state.label) } : {})
+    };
+    return { mask, bags, ...(fakeBag ? { fakeBag } : {}), ...metadata };
   }
 
   function numericSignatureNormalizeStates(states, bagCount, options = {}) {
@@ -5349,20 +6003,28 @@
     return result;
   }
 
-  function numericSignatureAmounts(amounts, bagCount) {
+  function numericSignatureUsesSignedQuantities(options = {}) {
+    return String(options.selectionModel ?? options.selection_model ?? '').toLowerCase() === 'signed_quantities'
+      || String(options.observationModel ?? options.observation_model ?? '').toLowerCase() === 'projective_signed_deviation';
+  }
+
+  function numericSignatureAmounts(amounts, bagCount, options = {}) {
     const count = Number(bagCount);
     if (!Number.isInteger(count) || count < 1) return [];
+    const signed = numericSignatureUsesSignedQuantities(options);
     return Array.from({ length: count }, (_item, index) => {
       const value = Number(amounts?.[index] ?? 0);
-      return Number.isInteger(value) && value > 0 ? value : 0;
+      if (!Number.isInteger(value)) return 0;
+      return signed ? value : (value > 0 ? value : 0);
     });
   }
 
-  function numericSignatureAmountsValidation(rawAmounts, bagCount) {
+  function numericSignatureAmountsValidation(rawAmounts, bagCount, options = {}) {
     const count = Number(bagCount);
     if (!Number.isInteger(count) || count < 1) {
       return { valid: false, error: 'Invalid object count.', amounts: [] };
     }
+    const signed = numericSignatureUsesSignedQuantities(options);
     const amounts = [];
     for (let index = 0; index < count; index += 1) {
       const raw = rawAmounts?.[index];
@@ -5376,20 +6038,55 @@
         continue;
       }
       const number = Number(value);
-      if (!Number.isInteger(number) || number < 0) {
+      if (!Number.isInteger(number) || (!signed && number < 0)) {
         return {
           valid: false,
-          error: `Quantity for item ${index + 1} must be a non-negative integer.`,
+          error: signed
+            ? `Coefficient for item ${index + 1} must be an integer.`
+            : `Quantity for item ${index + 1} must be a non-negative integer.`,
           amounts
         };
       }
       amounts.push(number);
+    }
+    if (signed) {
+      if (amounts.every(value => value === 0)) {
+        return { valid: false, empty: true, error: 'Enter at least one nonzero coefficient.', amounts };
+      }
+      const balance = amounts.reduce((sum, value) => sum + value, 0);
+      if (balance !== 0) {
+        return { valid: false, error: 'The signed coefficients must sum to 0: put the same number of coins on both pans.', amounts };
+      }
     }
     return { valid: true, error: '', amounts };
   }
 
   function numericSignatureTotal(amounts) {
     return (amounts || []).reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
+  }
+
+  function numericSignatureSignedPanSize(amounts) {
+    const positive = (amounts || []).reduce((sum, value) => sum + Math.max(0, Number(value) || 0), 0);
+    const negative = (amounts || []).reduce((sum, value) => sum + Math.max(0, -(Number(value) || 0)), 0);
+    return Math.max(positive, negative);
+  }
+
+  function numericSignatureSampledCoinCount(rows, bagCount = null) {
+    const rowList = Array.isArray(rows) ? rows : [];
+    const inferredCount = Number.isInteger(Number(bagCount)) && Number(bagCount) > 0
+      ? Number(bagCount)
+      : rowList.reduce((max, row) => Math.max(max, Array.isArray(row) ? row.length : 0), 0);
+    if (!Number.isInteger(inferredCount) || inferredCount < 1) return 0;
+    let total = 0;
+    for (let index = 0; index < inferredCount; index += 1) {
+      let perBagMax = 0;
+      for (const row of rowList) {
+        const value = Number(row?.[index] ?? 0);
+        if (Number.isInteger(value) && value > perBagMax) perBagMax = value;
+      }
+      total += perBagMax;
+    }
+    return total;
   }
 
   function numericSignatureDeficit(state, amounts) {
@@ -5399,7 +6096,7 @@
 
   function numericSignatureObservationModel(options = {}) {
     const explicit = String(options.observationModel ?? options.observation_model ?? '').toLowerCase();
-    if (explicit === 'actual_weight' || explicit === 'deficit_residue') return explicit;
+    if (explicit === 'actual_weight' || explicit === 'deficit_residue' || explicit === 'projective_signed_deviation') return explicit;
     const stateModel = String(options.stateModel ?? options.state_model ?? '').toLowerCase();
     const objective = String(options.objective || '').toLowerCase();
     const fakeBagCount = Number(options.fakeBagCount ?? options.fake_bag_count);
@@ -5410,6 +6107,10 @@
 
   function numericSignatureSignedDeviation(state, amounts, options = {}) {
     const normalized = numericSignatureNormalizeState(state);
+    if (numericSignatureObservationModel(options) === 'projective_signed_deviation') {
+      const delta = Number(state?.delta ?? options.unknownDelta ?? options.unknown_delta ?? 1) || 1;
+      return normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0) * delta;
+    }
     const direction = normalizeDirection(
       state?.direction ?? options.counterfeitWeight ?? options.counterfeit_weight
     ) || 'lighter';
@@ -5426,23 +6127,74 @@
   }
 
   function numericSignatureObservationForState(state, amounts, options = {}) {
-    const values = numericSignatureAmounts(amounts, amounts?.length ?? options.bagCount ?? options.bag_count);
-    const total = numericSignatureTotal(values);
+    const values = numericSignatureAmounts(amounts, amounts?.length ?? options.bagCount ?? options.bag_count, options);
+    const observationModel = numericSignatureObservationModel(options);
+    const total = observationModel === 'projective_signed_deviation'
+      ? numericSignatureSignedPanSize(values)
+      : numericSignatureTotal(values);
     const deficit = numericSignatureDeficit(state, values);
     const deficitResidue = numericSignatureResidueForDeficit(deficit, total);
     const maxDeficit = numericSignatureTotal(values);
     const baseWeight = Math.max(Number(options.genuineWeight ?? options.genuine_weight ?? 10) || 10, Math.ceil(maxDeficit / Math.max(1, total)) + 2);
-    const observationModel = numericSignatureObservationModel(options);
     const signedDeviation = numericSignatureSignedDeviation(state, values, options);
     const expectedWeight = total * baseWeight;
-    const weight = observationModel === 'actual_weight'
+    const weight = observationModel === 'projective_signed_deviation'
+      ? signedDeviation
+      : (observationModel === 'actual_weight'
       ? expectedWeight + signedDeviation
-      : (total > 0 ? expectedWeight - deficitResidue : 0);
+      : (total > 0 ? expectedWeight - deficitResidue : 0));
     return { total, deficit, deficitResidue, signedDeviation, observedDeviation: signedDeviation, expectedWeight, weight, genuineWeight: baseWeight, observationModel };
+  }
+
+  function numericSignatureProjectiveKey(vector) {
+    const values = (vector || []).map(value => Number(value) || 0);
+    if (!values.length || values.every(value => value === 0)) return 'zero';
+    const integers = values.map(value => Math.round(value));
+    if (!integers.every((value, index) => Math.abs(value - values[index]) < 1e-9)) {
+      const first = values.find(value => value !== 0) || 1;
+      return values.map(value => String(value / first)).join(':');
+    }
+    const gcd = (a, b) => {
+      a = Math.abs(a); b = Math.abs(b);
+      while (b) {
+        const t = a % b;
+        a = b;
+        b = t;
+      }
+      return a || 1;
+    };
+    const divisor = integers.reduce((acc, value) => gcd(acc, value), 0) || 1;
+    let normalized = integers.map(value => value / divisor);
+    const firstNonzero = normalized.find(value => value !== 0) || 1;
+    if (firstNonzero < 0) normalized = normalized.map(value => -value);
+    return normalized.join(':');
+  }
+
+  function numericSignatureRows(params = {}) {
+    const bagCount = Number(params?.bag_count ?? params?.bagCount);
+    const rawRows = params.amountRows ?? params.amount_rows;
+    const rows = Array.isArray(rawRows) && rawRows.length
+      ? rawRows
+      : [params.amounts ?? []];
+    return rows.map(row => numericSignatureAmounts(row, bagCount, params));
+  }
+
+  function numericSignatureProjectiveKeyForState(state, rows, options = {}) {
+    const normalized = numericSignatureNormalizeState(state);
+    const vector = (rows || []).map(amounts =>
+      normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0)
+    );
+    return numericSignatureProjectiveKey(vector);
   }
 
   function numericSignatureObservationKeyForState(state, amounts, options = {}) {
     const observationModel = numericSignatureObservationModel(options);
+    if (observationModel === 'projective_signed_deviation') {
+      const rows = Array.isArray(options.amountRows) || Array.isArray(options.amount_rows)
+        ? numericSignatureRows(options)
+        : [numericSignatureAmounts(amounts, amounts?.length ?? options.bagCount ?? options.bag_count, options)];
+      return numericSignatureProjectiveKeyForState(state, rows, options);
+    }
     if (observationModel === 'actual_weight') {
       return numericSignatureSignedDeviation(state, amounts, options);
     }
@@ -5452,11 +6204,21 @@
 
   function numericSignatureFilterStates(params) {
     const bagCount = Number(params?.bag_count ?? params?.bagCount);
-    const amounts = numericSignatureAmounts(params?.amounts, bagCount);
+    const amounts = numericSignatureAmounts(params?.amounts, bagCount, params);
     const total = numericSignatureTotal(amounts);
     const currentStates = params?.currentStates?.length
       ? numericSignatureNormalizeStates(params.currentStates, bagCount, params)
       : numericSignatureInitialStates(bagCount, params);
+    if (numericSignatureObservationModel(params) === 'projective_signed_deviation') {
+      const observedVector = params.observedDeviations ?? params.observed_deviations ?? (
+        params.observedDeviation != null || params.observed_deviation != null
+          ? [params.observedDeviation ?? params.observed_deviation]
+          : []
+      );
+      const targetKey = numericSignatureProjectiveKey(observedVector);
+      const rows = numericSignatureRows(params);
+      return currentStates.filter(state => numericSignatureProjectiveKeyForState(state, rows, params) === targetKey);
+    }
     if (numericSignatureObservationModel(params) === 'actual_weight') {
       const baseWeight = Math.max(Number(params?.genuineWeight ?? params?.genuine_weight ?? 10) || 10, 1);
       const observedDeviation = params?.observedDeviation ?? params?.observed_deviation ?? (
@@ -5473,19 +6235,28 @@
 
   function numericSignaturePartitionStates(params) {
     const bagCount = Number(params?.bag_count ?? params?.bagCount);
-    const amounts = numericSignatureAmounts(params?.amounts, bagCount);
-    const total = numericSignatureTotal(amounts);
+    const amounts = numericSignatureAmounts(params?.amounts, bagCount, params);
+    const observationModel = numericSignatureObservationModel(params);
+    const rows = observationModel === 'projective_signed_deviation' ? numericSignatureRows(params) : null;
+    const total = observationModel === 'projective_signed_deviation'
+      ? numericSignatureSignedPanSize(amounts)
+      : numericSignatureTotal(amounts);
     const currentStates = params?.currentStates?.length
       ? numericSignatureNormalizeStates(params.currentStates, bagCount, params)
       : numericSignatureInitialStates(bagCount, params);
     const byObservation = new Map();
     for (const state of currentStates) {
-      const key = numericSignatureObservationKeyForState(state, amounts, params);
+      const key = observationModel === 'projective_signed_deviation'
+        ? numericSignatureProjectiveKeyForState(state, rows, params)
+        : numericSignatureObservationKeyForState(state, amounts, params);
       if (!byObservation.has(key)) byObservation.set(key, []);
       byObservation.get(key).push(state);
     }
     return [...byObservation.entries()]
-      .sort((a, b) => a[0] - b[0])
+      .sort((a, b) => {
+        const numeric = Number(a[0]) - Number(b[0]);
+        return Number.isNaN(numeric) ? String(a[0]).localeCompare(String(b[0])) : numeric;
+      })
       .map(([key, states]) => {
         const observation = numericSignatureObservationForState(states[0] || { bags: [] }, amounts, params);
         return {
@@ -5494,6 +6265,7 @@
           deficitResidue: observation.deficitResidue,
           observedDeviation: observation.observedDeviation,
           weight: observation.weight,
+          projectiveKey: key,
           observation,
           states,
           total
@@ -5639,6 +6411,9 @@
     }
     if (Number.isInteger(maxCoins) && maxCoins > 0 && kitCount > maxCoins) {
       return { valid: false, error: `Полных комплектов можно взять не больше ${maxCoins}: в каждом мешке по ${maxCoins} монет.`, selectedCoins, kitCount, referenceTotal };
+    }
+    if (Number.isInteger(maxCoins) && maxCoins > 0 && selectedCoins + kitCount > maxCoins) {
+      return { valid: false, error: `В указанном мешке всего ${maxCoins} монет: учтите монеты на левой чаше и в полных комплектах.`, selectedCoins, kitCount, referenceTotal };
     }
     if (!Number.isFinite(referenceTotal) || referenceTotal <= 0) {
       return { valid: false, error: 'Не задана сумма весов одного полного комплекта.', selectedCoins, kitCount, referenceTotal };
@@ -6145,7 +6920,41 @@
     return Number.isInteger(tests) && tests >= 0 && tests <= 20 ? tests : Math.max(0, alphabet.length - 1);
   }
 
+  function fixedFeedbackPasswordModel(params = {}) {
+    const raw = String(params.password_model ?? params.passwordModel ?? params.hidden_model ?? params.hiddenModel ?? '').trim().toLowerCase();
+    const alphabet = fixedFeedbackAlphabet(params);
+    const length = fixedFeedbackPasswordLength(params);
+    if (['permutation', 'permutation_word', 'all_letters_once'].includes(raw) && alphabet.length === length) return 'permutation';
+    return 'all_words';
+  }
+
+  function fixedFeedbackPermutationSecrets(params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const length = fixedFeedbackPasswordLength(params);
+    if (alphabet.length !== length || length > 8) return [];
+    const result = [];
+    const used = Array.from({ length }, () => false);
+    const current = [];
+    function visit() {
+      if (current.length === length) {
+        result.push(current.join(''));
+        return;
+      }
+      for (let index = 0; index < alphabet.length; index += 1) {
+        if (used[index]) continue;
+        used[index] = true;
+        current.push(alphabet[index]);
+        visit();
+        current.pop();
+        used[index] = false;
+      }
+    }
+    visit();
+    return result;
+  }
+
   function fixedFeedbackStateCount(params = {}) {
+    if (fixedFeedbackPasswordModel(params) === 'permutation') return fixedFeedbackPermutationSecrets(params).length;
     return fixedFeedbackAlphabet(params).length ** fixedFeedbackPasswordLength(params);
   }
 
@@ -6164,9 +6973,28 @@
     };
   }
 
+  function fixedFeedbackNormalizeSecret(word, params = {}) {
+    const normalized = fixedFeedbackNormalizeWord(word, params);
+    if (!normalized.valid || fixedFeedbackPasswordModel(params) !== 'permutation') return normalized;
+    const counts = new Map(normalized.alphabet.map(letter => [letter, 0]));
+    for (const letter of normalized.letters) counts.set(letter, (counts.get(letter) || 0) + 1);
+    return {
+      ...normalized,
+      valid: [...counts.values()].every(count => count === 1)
+    };
+  }
+
   function fixedFeedbackRandomPassword(params = {}) {
     const alphabet = fixedFeedbackAlphabet(params);
     const length = fixedFeedbackPasswordLength(params);
+    if (fixedFeedbackPasswordModel(params) === 'permutation') {
+      const letters = alphabet.slice();
+      for (let index = letters.length - 1; index > 0; index -= 1) {
+        const swapIndex = Math.floor(Math.random() * (index + 1));
+        [letters[index], letters[swapIndex]] = [letters[swapIndex], letters[index]];
+      }
+      return letters.join('');
+    }
     let word = '';
     for (let index = 0; index < length; index += 1) {
       word += alphabet[Math.floor(Math.random() * alphabet.length)];
@@ -6204,6 +7032,14 @@
   }
 
   function fixedFeedbackKnowledgeFromHistory(history = [], params = {}) {
+    if (fixedFeedbackPasswordModel(params) === 'permutation') {
+      const candidates = fixedFeedbackCompatibleSecrets(history, params);
+      const length = fixedFeedbackPasswordLength(params);
+      return Array.from({ length }, (_item, index) => {
+        const possible = new Set(candidates.map(secret => secret[index]));
+        return fixedFeedbackAlphabet(params).filter(letter => possible.has(letter));
+      });
+    }
     const knowledge = fixedFeedbackInitialKnowledge(params);
     for (const step of history || []) {
       const guess = fixedFeedbackNormalizeWord(step.guess ?? step.attempt ?? step.word, params);
@@ -6221,7 +7057,23 @@
     return knowledge;
   }
 
+  function fixedFeedbackCompatibleSecrets(history = [], params = {}) {
+    if (fixedFeedbackPasswordModel(params) !== 'permutation') return [];
+    return fixedFeedbackPermutationSecrets(params).filter(secret =>
+      (history || []).every(step => {
+        const guess = fixedFeedbackNormalizeWord(step.guess ?? step.attempt ?? step.word, params);
+        if (!guess.valid) return true;
+        const actual = fixedFeedbackFeedback(secret, guess.word, params).join(',');
+        const recorded = fixedFeedbackNormalizePositions(step.matches ?? step.positions ?? step.feedback, params).join(',');
+        return actual === recorded;
+      })
+    );
+  }
+
   function fixedFeedbackCandidateCount(knowledgeOrHistory = [], params = {}) {
+    if (fixedFeedbackPasswordModel(params) === 'permutation' && !Array.isArray(knowledgeOrHistory?.[0])) {
+      return fixedFeedbackCompatibleSecrets(knowledgeOrHistory, params).length;
+    }
     const knowledge = Array.isArray(knowledgeOrHistory?.[0])
       ? knowledgeOrHistory
       : fixedFeedbackKnowledgeFromHistory(knowledgeOrHistory, params);
@@ -6229,6 +7081,10 @@
   }
 
   function fixedFeedbackKnownPassword(knowledgeOrHistory = [], params = {}) {
+    if (fixedFeedbackPasswordModel(params) === 'permutation' && !Array.isArray(knowledgeOrHistory?.[0])) {
+      const candidates = fixedFeedbackCompatibleSecrets(knowledgeOrHistory, params);
+      return candidates.length === 1 ? candidates[0] : null;
+    }
     const knowledge = Array.isArray(knowledgeOrHistory?.[0])
       ? knowledgeOrHistory
       : fixedFeedbackKnowledgeFromHistory(knowledgeOrHistory, params);
@@ -6249,6 +7105,16 @@
   function fixedFeedbackStrategyHistory(secret, params = {}) {
     const maxTests = fixedFeedbackMaxTests(params);
     const alphabet = fixedFeedbackAlphabet(params);
+    const presetTests = (params.preset_tests ?? params.presetTests ?? [])
+      .map(test => fixedFeedbackNormalizeWord(test, params))
+      .filter(test => test.valid)
+      .slice(0, maxTests);
+    if (presetTests.length) {
+      return presetTests.map(test => ({
+        guess: test.word,
+        matches: fixedFeedbackFeedback(secret, test.word, params)
+      }));
+    }
     const testCount = Math.min(maxTests, Math.max(0, alphabet.length - 1));
     return Array.from({ length: testCount }, (_item, index) => {
       const guess = fixedFeedbackUniformGuess(index, params);
@@ -6261,11 +7127,11 @@
 
   function fixedFeedbackFinalizeAnswer(params = {}) {
     const history = params.history ?? params.transcript ?? [];
-    const answer = fixedFeedbackNormalizeWord(params.answer ?? params.guess ?? params.password, params);
-    const secret = fixedFeedbackNormalizeWord(params.secret ?? params.hidden ?? params.hiddenPassword, params);
+    const answer = fixedFeedbackNormalizeSecret(params.answer ?? params.guess ?? params.password, params);
+    const secret = fixedFeedbackNormalizeSecret(params.secret ?? params.hidden ?? params.hiddenPassword, params);
     const knowledge = fixedFeedbackKnowledgeFromHistory(history, params);
-    const knownPassword = fixedFeedbackKnownPassword(knowledge, params);
-    const candidateCount = fixedFeedbackCandidateCount(knowledge, params);
+    const knownPassword = fixedFeedbackKnownPassword(history, params);
+    const candidateCount = fixedFeedbackCandidateCount(history, params);
     return {
       answer: answer.word,
       validAnswer: answer.valid,
@@ -6281,6 +7147,34 @@
     const alphabet = fixedFeedbackAlphabet(params);
     const length = fixedFeedbackPasswordLength(params);
     const maxTests = fixedFeedbackMaxTests(params);
+    if (fixedFeedbackPasswordModel(params) === 'permutation') {
+      const states = fixedFeedbackPermutationSecrets(params);
+      const tests = (params.preset_tests ?? params.presetTests ?? [])
+        .map(test => fixedFeedbackNormalizeWord(test, params))
+        .filter(test => test.valid)
+        .map(test => test.word)
+        .slice(0, maxTests);
+      const signatures = new Map();
+      for (const state of states) {
+        const key = tests.map(test => fixedFeedbackFeedback(state, test, params).join(',')).join('|');
+        if (!signatures.has(key)) signatures.set(key, []);
+        signatures.get(key).push(state);
+      }
+      const conflicts = [...signatures.values()].filter(group => group.length > 1);
+      const requiredTests = Number(params.minimum_feedback_tests ?? params.minimumFeedbackTests ?? tests.length);
+      return {
+        success: tests.length <= maxTests && states.length > 0 && conflicts.length === 0,
+        checked: states.length,
+        alphabet,
+        length,
+        maxTests,
+        requiredTests,
+        passwordModel: 'permutation',
+        candidateCountAfterStrategy: conflicts.length ? Math.max(...conflicts.map(group => group.length)) : 1,
+        conflicts,
+        rows: tests.map((guess, index) => ({ test: index + 1, guess }))
+      };
+    }
     const requiredTests = Math.max(0, alphabet.length - 1);
     const checked = alphabet.length ** length;
     const success = maxTests >= requiredTests;
@@ -8250,6 +9144,296 @@
     return { caughtStates, escapedStates, children };
   }
 
+  function uniformityCoinCount(config) {
+    const count = Number(config?.coin_count ?? config?.coinCount ?? config?.object_count ?? config?.objectCount);
+    return Number.isInteger(count) && count >= 2 ? count : 0;
+  }
+
+  function uniformityMaxWeighings(config) {
+    const count = Number(config?.max_weighings ?? config?.maxWeighings);
+    return Number.isInteger(count) && count >= 1 ? count : 0;
+  }
+
+  function uniformityBadStates(config) {
+    const coinCount = uniformityCoinCount(config);
+    if (!coinCount || coinCount > 20) return [];
+    const fullMask = (1 << coinCount) - 1;
+    const states = [];
+    for (let mask = 1; mask < fullMask; mask += 1) {
+      const complement = fullMask ^ mask;
+      if (mask > complement) continue;
+      const coins = [];
+      const otherCoins = [];
+      for (let index = 0; index < coinCount; index += 1) {
+        const coin = index + 1;
+        if (mask & (1 << index)) coins.push(coin);
+        else otherCoins.push(coin);
+      }
+      states.push({ mask, coins, otherCoins });
+    }
+    return states;
+  }
+
+  function uniformityStateKey(state) {
+    return uniqueCoins(state?.coins || []).sort((a, b) => a - b).join(',');
+  }
+
+  function uniformityStateLabel(state) {
+    const left = uniqueCoins(state?.coins || []).sort((a, b) => a - b).join(', ') || '?';
+    const right = uniqueCoins(state?.otherCoins || []).sort((a, b) => a - b).join(', ') || '?';
+    return `${left} | ${right}`;
+  }
+
+  function uniformityNormalizeWeighing(config, row) {
+    const coinCount = uniformityCoinCount(config);
+    const requireEqualPanCounts = config?.require_equal_pan_counts !== false && config?.requireEqualPanCounts !== false;
+    const left = uniqueCoins(row?.left ?? row?.leftCoins ?? row?.left_coins ?? [], coinCount);
+    const right = uniqueCoins(row?.right ?? row?.rightCoins ?? row?.right_coins ?? [], coinCount);
+    const errors = [];
+    if (!coinCount) errors.push('не задано число монет');
+    if (!left.length && !right.length) errors.push('обе чаши пусты');
+    const leftSet = new Set(left);
+    const overlap = right.filter(coin => leftSet.has(coin));
+    if (overlap.length) errors.push(`монета ${overlap.join(', ')} лежит на обеих чашах`);
+    if (requireEqualPanCounts && left.length !== right.length) {
+      errors.push('для проверки равенства нужны одинаковые размеры чаш');
+    }
+    return { left, right, errors, ok: errors.length === 0 };
+  }
+
+  function uniformityStateBalances(state, weighing) {
+    const left = new Set(weighing?.left || []);
+    const right = new Set(weighing?.right || []);
+    let delta = 0;
+    for (const coin of state?.coins || []) {
+      if (left.has(coin)) delta += 1;
+      if (right.has(coin)) delta -= 1;
+    }
+    return delta === 0;
+  }
+
+  function uniformityRemainingBadStates(config, weighings = []) {
+    let states = uniformityBadStates(config);
+    for (const raw of weighings || []) {
+      const weighing = uniformityNormalizeWeighing(config, raw);
+      if (!weighing.ok) continue;
+      states = states.filter(state => uniformityStateBalances(state, weighing));
+    }
+    return states;
+  }
+
+  function uniformityAnalyzePlan(config, weighings = []) {
+    const maxWeighings = uniformityMaxWeighings(config);
+    const rows = [];
+    const errors = [];
+    for (const raw of weighings || []) {
+      const row = uniformityNormalizeWeighing(config, raw);
+      rows.push(row);
+      if (!row.ok) errors.push(...row.errors);
+    }
+    if (maxWeighings && rows.length > maxWeighings) {
+      errors.push(`использовано больше ${maxWeighings} взвешиваний`);
+    }
+    const validRows = rows.filter(row => row.ok);
+    const remaining = uniformityRemainingBadStates(config, validRows);
+    return {
+      ok: errors.length === 0 && remaining.length === 0,
+      checked: uniformityBadStates(config).length,
+      usedWeighings: rows.length,
+      validWeighings: validRows.length,
+      remaining,
+      errors
+    };
+  }
+
+  function parityDetectorCoinCount(config) {
+    const count = Number(config?.coin_count ?? config?.coinCount ?? config?.object_count ?? config?.objectCount);
+    return Number.isInteger(count) && count >= 2 && count <= 20 ? count : 0;
+  }
+
+  function parityDetectorCounterfeitCount(config) {
+    const coinCount = parityDetectorCoinCount(config);
+    const count = Number(config?.counterfeit_count ?? config?.counterfeitCount);
+    return Number.isInteger(count) && count >= 1 && count < coinCount ? count : 0;
+  }
+
+  function parityDetectorSelectedCoin(config) {
+    const coinCount = parityDetectorCoinCount(config);
+    const selected = Number(config?.selected_coin ?? config?.selectedCoin ?? 1);
+    return Number.isInteger(selected) && selected >= 1 && selected <= coinCount ? selected : 1;
+  }
+
+  function parityDetectorMaxTests(config) {
+    const count = Number(config?.max_tests ?? config?.maxTests ?? config?.max_weighings ?? config?.maxWeighings);
+    return Number.isInteger(count) && count >= 1 ? count : 0;
+  }
+
+  function parityDetectorInitialStates(config) {
+    const coinCount = parityDetectorCoinCount(config);
+    const fakeCount = parityDetectorCounterfeitCount(config);
+    if (!coinCount || !fakeCount) return [];
+    return indexCombinations(coinCount, fakeCount).map(indices => {
+      let fakeMask = 0;
+      const fakeCoins = [];
+      for (const index of indices) {
+        fakeMask |= (1 << index);
+        fakeCoins.push(index + 1);
+      }
+      return { fakeMask, fakeCoins };
+    });
+  }
+
+  function parityDetectorStateKey(state) {
+    return String(Number(state?.fakeMask ?? 0));
+  }
+
+  function parityDetectorSelectedType(state, config) {
+    const selected = parityDetectorSelectedCoin(config);
+    return (Number(state?.fakeMask ?? 0) & (1 << (selected - 1))) ? 'fake' : 'genuine';
+  }
+
+  function parityDetectorStateLabel(state, config) {
+    const fakeCoins = uniqueCoins(state?.fakeCoins || [], parityDetectorCoinCount(config));
+    return `фальшивые: ${fakeCoins.join(', ') || 'нет'}`;
+  }
+
+  function parityDetectorNormalizeTest(config, test) {
+    const coinCount = parityDetectorCoinCount(config);
+    const left = Number(test?.left ?? test?.a ?? test?.coinA ?? test?.coin_a);
+    const right = Number(test?.right ?? test?.b ?? test?.coinB ?? test?.coin_b);
+    const errors = [];
+    if (!coinCount) errors.push('не задано число монет');
+    if (!Number.isInteger(left) || left < 1 || left > coinCount) errors.push('первая монета вне диапазона');
+    if (!Number.isInteger(right) || right < 1 || right > coinCount) errors.push('вторая монета вне диапазона');
+    if (Number.isInteger(left) && Number.isInteger(right) && left === right) errors.push('нужно выбрать две разные монеты');
+    return { left, right, errors, ok: errors.length === 0 };
+  }
+
+  function parityDetectorOutcomeForState(state, test) {
+    const left = Number(test?.left);
+    const right = Number(test?.right);
+    const mask = Number(state?.fakeMask ?? 0);
+    const leftFake = Boolean(mask & (1 << (left - 1)));
+    const rightFake = Boolean(mask & (1 << (right - 1)));
+    return leftFake === rightFake ? 'equal' : 'different';
+  }
+
+  function parityDetectorOutcomeLabel(outcome) {
+    if (outcome === 'equal') return 'равны';
+    if (outcome === 'different') return 'разные';
+    return String(outcome || '');
+  }
+
+  function parityDetectorSignatureForState(state, tests) {
+    return (tests || []).map(test => parityDetectorOutcomeForState(state, test));
+  }
+
+  function parityDetectorSignatureKey(signature) {
+    return (signature || []).join('|');
+  }
+
+  function parityDetectorTypeCounts(states, config) {
+    const counts = { genuine: 0, fake: 0 };
+    for (const state of states || []) counts[parityDetectorSelectedType(state, config)] += 1;
+    return counts;
+  }
+
+  function parityDetectorForcedType(states, config) {
+    const counts = parityDetectorTypeCounts(states, config);
+    if (counts.genuine > 0 && counts.fake === 0) return 'genuine';
+    if (counts.fake > 0 && counts.genuine === 0) return 'fake';
+    return null;
+  }
+
+  function parityDetectorFilterStates(params = {}) {
+    const config = params.config || params;
+    const test = parityDetectorNormalizeTest(config, params.test || params);
+    if (!test.ok) return [];
+    const outcome = params.outcome;
+    const currentStates = params.currentStates?.length ? params.currentStates : parityDetectorInitialStates(config);
+    return currentStates.filter(state => parityDetectorOutcomeForState(state, test) === outcome);
+  }
+
+  function parityDetectorPartitionStates(params = {}) {
+    const config = params.config || params;
+    const tests = (params.tests || [])
+      .map(test => parityDetectorNormalizeTest(config, test))
+      .filter(test => test.ok);
+    const currentStates = params.currentStates?.length ? params.currentStates : parityDetectorInitialStates(config);
+    const bySignature = new Map();
+    for (const state of currentStates) {
+      const signature = parityDetectorSignatureForState(state, tests);
+      const key = parityDetectorSignatureKey(signature);
+      if (!bySignature.has(key)) bySignature.set(key, { key, signature, states: [] });
+      bySignature.get(key).states.push(state);
+    }
+    return [...bySignature.values()].map(part => ({
+      ...part,
+      typeCounts: parityDetectorTypeCounts(part.states, config),
+      forcedType: parityDetectorForcedType(part.states, config)
+    })).sort((a, b) => b.states.length - a.states.length || a.key.localeCompare(b.key, undefined, { numeric: true }));
+  }
+
+  function parityDetectorChooseCheaterOutcome(params = {}) {
+    const config = params.config || params;
+    const test = parityDetectorNormalizeTest(config, params.test || params);
+    const currentStates = params.currentStates?.length ? params.currentStates : parityDetectorInitialStates(config);
+    if (!test.ok) return { outcome: null, states: currentStates, partitions: [], errors: test.errors };
+    const partitions = ['equal', 'different'].map(outcome => {
+      const states = currentStates.filter(state => parityDetectorOutcomeForState(state, test) === outcome);
+      return {
+        outcome,
+        states,
+        typeCounts: parityDetectorTypeCounts(states, config),
+        forcedType: parityDetectorForcedType(states, config)
+      };
+    }).filter(part => part.states.length);
+    const chosen = partitions.slice().sort((a, b) =>
+      b.states.length - a.states.length || a.outcome.localeCompare(b.outcome)
+    )[0] || { outcome: null, states: [] };
+    return { ...chosen, partitions, test };
+  }
+
+  function parityDetectorAnalyzePlan(config, tests = []) {
+    const maxTests = parityDetectorMaxTests(config);
+    const rows = [];
+    const errors = [];
+    for (const raw of tests || []) {
+      const row = parityDetectorNormalizeTest(config, raw);
+      rows.push(row);
+      if (!row.ok) errors.push(...row.errors);
+    }
+    if (maxTests && rows.length > maxTests) errors.push(`использовано больше ${maxTests} проверок`);
+    const validTests = rows.filter(row => row.ok);
+    const states = parityDetectorInitialStates(config);
+    const partitions = parityDetectorPartitionStates({ ...config, tests: validTests, currentStates: states });
+    const conflicts = partitions.filter(part => !part.forcedType);
+    return {
+      ok: errors.length === 0 && states.length > 0 && conflicts.length === 0,
+      states,
+      rows,
+      tests: validTests,
+      partitions,
+      conflicts,
+      conflict: conflicts[0] || null,
+      errors
+    };
+  }
+
+  function parityDetectorFinalizeAnswer(params = {}) {
+    const config = params.config || params;
+    const selectedType = params.selectedType ?? params.selected_type;
+    const candidates = params.currentStates?.length ? params.currentStates : parityDetectorInitialStates(config);
+    const forcedType = parityDetectorForcedType(candidates, config);
+    return {
+      win: Boolean(forcedType && selectedType === forcedType),
+      forcedType,
+      selectedType,
+      candidates,
+      typeCounts: parityDetectorTypeCounts(candidates, config)
+    };
+  }
+
   return {
     OUTCOMES,
     OUTCOME_LABELS,
@@ -8353,6 +9537,7 @@
     constrainedLightCoinSetKey,
     constrainedLightStateLabel,
     outcomeForConstrainedLightState,
+    outcomesForConstrainedLightState,
     constrainedLightFilterStates,
     constrainedLightPartitionStates,
     constrainedLightPossibleCounts,
@@ -8452,6 +9637,22 @@
     balancedWeightBranchStatus,
     balancedWeightExpandExhaustiveNode,
     balancedWeightFinalizeAnswer,
+    rotatedTrayBaseWeights,
+    rotatedTrayPositionCount,
+    rotatedTrayWeightsForRotation,
+    rotatedTrayInitialStates,
+    rotatedTrayStateKey,
+    rotatedTrayNormalizeStates,
+    rotatedTrayNormalizeWeighing,
+    rotatedTrayOutcomeForState,
+    rotatedTrayPartitionStates,
+    rotatedTrayFilterStates,
+    rotatedTrayChooseCheaterOutcome,
+    rotatedTrayForcedWeights,
+    rotatedTrayBranchStatus,
+    rotatedTrayExpandExhaustiveNode,
+    rotatedTrayNormalizeAnswer,
+    rotatedTrayFinalizeAnswer,
     expertJudgeObjectCount,
     expertJudgeWeightValues,
     expertJudgeNormalizeAssignment,
@@ -8467,7 +9668,11 @@
     numericSignatureAmounts,
     numericSignatureAmountsValidation,
     numericSignatureTotal,
+    numericSignatureSignedPanSize,
+    numericSignatureSampledCoinCount,
     numericSignatureDeficit,
+    numericSignatureProjectiveKey,
+    numericSignatureProjectiveKeyForState,
     numericSignatureResidueForDeficit,
     numericSignatureObservationForState,
     numericSignatureFilterStates,
@@ -8524,13 +9729,17 @@
     fixedFeedbackAlphabet,
     fixedFeedbackPasswordLength,
     fixedFeedbackMaxTests,
+    fixedFeedbackPasswordModel,
+    fixedFeedbackPermutationSecrets,
     fixedFeedbackStateCount,
     fixedFeedbackNormalizeWord,
+    fixedFeedbackNormalizeSecret,
     fixedFeedbackRandomPassword,
     fixedFeedbackFeedback,
     fixedFeedbackNormalizePositions,
     fixedFeedbackInitialKnowledge,
     fixedFeedbackKnowledgeFromHistory,
+    fixedFeedbackCompatibleSecrets,
     fixedFeedbackCandidateCount,
     fixedFeedbackKnownPassword,
     fixedFeedbackUniformGuess,
@@ -8747,6 +9956,35 @@
     movingTargetTransitionStates,
     movingTargetBranchStatus,
     movingTargetChooseCheaterOutcome,
-    movingTargetExpandExhaustiveNode
+    movingTargetExpandExhaustiveNode,
+    uniformityCoinCount,
+    uniformityMaxWeighings,
+    uniformityBadStates,
+    uniformityStateKey,
+    uniformityStateLabel,
+    uniformityNormalizeWeighing,
+    uniformityStateBalances,
+    uniformityRemainingBadStates,
+    uniformityAnalyzePlan,
+    parityDetectorCoinCount,
+    parityDetectorCounterfeitCount,
+    parityDetectorSelectedCoin,
+    parityDetectorMaxTests,
+    parityDetectorInitialStates,
+    parityDetectorStateKey,
+    parityDetectorSelectedType,
+    parityDetectorStateLabel,
+    parityDetectorNormalizeTest,
+    parityDetectorOutcomeForState,
+    parityDetectorOutcomeLabel,
+    parityDetectorSignatureForState,
+    parityDetectorSignatureKey,
+    parityDetectorTypeCounts,
+    parityDetectorForcedType,
+    parityDetectorFilterStates,
+    parityDetectorPartitionStates,
+    parityDetectorChooseCheaterOutcome,
+    parityDetectorAnalyzePlan,
+    parityDetectorFinalizeAnswer
   };
 });

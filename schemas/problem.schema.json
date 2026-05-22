@@ -141,6 +141,11 @@
           "type": "string",
           "description": "Renderer key used by the static viewer."
         },
+        "presentation": {
+          "type": "string",
+          "enum": ["exercise", "demonstration", "review_only"],
+          "description": "How the viewer may present the interactive block. Omitted means exercise: the user must supply a strategy, move, answer, or plan that the viewer checks. Demonstration is only for an explicitly labeled walkthrough that substantially clarifies the official solution. Review-only keeps an unfinished candidate out of the public interactive surface."
+        },
         "coin_count": {
           "type": "integer",
           "minimum": 2,
@@ -150,6 +155,12 @@
           "type": "integer",
           "minimum": 1,
           "description": "Number of named objects in non-weighing subset-test interactives."
+        },
+        "object_counts": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 2},
+          "uniqueItems": true,
+          "description": "Alternative object counts supported by one interactive renderer."
         },
         "item_count": {
           "type": "integer",
@@ -368,6 +379,11 @@
           "minimum": 1,
           "description": "Number of counterfeit coins in multiple-counterfeit interactives."
         },
+        "selected_coin": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Known selected coin whose hidden type is the target of a detector interactive."
+        },
         "real_count": {
           "type": "integer",
           "minimum": 1,
@@ -434,6 +450,11 @@
           "minimum": 1,
           "description": "Maximum number of balance-scale weighings allowed."
         },
+        "max_sampled_coins": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of physical coins that may be sampled and reused across numeric weighings."
+        },
         "max_tests": {
           "type": "integer",
           "minimum": 1,
@@ -451,7 +472,7 @@
         },
         "objective": {
           "type": "string",
-          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "all_agents_find_own_state", "maximize_win_probability", "guarantee_all_but_first_correct", "prove_impossible"],
+          "enum": ["identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_all_weights_after_rotation", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "all_agents_find_own_state", "maximize_win_probability", "guarantee_all_but_first_correct", "guarantee_at_least_half_correct", "identify_spectator_card", "prove_impossible"],
           "description": "Goal checked by the interactive layer."
         },
         "hidden_states": {
@@ -492,6 +513,11 @@
         "require_equal_pan_counts": {
           "type": "boolean",
           "description": "Whether the UI should require the two pans to contain the same number of coins before weighing."
+        },
+        "erasure_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of fixed weighing results that may be lost or erased while the nonadaptive table must still identify the state."
         },
         "preset_weighings": {
           "type": "array",
@@ -595,12 +621,12 @@
         },
         "state_model": {
           "type": "string",
-          "enum": ["fake_bag_subset", "single_fake_bag", "fixed_fake_count"],
+          "enum": ["fake_bag_subset", "single_fake_bag", "fixed_fake_count", "selected_bag_weight", "explicit_fake_sets"],
           "description": "Hidden-state model for numeric linear-signature interactives."
         },
         "observation_model": {
           "type": "string",
-          "enum": ["deficit_residue", "actual_weight"],
+          "enum": ["deficit_residue", "actual_weight", "projective_signed_deviation"],
           "description": "Numeric observation model for linear-signature interactives."
         },
         "object_kind": {
@@ -610,7 +636,7 @@
         },
         "selection_model": {
           "type": "string",
-          "enum": ["quantities", "subset"],
+          "enum": ["quantities", "subset", "signed_quantities"],
           "description": "Whether each numeric weighing uses per-object quantities or a selected subset."
         },
         "allow_empty_subset": {
@@ -643,6 +669,36 @@
         "exclude_all_fake": {
           "type": "boolean",
           "description": "Whether the all-bags-fake state is excluded from the hidden state space."
+        },
+        "weight_model": {
+          "type": "string",
+          "enum": ["permutation_1_to_N", "equal_halves_binary"],
+          "description": "Weight assignment model for expert-judge certificate interactives."
+        },
+        "certificate_goal": {
+          "type": "string",
+          "enum": ["one_forced_weight", "all_forced_weights"],
+          "description": "What the judge must be able to infer from the certificate."
+        },
+        "light_weight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Lower weight in a two-weight expert-judge certificate."
+        },
+        "heavy_weight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Higher weight in a two-weight expert-judge certificate."
+        },
+        "light_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of lower-weight objects in a two-weight expert-judge certificate."
+        },
+        "heavy_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of higher-weight objects in a two-weight expert-judge certificate."
         }
       },
       "allOf": [
@@ -663,7 +719,7 @@
           "then": {
             "required": ["coin_count", "max_weighings", "objective"],
             "properties": {
-              "objective": {"enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction"]}
+              "objective": {"enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_sign_only", "identify_sign_only_unknown_direction"]}
             }
           }
         },
@@ -721,13 +777,25 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "selected_coin_parity_detector"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "counterfeit_count", "selected_coin", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_selected_coin_type"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "constrained_light_counterfeit_sets"}},
             "required": ["type"]
           },
           "then": {
             "required": ["coin_count", "hidden_states", "max_weighings", "objective"],
             "properties": {
-              "objective": {"enum": ["identify_one_light_coin", "identify_one_counterfeit_coin", "identify_counterfeit_count", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_fake_coin_set"]}
+              "objective": {"enum": ["identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_counterfeit_count", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_fake_coin_set"]}
             }
           }
         },
@@ -838,7 +906,7 @@
           "then": {
             "required": ["bag_count", "max_weighings", "objective"],
             "properties": {
-              "objective": {"enum": ["identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set"]}
+              "objective": {"enum": ["identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_selected_bag_weight"]}
             }
           }
         },
@@ -861,6 +929,18 @@
           },
           "then": {
             "required": ["object_count", "max_tests", "target_sum", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_hidden_number"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "binary_question_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["object_count", "max_tests", "objective"],
             "properties": {
               "objective": {"enum": ["identify_hidden_number"]}
             }

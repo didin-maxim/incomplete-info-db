@@ -67,13 +67,11 @@
     "objective": "identify_one_of_N_states"
   },
   "interactive": {
-    "type": "binary_cards_number_trick",
-    "card_count": 3,
-    "number_min": 0,
-    "number_max": 7,
-    "card_weights": [1, 2, 4],
+    "type": "binary_question_code",
+    "object_count": 8,
+    "max_tests": 3,
     "objective": "identify_hidden_number",
-    "modes": ["random", "manual_spectator", "exhaustive"]
+    "modes": ["sandbox", "random", "exhaustive"]
   },
   "difficulty": {
     "main": "intro",

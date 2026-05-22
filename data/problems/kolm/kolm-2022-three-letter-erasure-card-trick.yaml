@@ -48,7 +48,7 @@
   "communication_profile": {
     "participants": ["помощник", "фокусник"],
     "prearranged_strategy": true,
-    "channel_capacity": "4044 буквы над трехбуквенным алфавитом, затем один класс символов стирается",
+    "channel_capacity": "4044 буквы из трех возможных, затем один класс символов стирается",
     "public_or_private": "public_remaining_string",
     "privacy_goal": "нет",
     "objective": "передать скрытое число"
