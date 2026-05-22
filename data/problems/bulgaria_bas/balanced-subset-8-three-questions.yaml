@@ -1,0 +1,86 @@
+{
+  "id": "balanced-subset-8-three-questions",
+  "title": "Восемь чисел: три сбалансированных вопроса",
+  "fragment": "questions",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": ["encoding", "nonadaptive_strategy", "strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-balanced-subset-8",
+        "title": "Угадать число тремя заранее выбранными вопросами",
+        "text": "Загадано одно число от 1 до 8. Нужно заранее выбрать три вопроса вида: «Принадлежит ли загаданное число этому подмножеству?» Сумма чисел в каждом из трех выбранных подмножеств должна быть одной и той же. Можно ли выбрать вопросы так, чтобы по трем ответам «да»/«нет» загаданное число определялось однозначно? Желательно, чтобы общая сумма каждого подмножества была равна 18.",
+        "source_ids": ["src-bas-2001-all-problems"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-answer-triples",
+      "title": "Каждое число должно иметь свою тройку ответов",
+      "text": "После трех заранее заданных вопросов у каждого числа получается тройка из ответов «да» и «нет». Если две разные цифры дают одинаковую тройку, их уже нельзя различить. Поэтому задача сводится к тому, чтобы дать восьми числам восемь разных троек ответов и одновременно сохранить одинаковые суммы в вопросах.",
+      "standard_idea_ids": ["partition_state_space", "nonadaptive_strategy"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-balanced-subsets",
+      "title": "Взять три подмножества суммы 18",
+      "text": "Подходят такие три вопроса:\n\\[\nA_1=\\{1,2,7,8\\},\\quad A_2=\\{1,3,6,8\\},\\quad A_3=\\{1,4,6,7\\}.\n\\]\nВ каждом подмножестве сумма равна 18:\n\\[\n1+2+7+8=18,\\quad 1+3+6+8=18,\\quad 1+4+6+7=18.\n\\]\nТеперь выпишем для каждого числа тройку ответов на вопросы об \\(A_1,A_2,A_3\\), где 1 означает «да», а 0 означает «нет»:\n\\[\n\\begin{array}{c|c}\n\\text{число} & \\text{ответы}\\\\\n1&111\\\\\n2&100\\\\\n3&010\\\\\n4&001\\\\\n5&000\\\\\n6&011\\\\\n7&101\\\\\n8&110\n\\end{array}\n\\]\nВсе восемь троек разные. Значит, когда ответы получены, достаточно найти в таблице ровно такую же тройку. Например, ответы «да, нет, да» дают код 101, а значит число 7. Ответы «нет, нет, нет» дают код 000, а значит число 5.\n\nИтак, три заранее выбранных вопроса работают, и дополнительное требование на одинаковую сумму тоже выполнено: каждая сумма равна 18.",
+      "standard_idea_ids": ["partition_state_space", "nonadaptive_strategy"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одно скрытое число среди 1,2,3,4,5,6,7,8",
+    "observations": ["три ответа да/нет на заранее выбранные вопросы о принадлежности подмножествам"],
+    "allowed_actions": ["заранее выбрать три подмножества чисел 1..8 с одинаковой суммой элементов"],
+    "goal": ["identify_hidden_object"],
+    "strategy_type": ["nonadaptive_strategy", "encoding", "balanced_subset_questions"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["balanced_subset_questions", "binary_code", "bulgaria_bas", "small_case", "interactive"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 3,
+    "lies_allowed": 0,
+    "adaptive": false,
+    "objective": "identify_one_of_8_states"
+  },
+  "interactive": {
+    "type": "balanced_subset_question_code",
+    "object_count": 8,
+    "max_tests": 3,
+    "target_sum": 18,
+    "objective": "identify_hidden_number",
+    "modes": ["exhaustive", "random", "sandbox"]
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Малый случай общей BAS-конструкции: нужно увидеть двоичные коды и проверить дополнительное условие одинаковой суммы.",
+    "status": "ai_checked"
+  },
+  "tags": ["binary_code", "nonadaptive_strategy", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-bas-2001-all-problems", "role": "official_general_problem_specialized", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Создано как малый случай n=3 общей задачи BAS-2001 о заранее заданных вопросах с фиксированной суммой подмножества.", "Интерактив не содержит готовых подмножеств: их нужно выбрать в UI и проверить суммами и перебором кодов."]
+  }
+}

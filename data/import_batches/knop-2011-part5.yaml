@@ -1,0 +1,24 @@
+{
+  "id": "knop-2011-part5",
+  "title": "Кноп 2011, занятие 5: плановые взвешивания и коды",
+  "created_at": "2026-05-22",
+  "status": "draft_import",
+  "source_id": "src-knop-2011-weighings-algorithms",
+  "items": [
+    {"problem_id": "knop-2011-divisibility-1-8-three-planned-numbers", "status": "added"},
+    {"problem_id": "knop-2011-known-light-coin-preassigned-ternary-code", "status": "added"},
+    {"problem_id": "knop-2011-possible-no-light-coin-25-nonadaptive-impossible", "status": "added"},
+    {"problem_id": "knop-2011-gold-silver-27-preassigned-three-weighings", "status": "added"},
+    {"problem_id": "knop-2011-gold-silver-24-half-half-preassigned", "status": "added"},
+    {"problem_id": "knop-2011-nine-light-coins-one-erasure-reserve-plan", "status": "added"},
+    {"problem_id": "knop-2011-nine-light-coins-two-erasure-reserve-plan", "status": "added"},
+    {"problem_id": "knop-2011-marked-ingots-55-expert-judge-27-weighings", "status": "added"},
+    {"problem_id": "knop-2011-two-gold-many-silver-two-fakes-k-weighings", "status": "added"},
+    {"problem_id": "knop-2011-gold-silver-4-7-two-fakes-three-impossible", "status": "added"}
+  ],
+  "notes": [
+    "Write-scope worker E: new cards only under data/problems/knop_2011_part5/.",
+    "Дубли fixed-questions-as-binary-code, lighter-25, problems-ru-34945 и savin-12 не создавались заново.",
+    "Интерактивы не добавлялись в YAML; кандидаты вынесены в docs/reviews/interactive-knop-2011-part5.md."
+  ]
+}

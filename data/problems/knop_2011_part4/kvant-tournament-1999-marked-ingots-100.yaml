@@ -1,0 +1,140 @@
+{
+  "id": "kvant-tournament-1999-marked-ingots-100",
+  "title": "Турнир Кванта-1999: сто маркированных слитков",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Эксперт и слитки до 2500 г",
+        "text": "Эксперту предъявлены 100 серебряных слитков весом 1001, 1002, ..., 1100 г, промаркированных неизвестными судье знаками. Весы показывают вес груза, только если этот вес не более 2500 г. За какое наименьшее число взвешиваний эксперт сможет убедить судью, что он знает веса всех слитков?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-graph-components",
+      "title": "Каждое парное взвешивание соединяет слитки",
+      "text": "Из-за ограничения 2500 г одновременно можно взвесить не больше двух слитков. Взвешивание пары дает ребро между двумя слитками; чтобы судья различил слитки внутри группы, граф связей должен достаточно связать почти все вершины.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "graph_connectivity",
+        "extremal_principle"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-per-triple",
+      "title": "Разбить 99 слитков на тройки",
+      "text": "Отложим самый тяжелый слиток. Остальные 99 слитков разобьем по возрастанию на тройки: 1001,1002,1003; 1004,1005,1006; и так далее. В каждой тройке двумя взвешиваниями эксперт показывает пары из самого легкого слитка с двумя другими. Суммы пар однозначно определяют все три веса в тройке. Так 33 тройки требуют 66 взвешиваний; последний отложенный слиток определяется как оставшийся.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "graph_connectivity",
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-sixty-five-not-enough",
+      "title": "65 взвешиваний не хватит",
+      "text": "Из-за ограничения 2500 г на весы можно положить не больше двух слитков. Рассмотрим граф, где вершины - слитки, а взвешенная пара соединяется ребром. За 65 взвешиваний число компонент среди 100 слитков уменьшится максимум до 35. Тогда найдутся две неразличимые одиночные компоненты или компонента с двумя слитками, чью перестановку судья не сможет исключить.",
+      "method": "graph_components",
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка известных весов 1001..1100 по маркированным слиткам, известная эксперту и неизвестная судье",
+    "observations": [
+      "числовые веса выбранных грузов, если они не превосходят 2500 г"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания с учетом ограничения на общий вес"
+    ],
+    "goal": [
+      "minimize_weighings_to_certify_all_weights"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "graph_connectivity",
+      "pair_sum_signature"
+    ],
+    "lower_bound_method": [
+      "connected_components"
+    ],
+    "keywords": [
+      "marked_ingots",
+      "expert_judge",
+      "weight_limit",
+      "Kvant_Tournament_1999"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 100,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_distinct_weights_unknown_labels",
+    "weighing_count": 66,
+    "outcome_count_per_weighing": "numeric_weight_limited_to_2500",
+    "adaptive": false,
+    "objective": "certify_all_weights_minimum"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Оптимальность требует графовой нижней оценки, а конструкция использует две суммы в каждой тройке.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "expert_judge_certificate",
+    "structural_constraint",
+    "knowledge_elimination",
+    "decision_tree_lower_bound",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги: А. В. Шаповалов; Турнир Кванта, 1999."
+    ]
+  },
+  "authors": [
+    {
+      "name": "А. В. Шаповалов",
+      "role": "problem_author",
+      "status": "from_book_index",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    }
+  ]
+}

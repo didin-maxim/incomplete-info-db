@@ -1,0 +1,56 @@
+{
+  "id": "yes-no-dont-know-one-question-three-numbers",
+  "title": "Один вопрос с ответом «не знаю»",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["logic", "communication_strategy"]},
+  "language": "ru",
+  "authors": [{"name": "В. А. Уфнаровский", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-12",
+        "title": "Число 1, 2 или 3",
+        "text": "Петя может отвечать на вопросы «да», «нет» или «не знаю». Он загадал число 1, 2 или 3. Придумайте один вопрос, ответ на который позволяет Вите угадать это число.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-three-answer-alphabet",
+      "title": "Один вопрос должен дать три разных ответа",
+      "text": "Обычный вопрос да/нет различает только два случая. Здесь разрешен третий ответ, поэтому нужно построить вопрос так, чтобы для трех загаданных чисел ответы были соответственно «да», «нет» и «не знаю».",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-consonant-question",
+      "title": "Спросить про сами слова ответов",
+      "text": "Витя спрашивает: «В каком из слов или словосочетаний “да”, “нет”, “не знаю” количество согласных букв равно загаданному тобой числу?»\n\nВ слове «да» одна согласная, в слове «нет» две согласные, а в словосочетании «не знаю» три согласные. Если Петя загадал 1, правильный ответ на вопрос - «да»; если 2 - «нет»; если 3 - «не знаю». Поэтому по одному ответу Витя восстанавливает число.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "число 1, 2 или 3",
+    "observations": ["один ответ из трех: да, нет, не знаю"],
+    "allowed_actions": ["задать один вопрос с возможным ответом не знаю"],
+    "goal": ["identify_hidden_number"],
+    "strategy_type": ["one_question_three_outcomes", "self_referential_question"],
+    "lower_bound_method": [],
+    "keywords": ["knop_2011", "ufnarovsky", "yes_no_dont_know"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 3, "question_count": 1, "lies_allowed": 0, "adaptive": false, "objective": "identify_one_of_3_states"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Фокус в том, чтобы превратить третий возможный ответ в полноценный информационный исход.", "status": "ai_checked"},
+  "tags": ["decision_tree", "self_reference_question", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.12; в индексе указан В. А. Уфнаровский. В тексте Кнопа сказано, что задача взята из книги «Математический аквариум»."]}
+}

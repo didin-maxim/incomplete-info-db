@@ -1,0 +1,80 @@
+{
+  "id": "israelmath-5783-four-siblings-knights-knaves",
+  "title": "IsraelMath 5783: четверо братьев и сестер, рыцари и лжецы",
+  "fragment": "questions",
+  "kind": {"primary": "official_olympiad_problem", "secondary": ["logic_deduction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-israelmath-5783-four-siblings",
+        "title": "Сколько среди них лжецов",
+        "text": "Асаф, Бар, Кармель и Дрор - братья и сестры. Каждый из них либо рыцарь, который всегда говорит правду, либо лжец, который всегда лжет.\n\nОднажды Асаф сказал: «Среди нас четверых есть хотя бы два лжеца». Затем Бар сказал: «Среди нас есть хотя бы три лжеца».\n\nСколько среди них лжецов?",
+        "source_ids": ["src-israelmath-5783-final-en-67", "src-israelmath-5783-final-en-45"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-check-number-of-liars",
+      "title": "Проверить число лжецов как скрытое состояние",
+      "text": "Фразы зависят только от общего числа лжецов. Для каждого возможного числа от 0 до 4 можно понять, правду или ложь сказали Асаф и Бар, а затем проверить, совпадает ли это с их типами.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-case-by-liar-count",
+      "title": "Разбор пяти возможных чисел",
+      "text": "Пусть всего лжецов \\(k\\). Если \\(k=0\\), то Асаф и Бар оба рыцари, но их фразы ложны; невозможно.\n\nЕсли \\(k=1\\), то обе фразы ложны. Тогда и Асаф, и Бар должны быть лжецами, то есть лжецов уже как минимум двое; невозможно.\n\nЕсли \\(k=2\\), фраза Асафа истинна, а фраза Бара ложна. Значит, Асаф рыцарь, Бар лжец, и еще один из двух оставшихся - лжец. Это возможно.\n\nЕсли \\(k=3\\), обе фразы истинны. Тогда Асаф и Бар рыцари, а лжецами могут быть только Кармель и Дрор, то есть лжецов не больше двух; невозможно.\n\nЕсли \\(k=4\\), обе фразы истинны, но Асаф и Бар были бы лжецами; невозможно. Остается единственный вариант: лжецов ровно двое.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "типы четырех людей: каждый является рыцарем или лжецом",
+    "observations": ["две публичные фразы о числе лжецов среди четверых"],
+    "allowed_actions": ["сопоставить истинность каждой фразы с типом говорящего"],
+    "goal": ["determine_number_of_knaves"],
+    "strategy_type": ["case_elimination", "truth_liar_consistency"],
+    "lower_bound_method": [],
+    "keywords": ["israelmath_5783", "knights_and_knaves", "liar_count", "siblings"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 2,
+    "lies_allowed": "лжецы всегда лгут",
+    "adaptive": false,
+    "objective": "determine_number_of_knaves"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Короткий перебор пяти вариантов числа лжецов; основная ловушка - согласовать истинность фраз с типами самих говорящих.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "truth_liar_normalization", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-israelmath-5783-final-en-67", "role": "official_statement", "status": "source_verified"},
+    {"source_id": "src-israelmath-5783-final-en-45", "role": "official_duplicate_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-21",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "israelmath_junior_batch",
+    "notes": [
+      "Английская формулировка переведена редакционно.",
+      "Официальный solution PDF на английском в этом проходе не найден; решение составлено редакционно.",
+      "Та же задача встречается в PDF для 4-5 и 6-7 классов финала 5783."
+    ]
+  }
+}

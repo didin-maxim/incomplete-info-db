@@ -1,0 +1,55 @@
+{
+  "id": "gold-silver-24-limited-pan-capacity-3-weighings",
+  "title": "Двадцать четыре монеты и ограничение на чашу весов",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction", "constraint_handling"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-11",
+        "title": "Половина золотых, половина серебряных",
+        "text": "Среди 24 монет ровно половина золотые, остальные серебряные. Ровно одна монета фальшивая. Серебряная фальшивая монета легче настоящей серебряной, а золотая фальшивая тяжелее настоящей золотой. Если на чашу весов положить больше четырех золотых монет или больше четырех серебряных монет, весы сломаются; ровно по четыре монеты каждого типа на чаше весы выдерживают. Нужно найти фальшивую монету за три взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-fill-pan-limit",
+      "title": "Первое взвешивание должно использовать максимум емкости",
+      "text": "Если первым взвешиванием положить меньше восьми монет на каждую чашу, то при равновесии останется больше девяти подозрительных состояний, а двух взвешиваний уже не хватит. Поэтому нужно класть по четыре золотые и четыре серебряные монеты на каждую чашу.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-capacity-8-then-6",
+      "title": "Использовать полный лимит, затем отделить тип фальшивки",
+      "text": "В первом взвешивании положим на каждую чашу по четыре золотые и четыре серебряные монеты. При равновесии подозрительны четыре отложенные золотые и четыре отложенные серебряные; при перекосе подозрительны четыре золотые монеты с тяжелой чаши и четыре серебряные с легкой. Во всех случаях остаются восемь подозрительных монет: четыре каждого типа.\n\nВо втором взвешивании положим на одну чашу три подозрительные золотые и три подозрительные серебряные, а на другую - три уже известные настоящие золотые и три настоящие серебряные. Если перевесила чаша с подозрительными, фальшивая среди трех золотых; если она легче, фальшивая среди трех серебряных; если равновесие, фальшива одна из двух отложенных подозрительных монет. Третьим взвешиванием сравним две монеты нужного типа или одну подозрительную с настоящей монетой того же типа.",
+      "standard_idea_ids": ["knowledge_elimination", "ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "24 возможных положения единственной фальшивой монеты; знак зависит от металла",
+    "observations": ["три исхода каждого взвешивания", "ограничение на число монет каждого типа на чаше"],
+    "allowed_actions": ["взвешивать не более четырех золотых и не более четырех серебряных монет на каждой чаше"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition", "use_known_genuine_as_ballast"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["pan_capacity", "silver_gold", "mixed_sign_by_type", "24_states"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 24, "counterfeit_count": 1, "counterfeit_type": "silver_lighter_gold_heavier", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["gold", "silver"], "constraints": ["at_most_4_gold_per_pan", "at_most_4_silver_per_pan"], "objective": "identify_coin"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "К смешанному знаку добавляется жесткое ограничение вместимости чаш, из-за которого первый ход фактически вынужден.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.11."]}
+}

@@ -26,7 +26,7 @@
       "id": "rel-problems-ru-27-light-to-kvant-light-bound",
       "from": "problems-ru-34945-27-light-coins",
       "to": "kvant-2013-one-light-coin-information-bound",
-      "type": "special_case",
+      "type": "generalization",
       "distance": 1,
       "forward_text": "Задача problems.ru 34945 является точным конечным случаем общей формулы для одной заведомо легкой монеты: при \\(N=27\\) требуется ровно \\(\\lceil \\log_3 27\\rceil=3\\) взвешивания.",
       "backward_text": "Квантовская карточка формулирует общий закон для \\(N\\) монет; problems.ru 34945 показывает предельный случай, где три взвешивания полностью используют все варианты исходов.",

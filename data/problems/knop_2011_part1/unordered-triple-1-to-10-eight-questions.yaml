@@ -1,0 +1,55 @@
+{
+  "id": "unordered-triple-1-to-10-eight-questions",
+  "title": "Тройка чисел от 1 до 10",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["encoding", "adaptive_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d2",
+        "title": "Неупорядоченная тройка с повторениями",
+        "text": "Петя задумал тройку натуральных чисел от 1 до 10; некоторые из этих чисел могут совпадать. Порядок чисел в тройке значения не имеет. Сумеет ли Витя угадать эту тройку за 8 вопросов да/нет?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-count-multisets",
+      "title": "Нужно считать мультимножества",
+      "text": "Неупорядоченная тройка с повторениями - это мультимножество размера 3 из 10 чисел. Таких вариантов \\(\\binom{12}{3}=220\\), а восемь вопросов да/нет дают до \\(2^8=256\\) наборов ответов.",
+      "standard_idea_ids": ["answer_word_count", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-number-all-triples",
+      "title": "Пронумеровать все возможные тройки",
+      "text": "Витя заранее выписывает и нумерует все 220 неупорядоченных троек с повторениями. Затем он обычным двоичным поиском отгадывает номер тройки: каждый вопрос делит оставшиеся номера на две части как можно ближе к равным. Поскольку \\(220\\le 256=2^8\\), восьми вопросов достаточно.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "220 неупорядоченных троек чисел от 1 до 10 с повторениями",
+    "observations": ["восемь ответов да/нет"],
+    "allowed_actions": ["адаптивно задавать вопросы о скрытой тройке"],
+    "goal": ["identify_hidden_multiset"],
+    "strategy_type": ["adaptive_strategy", "binary_search", "state_space_numbering"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["knop_2011", "unordered_triple", "multiset", "binary_search"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 8, "lies_allowed": 0, "adaptive": true, "objective": "identify_one_of_220_states"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Комбинаторный подсчет пространства состояний плюс обычная двоичная стратегия.", "status": "ai_checked"},
+  "tags": ["binary_search", "counting_lower_bound", "condition_older_students"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, дополнительные задачи к занятию 1, Д.2; первоисточник в индексе не указан."]}
+}

@@ -1,0 +1,124 @@
+{
+  "id": "rmo-2002-three-consecutive-light-weights",
+  "title": "Всероссийская-2002: три облегченные гири подряд",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Три легких подряд среди восемнадцати",
+        "text": "В ряд выстроены 18 внешне одинаковых 100-граммовых гирь. Известно, что какие-то три рядом стоящие гири облегченные: они весят по 99 г. Как за два взвешивания на весах со стрелкой найти все фальшивые гири?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-four-by-four-partition",
+      "title": "Первое взвешивание делит 16 положений на четыре четверки",
+      "text": "Положение задается номером левой из трех легких гирь: всего 16 случаев. Одно числовое взвешивание выбранного набора сообщает, сколько из трех легких гирь туда попало, то есть один из четырех исходов. Нужно подобрать первое взвешивание так, чтобы каждый исход оставлял ровно четыре случая.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-weigh-4-7-and-12-15",
+      "title": "Сначала гири 4--7 и 12--15",
+      "text": "Первым взвешиванием положим гири 4,5,6,7,12,13,14,15. Недостача от 800 г равна числу легких гирь среди них. Для каждого ответа 0,1,2,3 остается четыре возможных положения блока. Вторым взвешиванием в соответствующей четверке случаев выбираем набор так, чтобы он содержал соответственно 0, 1, 2 и 3 легкие гири в этих четырех вариантах; например, для ветви 0 подходят гири 10,11,16,17,18, а для ветви 3 - гири 7,13,14,15.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "16 положений блока из трех подряд идущих легких гирь среди 18",
+    "observations": [
+      "два числовых показания, каждое дает число легких гирь в выбранном наборе"
+    ],
+    "allowed_actions": [
+      "выбрать набор гирь для взвешивания; второе взвешивание зависит от первого ответа"
+    ],
+    "goal": [
+      "identify_three_consecutive_light_weights"
+    ],
+    "strategy_type": [
+      "adaptive_partition",
+      "four_way_split"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "consecutive_light_weights",
+      "gray_code_remark",
+      "RMO_2002"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 18,
+    "counterfeit_count": 3,
+    "counterfeit_type": "three_consecutive_lighter_known",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": "numeric_weight_with_four_relevant_values",
+    "adaptive": true,
+    "objective": "identify_consecutive_block"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Главная трудность - подобрать первое разделение на четыре равные группы и затем адаптивно различить оставшуюся четверку.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "structural_constraint",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги: С. И. Токарев; Всероссийская олимпиада, окружной этап, 2002. Книга также связывает обобщение с кодами Грея."
+    ]
+  },
+  "authors": [
+    {
+      "name": "С. И. Токарев",
+      "role": "problem_author",
+      "status": "from_book_index",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    }
+  ]
+}

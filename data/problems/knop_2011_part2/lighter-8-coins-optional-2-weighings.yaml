@@ -1,0 +1,55 @@
+{
+  "id": "lighter-8-coins-optional-2-weighings",
+  "title": "Восемь монет: легкая фальшивая может отсутствовать",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction", "null_state"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-5",
+        "title": "Найти легкую монету или доказать, что ее нет",
+        "text": "Среди восьми одинаковых на вид монет, возможно, есть одна легкая фальшивая монета, но ее может и не быть. Нужно за два взвешивания на чашечных весах без гирь найти фальшивую монету, если она есть, или доказать, что все монеты настоящие.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-add-phantom-coin",
+      "title": "Случай отсутствия фальшивки играет роль девятой монеты",
+      "text": "Алгоритм для одной легкой монеты среди девяти можно использовать почти без изменений: состояние «фальшивой нет» рассматривается как девятый вариант, который ни разу не кладут на весы как реальную монету.",
+      "standard_idea_ids": ["state_space_encoding", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-three-two-null",
+      "title": "Встроить восемь состояний и пустой случай в троичный поиск",
+      "text": "Разделим восемь монет на группы \\(A,B,C\\) размеров 3, 3 и 2. Первым взвешиванием сравним \\(A\\) и \\(B\\). Если одна из групп легче, фальшивая находится в этой тройке, и вторым взвешиванием сравним две монеты из нее: более легкая фальшивая, а при равновесии фальшива третья. Если первое взвешивание дало равновесие, фальшивая либо среди двух монет группы \\(C\\), либо ее нет. Вторым взвешиванием сравним две монеты из \\(C\\): более легкая из них фальшивая, а равновесие означает, что фальшивой монеты нет.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "8 возможных положений единственной легкой монеты плюс состояние, что фальшивой монеты нет",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["адаптивно сравнивать равные по числу группы монет"],
+    "goal": ["identify_counterfeit_coin_or_certify_absence"],
+    "strategy_type": ["adaptive_strategy", "ternary_search", "null_state_encoding"],
+    "lower_bound_method": [],
+    "keywords": ["known_lighter_coin", "optional_counterfeit", "null_state", "ternary_search"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 8, "counterfeit_count": "0_or_1", "counterfeit_type": "lighter_known_if_present", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "objective": "identify_coin_or_certify_none"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Это обычный троичный поиск, в котором отсутствие фальшивой монеты добавляет ровно одно скрытое состояние.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "ternary_code", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.5. Отдельная карточка заведена из-за явного нулевого состояния, которого нет в базовой задаче про одну легкую монету среди 9."]}
+}

@@ -1,0 +1,137 @@
+{
+  "id": "nine-circle-three-consecutive-light-two-weighings",
+  "title": "Три подряд легкие котлеты на круге из девяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "structural_constraint",
+      "case_analysis"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Три подряд легкие котлеты на круге из девяти",
+        "text": "По кругу лежат 9 одинаковых с виду котлет. Шесть из них одинаковые, а три более легкие и лежат подряд. Найдите все легкие котлеты за два взвешивания.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-consecutive-triples-nine",
+      "title": "Скрытая тройка подряд",
+      "text": "Скрытое состояние - одна из девяти троек подряд. Сравнение одиночных позиций 3 и 6 делит эти тройки на три группы по три.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "structural_constraint"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-3-vs-6",
+      "title": "Сравнить 3 с 6",
+      "text": "Пронумеруем котлеты по кругу. Первым взвешиванием сравним 3 против 6. Если котлета 3 легче, возможны тройки 1-2-3, 2-3-4 или 3-4-5; если котлета 6 легче - тройки 4-5-6, 5-6-7 или 6-7-8; если равновесие - тройки 7-8-9, 8-9-1 или 9-1-2. В каждой оставшейся тройке второе взвешивание сравнивает две крайние возможные позиции; например, после первого результата “3 легче” сравним 1 против 5: более легкая крайняя котлета указывает одну из крайних троек, а равновесие - среднюю тройку 2-3-4.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Девять возможных троек подряд не различаются одним взвешиванием с тремя исходами.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 состояний: какая тройка подряд на круге легче",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_all_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "circle",
+      "three_consecutive_light_objects"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 3,
+    "counterfeit_type": "three_consecutive_lighter_objects",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_three_consecutive_light_objects"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Это близкий вариант соседней пары, но первое взвешивание сравнивает одиночные контрольные позиции.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.8б; автор К. А. Кноп. Создана отдельная карточка, потому что меняется число фальшивых объектов и первое разбиение."
+    ]
+  }
+}

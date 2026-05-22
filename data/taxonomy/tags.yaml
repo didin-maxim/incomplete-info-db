@@ -13,6 +13,8 @@
     "decision_tree_lower_bound",
     "digital_scale",
     "error_correcting_code",
+    "expert_judge_certificate",
+    "extreme_sum_argument",
     "guard_paradox",
     "hamming_bound",
     "hat_puzzle",
@@ -40,6 +42,7 @@
     "ternary_code",
     "ternary_search",
     "truth_liar_normalization",
+    "verification_task",
     "weighted_sum_encoding"
   ]
 }

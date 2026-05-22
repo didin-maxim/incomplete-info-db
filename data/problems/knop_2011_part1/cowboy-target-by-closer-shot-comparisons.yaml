@@ -1,0 +1,56 @@
+{
+  "id": "cowboy-target-by-closer-shot-comparisons",
+  "title": "Ковбой ищет точку сравнением двух выстрелов",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["geometry", "search_game", "adaptive_strategy"]},
+  "language": "ru",
+  "authors": [{"name": "С. Г. Волчёнков", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d5",
+        "title": "18-й выстрел не дальше сантиметра",
+        "text": "Ковбой Джо может попасть в любую выбранную им точку. Ему нужно попасть в точку на стене, прикрытую газетой размера \\(1\\text{ м}\\times1\\text{ м}\\). После каждого выстрела начиная со второго ему сообщают, какая из двух пуль легла ближе к цели: эта или предыдущая. Докажите, что 18-м выстрелом он может попасть не дальше 1 см от нужной точки.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-comparison-bisects-region",
+      "title": "Сравнение двух точек задает серединную прямую",
+      "text": "Если известны две точки выстрелов, ответ «какая ближе к цели» сообщает, по какую сторону от серединного перпендикуляра к отрезку между ними лежит цель. Так можно получать геометрические вопросы, делящие область поиска.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-coordinate-bisection",
+      "title": "Последовательно сужать квадрат поиска",
+      "text": "Идея стратегии такая: выбирать пары выстрелов так, чтобы сравнение реализовывало вопрос, в какой половине текущего прямоугольника лежит цель. Сравнение двух симметрично выбранных точек по разные стороны от нужной разделяющей прямой сообщает нужную сторону этой прямой. Попеременно деля область поиска по двум координатам, за 17 сравнений после первого выстрела можно уменьшить возможную область до прямоугольника с диаметром меньше 1 см, после чего 18-й выстрел направляется в подходящую точку этой области.",
+      "standard_idea_ids": ["adaptive_questions", "geometric_partition"],
+      "status": "needs_human_review",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "точка внутри квадрата 1 м на 1 м",
+    "observations": ["после каждого выстрела со второго известно, текущий или предыдущий выстрел ближе к цели"],
+    "allowed_actions": ["адаптивно выбирать следующую точку выстрела"],
+    "goal": ["hit_within_required_distance"],
+    "strategy_type": ["adaptive_strategy", "geometric_bisection", "comparison_query"],
+    "lower_bound_method": [],
+    "keywords": ["knop_2011", "volchenkov", "hot_and_cold", "geometric_search"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 17, "lies_allowed": 0, "adaptive": true, "objective": "localize_hidden_point_within_1cm"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Геометрическая версия бинарного поиска через сравнение расстояний; полную численную оценку стоит перепроверить.", "status": "needs_human_review"},
+  "tags": ["ternary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, дополнительные задачи к занятию 1, Д.5; в индексе указан автор С. Г. Волчёнков.", "Стратегия записана на уровне механизма; перед публикацией нужна проверка точного счета до 18-го выстрела."]}
+}

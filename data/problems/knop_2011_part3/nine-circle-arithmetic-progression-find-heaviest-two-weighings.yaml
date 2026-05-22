@@ -1,0 +1,138 @@
+{
+  "id": "nine-circle-arithmetic-progression-find-heaviest-two-weighings",
+  "title": "Девять котлет по кругу в арифметической прогрессии",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "structural_constraint",
+      "case_analysis"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Девять котлет по кругу в арифметической прогрессии",
+        "text": "По кругу лежат 9 котлет. Их веса равны 10 г, 20 г, ..., 90 г в порядке выкладывания по часовой стрелке, но неизвестно, с какой котлеты начался этот порядок. Найдите самую тяжелую котлету за два взвешивания.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-nine-cyclic-shifts",
+      "title": "Различить девять циклических сдвигов",
+      "text": "Скрытое состояние - один из девяти сдвигов арифметической прогрессии на круге. Подходящее первое взвешивание делит эти сдвиги на три группы по три.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "structural_constraint"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-k1-k3-vs-k6-k7",
+      "title": "Первое взвешивание K1+K3 против K6+K7",
+      "text": "Пронумеруем места \\(K_1,\\ldots,K_9\\) по часовой стрелке. Первым взвешиванием сравним \\(K_1+K_3\\) с \\(K_6+K_7\\). По таблице сдвигов результат \\(<\\) соответствует случаям \\(K_1=10,20,30\\), результат \\(>\\) - случаям \\(K_1=50,60,70\\), равновесие - случаям \\(K_1=40,80,90\\). Для каждой тройки второе взвешивание разделяет ее: например, после результата \\(<\\) сравним \\(K_1+K_5\\) с \\(K_7\\); после результата \\(>\\) сравним \\(K_1\\) с \\(K_6+K_8\\); после равновесия сравним \\(K_6\\) с \\(K_3+K_4\\). Узнав сдвиг, называем место котлеты весом 90 г.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Возможны девять положений самой тяжелой котлеты, поэтому одно взвешивание с тремя исходами не различит все случаи.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 состояний: циклический сдвиг весов 10,20,...,90",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_heaviest_object"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "cyclic_order",
+      "arithmetic_progression_weights",
+      "find_heaviest"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 0,
+    "counterfeit_type": "cyclic_arithmetic_progression_weights",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_heaviest_object"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Задача не о фальшивках, а о скрытом сдвиге: нужно построить взвешивания, которые видят три группы сдвигов.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.7; автор С. И. Токарев, Всероссийская олимпиада, окружной этап, 1997."
+    ]
+  }
+}

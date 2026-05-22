@@ -151,11 +151,212 @@
           "minimum": 1,
           "description": "Number of named objects in non-weighing subset-test interactives."
         },
+        "item_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of ordered items in finite permutation-message interactives."
+        },
+        "card_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of physical cards or binary feature cards in card-trick interactives."
+        },
+        "deck_size": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of cards in the deck for card-trick interactives."
+        },
+        "hand_size": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of cards selected by the spectator."
+        },
+        "shown_cards": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of cards shown to the magician."
+        },
+        "hidden_cards": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of cards hidden from the magician."
+        },
+        "bit_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of binary questions or bit positions in finite number-guessing interactives."
+        },
+        "number_min": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Smallest hidden number in finite number-guessing interactives."
+        },
+        "number_max": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Largest hidden number in finite number-guessing interactives."
+        },
+        "card_weights": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "uniqueItems": true,
+          "description": "Weights assigned to binary feature cards; selected cards are summed to decode the hidden number."
+        },
+        "repetitions_per_bit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of repeated answers recorded for each bit question."
+        },
+        "max_lies": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum number of false answers allowed in the transcript."
+        },
+        "position_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of positions in XOR single-flip communication interactives."
+        },
+        "message_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of messages in finite communication-code interactives."
+        },
+        "word_length": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Length of every codeword in finite word-code interactives."
+        },
+        "alphabet": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1, "maxLength": 1},
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "description": "Three-letter alphabet for erasure-code interactives."
+        },
+        "codewords": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Codeword table indexed by message number."
+        },
+        "grid_rows": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of board rows in grid-based finite yes/no protocols."
+        },
+        "grid_cols": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of board columns in grid-based finite yes/no protocols."
+        },
+        "person_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of people in finite yes/no question protocols."
+        },
+        "color_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of hat colors in finite wise-men parity-code interactives."
+        },
+        "count_values": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 0},
+          "minItems": 2,
+          "uniqueItems": true,
+          "description": "Allowed color-count values in wise-men color-count parity interactives."
+        },
+        "sage_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of wise people in hidden-hat-number parity interactives."
+        },
+        "target_correct_min": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum number of correct simultaneous answers required by a protocol interactive."
+        },
+        "hidden_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of hidden hats or cards in finite communication interactives."
+        },
+        "target_parity": {
+          "type": "string",
+          "enum": ["even", "odd"],
+          "description": "Permutation parity fixed by the prearranged hidden-hat-number protocol."
+        },
+        "prisoner_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of prisoners in permutation-cycle and line-hats protocol interactives."
+        },
+        "box_count": {
+          "type": "integer",
+          "minimum": 2,
+          "description": "Number of boxes in permutation-cycle or higher/lower game interactives."
+        },
+        "compare_box_counts": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "uniqueItems": true,
+          "description": "Small higher/lower game sizes shown side by side."
+        },
+        "people": {
+          "type": "array",
+          "items": {"type": "string"},
+          "uniqueItems": true,
+          "description": "Named people available as speakers in finite yes/no question protocols."
+        },
         "object_labels": {
           "type": "array",
           "items": {"type": "string"},
           "uniqueItems": true,
           "description": "Optional viewer labels for named objects."
+        },
+        "vertices": {
+          "type": "array",
+          "description": "Graph vertices for moving-target search interactives.",
+          "items": {
+            "oneOf": [
+              {"type": "string"},
+              {
+                "type": "object",
+                "required": ["id"],
+                "properties": {
+                  "id": {"type": "string"},
+                  "label": {"type": "string"},
+                  "color": {"type": "string"},
+                  "x": {"type": "number"},
+                  "y": {"type": "number"}
+                }
+              }
+            ]
+          }
+        },
+        "edges": {
+          "type": "array",
+          "description": "Undirected graph edges as pairs of vertex ids.",
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {"type": "string"}
+          }
+        },
+        "check_size": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of vertices the user must check on each move."
+        },
+        "allow_fewer": {
+          "type": "boolean",
+          "description": "Whether a move may check fewer than check_size vertices."
+        },
+        "graph_kind": {
+          "type": "string",
+          "description": "Optional visual/model hint such as cube."
         },
         "pair_count": {
           "type": "integer",
@@ -180,6 +381,32 @@
             "minItems": 2,
             "maxItems": 2,
             "items": {"type": "integer", "minimum": 1}
+          }
+        },
+        "pile_sizes": {
+          "type": "array",
+          "description": "Sizes of piles for safe-pile balance certificate interactives.",
+          "minItems": 2,
+          "items": {"type": "integer", "minimum": 1}
+        },
+        "piles": {
+          "type": "array",
+          "description": "Named piles and optional explicit diamond ids for safe-pile interactives.",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["id", "size"],
+            "properties": {
+              "id": {"type": "string", "minLength": 1},
+              "label": {"type": "string"},
+              "size": {"type": "integer", "minimum": 1},
+              "diamonds": {
+                "type": "array",
+                "items": {"type": "integer", "minimum": 1},
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
           }
         },
         "groups": {
@@ -212,16 +439,49 @@
           "minimum": 1,
           "description": "Maximum number of detector or subset tests allowed."
         },
+        "max_openings": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of boxes one prisoner may open in permutation-cycle protocol interactives."
+        },
+        "target_sum": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Required sum of numbers in each selected subset-question."
+        },
         "objective": {
           "type": "string",
-          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_magic_subset", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_genuine_coin_not_removed", "identify_all_counterfeits", "prove_impossible"],
+          "enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "all_agents_find_own_state", "maximize_win_probability", "guarantee_all_but_first_correct", "prove_impossible"],
           "description": "Goal checked by the interactive layer."
+        },
+        "hidden_states": {
+          "type": "array",
+          "description": "Explicit finite hidden states for constrained light-counterfeit-set interactives.",
+          "items": {
+            "type": "object",
+            "required": ["coins"],
+            "properties": {
+              "id": {"type": "string"},
+              "label": {"type": "string"},
+              "coins": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "integer", "minimum": 1},
+                "uniqueItems": true
+              }
+            }
+          }
+        },
+        "layout": {
+          "type": "string",
+          "enum": ["generic", "line", "circle", "grid", "two_people_three_coins"],
+          "description": "Preferred visual layout for finite coin-set interactives."
         },
         "modes": {
           "type": "array",
           "items": {
             "type": "string",
-            "enum": ["random", "cheater", "exhaustive", "challenge", "sandbox", "guided"]
+            "enum": ["random", "cheater", "exhaustive", "challenge", "sandbox", "guided", "manual_spectator"]
           },
           "uniqueItems": true
         },
@@ -308,6 +568,11 @@
           "minimum": 2,
           "description": "Number of bags in a numeric linear-signature weighing interactive."
         },
+        "bag_weights": {
+          "type": "array",
+          "items": {"type": "number", "exclusiveMinimum": 0},
+          "description": "Nominal written weights for bags in balanced-weight signature interactives."
+        },
         "fake_bag_count": {
           "type": "integer",
           "minimum": 1,
@@ -317,6 +582,11 @@
           "type": "number",
           "exclusiveMinimum": 0,
           "description": "Known per-coin weight difference for fake coins in numeric linear-signature interactives."
+        },
+        "reliable_difference": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Minimum absolute mass difference that a threshold balance reports reliably."
         },
         "genuine_weight": {
           "type": "number",
@@ -347,6 +617,29 @@
           "type": "boolean",
           "description": "Whether the hidden fake-bag subset may be empty."
         },
+        "protocol": {
+          "type": "string",
+          "enum": ["one_liar_line_neighborhood", "knight_liar_fake_coin_subset", "adjacent_pair_grid_search"],
+          "description": "Built-in finite yes/no protocol model."
+        },
+        "action_subset_sizes": {
+          "type": "array",
+          "items": {"type": "integer", "minimum": 1},
+          "uniqueItems": true,
+          "description": "Allowed subset sizes for finite coin-question actions."
+        },
+        "query_includes_self": {
+          "type": "boolean",
+          "description": "Whether the line-neighborhood question includes the person being asked."
+        },
+        "answer_labels": {
+          "type": "object",
+          "properties": {
+            "yes": {"type": "string"},
+            "no": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
         "exclude_all_fake": {
           "type": "boolean",
           "description": "Whether the all-bags-fake state is excluded from the hidden state space."
@@ -376,6 +669,34 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "zero_one_two_counterfeit_sign"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["detect_presence_and_sign"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "safe_pile_balance_certificate"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["max_weighings", "objective"],
+            "anyOf": [
+              {"required": ["pile_sizes"]},
+              {"required": ["piles"]}
+            ],
+            "properties": {
+              "objective": {"enum": ["identify_safe_pile"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "paired_light_counterfeits"}},
             "required": ["type"]
           },
@@ -395,6 +716,31 @@
             "required": ["coin_count", "counterfeit_count", "max_weighings", "objective"],
             "properties": {
               "objective": {"enum": ["identify_one_light_coin"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "constrained_light_counterfeit_sets"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "hidden_states", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_one_light_coin", "identify_one_counterfeit_coin", "identify_counterfeit_count", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_fake_coin_set"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "threshold_balance_counterfeit_sets"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "counterfeit_count", "max_weighings", "objective", "reliable_difference"],
+            "properties": {
+              "objective": {"enum": ["identify_all_counterfeits", "identify_fake_coin_set"]},
+              "counterfeit_weight": {"enum": ["lighter"]}
             }
           }
         },
@@ -474,6 +820,18 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "balanced_weight_signature_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["bag_count", "bag_weights", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_deficient_bag_or_none"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "numeric_linear_signature"}},
             "required": ["type"]
           },
@@ -493,6 +851,220 @@
             "required": ["object_count", "max_tests", "objective"],
             "properties": {
               "objective": {"enum": ["identify_magic_subset"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "balanced_subset_question_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["object_count", "max_tests", "target_sum", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_hidden_number"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "binary_cards_number_trick"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["card_count", "number_max", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_hidden_number"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "ternary_question_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["object_count", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_state", "identify_hidden_number"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "repetition_code_one_lie_questions"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["bit_count", "number_min", "number_max", "repetitions_per_bit", "max_lies", "objective"],
+            "properties": {
+              "repetitions_per_bit": {"const": 3},
+              "max_lies": {"const": 1},
+              "objective": {"enum": ["identify_hidden_number"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "finite_binary_state_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["protocol", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_state", "identify_liar", "identify_one_genuine_coin", "identify_hidden_pair"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "higher_lower_strategy_game"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["box_count", "objective"],
+            "properties": {
+              "objective": {"enum": ["maximize_win_probability"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "moving_target_graph_search"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["vertices", "edges", "check_size", "max_tests", "objective"],
+            "properties": {
+              "objective": {"enum": ["capture_hidden_moving_target"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "xor_single_flip_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["position_count", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_key_position"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "wise_men_even_parity_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["person_count", "color_count", "objective"],
+            "properties": {
+              "objective": {"enum": ["all_agents_find_own_state"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "wise_men_color_count_parity_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["sage_count", "color_count", "count_values", "target_correct_min", "objective"],
+            "properties": {
+              "objective": {"enum": ["guarantee_at_least_half_correct"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "prisoners_hats_parity_line"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["person_count", "color_count", "objective"],
+            "properties": {
+              "color_count": {"const": 2},
+              "objective": {"enum": ["guarantee_all_but_first_correct"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "hidden_hat_number_parity_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["sage_count", "number_min", "number_max", "hidden_count", "objective"],
+            "properties": {
+              "hidden_count": {"const": 1},
+              "objective": {"enum": ["guarantee_all_but_first_correct"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "three_letter_erasure_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["message_count", "word_length", "codewords", "objective"],
+            "properties": {
+              "objective": {"enum": ["decode_hidden_message"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "permutation_message_order_code"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["item_count", "message_count", "objective"],
+            "properties": {
+              "item_count": {"const": 3},
+              "message_count": {"const": 6},
+              "objective": {"enum": ["decode_hidden_message"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "permutation_cycle_protocol"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["prisoner_count", "box_count", "max_openings", "objective"],
+            "properties": {
+              "objective": {"enum": ["all_agents_find_own_state"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "fitch_cheney_card_trick"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["deck_size", "hand_size", "shown_cards", "hidden_cards", "objective"],
+            "properties": {
+              "deck_size": {"const": 52},
+              "hand_size": {"const": 5},
+              "shown_cards": {"const": 4},
+              "hidden_cards": {"const": 1},
+              "objective": {"enum": ["identify_hidden_card"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "twenty_one_card_trick"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["deck_size", "column_count", "row_count", "round_count", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_selected_card"]}
             }
           }
         }

@@ -1,0 +1,118 @@
+{
+  "id": "knop-2011-seven-bags-subset-one-weighing",
+  "title": "Кноп-2011: семь мешков и произвольный набор фальшивых",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Фальшивые мешки могут быть в любом наборе",
+        "text": "Имеются 7 мешков. В некоторых из них все монеты фальшивые, а в остальных все монеты настоящие. Настоящая монета весит 10 г, фальшивая 9 г. Как за одно взвешивание на весах со стрелкой найти все мешки с фальшивыми монетами?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-subset-sum-deficit",
+      "title": "Недостача веса кодирует подмножество",
+      "text": "Если взять из мешков разные степени двойки монет, то общая недостача веса равна сумме тех степеней двойки, которые соответствуют фальшивым мешкам. Двоичная запись этой недостачи восстанавливает весь набор мешков.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-powers-of-two-seven-bags",
+      "title": "Взять 1, 2, 4, ..., 64 монеты",
+      "text": "Пронумеруем мешки от 1 до 7 и возьмем из них соответственно \\(1,2,4,8,16,32,64\\) монеты. Если бы все выбранные монеты были настоящими, вес был бы 1270 г. Реальная недостача равна числу фальшивых монет на весах, то есть сумме степеней двойки по фальшивым мешкам. Записав недостачу в двоичной системе, получаем все фальшивые мешки.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "любой набор фальшивых мешков среди семи, включая пустой и полный набор",
+    "observations": [
+      "одно числовое показание общего веса"
+    ],
+    "allowed_actions": [
+      "заранее выбрать, сколько монет взять из каждого мешка"
+    ],
+    "goal": [
+      "identify_fake_bag_subset"
+    ],
+    "strategy_type": [
+      "binary_weighted_sum",
+      "nonadaptive_code"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "seven_bags",
+      "subset_sum",
+      "binary_code",
+      "Conway-Guy_sequence_remark"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "7 мешков",
+    "counterfeit_count": "arbitrary_subset_of_bags",
+    "counterfeit_type": "all_coins_in_fake_bags_lighter_by_one_gram",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": "numeric_weight",
+    "adaptive": false,
+    "objective": "identify_fake_bag_subset"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Прямое двоичное кодирование подмножеств; книжная ремарка обсуждает более экономные наборы чисел.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "weighted_sum_encoding",
+    "binary_code",
+    "nonadaptive_strategy",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "Книга также отмечает альтернативный набор 44, 43, 42, 40, 37, 31, 20 и связь с последовательностью Конвея-Гая."
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "gold-silver-bronze-medals-one-lighter-2-weighings",
+  "title": "Золотая, серебряные и бронзовые медали: одна легче",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-7",
+        "title": "Одна фальшивая медаль среди трех металлов",
+        "text": "Есть одна золотая, три серебряные и пять бронзовых медалей. Известно, что одна медаль фальшивая и весит легче настоящей медали того же металла. Настоящие медали одного металла весят одинаково, а настоящие медали разных металлов весят по-разному. Нужно за два взвешивания на чашечных весах без гирь найти фальшивую медаль.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-balance-each-metal",
+      "title": "Разные металлы уравновешивают по отдельности",
+      "text": "Чтобы исход взвешивания говорил о фальшивой медали, при настоящих медалях чаши должны быть равны: одинаковое число серебряных и одинаковое число бронзовых медалей на каждой чаше. После равенства часть медалей становится надежным балластом для второго взвешивания.",
+      "standard_idea_ids": ["partition_state_space", "knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-weigh-one-silver-two-bronze",
+      "title": "Первым взвешиванием оставить три подозрительные медали",
+      "text": "Обозначим серебряные медали \\(S_1,S_2,S_3\\), бронзовые \\(B_1,\\ldots,B_5\\), золотую \\(G\\). Сравним \\(S_1+B_1+B_2\\) и \\(S_2+B_3+B_4\\). Если одна чаша легче, то подозрительны серебряная и две бронзовые медали с этой чаши; сравнение двух бронзовых медалей со второй чаши находит фальшивую, а равновесие в этом втором взвешивании указывает на серебряную. Если первое взвешивание дало равновесие, подозрительны \\(G,S_3,B_5\\), а остальные медали настоящие. Тогда сравним \\(S_3+B_1\\) и \\(S_1+B_5\\): равновесие указывает на золотую медаль, а перекос показывает, какая из двух подозрительных медалей легче своей настоящей пары.",
+      "standard_idea_ids": ["ternary_weighing_code", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных положений единственной легкой фальшивой медали среди трех видимых типов",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["сравнивать наборы медалей с учетом разных нормальных масс металлов"],
+    "goal": ["identify_counterfeit_object"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition", "use_known_genuine_as_ballast"],
+    "lower_bound_method": [],
+    "keywords": ["three_object_types", "known_lighter", "balanced_by_type", "medals"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "lighter_known_relative_to_type", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["gold", "silver", "bronze"], "objective": "identify_coin"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Трудность в том, что разные нормальные веса требуют балансировать медали по металлам и использовать найденные настоящие медали как балласт.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "knowledge_elimination", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.7. В index указан автор А. В. Шаповалов."]}
+}

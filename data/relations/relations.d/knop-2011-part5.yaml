@@ -1,0 +1,103 @@
+{
+  "relations": [
+    {
+      "id": "rel-knop-part5-known-light-to-lighter-25",
+      "from": "lighter-25-coins-3-weighings",
+      "to": "knop-2011-known-light-coin-preassigned-ternary-code",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "В обеих карточках ищется одна известная легкая фальшивая монета, но в карточке Кнопа все взвешивания назначаются заранее и работают как троичный код.",
+      "backward_text": "Параметрическая плановая карточка показывает неадаптивную версию того же информационного предела; исходная карточка допускает выбор следующих взвешиваний по результатам.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-part5-known-light-to-preassigned-limited",
+      "from": "knop-2011-known-light-coin-preassigned-ternary-code",
+      "to": "light-coin-limited-two-uses-preassigned-weighings",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Обе карточки используют заранее назначенные троичные слова для легкой монеты; во второй дополнительно ограничено число участий каждой монеты.",
+      "backward_text": "Карточка без ограничения участий является базовой формой той же кодовой идеи: каждая монета получает слово из положений на чашах.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-knop-part5-optional-light-contrast",
+      "from": "knop-2011-known-light-coin-preassigned-ternary-code",
+      "to": "knop-2011-possible-no-light-coin-25-nonadaptive-impossible",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "Базовый троичный план легко различает до 27 легких монет, если фальшивая точно есть; добавление состояния «фальшивой нет» ломает заранее заданный план для 25 монет.",
+      "backward_text": "Невозможная задача показывает, что к простому подсчету троичных слов нужно добавлять баланс строк и особое нулевое состояние.",
+      "status": "ai_checked",
+      "confidence": 0.93
+    },
+    {
+      "id": "rel-knop-part5-one-reserve-to-known-light",
+      "from": "knop-2011-nine-light-coins-one-erasure-reserve-plan",
+      "to": "knop-2011-known-light-coin-preassigned-ternary-code",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "План с одним запасом решает ту же задачу о 9 легких монетах, но требует сохранить различимость после удаления любого одного результата.",
+      "backward_text": "Обычный заранее заданный план для 9 монет является базовым случаем без потери результатов.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-knop-part5-two-reserve-to-one-reserve",
+      "from": "knop-2011-nine-light-coins-one-erasure-reserve-plan",
+      "to": "knop-2011-nine-light-coins-two-erasure-reserve-plan",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "План с двумя запасами усиливает требование: можно отбросить любые два результата вместо одного.",
+      "backward_text": "План с одним запасом является более слабой версией той же идеи кодов, устойчивых к потере координат.",
+      "status": "ai_checked",
+      "confidence": 0.96
+    },
+    {
+      "id": "rel-knop-part5-gold27-to-gold24",
+      "from": "knop-2011-gold-silver-24-half-half-preassigned",
+      "to": "knop-2011-gold-silver-27-preassigned-three-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Случай 12 золотых и 12 серебряных использует ту же модель знака, зависящего от типа монеты, но имеет дополнительную симметрию поровну типов.",
+      "backward_text": "27-монетная карточка является более широкой плановой схемой для заранее типизированных золотых и серебряных монет.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-knop-part5-impossible-to-two-gold-family",
+      "from": "knop-2011-gold-silver-4-7-two-fakes-three-impossible",
+      "to": "knop-2011-two-gold-many-silver-two-fakes-k-weighings",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "Невозможный случай 4 и 7 монет показывает границу информационной емкости рядом с положительными задачами семейства золото-серебро.",
+      "backward_text": "Положительная серия работает при специально подобранных числах состояний; карточка 4+7 показывает, что близкие параметры могут сразу выйти за предел трех исходов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-part5-divisibility-to-fixed-questions",
+      "from": "knop-2011-divisibility-1-8-three-planned-numbers",
+      "to": "fixed-questions-as-binary-code",
+      "type": "strategy_transfer",
+      "distance": 1,
+      "forward_text": "Задача о делимости тоже сводится к различным двоичным словам ответов на заранее выбранные вопросы, но не каждый набор вопросов допустим из-за отношения делимости.",
+      "backward_text": "Общая карточка про двоичный код объясняет информационную часть; делимость добавляет арифметическое ограничение на вопросы.",
+      "status": "ai_checked",
+      "confidence": 0.91
+    },
+    {
+      "id": "rel-knop-part5-ingots-expert-certificate",
+      "from": "knop-2011-marked-ingots-55-expert-judge-27-weighings",
+      "to": "knop-2011-gold-silver-27-preassigned-three-weighings",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Слитки относятся к экспертному сертификату: знающий эксперт выбирает демонстрации для судьи, а не заранее кодирует неизвестное состояние без знания ответа.",
+      "backward_text": "Плановые золото-серебряные взвешивания являются обычной стратегией поиска; карточка со слитками полезна как контраст с сертификационной моделью.",
+      "status": "ai_checked",
+      "confidence": 0.76
+    }
+  ]
+}

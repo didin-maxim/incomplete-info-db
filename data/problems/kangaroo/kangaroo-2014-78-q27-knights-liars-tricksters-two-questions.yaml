@@ -1,0 +1,85 @@
+{
+  "id": "kangaroo-2014-78-q27-knights-liars-tricksters-two-questions",
+  "title": "Кенгуру-2014: рыцари, лжецы и хитрецы отвечают на два вопроса",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["logic_puzzle", "multiple_choice"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kangaroo-2014-78-q27",
+        "title": "Сколько рыцарей на острове",
+        "text": "На острове живут рыцари, которые всегда говорят правду, лжецы, которые всегда лгут, и хитрецы, каждый из которых поочередно отвечает на заданные ему вопросы то правду, то ложь. Каждому жителю острова было задано два вопроса: «Вы рыцарь?» и затем «Вы хитрец?». Ответ «Да» на первый вопрос дали 17 человек, а на второй - 12. Сколько рыцарей на острове?\n\n(A) 4; (Б) 5; (В) 17; (Г) 29; (Д) невозможно определить.",
+        "source_ids": ["src-kangaroo-2014-78-problems"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-answer-pairs-by-type",
+      "title": "Тип жителя задает пару ответов",
+      "text": "Рыцарь отвечает «да» на первый вопрос и «нет» на второй. Лжец тоже отвечает «да» на первый вопрос, потому что он не рыцарь, и «да» на второй, потому что он не хитрец. Хитрец на этих двух вопросах дает либо пару «да, да», либо пару «нет, нет»: один ответ у него правдивый, другой ложный.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-difference-counts-knights",
+      "title": "Разность счетчиков «да» равна числу рыцарей",
+      "text": "Лжецы и хитрецы вносят одинаковый вклад в оба счетчика ответов «да»: лжец добавляет по одному «да» в каждый счетчик, а хитрец добавляет либо по одному, либо по нулю. Только рыцарь добавляет «да» в первый счетчик и не добавляет во второй.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-subtract-yes-counts",
+      "title": "Сравнить два числа ответов «да»",
+      "text": "Обозначим число рыцарей через \\(R\\), число лжецов через \\(L\\), а через \\(T_1\\) - число хитрецов, которые на первом вопросе лгали, а на втором говорили правду. Тогда именно они среди хитрецов отвечают «да» на оба вопроса; остальные хитрецы отвечают «нет» на оба вопроса.\n\nНа вопрос «Вы рыцарь?» ответили «да» все рыцари, все лжецы и эти \\(T_1\\) хитрецов, поэтому\n\\[\nR+L+T_1=17.\n\\]\nНа вопрос «Вы хитрец?» ответили «да» все лжецы и те же \\(T_1\\) хитрецов, поэтому\n\\[\nL+T_1=12.\n\\]\nВычитая второе равенство из первого, получаем \\(R=17-12=5\\). Значит, на острове 5 рыцарей; в вариантах это ответ (Б).",
+      "standard_idea_ids": ["knowledge_elimination", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого жителя острова: рыцарь, лжец или хитрец, а для хитреца также порядок правды и лжи в двух ответах",
+    "observations": ["17 ответов «да» на вопрос «Вы рыцарь?»", "12 ответов «да» на вопрос «Вы хитрец?»"],
+    "allowed_actions": ["использовать правила правды, лжи и чередования для классификации возможных пар ответов"],
+    "goal": ["count_knights"],
+    "strategy_type": ["answer_pattern_table", "counting_signature", "truth_liar_normalization"],
+    "lower_bound_method": [],
+    "keywords": ["kangaroo_2014", "knights_liars_tricksters", "two_questions", "alternating_truth_lie", "yes_count_difference"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet": ["yes", "no"],
+    "question_count": 2,
+    "lies_allowed": "рыцари всегда говорят правду, лжецы всегда лгут, хитрецы на двух последовательных вопросах дают один правдивый и один ложный ответ",
+    "adaptive": false,
+    "objective": "deduce_number_of_knights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: нужно составить таблицу пар ответов и увидеть, что разность двух публичных счетчиков убирает лжецов и хитрецов.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "truth_liar_normalization", "linear_signature", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-kangaroo-2014-78-problems", "role": "official_statement_and_answer_key", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-21",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kangaroo_batch",
+    "notes": [
+      "Источник: Кенгуру-2014, 7-8 классы, задача 27; официальный ключ дает ответ 5.",
+      "Не слито с AMC 2022 10A №12: там один и тот же вопрос задают дважды и ищут максимум чередующихся, а здесь два разных вопроса позволяют напрямую вычесть число рыцарей."
+    ]
+  }
+}

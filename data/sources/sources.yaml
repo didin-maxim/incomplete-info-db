@@ -24,11 +24,20 @@
       "id": "src-fitch-cheney-five-card-trick",
       "type": "reference_topic",
       "title": "Fitch Cheney five card trick",
+      "authors": [
+        {
+          "name": "William Fitch Cheney Jr.",
+          "role": "trick_attribution",
+          "status": "source_verified",
+          "note": "Fitch is part of Cheney's given names; this is not a two-author attribution."
+        }
+      ],
       "url": "",
       "browser_openable": false,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-common-knowledge-puzzles",
@@ -128,7 +137,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-tot-2017-18-spring-advanced-statements",
@@ -139,6 +149,7 @@
       "official": false,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "access_note": "PDF-зеркало содержит условия сложного варианта 8-9 и 10-11 классов с подписями авторов; официальный URL архива Турнира городов не найден."
     },
     {
@@ -149,7 +160,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "region": "международный"
     },
     {
       "id": "src-tot-2018-19-fall-advanced-8-9-solutions",
@@ -159,7 +171,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "region": "международный"
     },
     {
       "id": "src-mmo-2006-69-brochure",
@@ -212,7 +225,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-lktg-2008-broken-balances-problems-ru",
@@ -242,6 +256,7 @@
       "official": true,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "ЛКТГ-2008, 20-я летняя конференция Турнира городов, проект 4: Взвешивания со сломанными весами",
       "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2008/4/index.htm; проект предложили Илья Богданов, Григорий Челноков, Борис Френкин."
     },
@@ -273,6 +288,7 @@
       "official": true,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "ЛКТГ-2008, 20-я летняя конференция Турнира городов, проект 4: Взвешивания со сломанными весами",
       "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2008/4/index.htm; проект предложили Илья Богданов, Григорий Челноков, Борис Френкин."
     },
@@ -284,7 +300,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-tot-2002-fall-senior-o-solutions",
@@ -294,7 +311,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-tot-2002-fall-junior-a-problems",
@@ -304,7 +322,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-mccme-circle-2013-weighings",
@@ -503,7 +522,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-imc-2019-sol-extended",
@@ -513,7 +533,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-smc-2015-sol-extended",
@@ -523,7 +544,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-open-ended-2013-primary",
@@ -533,7 +555,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-stmc-2018-19-national-final-group-round",
@@ -543,7 +566,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-stmc-2018-19-national-final-supervisors",
@@ -553,7 +577,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-mathcounts-potw-2021-03-22-solutions",
@@ -563,7 +588,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-mathcounts-colorful-caps",
@@ -573,7 +599,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-mathcounts-colorful-caps-poster",
@@ -583,7 +610,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-mathcounts-colorful-caps-solution",
@@ -593,7 +621,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-cemc-2025-bcc-7-8-contest",
@@ -603,7 +632,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Канада"
     },
     {
       "id": "src-cemc-2025-bcc-7-8-solutions",
@@ -613,7 +643,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Канада"
     },
     {
       "id": "src-cemc-2024-bcc-7-8-solutions",
@@ -623,7 +654,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Канада"
     },
     {
       "id": "src-cemc-2025-pascal-contest",
@@ -633,7 +665,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Канада"
     },
     {
       "id": "src-cemc-2025-pascal-solution",
@@ -643,7 +676,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Канада"
     },
     {
       "id": "src-nrich-knights-and-knaves",
@@ -653,7 +687,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-nrich-money-measure",
@@ -663,7 +698,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-nrich-spot-the-fake",
@@ -673,7 +709,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-nrich-9-weights",
@@ -683,7 +720,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-nrich-great-weights-puzzle",
@@ -693,7 +731,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-nrich-balance-power",
@@ -703,7 +742,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-sasmo-2015-grade-9-solutions",
@@ -713,7 +753,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-winkler-seven-puzzles",
@@ -730,7 +771,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-winkler-mathematical-mind-benders",
@@ -747,7 +789,8 @@
       "browser_openable": false,
       "official": false,
       "status": "needs_human_review",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-boolos-hardest-logic-puzzle",
@@ -764,7 +807,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-ebert-hat-game-reference",
@@ -774,7 +818,9 @@
       "browser_openable": true,
       "official": false,
       "status": "needs_human_review",
-      "language": "en"
+      "language": "en",
+      "attribution_status": "needs_primary_source",
+      "access_note": "Ebert is kept as an eponym in the topic title, but no stable primary source for the attribution has been verified in the database yet."
     },
     {
       "id": "src-balance-puzzle-reference",
@@ -898,6 +944,7 @@
       "official": false,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "Турнир городов 2017/18, 39-й, весенний тур, сложный вариант, 8-9 классы, задача 6",
       "access_note": "Страница problems.ru указывает автора как «Дидин М.»; полное имя «Максим Дидин» подтверждено PDF-публикацией условий XXXIX Турнира городов."
     },
@@ -927,7 +974,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Эстония"
     },
     {
       "id": "src-estonian-2001-02-selected-problems",
@@ -937,7 +985,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Эстония"
     },
     {
       "id": "src-estonian-2003-04-selected-problems",
@@ -947,7 +996,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Эстония"
     },
     {
       "id": "src-estonian-2018-19-selected-problems",
@@ -957,7 +1007,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Эстония"
     },
     {
       "id": "src-maa-2022-amc10a-problems",
@@ -967,7 +1018,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-maa-2022-amc10a-solutions",
@@ -977,7 +1029,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-aops-2022-amc10a-p12-index",
@@ -987,7 +1040,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-aops-2010-amc12a-p12-index",
@@ -997,7 +1051,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-maa-2010-amc12a-solutions-mirror",
@@ -1007,7 +1062,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-aops-2011-amc10a-p21-index",
@@ -1017,7 +1073,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-maa-2011-amc10a-solutions-mirror",
@@ -1027,7 +1084,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-wajo-2015-qns-solns",
@@ -1037,7 +1095,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия"
     },
     {
       "id": "src-wajo-2022-qns-solns",
@@ -1047,7 +1106,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g4-book",
@@ -1057,7 +1117,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g5-book",
@@ -1067,7 +1128,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g6-book",
@@ -1077,7 +1139,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g8-book",
@@ -1087,7 +1150,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-simcc-sasmo-2019-2020-g9-book",
@@ -1097,7 +1161,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-sms-smo-solution-books-page",
@@ -1107,7 +1172,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-sms-medley-1997-competition-corner",
@@ -1117,7 +1183,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Сингапур"
     },
     {
       "id": "src-hbcse-inmo-2021-solutions",
@@ -1127,7 +1194,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Индия"
     },
     {
       "id": "src-komal-2010-a512",
@@ -1137,7 +1205,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Венгрия"
     },
     {
       "id": "src-komal-2011-a542",
@@ -1147,7 +1216,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Венгрия"
     },
     {
       "id": "src-komal-2016-k517",
@@ -1157,7 +1227,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Венгрия"
     },
     {
       "id": "src-komal-2020-k664",
@@ -1167,7 +1238,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Венгрия"
     },
     {
       "id": "src-komal-2023-k749",
@@ -1177,7 +1249,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Венгрия"
     },
     {
       "id": "src-samf-training-manual-2014-scribd",
@@ -1187,7 +1260,17 @@
       "browser_openable": true,
       "official": false,
       "status": "needs_human_review",
-      "language": "en"
+      "language": "en",
+      "country": "ЮАР",
+      "authors": [
+        {
+          "name": "Poobhalan Pillay",
+          "role": "book_author",
+          "status": "source_verified",
+          "note": "SAMF page and the mirrored manual identify Prof Poobhalan Pillay as author/compiler of the training manual."
+        }
+      ],
+      "access_note": "SAMF page and the mirrored manual identify Prof Poobhalan Pillay as author/compiler; the source used here is a mirror, so the source status remains needs_human_review."
     },
     {
       "id": "src-uct-2015-olympiad-senior-solutions",
@@ -1197,7 +1280,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "ЮАР"
     },
     {
       "id": "src-pamo-2002-aops",
@@ -1207,7 +1291,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "Африка"
     },
     {
       "id": "src-pamo-2002-imomath-pdf",
@@ -1217,7 +1302,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "Африка"
     },
     {
       "id": "src-amt-aimo-2017-paper-solutions",
@@ -1227,17 +1313,22 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия"
     },
     {
       "id": "src-amt-amc-2016-solutions",
       "type": "official_solution_book",
-      "title": "AMC 2016 Solutions",
+      "title": "Australian Mathematics Competition 2016 Solutions",
       "url": "https://shop.amt.edu.au/products/amc-2016-solutions",
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия",
+      "short_name": "Australian AMC",
+      "display_name": "Australian AMC 2016",
+      "origin": "Australian Mathematics Competition 2016, Intermediate, problem 17"
     },
     {
       "id": "src-amt-australian-scene-2018",
@@ -1247,7 +1338,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия"
     },
     {
       "id": "src-amt-australian-scene-2022",
@@ -1257,7 +1349,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Австралия"
     },
     {
       "id": "src-omg-2005-06-first-stage-problems",
@@ -1267,7 +1360,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "pl"
+      "language": "pl",
+      "country": "Польша"
     },
     {
       "id": "src-omj-seminar-casework-czyzewska",
@@ -1277,7 +1371,15 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "pl"
+      "language": "pl",
+      "country": "Польша",
+      "authors": [
+        {
+          "name": "Jadwiga Czy?ewska",
+          "role": "material_author",
+          "status": "source_verified"
+        }
+      ]
     },
     {
       "id": "src-ukmt-imc-2013-sol-extended",
@@ -1287,7 +1389,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-smc-2016-sol-extended",
@@ -1297,7 +1400,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-smc-2017-sol-extended",
@@ -1307,7 +1411,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-ukmt-imok-2008-solutions-inside",
@@ -1317,7 +1422,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "Великобритания"
     },
     {
       "id": "src-kvantik-math-contest-2016-2017",
@@ -1431,6 +1537,7 @@
       "official": false,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "Турнир городов 2005/06, 27-й, осенний тур, тренировочный вариант, 8-9 классы задача 5 и 10-11 классы задача 3",
       "access_note": "Страница problems.ru указывает автора «Малкин М.И.» и замечает перепечатку в задачнике «Кванта», 2006, №2, задача М1991."
     },
@@ -1450,6 +1557,7 @@
       "official": false,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "Турнир городов 2017/18, 39-й, весенний тур, сложный вариант, 10-11 классы, задача 7",
       "access_note": "Страница problems.ru указывает автора как «Митрофанов И.В.»; полное имя «Иван Митрофанов» подтверждено PDF-публикацией условий XXXIX Турнира городов."
     },
@@ -1469,6 +1577,7 @@
       "official": false,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "Турнир городов 2018/19, 40-й, осенний тур, сложный вариант, 8-9 классы задача 2 и 10-11 классы задача 1",
       "access_note": "Страница problems.ru указывает автора как «Кузнецов М.»; полное имя «Михаил Кузнецов» подтверждено официальным PDF условий 40-го Турнира городов."
     },
@@ -1685,6 +1794,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2018 volume, not a duplicate source record."
     },
     {
@@ -1695,7 +1805,8 @@
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-unm-pnm-2025-round2-solutions",
@@ -1706,6 +1817,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "access_note": "Shares the AMT shop collection URL with other Australian Scene yearbooks; this is a distinct 2022 volume, not a duplicate source record."
     },
     {
@@ -1716,7 +1828,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "region": "международный"
     },
     {
       "id": "src-unm-pnm-2014-2015-solutions",
@@ -1726,7 +1839,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-berkeley-math-circle-2007-2008-contest4",
@@ -1736,7 +1850,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-vmo-2021-ii-sol-9-11",
@@ -1846,7 +1961,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "en"
+      "language": "en",
+      "country": "США"
     },
     {
       "id": "src-mmo-2024-25-sol-11-tur1-final",
@@ -1881,6 +1997,7 @@
       "official": true,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "access_note": "Источник найден в соседней базе graph-db; локальная копия там: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf, текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt."
     },
     {
@@ -1892,6 +2009,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
     },
     {
@@ -1903,6 +2021,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2010-b5-hot-and-cold-treasure.yaml."
     },
     {
@@ -1914,6 +2033,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
     },
     {
@@ -1925,6 +2045,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2012-b5-marble-colour-mixups.yaml."
     },
     {
@@ -1936,6 +2057,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
     },
     {
@@ -1947,6 +2069,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2021-b3-password-feedback.yaml."
     },
     {
@@ -1958,6 +2081,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
     },
     {
@@ -1969,6 +2093,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "Канада",
       "access_note": "Локальная извлеченная карточка: C:\\Users\\Admin\\Documents\\Codex\\2026-05-17\\new-chat-2\\data\\problems\\calgary_jmc\\calgary-jmc-2025-b1-one-false-grade-statement.yaml."
     },
     {
@@ -2049,6 +2174,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "access_note": "Problem 5 gives the three pairs of gold, silver and bronze coins; solution reconstructed editorially."
     },
     {
@@ -2060,6 +2186,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "country": "Израиль",
       "origin": "2020 Israel National Olympiad, problem 1",
       "access_note": "AoPS printable collection states the contest name and problem text; no official contest-hosted source was verified in this pass."
     },
@@ -2072,6 +2199,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "UNM-PNM Statewide High School Mathematics Contest 2015, Second Round, problem 4",
       "access_note": "AoPS Wiki page links to the UNM-PNM resources page and repeats the classic 12-coin statement."
     },
@@ -2084,6 +2212,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "UNM-PNM Statewide High School Mathematics Contest 2017, Second Round, problem 6",
       "access_note": "AoPS Wiki page gives the 12-stack digital-scale variant; it is the same weighted-deficit mechanism as the classical stack problem."
     },
@@ -2096,7 +2225,8 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
-      "origin": "2021 JMC 10, problem 3",
+      "country": "Канада",
+      "origin": "2021 JMC 10, problem 3; country kept as Canada according to the existing source pass, but no official contest-hosted source was verified.",
       "access_note": "AoPS Wiki page gives the statement and a short solution; no separate official contest-hosted source was verified in this pass."
     },
     {
@@ -2108,6 +2238,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "origin": "International Mathematical Olympiad 2012, problem 3"
     },
     {
@@ -2119,6 +2250,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "origin": "International Mathematical Olympiad 2012, problem 3; shortlist C6",
       "access_note": "The official shortlist gives the problem as C6 with solution; author credit is stored separately from IMOMath."
     },
@@ -2138,6 +2270,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "origin": "International Mathematical Olympiad 2012, problem 3",
       "access_note": "The page labels Problem 3 as David Arthur, Canada; used only to cross-check authorship."
     },
@@ -2150,6 +2283,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "origin": "International Mathematical Olympiad 2000, problem 4",
       "access_note": "AoPS Wiki gives the statement and a concise solution, and links to the Singapore Mathematical Olympiad PDF mirror."
     },
@@ -2162,6 +2296,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "region": "международный",
       "origin": "International Mathematical Olympiad 2000, problem 4"
     },
     {
@@ -2173,6 +2308,7 @@
       "official": false,
       "status": "needs_human_review",
       "language": "en",
+      "country": "США",
       "origin": "All-Russian Olympiad 1997, grade 9 day 1 problem 4 and grade 11 day 1 problem 2",
       "access_note": "AoPS printable collection identifies the contest and includes the two-color and three-color Council of Sages variants; no official contest-hosted source was verified in this pass."
     },
@@ -2185,6 +2321,7 @@
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "access_note": "Клубная AoPS-страница с подборкой задач и ссылками на решения; в этом проходе использована как дополнительный источник для дубликата про 100 заключенных и ящики. Отдельные решения по ссылкам могут быть недоступны без входа или возвращать 403."
     },
     {
@@ -2192,14 +2329,24 @@
       "type": "math_circle_facilitator_guide",
       "title": "MathCircles.org: Knights and Knaves: A journey to the land of logic",
       "authors": [
-        {"name": "Altha Rodin", "role": "facilitator_guide_author", "status": "source_verified"},
-        {"name": "Raymond Smullyan", "role": "original_collection_author", "status": "source_verified", "note": "MathCircles states that the puzzles in the guide come from What Is the Name of This Book?"}
+        {
+          "name": "Altha Rodin",
+          "role": "facilitator_guide_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Raymond Smullyan",
+          "role": "original_collection_author",
+          "status": "source_verified",
+          "note": "MathCircles states that the puzzles in the guide come from What Is the Name of This Book?"
+        }
       ],
       "url": "https://mathcircles.org/wp-content/uploads/2022/03/RodinKnightsandKnaves.pdf",
       "browser_openable": true,
       "official": false,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "Math Teachers' Circle of Austin, September 25, 2014; problems attributed by the guide to Raymond Smullyan, What Is the Name of This Book?",
       "access_note": "The MathCircles activity page credits Altha Rodin and says the session's puzzles come from Raymond Smullyan's What Is the Name of This Book; the PDF gives the Scenario 11 statement on page 3."
     },
@@ -2219,13 +2366,18 @@
       "type": "official_training_material",
       "title": "Berkeley Math Circle: Colored Hats and Logic Puzzles",
       "authors": [
-        {"name": "Alex Zorn", "role": "handout_author", "status": "source_verified"}
+        {
+          "name": "Alex Zorn",
+          "role": "handout_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://mathcircle.berkeley.edu/sites/default/files/archivedocs/2012_2013/lectures/1213lecturespdf/BMC_Int_Jan22_2013_HatsAndLogicPuzzles.pdf",
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "Berkeley Math Circle intermediate lecture handout, January 21, 2013",
       "access_note": "Листок содержит разбор заключенных в ряд с остатком по модулю, вариант с несколькими цветами и версию с молчанием/Hamming codes; использован как дополнительный источник к уже существующим карточкам, а не как новая карточка."
     },
@@ -2341,6 +2493,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "USAMTS Year 23, Round 1, problem 3",
       "access_note": "Official USAMTS PDF contains the corrected Zoltar statement about 14 coins, seven real and seven counterfeit."
     },
@@ -2353,6 +2506,7 @@
       "official": true,
       "status": "source_verified",
       "language": "en",
+      "country": "США",
       "origin": "USAMTS Year 23, Round 1, problem 3",
       "access_note": "Official USAMTS solution gives the reduction by known counterfeit coins and the final two-real two-fake pairing argument."
     },
@@ -2363,17 +2517,216 @@
       "short_name": "ЛКТГ",
       "display_name": "ЛКТГ-2005",
       "authors": [
-        {"name": "Илья Богданов", "role": "material_author", "status": "source_verified"},
-        {"name": "Евгений Куликов", "role": "material_author", "status": "source_verified"},
-        {"name": "Григорий Челноков", "role": "material_author", "status": "source_verified"}
+        {
+          "name": "Илья Богданов",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Евгений Куликов",
+          "role": "material_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Григорий Челноков",
+          "role": "material_author",
+          "status": "source_verified"
+        }
       ],
       "url": "https://olympiads.mccme.ru/lktg/2005/4/razbrus.ps",
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
       "language": "ru",
+      "region": "международный",
       "origin": "ЛКТГ-2005, проект 4, русские условия и решения",
       "access_note": "Страница проекта: https://olympiads.mccme.ru/lktg/2005/4/index.htm; исходники LaTeX доступны в https://olympiads.mccme.ru/lktg/2005/4/latex.zip."
+    },
+    {
+      "id": "src-kangaroo-2014-78-problems",
+      "type": "official_olympiad_archive",
+      "title": "Кенгуру-2014, 7-8 классы: задачи",
+      "short_name": "Кенгуру",
+      "display_name": "Кенгуру-2014",
+      "url": "https://files.mathkang.ru/2014/kenguru_2014_class_7-8.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "origin": "Кенгуру-2014, 7-8 классы, задача 27",
+      "access_note": "Официальный ключ ответов: https://files.mathkang.ru/2014/kenguru_2014_answers.pdf; для задачи 27 указан ответ 5."
+    },
+    {
+      "id": "src-israelmath-5783-final-en-45",
+      "type": "official_olympiad_statement",
+      "title": "Israeli Mathematical Olympiad, 4th-5th Grades, Final Stage, Year 5783",
+      "short_name": "IsraelMath",
+      "display_name": "IsraelMath 5783 final 4-5",
+      "url": "https://israelmath.com/wp-content/uploads/olymp_5783_final_en_4-5.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Израиль",
+      "origin": "Israeli Mathematical Olympiad 5783, final stage, grades 4-5, problems 3 and 4",
+      "access_note": "Official English statement PDF from israelmath.com. No English official solution PDF was verified in this pass; solutions in the cards are editorial."
+    },
+    {
+      "id": "src-israelmath-5783-final-en-67",
+      "type": "official_olympiad_statement",
+      "title": "Israeli Mathematical Olympiad, 6th-7th Grades, Final Stage, Year 5783",
+      "short_name": "IsraelMath",
+      "display_name": "IsraelMath 5783 final 6-7",
+      "url": "https://israelmath.com/wp-content/uploads/olymp_5783_final_en_6-7.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Израиль",
+      "origin": "Israeli Mathematical Olympiad 5783, final stage, grades 6-7, problem 1",
+      "access_note": "Official English statement PDF from israelmath.com. No English official solution PDF was verified in this pass; solution in the card is editorial."
+    },
+    {
+      "id": "src-israelmath-5781-final-en-56",
+      "type": "official_olympiad_statement",
+      "title": "The Israeli Mathematics Olympiad for Grades 5 & 6, Final Round, 2021",
+      "short_name": "IsraelMath",
+      "display_name": "IsraelMath 2021 final 5-6",
+      "url": "https://www.israelmath.com/wp-content/uploads/2021/02/olymp5781_f_eng_5-6.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Израиль",
+      "origin": "Israeli Mathematics Olympiad, final round 2021, grades 5-6, problem 4",
+      "access_note": "Official English statement PDF from israelmath.com. No English official solution PDF was verified in this pass; solution in the card is editorial."
+    },
+    {
+      "id": "src-bas-2001-all-problems",
+      "type": "official_olympiad_archive",
+      "title": "BAS Bulgarian Competitions in Mathematics: All 2001 problems",
+      "short_name": "BAS",
+      "display_name": "BAS / Болгарская олимпиада",
+      "url": "https://www.math.bas.bg/bcmi/c2001.ps",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Болгария",
+      "origin": "BAS archive, All 2001 problems, problem 10b.3",
+      "access_note": "Официальный PostScript-архив BAS содержит условие и решение на английском; текст извлечен через ps2ascii."
+    },
+    {
+      "id": "src-belmath-1995-republic-final",
+      "type": "olympiad_statement_archive",
+      "title": "BelMath archive: 1995 Republican Olympiad problem set",
+      "short_name": "BelMath",
+      "display_name": "BelMath: Беларусь 1995",
+      "url": "https://belmath.org/archive/1995/republic_95.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Беларусь",
+      "origin": "XLV Byelorussian Mathematical Olympiad, Final Round, Category C, problem 3",
+      "access_note": "BelMath 1995 archive links this PDF as the Republican Olympiad problem set. The extracted PDF text carries an imomath.com footer and gives the islanders/liars governor problem in Category C as problem 3; no official solution is included, so the card solution is editorial."
+    },
+    {
+      "id": "src-dms-jsmo-2016-problems",
+      "type": "official_olympiad_statement",
+      "title": "DMS: 10. Srpska matematička olimpijada učenika osnovnih škola, 2016",
+      "short_name": "Сербская олимпиада",
+      "display_name": "JSMO 2016",
+      "url": "https://dms.rs/wp-content/uploads/2016/12/JSMO16.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "sr",
+      "country": "Сербия",
+      "origin": "JSMO 2016, problem 3",
+      "access_note": "Official DMS statement PDF; no official solution was found in this DMS file during the Serbia SMO/JSMO pass."
+    },
+    {
+      "id": "src-rusanivskyi-2015-official",
+      "type": "official_olympiad_archive",
+      "title": "XX олимпиада по математике Русановского лицея, 2015: условия и решения",
+      "short_name": "Русановский лицей",
+      "display_name": "Русановский лицей-2015",
+      "url": "http://www.rl.kiev.ua/wp-content/uploads/2015/04/XX-olimpiada-z-matematiki.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "uk",
+      "country": "Украина",
+      "origin": "XX олимпиада Русановского лицея, 2015, 6 класс, I тур, задача 1",
+      "access_note": "Официальный PDF с условиями и решениями со страницы архива Русановского лицея."
+    },
+    {
+      "id": "src-rusanivskyi-2017-official",
+      "type": "official_olympiad_archive",
+      "title": "XXII олимпиада по математике Русановского лицея, 2017: условия и решения",
+      "short_name": "Русановский лицей",
+      "display_name": "Русановский лицей-2017",
+      "url": "http://www.rl.kiev.ua/wp-content/uploads/2012/01/Olimpiada-2017-redaktirov.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "uk",
+      "country": "Украина",
+      "origin": "XXII олимпиада Русановского лицея, 2017, 6 класс, I тур, задача 3",
+      "access_note": "Официальный PDF с условиями и решениями со страницы архива Русановского лицея."
+    },
+    {
+      "id": "src-rusanivskyi-2021-official",
+      "type": "official_olympiad_archive",
+      "title": "XXV олимпиада по математике Русановского лицея, 2021: условия и решения",
+      "short_name": "Русановский лицей",
+      "display_name": "Русановский лицей-2021",
+      "url": "https://www.rl.kiev.ua/wp-content/uploads/2021/05/XXV-OLIMPIADI-Z-MATEMATIKI-RL.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "uk",
+      "country": "Украина",
+      "origin": "XXV олимпиада Русановского лицея, 2021, задача 7",
+      "access_note": "Официальный PDF с условиями и решениями со страницы архива Русановского лицея."
+    },
+    {
+      "id": "src-rusanivskyi-2025-official",
+      "type": "official_olympiad_archive",
+      "title": "XXVIII олимпиада по математике Русановского лицея, 2025: условия и решения",
+      "short_name": "Русановский лицей",
+      "display_name": "Русановский лицей-2025",
+      "url": "https://www.rl.kyiv.ua/wp-content/uploads/2025/04/XXVIII-olimpiada-z-matematiki-Rusanivskogo-litseyu-2025.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "uk",
+      "country": "Украина",
+      "origin": "XXVIII олимпиада Русановского лицея, 2025, 6 класс, III тур, задача 10; 9-10 класс, задача 8",
+      "access_note": "Официальный PDF с условиями и решениями со страницы архива Русановского лицея."
+    },
+    {
+      "id": "src-knop-2011-weighings-algorithms",
+      "type": "book_reference",
+      "title": "К. А. Кноп, Взвешивания и алгоритмы: от головоломок к задачам, М.: МЦНМО, 2011",
+      "short_name": "Кноп, Взвешивания и алгоритмы",
+      "display_name": "Кноп, 2011",
+      "authors": [
+        {
+          "name": "Константин Александрович Кноп",
+          "role": "book_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "",
+      "browser_openable": false,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Взвешивания и алгоритмы: от головоломок к задачам, М.: МЦНМО, 2011, 104 с., ISBN 978-5-94057-702-7",
+      "access_note": "Локальная копия TeX-исходников книги была использована для сверки формулировок, решений, авторов и указанных первоисточников."
     }
   ]
 }

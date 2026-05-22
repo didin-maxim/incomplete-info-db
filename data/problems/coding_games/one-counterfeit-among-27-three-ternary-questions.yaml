@@ -1,6 +1,6 @@
 {
   "id": "one-counterfeit-among-27-three-ternary-questions",
-  "title": "Один из 27: три трехисходных вопроса",
+  "title": "Один из 27: три вопроса с тремя возможными ответами",
   "fragment": "questions",
   "kind": {
     "primary": "classical_problem",
@@ -22,7 +22,7 @@
     "generalized": [
       {
         "id": "stmt-general-q-ternary-questions",
-        "title": "q трехисходных вопросов",
+        "title": "\\(q\\) вопросов с тремя возможными ответами",
         "text": "Скрыто одно из \\(N\\) состояний, и за один ход можно получить один из трех заранее различимых ответов. Нужно за \\(q\\) ходов гарантированно определить скрытое состояние. Для каких \\(N\\) это возможно? В частности, разберите случай \\(N=27\\), \\(q=3\\).",
         "source_ids": ["src-folklore"],
         "status": "ai_checked",
@@ -54,7 +54,7 @@
     {
       "id": "lb-ternary-leaves",
       "title": "Два хода не хватит",
-      "text": "Любая стратегия с \\(q\\) трехисходными ходами имеет не более \\(3^q\\) листьев в дереве решений. При \\(q=2\\) это только 9 листьев, меньше 27 скрытых состояний. Поэтому нужны как минимум три хода.",
+      "text": "Любая стратегия с \\(q\\) ходами, у каждого из которых три возможных ответа, имеет не более \\(3^q\\) листьев в дереве решений. При \\(q=2\\) это только 9 листьев, меньше 27 скрытых состояний. Поэтому нужны как минимум три хода.",
       "standard_idea_ids": ["decision_tree_lower_bound"],
       "status": "ai_checked",
       "definition_ids": ["decision_tree", "information_lower_bound"]
@@ -77,10 +77,18 @@
     "adaptive": true,
     "objective": "identify_one_of_27_states"
   },
+  "interactive": {
+    "type": "ternary_question_code",
+    "object_count": 27,
+    "max_tests": 3,
+    "alphabet": ["0", "1", "2"],
+    "objective": "identify_state",
+    "modes": ["random", "exhaustive"]
+  },
   "difficulty": {
     "main": "intro",
     "local_score": 1,
-    "comment": "Троичный аналог бинарного поиска и взвешиваний с тремя исходами.",
+    "comment": "Как обычный поиск делением пополам, только на каждом шаге кандидатов делят на три группы.",
     "status": "ai_checked"
   },
   "tags": ["decision_tree", "ternary_code", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
@@ -94,6 +102,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "same_solution_parameterized",
-    "notes": ["2026-05-18: добавлена общая q-форма; 27 классифицировано как полная емкость трех трехисходных вопросов."]
+    "notes": ["2026-05-18: добавлена общая q-форма; 27 классифицировано как полная емкость трех вопросов с тремя возможными ответами."]
   }
 }

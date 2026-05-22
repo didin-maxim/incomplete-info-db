@@ -1,0 +1,100 @@
+{
+  "id": "wise-men-6-32-colors-one-bit",
+  "title": "Шесть мудрецов, 32 цвета и один бит от каждого",
+  "fragment": "communication",
+  "kind": {
+    "primary": "math_circle_problem",
+    "secondary": ["prearranged_protocol", "coding", "small_case"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-wise-men-6-32",
+        "title": "Каждый показывает ноль или единицу",
+        "text": "Шести мудрецам надевают колпаки. Цвет каждого колпака - один из 32 заранее известных цветов. Потом каждый видит все колпаки, кроме своего. Сначала все одновременно показывают один бит: 0 или 1. Затем все одновременно называют цвет своего колпака. Могут ли они заранее договориться так, чтобы каждый всегда называл свой цвет верно?",
+        "source_ids": ["src-problems-ru-64616"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-32-even-six-bit-words",
+      "title": "32 цвета можно записать четными словами длины 6",
+      "text": "Из всех строк из шести нулей и единиц ровно половина имеет четное число единиц. Таких строк 32. Поэтому каждому цвету можно заранее дать свой шестибитный код с четным числом единиц.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-six-coordinate-parity",
+      "title": "Каждый отвечает за один разряд",
+      "text": "Заранее сопоставим 32 цветам все шестибитные слова с четным числом единиц. Разряды с первого по шестой закрепим за мудрецами.\n\nМудрец номер \\(k\\) смотрит на пять чужих колпаков и считает, четно или нечетно число единиц в \\(k\\)-м разряде их кодов. Этот один бит он и показывает.\n\nТеперь любой мудрец восстанавливает свой код. Чтобы узнать разряд \\(k\\), где \\(k\\) - не его номер, он берет бит, показанный \\(k\\)-м мудрецом, и вычитает из него видимые ему вклады остальных четырех колпаков. Остается его собственный \\(k\\)-й разряд. Так находятся пять разрядов. Шестой, закрепленный за ним самим, его собственный ответ не сообщает, но весь код должен иметь четное число единиц, поэтому последний разряд определяется из четности. Получается полный код, а значит и цвет.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy", "state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "6 цветов колпаков из 32 возможных цветов",
+    "observations": [
+      "каждый мудрец видит пять чужих колпаков",
+      "каждый видит шесть публичных битов"
+    ],
+    "allowed_actions": [
+      "заранее выбрать коды цветов",
+      "одновременно показать один бит",
+      "одновременно назвать свой цвет"
+    ],
+    "goal": ["all_agents_identify_own_state"],
+    "strategy_type": ["prearranged_protocol", "binary_code", "parity_code"],
+    "lower_bound_method": [],
+    "keywords": ["wise_men", "hat_puzzle", "one_bit_each", "even_parity_code", "small_case"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "6 мудрецов",
+    "prearranged_strategy": true,
+    "channel_capacity": "один публичный бит от каждого участника",
+    "public_or_private": "simultaneous_public_bits",
+    "privacy_goal": "нет",
+    "objective": "каждый участник определяет цвет своего колпака"
+  },
+  "interactive": {
+    "type": "wise_men_even_parity_code",
+    "person_count": 6,
+    "color_count": 32,
+    "objective": "all_agents_find_own_state",
+    "modes": ["random", "challenge", "exhaustive"]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Малый случай той же идеи: нужно увидеть, что каждый публичный бит сообщает один разряд чужой четности, а последний разряд каждого кода добирается из четности.",
+    "status": "ai_checked"
+  },
+  "tags": ["hat_puzzle", "binary_code", "parity_code", "public_communication", "condition_older_students"],
+  "sources": [
+    {
+      "source_id": "src-problems-ru-64616",
+      "role": "source_of_general_problem_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners_small_case",
+    "notes": [
+      "Карточка создана как учебный малый случай задачи problems-ru-64616-eleven-wise-men-1000-colors-one-bit: вместо 11 мудрецов и 1000 цветов взяты 6 мудрецов и ровно 32 четных шестибитных кода.",
+      "Отдельный внешний источник для параметров 6 и 32 не указан: это редакционный частный случай, выбранный для интерактивной проверки механизма."
+    ]
+  }
+}

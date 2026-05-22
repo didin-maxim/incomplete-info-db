@@ -1,0 +1,17 @@
+{
+  "id": "knop-2011-gold-silver-4-7-two-fakes-three-impossible",
+  "title": "Четыре золотые и семь серебряных: трех взвешиваний не хватит",
+  "fragment": "weighings",
+  "kind": {"primary": "decision_tree_lower_bound", "secondary": ["two_types", "pigeonhole"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-d26", "title": "Одна фальшивая золотая и одна фальшивая серебряная", "text": "Есть 4 золотые и 7 серебряных монет. Среди золотых ровно одна фальшивая, среди серебряных ровно одна фальшивая; обе фальшивые монеты легче настоящих монет своего типа. Докажите, что за три взвешивания на чашечных весах нельзя гарантированно найти обе фальшивые монеты.", "source_ids": ["src-knop-2011-weighings-algorithms"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "state_space", "information_lower_bound"]}]},
+  "ideas": [{"id": "idea-counting-bound", "title": "Состояний больше, чем возможных ответов", "text": "Скрытое состояние задается выбором одной золотой и одной серебряной монеты. Таких вариантов 28, а три взвешивания имеют не больше 27 последовательностей исходов.", "standard_idea_ids": ["decision_tree_lower_bound"], "status": "ai_checked"}],
+  "strategies": [],
+  "impossibility_proofs": [{"id": "lb-28-states-27-outcomes", "title": "Принцип Дирихле", "text": "Скрытое состояние задается выбором одной из 4 золотых и одной из 7 серебряных монет, всего \\(4\\cdot7=28\\) вариантов. Три чашечных взвешивания дают не больше \\(3^3=27\\) последовательностей исходов. Поэтому две разные пары фальшивых монет неизбежно дадут одинаковую последовательность наблюдений.", "standard_idea_ids": ["decision_tree_lower_bound"], "status": "ai_checked", "definition_ids": ["information_lower_bound"]}],
+  "incomplete_information_profile": {"hidden_state_space": "28 состояний: одна из 4 золотых и одна из 7 серебряных монет фальшивые", "observations": ["три исхода чашечных взвешиваний"], "allowed_actions": ["адаптивно выбирать взвешивания"], "goal": ["identify_all_counterfeits"], "strategy_type": ["decision_tree_lower_bound", "adaptive_strategy"], "lower_bound_method": ["answer_word_count"], "keywords": ["pigeonhole"], "status": "ai_checked"},
+  "weighing_profile": {"object_count": 11, "counterfeit_count": 2, "counterfeit_type": "two_light_one_per_type", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_all_counterfeits"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Нижняя оценка сразу видна по числу состояний и числу исходов.", "status": "ai_checked"},
+  "tags": ["balance_scale", "counting_lower_bound", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part5_batch", "notes": ["Дополнительная задача Д.26. В книге отмечены принцип Дирихле и тема золота-серебра."]}
+}

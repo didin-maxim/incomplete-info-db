@@ -1,0 +1,138 @@
+{
+  "id": "nine-circle-two-adjacent-light-two-weighings",
+  "title": "Две соседние легкие котлеты на круге из девяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "structural_constraint",
+      "case_analysis"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Две соседние легкие котлеты на круге из девяти",
+        "text": "По кругу лежат 9 одинаковых с виду котлет. Семь из них одинаковые, а две более легкие и лежат рядом; легкие котлеты не обязаны быть равны между собой. Найдите обе легкие котлеты за два взвешивания.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-adjacent-pairs-nine",
+      "title": "Скрытая соседняя пара",
+      "text": "Есть девять возможных соседних пар. Первое взвешивание должно сгруппировать их по три, а второе сравнение одиночных подозрительных котлет разбивает оставшуюся тройку.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "structural_constraint"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-23-vs-56",
+      "title": "Сравнить 2+3 с 5+6",
+      "text": "Пронумеруем котлеты по кругу. Первым взвешиванием сравним 2+3 против 5+6. Если левая чаша легче, возможны пары 1-2, 2-3 или 3-4; если правая легче - пары 4-5, 5-6 или 6-7; если равновесие - пары 7-8, 8-9 или 9-1. В каждой тройке второе взвешивание сравнивает две крайние подозрительные котлеты. Например, для тройки 1-2, 2-3, 3-4 сравним 1 против 4: если легче 1, пара 1-2; если легче 4, пара 3-4; если равновесие, пара 2-3.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Девять соседних пар не различить одним взвешиванием с тремя исходами.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 состояний: какая соседняя пара на круге легче",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_all_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "circle",
+      "adjacent_light_pair",
+      "variable_fake_weights"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 2,
+    "counterfeit_type": "two_adjacent_lighter_objects_not_necessarily_equal",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_two_adjacent_light_objects"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "После правильного первого разбиения каждая оставшаяся тройка решается одним сравнением двух крайних котлет.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.8а; автор А. В. Шаповалов."
+    ]
+  }
+}

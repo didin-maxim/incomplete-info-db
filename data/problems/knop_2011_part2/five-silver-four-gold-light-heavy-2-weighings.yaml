@@ -1,0 +1,64 @@
+{
+  "id": "five-silver-four-gold-light-heavy-2-weighings",
+  "title": "Пять серебряных и четыре золотые монеты: знак зависит от металла",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-9",
+        "title": "Серебряная фальшивая легче, золотая тяжелее",
+        "text": "Есть пять серебряных и четыре золотые монеты. Ровно одна из них фальшивая, остальные настоящие. Настоящая серебряная монета отличается по весу от настоящей золотой. Если фальшивая монета серебряная, то она легче настоящих серебряных; если золотая, то тяжелее настоящих золотых. Нужно найти фальшивую монету за два взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-mixed-sign-three-candidates",
+      "title": "Перекос выбирает серебряных с легкой чаши и золотых с тяжелой",
+      "text": "Если чаши при настоящих монетах были бы равны, то серебряная фальшивая проявляется на более легкой чаше, а золотая фальшивая - на более тяжелой. Поэтому первое взвешивание можно устроить так, чтобы в любом исходе осталось ровно три подозрительные монеты.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-2s1g-vs-2s1g",
+      "title": "Первое взвешивание оставляет тройку подозреваемых",
+      "text": "Положим на каждую чашу по две серебряные и одной золотой монете. При равенстве подозрительны три отложенные монеты: одна серебряная и две золотые; вторым взвешиванием сравним две золотые, и более тяжелая будет фальшивой, а при равенстве фальшива отложенная серебряная. При неравенстве подозрительны две серебряные монеты с легкой чаши и золотая с тяжелой чаши. Тогда вторым взвешиванием сравним две подозрительные серебряные: более легкая фальшивая, а при равенстве фальшива подозрительная золотая.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-needed",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Скрытых состояний девять: фальшивой может быть любая из девяти монет. Одно взвешивание дает не более трех исходов, поэтому оно не может гарантированно различить все состояния.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных положений единственной фальшивой монеты; знак фальшивости задан типом монеты",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["сравнивать наборы с одинаковой нормальной массой"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "state_space_partition"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["silver_gold", "mixed_sign_by_type", "known_type_weights"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "silver_lighter_gold_heavier", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["silver", "gold"], "objective": "identify_coin"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Это троичный поиск на девяти состояниях, но направление перекоса читается по-разному для серебряной и золотой фальшивки.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "decision_tree_lower_bound", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.9."]}
+}

@@ -12,6 +12,6 @@
   "weighing_profile": {"object_count": "11 мешков", "counterfeit_count": 1, "counterfeit_type": "one_bag_all_counterfeit_unknown_sign_and_delta", "weighing_count": 2, "outcome_count_per_weighing": "numeric_difference", "adaptive": false, "objective": "identify_stack"},
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: две числовые линейные подписи кодируют номер мешка, а отношение показаний убирает неизвестный знак и величину отклонения.", "status": "ai_checked"},
   "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy", "condition_older_students"],
-  "sources": [{"source_id": "src-problems-ru-78572", "role": "web_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_deep_batch", "notes": ["Первоисточник по problems.ru: Московская математическая олимпиада, 1965, 28-я, вариант 1, 9 класс, 2 тур, задача 1."]}
+  "sources": [{"source_id": "src-problems-ru-78572", "role": "web_statement_and_solution", "status": "source_verified"}, {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_deep_batch", "notes": ["Первоисточник по problems.ru: Московская математическая олимпиада, 1965, 28-я, вариант 1, 9 класс, 2 тур, задача 1.", "2026-05-22: книга К. А. Кнопа включает эту задачу в занятие 4, задача 4.5; в указателе книги первоисточник: Московская олимпиада, городской тур, 1965."]}
 }

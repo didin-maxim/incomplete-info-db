@@ -1,0 +1,25 @@
+{
+  "id": "knop-2011-part1",
+  "title": "К. А. Кноп, «Взвешивания и алгоритмы», занятие 1: вопросы и карточные фокусы",
+  "created_at": "2026-05-22",
+  "status": "draft",
+  "items": [
+    {"problem_id": "polygon-side-binary-search-by-diagonals", "status": "added"},
+    {"problem_id": "product-60-pair-three-yes-no-questions", "status": "added"},
+    {"problem_id": "even-odd-pair-1-to-10-five-questions", "status": "added"},
+    {"problem_id": "chessboard-cell-rectangles-six-questions", "status": "needs_human_review", "notes": "Вариант 5x5 пересказан без рисунка из книги."},
+    {"problem_id": "divisibility-guess-number-1-to-8-three-questions", "status": "added"},
+    {"problem_id": "yes-no-dont-know-one-question-three-numbers", "status": "added"},
+    {"problem_id": "unordered-triple-1-to-10-eight-questions", "status": "added"},
+    {"problem_id": "point-in-square-three-line-questions", "status": "needs_human_review", "notes": "Условие и автор внесены; полное решение и минимальность нужно восстановить отдельно."},
+    {"problem_id": "cowboy-target-by-closer-shot-comparisons", "status": "needs_human_review", "notes": "Механизм сравнения расстояний внесен; точный счет до 18-го выстрела нужно проверить."},
+    {"problem_id": "different-size-card-piles-two-questions", "status": "needs_human_review", "notes": "Ответ из книги: N=k(k+1)/2; конструкцию второй раскладки нужно проверить перед публикацией."},
+    {"lead": "Занятие 1, задачи 1.1, 1.2, 1.4, 1.5, 1.6 и Д.1", "status": "not_added_duplicate_or_too_general", "notes": "Это частные случаи общей емкости вопросов да/нет; не плодил отдельные карточки."},
+    {"lead": "Занятие 1, задача 1.10: карточный фокус с 36 картами и 6 стопками", "status": "not_added_duplicate", "problem_id": "twenty-one-card-trick", "notes": "Источник книги уже добавлен к существующей обобщающей карточке."}
+  ],
+  "source_notes": [
+    "Все новые карточки ссылаются на src-knop-2011-weighings-algorithms; sources.yaml не редактировался.",
+    "Авторы внесены только там, где они явно указаны в индексах или тексте книги.",
+    "Вероятностные варианты не добавлялись как карточки: в этой зоне естественнее говорить о средней длине угадывания как о будущем слое, а не о вычислении вероятностей."
+  ]
+}

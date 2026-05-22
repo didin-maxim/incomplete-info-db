@@ -1,0 +1,114 @@
+{
+  "id": "mmo-1976-four-balls-distinct-pair-sums",
+  "title": "ММО-1976: четыре шара с разными суммами пар",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Четыре шара 101, 102, 103 и 105 г",
+        "text": "Даны четыре одинаковых по виду шара массой 101 г, 102 г, 103 г и 105 г, а также весы со стрелкой. Как, сделав два взвешивания, определить массу каждого шара?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-unique-pair-sums",
+      "title": "Сумма пары называет саму пару",
+      "text": "У чисел 101, 102, 103 и 105 все суммы двух различных чисел различны. Поэтому вес любой пары сразу сообщает, какие именно две массы в нее входят.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-overlapping-pairs",
+      "title": "Взвесить две пересекающиеся пары",
+      "text": "Занумеруем шары 1, 2, 3, 4. Взвесим пары 1+2 и 1+3. По каждой сумме определяем, какие две массы были в соответствующей паре. Общая масса в этих двух парах принадлежит шару 1, после чего известны массы шаров 2 и 3, а масса четвертого находится как оставшаяся.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "24 возможные перестановки масс 101,102,103,105 по четырем шарам",
+    "observations": [
+      "два числовых веса выбранных пар"
+    ],
+    "allowed_actions": [
+      "выбрать пару шаров для каждого взвешивания"
+    ],
+    "goal": [
+      "identify_all_weights"
+    ],
+    "strategy_type": [
+      "unique_pair_sums"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "distinct_pair_sums",
+      "four_balls",
+      "Moscow_1976"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_distinct_weight_multiset",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": "numeric_weight",
+    "adaptive": false,
+    "objective": "identify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 2,
+    "comment": "Ключ в специально подобранном наборе масс: каждая сумма двух шаров уникальна.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "weighted_sum_encoding",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги первоисточник: Московская математическая олимпиада, городской тур, 1976."
+    ]
+  }
+}

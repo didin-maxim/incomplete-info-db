@@ -1,0 +1,144 @@
+{
+  "id": "emelyanov-expert-judge-one-coin-two-weighings-lower-bound",
+  "title": "Эксперт и судья: одной проверки недостаточно для указанной фальшивой монеты",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "impossibility_result",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_lower_bound"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d44",
+        "title": "Судья не знает знак фальшивости",
+        "text": "Из 100 монет ровно одна фальшивая, и эксперт знает, какая именно. Судья знает, что фальшивая монета одна, но не знает, легче она или тяжелее настоящих. Докажите, что эксперту потребуется не меньше двух взвешиваний, чтобы убедить судью в фальшивости данной монеты.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "information_lower_bound"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-weighing-parity",
+      "title": "Одно взвешивание оставляет симметричную неопределенность",
+      "text": "Если эксперт показывает неравенство, судья не может понять, на какой чаше находится фальшивая монета. Если показывает равенство, фальшивая монета может быть любой из отложенных, а их четное число и потому больше одной.",
+      "standard_idea_ids": [
+        "symmetry_breaking",
+        "parity_argument"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-weighings-suffice",
+      "title": "Два взвешивания действительно достаточно",
+      "text": "Если эксперт знает фальшивую монету, он может сравнить ее с двумя разными настоящими монетами. В обоих взвешиваниях указанная монета окажется на одной и той же стороне неравенства: либо тяжелее обеих настоящих, либо легче обеих настоящих. Если бы указанная монета была настоящей, то для двух таких неравенств потребовались бы две разные фальшивые монеты среди эталонов, что противоречит условию о ровно одной фальшивой. Поэтому два результата убеждают судью, что именно выбранная монета фальшивая.",
+      "standard_idea_ids": [
+        "certificate"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "proof-one-weighing-not-enough",
+      "title": "Одно взвешивание не дает однозначного сертификата",
+      "text": "В одном взвешивании эксперт либо предъявляет неравенство, либо равенство. При неравенстве обе чаши симметричны для судьи: без знания знака он не может заключить, что фальшивая монета находится на указанной стороне. При равенстве фальшивая монета должна быть вне весов; поскольку всего монет 100, число отложенных монет четно и не может быть равно 1. Значит одно взвешивание не может доказать, что фальшива именно данная монета.",
+      "standard_idea_ids": [
+        "parity_argument",
+        "symmetry_breaking"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "эксперт знает одну фальшивую монету и ее знак; судья знает только, что фальшивая ровно одна",
+    "observations": [
+      "публичные результаты взвешиваний, выбранных экспертом"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания с учетом скрытого состояния"
+    ],
+    "goal": [
+      "certify_counterfeit_coin_to_judge"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "lower_bound"
+    ],
+    "lower_bound_method": [
+      "parity_argument",
+      "symmetry_argument"
+    ],
+    "keywords": [
+      "expert_judge",
+      "one_counterfeit",
+      "certificate",
+      "emelyanov"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 100,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown_to_judge",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "certify_given_counterfeit_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Короткая нижняя оценка на сертификат, где важно различать знание эксперта и судьи.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "verification_task",
+    "decision_tree_lower_bound",
+    "symmetry",
+    "parity",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_d44",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "expert_judge_certificate_case",
+    "notes": [
+      "Автор по индексу книги: Л. А. Емельянов.",
+      "2026-05-22: снят конфликт статусов; достаточность двух взвешиваний записана как проверенный сертификат."
+    ]
+  }
+}

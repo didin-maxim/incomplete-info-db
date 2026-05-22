@@ -166,6 +166,7 @@ def warn_interactive_profile(warnings, pid, problem):
         "broken_scale_counterfeit_coin",
         "broken_detector_counterfeit_coin",
         "heaviest_coin_one_broken_scale",
+        "balanced_weight_signature_protocol",
         "numeric_linear_signature",
     }
     if interactive.get("type") not in weighing_interactive_types:
@@ -194,6 +195,7 @@ def warn_interactive_profile(warnings, pid, problem):
         "identify_fake_coin_set": "identify_multiple",
         "identify_one_from_each_pair": "identify_multiple",
         "identify_fake_bag": "identify_stack",
+        "identify_deficient_bag_or_none": "identify_deficient_bag_or_none",
         "identify_coin_and_sign": "identify_coin_and_sign",
         "identify_coin_and_direction": "identify_coin_and_sign",
     }

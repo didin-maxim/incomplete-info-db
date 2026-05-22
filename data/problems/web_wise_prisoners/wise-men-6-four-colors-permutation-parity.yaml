@@ -1,0 +1,111 @@
+{
+  "id": "wise-men-6-four-colors-permutation-parity",
+  "title": "Шесть мудрецов, четыре цвета и разные количества колпаков",
+  "fragment": "communication",
+  "kind": {
+    "primary": "math_circle_problem",
+    "secondary": ["hat_puzzle", "prearranged_protocol", "coding", "small_case"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-wise-men-6-four-colors-counts",
+        "title": "Гарантировать хотя бы три верных ответа",
+        "text": "Есть шесть мудрецов и колпаки четырех заранее известных цветов. Колпаков этих цветов надето соответственно 0, 1, 2 и 3 штуки, но неизвестно, какому цвету какое количество досталось. Каждый мудрец видит колпаки остальных пяти, но не видит свой. Затем все одновременно называют цвет своего колпака. Могут ли мудрецы заранее договориться так, чтобы при любой допустимой расстановке не меньше трех из них ответили верно?",
+        "source_ids": ["src-problems-ru-67032"],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked",
+          "review_notes": "Редакционный малый случай задачи problems.ru 67032: вместо 300 мудрецов и 25 цветов взяты 6 мудрецов и количества 0, 1, 2, 3."
+        },
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-candidate-colors",
+      "title": "У каждого остаются два возможных цвета",
+      "text": "Мудрец видит, сколько колпаков каждого цвета есть у остальных. Ровно у двух цветов видимое количество совпадает: один из них может быть его настоящим цветом, а второй тогда имеет на один колпак меньше в полной расстановке. Поэтому каждый выбирает между двумя полными таблицами количеств.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-split-by-permutation-parity",
+      "title": "Две возможные таблицы имеют разные типы",
+      "text": "Если поменять местами два соседних количества, например k и k+1, порядок количеств по цветам меняет четность. Значит, две таблицы, между которыми выбирает один мудрец, всегда лежат в разных половинах всех возможных таблиц.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-even-three-odd",
+      "title": "Трое выбирают одну половину таблиц, трое - другую",
+      "text": "Занумеруем цвета числами 1, 2, 3, 4. В полной расстановке количеств у цветов стоит некоторая перестановка чисел 0, 1, 2, 3.\n\nДо испытания разделим мудрецов на две группы по три человека. Первая группа всегда выбирает из двух своих вариантов тот цвет, при котором таблица количеств получается четной перестановкой чисел 0, 1, 2, 3. Вторая группа выбирает вариант с нечетной перестановкой.\n\nДля каждого мудреца две возможные таблицы отличаются только обменом двух соседних количеств между двумя цветами, поэтому одна из них четная, а другая нечетная. Настоящая таблица тоже либо четная, либо нечетная. Если она четная, верно отвечают все трое из первой группы; если нечетная, верно отвечают все трое из второй группы. Значит, при любой расстановке гарантированы три правильных ответа.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "interactive": {
+    "type": "wise_men_color_count_parity_protocol",
+    "sage_count": 6,
+    "color_count": 4,
+    "count_values": [0, 1, 2, 3],
+    "target_correct_min": 3,
+    "objective": "guarantee_at_least_half_correct",
+    "modes": ["random", "cheater", "exhaustive", "sandbox"]
+  },
+  "incomplete_information_profile": {
+    "hidden_state_space": "раскраска 6 колпаков в 4 цвета, где количества цветов равны 0, 1, 2, 3 в некотором порядке",
+    "observations": [
+      "каждый мудрец видит пять чужих колпаков",
+      "каждый знает, что полные количества цветов попарно различны и равны 0, 1, 2, 3"
+    ],
+    "allowed_actions": [
+      "заранее разделить мудрецов на две группы",
+      "одновременно назвать один из двух возможных цветов своего колпака"
+    ],
+    "goal": ["guarantee_at_least_half_correct"],
+    "strategy_type": ["prearranged_protocol", "permutation_parity_code"],
+    "lower_bound_method": [],
+    "keywords": ["wise_men", "hat_puzzle", "permutation_parity", "half_correct_guarantee", "small_case"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "participants": "6 мудрецов",
+    "prearranged_strategy": true,
+    "channel_capacity": "после начала общения нет; ответы называются одновременно",
+    "public_or_private": "private_observation_then_simultaneous",
+    "privacy_goal": "нет",
+    "objective": "гарантировать хотя бы 3 правильных ответа"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Малый случай позволяет руками увидеть две возможные таблицы для каждого мудреца и разделение всех ответов на две равные группы.",
+    "status": "ai_checked"
+  },
+  "tags": ["hat_puzzle", "parity_code", "nonadaptive_strategy", "condition_middle_school"],
+  "sources": [
+    {
+      "source_id": "src-problems-ru-67032",
+      "role": "source_of_general_problem_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "web_wise_prisoners_small_case",
+    "notes": [
+      "Карточка создана как учебный малый случай задачи problems-ru-67032-300-wise-men-25-colors-permutation-parity для интерактивной проверки механизма.",
+      "Интерактив хранит только параметры модели; конкретная расстановка колпаков создается viewer на клиенте."
+    ]
+  }
+}

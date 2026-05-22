@@ -35,6 +35,17 @@
       "confidence": 0.9
     },
     {
+      "id": "rel-wise-men-6-four-colors-to-web-67032",
+      "from": "wise-men-6-four-colors-permutation-parity",
+      "to": "problems-ru-67032-300-wise-men-25-colors-permutation-parity",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Это малый случай той же стратегии: 6 мудрецов и 4 цвета с количествами 0, 1, 2, 3 вместо 300 мудрецов и 25 цветов с попарно различными количествами.",
+      "backward_text": "Большая задача обобщает эту карточку: у каждого мудреца снова остаются два цвета-кандидата, а заранее выбранная четность перестановки делит одновременные ответы на две гарантированные половины.",
+      "status": "ai_checked",
+      "confidence": 0.98
+    },
+    {
       "id": "rel-web-115987-to-hat-line-modular",
       "from": "problems-ru-115987-thousand-wise-men-hidden-hat-number",
       "to": "hat-line-k-colors-modulo",
@@ -44,6 +55,28 @@
       "backward_text": "Линия колпаков с остатком по модулю является чистой базовой версией; задача 115987 усложняет схему спрятанным номером и запретом повторов.",
       "status": "ai_checked",
       "confidence": 0.84
+    },
+    {
+      "id": "rel-wise-men-6-hidden-hat-number-parity-to-115987",
+      "from": "wise-men-6-hidden-hat-number-parity",
+      "to": "problems-ru-115987-thousand-wise-men-hidden-hat-number",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Это малый случай той же стратегии четности перестановки: 6 мудрецов и номера 1..7 вместо 1000 мудрецов и номеров 1..1001.",
+      "backward_text": "Большая задача обобщает эту карточку на 1000 мудрецов и добавляет отдельный пункт с модульной суммой; сильная часть использует тот же инвариант четности перестановки.",
+      "status": "ai_checked",
+      "confidence": 0.96
+    },
+    {
+      "id": "rel-wise-men-6-32-to-problems-ru-64616",
+      "from": "wise-men-6-32-colors-one-bit",
+      "to": "problems-ru-64616-eleven-wise-men-1000-colors-one-bit",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Это малый случай той же схемы: 6 мудрецов и 32 цвета вместо 11 мудрецов и 1000 цветов. Четные шестибитные коды здесь используются без запаса: их ровно 32.",
+      "backward_text": "Большая задача обобщает эту карточку: вместо всех четных слов длины 6 берется достаточно много четных слов длины 11, чтобы закодировать 1000 цветов.",
+      "status": "ai_checked",
+      "confidence": 0.99
     },
     {
       "id": "rel-web-116064-to-ebert-hats",

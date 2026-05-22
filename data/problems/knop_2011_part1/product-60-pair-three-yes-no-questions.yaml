@@ -1,0 +1,55 @@
+{
+  "id": "product-60-pair-three-yes-no-questions",
+  "title": "Пара чисел с произведением 60",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["adaptive_strategy", "encoding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-7",
+        "title": "Угадать неупорядоченную пару",
+        "text": "Петя загадал пару натуральных чисел и сообщил Вите, что их произведение равно 60. Порядок чисел в паре не имеет значения. Как Вите угадать пару за три вопроса да/нет?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-list-six-factor-pairs",
+      "title": "Сначала перечислить все пары",
+      "text": "Неупорядоченных пар с произведением 60 всего шесть: \\((1,60),(2,30),(3,20),(4,15),(5,12),(6,10)\\). Три ответа да/нет могут различить до восьми вариантов.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-binary-search-six-pairs",
+      "title": "Отгадывать номер пары",
+      "text": "Заранее выпишем шесть возможных пар в любом порядке и покажем Пете эту нумерацию. После этого Витя отгадывает номер пары обычным двоичным поиском среди шести вариантов. Например, первым вопросом можно спросить, входит ли пара в первые три строки списка; затем среди оставшихся трех вариантов одним вопросом отделить один от двух, а последним при необходимости различить пару из двух вариантов.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "6 неупорядоченных пар натуральных чисел с произведением 60",
+    "observations": ["ответы да/нет"],
+    "allowed_actions": ["адаптивно задавать вопросы о скрытой паре"],
+    "goal": ["identify_hidden_pair"],
+    "strategy_type": ["adaptive_strategy", "binary_search"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["knop_2011", "factor_pairs", "yes_no_questions"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 3, "lies_allowed": 0, "adaptive": true, "objective": "identify_one_of_6_states"},
+  "difficulty": {"main": "intro", "local_score": 1, "comment": "После перечисления вариантов остается обычное угадывание одного из шести состояний.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.7; в занятии 5 возвращается усложненный вариант с произведением 120 и заранее заданными карточками."]}
+}

@@ -163,6 +163,7 @@ clusters:
       - "Если цель - определить только легче/тяжелее без поиска объекта, держать как кандидат, а не как ядро."
     core_problem_ids:
       - counterfeit-12-coins-3-weighings
+      - counterfeit-12-coins-3-preassigned-weighings
       - thirteen-coins-preassigned-identify-only-three-weighings
       - ternary-signature-code-heavy-or-light
       - thirteen-coins-known-genuine-three-weighings
@@ -170,6 +171,7 @@ clusters:
       - ukmt-open-ended-2013-task-four-42-counterfeit-coins
     problem_ids:
       - counterfeit-12-coins-3-weighings
+      - counterfeit-12-coins-3-preassigned-weighings
       - thirteen-coins-preassigned-identify-only-three-weighings
       - ternary-signature-code-heavy-or-light
       - thirteen-coins-known-genuine-three-weighings
@@ -179,12 +181,16 @@ clusters:
       - nrich-nine-weights-two-three-weighings
       - problems-ru-32820-sign-only-two-weighings
       - kvantik-2013-fake-coin-direction-101
+      - knop-saladin-14-known-genuine-identify-only
+      - knop-saladin-four-weighings-one-spare
+      - knop-six-coins-two-weighings-identify-only-impossible
     candidate_rules:
       tags_all_or_near: [balance_scale, ternary_code]
       profile_hints:
         - "counterfeit_type содержит heavier_or_lighter/unknown_direction/unknown_sign"
         - "objective содержит identify_coin_and_sign или determine_whether_counterfeit_is_heavier_or_lighter"
     local_facets:
+      - primary_family
       - weighing_count
       - adaptive
       - known_genuine_available
@@ -193,6 +199,51 @@ clusters:
       - state_multiplier
       - impossible_or_capacity_bound
     notes_ru: "Кластер соединяет классическую задачу о 12 монетах с заранее составленными таблицами взвешиваний; внутри полезно различать дерево решений и фиксированную таблицу кодов."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: preassigned-and-erasure-weighing-codes
+    title_ru: "Заранее заданные таблицы взвешиваний и запасные планы"
+    description_ru: "Задачи, где все взвешивания назначаются до первого результата. Состояния различаются кодовыми словами исходов, а в запасных планах часть строк можно стереть или отбросить."
+    inclusion_criteria_ru:
+      - "Взвешивания задаются таблицей заранее и не зависят от предыдущих исходов."
+      - "Решение проверяет различимость слов исходов, баланс строк таблицы или устойчивость после удаления одной или нескольких строк."
+      - "Сюда входят варианты с известным знаком фальшивки, неизвестным знаком, возможным отсутствием фальшивки и типами монет, меняющими знак отклонения."
+    exclusion_criteria_ru:
+      - "Адаптивный поиск по дереву решений без заранее фиксированной таблицы остается в поисковых кластерах."
+      - "Чистые числовые суммы без таблицы трехисходных взвешиваний относятся к кластеру числовых подписей."
+    core_problem_ids:
+      - knop-2011-known-light-coin-preassigned-ternary-code
+      - counterfeit-12-coins-3-preassigned-weighings
+      - knop-2011-nine-light-coins-one-erasure-reserve-plan
+      - knop-2011-nine-light-coins-two-erasure-reserve-plan
+      - knop-2011-gold-silver-27-preassigned-three-weighings
+      - knop-2011-gold-silver-24-half-half-preassigned
+    problem_ids:
+      - knop-2011-known-light-coin-preassigned-ternary-code
+      - counterfeit-12-coins-3-preassigned-weighings
+      - thirteen-coins-preassigned-identify-only-three-weighings
+      - komal-2010-a512-nonadaptive-counterfeit-code
+      - knop-2011-possible-no-light-coin-25-nonadaptive-impossible
+      - knop-2011-nine-light-coins-one-erasure-reserve-plan
+      - knop-2011-nine-light-coins-two-erasure-reserve-plan
+      - knop-saladin-four-weighings-one-spare
+      - knop-saladin-14-known-genuine-identify-only
+      - knop-2011-gold-silver-27-preassigned-three-weighings
+      - knop-2011-gold-silver-24-half-half-preassigned
+    candidate_rules:
+      tags_all_or_near: [balance_scale, nonadaptive_strategy]
+      profile_hints:
+        - "strategy_type содержит nonadaptive_strategy и ternary_code"
+        - "keywords содержат preassigned_weighings, reserve_plan, erasure_code или mixed_signs"
+    local_facets:
+      - primary_family
+      - weighing_count
+      - known_genuine_available
+      - objective
+      - counterfeit_model
+      - signature_type
+      - proof_method
+    notes_ru: "Это навигационный слой для таблиц и запасных кодов, а не новый fragment: все карточки остаются во фрагменте weighings."
     facet_file: data/navigation/cluster_facets/weighings.yaml
 
   - id: numeric-linear-signatures
@@ -228,12 +279,16 @@ clusters:
       - nrich-balance-power-balanced-ternary
       - kvantik-2016-divisibility-knights-liars
       - tournament-towns-2008-four-stones-one-error
+      - knop-2011-marked-ingots-55-expert-judge-27-weighings
+      - knop-coin-uniformity-verification
+      - knop-zero-or-k-counterfeits-verification
     candidate_rules:
       tags_any: [linear_signature, digital_scale, weighted_sum_encoding]
       profile_hints:
         - "outcome_count_per_weighing numeric/numeric_weight/numeric_difference"
         - "ideas содержат weight/ratio/code/coefficient/sum"
     local_facets:
+      - primary_family
       - observation_dimension
       - coefficient_system
       - numeric_alphabet
@@ -314,6 +369,17 @@ clusters:
       - matprazdnik-2025-eighteen-coins-rotated-tray
       - savin-12-six-coins-two-fakes-two-weighings
       - problems-ru-64498-five-coins-two-opposite-fakes
+      - knop-2011-gold-silver-27-preassigned-three-weighings
+      - knop-2011-gold-silver-24-half-half-preassigned
+      - knop-2011-two-gold-many-silver-two-fakes-k-weighings
+      - knop-2011-gold-silver-4-7-two-fakes-three-impossible
+      - moebius-cupscales-2-silver-copper-counterfeit
+      - emelyanov-expert-judge-one-coin-two-weighings-lower-bound
+      - emelyanov-expert-judge-two-counterfeits-two-weighings
+      - knop-expert-judge-eight-coins-3-4g-one-weighing
+      - knop-expert-judge-light-counterfeits-extreme-sums
+      - knop-expert-judge-repeated-weights-cycle
+      - tokarev-expert-judge-six-weights-two-weighings
     candidate_rules:
       tags_any: [structural_constraint, symmetry_breaking, symmetry]
       fragment: weighings
@@ -321,6 +387,7 @@ clusters:
         - "counterfeit_count > 1 или object_count задан формулой/структурой"
         - "counterfeit_type содержит adjacent/consecutive/row/circle/group/limited"
     local_facets:
+      - primary_family
       - topology
       - counterfeit_pattern
       - participation_limit
@@ -329,6 +396,50 @@ clusters:
       - certification_goal
       - adaptive
     notes_ru: "Это рабочий контейнер для весовых задач, которые плохо ложатся в чистые кластеры поиска и передачи подсказок. Его стоит дробить, когда появится больше карточек каждого подтипа."
+    facet_file: data/navigation/cluster_facets/weighings.yaml
+
+  - id: weighing-certificates-and-property-verification
+    title_ru: "Сертификаты и проверка свойств взвешиваниями"
+    description_ru: "Здесь взвешивания не обязательно восстанавливают все скрытое состояние. Эксперт может знать ответ и публично убедить судью, или нужно проверить только свойство: равенство всех весов, отсутствие/ровно k фальшивых, подлинность или корректность маркировки."
+    inclusion_criteria_ru:
+      - "Цель сформулирована как доказать, сертифицировать или проверить свойство, а не обязательно найти все состояние."
+      - "В задачах с экспертом скрытое состояние известно одному участнику, а судья видит только публичные взвешивания и их исходы."
+      - "В проверочных задачах достаточно отличить допустимое свойство от альтернатив, например все веса равны или число фальшивых равно 0/k."
+    exclusion_criteria_ru:
+      - "Обычный поиск фальшивой монеты без роли эксперта и без отдельного проверяемого свойства остается в поисковых кластерах."
+      - "Вероятностные вычисления без проверочного протокола не являются ядром этого кластера."
+    core_problem_ids:
+      - knop-2011-marked-ingots-55-expert-judge-27-weighings
+      - knop-coin-uniformity-verification
+      - kvantik-2016-baron-table-fake-verification
+      - problems-ru-65055-paid-weighings-genuine-coin
+    problem_ids:
+      - knop-2011-marked-ingots-55-expert-judge-27-weighings
+      - emelyanov-expert-judge-one-coin-two-weighings-lower-bound
+      - emelyanov-expert-judge-two-counterfeits-two-weighings
+      - knop-expert-judge-eight-coins-3-4g-one-weighing
+      - knop-expert-judge-light-counterfeits-extreme-sums
+      - knop-expert-judge-repeated-weights-cycle
+      - tokarev-expert-judge-six-weights-two-weighings
+      - knop-coin-uniformity-verification
+      - knop-zero-or-k-counterfeits-verification
+      - kvantik-2016-baron-table-fake-verification
+      - problems-ru-65055-paid-weighings-genuine-coin
+    candidate_rules:
+      tags_any: [expert_judge_certificate, verification_task]
+      profile_hints:
+        - "objective содержит certify, verify или distinguish_zero_or_k"
+        - "strategy_type содержит expert_judge_certificate, linear_certificate или divisibility_certificate"
+    local_facets:
+      - primary_family
+      - objective
+      - weighing_count
+      - scale_type
+      - counterfeit_model
+      - adaptive
+      - proof_method
+      - signature_type
+    notes_ru: "Глобальные теги expert_judge_certificate и verification_task остаются полезными; более узкие весовые семьи оставлены локальными фасетами."
     facet_file: data/navigation/cluster_facets/weighings.yaml
 
   - id: truth-liar-normalization

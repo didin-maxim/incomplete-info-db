@@ -1,0 +1,115 @@
+{
+  "id": "mmo-1981-five-weights-find-1000",
+  "title": "ММО-1981: найти гирю 1000 г среди пяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Пять гирь без надписей",
+        "text": "Даны пять внешне неотличимых гирь массой 1000 г, 1001 г, 1002 г, 1004 г и 1007 г. Как с помощью трех взвешиваний на весах со стрелкой определить гирю в 1000 г?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-pair-sums-containing-1000",
+      "title": "Некоторые суммы пар узнают тысячу",
+      "text": "Если сумма пары равна 2001, 2002, 2004 или 2007 г, то в этой паре обязательно есть гиря 1000 г. Подбор двух непересекающихся пар оставляет достаточно информации для третьего взвешивания.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-pairs-then-one",
+      "title": "Сначала две пары, затем одна гиря",
+      "text": "Взвесим любые две гири, затем две другие. Если одна из этих пар весит 2001, 2002, 2004 или 2007 г, то одна из гирь этой пары имеет массу 1000 г; взвесим одну гирю из этой пары и тем самым определим нужную. Если обе пары имеют другой вес, то гиря 1000 г не входила ни в одну из них, значит ею является оставшаяся пятая гиря.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "120 возможных перестановок пяти известных масс по гирям",
+    "observations": [
+      "до трех числовых показаний веса выбранных наборов"
+    ],
+    "allowed_actions": [
+      "выбирать отдельные гири или пары для взвешивания"
+    ],
+    "goal": [
+      "identify_weight_1000"
+    ],
+    "strategy_type": [
+      "separating_pair_sums"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "five_weights",
+      "find_1000",
+      "Moscow_1981"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 5,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_distinct_weight_multiset",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": "numeric_weight",
+    "adaptive": true,
+    "objective": "identify_one_weight"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Стратегия использует специальные суммы пар; третье взвешивание нужно только в ветви, где тысяча попала в найденную пару.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "weighted_sum_encoding",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги первоисточник: Московская математическая олимпиада, городской тур, 1981."
+    ]
+  }
+}

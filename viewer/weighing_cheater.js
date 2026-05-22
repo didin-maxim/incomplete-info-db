@@ -10,6 +10,13 @@
     balance: 'равновесие'
   };
 
+  const THRESHOLD_BALANCE_OUTCOMES = ['left_reliable_lighter', 'right_reliable_lighter', 'no_reliable_tilt'];
+  const THRESHOLD_BALANCE_LABELS = {
+    left_reliable_lighter: 'левая чаша надежно легче',
+    right_reliable_lighter: 'правая чаша надежно легче',
+    no_reliable_tilt: 'нет надежного перекоса'
+  };
+
   const YES_NO_OUTCOMES = ['yes', 'no'];
   const YES_NO_LABELS = {
     yes: 'yes',
@@ -554,6 +561,225 @@
     };
   }
 
+  const ZERO_ONE_TWO_SIGN_ANSWERS = ['none', 'lighter', 'heavier'];
+
+  function zeroOneTwoSignClassLabel(value) {
+    const labels = {
+      none: 'фальшивых нет',
+      lighter: 'фальшивые есть и легче',
+      heavier: 'фальшивые есть и тяжелее'
+    };
+    return labels[value] || String(value || '');
+  }
+
+  function zeroOneTwoSignInitialStates(coinCount) {
+    const count = Number(coinCount);
+    if (!Number.isInteger(count) || count < 1 || count > 24) return [];
+    const states = [{ id: 'none', coins: [], sign: 'none', answer: 'none', label: zeroOneTwoSignClassLabel('none') }];
+    for (const sign of ['lighter', 'heavier']) {
+      for (let coin = 1; coin <= count; coin += 1) {
+        states.push({
+          id: `${sign}:${coin}`,
+          coins: [coin],
+          sign,
+          answer: sign,
+          label: `${coin} ${sign === 'lighter' ? 'легче' : 'тяжелее'}`
+        });
+      }
+      for (let first = 1; first <= count; first += 1) {
+        for (let second = first + 1; second <= count; second += 1) {
+          states.push({
+            id: `${sign}:${first},${second}`,
+            coins: [first, second],
+            sign,
+            answer: sign,
+            label: `${first}, ${second} ${sign === 'lighter' ? 'легче' : 'тяжелее'}`
+          });
+        }
+      }
+    }
+    return states;
+  }
+
+  function zeroOneTwoSignStateKey(state) {
+    if (state == null) return '';
+    if (typeof state === 'string') return state;
+    const sign = String(state.sign ?? state.answer ?? state.direction ?? '').toLowerCase();
+    if (sign === 'none') return 'none';
+    const normalizedSign = normalizeDirection(sign);
+    if (!normalizedSign) return '';
+    const coins = uniqueCoins(state.coins ?? state.fakeCoins ?? state.fake_coins ?? state.state ?? [])
+      .sort((a, b) => a - b);
+    if (coins.length < 1 || coins.length > 2) return '';
+    return `${normalizedSign}:${coins.join(',')}`;
+  }
+
+  function zeroOneTwoSignNormalizeStates(states, coinCount) {
+    const allowed = new Map(zeroOneTwoSignInitialStates(coinCount).map(state => [state.id, state]));
+    const seen = new Set();
+    const result = [];
+    for (const raw of states || []) {
+      const key = zeroOneTwoSignStateKey(raw);
+      if (!allowed.has(key) || seen.has(key)) continue;
+      seen.add(key);
+      result.push(allowed.get(key));
+    }
+    return result;
+  }
+
+  function zeroOneTwoSignCurrentStates(params = {}) {
+    const coinCount = Number(params.coinCount ?? params.coin_count);
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return current?.length
+      ? zeroOneTwoSignNormalizeStates(current, coinCount)
+      : zeroOneTwoSignInitialStates(coinCount);
+  }
+
+  function zeroOneTwoSignAnswerClasses(states) {
+    return [...new Set((states || []).map(state => state.answer || state.sign).filter(Boolean))]
+      .sort((a, b) => ZERO_ONE_TWO_SIGN_ANSWERS.indexOf(a) - ZERO_ONE_TWO_SIGN_ANSWERS.indexOf(b));
+  }
+
+  function zeroOneTwoSignCoinStatuses(states, coinCount) {
+    const count = Number(coinCount);
+    if (!Number.isInteger(count) || count < 1) return {};
+    const normalized = states?.length ? zeroOneTwoSignNormalizeStates(states, count) : zeroOneTwoSignInitialStates(count);
+    const possible = Object.fromEntries(initialCandidates(count).map(coin => [coin, 0]));
+    const totalFakeStates = normalized.filter(state => state.sign !== 'none').length;
+    for (const state of normalized) {
+      for (const coin of state.coins || []) possible[coin] += 1;
+    }
+    const result = {};
+    for (let coin = 1; coin <= count; coin += 1) {
+      if (!possible[coin]) result[coin] = 'genuine';
+      else if (totalFakeStates > 0 && possible[coin] === totalFakeStates) result[coin] = 'definite_fake_unknown_direction';
+      else result[coin] = 'possible_fake';
+    }
+    return result;
+  }
+
+  function zeroOneTwoSignOutcomeForState(state, params = {}) {
+    const coinCount = Number(params.coinCount ?? params.coin_count);
+    const normalized = zeroOneTwoSignNormalizeStates([state], coinCount)[0];
+    if (!normalized) return null;
+    const leftList = uniqueCoins(params.leftCoins ?? params.left_coins, Number.isInteger(coinCount) ? coinCount : null);
+    const rightList = uniqueCoins(params.rightCoins ?? params.right_coins, Number.isInteger(coinCount) ? coinCount : null);
+    if (params.requireEqualPanCounts !== false && params.require_equal_pan_counts !== false && leftList.length !== rightList.length) return null;
+    const left = new Set(leftList);
+    const right = new Set(rightList);
+    for (const coin of left) {
+      if (right.has(coin)) return null;
+    }
+    let leftWeight = leftList.length;
+    let rightWeight = rightList.length;
+    if (normalized.sign !== 'none') {
+      const delta = normalized.sign === 'heavier' ? 1 : -1;
+      for (const coin of normalized.coins) {
+        if (left.has(coin)) leftWeight += delta;
+        if (right.has(coin)) rightWeight += delta;
+      }
+    }
+    if (leftWeight > rightWeight) return 'left_down';
+    if (rightWeight > leftWeight) return 'right_down';
+    return 'balance';
+  }
+
+  function zeroOneTwoSignPartitionStates(params = {}) {
+    const states = zeroOneTwoSignCurrentStates(params);
+    const partitions = Object.fromEntries(OUTCOMES.map(outcome => [outcome, []]));
+    for (const state of states) {
+      const outcome = zeroOneTwoSignOutcomeForState(state, params);
+      if (outcome) partitions[outcome].push(state);
+    }
+    return OUTCOMES.map(outcome => ({
+      outcome,
+      label: OUTCOME_LABELS[outcome],
+      states: partitions[outcome],
+      candidates: partitions[outcome],
+      answerClasses: zeroOneTwoSignAnswerClasses(partitions[outcome])
+    }));
+  }
+
+  function zeroOneTwoSignFilterStates(params = {}) {
+    const outcome = normalizeScaleOutcome(params.outcome);
+    if (!outcome) return [];
+    return zeroOneTwoSignPartitionStates(params).find(part => part.outcome === outcome)?.states || [];
+  }
+
+  function zeroOneTwoSignBranchStatus(states, usedWeighings, maxWeighings) {
+    const remaining = states || [];
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (zeroOneTwoSignAnswerClasses(remaining).length === 1) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function zeroOneTwoSignChooseCheaterOutcome(params = {}) {
+    const partitions = zeroOneTwoSignPartitionStates(params);
+    const history = Array.isArray(params.history) ? params.history : [];
+    const scores = Object.fromEntries(partitions.map(part => [part.outcome, {
+      states: part.states.length,
+      answerClasses: part.answerClasses.length
+    }]));
+    const frequencies = Object.fromEntries(OUTCOMES.map(outcome => [outcome, 0]));
+    for (const entry of history) {
+      const outcome = normalizeScaleOutcome(typeof entry === 'string' ? entry : entry?.outcome);
+      if (outcome in frequencies) frequencies[outcome] += 1;
+    }
+    const chosen = partitions
+      .filter(part => part.states.length > 0)
+      .sort((a, b) =>
+        scores[b.outcome].answerClasses - scores[a.outcome].answerClasses ||
+        scores[b.outcome].states - scores[a.outcome].states ||
+        frequencies[a.outcome] - frequencies[b.outcome] ||
+        OUTCOMES.indexOf(a.outcome) - OUTCOMES.indexOf(b.outcome)
+      )[0] || partitions.find(part => part.outcome === 'balance');
+    return {
+      outcome: chosen.outcome,
+      label: chosen.label,
+      states: chosen.states,
+      candidates: chosen.states,
+      answerClasses: chosen.answerClasses,
+      partitions,
+      scores
+    };
+  }
+
+  function zeroOneTwoSignExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings ?? 1);
+    const partitions = zeroOneTwoSignPartitionStates(params);
+    const children = partitions
+      .filter(part => part.states.length > 0)
+      .map(part => ({
+        outcome: part.outcome,
+        label: part.label,
+        states: part.states,
+        candidates: part.states,
+        answerClasses: part.answerClasses,
+        usedWeighings: usedWeighings + 1,
+        status: zeroOneTwoSignBranchStatus(part.states, usedWeighings + 1, maxWeighings)
+      }));
+    return { partitions, children };
+  }
+
+  function zeroOneTwoSignFinalizeAnswer(params = {}) {
+    const states = zeroOneTwoSignCurrentStates(params);
+    const selectedClass = String(params.selectedClass ?? params.selected_class ?? params.answer ?? '').toLowerCase();
+    const classes = zeroOneTwoSignAnswerClasses(states);
+    const actualClass = classes.length === 1
+      ? classes[0]
+      : (classes.find(item => item !== selectedClass) ?? classes[0] ?? null);
+    return {
+      win: classes.length === 1 && selectedClass === actualClass,
+      actualClass,
+      answerClasses: classes,
+      states,
+      candidates: states
+    };
+  }
+
   function initialMultipleLightCandidates(coinCount, lightCount = 2) {
     const coins = initialCandidates(coinCount);
     const count = Number(lightCount);
@@ -960,6 +1186,479 @@
     }
     const actualState = candidates.find(state => !state.coins.includes(selectedCoin)) ?? candidates[0] ?? null;
     return { win: false, actualCoins: actualState?.coins ?? [], actualState, candidates, guaranteedCoins };
+  }
+
+  function thresholdBalanceInitialStates(coinCount, counterfeitCount) {
+    return initialMultipleLightCandidates(coinCount, counterfeitCount);
+  }
+
+  function thresholdBalanceCurrentStates(params = {}) {
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    const counterfeitCount = Number(params.counterfeit_count ?? params.counterfeitCount ?? params.light_count ?? params.lightCount);
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return {
+      coinCount,
+      counterfeitCount,
+      states: current?.length
+        ? normalizeMultipleLightCandidates(
+            current,
+            Number.isInteger(coinCount) ? coinCount : null,
+            Number.isInteger(counterfeitCount) ? counterfeitCount : null
+          )
+        : thresholdBalanceInitialStates(coinCount, counterfeitCount)
+    };
+  }
+
+  function thresholdBalanceStateKey(state) {
+    return multipleLightStateKey(state);
+  }
+
+  function thresholdBalanceStateLabel(state) {
+    const key = thresholdBalanceStateKey(state);
+    return key ? `{${key}}` : '?';
+  }
+
+  function normalizeThresholdBalanceOutcome(outcome) {
+    const value = String(outcome || '').toLowerCase();
+    if (value === 'left_light' || value === 'left_lighter' || value === 'left_reliably_lighter') return 'left_reliable_lighter';
+    if (value === 'right_light' || value === 'right_lighter' || value === 'right_reliably_lighter') return 'right_reliable_lighter';
+    if (value === 'no_tilt' || value === 'uncertain' || value === 'balance' || value === 'balanced') return 'no_reliable_tilt';
+    return THRESHOLD_BALANCE_OUTCOMES.includes(value) ? value : null;
+  }
+
+  function thresholdBalanceWeights(params = {}) {
+    const genuineWeight = Number(params.genuine_weight ?? params.genuineWeight ?? 10);
+    const counterfeitDelta = Number(params.counterfeit_delta ?? params.counterfeitDelta ?? 1);
+    const reliableDifference = Number(params.reliable_difference ?? params.reliableDifference ?? params.tilt_threshold ?? params.tiltThreshold ?? 2);
+    const counterfeitWeight = normalizeWeight(params.counterfeit_weight ?? params.counterfeitWeight ?? 'lighter') || 'light';
+    const fakeWeight = counterfeitWeight === 'heavy'
+      ? genuineWeight + counterfeitDelta
+      : genuineWeight - counterfeitDelta;
+    return { genuineWeight, fakeWeight, reliableDifference };
+  }
+
+  function outcomeForThresholdBalanceState(state, leftCoins, rightCoins, options = {}) {
+    const coinCount = options.coinCount ?? options.coin_count ?? null;
+    const normalized = normalizeMultipleLightCandidates(
+      [state],
+      coinCount,
+      options.counterfeitCount ?? options.counterfeit_count
+    )[0];
+    if (!normalized) return null;
+    const leftList = uniqueCoins(leftCoins, coinCount);
+    const rightList = uniqueCoins(rightCoins, coinCount);
+    if (options.requireEqualPanCounts !== false && leftList.length !== rightList.length) return null;
+    const right = new Set(rightList);
+    for (const coin of leftList) if (right.has(coin)) return null;
+    const fakeCoins = new Set(normalized.coins);
+    const { genuineWeight, fakeWeight, reliableDifference } = thresholdBalanceWeights(options);
+    const sideWeight = coins => coins.reduce((sum, coin) => sum + (fakeCoins.has(coin) ? fakeWeight : genuineWeight), 0);
+    const difference = sideWeight(leftList) - sideWeight(rightList);
+    if (difference <= -reliableDifference) return 'left_reliable_lighter';
+    if (difference >= reliableDifference) return 'right_reliable_lighter';
+    return 'no_reliable_tilt';
+  }
+
+  function thresholdBalanceFilterStates(params = {}) {
+    const outcome = normalizeThresholdBalanceOutcome(params.outcome);
+    if (!outcome) return [];
+    const { coinCount, counterfeitCount, states } = thresholdBalanceCurrentStates(params);
+    return states.filter(state =>
+      outcomeForThresholdBalanceState(
+        state,
+        params.leftCoins ?? params.left_coins,
+        params.rightCoins ?? params.right_coins,
+        {
+          coinCount,
+          counterfeitCount,
+          genuineWeight: params.genuineWeight ?? params.genuine_weight,
+          counterfeitDelta: params.counterfeitDelta ?? params.counterfeit_delta,
+          reliableDifference: params.reliableDifference ?? params.reliable_difference,
+          counterfeitWeight: params.counterfeitWeight ?? params.counterfeit_weight,
+          requireEqualPanCounts: params.requireEqualPanCounts ?? params.require_equal_pan_counts
+        }
+      ) === outcome
+    );
+  }
+
+  function thresholdBalancePartitionStates(params = {}) {
+    return Object.fromEntries(THRESHOLD_BALANCE_OUTCOMES.map(outcome => [
+      outcome,
+      thresholdBalanceFilterStates({ ...params, outcome })
+    ]));
+  }
+
+  function thresholdBalanceUniqueState(states) {
+    return uniqueLightState(states);
+  }
+
+  function thresholdBalanceObjectiveSolved(states, objective = 'identify_all_counterfeits') {
+    const current = normalizeMultipleLightCandidates(states);
+    if (!current.length) return false;
+    if (objective === 'identify_all_counterfeits' || objective === 'identify_fake_coin_set') {
+      return Boolean(thresholdBalanceUniqueState(current));
+    }
+    return false;
+  }
+
+  function thresholdBalanceAnswerOptionsForStates(states, objective = 'identify_all_counterfeits') {
+    const current = normalizeMultipleLightCandidates(states);
+    if (objective !== 'identify_all_counterfeits' && objective !== 'identify_fake_coin_set') return [];
+    return current.map(state => ({
+      kind: 'state',
+      value: thresholdBalanceStateKey(state),
+      label: thresholdBalanceStateLabel(state),
+      coins: [...state.coins]
+    }));
+  }
+
+  function thresholdBalanceBranchStatus(states, usedWeighings, maxWeighings, objective = 'identify_all_counterfeits') {
+    const current = normalizeMultipleLightCandidates(states);
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (thresholdBalanceObjectiveSolved(current, objective)) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function thresholdBalanceChooseCheaterOutcome(params = {}) {
+    const objective = params.objective || 'identify_all_counterfeits';
+    const partitions = thresholdBalancePartitionStates(params);
+    const history = Array.isArray(params.history) ? params.history : [];
+    const frequencies = Object.fromEntries(THRESHOLD_BALANCE_OUTCOMES.map(outcome => [outcome, 0]));
+    for (const entry of history) {
+      const outcome = normalizeThresholdBalanceOutcome(typeof entry === 'string' ? entry : entry?.outcome);
+      if (outcome in frequencies) frequencies[outcome] += 1;
+    }
+    const scores = Object.fromEntries(THRESHOLD_BALANCE_OUTCOMES.map(outcome => {
+      const states = partitions[outcome];
+      return [outcome, {
+        states: states.length,
+        solved: thresholdBalanceObjectiveSolved(states, objective) ? 1 : 0,
+        answerOptions: thresholdBalanceAnswerOptionsForStates(states, objective).length
+      }];
+    }));
+    const outcome = THRESHOLD_BALANCE_OUTCOMES
+      .filter(item => partitions[item].length > 0)
+      .sort((a, b) =>
+        scores[b].states - scores[a].states
+        || scores[a].solved - scores[b].solved
+        || scores[b].answerOptions - scores[a].answerOptions
+        || frequencies[a] - frequencies[b]
+        || THRESHOLD_BALANCE_OUTCOMES.indexOf(a) - THRESHOLD_BALANCE_OUTCOMES.indexOf(b)
+      )[0] || 'no_reliable_tilt';
+    return {
+      outcome,
+      label: THRESHOLD_BALANCE_LABELS[outcome],
+      states: partitions[outcome],
+      candidates: partitions[outcome],
+      partitions,
+      scores
+    };
+  }
+
+  function thresholdBalanceExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings);
+    const objective = params.objective || 'identify_all_counterfeits';
+    const partitions = thresholdBalancePartitionStates(params);
+    const children = THRESHOLD_BALANCE_OUTCOMES
+      .map(outcome => {
+        const states = partitions[outcome];
+        return {
+          outcome,
+          label: THRESHOLD_BALANCE_LABELS[outcome],
+          states,
+          candidates: states,
+          usedWeighings: usedWeighings + 1,
+          status: thresholdBalanceBranchStatus(states, usedWeighings + 1, maxWeighings, objective),
+          answerOptions: thresholdBalanceAnswerOptionsForStates(states, objective)
+        };
+      })
+      .filter(child => child.states.length > 0);
+    return { partitions, children };
+  }
+
+  function thresholdBalanceFinalizeAnswer(params = {}) {
+    const { states } = thresholdBalanceCurrentStates(params);
+    const selectedCoins = uniqueCoins(params.selectedCoins ?? params.selected_coins, params.coin_count ?? params.coinCount ?? null);
+    const selectedKey = selectedCoins.join(',');
+    const solvedState = thresholdBalanceUniqueState(states);
+    if (solvedState) {
+      return {
+        win: selectedKey === thresholdBalanceStateKey(solvedState),
+        actualState: solvedState,
+        actualCoins: solvedState.coins,
+        states,
+        candidates: states,
+        solvedState
+      };
+    }
+    const actualState = states.find(state => thresholdBalanceStateKey(state) !== selectedKey) ?? states[0] ?? null;
+    return { win: false, actualState, actualCoins: actualState?.coins ?? [], states, candidates: states, solvedState: null };
+  }
+
+  function constrainedLightNormalizeState(raw, coinCount = null, index = 0) {
+    const count = Number(coinCount);
+    const hasLimit = Number.isInteger(count) && count > 0;
+    const coins = uniqueCoins(
+      Array.isArray(raw) ? raw : (raw?.coins ?? raw?.fakeCoins ?? raw?.fake_coins ?? []),
+      hasLimit ? count : null
+    );
+    if (!coins.length) return null;
+    const id = String(raw?.id ?? raw?.key ?? raw?.name ?? raw?.label ?? `s${index + 1}`);
+    const label = String(raw?.label ?? raw?.name ?? id);
+    return { id, label, coins };
+  }
+
+  function constrainedLightInitialStates(params = {}) {
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    const rawStates = params.hidden_states ?? params.hiddenStates ?? params.states ?? [];
+    const states = [];
+    const seen = new Set();
+    if (!Array.isArray(rawStates)) return states;
+    rawStates.forEach((raw, index) => {
+      const state = constrainedLightNormalizeState(raw, coinCount, index);
+      if (!state) return;
+      const key = constrainedLightStateKey(state);
+      if (seen.has(key)) return;
+      seen.add(key);
+      states.push(state);
+    });
+    return states;
+  }
+
+  function constrainedLightNormalizeStates(states, params = {}) {
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    const allowed = new Map(constrainedLightInitialStates(params).map(state => [constrainedLightStateKey(state), state]));
+    const source = Array.isArray(states) && states.length ? states : [...allowed.values()];
+    const result = [];
+    const seen = new Set();
+    source.forEach((raw, index) => {
+      const state = constrainedLightNormalizeState(raw, coinCount, index);
+      if (!state) return;
+      const key = constrainedLightStateKey(state);
+      const normalized = allowed.get(key) || state;
+      const normalizedKey = constrainedLightStateKey(normalized);
+      if (seen.has(normalizedKey)) return;
+      seen.add(normalizedKey);
+      result.push(normalized);
+    });
+    return result;
+  }
+
+  function constrainedLightStateKey(state) {
+    const normalized = constrainedLightNormalizeState(state, null, 0);
+    if (!normalized) return '';
+    return normalized.id || normalized.coins.join(',');
+  }
+
+  function constrainedLightCoinSetKey(state) {
+    const normalized = constrainedLightNormalizeState(state, null, 0);
+    return normalized ? normalized.coins.join(',') : '';
+  }
+
+  function constrainedLightStateLabel(state) {
+    const normalized = constrainedLightNormalizeState(state, null, 0);
+    return normalized?.label || normalized?.id || constrainedLightCoinSetKey(state) || '?';
+  }
+
+  function constrainedLightCurrentStates(params = {}) {
+    const states = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return constrainedLightNormalizeStates(states, params);
+  }
+
+  function outcomeForConstrainedLightState(state, leftCoins, rightCoins, options = {}) {
+    const normalized = constrainedLightNormalizeState(state, options.coinCount ?? options.coin_count ?? null, 0);
+    if (!normalized) return null;
+    const leftList = uniqueCoins(leftCoins, options.coinCount ?? options.coin_count ?? null);
+    const rightList = uniqueCoins(rightCoins, options.coinCount ?? options.coin_count ?? null);
+    if (options.requireEqualPanCounts !== false && leftList.length !== rightList.length) return null;
+    const left = new Set(leftList);
+    const right = new Set(rightList);
+    for (const coin of left) if (right.has(coin)) return null;
+    const fakeCoins = new Set(normalized.coins);
+    const sideWeight = coins => coins.reduce((sum, coin) => sum + (fakeCoins.has(coin) ? 0 : 1), 0);
+    const leftWeight = sideWeight(leftList);
+    const rightWeight = sideWeight(rightList);
+    if (leftWeight > rightWeight) return 'left_down';
+    if (rightWeight > leftWeight) return 'right_down';
+    return 'balance';
+  }
+
+  function constrainedLightFilterStates(params = {}) {
+    const outcome = normalizeScaleOutcome(params.outcome);
+    if (!outcome) return [];
+    const coinCount = Number(params.coin_count ?? params.coinCount);
+    return constrainedLightCurrentStates(params).filter(state =>
+      outcomeForConstrainedLightState(
+        state,
+        params.leftCoins ?? params.left_coins,
+        params.rightCoins ?? params.right_coins,
+        {
+          coinCount,
+          requireEqualPanCounts: params.requireEqualPanCounts ?? params.require_equal_pan_counts
+        }
+      ) === outcome
+    );
+  }
+
+  function constrainedLightPartitionStates(params = {}) {
+    return Object.fromEntries(OUTCOMES.map(outcome => [
+      outcome,
+      constrainedLightFilterStates({ ...params, outcome })
+    ]));
+  }
+
+  function constrainedLightPossibleCounts(states) {
+    return [...new Set(constrainedLightNormalizeStates(states).map(state => state.coins.length))].sort((a, b) => a - b);
+  }
+
+  function constrainedLightUniqueCoinSet(states) {
+    const normalized = constrainedLightNormalizeStates(states);
+    if (!normalized.length) return null;
+    const key = constrainedLightCoinSetKey(normalized[0]);
+    return normalized.every(state => constrainedLightCoinSetKey(state) === key) ? normalized[0].coins : null;
+  }
+
+  function constrainedLightUniqueState(states) {
+    const normalized = constrainedLightNormalizeStates(states);
+    if (!normalized.length) return null;
+    const key = constrainedLightStateKey(normalized[0]);
+    return normalized.every(state => constrainedLightStateKey(state) === key) ? normalized[0] : null;
+  }
+
+  function constrainedLightObjectiveSolved(states, objective) {
+    const current = constrainedLightNormalizeStates(states);
+    if (!current.length) return false;
+    if (objective === 'identify_one_light_coin' || objective === 'identify_one_counterfeit_coin') {
+      return commonLightCoins(current).length > 0;
+    }
+    if (objective === 'identify_counterfeit_count') {
+      return constrainedLightPossibleCounts(current).length === 1;
+    }
+    if (objective === 'identify_line_or_all_counterfeits' || objective === 'identify_all_counterfeits' || objective === 'identify_fake_coin_set') {
+      return Boolean(constrainedLightUniqueState(current) || constrainedLightUniqueCoinSet(current));
+    }
+    return Boolean(constrainedLightUniqueState(current));
+  }
+
+  function constrainedLightAnswerOptionsForStates(states, objective) {
+    const current = constrainedLightNormalizeStates(states);
+    if (objective === 'identify_one_light_coin' || objective === 'identify_one_counterfeit_coin') {
+      return possibleLightCoins(current).map(coin => ({ kind: 'coin', value: coin, label: String(coin) }));
+    }
+    if (objective === 'identify_counterfeit_count') {
+      return constrainedLightPossibleCounts(current).map(count => ({ kind: 'count', value: count, label: String(count) }));
+    }
+    return current.map(state => ({ kind: 'state', value: constrainedLightStateKey(state), label: constrainedLightStateLabel(state), coins: [...state.coins] }));
+  }
+
+  function constrainedLightBranchStatus(states, usedWeighings, maxWeighings, objective = '') {
+    const current = constrainedLightNormalizeStates(states);
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (constrainedLightObjectiveSolved(current, objective)) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function constrainedLightChooseCheaterOutcome(params = {}) {
+    const objective = params.objective || '';
+    const partitions = constrainedLightPartitionStates(params);
+    const history = Array.isArray(params.history) ? params.history : [];
+    const frequencies = Object.fromEntries(OUTCOMES.map(outcome => [outcome, 0]));
+    for (const entry of history) {
+      const outcome = normalizeScaleOutcome(typeof entry === 'string' ? entry : entry?.outcome);
+      if (outcome in frequencies) frequencies[outcome] += 1;
+    }
+    const scores = Object.fromEntries(OUTCOMES.map(outcome => {
+      const states = partitions[outcome];
+      return [outcome, {
+        states: states.length,
+        solved: constrainedLightObjectiveSolved(states, objective) ? 1 : 0,
+        answerOptions: constrainedLightAnswerOptionsForStates(states, objective).length,
+        commonCoins: commonLightCoins(states).length,
+        possibleCoins: possibleLightCoins(states).length,
+        counts: constrainedLightPossibleCounts(states).length
+      }];
+    }));
+    const outcome = OUTCOMES
+      .filter(item => partitions[item].length > 0)
+      .sort((a, b) =>
+        scores[b].states - scores[a].states
+        || scores[a].solved - scores[b].solved
+        || scores[b].answerOptions - scores[a].answerOptions
+        || scores[b].possibleCoins - scores[a].possibleCoins
+        || scores[a].commonCoins - scores[b].commonCoins
+        || frequencies[a] - frequencies[b]
+        || OUTCOMES.indexOf(a) - OUTCOMES.indexOf(b)
+      )[0] || 'balance';
+    return {
+      outcome,
+      label: OUTCOME_LABELS[outcome],
+      states: partitions[outcome],
+      candidates: partitions[outcome],
+      partitions,
+      scores
+    };
+  }
+
+  function constrainedLightExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings);
+    const objective = params.objective || '';
+    const partitions = constrainedLightPartitionStates(params);
+    const children = OUTCOMES
+      .map(outcome => {
+        const states = partitions[outcome];
+        return {
+          outcome,
+          label: OUTCOME_LABELS[outcome],
+          states,
+          candidates: states,
+          usedWeighings: usedWeighings + 1,
+          status: constrainedLightBranchStatus(states, usedWeighings + 1, maxWeighings, objective),
+          answerOptions: constrainedLightAnswerOptionsForStates(states, objective)
+        };
+      })
+      .filter(child => child.states.length > 0);
+    return { partitions, children };
+  }
+
+  function constrainedLightFinalizeAnswer(params = {}) {
+    const objective = params.objective || '';
+    const states = constrainedLightCurrentStates(params);
+    const selectedCoin = Number(params.selectedCoin ?? params.selected_coin);
+    const selectedCount = Number(params.selectedCount ?? params.selected_count);
+    const selectedStateKey = String(params.selectedStateKey ?? params.selected_state_key ?? params.selectedState ?? params.selected_state ?? '');
+    const selectedCoins = uniqueCoins(params.selectedCoins ?? params.selected_coins, params.coin_count ?? params.coinCount ?? null);
+    if (objective === 'identify_one_light_coin' || objective === 'identify_one_counterfeit_coin') {
+      const guaranteedCoins = commonLightCoins(states);
+      if (guaranteedCoins.includes(selectedCoin)) {
+        const actualState = states.find(state => state.coins.includes(selectedCoin)) ?? states[0] ?? null;
+        return { win: true, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
+      }
+      const actualState = states.find(state => !state.coins.includes(selectedCoin)) ?? states[0] ?? null;
+      return { win: false, actualState, actualCoins: actualState?.coins ?? [], guaranteedCoins, states, candidates: states };
+    }
+    if (objective === 'identify_counterfeit_count') {
+      const counts = constrainedLightPossibleCounts(states);
+      const win = counts.length === 1 && counts[0] === selectedCount;
+      const actualState = (win ? states[0] : states.find(state => state.coins.length !== selectedCount)) ?? states[0] ?? null;
+      return { win, actualState, actualCoins: actualState?.coins ?? [], actualCount: actualState?.coins.length ?? null, counts, states, candidates: states };
+    }
+    const uniqueState = constrainedLightUniqueState(states);
+    const uniqueCoinSet = constrainedLightUniqueCoinSet(states);
+    const selectedCoinKey = selectedCoins.join(',');
+    const win = Boolean(
+      (uniqueState && selectedStateKey && constrainedLightStateKey(uniqueState) === selectedStateKey)
+      || (uniqueCoinSet && selectedCoinKey && uniqueCoinSet.join(',') === selectedCoinKey)
+    );
+    const actualState = win
+      ? (uniqueState || states.find(state => constrainedLightCoinSetKey(state) === uniqueCoinSet.join(',')) || states[0] || null)
+      : (states.find(state => constrainedLightStateKey(state) !== selectedStateKey && constrainedLightCoinSetKey(state) !== selectedCoinKey) ?? states[0] ?? null);
+    return { win, actualState, actualCoins: actualState?.coins ?? [], uniqueState, uniqueCoinSet, states, candidates: states };
   }
 
   function zoltarMaskFromCoins(coins, coinCount = null) {
@@ -1778,6 +2477,1646 @@
     };
   }
 
+  function safePileNormalizePiles(params = {}) {
+    const explicit = Array.isArray(params.piles) ? params.piles : [];
+    const sizes = Array.isArray(params.pile_sizes ?? params.pileSizes)
+      ? (params.pile_sizes ?? params.pileSizes).map(Number)
+      : [];
+    const source = explicit.length
+      ? explicit
+      : sizes.map((size, index) => ({ id: String.fromCharCode(65 + index), label: `Кучка ${String.fromCharCode(65 + index)}`, size }));
+    const piles = [];
+    const usedDiamonds = new Set();
+    let nextDiamond = 1;
+    for (let index = 0; index < source.length; index += 1) {
+      const raw = source[index] || {};
+      const id = String(raw.id ?? raw.key ?? String.fromCharCode(65 + index));
+      const label = String(raw.label ?? raw.name ?? `Кучка ${id}`);
+      const diamonds = Array.isArray(raw.diamonds ?? raw.coins)
+        ? uniqueCoins(raw.diamonds ?? raw.coins)
+        : [];
+      const size = Number(raw.size ?? raw.count ?? diamonds.length);
+      const pileDiamonds = diamonds.length
+        ? diamonds
+        : (Number.isInteger(size) && size > 0
+          ? Array.from({ length: size }, (_item, offset) => nextDiamond + offset)
+          : []);
+      if (!id || !pileDiamonds.length) return [];
+      for (const diamond of pileDiamonds) {
+        if (usedDiamonds.has(diamond)) return [];
+        usedDiamonds.add(diamond);
+      }
+      nextDiamond = Math.max(nextDiamond, ...pileDiamonds) + 1;
+      piles.push({ id, label, diamonds: pileDiamonds, size: pileDiamonds.length });
+    }
+    return piles;
+  }
+
+  function safePileDiamondToPile(piles) {
+    const map = new Map();
+    for (const pile of safePileNormalizePiles({ piles })) {
+      for (const diamond of pile.diamonds) map.set(diamond, pile.id);
+    }
+    return map;
+  }
+
+  function safePileInitialStates(params = {}) {
+    const piles = safePileNormalizePiles(params);
+    const result = [];
+    for (const pile of piles) {
+      for (const diamond of pile.diamonds) {
+        result.push({ diamond, coin: diamond, pile: pile.id, direction: 'heavier' });
+        result.push({ diamond, coin: diamond, pile: pile.id, direction: 'lighter' });
+      }
+    }
+    return result;
+  }
+
+  function safePileNormalizeStates(states, params = {}) {
+    const piles = safePileNormalizePiles(params);
+    const diamondToPile = safePileDiamondToPile(piles);
+    const seen = new Set();
+    const result = [];
+    for (const raw of states || []) {
+      const diamond = Number(raw?.diamond ?? raw?.coin ?? raw?.id ?? raw?.[0]);
+      const direction = normalizeDirection(raw?.direction ?? raw?.weight ?? raw?.[1]);
+      const pile = String(raw?.pile ?? raw?.pileId ?? diamondToPile.get(diamond) ?? '');
+      if (!Number.isInteger(diamond) || !direction || !pile || !diamondToPile.has(diamond)) continue;
+      const key = `${diamond}:${direction}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      result.push({ diamond, coin: diamond, pile, direction });
+    }
+    return result;
+  }
+
+  function safePileCurrentStates(params = {}) {
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return current?.length ? safePileNormalizeStates(current, params) : safePileInitialStates(params);
+  }
+
+  function safePileOutcomeForState(state, leftDiamonds, rightDiamonds, options = {}) {
+    const normalized = safePileNormalizeStates([state], options)[0];
+    if (!normalized) return null;
+    return outcomeForUnknownDirectionCandidate(
+      { coin: normalized.diamond, direction: normalized.direction },
+      leftDiamonds,
+      rightDiamonds,
+      { requireEqualPanCounts: options.requireEqualPanCounts ?? options.require_equal_pan_counts }
+    );
+  }
+
+  function safePileFilterStates(params = {}) {
+    const states = safePileCurrentStates(params);
+    const outcome = normalizeScaleOutcome(params.outcome ?? params.result);
+    if (!outcome) return [];
+    const piles = safePileNormalizePiles(params);
+    const leftDiamonds = uniqueCoins(params.leftDiamonds ?? params.left_diamonds ?? params.leftCoins ?? params.left ?? []);
+    const rightDiamonds = uniqueCoins(params.rightDiamonds ?? params.right_diamonds ?? params.rightCoins ?? params.right ?? []);
+    return states.filter(state => safePileOutcomeForState(state, leftDiamonds, rightDiamonds, {
+      piles,
+      requireEqualPanCounts: params.requireEqualPanCounts ?? params.require_equal_pan_counts
+    }) === outcome);
+  }
+
+  function safePilePartitionStates(params = {}) {
+    return Object.fromEntries(OUTCOMES.map(outcome => [
+      outcome,
+      safePileFilterStates({ ...params, outcome })
+    ]));
+  }
+
+  function safePileSafePileIds(states, params = {}) {
+    const piles = safePileNormalizePiles(params);
+    const possibleFakePiles = new Set(safePileNormalizeStates(states || [], { piles }).map(state => state.pile));
+    return piles.map(pile => pile.id).filter(id => !possibleFakePiles.has(id));
+  }
+
+  function safePileStateCounts(states, params = {}) {
+    const piles = safePileNormalizePiles(params);
+    const counts = Object.fromEntries(piles.map(pile => [pile.id, { total: 0, heavier: 0, lighter: 0 }]));
+    for (const state of safePileNormalizeStates(states || [], { piles })) {
+      if (!counts[state.pile]) counts[state.pile] = { total: 0, heavier: 0, lighter: 0 };
+      counts[state.pile].total += 1;
+      counts[state.pile][state.direction] += 1;
+    }
+    return counts;
+  }
+
+  function safePileBranchStatus(states, usedWeighings, maxWeighings, params = {}) {
+    const current = safePileNormalizeStates(states || [], params);
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings ?? params.max_weighings ?? params.maxWeighings);
+    if (safePileSafePileIds(current, params).length > 0) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function safePileChooseCheaterOutcome(params = {}) {
+    const partitions = safePilePartitionStates(params);
+    const history = Array.isArray(params.history) ? params.history : [];
+    const frequencies = Object.fromEntries(OUTCOMES.map(outcome => [outcome, 0]));
+    for (const entry of history) {
+      const outcome = typeof entry === 'string' ? entry : entry?.outcome;
+      if (outcome in frequencies) frequencies[outcome] += 1;
+    }
+    const scored = OUTCOMES.map(outcome => {
+      const states = partitions[outcome] || [];
+      return {
+        outcome,
+        states,
+        safePiles: safePileSafePileIds(states, params),
+        status: safePileBranchStatus(states, (params.usedWeighings ?? params.used_weighings ?? 0) + 1, params.maxWeighings ?? params.max_weighings, params)
+      };
+    }).filter(item => item.states.length > 0);
+    const chosen = scored.sort((a, b) =>
+      b.states.length - a.states.length
+      || a.safePiles.length - b.safePiles.length
+      || frequencies[a.outcome] - frequencies[b.outcome]
+      || OUTCOMES.indexOf(a.outcome) - OUTCOMES.indexOf(b.outcome)
+    )[0] || { outcome: 'balance', states: [], safePiles: [], status: 'failed' };
+    return {
+      outcome: chosen.outcome,
+      label: OUTCOME_LABELS[chosen.outcome],
+      states: chosen.states,
+      candidates: chosen.states,
+      safePiles: chosen.safePiles,
+      partitions,
+      scores: Object.fromEntries(OUTCOMES.map(outcome => {
+        const states = partitions[outcome] || [];
+        return [outcome, {
+          states: states.length,
+          safePiles: safePileSafePileIds(states, params)
+        }];
+      }))
+    };
+  }
+
+  function safePileExpandExhaustiveNode(params = {}) {
+    const states = safePileCurrentStates(params);
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings ?? 1);
+    const partitions = safePilePartitionStates({ ...params, currentStates: states });
+    const children = OUTCOMES.map(outcome => {
+      const childStates = partitions[outcome] || [];
+      return {
+        outcome,
+        label: OUTCOME_LABELS[outcome],
+        states: childStates,
+        candidates: childStates,
+        safePiles: safePileSafePileIds(childStates, params),
+        usedWeighings: usedWeighings + 1,
+        status: safePileBranchStatus(childStates, usedWeighings + 1, maxWeighings, params)
+      };
+    }).filter(child => child.states.length > 0);
+    return { partitions, children };
+  }
+
+  function safePileFinalizeAnswer(params = {}) {
+    const states = safePileCurrentStates(params);
+    const selectedPile = String(params.selectedPile ?? params.selected_pile ?? params.answer ?? '');
+    const safePiles = safePileSafePileIds(states, params);
+    const actualState = states.find(state => state.pile === selectedPile) || states[0] || null;
+    return {
+      win: safePiles.includes(selectedPile),
+      selectedPile,
+      actualState,
+      states,
+      candidates: states,
+      safePiles
+    };
+  }
+
+  function xorSingleFlipPositionCount(params = {}) {
+    const count = Number(params.position_count ?? params.positionCount ?? params.object_count ?? 8);
+    if (!Number.isInteger(count) || count < 2 || count > 16) return 0;
+    return (count & (count - 1)) === 0 ? count : 0;
+  }
+
+  function xorSingleFlipBitsFromMask(mask, positionCount) {
+    const count = xorSingleFlipPositionCount({ position_count: positionCount });
+    const value = Number(mask);
+    if (!count || !Number.isInteger(value) || value < 0 || value >= 2 ** count) return [];
+    return Array.from({ length: count }, (_item, index) => (value >> index) & 1);
+  }
+
+  function xorSingleFlipMaskFromBits(bits, positionCount = null) {
+    const count = xorSingleFlipPositionCount({ position_count: positionCount ?? bits?.length ?? 0 });
+    if (!count) return null;
+    let mask = 0;
+    for (let index = 0; index < count; index += 1) {
+      if (Number(bits?.[index]) ? 1 : 0) mask |= (1 << index);
+    }
+    return mask;
+  }
+
+  function xorSingleFlipChecksum(bits) {
+    let result = 0;
+    for (let index = 0; index < (bits || []).length; index += 1) {
+      if (Number(bits[index]) ? 1 : 0) result ^= index;
+    }
+    return result;
+  }
+
+  function xorSingleFlipApplyFlip(bits, flip) {
+    const result = (bits || []).map(bit => Number(bit) ? 1 : 0);
+    const index = Number(flip);
+    if (!Number.isInteger(index) || index < 0 || index >= result.length) return result;
+    result[index] = result[index] ? 0 : 1;
+    return result;
+  }
+
+  function xorSingleFlipRecommendedFlip(bits, keyPosition) {
+    const key = Number(keyPosition);
+    if (!Number.isInteger(key) || key < 0 || key >= (bits || []).length) return null;
+    return xorSingleFlipChecksum(bits) ^ key;
+  }
+
+  function xorSingleFlipFinalGuess(finalBits) {
+    return xorSingleFlipChecksum(finalBits);
+  }
+
+  function xorSingleFlipInitialStates(params = {}) {
+    const count = xorSingleFlipPositionCount(params);
+    if (!count) return [];
+    const result = [];
+    for (let mask = 0; mask < 2 ** count; mask += 1) {
+      const bits = xorSingleFlipBitsFromMask(mask, count);
+      for (let key = 0; key < count; key += 1) {
+        result.push({ mask, bits, key });
+      }
+    }
+    return result;
+  }
+
+  function xorSingleFlipStateKey(state) {
+    const bits = Array.isArray(state?.bits)
+      ? state.bits.map(bit => Number(bit) ? 1 : 0)
+      : xorSingleFlipBitsFromMask(state?.mask ?? 0, state?.position_count ?? state?.positionCount ?? 8);
+    return `${bits.join('')}:${Number(state?.key ?? state?.keyPosition ?? state?.key_position ?? 0)}`;
+  }
+
+  function xorSingleFlipEvaluate(params = {}) {
+    const count = xorSingleFlipPositionCount(params);
+    const bits = Array.isArray(params.bits)
+      ? params.bits.slice(0, count).map(bit => Number(bit) ? 1 : 0)
+      : xorSingleFlipBitsFromMask(params.mask ?? 0, count);
+    const key = Number(params.key ?? params.keyPosition ?? params.key_position);
+    const flip = Number(params.flip);
+    const guess = Number(params.guess);
+    const initialChecksum = xorSingleFlipChecksum(bits);
+    const recommendedFlip = xorSingleFlipRecommendedFlip(bits, key);
+    const finalBits = xorSingleFlipApplyFlip(bits, flip);
+    const finalChecksum = xorSingleFlipFinalGuess(finalBits);
+    const firstOk = Number.isInteger(flip) && flip === recommendedFlip;
+    const secondOk = Number.isInteger(guess) && guess === finalChecksum && guess === key;
+    return {
+      bits,
+      key,
+      flip,
+      guess,
+      initialChecksum,
+      recommendedFlip,
+      finalBits,
+      finalChecksum,
+      firstOk,
+      secondOk,
+      win: firstOk && secondOk
+    };
+  }
+
+  function xorSingleFlipCheckStrategy(params = {}) {
+    const count = xorSingleFlipPositionCount(params);
+    const states = xorSingleFlipInitialStates({ position_count: count });
+    const failures = [];
+    for (const state of states) {
+      const flip = xorSingleFlipRecommendedFlip(state.bits, state.key);
+      const finalBits = xorSingleFlipApplyFlip(state.bits, flip);
+      const guess = xorSingleFlipFinalGuess(finalBits);
+      if (guess !== state.key || flip < 0 || flip >= count) {
+        failures.push({ ...state, flip, guess, finalBits });
+      }
+    }
+    return {
+      success: failures.length === 0,
+      checked: states.length,
+      positionCount: count,
+      failures
+    };
+  }
+
+  function wiseMenParityPersonCount(params = {}) {
+    const count = Number(params.person_count ?? params.personCount ?? params.word_length ?? 6);
+    if (!Number.isInteger(count) || count < 2 || count > 10) return 0;
+    return count;
+  }
+
+  function wiseMenParityColorCount(params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const count = Number(params.color_count ?? params.colorCount ?? params.message_count ?? 2 ** Math.max(0, personCount - 1));
+    if (!personCount || !Number.isInteger(count) || count < 2 || count > 2 ** (personCount - 1)) return 0;
+    return count;
+  }
+
+  function wiseMenParityCodeword(color, params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colorCount = wiseMenParityColorCount(params);
+    const normalized = Number(color);
+    if (!personCount || !colorCount || !Number.isInteger(normalized) || normalized < 1 || normalized > colorCount) return [];
+    const index = normalized - 1;
+    const bits = [];
+    let parity = 0;
+    for (let bit = 0; bit < personCount - 1; bit += 1) {
+      const value = (index >> bit) & 1;
+      bits.push(value);
+      parity ^= value;
+    }
+    bits.push(parity);
+    return bits;
+  }
+
+  function wiseMenParityWordKey(word) {
+    return (word || []).map(bit => Number(bit) ? 1 : 0).join('');
+  }
+
+  function wiseMenParityCodebook(params = {}) {
+    const colorCount = wiseMenParityColorCount(params);
+    if (!colorCount) return [];
+    return Array.from({ length: colorCount }, (_item, index) => ({
+      color: index + 1,
+      word: wiseMenParityCodeword(index + 1, params)
+    }));
+  }
+
+  function wiseMenParityValidateCodebook(params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colorCount = wiseMenParityColorCount(params);
+    const codebook = wiseMenParityCodebook(params);
+    const errors = [];
+    const seen = new Set();
+    if (!personCount) errors.push('Нужно хотя бы два мудреца.');
+    if (!colorCount) errors.push('Цветов должно быть не больше числа четных двоичных слов.');
+    for (const entry of codebook) {
+      if (entry.word.length !== personCount) errors.push(`У цвета ${entry.color} неверная длина слова.`);
+      const key = wiseMenParityWordKey(entry.word);
+      if (seen.has(key)) errors.push(`Код ${key} повторяется.`);
+      seen.add(key);
+      const parity = entry.word.reduce((acc, bit) => acc ^ (Number(bit) ? 1 : 0), 0);
+      if (parity !== 0) errors.push(`Код цвета ${entry.color} нечетный.`);
+    }
+    return {
+      ok: errors.length === 0,
+      personCount,
+      colorCount,
+      capacity: personCount ? 2 ** (personCount - 1) : 0,
+      codebook,
+      errors
+    };
+  }
+
+  function wiseMenParityNormalizeColors(colors, params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colorCount = wiseMenParityColorCount(params);
+    const result = [];
+    for (let index = 0; index < personCount; index += 1) {
+      const raw = Number(colors?.[index]);
+      result.push(Number.isInteger(raw) && raw >= 1 && raw <= colorCount ? raw : 1);
+    }
+    return result;
+  }
+
+  function wiseMenParityMessages(colors, params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const normalizedColors = wiseMenParityNormalizeColors(colors, params);
+    const words = normalizedColors.map(color => wiseMenParityCodeword(color, params));
+    const messages = [];
+    for (let speaker = 0; speaker < personCount; speaker += 1) {
+      let bit = 0;
+      for (let person = 0; person < personCount; person += 1) {
+        if (person !== speaker) bit ^= words[person][speaker];
+      }
+      messages.push(bit);
+    }
+    return messages;
+  }
+
+  function wiseMenParityDecodePerson(params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colorCount = wiseMenParityColorCount(params);
+    const target = Number(params.person ?? params.target ?? params.targetPerson ?? 0);
+    const colors = wiseMenParityNormalizeColors(params.colors, params);
+    const messages = Array.isArray(params.messages)
+      ? params.messages.slice(0, personCount).map(bit => Number(bit) ? 1 : 0)
+      : wiseMenParityMessages(colors, params);
+    if (!personCount || !colorCount || !Number.isInteger(target) || target < 0 || target >= personCount) {
+      return { ok: false, target, decodedColor: null, bits: [], messages, steps: [] };
+    }
+    const words = colors.map(color => wiseMenParityCodeword(color, params));
+    const bits = Array.from({ length: personCount }, () => 0);
+    const steps = [];
+    for (let bitIndex = 0; bitIndex < personCount; bitIndex += 1) {
+      if (bitIndex === target) continue;
+      let visibleParity = 0;
+      for (let person = 0; person < personCount; person += 1) {
+        if (person !== target && person !== bitIndex) visibleParity ^= words[person][bitIndex];
+      }
+      bits[bitIndex] = messages[bitIndex] ^ visibleParity;
+      steps.push({
+        bit: bitIndex,
+        speaker: bitIndex,
+        message: messages[bitIndex],
+        visibleParity,
+        value: bits[bitIndex]
+      });
+    }
+    bits[target] = bits.reduce((acc, bit, index) => index === target ? acc : (acc ^ bit), 0);
+    steps.push({
+      bit: target,
+      speaker: target,
+      message: messages[target],
+      visibleParity: null,
+      value: bits[target],
+      fromEvenParity: true
+    });
+    const key = wiseMenParityWordKey(bits);
+    const decoded = wiseMenParityCodebook(params).find(entry => wiseMenParityWordKey(entry.word) === key);
+    return {
+      ok: Boolean(decoded),
+      target,
+      actualColor: colors[target],
+      decodedColor: decoded?.color ?? null,
+      bits,
+      messages,
+      steps,
+      win: decoded?.color === colors[target]
+    };
+  }
+
+  function wiseMenParityEvaluate(params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colors = wiseMenParityNormalizeColors(params.colors, params);
+    const messages = Array.isArray(params.messages)
+      ? params.messages.slice(0, personCount).map(bit => Number(bit) ? 1 : 0)
+      : wiseMenParityMessages(colors, params);
+    const decoded = [];
+    const failures = [];
+    for (let person = 0; person < personCount; person += 1) {
+      const result = wiseMenParityDecodePerson({ ...params, colors, messages, person });
+      decoded.push(result);
+      if (!result.win) failures.push(result);
+    }
+    return {
+      colors,
+      messages,
+      decoded,
+      success: failures.length === 0,
+      failures
+    };
+  }
+
+  function wiseMenParityExhaustiveCheck(params = {}) {
+    const validation = wiseMenParityValidateCodebook(params);
+    const personCount = validation.personCount;
+    const colorCount = validation.colorCount;
+    const failures = [];
+    if (!validation.ok) {
+      return { success: false, checked: 0, validation, failures };
+    }
+    for (let person = 0; person < personCount; person += 1) {
+      for (let color = 1; color <= colorCount; color += 1) {
+        const colors = Array.from({ length: personCount }, (_item, index) => ((color + index + person - 1) % colorCount) + 1);
+        colors[person] = color;
+        const result = wiseMenParityEvaluate({ ...params, colors });
+        if (!result.decoded[person]?.win || !result.success) failures.push({ person, color, result });
+      }
+    }
+    return {
+      success: failures.length === 0,
+      checked: personCount * colorCount,
+      validation,
+      failures
+    };
+  }
+
+  function wiseMenParityRandomColors(params = {}) {
+    const personCount = wiseMenParityPersonCount(params);
+    const colorCount = wiseMenParityColorCount(params);
+    return Array.from({ length: personCount }, () => Math.floor(Math.random() * colorCount) + 1);
+  }
+
+  function wiseMenColorCountSageCount(params = {}) {
+    const count = Number(params.sage_count ?? params.sageCount ?? params.person_count ?? params.personCount ?? 6);
+    if (!Number.isInteger(count) || count < 2 || count > 10) return 0;
+    return count;
+  }
+
+  function wiseMenColorCountColorCount(params = {}) {
+    const count = Number(params.color_count ?? params.colorCount ?? 4);
+    if (!Number.isInteger(count) || count < 2 || count > 8) return 0;
+    return count;
+  }
+
+  function wiseMenColorCountValues(params = {}) {
+    const colorCount = wiseMenColorCountColorCount(params);
+    const raw = Array.isArray(params.count_values) ? params.count_values : params.countValues;
+    const values = (Array.isArray(raw) ? raw : Array.from({ length: colorCount }, (_item, index) => index))
+      .map(value => Number(value));
+    if (
+      !colorCount ||
+      values.length !== colorCount ||
+      values.some(value => !Number.isInteger(value) || value < 0) ||
+      new Set(values).size !== values.length
+    ) {
+      return [];
+    }
+    return values;
+  }
+
+  function wiseMenColorCountTargetCorrectMin(params = {}) {
+    const sageCount = wiseMenColorCountSageCount(params);
+    const target = Number(params.target_correct_min ?? params.targetCorrectMin ?? Math.floor(sageCount / 2));
+    if (!sageCount || !Number.isInteger(target) || target < 1 || target > sageCount) return 0;
+    return target;
+  }
+
+  function wiseMenColorCountValidateConfig(params = {}) {
+    const sageCount = wiseMenColorCountSageCount(params);
+    const colorCount = wiseMenColorCountColorCount(params);
+    const countValues = wiseMenColorCountValues(params);
+    const targetCorrectMin = wiseMenColorCountTargetCorrectMin(params);
+    const errors = [];
+    if (!sageCount) errors.push('Нужно от 2 до 10 мудрецов.');
+    if (!colorCount) errors.push('Нужно от 2 до 8 цветов.');
+    if (!countValues.length) errors.push('Список количеств должен содержать разные неотрицательные числа по одному на цвет.');
+    if (countValues.length && countValues.reduce((sum, value) => sum + value, 0) !== sageCount) {
+      errors.push('Сумма количеств должна равняться числу мудрецов.');
+    }
+    if (!targetCorrectMin) errors.push('Цель должна быть от 1 до числа мудрецов.');
+    if (sageCount && targetCorrectMin && targetCorrectMin > Math.floor(sageCount / 2)) {
+      errors.push('Этот протокол делит мудрецов на две равные группы, поэтому цель не должна быть больше половины.');
+    }
+    return {
+      ok: errors.length === 0,
+      sageCount,
+      colorCount,
+      countValues,
+      targetCorrectMin,
+      errors
+    };
+  }
+
+  function wiseMenColorCountCountsFromColors(colors, params = {}) {
+    const colorCount = wiseMenColorCountColorCount(params);
+    const counts = Array.from({ length: colorCount }, () => 0);
+    for (const color of colors || []) {
+      const normalized = Number(color);
+      if (Number.isInteger(normalized) && normalized >= 1 && normalized <= colorCount) {
+        counts[normalized - 1] += 1;
+      }
+    }
+    return counts;
+  }
+
+  function wiseMenColorCountNormalizeColors(colors, params = {}) {
+    const sageCount = wiseMenColorCountSageCount(params);
+    const colorCount = wiseMenColorCountColorCount(params);
+    return Array.from({ length: sageCount }, (_item, index) => {
+      const color = Number(colors?.[index]);
+      return Number.isInteger(color) && color >= 1 && color <= colorCount ? color : 1;
+    });
+  }
+
+  function wiseMenColorCountValidateState(colors, params = {}) {
+    const validation = wiseMenColorCountValidateConfig(params);
+    const normalized = wiseMenColorCountNormalizeColors(colors, params);
+    const counts = wiseMenColorCountCountsFromColors(normalized, params);
+    const errors = [...validation.errors];
+    if (validation.ok) {
+      const expected = [...validation.countValues].sort((a, b) => a - b).join(',');
+      const actual = [...counts].sort((a, b) => a - b).join(',');
+      if (actual !== expected) {
+        errors.push(`Количества цветов должны быть ${expected}, сейчас ${actual}.`);
+      }
+    }
+    return {
+      ok: errors.length === 0,
+      colors: normalized,
+      counts,
+      errors
+    };
+  }
+
+  function wiseMenColorCountPermutationParity(counts, params = {}) {
+    const countValues = wiseMenColorCountValues(params);
+    if (!Array.isArray(counts) || counts.length !== countValues.length) return null;
+    const order = new Map(countValues.map((value, index) => [value, index]));
+    const sequence = counts.map(value => order.get(Number(value)));
+    if (sequence.some(value => !Number.isInteger(value))) return null;
+    let parity = 0;
+    for (let left = 0; left < sequence.length; left += 1) {
+      for (let right = left + 1; right < sequence.length; right += 1) {
+        if (sequence[left] > sequence[right]) parity ^= 1;
+      }
+    }
+    return parity;
+  }
+
+  function wiseMenColorCountTargetParityForSage(sageIndex, params = {}) {
+    const sageCount = wiseMenColorCountSageCount(params);
+    const split = Math.floor(sageCount / 2);
+    return Number(sageIndex) < split ? 0 : 1;
+  }
+
+  function wiseMenColorCountCandidateOptions(colors, sageIndex, params = {}) {
+    const state = wiseMenColorCountValidateState(colors, params);
+    const sage = Number(sageIndex);
+    if (!state.ok || !Number.isInteger(sage) || sage < 0 || sage >= state.colors.length) return [];
+    const visibleCounts = [...state.counts];
+    visibleCounts[state.colors[sage] - 1] -= 1;
+    return state.counts.map((_count, colorIndex) => {
+      const candidateCounts = [...visibleCounts];
+      candidateCounts[colorIndex] += 1;
+      const candidateState = wiseMenColorCountValidateState(
+        state.colors.map((color, index) => index === sage ? colorIndex + 1 : color),
+        params
+      );
+      return candidateState.ok
+        ? {
+            color: colorIndex + 1,
+            counts: candidateCounts,
+            parity: wiseMenColorCountPermutationParity(candidateCounts, params)
+          }
+        : null;
+    }).filter(Boolean);
+  }
+
+  function wiseMenColorCountEvaluate(params = {}) {
+    const state = wiseMenColorCountValidateState(params.colors ?? params.state?.colors ?? params.state, params);
+    const targetCorrectMin = wiseMenColorCountTargetCorrectMin(params);
+    const parity = state.ok ? wiseMenColorCountPermutationParity(state.counts, params) : null;
+    if (!state.ok) {
+      return {
+        ok: false,
+        success: false,
+        colors: state.colors,
+        counts: state.counts,
+        parity,
+        rows: [],
+        correctCount: 0,
+        targetCorrectMin,
+        errors: state.errors
+      };
+    }
+    const rows = state.colors.map((actualColor, sageIndex) => {
+      const targetParity = wiseMenColorCountTargetParityForSage(sageIndex, params);
+      const options = wiseMenColorCountCandidateOptions(state.colors, sageIndex, params);
+      const selected = options.find(option => option.parity === targetParity) || options[0] || null;
+      const visibleCounts = [...state.counts];
+      visibleCounts[actualColor - 1] -= 1;
+      return {
+        sage: sageIndex + 1,
+        sageIndex,
+        actualColor,
+        visibleCounts,
+        options,
+        targetParity,
+        guess: selected?.color ?? null,
+        guessedCounts: selected?.counts ?? [],
+        correct: selected?.color === actualColor
+      };
+    });
+    const correctCount = rows.filter(row => row.correct).length;
+    return {
+      ok: true,
+      success: correctCount >= targetCorrectMin,
+      colors: state.colors,
+      counts: state.counts,
+      parity,
+      rows,
+      correctCount,
+      targetCorrectMin,
+      errors: []
+    };
+  }
+
+  function wiseMenColorCountInitialStates(params = {}) {
+    const validation = wiseMenColorCountValidateConfig(params);
+    if (!validation.ok) return [];
+    const states = [];
+
+    function uniqueArrangements(items) {
+      const result = [];
+      const used = Array.from({ length: items.length }, () => false);
+      const sorted = [...items].sort((a, b) => a - b);
+      function visit(current) {
+        if (current.length === sorted.length) {
+          result.push(current.slice());
+          return;
+        }
+        for (let index = 0; index < sorted.length; index += 1) {
+          if (used[index]) continue;
+          if (index > 0 && sorted[index] === sorted[index - 1] && !used[index - 1]) continue;
+          used[index] = true;
+          current.push(sorted[index]);
+          visit(current);
+          current.pop();
+          used[index] = false;
+        }
+      }
+      visit([]);
+      return result;
+    }
+
+    for (const counts of permutations(validation.countValues)) {
+      const colorBlocks = counts.flatMap((count, colorIndex) =>
+        Array.from({ length: count }, () => colorIndex + 1)
+      );
+      for (const colors of uniqueArrangements(colorBlocks)) {
+        states.push({
+          colors,
+          counts: counts.slice(),
+          parity: wiseMenColorCountPermutationParity(counts, params)
+        });
+      }
+    }
+    return states;
+  }
+
+  function wiseMenColorCountRandomState(params = {}, random = Math.random) {
+    const states = wiseMenColorCountInitialStates(params);
+    if (!states.length) return { colors: [], counts: [], parity: null };
+    return states[Math.floor(random() * states.length) % states.length];
+  }
+
+  function wiseMenColorCountCheaterState(params = {}) {
+    const states = wiseMenColorCountInitialStates(params);
+    return states.find(state => state.parity === 1) || states[states.length - 1] || { colors: [], counts: [], parity: null };
+  }
+
+  function wiseMenColorCountExhaustiveCheck(params = {}) {
+    const states = wiseMenColorCountInitialStates(params);
+    const targetCorrectMin = wiseMenColorCountTargetCorrectMin(params);
+    const failures = [];
+    let minCorrect = Infinity;
+    let maxCorrect = -Infinity;
+    const parityCounts = { even: 0, odd: 0 };
+    for (const state of states) {
+      const result = wiseMenColorCountEvaluate({ ...params, colors: state.colors });
+      minCorrect = Math.min(minCorrect, result.correctCount);
+      maxCorrect = Math.max(maxCorrect, result.correctCount);
+      if (result.parity === 0) parityCounts.even += 1;
+      if (result.parity === 1) parityCounts.odd += 1;
+      if (!result.success) failures.push({ state, result });
+    }
+    return {
+      success: failures.length === 0 && states.length > 0,
+      checked: states.length,
+      targetCorrectMin,
+      minCorrect: Number.isFinite(minCorrect) ? minCorrect : 0,
+      maxCorrect: Number.isFinite(maxCorrect) ? maxCorrect : 0,
+      parityCounts,
+      failures
+    };
+  }
+
+  const THREE_LETTER_DEFAULT_ALPHABET = ['А', 'Б', 'В'];
+
+  function threeLetterErasureAlphabet(params = {}) {
+    const raw = Array.isArray(params.alphabet) && params.alphabet.length === 3 ? params.alphabet : THREE_LETTER_DEFAULT_ALPHABET;
+    const alphabet = raw.map(letter => String(letter || '').trim()).filter(letter => [...letter].length === 1);
+    return alphabet.length === 3 && new Set(alphabet).size === 3 ? alphabet : [...THREE_LETTER_DEFAULT_ALPHABET];
+  }
+
+  function threeLetterErasureNormalizeCodeword(word, params = {}) {
+    const alphabet = threeLetterErasureAlphabet(params);
+    const map = new Map([
+      ['A', alphabet[0]], ['a', alphabet[0]], ['А', alphabet[0]], ['а', alphabet[0]],
+      ['B', alphabet[1]], ['b', alphabet[1]], ['Б', alphabet[1]], ['б', alphabet[1]],
+      ['C', alphabet[2]], ['c', alphabet[2]], ['V', alphabet[2]], ['v', alphabet[2]],
+      ['В', alphabet[2]], ['в', alphabet[2]]
+    ]);
+    return [...String(word ?? '')]
+      .filter(char => !/\s|[,;:|]/.test(char))
+      .map(char => map.get(char) || char)
+      .join('');
+  }
+
+  function threeLetterErasureNormalizeCodewords(params = {}) {
+    const wordLength = Number(params.word_length ?? params.wordLength ?? 8);
+    const messageCount = Number(params.message_count ?? params.messageCount ?? 16);
+    const words = Array.isArray(params.codewords) ? params.codewords : [];
+    return words.slice(0, Number.isInteger(messageCount) ? messageCount : words.length)
+      .map(word => threeLetterErasureNormalizeCodeword(word, params))
+      .filter(word => !Number.isInteger(wordLength) || word.length <= Math.max(wordLength, word.length));
+  }
+
+  function threeLetterErasureErase(word, letter) {
+    return [...String(word ?? '')].filter(char => char !== letter).join('');
+  }
+
+  function threeLetterErasureObservationRows(params = {}) {
+    const alphabet = threeLetterErasureAlphabet(params);
+    const codewords = threeLetterErasureNormalizeCodewords(params);
+    const rows = [];
+    for (let message = 0; message < codewords.length; message += 1) {
+      for (const erased of alphabet) {
+        rows.push({
+          message,
+          codeword: codewords[message],
+          erased,
+          observed: threeLetterErasureErase(codewords[message], erased)
+        });
+      }
+    }
+    return rows;
+  }
+
+  function threeLetterErasureDecode(params = {}) {
+    const observed = threeLetterErasureNormalizeCodeword(params.observed ?? params.observation ?? params.remaining ?? '', params);
+    const matches = [];
+    for (const row of threeLetterErasureObservationRows(params)) {
+      if (row.observed === observed) matches.push(row);
+    }
+    return {
+      observed,
+      matches,
+      messages: [...new Set(matches.map(row => row.message))]
+    };
+  }
+
+  function threeLetterErasureCheckTable(params = {}) {
+    const alphabet = threeLetterErasureAlphabet(params);
+    const messageCount = Number(params.message_count ?? params.messageCount ?? 16);
+    const wordLength = Number(params.word_length ?? params.wordLength ?? 8);
+    const codewords = threeLetterErasureNormalizeCodewords(params);
+    const errors = [];
+    const conflicts = [];
+    if (!Number.isInteger(messageCount) || messageCount < 1) errors.push('message_count must be a positive integer');
+    if (!Number.isInteger(wordLength) || wordLength < 1) errors.push('word_length must be a positive integer');
+    if (codewords.length !== messageCount) errors.push(`expected ${messageCount} codewords, got ${codewords.length}`);
+    const allowed = new Set(alphabet);
+    const seenWords = new Set();
+    for (let index = 0; index < codewords.length; index += 1) {
+      const word = codewords[index];
+      if (word.length !== wordLength) errors.push(`message ${index}: word length is ${word.length}, expected ${wordLength}`);
+      const bad = [...new Set([...word].filter(char => !allowed.has(char)))];
+      if (bad.length) errors.push(`message ${index}: unexpected letters ${bad.join('')}`);
+      if (seenWords.has(word)) errors.push(`duplicate codeword ${word}`);
+      seenWords.add(word);
+    }
+    const byObserved = new Map();
+    for (const row of threeLetterErasureObservationRows({ ...params, codewords })) {
+      if (!byObserved.has(row.observed)) byObserved.set(row.observed, []);
+      byObserved.get(row.observed).push(row);
+    }
+    for (const [observed, rows] of byObserved.entries()) {
+      const messages = [...new Set(rows.map(row => row.message))];
+      if (messages.length > 1) conflicts.push({ observed, rows, messages });
+    }
+    return {
+      ok: errors.length === 0 && conflicts.length === 0,
+      success: errors.length === 0 && conflicts.length === 0,
+      alphabet,
+      messageCount,
+      wordLength,
+      codewords,
+      rows: threeLetterErasureObservationRows({ ...params, codewords }),
+      observationCount: byObserved.size,
+      checked: codewords.length * alphabet.length,
+      errors,
+      conflicts,
+      decodedByObserved: Object.fromEntries([...byObserved.entries()].map(([observed, rows]) => [observed, [...new Set(rows.map(row => row.message))]]))
+    };
+  }
+
+  function threeLetterErasureEvaluate(params = {}) {
+    const alphabet = threeLetterErasureAlphabet(params);
+    const codewords = threeLetterErasureNormalizeCodewords(params);
+    const message = Number(params.message ?? params.hiddenMessage ?? params.hidden_message ?? 0);
+    const erased = params.erased ?? params.erasedLetter ?? params.erased_letter ?? alphabet[0];
+    const guess = Number(params.guess ?? params.answer);
+    const codeword = codewords[message] || '';
+    const observed = threeLetterErasureErase(codeword, erased);
+    const decoded = threeLetterErasureDecode({ ...params, codewords, observed });
+    return {
+      message,
+      codeword,
+      erased,
+      observed,
+      guess,
+      decoded,
+      candidates: decoded.messages,
+      win: Number.isInteger(guess) && guess === message && decoded.messages.length === 1
+    };
+  }
+
+  function permutationMessageItemCount(params = {}) {
+    const count = Number(params.item_count ?? params.itemCount ?? 3);
+    return Number.isInteger(count) && count >= 1 && count <= 6 ? count : 3;
+  }
+
+  function permutationMessageLabels(params = {}) {
+    const count = permutationMessageItemCount(params);
+    const fallback = ['A', 'B', 'C', 'D', 'E', 'F'].slice(0, count);
+    const labels = Array.isArray(params.object_labels ?? params.objectLabels)
+      ? (params.object_labels ?? params.objectLabels).map(label => String(label || '').trim()).filter(Boolean).slice(0, count)
+      : [];
+    return labels.length === count && new Set(labels).size === count ? labels : fallback;
+  }
+
+  function permutationMessagePermutations(params = {}) {
+    const count = permutationMessageItemCount(params);
+    const source = Array.from({ length: count }, (_item, index) => index);
+    const result = [];
+    function visit(prefix, remaining) {
+      if (!remaining.length) {
+        result.push(prefix);
+        return;
+      }
+      for (let index = 0; index < remaining.length; index += 1) {
+        visit([...prefix, remaining[index]], remaining.filter((_item, itemIndex) => itemIndex !== index));
+      }
+    }
+    visit([], source);
+    return result;
+  }
+
+  function permutationMessageTable(params = {}) {
+    const labels = permutationMessageLabels(params);
+    const messageCount = Number(params.message_count ?? params.messageCount ?? 6);
+    return permutationMessagePermutations(params)
+      .slice(0, Number.isInteger(messageCount) && messageCount > 0 ? messageCount : 6)
+      .map((order, message) => ({
+        message,
+        order,
+        labels: order.map(index => labels[index]),
+        key: order.join(',')
+      }));
+  }
+
+  function permutationMessageNormalizeOrder(order, params = {}) {
+    const labels = permutationMessageLabels(params);
+    let raw = [];
+    if (Array.isArray(order)) {
+      raw = order;
+    } else if (typeof order === 'string') {
+      const trimmed = order.trim();
+      const compactLabels = labels.every(label => [...label].length === 1);
+      raw = /[,;\s|>-]/.test(trimmed)
+        ? trimmed.split(/[,;\s|>-]+/).filter(Boolean)
+        : (compactLabels ? [...trimmed].filter(Boolean) : [trimmed]);
+    }
+    const used = new Set();
+    const normalized = [];
+    for (const value of raw) {
+      let index = null;
+      if (typeof value === 'number' && Number.isInteger(value) && value >= 0 && value < labels.length) {
+        index = value;
+      } else {
+        const numeric = Number(value);
+        if (Number.isInteger(numeric) && numeric >= 1 && numeric <= labels.length) index = numeric - 1;
+        else index = labels.indexOf(String(value));
+      }
+      if (!Number.isInteger(index) || index < 0 || index >= labels.length || used.has(index)) return [];
+      used.add(index);
+      normalized.push(index);
+    }
+    return normalized.length === labels.length ? normalized : [];
+  }
+
+  function permutationMessageEncode(message, params = {}) {
+    const table = permutationMessageTable(params);
+    const index = Number(message);
+    return Number.isInteger(index) && table[index] ? table[index] : null;
+  }
+
+  function permutationMessageDecode(order, params = {}) {
+    const normalized = permutationMessageNormalizeOrder(order, params);
+    if (!normalized.length) return { message: null, order: normalized, row: null };
+    const key = normalized.join(',');
+    const row = permutationMessageTable(params).find(item => item.key === key) || null;
+    return { message: row ? row.message : null, order: normalized, row };
+  }
+
+  function permutationMessageEvaluate(params = {}) {
+    const direction = params.direction === 'decode' ? 'decode' : 'encode';
+    const message = Number(params.message ?? params.hiddenMessage ?? params.hidden_message ?? 0);
+    const order = permutationMessageNormalizeOrder(params.order ?? params.permutation ?? [], params);
+    const guess = Number(params.guess ?? params.answer);
+    const encoded = permutationMessageEncode(message, params);
+    const decoded = permutationMessageDecode(order, params);
+    const expectedKey = encoded ? encoded.key : '';
+    const orderKey = order.join(',');
+    return {
+      direction,
+      message,
+      order,
+      orderLabels: order.map(index => permutationMessageLabels(params)[index]),
+      expected: encoded,
+      decoded,
+      guess,
+      win: direction === 'decode'
+        ? Number.isInteger(guess) && guess === decoded.message
+        : !!encoded && orderKey === expectedKey
+    };
+  }
+
+  function permutationMessageExhaustiveCheck(params = {}) {
+    const labels = permutationMessageLabels(params);
+    const table = permutationMessageTable(params);
+    const messageCount = Number(params.message_count ?? params.messageCount ?? 6);
+    const errors = [];
+    const failures = [];
+    if (labels.length !== 3) errors.push('item_count must be 3');
+    if (messageCount !== 6) errors.push('message_count must be 6');
+    const seen = new Map();
+    for (const row of table) {
+      if (seen.has(row.key)) failures.push({ message: row.message, duplicateOf: seen.get(row.key), order: row.labels });
+      seen.set(row.key, row.message);
+      const decoded = permutationMessageDecode(row.order, params);
+      if (decoded.message !== row.message) failures.push({ message: row.message, decoded: decoded.message, order: row.labels });
+    }
+    return {
+      ok: errors.length === 0 && failures.length === 0 && table.length === 6 && seen.size === 6,
+      success: errors.length === 0 && failures.length === 0 && table.length === 6 && seen.size === 6,
+      checked: table.length,
+      labels,
+      table,
+      errors,
+      failures
+    };
+  }
+
+  function permutationCycleCount(params = {}) {
+    const count = Number(params.prisoner_count ?? params.prisonerCount ?? params.box_count ?? params.boxCount ?? 10);
+    if (!Number.isInteger(count) || count < 2 || count > 12) return 0;
+    return count;
+  }
+
+  function permutationCycleMaxOpenings(params = {}) {
+    const count = permutationCycleCount(params);
+    const maxOpenings = Number(params.max_openings ?? params.maxOpenings ?? Math.floor(count / 2));
+    if (!Number.isInteger(maxOpenings) || maxOpenings < 1 || maxOpenings > count) return 0;
+    return maxOpenings;
+  }
+
+  function permutationCycleNormalizePermutation(permutation, count = null) {
+    const size = count ?? permutationCycleCount({ prisoner_count: Array.isArray(permutation) ? permutation.length : 0 });
+    if (!Number.isInteger(size) || size < 2) return [];
+    if (!Array.isArray(permutation) || permutation.length !== size) return [];
+    const seen = new Set();
+    const result = [];
+    for (const raw of permutation) {
+      const value = Number(raw);
+      if (!Number.isInteger(value) || value < 1 || value > size || seen.has(value)) return [];
+      seen.add(value);
+      result.push(value);
+    }
+    return result;
+  }
+
+  function permutationCycleRandomPermutation(count) {
+    const size = Number(count);
+    if (!Number.isInteger(size) || size < 2) return [];
+    const result = Array.from({ length: size }, (_item, index) => index + 1);
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+    }
+    return result;
+  }
+
+  function permutationCycleCheaterPermutation(count, maxOpenings) {
+    const size = Number(count);
+    const limit = Number(maxOpenings);
+    if (!Number.isInteger(size) || !Number.isInteger(limit) || size < 2 || limit < 1 || limit >= size) {
+      return permutationCycleRandomPermutation(size);
+    }
+    const longCycleLength = Math.min(size, limit + 1);
+    const result = Array.from({ length: size }, (_item, index) => index + 1);
+    for (let value = 1; value <= longCycleLength; value += 1) {
+      result[value - 1] = value === longCycleLength ? 1 : value + 1;
+    }
+    return result;
+  }
+
+  function permutationCycleDecomposition(permutation) {
+    const perm = permutationCycleNormalizePermutation(permutation);
+    const count = perm.length;
+    const visited = Array(count + 1).fill(false);
+    const cycles = [];
+    for (let start = 1; start <= count; start += 1) {
+      if (visited[start]) continue;
+      const cycle = [];
+      let current = start;
+      while (!visited[current]) {
+        visited[current] = true;
+        cycle.push(current);
+        current = perm[current - 1];
+      }
+      cycles.push(cycle);
+    }
+    cycles.sort((first, second) => second.length - first.length || first[0] - second[0]);
+    return cycles;
+  }
+
+  function permutationCycleTrace(permutation, prisoner, maxOpenings) {
+    const perm = permutationCycleNormalizePermutation(permutation);
+    const count = perm.length;
+    const target = Number(prisoner);
+    const limit = Number(maxOpenings);
+    if (!count || !Number.isInteger(target) || target < 1 || target > count || !Number.isInteger(limit) || limit < 1) {
+      return { prisoner: target, openings: [], found: false, stoppedByLimit: true };
+    }
+    const openings = [];
+    let box = target;
+    for (let step = 1; step <= Math.min(limit, count); step += 1) {
+      const value = perm[box - 1];
+      openings.push({ step, box, value, found: value === target });
+      if (value === target) return { prisoner: target, openings, found: true, stoppedByLimit: false };
+      box = value;
+    }
+    return { prisoner: target, openings, found: false, stoppedByLimit: true };
+  }
+
+  function permutationCycleRunAll(permutation, maxOpenings) {
+    const perm = permutationCycleNormalizePermutation(permutation);
+    const traces = Array.from({ length: perm.length }, (_item, index) =>
+      permutationCycleTrace(perm, index + 1, maxOpenings)
+    );
+    const cycles = permutationCycleDecomposition(perm);
+    const maxCycleLength = cycles.reduce((max, cycle) => Math.max(max, cycle.length), 0);
+    return {
+      permutation: perm,
+      traces,
+      cycles,
+      maxCycleLength,
+      success: traces.every(trace => trace.found),
+      failingPrisoners: traces.filter(trace => !trace.found).map(trace => trace.prisoner)
+    };
+  }
+
+  function permutationCycleFactorials(count) {
+    const factorials = [1];
+    for (let index = 1; index <= count; index += 1) factorials[index] = factorials[index - 1] * index;
+    return factorials;
+  }
+
+  function permutationCycleTypeStatistics(count, maxOpenings) {
+    const size = Number(count);
+    const limit = Number(maxOpenings);
+    if (!Number.isInteger(size) || size < 2 || !Number.isInteger(limit) || limit < 1) {
+      return { total: 0, successCount: 0, failureCount: 0, rows: [] };
+    }
+    const factorials = permutationCycleFactorials(size);
+    const rows = [];
+    function visit(remaining, maxPart, parts) {
+      if (remaining === 0) {
+        const multiplicities = {};
+        for (const part of parts) multiplicities[part] = (multiplicities[part] || 0) + 1;
+        let denominator = 1;
+        for (const [partText, amount] of Object.entries(multiplicities)) {
+          const part = Number(partText);
+          denominator *= (part ** amount) * factorials[amount];
+        }
+        const maxCycle = Math.max(...parts);
+        const countForType = factorials[size] / denominator;
+        rows.push({
+          parts: parts.slice(),
+          type: parts.join('+'),
+          maxCycle,
+          count: countForType,
+          success: maxCycle <= limit
+        });
+        return;
+      }
+      for (let part = Math.min(remaining, maxPart); part >= 1; part -= 1) {
+        parts.push(part);
+        visit(remaining - part, part, parts);
+        parts.pop();
+      }
+    }
+    visit(size, size, []);
+    rows.sort((first, second) => first.maxCycle - second.maxCycle || first.type.localeCompare(second.type));
+    const total = rows.reduce((sum, row) => sum + row.count, 0);
+    const successCount = rows.filter(row => row.success).reduce((sum, row) => sum + row.count, 0);
+    return {
+      total,
+      successCount,
+      failureCount: total - successCount,
+      probability: total ? successCount / total : 0,
+      rows
+    };
+  }
+
+  function prisonerHatsParityPersonCount(params = {}) {
+    const count = Number(params.person_count ?? params.personCount ?? params.prisoner_count ?? params.prisonerCount ?? 6);
+    return Number.isInteger(count) && count >= 2 && count <= 10 ? count : 0;
+  }
+
+  function prisonerHatsParityColorCount(params = {}) {
+    const count = Number(params.color_count ?? params.colorCount ?? 2);
+    return count === 2 ? 2 : 0;
+  }
+
+  function prisonerHatsParityNormalizeBit(value) {
+    if (value === true) return 1;
+    if (value === false) return 0;
+    const text = String(value ?? '').trim().toLowerCase();
+    if (text === 'black' || text === 'b' || text === '1') return 1;
+    if (text === 'white' || text === 'w' || text === '0') return 0;
+    const number = Number(value);
+    return Number.isInteger(number) && (number === 0 || number === 1) ? number : null;
+  }
+
+  function prisonerHatsParityNormalizeBits(values, expectedLength = null) {
+    const source = Array.isArray(values) ? values : [];
+    const result = source.map(prisonerHatsParityNormalizeBit).filter(value => value != null);
+    return expectedLength == null ? result : result.slice(0, expectedLength);
+  }
+
+  function prisonerHatsParityStateKey(state) {
+    return (state?.hats || []).join('');
+  }
+
+  function prisonerHatsParityInitialStates(params = {}) {
+    const count = prisonerHatsParityPersonCount(params);
+    if (!count || !prisonerHatsParityColorCount(params)) return [];
+    const total = 2 ** count;
+    const states = [];
+    for (let mask = 0; mask < total; mask += 1) {
+      const hats = Array.from({ length: count }, (_item, index) => (mask >> (count - index - 1)) & 1);
+      states.push({
+        id: hats.join(''),
+        hats,
+        blackCount: hats.reduce((sum, bit) => sum + bit, 0)
+      });
+    }
+    return states;
+  }
+
+  function prisonerHatsParityNormalizeState(raw, params = {}) {
+    const count = prisonerHatsParityPersonCount(params);
+    if (!count || !prisonerHatsParityColorCount(params)) return null;
+    const rawHats = raw?.hats ?? raw?.colors ?? raw;
+    const hats = prisonerHatsParityNormalizeBits(rawHats, count);
+    if (hats.length !== count) return null;
+    return {
+      id: hats.join(''),
+      hats,
+      blackCount: hats.reduce((sum, bit) => sum + bit, 0)
+    };
+  }
+
+  function prisonerHatsParityRandomState(params = {}, random = Math.random) {
+    const states = prisonerHatsParityInitialStates(params);
+    return states[Math.floor(random() * states.length)] || null;
+  }
+
+  function prisonerHatsParityVisibleAhead(state, prisonerIndex) {
+    const hats = Array.isArray(state?.hats) ? state.hats : [];
+    return hats.slice(Number(prisonerIndex) + 1);
+  }
+
+  function prisonerHatsParityBitSum(bits) {
+    return (bits || []).reduce((sum, bit) => sum + (bit ? 1 : 0), 0);
+  }
+
+  function prisonerHatsParityExpectedAnswer(params = {}) {
+    const count = prisonerHatsParityPersonCount(params);
+    const prisonerIndex = Number(params.prisonerIndex ?? params.prisoner_index ?? params.sageIndex ?? params.sage_index ?? 0);
+    const state = prisonerHatsParityNormalizeState(params.state ?? params.hiddenState ?? params.hidden_state, params);
+    const visibleAhead = state
+      ? prisonerHatsParityVisibleAhead(state, prisonerIndex)
+      : prisonerHatsParityNormalizeBits(params.visibleAhead ?? params.visible_ahead);
+    const previousAnswers = prisonerHatsParityNormalizeBits(params.previousAnswers ?? params.previous_answers ?? []);
+    if (!count || !Number.isInteger(prisonerIndex) || prisonerIndex < 0 || prisonerIndex >= count) return null;
+    if (visibleAhead.length !== count - prisonerIndex - 1 || previousAnswers.length !== prisonerIndex) return null;
+    const visibleParity = prisonerHatsParityBitSum(visibleAhead) % 2;
+    if (prisonerIndex === 0) {
+      return {
+        prisonerIndex,
+        prisoner: prisonerIndex + 1,
+        answer: visibleParity,
+        signal: visibleParity,
+        visibleAhead,
+        visibleParity,
+        previousParity: 0
+      };
+    }
+    const signal = previousAnswers[0];
+    const previousParity = prisonerHatsParityBitSum(previousAnswers.slice(1)) % 2;
+    return {
+      prisonerIndex,
+      prisoner: prisonerIndex + 1,
+      answer: signal ^ previousParity ^ visibleParity,
+      signal,
+      visibleAhead,
+      visibleParity,
+      previousParity
+    };
+  }
+
+  function prisonerHatsParityProtocolTranscript(state, params = {}) {
+    const normalized = prisonerHatsParityNormalizeState(state, params);
+    const count = prisonerHatsParityPersonCount(params);
+    if (!normalized || !count) return [];
+    const answers = [];
+    for (let prisonerIndex = 0; prisonerIndex < count; prisonerIndex += 1) {
+      const step = prisonerHatsParityExpectedAnswer({
+        ...params,
+        state: normalized,
+        prisonerIndex,
+        previousAnswers: answers
+      });
+      if (!step) return [];
+      answers.push(step.answer);
+    }
+    return answers;
+  }
+
+  function prisonerHatsParityEvaluateTranscript(params = {}) {
+    const state = prisonerHatsParityNormalizeState(params.state ?? params.hiddenState ?? params.hidden_state, params);
+    const count = prisonerHatsParityPersonCount(params);
+    const answers = prisonerHatsParityNormalizeBits(params.answers ?? params.transcript ?? [], count);
+    const rows = [];
+    const previous = [];
+    if (!state || !count) {
+      return { success: false, rows, correctCount: 0, protocolOk: false, allButFirstCorrect: false };
+    }
+    for (let prisonerIndex = 0; prisonerIndex < Math.min(count, answers.length); prisonerIndex += 1) {
+      const step = prisonerHatsParityExpectedAnswer({
+        ...params,
+        state,
+        prisonerIndex,
+        previousAnswers: previous
+      });
+      const answer = answers[prisonerIndex];
+      const actualHat = state.hats[prisonerIndex];
+      rows.push({
+        prisonerIndex,
+        prisoner: prisonerIndex + 1,
+        answer,
+        expected: step?.answer ?? null,
+        actualHat,
+        visibleAhead: prisonerHatsParityVisibleAhead(state, prisonerIndex),
+        signal: step?.signal ?? null,
+        visibleParity: step?.visibleParity ?? null,
+        previousParity: step?.previousParity ?? null,
+        protocolOk: !!step && answer === step.answer,
+        correctHat: answer === actualHat
+      });
+      previous.push(answer);
+    }
+    const complete = rows.length === count;
+    const protocolOk = complete && rows.every(row => row.protocolOk);
+    const correctCount = rows.filter(row => row.correctHat).length;
+    const allButFirstCorrect = complete && rows.slice(1).every(row => row.correctHat);
+    return {
+      success: complete && allButFirstCorrect,
+      protocolOk,
+      allButFirstCorrect,
+      correctCount,
+      rows,
+      state,
+      answers
+    };
+  }
+
+  function prisonerHatsParityExhaustiveCheck(params = {}) {
+    const states = prisonerHatsParityInitialStates(params);
+    const rows = states.map(state => {
+      const answers = prisonerHatsParityProtocolTranscript(state, params);
+      const evaluation = prisonerHatsParityEvaluateTranscript({ ...params, state, answers });
+      return {
+        state,
+        answers,
+        correctCount: evaluation.correctCount,
+        success: evaluation.success,
+        protocolOk: evaluation.protocolOk,
+        firstCorrect: evaluation.rows[0]?.correctHat === true
+      };
+    });
+    const failures = rows.filter(row => !row.success || !row.protocolOk);
+    return {
+      success: failures.length === 0 && rows.length > 0,
+      checked: rows.length,
+      minCorrect: rows.length ? Math.min(...rows.map(row => row.correctCount)) : 0,
+      maxCorrect: rows.length ? Math.max(...rows.map(row => row.correctCount)) : 0,
+      firstCorrectCount: rows.filter(row => row.firstCorrect).length,
+      failures,
+      rows
+    };
+  }
+
+  function hiddenHatParitySageCount(params = {}) {
+    const count = Number(params.sage_count ?? params.sageCount ?? params.agent_count ?? params.agentCount ?? 6);
+    return Number.isInteger(count) && count >= 2 && count <= 8 ? count : 0;
+  }
+
+  function hiddenHatParityNumbers(params = {}) {
+    const count = hiddenHatParitySageCount(params);
+    const min = Number(params.number_min ?? params.numberMin ?? 1);
+    const max = Number(params.number_max ?? params.numberMax ?? (Number.isInteger(min) ? min + count : 7));
+    if (!count || !Number.isInteger(min) || !Number.isInteger(max) || max - min + 1 !== count + 1) return [];
+    return Array.from({ length: count + 1 }, (_item, index) => min + index);
+  }
+
+  function hiddenHatParityTarget(params = {}) {
+    return String(params.target_parity ?? params.targetParity ?? 'even').toLowerCase() === 'odd' ? 1 : 0;
+  }
+
+  function hiddenHatParityPermutationParity(values) {
+    let inversions = 0;
+    for (let i = 0; i < values.length; i += 1) {
+      for (let j = i + 1; j < values.length; j += 1) {
+        if (values[i] > values[j]) inversions += 1;
+      }
+    }
+    return inversions % 2;
+  }
+
+  function hiddenHatParityStateKey(state) {
+    return `${state?.hidden}|${(state?.hats || []).join(',')}`;
+  }
+
+  function hiddenHatParityInitialStates(params = {}) {
+    const numbers = hiddenHatParityNumbers(params);
+    if (!numbers.length) return [];
+    return permutations(numbers).map(order => ({
+      id: `${order[0]}|${order.slice(1).join(',')}`,
+      hidden: order[0],
+      hats: order.slice(1),
+      parity: hiddenHatParityPermutationParity(order)
+    }));
+  }
+
+  function hiddenHatParityNormalizeState(raw, params = {}) {
+    const count = hiddenHatParitySageCount(params);
+    const allowed = new Set(hiddenHatParityNumbers(params));
+    const hidden = Number(raw?.hidden ?? raw?.hiddenNumber ?? raw?.hidden_number);
+    const hats = (raw?.hats ?? raw?.hatNumbers ?? raw?.hat_numbers ?? [])
+      .map(Number)
+      .filter(Number.isInteger);
+    if (!count || hats.length !== count || !allowed.has(hidden)) return null;
+    const seen = new Set([hidden]);
+    for (const hat of hats) {
+      if (!allowed.has(hat) || seen.has(hat)) return null;
+      seen.add(hat);
+    }
+    const order = [hidden, ...hats];
+    return {
+      id: `${hidden}|${hats.join(',')}`,
+      hidden,
+      hats,
+      parity: hiddenHatParityPermutationParity(order)
+    };
+  }
+
+  function hiddenHatParityRandomState(params = {}, random = Math.random) {
+    const states = hiddenHatParityInitialStates(params);
+    return states[Math.floor(random() * states.length)] || null;
+  }
+
+  function hiddenHatParityExpectedAnswer(params = {}) {
+    const count = hiddenHatParitySageCount(params);
+    const numbers = hiddenHatParityNumbers(params);
+    const sageIndex = Number(params.sageIndex ?? params.sage_index ?? 0);
+    const previousAnswers = (params.previousAnswers ?? params.previous_answers ?? [])
+      .map(Number)
+      .filter(Number.isInteger);
+    const visibleAhead = (params.visibleAhead ?? params.visible_ahead ?? [])
+      .map(Number)
+      .filter(Number.isInteger);
+    if (!count || !Number.isInteger(sageIndex) || sageIndex < 0 || sageIndex >= count) return null;
+    if (previousAnswers.length !== sageIndex || visibleAhead.length !== count - sageIndex - 1) return null;
+    const used = [...previousAnswers, ...visibleAhead];
+    if (new Set(used).size !== used.length) return null;
+    const remaining = numbers.filter(number => !used.includes(number));
+    if (remaining.length !== 2) return null;
+    const target = hiddenHatParityTarget(params);
+    const options = [
+      { own: remaining[0], hidden: remaining[1] },
+      { own: remaining[1], hidden: remaining[0] }
+    ].map(option => {
+      const order = [option.hidden, ...previousAnswers, option.own, ...visibleAhead];
+      return {
+        ...option,
+        order,
+        parity: hiddenHatParityPermutationParity(order)
+      };
+    });
+    const selected = options.find(option => option.parity === target) || null;
+    return selected ? {
+      sageIndex,
+      answer: selected.own,
+      hidden: selected.hidden,
+      remaining,
+      parity: selected.parity,
+      order: selected.order,
+      alternatives: options
+    } : null;
+  }
+
+  function hiddenHatParityVisibleAhead(state, sageIndex) {
+    const hats = Array.isArray(state?.hats) ? state.hats : [];
+    return hats.slice(Number(sageIndex) + 1);
+  }
+
+  function hiddenHatParityProtocolTranscript(state, params = {}) {
+    const normalized = hiddenHatParityNormalizeState(state, params);
+    const count = hiddenHatParitySageCount(params);
+    if (!normalized || !count) return [];
+    const answers = [];
+    for (let sageIndex = 0; sageIndex < count; sageIndex += 1) {
+      const step = hiddenHatParityExpectedAnswer({
+        ...params,
+        sageIndex,
+        previousAnswers: answers,
+        visibleAhead: hiddenHatParityVisibleAhead(normalized, sageIndex)
+      });
+      if (!step) return [];
+      answers.push(step.answer);
+    }
+    return answers;
+  }
+
+  function hiddenHatParityEvaluateTranscript(params = {}) {
+    const state = hiddenHatParityNormalizeState(params.state ?? params.hiddenState ?? params.hidden_state, params);
+    const count = hiddenHatParitySageCount(params);
+    const answers = (params.answers ?? params.transcript ?? [])
+      .map(Number)
+      .filter(Number.isInteger)
+      .slice(0, count);
+    const rows = [];
+    const previous = [];
+    const spoken = new Set();
+    if (!state || !count) {
+      return { success: false, rows, correctCount: 0, protocolOk: false, allButFirstCorrect: false };
+    }
+    for (let sageIndex = 0; sageIndex < Math.min(count, answers.length); sageIndex += 1) {
+      const step = hiddenHatParityExpectedAnswer({
+        ...params,
+        sageIndex,
+        previousAnswers: previous,
+        visibleAhead: hiddenHatParityVisibleAhead(state, sageIndex)
+      });
+      const answer = answers[sageIndex];
+      const repeated = spoken.has(answer);
+      const actualHat = state.hats[sageIndex];
+      rows.push({
+        sageIndex,
+        sage: sageIndex + 1,
+        answer,
+        expected: step?.answer ?? null,
+        actualHat,
+        visibleAhead: hiddenHatParityVisibleAhead(state, sageIndex),
+        repeated,
+        protocolOk: !!step && answer === step.answer && !repeated,
+        correctHat: answer === actualHat
+      });
+      previous.push(answer);
+      spoken.add(answer);
+    }
+    const protocolOk = rows.length === count && rows.every(row => row.protocolOk);
+    const correctCount = rows.filter(row => row.correctHat).length;
+    const allButFirstCorrect = rows.length === count && rows.slice(1).every(row => row.correctHat);
+    return {
+      success: protocolOk && allButFirstCorrect,
+      protocolOk,
+      allButFirstCorrect,
+      correctCount,
+      rows,
+      state,
+      answers
+    };
+  }
+
+  function hiddenHatParityExhaustiveCheck(params = {}) {
+    const states = hiddenHatParityInitialStates(params);
+    const rows = states.map(state => {
+      const answers = hiddenHatParityProtocolTranscript(state, params);
+      const evaluation = hiddenHatParityEvaluateTranscript({ ...params, state, answers });
+      return {
+        state,
+        answers,
+        correctCount: evaluation.correctCount,
+        success: evaluation.success,
+        firstCorrect: evaluation.rows[0]?.correctHat === true
+      };
+    });
+    const failures = rows.filter(row => !row.success);
+    return {
+      success: failures.length === 0 && rows.length > 0,
+      checked: rows.length,
+      minCorrect: rows.length ? Math.min(...rows.map(row => row.correctCount)) : 0,
+      maxCorrect: rows.length ? Math.max(...rows.map(row => row.correctCount)) : 0,
+      firstCorrectCount: rows.filter(row => row.firstCorrect).length,
+      failures,
+      rows
+    };
+  }
+
   function initialScaleCandidates(labels) {
     return Array.isArray(labels) ? labels.map(String).filter(Boolean) : [];
   }
@@ -2481,6 +4820,211 @@
     return { win: false, actualCoin, candidates, states };
   }
 
+  const BALANCED_WEIGHT_OUTCOMES = ['left_light', 'right_light', 'balance'];
+  const BALANCED_WEIGHT_OUTCOME_LABELS = {
+    left_light: 'левая чаша легче',
+    right_light: 'правая чаша легче',
+    balance: 'равновесие'
+  };
+
+  function balancedWeightBagWeights(params = {}) {
+    const bagCount = Number(params.bagCount ?? params.bag_count ?? params.objectCount ?? params.object_count);
+    const rawWeights = params.bagWeights ?? params.bag_weights ?? params.nominalWeights ?? params.nominal_weights;
+    const weights = Array.isArray(rawWeights)
+      ? rawWeights.map(value => Number(value)).filter(value => Number.isFinite(value) && value > 0)
+      : [];
+    if (Number.isInteger(bagCount) && bagCount > 0) {
+      return Array.from({ length: bagCount }, (_item, index) => weights[index] || index + 1);
+    }
+    return weights;
+  }
+
+  function balancedWeightInitialStates(params = {}) {
+    const weights = balancedWeightBagWeights(params);
+    if (!weights.length || weights.length > 20) return [];
+    return [
+      { id: 'none', bag: null, label: 'нет недостачи' },
+      ...weights.map((_weight, index) => ({
+        id: `bag_${index + 1}`,
+        bag: index + 1,
+        label: `мешок ${index + 1}`
+      }))
+    ];
+  }
+
+  function balancedWeightStateKey(state) {
+    if (state == null) return 'none';
+    if (typeof state === 'string') return state === 'none' ? 'none' : String(state);
+    const bag = Number(state.bag ?? state.deficientBag ?? state.deficient_bag);
+    return Number.isInteger(bag) && bag >= 1 ? `bag_${bag}` : 'none';
+  }
+
+  function balancedWeightNormalizeStates(states, params = {}) {
+    const allowed = new Map(balancedWeightInitialStates(params).map(state => [state.id, state]));
+    const seen = new Set();
+    const result = [];
+    for (const raw of states || []) {
+      const key = balancedWeightStateKey(raw);
+      if (!allowed.has(key) || seen.has(key)) continue;
+      seen.add(key);
+      result.push(allowed.get(key));
+    }
+    return result;
+  }
+
+  function balancedWeightSideVector(values, bagCount) {
+    const count = Number(bagCount);
+    if (!Number.isInteger(count) || count < 1) return [];
+    const result = Array.from({ length: count }, () => 0);
+    if (Array.isArray(values)) {
+      const looksLikeVector = values.length === count && values.every(value => Number.isInteger(Number(value)));
+      if (looksLikeVector) {
+        values.forEach((value, index) => {
+          const amount = Number(value);
+          result[index] = amount > 0 ? amount : 0;
+        });
+        return result;
+      }
+      for (const item of values) {
+        const bag = Number(item);
+        if (Number.isInteger(bag) && bag >= 1 && bag <= count) result[bag - 1] = 1;
+      }
+    }
+    return result;
+  }
+
+  function balancedWeightNormalizeWeighing(params = {}) {
+    const weights = balancedWeightBagWeights(params);
+    const bagCount = weights.length;
+    const left = balancedWeightSideVector(params.left ?? params.leftBags ?? params.left_bags, bagCount);
+    const right = balancedWeightSideVector(params.right ?? params.rightBags ?? params.right_bags, bagCount);
+    return { left, right, weights };
+  }
+
+  function balancedWeightNominalTotal(vector, weights) {
+    return (vector || []).reduce((sum, amount, index) => sum + Math.max(0, Number(amount) || 0) * (Number(weights?.[index]) || 0), 0);
+  }
+
+  function balancedWeightValidateWeighing(params = {}) {
+    const { left, right, weights } = balancedWeightNormalizeWeighing(params);
+    if (!weights.length) return { valid: false, error: 'Нужно задать мешки и их номинальные веса.', left, right, weights };
+    let hasAny = false;
+    for (let index = 0; index < weights.length; index += 1) {
+      const leftAmount = Number(left[index]) || 0;
+      const rightAmount = Number(right[index]) || 0;
+      if (leftAmount > 0 || rightAmount > 0) hasAny = true;
+      if (!Number.isInteger(leftAmount) || !Number.isInteger(rightAmount) || leftAmount < 0 || rightAmount < 0) {
+        return { valid: false, error: 'Коэффициенты должны быть неотрицательными целыми числами.', left, right, weights };
+      }
+      if (leftAmount > 0 && rightAmount > 0) {
+        return { valid: false, error: `Мешок ${index + 1} нельзя положить на обе чаши одновременно.`, left, right, weights };
+      }
+    }
+    if (!hasAny) return { valid: false, empty: true, error: 'Положите хотя бы один мешок на чаши.', left, right, weights };
+    const leftTotal = balancedWeightNominalTotal(left, weights);
+    const rightTotal = balancedWeightNominalTotal(right, weights);
+    if (leftTotal !== rightTotal) {
+      return { valid: false, error: `Номинальные веса должны совпадать: слева ${leftTotal}, справа ${rightTotal}.`, left, right, weights, leftTotal, rightTotal };
+    }
+    return { valid: true, error: '', left, right, weights, leftTotal, rightTotal };
+  }
+
+  function balancedWeightOutcomeForState(state, params = {}) {
+    const normalizedState = balancedWeightInitialStates(params)
+      .find(item => item.id === balancedWeightStateKey(state)) || { bag: null };
+    const weighing = balancedWeightValidateWeighing(params);
+    if (!weighing.valid) return null;
+    if (normalizedState.bag == null) return 'balance';
+    const index = normalizedState.bag - 1;
+    if ((weighing.left[index] || 0) > 0) return 'left_light';
+    if ((weighing.right[index] || 0) > 0) return 'right_light';
+    return 'balance';
+  }
+
+  function balancedWeightPartitionStates(params = {}) {
+    const states = params.currentStates?.length
+      ? balancedWeightNormalizeStates(params.currentStates, params)
+      : balancedWeightInitialStates(params);
+    const validation = balancedWeightValidateWeighing(params);
+    if (!validation.valid) return [];
+    const partitions = Object.fromEntries(BALANCED_WEIGHT_OUTCOMES.map(outcome => [outcome, []]));
+    for (const state of states) {
+      const outcome = balancedWeightOutcomeForState(state, params);
+      if (outcome) partitions[outcome].push(state);
+    }
+    return BALANCED_WEIGHT_OUTCOMES
+      .filter(outcome => partitions[outcome].length)
+      .map(outcome => ({
+        outcome,
+        label: BALANCED_WEIGHT_OUTCOME_LABELS[outcome],
+        states: partitions[outcome],
+        candidates: partitions[outcome],
+        leftTotal: validation.leftTotal,
+        rightTotal: validation.rightTotal
+      }));
+  }
+
+  function balancedWeightFilterStates(params = {}) {
+    const outcome = String(params.outcome || '').toLowerCase();
+    const part = balancedWeightPartitionStates(params).find(item => item.outcome === outcome);
+    return part ? part.states : [];
+  }
+
+  function balancedWeightChooseCheaterOutcome(params = {}) {
+    const partitions = balancedWeightPartitionStates(params);
+    const order = Object.fromEntries(BALANCED_WEIGHT_OUTCOMES.map((outcome, index) => [outcome, index]));
+    const chosen = partitions.slice().sort((a, b) =>
+      b.states.length - a.states.length || order[a.outcome] - order[b.outcome]
+    )[0] || { outcome: 'balance', label: BALANCED_WEIGHT_OUTCOME_LABELS.balance, states: [], candidates: [] };
+    return {
+      outcome: chosen.outcome,
+      label: chosen.label,
+      states: chosen.states,
+      candidates: chosen.states,
+      partitions,
+      scores: Object.fromEntries(partitions.map(part => [part.outcome, part.states.length]))
+    };
+  }
+
+  function balancedWeightBranchStatus(states, usedWeighings, maxWeighings) {
+    const remaining = states || [];
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (remaining.length === 1) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function balancedWeightExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings ?? 1);
+    const partitions = balancedWeightPartitionStates(params);
+    const children = partitions.map(part => ({
+      outcome: part.outcome,
+      label: part.label,
+      states: part.states,
+      candidates: part.states,
+      usedWeighings: usedWeighings + 1,
+      status: balancedWeightBranchStatus(part.states, usedWeighings + 1, maxWeighings)
+    }));
+    return { partitions, children };
+  }
+
+  function balancedWeightFinalizeAnswer(params = {}) {
+    const candidates = params.currentStates?.length
+      ? balancedWeightNormalizeStates(params.currentStates, params)
+      : balancedWeightInitialStates(params);
+    const selectedKey = balancedWeightStateKey(
+      params.selectedState ?? { bag: params.selectedBag ?? params.selected_bag }
+    );
+    if (candidates.length === 1) {
+      const actualState = candidates[0];
+      return { win: balancedWeightStateKey(actualState) === selectedKey, actualState, candidates };
+    }
+    const actualState = candidates.find(state => balancedWeightStateKey(state) !== selectedKey) ?? candidates[0] ?? null;
+    return { win: false, actualState, candidates };
+  }
+
   function numericSignatureInitialStates(bagCount, options = {}) {
     const count = Number(bagCount);
     if (!Number.isInteger(count) || count < 1 || count > 20) return [];
@@ -2918,6 +5462,1015 @@
     return { win: false, actualState, candidates };
   }
 
+  function balancedSubsetInitialStates(objectCount) {
+    const count = Number(objectCount);
+    if (!Number.isInteger(count) || count < 1 || count > 32) return [];
+    return Array.from({ length: count }, (_item, index) => ({ number: index + 1 }));
+  }
+
+  function balancedSubsetNormalizeQuestions(questions, objectCount, maxTests = null) {
+    const limit = Number(objectCount);
+    if (!Number.isInteger(limit) || limit < 1) return [];
+    const rows = Array.isArray(questions) ? questions : [];
+    const normalized = rows.map(row => uniqueCoins(row, limit));
+    const target = Number(maxTests);
+    if (maxTests != null && Number.isInteger(target) && target >= 0) {
+      while (normalized.length < target) normalized.push([]);
+      return normalized.slice(0, target);
+    }
+    return normalized;
+  }
+
+  function balancedSubsetQuestionSum(question) {
+    return (question || []).reduce((sum, number) => sum + Number(number || 0), 0);
+  }
+
+  function balancedSubsetSignatureForState(state, questions) {
+    const number = Number(state?.number ?? state);
+    return (questions || []).map(question => (question || []).includes(number) ? 1 : 0);
+  }
+
+  function balancedSubsetSignatureKey(signature) {
+    return (signature || []).join('');
+  }
+
+  function balancedSubsetStateKey(state) {
+    return String(Number(state?.number ?? state));
+  }
+
+  function balancedSubsetValidateQuestions(params = {}) {
+    const objectCount = Number(params.object_count ?? params.objectCount);
+    const maxTests = Number(params.max_tests ?? params.maxTests ?? params.test_count ?? params.testCount);
+    const targetSumRaw = params.target_sum ?? params.targetSum;
+    const targetSum = targetSumRaw == null ? null : Number(targetSumRaw);
+    const questions = balancedSubsetNormalizeQuestions(params.questions ?? params.tests, objectCount, Number.isInteger(maxTests) ? maxTests : null);
+    const sums = questions.map(balancedSubsetQuestionSum);
+    const filled = questions.filter(question => question.length > 0).length;
+    const errors = [];
+    if (!Number.isInteger(objectCount) || objectCount < 1) errors.push('Некорректное число вариантов.');
+    if (!Number.isInteger(maxTests) || maxTests < 1) errors.push('Некорректное число вопросов.');
+    if (filled !== questions.length) errors.push('Каждый вопрос должен содержать хотя бы одно число.');
+    if (Number.isInteger(targetSum)) {
+      sums.forEach((sum, index) => {
+        if (sum !== targetSum) errors.push(`Сумма в вопросе ${index + 1} равна ${sum}, а нужна ${targetSum}.`);
+      });
+    } else {
+      const nonEmptySums = sums.filter((_sum, index) => questions[index]?.length);
+      const first = nonEmptySums[0];
+      nonEmptySums.forEach((sum, index) => {
+        if (sum !== first) errors.push(`Сумма в вопросе ${index + 1} отличается от остальных.`);
+      });
+    }
+    return {
+      ok: errors.length === 0,
+      questions,
+      sums,
+      targetSum: Number.isInteger(targetSum) ? targetSum : null,
+      errors,
+      filled
+    };
+  }
+
+  function balancedSubsetPartitionStates(params = {}) {
+    const objectCount = Number(params.object_count ?? params.objectCount);
+    const maxTests = Number(params.max_tests ?? params.maxTests ?? params.test_count ?? params.testCount);
+    const questions = balancedSubsetNormalizeQuestions(params.questions ?? params.tests, objectCount, Number.isInteger(maxTests) ? maxTests : null);
+    const currentStates = params.currentStates?.length ? params.currentStates : balancedSubsetInitialStates(objectCount);
+    const bySignature = new Map();
+    for (const state of currentStates) {
+      const signature = balancedSubsetSignatureForState(state, questions);
+      const key = balancedSubsetSignatureKey(signature);
+      if (!bySignature.has(key)) bySignature.set(key, { key, signature, states: [] });
+      bySignature.get(key).states.push({ number: Number(state?.number ?? state) });
+    }
+    return [...bySignature.values()].sort((a, b) =>
+      a.key.localeCompare(b.key, undefined, { numeric: true })
+    );
+  }
+
+  function balancedSubsetCheckStrategy(params = {}) {
+    const objectCount = Number(params.object_count ?? params.objectCount);
+    const validation = balancedSubsetValidateQuestions(params);
+    const states = balancedSubsetInitialStates(objectCount);
+    const partitions = balancedSubsetPartitionStates({ ...params, questions: validation.questions, currentStates: states });
+    const conflicts = partitions.filter(part => part.states.length > 1);
+    return {
+      success: validation.ok && states.length > 0 && conflicts.length === 0,
+      questions: validation.questions,
+      sums: validation.sums,
+      targetSum: validation.targetSum,
+      validation,
+      states,
+      partitions,
+      conflicts,
+      conflict: conflicts[0] || null
+    };
+  }
+
+  function balancedSubsetFilterStates(params = {}) {
+    const objectCount = Number(params.object_count ?? params.objectCount);
+    const maxTests = Number(params.max_tests ?? params.maxTests ?? params.test_count ?? params.testCount);
+    const questions = balancedSubsetNormalizeQuestions(params.questions ?? params.tests, objectCount, Number.isInteger(maxTests) ? maxTests : null);
+    const signature = params.signature ?? [];
+    const key = balancedSubsetSignatureKey(signature);
+    const currentStates = params.currentStates?.length ? params.currentStates : balancedSubsetInitialStates(objectCount);
+    return currentStates
+      .map(state => ({ number: Number(state?.number ?? state) }))
+      .filter(state => balancedSubsetSignatureKey(balancedSubsetSignatureForState(state, questions)) === key);
+  }
+
+  function balancedSubsetChooseRandom(params = {}) {
+    const states = balancedSubsetInitialStates(params.object_count ?? params.objectCount);
+    return states[Math.floor(Math.random() * states.length)] || null;
+  }
+
+  function binaryCardsNumberRange(params = {}) {
+    const min = Number(params.number_min ?? params.numberMin ?? params.min_number ?? params.minNumber ?? 1);
+    const max = Number(params.number_max ?? params.numberMax ?? params.max_number ?? params.maxNumber ?? params.object_count ?? params.objectCount ?? 31);
+    return {
+      min: Number.isInteger(min) && min >= 0 ? min : 1,
+      max: Number.isInteger(max) && max >= min ? max : 31
+    };
+  }
+
+  function binaryCardsWeights(params = {}) {
+    const rawWeights = Array.isArray(params.card_weights ?? params.cardWeights)
+      ? params.card_weights ?? params.cardWeights
+      : [];
+    const cardCount = Number(params.card_count ?? params.cardCount ?? rawWeights.length ?? 5);
+    const limit = Number.isInteger(cardCount) && cardCount >= 1 && cardCount <= 10 ? cardCount : 5;
+    const weights = rawWeights
+      .map(Number)
+      .filter(weight => Number.isInteger(weight) && weight > 0)
+      .slice(0, limit);
+    while (weights.length < limit) weights.push(2 ** weights.length);
+    return [...new Set(weights)].slice(0, limit);
+  }
+
+  function binaryCardsAllNumbers(params = {}) {
+    const range = binaryCardsNumberRange(params);
+    if (range.max < range.min) return [];
+    return Array.from({ length: range.max - range.min + 1 }, (_item, index) => range.min + index);
+  }
+
+  function binaryCardsCards(params = {}) {
+    const weights = binaryCardsWeights(params);
+    const numbers = binaryCardsAllNumbers(params);
+    return weights.map((weight, index) => ({
+      index,
+      weight,
+      numbers: numbers.filter(number => (number & weight) !== 0)
+    }));
+  }
+
+  function binaryCardsNormalizeSelection(selection, params = {}) {
+    const weights = binaryCardsWeights(params);
+    const allowed = new Set(weights);
+    const raw = selection ?? params.selection ?? params.selected_weights ?? params.selectedWeights ?? params.cards ?? [];
+    const seen = new Set();
+    const result = [];
+    for (const item of raw || []) {
+      const weight = Number(item?.weight ?? item?.value ?? item);
+      if (!Number.isInteger(weight) || !allowed.has(weight) || seen.has(weight)) continue;
+      seen.add(weight);
+      result.push(weight);
+    }
+    return result.sort((a, b) => a - b);
+  }
+
+  function binaryCardsSelectionForNumber(number, params = {}) {
+    const hidden = Number(number?.number ?? number);
+    if (!Number.isInteger(hidden)) return [];
+    return binaryCardsWeights(params).filter(weight => (hidden & weight) !== 0);
+  }
+
+  function binaryCardsDecodeSelection(selection, params = {}) {
+    return binaryCardsNormalizeSelection(selection, params).reduce((sum, weight) => sum + weight, 0);
+  }
+
+  function binaryCardsEvaluate(params = {}) {
+    const hidden = Number(params.number ?? params.hiddenNumber ?? params.hidden_number);
+    const selection = binaryCardsNormalizeSelection(params.selection ?? params.selected_weights ?? params.selectedWeights, params);
+    const decoded = binaryCardsDecodeSelection(selection, params);
+    const expectedSelection = binaryCardsSelectionForNumber(hidden, params);
+    const expectedDecoded = binaryCardsDecodeSelection(expectedSelection, params);
+    const range = binaryCardsNumberRange(params);
+    return {
+      hidden,
+      selection,
+      decoded,
+      expectedSelection,
+      expectedDecoded,
+      validHidden: Number.isInteger(hidden) && hidden >= range.min && hidden <= range.max,
+      correctSelection: selection.join('|') === expectedSelection.join('|'),
+      win: Number.isInteger(hidden) && decoded === hidden && hidden >= range.min && hidden <= range.max
+    };
+  }
+
+  function binaryCardsExhaustiveCheck(params = {}) {
+    const numbers = binaryCardsAllNumbers(params);
+    const rows = numbers.map(number => {
+      const selection = binaryCardsSelectionForNumber(number, params);
+      const decoded = binaryCardsDecodeSelection(selection, params);
+      return {
+        number,
+        selection,
+        decoded,
+        ok: decoded === number
+      };
+    });
+    const byCode = new Map();
+    for (const row of rows) {
+      const key = row.selection.join('|');
+      if (!byCode.has(key)) byCode.set(key, []);
+      byCode.get(key).push(row.number);
+    }
+    const collisions = [...byCode.entries()]
+      .filter(([_key, values]) => values.length > 1)
+      .map(([key, values]) => ({ key, numbers: values }));
+    return {
+      success: rows.every(row => row.ok) && collisions.length === 0,
+      checked: rows.length,
+      rows,
+      collisions,
+      cards: binaryCardsCards(params)
+    };
+  }
+
+  function binaryCardsChooseRandom(params = {}) {
+    const numbers = binaryCardsAllNumbers(params);
+    return numbers[Math.floor(Math.random() * numbers.length)] ?? null;
+  }
+
+  function ternaryQuestionObjectCount(params = {}) {
+    const count = Number(params.object_count ?? params.objectCount ?? params.number_max ?? params.numberMax ?? 27);
+    return Number.isInteger(count) && count >= 1 && count <= 729 ? count : 27;
+  }
+
+  function ternaryQuestionMaxTests(params = {}) {
+    const tests = Number(params.max_tests ?? params.maxTests ?? params.question_count ?? params.questionCount ?? 3);
+    return Number.isInteger(tests) && tests >= 1 && tests <= 6 ? tests : 3;
+  }
+
+  function ternaryQuestionAlphabet(params = {}) {
+    const raw = params.alphabet ?? params.answer_alphabet ?? params.answerAlphabet ?? params.outcome_labels ?? params.outcomeLabels;
+    const labels = Array.isArray(raw) ? raw.map(String).filter(Boolean).slice(0, 3) : [];
+    while (labels.length < 3) labels.push(String(labels.length));
+    return labels;
+  }
+
+  function ternaryQuestionInitialStates(params = {}) {
+    const count = ternaryQuestionObjectCount(params);
+    return Array.from({ length: count }, (_item, index) => ({ number: index + 1 }));
+  }
+
+  function ternaryQuestionNormalizeOutcomes(outcomes, params = {}) {
+    const alphabet = ternaryQuestionAlphabet(params);
+    const maxTests = ternaryQuestionMaxTests(params);
+    const raw = Array.isArray(outcomes) ? outcomes : [];
+    const result = raw.slice(0, maxTests).map(item => {
+      const numeric = Number(item);
+      if (Number.isInteger(numeric) && numeric >= 0 && numeric <= 2) return numeric;
+      const labelIndex = alphabet.indexOf(String(item));
+      return labelIndex >= 0 ? labelIndex : 0;
+    });
+    while (result.length < maxTests) result.push(0);
+    return result;
+  }
+
+  function ternaryQuestionCodeForState(state, params = {}) {
+    const maxTests = ternaryQuestionMaxTests(params);
+    const number = Number(state?.number ?? state);
+    if (!Number.isInteger(number) || number < 1) return Array.from({ length: maxTests }, () => 0);
+    let value = number - 1;
+    const digits = Array.from({ length: maxTests }, () => 0);
+    for (let index = maxTests - 1; index >= 0; index -= 1) {
+      digits[index] = value % 3;
+      value = Math.floor(value / 3);
+    }
+    return digits;
+  }
+
+  function ternaryQuestionCodeKey(outcomes, params = {}) {
+    return ternaryQuestionNormalizeOutcomes(outcomes, params).join('');
+  }
+
+  function ternaryQuestionDecodeOutcomes(outcomes, params = {}) {
+    const digits = ternaryQuestionNormalizeOutcomes(outcomes, params);
+    const value = digits.reduce((total, digit) => total * 3 + digit, 0);
+    const number = value + 1;
+    const objectCount = ternaryQuestionObjectCount(params);
+    return {
+      number,
+      value,
+      digits,
+      inRange: number >= 1 && number <= objectCount
+    };
+  }
+
+  function ternaryQuestionChooseRandom(params = {}) {
+    const states = ternaryQuestionInitialStates(params);
+    return states[Math.floor(Math.random() * states.length)]?.number ?? null;
+  }
+
+  function ternaryQuestionEvaluate(params = {}) {
+    const hidden = Number(params.number ?? params.hidden ?? params.hidden_number ?? params.hiddenNumber);
+    const outcomes = ternaryQuestionNormalizeOutcomes(params.outcomes ?? params.answers ?? params.code, params);
+    const decoded = ternaryQuestionDecodeOutcomes(outcomes, params);
+    const expectedOutcomes = ternaryQuestionCodeForState(hidden, params);
+    const range = ternaryQuestionObjectCount(params);
+    return {
+      hidden,
+      outcomes,
+      decoded: decoded.number,
+      decodedState: decoded,
+      expectedOutcomes,
+      validHidden: Number.isInteger(hidden) && hidden >= 1 && hidden <= range,
+      correctOutcomes: outcomes.join('') === expectedOutcomes.join(''),
+      win: Number.isInteger(hidden) && hidden >= 1 && hidden <= range && decoded.number === hidden
+    };
+  }
+
+  function ternaryQuestionExhaustiveCheck(params = {}) {
+    const states = ternaryQuestionInitialStates(params);
+    const rows = states.map(state => {
+      const outcomes = ternaryQuestionCodeForState(state, params);
+      const decodedState = ternaryQuestionDecodeOutcomes(outcomes, params);
+      return {
+        number: state.number,
+        outcomes,
+        decoded: decodedState.number,
+        ok: decodedState.number === state.number && decodedState.inRange
+      };
+    });
+    const byCode = new Map();
+    for (const row of rows) {
+      const key = ternaryQuestionCodeKey(row.outcomes, params);
+      if (!byCode.has(key)) byCode.set(key, []);
+      byCode.get(key).push(row.number);
+    }
+    const collisions = [...byCode.entries()]
+      .filter(([_key, values]) => values.length > 1)
+      .map(([key, values]) => ({ key, numbers: values }));
+    return {
+      success: rows.every(row => row.ok) && collisions.length === 0 && rows.length <= 3 ** ternaryQuestionMaxTests(params),
+      checked: rows.length,
+      rows,
+      collisions
+    };
+  }
+
+  function repetitionCodeBitCount(params = {}) {
+    const bitCount = Number(params.bit_count ?? params.bitCount ?? 3);
+    return Number.isInteger(bitCount) && bitCount >= 1 && bitCount <= 10 ? bitCount : 3;
+  }
+
+  function repetitionCodeRepetitions(params = {}) {
+    const repetitions = Number(params.repetitions_per_bit ?? params.repetitionsPerBit ?? 3);
+    return Number.isInteger(repetitions) && repetitions >= 1 && repetitions <= 9 ? repetitions : 3;
+  }
+
+  function repetitionCodeMaxLies(params = {}) {
+    const maxLies = Number(params.max_lies ?? params.maxLies ?? 1);
+    return Number.isInteger(maxLies) && maxLies >= 0 ? maxLies : 1;
+  }
+
+  function repetitionCodeNumberRange(params = {}) {
+    const bitCount = repetitionCodeBitCount(params);
+    const min = Number(params.number_min ?? params.numberMin ?? 0);
+    const max = Number(params.number_max ?? params.numberMax ?? (2 ** bitCount - 1));
+    const safeMin = Number.isInteger(min) && min >= 0 ? min : 0;
+    const safeMax = Number.isInteger(max) && max >= safeMin && max < 2 ** bitCount ? max : 2 ** bitCount - 1;
+    return { min: safeMin, max: safeMax };
+  }
+
+  function repetitionCodeAllNumbers(params = {}) {
+    const range = repetitionCodeNumberRange(params);
+    return Array.from({ length: range.max - range.min + 1 }, (_item, index) => range.min + index);
+  }
+
+  function repetitionCodeQuestionCount(params = {}) {
+    return repetitionCodeBitCount(params) * repetitionCodeRepetitions(params);
+  }
+
+  function repetitionCodeQuestionRows(params = {}) {
+    const bitCount = repetitionCodeBitCount(params);
+    const repetitions = repetitionCodeRepetitions(params);
+    const rows = [];
+    for (let bit = 0; bit < bitCount; bit += 1) {
+      for (let repeat = 0; repeat < repetitions; repeat += 1) {
+        rows.push({
+          index: rows.length,
+          bit,
+          repeat,
+          weight: 2 ** bit
+        });
+      }
+    }
+    return rows;
+  }
+
+  function repetitionCodeTruthAnswers(number, params = {}) {
+    const hidden = Number(number?.number ?? number);
+    return repetitionCodeQuestionRows(params).map(row => ((hidden >> row.bit) & 1) === 1);
+  }
+
+  function repetitionCodeNormalizeLieIndex(lieIndex, params = {}) {
+    if (lieIndex == null || lieIndex === '' || lieIndex === 'none') return -1;
+    const index = Number(lieIndex);
+    return Number.isInteger(index) && index >= 0 && index < repetitionCodeQuestionCount(params) ? index : -1;
+  }
+
+  function repetitionCodeAnswersForCase(params = {}) {
+    const hidden = Number(params.number ?? params.hidden ?? params.hiddenNumber ?? params.hidden_number);
+    const lieIndex = repetitionCodeNormalizeLieIndex(params.lieIndex ?? params.lie_index, params);
+    const answers = repetitionCodeTruthAnswers(hidden, params);
+    if (lieIndex >= 0) answers[lieIndex] = !answers[lieIndex];
+    return answers;
+  }
+
+  function repetitionCodeNormalizeAnswers(answers, params = {}) {
+    const expectedLength = repetitionCodeQuestionCount(params);
+    const raw = Array.isArray(answers ?? params.answers) ? answers ?? params.answers : [];
+    return Array.from({ length: expectedLength }, (_item, index) => {
+      const value = raw[index];
+      return value === true || value === 1 || value === '1' || value === 'yes' || value === 'true';
+    });
+  }
+
+  function repetitionCodeDecodeAnswers(answers, params = {}) {
+    const normalized = repetitionCodeNormalizeAnswers(answers, params);
+    const bitCount = repetitionCodeBitCount(params);
+    const repetitions = repetitionCodeRepetitions(params);
+    const groups = [];
+    let decoded = 0;
+    for (let bit = 0; bit < bitCount; bit += 1) {
+      const groupAnswers = normalized.slice(bit * repetitions, (bit + 1) * repetitions);
+      const yesCount = groupAnswers.filter(Boolean).length;
+      const noCount = groupAnswers.length - yesCount;
+      const bitValue = yesCount > noCount ? 1 : 0;
+      if (bitValue) decoded += 2 ** bit;
+      groups.push({
+        bit,
+        weight: 2 ** bit,
+        answers: groupAnswers,
+        yesCount,
+        noCount,
+        bitValue
+      });
+    }
+    return { answers: normalized, groups, decoded };
+  }
+
+  function repetitionCodeEvaluate(params = {}) {
+    const hidden = Number(params.number ?? params.hidden ?? params.hiddenNumber ?? params.hidden_number);
+    const answers = params.answers ? repetitionCodeNormalizeAnswers(params.answers, params) : repetitionCodeAnswersForCase(params);
+    const decoded = repetitionCodeDecodeAnswers(answers, params);
+    const truth = Number.isInteger(hidden) ? repetitionCodeTruthAnswers(hidden, params) : [];
+    const liePositions = truth.length
+      ? answers.map((answer, index) => answer !== truth[index] ? index : null).filter(index => index != null)
+      : [];
+    const range = repetitionCodeNumberRange(params);
+    const validHidden = Number.isInteger(hidden) && hidden >= range.min && hidden <= range.max;
+    return {
+      hidden,
+      lieIndex: repetitionCodeNormalizeLieIndex(params.lieIndex ?? params.lie_index, params),
+      answers,
+      truth,
+      groups: decoded.groups,
+      decoded: decoded.decoded,
+      liePositions,
+      lieCount: liePositions.length,
+      validHidden,
+      win: validHidden && decoded.decoded === hidden && liePositions.length <= repetitionCodeMaxLies(params)
+    };
+  }
+
+  function repetitionCodeChooseRandom(params = {}, random = Math.random) {
+    const numbers = repetitionCodeAllNumbers(params);
+    const questionCount = repetitionCodeQuestionCount(params);
+    const number = numbers[Math.floor(random() * numbers.length)] ?? null;
+    const lieIndex = Math.floor(random() * (questionCount + 1)) - 1;
+    return {
+      number,
+      lieIndex,
+      answers: repetitionCodeAnswersForCase({ ...params, number, lieIndex })
+    };
+  }
+
+  function repetitionCodeExhaustiveCheck(params = {}) {
+    const rows = [];
+    const questionCount = repetitionCodeQuestionCount(params);
+    for (const number of repetitionCodeAllNumbers(params)) {
+      for (let lieIndex = -1; lieIndex < questionCount; lieIndex += 1) {
+        const check = repetitionCodeEvaluate({ ...params, number, lieIndex });
+        rows.push({
+          number,
+          lieIndex,
+          answers: check.answers,
+          decoded: check.decoded,
+          lieCount: check.lieCount,
+          ok: check.win
+        });
+      }
+    }
+    return {
+      success: rows.every(row => row.ok),
+      checked: rows.length,
+      rows,
+      failures: rows.filter(row => !row.ok)
+    };
+  }
+
+  function finiteBinaryProtocol(params = {}) {
+    return String(params.protocol ?? params.model ?? params.state_model ?? '').toLowerCase();
+  }
+
+  function finiteBinaryStateKey(state) {
+    return String(state?.id ?? state?.key ?? '');
+  }
+
+  function finiteBinaryActionKey(action) {
+    return String(action?.id ?? action?.key ?? '');
+  }
+
+  function finiteBinaryOtherPerson(person, people) {
+    return (people || []).find(item => item !== person) || '';
+  }
+
+  function finiteBinaryNormalizePeople(people) {
+    const labels = (Array.isArray(people) && people.length ? people : ['Вася', 'Петя'])
+      .map(item => String(item || '').trim())
+      .filter(Boolean);
+    return [...new Set(labels)];
+  }
+
+  function finiteBinaryGridSize(params = {}) {
+    const rows = Number(params.grid_rows ?? params.gridRows ?? params.rows ?? 10);
+    const cols = Number(params.grid_cols ?? params.gridCols ?? params.columns ?? params.cols ?? 10);
+    return {
+      rows: Number.isInteger(rows) && rows >= 2 && rows <= 30 ? rows : 0,
+      cols: Number.isInteger(cols) && cols >= 2 && cols <= 30 ? cols : 0
+    };
+  }
+
+  function finiteBinaryGridCellKey(row, col) {
+    return `r${row}c${col}`;
+  }
+
+  function finiteBinaryGridCellLabel(row, col) {
+    return `${row}:${col}`;
+  }
+
+  function finiteBinaryNormalizeCell(raw) {
+    if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+      const row = Number(raw.row ?? raw.r);
+      const col = Number(raw.col ?? raw.column ?? raw.c);
+      if (Number.isInteger(row) && Number.isInteger(col)) {
+        return { row, col, key: finiteBinaryGridCellKey(row, col) };
+      }
+    }
+    const text = String(raw ?? '').trim();
+    const match = text.match(/(\d+)\D+(\d+)/);
+    if (match) {
+      const row = Number(match[1]);
+      const col = Number(match[2]);
+      if (Number.isInteger(row) && Number.isInteger(col)) {
+        return { row, col, key: finiteBinaryGridCellKey(row, col) };
+      }
+    }
+    return null;
+  }
+
+  function finiteBinaryAdjacentGridStates(params = {}) {
+    const { rows, cols } = finiteBinaryGridSize(params);
+    if (!rows || !cols) return [];
+    const states = [];
+    function pushPair(first, second) {
+      const firstKey = finiteBinaryGridCellKey(first.row, first.col);
+      const secondKey = finiteBinaryGridCellKey(second.row, second.col);
+      states.push({
+        id: `${firstKey}_${secondKey}`,
+        label: `${finiteBinaryGridCellLabel(first.row, first.col)} и ${finiteBinaryGridCellLabel(second.row, second.col)}`,
+        cells: [firstKey, secondKey],
+        pair: [firstKey, secondKey],
+        coordinates: [first, second],
+        data: { cells: [firstKey, secondKey], coordinates: [first, second] }
+      });
+    }
+    for (let row = 1; row <= rows; row += 1) {
+      for (let col = 1; col <= cols; col += 1) {
+        if (col < cols) pushPair({ row, col }, { row, col: col + 1 });
+        if (row < rows) pushPair({ row, col }, { row: row + 1, col });
+      }
+    }
+    return states;
+  }
+
+  function finiteBinaryAdjacentGridActions(params = {}) {
+    const { rows, cols } = finiteBinaryGridSize(params);
+    if (!rows || !cols) return [];
+    const actions = [];
+    for (let row = 1; row <= rows; row += 1) {
+      for (let col = 1; col <= cols; col += 1) {
+        const cell = finiteBinaryGridCellKey(row, col);
+        actions.push({
+          id: `ask_${cell}`,
+          label: finiteBinaryGridCellLabel(row, col),
+          cell,
+          row,
+          col,
+          data: { cell, row, col }
+        });
+      }
+    }
+    return actions;
+  }
+
+  function finiteBinaryAdjacentGridStateCells(state) {
+    const rawCells = state?.cells ?? state?.pair ?? state?.data?.cells ?? state?.data?.pair;
+    if (Array.isArray(rawCells) && rawCells.length) {
+      return rawCells.map(cell => {
+        const normalized = finiteBinaryNormalizeCell(cell);
+        return normalized?.key || String(cell);
+      });
+    }
+    const coordinates = state?.coordinates ?? state?.data?.coordinates;
+    if (Array.isArray(coordinates) && coordinates.length) {
+      return coordinates.map(cell => finiteBinaryNormalizeCell(cell)?.key).filter(Boolean);
+    }
+    return [];
+  }
+
+  function finiteBinaryAdjacentGridActionCell(action) {
+    const direct = action?.cell ?? action?.data?.cell;
+    const normalizedDirect = finiteBinaryNormalizeCell(direct);
+    if (normalizedDirect) return normalizedDirect.key;
+    const row = Number(action?.row ?? action?.data?.row);
+    const col = Number(action?.col ?? action?.data?.col);
+    if (Number.isInteger(row) && Number.isInteger(col)) return finiteBinaryGridCellKey(row, col);
+    return '';
+  }
+
+  function finiteBinaryNormalizeGridPair(raw, params = {}) {
+    const { rows, cols } = finiteBinaryGridSize(params);
+    const source = raw?.cells ?? raw?.pair ?? raw?.selectedCells ?? raw?.selected_cells ?? raw;
+    const values = typeof source === 'string'
+      ? (source.match(/r\d+c\d+|\d+\D+\d+/gi) || source.split(/[|_;]+/))
+      : source;
+    if (!Array.isArray(values) || values.length !== 2) return null;
+    const cells = values.map(finiteBinaryNormalizeCell);
+    if (cells.some(cell => !cell)) return null;
+    if (cells.some(cell => cell.row < 1 || cell.row > rows || cell.col < 1 || cell.col > cols)) return null;
+    const adjacent = Math.abs(cells[0].row - cells[1].row) + Math.abs(cells[0].col - cells[1].col) === 1;
+    if (!adjacent) return null;
+    return cells
+      .slice()
+      .sort((a, b) => a.row - b.row || a.col - b.col)
+      .map(cell => cell.key);
+  }
+
+  function finiteBinaryInitialStates(params = {}) {
+    const protocol = finiteBinaryProtocol(params);
+    if (Array.isArray(params.states) && params.states.length) {
+      return params.states
+        .map((state, index) => ({
+          ...state,
+          id: String(state.id ?? state.key ?? `state_${index + 1}`),
+          label: String(state.label ?? state.title ?? state.id ?? state.key ?? `состояние ${index + 1}`),
+          data: state.data && typeof state.data === 'object' ? state.data : { ...state }
+        }))
+        .filter(state => state.id);
+    }
+    if (protocol === 'one_liar_line_neighborhood') {
+      const count = Number(params.person_count ?? params.personCount ?? params.object_count ?? params.objectCount);
+      if (!Number.isInteger(count) || count < 2 || count > 60) return [];
+      return Array.from({ length: count }, (_item, index) => {
+        const liar = index + 1;
+        return {
+          id: `liar_${liar}`,
+          label: `лжец ${liar}`,
+          liar,
+          data: { liar }
+        };
+      });
+    }
+    if (protocol === 'knight_liar_fake_coin_subset') {
+      const coinCount = Number(params.coin_count ?? params.coinCount);
+      const people = finiteBinaryNormalizePeople(params.people ?? params.person_labels ?? params.personLabels);
+      if (!Number.isInteger(coinCount) || coinCount < 2 || coinCount > 12 || people.length !== 2) return [];
+      const states = [];
+      for (let fakeCoin = 1; fakeCoin <= coinCount; fakeCoin += 1) {
+        for (const knight of people) {
+          const liar = finiteBinaryOtherPerson(knight, people);
+          states.push({
+            id: `fake_${fakeCoin}_knight_${knight}`,
+            label: `фальшивая ${fakeCoin}, рыцарь ${knight}`,
+            fakeCoin,
+            knight,
+            liar,
+            data: { fake_coin: fakeCoin, fakeCoin, knight, liar }
+          });
+        }
+      }
+      return states;
+    }
+    if (protocol === 'adjacent_pair_grid_search') {
+      return finiteBinaryAdjacentGridStates(params);
+    }
+    return [];
+  }
+
+  function finiteBinaryInitialActions(params = {}) {
+    const protocol = finiteBinaryProtocol(params);
+    if (Array.isArray(params.actions) && params.actions.length) {
+      return params.actions
+        .map((action, index) => ({
+          ...action,
+          id: String(action.id ?? action.key ?? `action_${index + 1}`),
+          label: String(action.label ?? action.title ?? action.id ?? action.key ?? `действие ${index + 1}`),
+          data: action.data && typeof action.data === 'object' ? action.data : { ...action }
+        }))
+        .filter(action => action.id);
+    }
+    if (protocol === 'one_liar_line_neighborhood') {
+      const count = Number(params.person_count ?? params.personCount ?? params.object_count ?? params.objectCount);
+      if (!Number.isInteger(count) || count < 2 || count > 60) return [];
+      return Array.from({ length: count }, (_item, index) => {
+        const person = index + 1;
+        const window = [person - 1, person, person + 1].filter(item => item >= 1 && item <= count);
+        return {
+          id: `ask_${person}`,
+          label: `спросить ${person}`,
+          person,
+          window,
+          data: { person, window }
+        };
+      });
+    }
+    if (protocol === 'knight_liar_fake_coin_subset') {
+      const coinCount = Number(params.coin_count ?? params.coinCount);
+      const people = finiteBinaryNormalizePeople(params.people ?? params.person_labels ?? params.personLabels);
+      const sizes = (Array.isArray(params.action_subset_sizes) && params.action_subset_sizes.length
+        ? params.action_subset_sizes
+        : [1, 2]).map(Number).filter(size => Number.isInteger(size) && size > 0 && size <= coinCount);
+      if (!Number.isInteger(coinCount) || coinCount < 2 || coinCount > 12 || people.length !== 2) return [];
+      const actions = [];
+      function visit(start, size, subset) {
+        if (subset.length === size) {
+          for (const person of people) {
+            actions.push({
+              id: `ask_${person}_${subset.join('_')}`,
+              label: `${person}: ${subset.join(', ')}`,
+              person,
+              subset: [...subset],
+              data: { person, subset: [...subset] }
+            });
+          }
+          return;
+        }
+        for (let coin = start; coin <= coinCount; coin += 1) {
+          subset.push(coin);
+          visit(coin + 1, size, subset);
+          subset.pop();
+        }
+      }
+      for (const size of [...new Set(sizes)]) visit(1, size, []);
+      return actions;
+    }
+    if (protocol === 'adjacent_pair_grid_search') {
+      return finiteBinaryAdjacentGridActions(params);
+    }
+    return [];
+  }
+
+  function finiteBinaryNormalizeStates(states, params = {}) {
+    const allowed = new Set(finiteBinaryInitialStates(params).map(finiteBinaryStateKey));
+    const seen = new Set();
+    const result = [];
+    for (const state of states || []) {
+      const key = finiteBinaryStateKey(state);
+      if (!key || seen.has(key)) continue;
+      if (allowed.size && !allowed.has(key)) continue;
+      seen.add(key);
+      result.push(state);
+    }
+    return result;
+  }
+
+  function finiteBinaryNormalizeAnswer(value) {
+    const text = String(value ?? '').trim().toLowerCase();
+    if (['yes', 'y', 'true', '1', 'да'].includes(text)) return 'yes';
+    if (['no', 'n', 'false', '0', 'нет'].includes(text)) return 'no';
+    return null;
+  }
+
+  function finiteBinaryResponseFromTable(state, action, params = {}) {
+    const table = params.response_table ?? params.responses;
+    if (!table) return null;
+    const stateKey = finiteBinaryStateKey(state);
+    const actionKey = finiteBinaryActionKey(action);
+    if (Array.isArray(table)) {
+      const row = table.find(item =>
+        String(item?.state ?? item?.state_id ?? item?.stateId) === stateKey
+        && String(item?.action ?? item?.action_id ?? item?.actionId) === actionKey
+      );
+      return row ? finiteBinaryNormalizeAnswer(row.response ?? row.answer ?? row.outcome) : null;
+    }
+    if (typeof table === 'object') {
+      const value = table?.[stateKey]?.[actionKey] ?? table?.[`${stateKey}:${actionKey}`];
+      return finiteBinaryNormalizeAnswer(value);
+    }
+    return null;
+  }
+
+  function finiteBinaryResponseForState(state, action, params = {}) {
+    const tableResponse = finiteBinaryResponseFromTable(state, action, params);
+    if (tableResponse) return tableResponse;
+    const protocol = finiteBinaryProtocol(params);
+    if (protocol === 'one_liar_line_neighborhood') {
+      const liar = Number(state?.liar ?? state?.data?.liar);
+      const person = Number(action?.person ?? action?.data?.person);
+      if (!Number.isInteger(liar) || !Number.isInteger(person)) return null;
+      const includesSelf = params.query_includes_self === true || params.queryIncludesSelf === true;
+      const trueAnswer = includesSelf
+        ? Math.abs(liar - person) <= 1
+        : Math.abs(liar - person) === 1;
+      const spoken = liar === person ? !trueAnswer : trueAnswer;
+      return spoken ? 'yes' : 'no';
+    }
+    if (protocol === 'knight_liar_fake_coin_subset') {
+      const fakeCoin = Number(state?.fakeCoin ?? state?.fake_coin ?? state?.data?.fakeCoin ?? state?.data?.fake_coin);
+      const knight = String(state?.knight ?? state?.data?.knight ?? '');
+      const person = String(action?.person ?? action?.data?.person ?? '');
+      const subset = uniqueCoins(action?.subset ?? action?.coins ?? action?.data?.subset ?? action?.data?.coins);
+      if (!Number.isInteger(fakeCoin) || !person || !subset.length) return null;
+      const trueAnswer = subset.includes(fakeCoin);
+      const truthful = knight === person;
+      return (truthful ? trueAnswer : !trueAnswer) ? 'yes' : 'no';
+    }
+    if (protocol === 'adjacent_pair_grid_search') {
+      const cell = finiteBinaryAdjacentGridActionCell(action);
+      if (!cell) return null;
+      return finiteBinaryAdjacentGridStateCells(state).includes(cell) ? 'yes' : 'no';
+    }
+    return null;
+  }
+
+  function finiteBinaryCurrentStates(params = {}) {
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    const states = current?.length
+      ? finiteBinaryNormalizeStates(current, params)
+      : finiteBinaryInitialStates(params);
+    return { states, actions: finiteBinaryInitialActions(params) };
+  }
+
+  function finiteBinaryFilterStates(params = {}) {
+    const { states, actions } = finiteBinaryCurrentStates(params);
+    const actionId = String(params.actionId ?? params.action_id ?? params.action ?? '');
+    const action = params.action && typeof params.action === 'object'
+      ? params.action
+      : actions.find(item => finiteBinaryActionKey(item) === actionId);
+    const response = finiteBinaryNormalizeAnswer(params.response ?? params.answer ?? params.outcome);
+    if (!action || !response) return [];
+    return states.filter(state => finiteBinaryResponseForState(state, action, params) === response);
+  }
+
+  function finiteBinaryPartitionStates(params = {}) {
+    return Object.fromEntries(YES_NO_OUTCOMES.map(response => [
+      response,
+      finiteBinaryFilterStates({ ...params, response })
+    ]));
+  }
+
+  function finiteBinaryGuaranteedAnswers(states, params = {}) {
+    const objective = String(params.objective || '').toLowerCase();
+    const current = states || [];
+    if (objective === 'identify_state' || objective === 'identify_liar' || objective === 'identify_hidden_pair') {
+      return current.length === 1 ? [finiteBinaryStateKey(current[0])] : [];
+    }
+    if (objective === 'identify_one_genuine_coin') {
+      const coinCount = Number(params.coin_count ?? params.coinCount);
+      if (!Number.isInteger(coinCount) || coinCount < 1) return [];
+      const fakeCoins = new Set(current.map(state => Number(state?.fakeCoin ?? state?.fake_coin ?? state?.data?.fakeCoin ?? state?.data?.fake_coin)));
+      const result = [];
+      for (let coin = 1; coin <= coinCount; coin += 1) {
+        if (!fakeCoins.has(coin)) result.push(coin);
+      }
+      return result;
+    }
+    return current.length === 1 ? [finiteBinaryStateKey(current[0])] : [];
+  }
+
+  function finiteBinaryBranchStatus(states, usedTests, maxTests, params = {}) {
+    const current = finiteBinaryNormalizeStates(states || [], params);
+    const used = Number(usedTests);
+    const limit = Number(maxTests);
+    if (finiteBinaryGuaranteedAnswers(current, params).length > 0) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function finiteBinaryChooseCheaterResponse(params = {}) {
+    const partitions = finiteBinaryPartitionStates(params);
+    const scored = YES_NO_OUTCOMES.map(response => {
+      const states = partitions[response] || [];
+      const solved = finiteBinaryGuaranteedAnswers(states, params).length > 0;
+      return { response, states, solved };
+    }).filter(item => item.states.length > 0);
+    const chosen = scored.sort((a, b) =>
+      b.states.length - a.states.length
+      || Number(a.solved) - Number(b.solved)
+      || YES_NO_OUTCOMES.indexOf(a.response) - YES_NO_OUTCOMES.indexOf(b.response)
+    )[0] || { response: 'no', states: [], solved: false };
+    return {
+      response: chosen.response,
+      outcome: chosen.response,
+      label: YES_NO_LABELS[chosen.response],
+      states: chosen.states,
+      candidates: chosen.states,
+      partitions,
+      scores: Object.fromEntries(YES_NO_OUTCOMES.map(response => {
+        const states = partitions[response] || [];
+        return [response, {
+          states: states.length,
+          solved: finiteBinaryGuaranteedAnswers(states, params).length > 0,
+          answers: finiteBinaryGuaranteedAnswers(states, params)
+        }];
+      }))
+    };
+  }
+
+  function finiteBinaryExpandExhaustiveNode(params = {}) {
+    const usedTests = Number(params.usedTests ?? params.used_tests ?? params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxTests = Number(params.maxTests ?? params.max_tests ?? 1);
+    const partitions = finiteBinaryPartitionStates(params);
+    const children = YES_NO_OUTCOMES
+      .map(response => {
+        const states = partitions[response] || [];
+        return {
+          response,
+          outcome: response,
+          label: YES_NO_LABELS[response],
+          states,
+          candidates: states,
+          guaranteedAnswers: finiteBinaryGuaranteedAnswers(states, params),
+          usedTests: usedTests + 1,
+          usedWeighings: usedTests + 1,
+          status: finiteBinaryBranchStatus(states, usedTests + 1, maxTests, params)
+        };
+      })
+      .filter(child => child.states.length > 0);
+    return { partitions, children };
+  }
+
+  function finiteBinaryFinalizeAnswer(params = {}) {
+    const { states } = finiteBinaryCurrentStates(params);
+    const objective = String(params.objective || '').toLowerCase();
+    if (objective === 'identify_one_genuine_coin') {
+      const selectedCoin = Number(params.selectedCoin ?? params.selected_coin ?? params.answer);
+      const guaranteedAnswers = finiteBinaryGuaranteedAnswers(states, params);
+      const actualState = states.find(state => Number(state?.fakeCoin ?? state?.fake_coin ?? state?.data?.fakeCoin ?? state?.data?.fake_coin) === selectedCoin) || states[0] || null;
+      return {
+        win: guaranteedAnswers.includes(selectedCoin),
+        selectedCoin,
+        actualState,
+        states,
+        candidates: states,
+        guaranteedAnswers
+      };
+    }
+    if (objective === 'identify_hidden_pair') {
+      const selectedPair = finiteBinaryNormalizeGridPair(
+        params.selectedPair ?? params.selected_pair ?? params.selectedCells ?? params.selected_cells ?? params.answer,
+        params
+      );
+      const selectedKey = selectedPair?.join('_');
+      const guaranteedAnswers = finiteBinaryGuaranteedAnswers(states, params).map(String);
+      const actualState = states.find(state => finiteBinaryStateKey(state) !== selectedKey) || states[0] || null;
+      return {
+        win: Boolean(selectedKey && guaranteedAnswers.includes(selectedKey)),
+        selectedPair,
+        selectedStateId: selectedKey,
+        actualState,
+        states,
+        candidates: states,
+        guaranteedAnswers
+      };
+    }
+    const selectedStateId = String(params.selectedStateId ?? params.selected_state_id ?? params.answer ?? '');
+    const guaranteedAnswers = finiteBinaryGuaranteedAnswers(states, params).map(String);
+    const actualState = states.find(state => finiteBinaryStateKey(state) !== selectedStateId) || states[0] || null;
+    return {
+      win: guaranteedAnswers.includes(selectedStateId),
+      selectedStateId,
+      actualState,
+      states,
+      candidates: states,
+      guaranteedAnswers
+    };
+  }
+
   function finitePairCards(cardCount) {
     const count = Number(cardCount);
     if (!Number.isInteger(count) || count < 2) return [];
@@ -3039,7 +6592,7 @@
         hiddenPairs: hiddenKeys.map(key => finitePairNormalizePair(key, cardCount))
       };
       conflicts.push(conflict);
-      errors.push(`Показанная пара ${finitePairLabel(shownKey, cardCount)} декодируется неоднозначно: ${hiddenKeys.map(key => finitePairLabel(key, cardCount)).join(' и ')}.`);
+      errors.push(`Показанная пара ${finitePairLabel(shownKey, cardCount)} читается неоднозначно: ${hiddenKeys.map(key => finitePairLabel(key, cardCount)).join(' и ')}.`);
     }
     const complete = rows.every(row => Boolean(row.shownKey));
     return {
@@ -3055,9 +6608,893 @@
     };
   }
 
+  const FITCH_CHENEY_RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  const FITCH_CHENEY_SUITS = [
+    { id: 'C', label: '♣', name: 'трефы', color: 'black' },
+    { id: 'D', label: '♦', name: 'бубны', color: 'red' },
+    { id: 'H', label: '♥', name: 'червы', color: 'red' },
+    { id: 'S', label: '♠', name: 'пики', color: 'black' }
+  ];
+  const FITCH_CHENEY_PERMUTATIONS = [
+    [0, 1, 2],
+    [0, 2, 1],
+    [1, 0, 2],
+    [1, 2, 0],
+    [2, 0, 1],
+    [2, 1, 0]
+  ];
+
+  function fitchCheneyRanks(params = {}) {
+    const ranks = Array.isArray(params.ranks) && params.ranks.length ? params.ranks.map(String) : FITCH_CHENEY_RANKS;
+    return ranks.slice(0, 13);
+  }
+
+  function fitchCheneySuits(params = {}) {
+    const suits = Array.isArray(params.suits) && params.suits.length
+      ? params.suits.map((raw, index) => ({
+        id: String(raw?.id ?? raw?.key ?? index),
+        label: String(raw?.label ?? raw?.symbol ?? raw?.id ?? index),
+        name: String(raw?.name ?? raw?.title ?? raw?.label ?? raw?.id ?? index),
+        color: String(raw?.color ?? '')
+      }))
+      : FITCH_CHENEY_SUITS;
+    return suits.slice(0, 4);
+  }
+
+  function fitchCheneyDeck(params = {}) {
+    const ranks = fitchCheneyRanks(params);
+    const suits = fitchCheneySuits(params);
+    const deck = [];
+    for (let suitIndex = 0; suitIndex < suits.length; suitIndex += 1) {
+      for (let rankIndex = 0; rankIndex < ranks.length; rankIndex += 1) {
+        const suit = suits[suitIndex];
+        const rank = ranks[rankIndex];
+        deck.push({
+          id: `${suit.id}${rankIndex}`,
+          suit: suit.id,
+          suitLabel: suit.label,
+          suitName: suit.name,
+          color: suit.color || (suit.id === 'D' || suit.id === 'H' ? 'red' : 'black'),
+          rank,
+          rankIndex,
+          suitIndex,
+          sortIndex: suitIndex * ranks.length + rankIndex,
+          label: `${rank}${suit.label}`
+        });
+      }
+    }
+    return deck;
+  }
+
+  function fitchCheneyCardMap(params = {}) {
+    return new Map(fitchCheneyDeck(params).map(card => [card.id, card]));
+  }
+
+  function fitchCheneyNormalizeCards(cards, params = {}) {
+    let byId = null;
+    const seen = new Set();
+    const result = [];
+    for (const raw of cards || []) {
+      let card = null;
+      if (raw && typeof raw === 'object' && raw.id && Number.isInteger(raw.rankIndex) && Number.isInteger(raw.suitIndex)) {
+        card = raw;
+      } else {
+        if (!byId) byId = fitchCheneyCardMap(params);
+        const id = String(raw?.id ?? raw ?? '');
+        card = byId.get(id);
+      }
+      if (!card || seen.has(card.id)) continue;
+      seen.add(card.id);
+      result.push(card);
+    }
+    return result;
+  }
+
+  function fitchCheneyCardLabel(cardOrId, params = {}) {
+    const card = typeof cardOrId === 'string'
+      ? fitchCheneyCardMap(params).get(cardOrId)
+      : fitchCheneyNormalizeCards([cardOrId], params)[0];
+    return card?.label || '';
+  }
+
+  function fitchCheneyDistance(fromCard, toCard, rankCount = FITCH_CHENEY_RANKS.length) {
+    return (toCard.rankIndex - fromCard.rankIndex + rankCount) % rankCount;
+  }
+
+  function fitchCheneySorted(cards) {
+    return [...cards].sort((a, b) => a.sortIndex - b.sortIndex);
+  }
+
+  function fitchCheneyOrderForOffset(restCards, offset) {
+    const base = fitchCheneySorted(restCards);
+    const permutation = FITCH_CHENEY_PERMUTATIONS[offset - 1];
+    if (!permutation || base.length !== 3) return [];
+    return permutation.map(index => base[index]);
+  }
+
+  function fitchCheneyPermutationOffset(orderedRest) {
+    if (!Array.isArray(orderedRest) || orderedRest.length !== 3) return null;
+    const base = fitchCheneySorted(orderedRest);
+    const positionById = new Map(base.map((card, index) => [card.id, index]));
+    const key = orderedRest.map(card => positionById.get(card.id)).join(',');
+    const index = FITCH_CHENEY_PERMUTATIONS.findIndex(permutation => permutation.join(',') === key);
+    return index >= 0 ? index + 1 : null;
+  }
+
+  function fitchCheneyChooseAssistantMove(handCards, params = {}) {
+    const hand = fitchCheneySorted(fitchCheneyNormalizeCards(handCards, params));
+    const rankCount = fitchCheneyRanks(params).length;
+    const maxOffset = Math.min(FITCH_CHENEY_PERMUTATIONS.length, Math.floor(rankCount / 2));
+    if (hand.length !== 5) {
+      return { ok: false, error: 'Нужны ровно 5 разных карт.', hand };
+    }
+    for (let first = 0; first < hand.length; first += 1) {
+      for (let second = first + 1; second < hand.length; second += 1) {
+        const a = hand[first];
+        const b = hand[second];
+        if (a.suit !== b.suit) continue;
+        const forward = fitchCheneyDistance(a, b, rankCount);
+        const backward = fitchCheneyDistance(b, a, rankCount);
+        let keyCard = null;
+        let hiddenCard = null;
+        let offset = null;
+        if (forward >= 1 && forward <= maxOffset) {
+          keyCard = a;
+          hiddenCard = b;
+          offset = forward;
+        } else if (backward >= 1 && backward <= maxOffset) {
+          keyCard = b;
+          hiddenCard = a;
+          offset = backward;
+        }
+        if (!keyCard || !hiddenCard) continue;
+        const rest = hand.filter(card => card.id !== keyCard.id && card.id !== hiddenCard.id);
+        const shownCards = [keyCard, ...fitchCheneyOrderForOffset(rest, offset)];
+        return {
+          ok: true,
+          hand,
+          hiddenCard,
+          shownCards,
+          keyCard,
+          offset
+        };
+      }
+    }
+    return { ok: false, error: 'В руке не найдена подходящая пара одной масти.', hand };
+  }
+
+  function fitchCheneyDecodeShown(shownCards, params = {}) {
+    const shown = fitchCheneyNormalizeCards(shownCards, params);
+    const ranks = fitchCheneyRanks(params);
+    const rankCount = ranks.length;
+    if (shown.length !== 4) return { ok: false, error: 'Нужны ровно 4 разные показанные карты.', shownCards: shown };
+    const keyCard = shown[0];
+    const orderedRest = shown.slice(1);
+    const offset = fitchCheneyPermutationOffset(orderedRest);
+    if (offset == null) return { ok: false, error: 'Порядок трех карт не распознан.', shownCards: shown };
+    const hiddenRankIndex = (keyCard.rankIndex + offset) % rankCount;
+    const hiddenCard = {
+      ...keyCard,
+      id: `${keyCard.suit}${hiddenRankIndex}`,
+      rank: ranks[hiddenRankIndex],
+      rankIndex: hiddenRankIndex,
+      sortIndex: keyCard.suitIndex * rankCount + hiddenRankIndex,
+      label: `${ranks[hiddenRankIndex]}${keyCard.suitLabel}`
+    };
+    const shownIds = new Set(shown.map(card => card.id));
+    return {
+      ok: Boolean(hiddenCard) && !shownIds.has(hiddenCard.id),
+      error: shownIds.has(hiddenCard?.id) ? 'Декодированная карта уже лежит среди показанных.' : '',
+      shownCards: shown,
+      keyCard,
+      offset,
+      hiddenCard
+    };
+  }
+
+  function fitchCheneyEvaluate(params = {}) {
+    const hand = fitchCheneyNormalizeCards(params.hand ?? params.handCards ?? params.cards, params);
+    const shownCards = fitchCheneyNormalizeCards(params.shownCards ?? params.shown ?? [], params);
+    const hiddenCard = fitchCheneyNormalizeCards([params.hiddenCard ?? params.hidden ?? ''], params)[0] || null;
+    const decoded = fitchCheneyDecodeShown(shownCards, params);
+    const handIds = new Set(hand.map(card => card.id));
+    const shownIds = new Set(shownCards.map(card => card.id));
+    const validHand = hand.length === 5 && shownCards.length === 4 && hiddenCard && handIds.has(hiddenCard.id)
+      && shownCards.every(card => handIds.has(card.id))
+      && !shownIds.has(hiddenCard.id);
+    return {
+      ok: validHand && decoded.ok,
+      win: validHand && decoded.ok && decoded.hiddenCard?.id === hiddenCard.id,
+      hand,
+      hiddenCard,
+      shownCards,
+      decodedCard: decoded.hiddenCard || null,
+      decoded,
+      error: validHand ? (decoded.error || '') : 'Проверьте: нужна рука из 5 карт, одна скрытая карта и 4 показанные из этой руки.'
+    };
+  }
+
+  function fitchCheneyRandomHand(params = {}) {
+    const deck = fitchCheneyDeck(params);
+    const shuffled = [...deck];
+    for (let index = shuffled.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+    }
+    return fitchCheneySorted(shuffled.slice(0, 5));
+  }
+
+  function fitchCheneyExhaustiveCheck(params = {}) {
+    const deck = fitchCheneyDeck(params);
+    const failures = [];
+    let checked = 0;
+    for (let a = 0; a < deck.length - 4; a += 1) {
+      for (let b = a + 1; b < deck.length - 3; b += 1) {
+        for (let c = b + 1; c < deck.length - 2; c += 1) {
+          for (let d = c + 1; d < deck.length - 1; d += 1) {
+            for (let e = d + 1; e < deck.length; e += 1) {
+              const hand = [deck[a], deck[b], deck[c], deck[d], deck[e]];
+              const move = fitchCheneyChooseAssistantMove(hand, params);
+              const decoded = move.ok ? fitchCheneyDecodeShown(move.shownCards, params) : null;
+              checked += 1;
+              if (!move.ok || !decoded?.ok || decoded.hiddenCard?.id !== move.hiddenCard.id) {
+                failures.push({
+                  hand: hand.map(card => card.id),
+                  hidden: move.hiddenCard?.id || '',
+                  shown: (move.shownCards || []).map(card => card.id),
+                  decoded: decoded?.hiddenCard?.id || '',
+                  error: move.error || decoded?.error || 'decode mismatch'
+                });
+                if (failures.length >= 10) {
+                  return { ok: false, checked, total: checked, failures, stoppedEarly: true };
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    return { ok: failures.length === 0, checked, total: checked, failures, stoppedEarly: false };
+  }
+
+  function twentyOneCardDeckSize(params = {}) {
+    const size = Number(params.deck_size ?? params.deckSize ?? params.card_count ?? params.cardCount ?? 21);
+    return Number.isInteger(size) && size > 0 ? size : 21;
+  }
+
+  function twentyOneCardColumnCount(params = {}) {
+    const count = Number(params.column_count ?? params.columnCount ?? 3);
+    return Number.isInteger(count) && count > 0 ? count : 3;
+  }
+
+  function twentyOneCardRowCount(params = {}) {
+    const rows = Number(params.row_count ?? params.rowCount ?? 7);
+    return Number.isInteger(rows) && rows > 0 ? rows : 7;
+  }
+
+  function twentyOneCardRoundCount(params = {}) {
+    const rounds = Number(params.round_count ?? params.roundCount ?? 3);
+    return Number.isInteger(rounds) && rounds > 0 ? rounds : 3;
+  }
+
+  function twentyOneCardCards(params = {}) {
+    const size = twentyOneCardDeckSize(params);
+    const labels = Array.isArray(params.card_labels ?? params.cardLabels) ? (params.card_labels ?? params.cardLabels) : [];
+    return Array.from({ length: size }, (_item, index) => ({
+      id: index + 1,
+      label: String(labels[index] ?? index + 1)
+    }));
+  }
+
+  function twentyOneCardInitialDeck(params = {}) {
+    const size = twentyOneCardDeckSize(params);
+    const rawDeck = Array.isArray(params.deck) ? params.deck : null;
+    const deck = rawDeck
+      ? rawDeck.map(Number).filter(card => Number.isInteger(card) && card >= 1 && card <= size)
+      : [];
+    if (deck.length === size && new Set(deck).size === size) return deck;
+    return Array.from({ length: size }, (_item, index) => index + 1);
+  }
+
+  function twentyOneCardDeal(deck, params = {}) {
+    const columnCount = twentyOneCardColumnCount(params);
+    const columns = Array.from({ length: columnCount }, () => []);
+    for (let index = 0; index < (deck || []).length; index += 1) {
+      columns[index % columnCount].push(deck[index]);
+    }
+    return columns;
+  }
+
+  function twentyOneCardNormalizeColumn(column, params = {}) {
+    const count = twentyOneCardColumnCount(params);
+    const raw = Number(column);
+    if (!Number.isInteger(raw)) return null;
+    if (raw >= 0 && raw < count) return raw;
+    if (raw >= 1 && raw <= count) return raw - 1;
+    return null;
+  }
+
+  function twentyOneCardFindColumn(layout, card) {
+    const target = Number(card);
+    for (let column = 0; column < (layout || []).length; column += 1) {
+      if ((layout[column] || []).includes(target)) return column;
+    }
+    return null;
+  }
+
+  function twentyOneCardCollectionOrder(selectedColumn, params = {}) {
+    const columnCount = twentyOneCardColumnCount(params);
+    const middle = Math.floor(columnCount / 2);
+    const selected = twentyOneCardNormalizeColumn(selectedColumn, params);
+    if (selected == null || columnCount < 1) return [];
+    const others = Array.from({ length: columnCount }, (_item, index) => index).filter(index => index !== selected);
+    const order = [];
+    for (let index = 0; index < middle; index += 1) order.push(others[index]);
+    order.push(selected);
+    for (let index = middle; index < others.length; index += 1) order.push(others[index]);
+    return order;
+  }
+
+  function twentyOneCardCollect(layout, selectedColumn, params = {}) {
+    const order = twentyOneCardCollectionOrder(selectedColumn, params);
+    return order.flatMap(column => [...(layout?.[column] || [])]);
+  }
+
+  function twentyOneCardStep(params = {}) {
+    const deck = Array.isArray(params.deck) ? params.deck.map(Number) : twentyOneCardInitialDeck(params);
+    const selectedCard = Number(params.selectedCard ?? params.selected_card ?? params.hiddenCard ?? params.hidden_card);
+    const layout = twentyOneCardDeal(deck, params);
+    const actualColumn = twentyOneCardFindColumn(layout, selectedCard);
+    const reportedColumn = twentyOneCardNormalizeColumn(
+      params.reportedColumn ?? params.reported_column ?? params.column ?? actualColumn,
+      params
+    );
+    const collectionOrder = twentyOneCardCollectionOrder(reportedColumn, params);
+    const collectedDeck = twentyOneCardCollect(layout, reportedColumn, params);
+    return {
+      deck,
+      layout,
+      selectedCard,
+      actualColumn,
+      reportedColumn,
+      truthful: actualColumn != null && actualColumn === reportedColumn,
+      collectionOrder,
+      collectedDeck,
+      positionBefore: selectedCard ? deck.indexOf(selectedCard) + 1 : null,
+      positionAfter: selectedCard ? collectedDeck.indexOf(selectedCard) + 1 : null
+    };
+  }
+
+  function twentyOneCardTrace(params = {}) {
+    const roundCount = twentyOneCardRoundCount(params);
+    const deckSize = twentyOneCardDeckSize(params);
+    const selectedCard = Number(params.selectedCard ?? params.selected_card ?? params.hiddenCard ?? params.hidden_card ?? 1);
+    const answers = Array.isArray(params.answers ?? params.reported_columns ?? params.columns)
+      ? (params.answers ?? params.reported_columns ?? params.columns)
+      : [];
+    let deck = twentyOneCardInitialDeck(params);
+    const rounds = [];
+    for (let index = 0; index < roundCount; index += 1) {
+      const step = twentyOneCardStep({
+        ...params,
+        deck,
+        selectedCard,
+        reportedColumn: answers[index]
+      });
+      rounds.push({
+        round: index + 1,
+        deck: step.deck,
+        layout: step.layout,
+        actualColumn: step.actualColumn,
+        reportedColumn: step.reportedColumn,
+        truthful: step.truthful,
+        collectionOrder: step.collectionOrder,
+        collectedDeck: step.collectedDeck,
+        positionBefore: step.positionBefore,
+        positionAfter: step.positionAfter
+      });
+      deck = step.collectedDeck;
+    }
+    const finalPosition = Math.ceil(deckSize / 2);
+    const finalCard = deck[finalPosition - 1] ?? null;
+    return {
+      deckSize,
+      columnCount: twentyOneCardColumnCount(params),
+      rowCount: twentyOneCardRowCount(params),
+      roundCount,
+      selectedCard,
+      initialDeck: twentyOneCardInitialDeck(params),
+      rounds,
+      finalDeck: deck,
+      finalPosition,
+      finalCard,
+      success: finalCard === selectedCard && rounds.every(round => round.truthful)
+    };
+  }
+
+  function twentyOneCardExhaustive(params = {}) {
+    const cards = twentyOneCardInitialDeck(params);
+    const rows = cards.map(card => {
+      const trace = twentyOneCardTrace({ ...params, selectedCard: card });
+      return {
+        card,
+        answers: trace.rounds.map(round => round.actualColumn),
+        finalCard: trace.finalCard,
+        finalPosition: trace.finalPosition,
+        success: trace.finalCard === card,
+        trace
+      };
+    });
+    return {
+      checked: rows.length,
+      success: rows.every(row => row.success),
+      rows,
+      failures: rows.filter(row => !row.success)
+    };
+  }
+
+  function twentyOneCardRandomState(params = {}, random = Math.random) {
+    const deck = twentyOneCardInitialDeck(params);
+    const index = Math.floor(Math.max(0, Math.min(0.999999, Number(random()) || 0)) * deck.length);
+    return {
+      selectedCard: deck[index],
+      deck
+    };
+  }
+
+  function higherLowerGcd(a, b) {
+    let x = a < 0n ? -a : a;
+    let y = b < 0n ? -b : b;
+    while (y !== 0n) {
+      const next = x % y;
+      x = y;
+      y = next;
+    }
+    return x || 1n;
+  }
+
+  function higherLowerFraction(num, den = 1n) {
+    let n = BigInt(num);
+    let d = BigInt(den);
+    if (d === 0n) throw new Error('Zero denominator');
+    if (d < 0n) {
+      n = -n;
+      d = -d;
+    }
+    const divisor = higherLowerGcd(n, d);
+    return { num: n / divisor, den: d / divisor };
+  }
+
+  function higherLowerAdd(first, second) {
+    return higherLowerFraction(first.num * second.den + second.num * first.den, first.den * second.den);
+  }
+
+  function higherLowerMulInt(value, factor) {
+    return higherLowerFraction(value.num * BigInt(factor), value.den);
+  }
+
+  function higherLowerDivInt(value, divisor) {
+    return higherLowerFraction(value.num, value.den * BigInt(divisor));
+  }
+
+  function higherLowerCompare(first, second) {
+    const left = first.num * second.den;
+    const right = second.num * first.den;
+    if (left < right) return -1;
+    if (left > right) return 1;
+    return 0;
+  }
+
+  function higherLowerFractionLabel(value) {
+    const normalized = higherLowerFraction(value.num, value.den);
+    if (normalized.den === 1n) return String(normalized.num);
+    return `${normalized.num}/${normalized.den}`;
+  }
+
+  function higherLowerFractionNumber(value) {
+    return Number(value.num) / Number(value.den);
+  }
+
+  function higherLowerPublicFraction(value) {
+    return {
+      numerator: String(value.num),
+      denominator: String(value.den),
+      label: higherLowerFractionLabel(value),
+      value: higherLowerFractionNumber(value),
+      percent: 100 * higherLowerFractionNumber(value)
+    };
+  }
+
+  function higherLowerBoxCount(params = {}) {
+    const count = Number(params.box_count ?? params.boxCount ?? params.number_count ?? params.numberCount ?? 9);
+    if (!Number.isInteger(count) || count < 1) return 0;
+    return count;
+  }
+
+  function higherLowerComparisonCounts(params = {}) {
+    const main = higherLowerBoxCount(params);
+    const raw = params.compare_box_counts ?? params.compareBoxCounts ?? params.sample_box_counts ?? params.sampleBoxCounts ?? [3, 4, main];
+    const seen = new Set();
+    const result = [];
+    for (const value of Array.isArray(raw) ? raw : [raw]) {
+      const count = Number(value);
+      if (!Number.isInteger(count) || count < 1 || seen.has(count)) continue;
+      seen.add(count);
+      result.push(count);
+    }
+    if (main && !seen.has(main)) result.push(main);
+    return result.length ? result : [main || 1];
+  }
+
+  function higherLowerMoveScore(table, boxCount, guess, turn) {
+    const count = Number(boxCount);
+    const pivot = Number(guess);
+    if (!Number.isInteger(count) || count < 1 || !Number.isInteger(pivot) || pivot < 1 || pivot > count) return null;
+    const lowerSize = pivot - 1;
+    const higherSize = count - pivot;
+    if (turn === 'second') {
+      const lower = higherLowerMulInt(table.first[lowerSize].value, lowerSize);
+      const higher = higherLowerMulInt(table.first[higherSize].value, higherSize);
+      return higherLowerDivInt(higherLowerAdd(lower, higher), count);
+    }
+    const hit = higherLowerFraction(1n, BigInt(count));
+    const lower = higherLowerMulInt(table.second[lowerSize].value, lowerSize);
+    const higher = higherLowerMulInt(table.second[higherSize].value, higherSize);
+    return higherLowerAdd(hit, higherLowerDivInt(higherLowerAdd(lower, higher), count));
+  }
+
+  function higherLowerBuildTable(maxBoxes) {
+    const max = Number(maxBoxes);
+    if (!Number.isInteger(max) || max < 1) return { first: [], second: [] };
+    const first = [{ boxCount: 0, value: higherLowerFraction(0), moves: [] }];
+    const second = [{ boxCount: 0, value: higherLowerFraction(0), moves: [] }];
+    const table = { first, second };
+    for (let count = 1; count <= max; count += 1) {
+      const firstMoves = [];
+      for (let guess = 1; guess <= count; guess += 1) {
+        firstMoves.push({
+          guess,
+          lowerSize: guess - 1,
+          higherSize: count - guess,
+          value: higherLowerMoveScore(table, count, guess, 'first')
+        });
+      }
+      let bestFirst = firstMoves[0].value;
+      for (const move of firstMoves) {
+        if (higherLowerCompare(move.value, bestFirst) > 0) bestFirst = move.value;
+      }
+      first.push({
+        boxCount: count,
+        value: bestFirst,
+        moves: firstMoves.map(move => ({ ...move, optimal: higherLowerCompare(move.value, bestFirst) === 0 }))
+      });
+
+      const secondMoves = [];
+      for (let guess = 1; guess <= count; guess += 1) {
+        secondMoves.push({
+          guess,
+          lowerSize: guess - 1,
+          higherSize: count - guess,
+          value: higherLowerMoveScore(table, count, guess, 'second')
+        });
+      }
+      let bestSecond = secondMoves[0].value;
+      for (const move of secondMoves) {
+        if (higherLowerCompare(move.value, bestSecond) < 0) bestSecond = move.value;
+      }
+      second.push({
+        boxCount: count,
+        value: bestSecond,
+        moves: secondMoves.map(move => ({ ...move, optimal: higherLowerCompare(move.value, bestSecond) === 0 }))
+      });
+    }
+    return table;
+  }
+
+  function higherLowerPublicPosition(position) {
+    return {
+      boxCount: position.boxCount,
+      value: higherLowerPublicFraction(position.value),
+      moves: position.moves.map(move => ({
+        guess: move.guess,
+        lowerSize: move.lowerSize,
+        higherSize: move.higherSize,
+        optimal: Boolean(move.optimal),
+        value: higherLowerPublicFraction(move.value)
+      }))
+    };
+  }
+
+  function higherLowerSolve(params = {}) {
+    const boxCount = higherLowerBoxCount(params);
+    const counts = higherLowerComparisonCounts(params);
+    const max = Math.max(boxCount, ...counts);
+    const table = higherLowerBuildTable(max);
+    return {
+      boxCount,
+      counts,
+      first: higherLowerPublicPosition(table.first[boxCount]),
+      second: higherLowerPublicPosition(table.second[boxCount]),
+      comparisons: counts.map(count => ({
+        boxCount: count,
+        first: higherLowerPublicPosition(table.first[count]),
+        second: higherLowerPublicPosition(table.second[count])
+      }))
+    };
+  }
+
+  function higherLowerActionScores(params = {}) {
+    const boxCount = higherLowerBoxCount(params);
+    const turn = params.turn === 'second' ? 'second' : 'first';
+    const table = higherLowerBuildTable(boxCount);
+    return higherLowerPublicPosition(table[turn][boxCount]).moves;
+  }
+
+  function higherLowerBestGuesses(params = {}) {
+    return higherLowerActionScores(params).filter(move => move.optimal).map(move => move.guess);
+  }
+
+  function higherLowerInitialState(params = {}) {
+    const boxCount = higherLowerBoxCount(params);
+    return { low: 1, high: boxCount, turn: 'first', finished: false, winner: null };
+  }
+
+  function higherLowerStateSize(state) {
+    const low = Number(state?.low);
+    const high = Number(state?.high);
+    if (!Number.isInteger(low) || !Number.isInteger(high) || high < low) return 0;
+    return high - low + 1;
+  }
+
+  function higherLowerStateValue(state, params = {}) {
+    const size = higherLowerStateSize(state);
+    const table = higherLowerBuildTable(Math.max(size, higherLowerBoxCount(params)));
+    const turn = state?.turn === 'second' ? 'second' : 'first';
+    return higherLowerPublicFraction(table[turn][size]?.value || higherLowerFraction(0));
+  }
+
+  function higherLowerGuessBranches(state, guess, params = {}) {
+    const low = Number(state?.low);
+    const high = Number(state?.high);
+    const turn = state?.turn === 'second' ? 'second' : 'first';
+    const selected = Number(guess);
+    if (!Number.isInteger(low) || !Number.isInteger(high) || !Number.isInteger(selected) || selected < low || selected > high) return [];
+    const nextTurn = turn === 'first' ? 'second' : 'first';
+    const table = higherLowerBuildTable(Math.max(higherLowerBoxCount(params), high - low + 1));
+    const total = high - low + 1;
+    const branches = [{
+      answer: 'hit',
+      label: 'угадано',
+      size: 1,
+      probability: higherLowerPublicFraction(higherLowerFraction(1n, BigInt(total))),
+      nextState: { low: selected, high: selected, turn, finished: true, winner: turn },
+      firstWinChance: turn === 'first' ? higherLowerPublicFraction(higherLowerFraction(1)) : higherLowerPublicFraction(higherLowerFraction(0))
+    }];
+    if (selected > low) {
+      const size = selected - low;
+      const nextState = { low, high: selected - 1, turn: nextTurn, finished: false, winner: null };
+      branches.push({
+        answer: 'lower',
+        label: 'ниже',
+        size,
+        probability: higherLowerPublicFraction(higherLowerFraction(BigInt(size), BigInt(total))),
+        nextState,
+        firstWinChance: higherLowerPublicFraction(table[nextTurn][size].value)
+      });
+    }
+    if (selected < high) {
+      const size = high - selected;
+      const nextState = { low: selected + 1, high, turn: nextTurn, finished: false, winner: null };
+      branches.push({
+        answer: 'higher',
+        label: 'выше',
+        size,
+        probability: higherLowerPublicFraction(higherLowerFraction(BigInt(size), BigInt(total))),
+        nextState,
+        firstWinChance: higherLowerPublicFraction(table[nextTurn][size].value)
+      });
+    }
+    return branches;
+  }
+
+  function higherLowerApplyAnswer(state, guess, answer, params = {}) {
+    const branches = higherLowerGuessBranches(state, guess, params);
+    return branches.find(branch => branch.answer === answer)?.nextState || null;
+  }
+
+  function movingTargetDefaultCube() {
+    return {
+      vertices: [
+        { id: 'A', label: 'A', color: 'light', x: 24, y: 72 },
+        { id: 'B', label: 'B', color: 'dark', x: 24, y: 28 },
+        { id: 'C', label: 'C', color: 'light', x: 58, y: 20 },
+        { id: 'D', label: 'D', color: 'dark', x: 58, y: 64 },
+        { id: 'E', label: 'E', color: 'dark', x: 42, y: 86 },
+        { id: 'F', label: 'F', color: 'light', x: 42, y: 42 },
+        { id: 'G', label: 'G', color: 'dark', x: 76, y: 34 },
+        { id: 'H', label: 'H', color: 'light', x: 76, y: 78 }
+      ],
+      edges: [
+        ['A', 'B'], ['B', 'C'], ['C', 'D'], ['D', 'A'],
+        ['E', 'F'], ['F', 'G'], ['G', 'H'], ['H', 'E'],
+        ['A', 'E'], ['B', 'F'], ['C', 'G'], ['D', 'H']
+      ]
+    };
+  }
+
+  function movingTargetNormalizeGraph(params = {}) {
+    const fallback = movingTargetDefaultCube();
+    const rawVertices = Array.isArray(params.vertices) && params.vertices.length ? params.vertices : fallback.vertices;
+    const vertices = [];
+    const seen = new Set();
+    for (const raw of rawVertices) {
+      const id = String(raw?.id ?? raw?.key ?? raw ?? '').trim();
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      vertices.push({
+        id,
+        label: String(raw?.label ?? id),
+        color: String(raw?.color ?? ''),
+        x: Number.isFinite(Number(raw?.x)) ? Number(raw.x) : null,
+        y: Number.isFinite(Number(raw?.y)) ? Number(raw.y) : null
+      });
+    }
+    const vertexIds = new Set(vertices.map(vertex => vertex.id));
+    const rawEdges = Array.isArray(params.edges) && params.edges.length ? params.edges : fallback.edges;
+    const edgeSeen = new Set();
+    const edges = [];
+    for (const raw of rawEdges) {
+      const first = String(raw?.[0] ?? raw?.from ?? raw?.a ?? '').trim();
+      const second = String(raw?.[1] ?? raw?.to ?? raw?.b ?? '').trim();
+      if (!first || !second || first === second || !vertexIds.has(first) || !vertexIds.has(second)) continue;
+      const key = [first, second].sort().join('|');
+      if (edgeSeen.has(key)) continue;
+      edgeSeen.add(key);
+      edges.push([first, second]);
+    }
+    const neighbors = Object.fromEntries(vertices.map(vertex => [vertex.id, []]));
+    for (const [first, second] of edges) {
+      neighbors[first].push(second);
+      neighbors[second].push(first);
+    }
+    for (const list of Object.values(neighbors)) list.sort();
+    return { vertices, edges, neighbors };
+  }
+
+  function movingTargetVertexKey(vertex) {
+    return String(vertex?.id ?? vertex?.key ?? vertex ?? '').trim();
+  }
+
+  function movingTargetNormalizeVertices(vertices, params = {}) {
+    const graph = movingTargetNormalizeGraph(params);
+    const allowed = new Set(graph.vertices.map(vertex => vertex.id));
+    const seen = new Set();
+    const result = [];
+    for (const raw of vertices || []) {
+      const key = movingTargetVertexKey(raw);
+      if (!allowed.has(key) || seen.has(key)) continue;
+      seen.add(key);
+      result.push(key);
+    }
+    return result;
+  }
+
+  function movingTargetInitialStates(params = {}) {
+    return movingTargetNormalizeGraph(params).vertices.map(vertex => vertex.id);
+  }
+
+  function movingTargetCurrentStates(params = {}) {
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return current?.length
+      ? movingTargetNormalizeVertices(current, params)
+      : movingTargetInitialStates(params);
+  }
+
+  function movingTargetValidation(checkedVertices, params = {}) {
+    const checkSize = Number(params.checkSize ?? params.check_size ?? params.action_size ?? 1);
+    const checked = movingTargetNormalizeVertices(checkedVertices, params);
+    const validSize = Number.isInteger(checkSize) && checkSize >= 1;
+    if (!validSize) return { valid: false, error: 'Invalid check size.', checked };
+    const allowFewer = params.allowFewer === true || params.allow_fewer === true || params.allowUpTo === true || params.allow_up_to === true;
+    if (allowFewer ? checked.length < 1 || checked.length > checkSize : checked.length !== checkSize) {
+      return {
+        valid: false,
+        error: allowFewer
+          ? `Select from 1 to ${checkSize} vertices.`
+          : `Select exactly ${checkSize} vertices.`,
+        checked
+      };
+    }
+    return { valid: true, error: '', checked };
+  }
+
+  function movingTargetTransitionStates(params = {}) {
+    const graph = movingTargetNormalizeGraph(params);
+    const current = movingTargetCurrentStates(params);
+    const checked = new Set(movingTargetNormalizeVertices(params.checkedVertices ?? params.checked_vertices ?? params.checked ?? params.verticesToCheck, params));
+    const escapedBeforeMove = current.filter(vertex => !checked.has(vertex));
+    const next = new Set();
+    for (const vertex of escapedBeforeMove) {
+      for (const neighbor of graph.neighbors[vertex] || []) next.add(neighbor);
+    }
+    return [...next].sort();
+  }
+
+  function movingTargetCaughtStates(params = {}) {
+    const current = movingTargetCurrentStates(params);
+    const checked = new Set(movingTargetNormalizeVertices(params.checkedVertices ?? params.checked_vertices ?? params.checked ?? params.verticesToCheck, params));
+    return current.filter(vertex => checked.has(vertex)).sort();
+  }
+
+  function movingTargetBranchStatus(states, usedTests, maxTests) {
+    const remaining = states || [];
+    const used = Number(usedTests);
+    const limit = Number(maxTests);
+    if (!remaining.length) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function movingTargetChooseCheaterOutcome(params = {}) {
+    const maxTests = Number(params.maxTests ?? params.max_tests ?? params.maxMoves ?? params.max_moves ?? 1);
+    const usedTests = Number(params.usedTests ?? params.used_tests ?? params.usedMoves ?? params.used_moves ?? 0);
+    const current = movingTargetCurrentStates(params);
+    const caughtStates = movingTargetCaughtStates(params);
+    const states = movingTargetTransitionStates(params);
+    const caught = states.length === 0;
+    return {
+      outcome: caught ? 'caught' : 'not_found',
+      caught,
+      found: caught,
+      caughtStates,
+      states,
+      candidates: states,
+      usedTests: usedTests + 1,
+      status: caught ? 'solved' : movingTargetBranchStatus(states, usedTests + 1, maxTests),
+      scores: {
+        caughtStates: caughtStates.length,
+        escapedStates: current.length - caughtStates.length,
+        nextStates: states.length
+      }
+    };
+  }
+
+  function movingTargetExpandExhaustiveNode(params = {}) {
+    const maxTests = Number(params.maxTests ?? params.max_tests ?? params.maxMoves ?? params.max_moves ?? 1);
+    const usedTests = Number(params.usedTests ?? params.used_tests ?? params.usedMoves ?? params.used_moves ?? 0);
+    const caughtStates = movingTargetCaughtStates(params);
+    const escapedStates = movingTargetTransitionStates(params);
+    const children = [];
+    if (caughtStates.length) {
+      children.push({
+        outcome: 'caught',
+        label: 'поймано',
+        states: [],
+        candidates: [],
+        caughtStates,
+        usedTests: usedTests + 1,
+        status: 'solved'
+      });
+    }
+    if (escapedStates.length) {
+      children.push({
+        outcome: 'not_found',
+        label: 'не найдено',
+        states: escapedStates,
+        candidates: escapedStates,
+        caughtStates: [],
+        usedTests: usedTests + 1,
+        status: movingTargetBranchStatus(escapedStates, usedTests + 1, maxTests)
+      });
+    }
+    return { caughtStates, escapedStates, children };
+  }
+
   return {
     OUTCOMES,
     OUTCOME_LABELS,
+    THRESHOLD_BALANCE_OUTCOMES,
+    THRESHOLD_BALANCE_LABELS,
     YES_NO_OUTCOMES,
     YES_NO_LABELS,
     coinStatusDefinitions,
@@ -3104,6 +7541,19 @@
     pairedLightChooseCheaterOutcome,
     pairedLightExpandExhaustiveNode,
     pairedLightFinalizeAnswer,
+    zeroOneTwoSignClassLabel,
+    zeroOneTwoSignInitialStates,
+    zeroOneTwoSignStateKey,
+    zeroOneTwoSignNormalizeStates,
+    zeroOneTwoSignAnswerClasses,
+    zeroOneTwoSignCoinStatuses,
+    zeroOneTwoSignOutcomeForState,
+    zeroOneTwoSignPartitionStates,
+    zeroOneTwoSignFilterStates,
+    zeroOneTwoSignBranchStatus,
+    zeroOneTwoSignChooseCheaterOutcome,
+    zeroOneTwoSignExpandExhaustiveNode,
+    zeroOneTwoSignFinalizeAnswer,
     initialMultipleLightCandidates,
     normalizeGroupConstraints,
     initialGroupedMultipleLightCandidates,
@@ -3122,6 +7572,37 @@
     multipleLightChooseCheaterOutcome,
     multipleLightExpandExhaustiveNode,
     multipleLightFinalizeAnswer,
+    thresholdBalanceInitialStates,
+    thresholdBalanceStateKey,
+    thresholdBalanceStateLabel,
+    normalizeThresholdBalanceOutcome,
+    outcomeForThresholdBalanceState,
+    thresholdBalanceFilterStates,
+    thresholdBalancePartitionStates,
+    thresholdBalanceUniqueState,
+    thresholdBalanceObjectiveSolved,
+    thresholdBalanceAnswerOptionsForStates,
+    thresholdBalanceBranchStatus,
+    thresholdBalanceChooseCheaterOutcome,
+    thresholdBalanceExpandExhaustiveNode,
+    thresholdBalanceFinalizeAnswer,
+    constrainedLightInitialStates,
+    constrainedLightNormalizeStates,
+    constrainedLightStateKey,
+    constrainedLightCoinSetKey,
+    constrainedLightStateLabel,
+    outcomeForConstrainedLightState,
+    constrainedLightFilterStates,
+    constrainedLightPartitionStates,
+    constrainedLightPossibleCounts,
+    constrainedLightUniqueCoinSet,
+    constrainedLightUniqueState,
+    constrainedLightObjectiveSolved,
+    constrainedLightAnswerOptionsForStates,
+    constrainedLightBranchStatus,
+    constrainedLightChooseCheaterOutcome,
+    constrainedLightExpandExhaustiveNode,
+    constrainedLightFinalizeAnswer,
     zoltarMaskFromCoins,
     zoltarCoinsFromMask,
     zoltarInitialStates,
@@ -3198,6 +7679,18 @@
     heaviestBrokenScaleChooseCheaterOutcome,
     heaviestBrokenScaleFinalizeAnswer,
     possibleHeaviestCoins,
+    balancedWeightInitialStates,
+    balancedWeightStateKey,
+    balancedWeightNormalizeStates,
+    balancedWeightNormalizeWeighing,
+    balancedWeightValidateWeighing,
+    balancedWeightOutcomeForState,
+    balancedWeightPartitionStates,
+    balancedWeightFilterStates,
+    balancedWeightChooseCheaterOutcome,
+    balancedWeightBranchStatus,
+    balancedWeightExpandExhaustiveNode,
+    balancedWeightFinalizeAnswer,
     numericSignatureInitialStates,
     numericSignatureNormalizeStates,
     numericSignatureStateKey,
@@ -3224,6 +7717,172 @@
     subsetSignatureChooseCheaterOutcome,
     subsetSignatureFilterStates,
     subsetSignatureFinalizeAnswer,
+    balancedSubsetInitialStates,
+    balancedSubsetNormalizeQuestions,
+    balancedSubsetQuestionSum,
+    balancedSubsetSignatureForState,
+    balancedSubsetSignatureKey,
+    balancedSubsetStateKey,
+    balancedSubsetValidateQuestions,
+    balancedSubsetPartitionStates,
+    balancedSubsetCheckStrategy,
+    balancedSubsetFilterStates,
+    balancedSubsetChooseRandom,
+    binaryCardsNumberRange,
+    binaryCardsWeights,
+    binaryCardsAllNumbers,
+    binaryCardsCards,
+    binaryCardsNormalizeSelection,
+    binaryCardsSelectionForNumber,
+    binaryCardsDecodeSelection,
+    binaryCardsEvaluate,
+    binaryCardsExhaustiveCheck,
+    binaryCardsChooseRandom,
+    ternaryQuestionObjectCount,
+    ternaryQuestionMaxTests,
+    ternaryQuestionAlphabet,
+    ternaryQuestionInitialStates,
+    ternaryQuestionNormalizeOutcomes,
+    ternaryQuestionCodeForState,
+    ternaryQuestionCodeKey,
+    ternaryQuestionDecodeOutcomes,
+    ternaryQuestionChooseRandom,
+    ternaryQuestionEvaluate,
+    ternaryQuestionExhaustiveCheck,
+    repetitionCodeBitCount,
+    repetitionCodeRepetitions,
+    repetitionCodeMaxLies,
+    repetitionCodeNumberRange,
+    repetitionCodeAllNumbers,
+    repetitionCodeQuestionCount,
+    repetitionCodeQuestionRows,
+    repetitionCodeTruthAnswers,
+    repetitionCodeNormalizeLieIndex,
+    repetitionCodeAnswersForCase,
+    repetitionCodeNormalizeAnswers,
+    repetitionCodeDecodeAnswers,
+    repetitionCodeEvaluate,
+    repetitionCodeChooseRandom,
+    repetitionCodeExhaustiveCheck,
+    finiteBinaryGridSize,
+    finiteBinaryAdjacentGridStates,
+    finiteBinaryAdjacentGridActions,
+    finiteBinaryNormalizeGridPair,
+    finiteBinaryInitialStates,
+    finiteBinaryInitialActions,
+    finiteBinaryStateKey,
+    finiteBinaryActionKey,
+    finiteBinaryResponseForState,
+    finiteBinaryFilterStates,
+    finiteBinaryPartitionStates,
+    finiteBinaryGuaranteedAnswers,
+    finiteBinaryBranchStatus,
+    finiteBinaryChooseCheaterResponse,
+    finiteBinaryExpandExhaustiveNode,
+    finiteBinaryFinalizeAnswer,
+    safePileNormalizePiles,
+    safePileInitialStates,
+    safePileNormalizeStates,
+    safePileOutcomeForState,
+    safePileFilterStates,
+    safePilePartitionStates,
+    safePileSafePileIds,
+    safePileStateCounts,
+    safePileBranchStatus,
+    safePileChooseCheaterOutcome,
+    safePileExpandExhaustiveNode,
+    safePileFinalizeAnswer,
+    xorSingleFlipPositionCount,
+    xorSingleFlipBitsFromMask,
+    xorSingleFlipMaskFromBits,
+    xorSingleFlipChecksum,
+    xorSingleFlipApplyFlip,
+    xorSingleFlipRecommendedFlip,
+    xorSingleFlipFinalGuess,
+    xorSingleFlipInitialStates,
+    xorSingleFlipStateKey,
+    xorSingleFlipEvaluate,
+    xorSingleFlipCheckStrategy,
+    wiseMenParityPersonCount,
+    wiseMenParityColorCount,
+    wiseMenParityCodeword,
+    wiseMenParityWordKey,
+    wiseMenParityCodebook,
+    wiseMenParityValidateCodebook,
+    wiseMenParityNormalizeColors,
+    wiseMenParityMessages,
+    wiseMenParityDecodePerson,
+    wiseMenParityEvaluate,
+    wiseMenParityExhaustiveCheck,
+    wiseMenParityRandomColors,
+    wiseMenColorCountSageCount,
+    wiseMenColorCountColorCount,
+    wiseMenColorCountValues,
+    wiseMenColorCountTargetCorrectMin,
+    wiseMenColorCountValidateConfig,
+    wiseMenColorCountCountsFromColors,
+    wiseMenColorCountNormalizeColors,
+    wiseMenColorCountValidateState,
+    wiseMenColorCountPermutationParity,
+    wiseMenColorCountTargetParityForSage,
+    wiseMenColorCountCandidateOptions,
+    wiseMenColorCountEvaluate,
+    wiseMenColorCountInitialStates,
+    wiseMenColorCountRandomState,
+    wiseMenColorCountCheaterState,
+    wiseMenColorCountExhaustiveCheck,
+    threeLetterErasureAlphabet,
+    threeLetterErasureNormalizeCodeword,
+    threeLetterErasureNormalizeCodewords,
+    threeLetterErasureErase,
+    threeLetterErasureObservationRows,
+    threeLetterErasureDecode,
+    threeLetterErasureCheckTable,
+    threeLetterErasureEvaluate,
+    permutationMessageItemCount,
+    permutationMessageLabels,
+    permutationMessagePermutations,
+    permutationMessageTable,
+    permutationMessageNormalizeOrder,
+    permutationMessageEncode,
+    permutationMessageDecode,
+    permutationMessageEvaluate,
+    permutationMessageExhaustiveCheck,
+    permutationCycleCount,
+    permutationCycleMaxOpenings,
+    permutationCycleNormalizePermutation,
+    permutationCycleRandomPermutation,
+    permutationCycleCheaterPermutation,
+    permutationCycleDecomposition,
+    permutationCycleTrace,
+    permutationCycleRunAll,
+    permutationCycleTypeStatistics,
+    prisonerHatsParityPersonCount,
+    prisonerHatsParityColorCount,
+    prisonerHatsParityNormalizeBit,
+    prisonerHatsParityNormalizeBits,
+    prisonerHatsParityStateKey,
+    prisonerHatsParityInitialStates,
+    prisonerHatsParityNormalizeState,
+    prisonerHatsParityRandomState,
+    prisonerHatsParityVisibleAhead,
+    prisonerHatsParityExpectedAnswer,
+    prisonerHatsParityProtocolTranscript,
+    prisonerHatsParityEvaluateTranscript,
+    prisonerHatsParityExhaustiveCheck,
+    hiddenHatParitySageCount,
+    hiddenHatParityNumbers,
+    hiddenHatParityTarget,
+    hiddenHatParityPermutationParity,
+    hiddenHatParityStateKey,
+    hiddenHatParityInitialStates,
+    hiddenHatParityNormalizeState,
+    hiddenHatParityRandomState,
+    hiddenHatParityExpectedAnswer,
+    hiddenHatParityVisibleAhead,
+    hiddenHatParityProtocolTranscript,
+    hiddenHatParityEvaluateTranscript,
+    hiddenHatParityExhaustiveCheck,
     finitePairCards,
     finitePairAllPairs,
     finitePairNormalizePair,
@@ -3232,6 +7891,54 @@
     finitePairDisjoint,
     finitePairAllowedShownPairs,
     finitePairNormalizeAssignment,
-    finitePairMatchingValidate
+    finitePairMatchingValidate,
+    fitchCheneyRanks,
+    fitchCheneySuits,
+    fitchCheneyDeck,
+    fitchCheneyNormalizeCards,
+    fitchCheneyCardLabel,
+    fitchCheneyDistance,
+    fitchCheneyChooseAssistantMove,
+    fitchCheneyDecodeShown,
+    fitchCheneyEvaluate,
+    fitchCheneyRandomHand,
+    fitchCheneyExhaustiveCheck,
+    twentyOneCardDeckSize,
+    twentyOneCardColumnCount,
+    twentyOneCardRowCount,
+    twentyOneCardRoundCount,
+    twentyOneCardCards,
+    twentyOneCardInitialDeck,
+    twentyOneCardDeal,
+    twentyOneCardNormalizeColumn,
+    twentyOneCardFindColumn,
+    twentyOneCardCollectionOrder,
+    twentyOneCardCollect,
+    twentyOneCardStep,
+    twentyOneCardTrace,
+    twentyOneCardExhaustive,
+    twentyOneCardRandomState,
+    higherLowerBoxCount,
+    higherLowerComparisonCounts,
+    higherLowerBuildTable,
+    higherLowerSolve,
+    higherLowerActionScores,
+    higherLowerBestGuesses,
+    higherLowerInitialState,
+    higherLowerStateSize,
+    higherLowerStateValue,
+    higherLowerGuessBranches,
+    higherLowerApplyAnswer,
+    movingTargetDefaultCube,
+    movingTargetNormalizeGraph,
+    movingTargetNormalizeVertices,
+    movingTargetInitialStates,
+    movingTargetCurrentStates,
+    movingTargetValidation,
+    movingTargetCaughtStates,
+    movingTargetTransitionStates,
+    movingTargetBranchStatus,
+    movingTargetChooseCheaterOutcome,
+    movingTargetExpandExhaustiveNode
   };
 });

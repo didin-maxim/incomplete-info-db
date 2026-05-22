@@ -106,7 +106,8 @@
   },
   "tags": ["balance_scale", "ternary_code", "decision_tree", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [
-    {"source_id": "src-classical-coin-weighing", "role": "folklore_variant", "status": "source_verified"}
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_variant", "status": "source_verified"},
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -117,8 +118,9 @@
     "generalization_status": "has_condition_only_generalization",
     "notes": [
       "Точный первоисточник не установлен; автор не указан. Карточка оформлена как классический фольклорный вариант задачи о фальшивой монете.",
-      "Стратегия проверена перебором всех 26 состояний: каждая монета в тяжелом и легком варианте декодируется в правильный номер.",
-      "2026-05-19: добавлен интерактив identify_coin_only_unknown_direction: скрытые состояния остаются парами монета/легче-тяжелее, но ответ проверяется только по номеру монеты."
+      "Стратегия проверена перебором всех 26 состояний: каждая монета в тяжелом и легком варианте дает правильный номер.",
+      "2026-05-19: добавлен интерактив identify_coin_only_unknown_direction: скрытые состояния остаются парами монета/легче-тяжелее, но ответ проверяется только по номеру монеты.",
+      "2026-05-22: книга К. А. Кнопа содержит эту версию задачи Саладина в занятии 6, задача 6.3: 13 монет, нужно найти монету, но не знак отличия."
     ]
   }
 }

@@ -1044,6 +1044,173 @@ def build_html(data):
       font-size: 13px;
     }
 
+    .fitch-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .fitch-deck {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(42px, 1fr));
+      gap: 6px;
+      max-height: 248px;
+      overflow: auto;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .fitch-card {
+      display: inline-grid;
+      place-items: center;
+      min-width: 42px;
+      min-height: 54px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: #1f2726;
+      font-weight: 800;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .fitch-card.red { color: #a32222; }
+
+    .fitch-card[aria-pressed="true"],
+    .fitch-card.selected {
+      background: var(--soft);
+      border-color: #7bb7ac;
+    }
+
+    .fitch-card.hidden {
+      background: #f1eee5;
+      color: #4d514d;
+      border-style: dashed;
+    }
+
+    .fitch-card.decoded {
+      background: #eef8f1;
+      border-color: #88c4a3;
+    }
+
+    .fitch-zones {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .fitch-zone {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+      min-height: 112px;
+    }
+
+    .fitch-zone-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .fitch-card-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .fitch-order-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .fitch-order-row select {
+      min-width: 82px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 8px;
+    }
+
+    @media (max-width: 860px) {
+      .fitch-zones { grid-template-columns: 1fr; }
+    }
+
+    .permutation-board {
+      display: grid;
+      grid-template-columns: minmax(160px, .75fr) minmax(220px, 1.25fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .permutation-message-list,
+    .permutation-order-area {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px;
+    }
+
+    .permutation-message-list {
+      display: grid;
+      gap: 6px;
+    }
+
+    .permutation-slots,
+    .permutation-items,
+    .permutation-table-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .permutation-slot {
+      min-width: 58px;
+      min-height: 58px;
+      border: 1px dashed #9fb5b0;
+      border-radius: 8px;
+      background: #f8fbfd;
+      display: inline-grid;
+      place-items: center;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .permutation-item {
+      min-width: 52px;
+      min-height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .permutation-item.selected,
+    .permutation-item[aria-pressed="true"] {
+      background: var(--soft);
+      border-color: #7bb7ac;
+    }
+
+    .permutation-table-preview {
+      margin-top: 8px;
+    }
+
+    @media (max-width: 860px) {
+      .permutation-board { grid-template-columns: 1fr; }
+    }
+
     .weighing-board {
       display: grid;
       grid-template-columns: minmax(220px, .9fr) minmax(320px, 1.35fr);
@@ -1081,6 +1248,84 @@ def build_html(data):
       min-height: 52px;
     }
 
+    .graph-search-board {
+      display: grid;
+      grid-template-columns: minmax(260px, .95fr) minmax(280px, 1.05fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .graph-cube {
+      position: relative;
+      min-height: 330px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .graph-cube svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .graph-edge {
+      stroke: #aab5b1;
+      stroke-width: 2.2;
+    }
+
+    .graph-vertex {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 2px solid #76837f;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font-weight: 750;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    .graph-vertex.color-light {
+      background: #fdf9ee;
+    }
+
+    .graph-vertex.color-dark {
+      background: #e9f2f6;
+    }
+
+    .graph-vertex.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(23, 107, 95, .16);
+    }
+
+    .graph-vertex.possible {
+      outline: 3px solid rgba(213, 137, 44, .42);
+      outline-offset: 2px;
+    }
+
+    .graph-vertex.actual {
+      background: #ffe8df;
+      border-color: #b6513e;
+    }
+
+    .graph-vertex:disabled {
+      cursor: not-allowed;
+      opacity: .65;
+    }
+
+    .graph-side-panel {
+      display: grid;
+      gap: 12px;
+    }
+
     .coin-pair-group {
       display: grid;
       gap: 8px;
@@ -1104,6 +1349,106 @@ def build_html(data):
       flex-wrap: wrap;
       min-height: 42px;
       align-items: center;
+    }
+
+    .safe-pile-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .safe-pile {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfaf7;
+      padding: 10px;
+      display: grid;
+      gap: 8px;
+      align-content: start;
+    }
+
+    .safe-pile-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-weight: 750;
+      font-size: 14px;
+    }
+
+    .diamond-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-content: start;
+      min-height: 92px;
+    }
+
+    .diamond {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      border: 1px solid #8ca9b8;
+      background: linear-gradient(135deg, #ffffff 0, #d9f6ff 42%, #88c7df 100%);
+      color: #17313c;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.75), 0 1px 2px rgba(0,0,0,.08);
+    }
+
+    .diamond.left {
+      border-color: #176b5f;
+      background: linear-gradient(135deg, #ffffff 0, #c8eee4 45%, #65aa9c 100%);
+    }
+
+    .diamond.right {
+      border-color: #9a6a12;
+      background: linear-gradient(135deg, #fff7cf 0, #efd27c 48%, #c79332 100%);
+    }
+
+    .safe-pile-answer {
+      min-height: 40px;
+    }
+
+    .constrained-layout-circle {
+      position: relative;
+      width: min(100%, 260px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+      border: 1px dashed var(--line);
+      border-radius: 999px;
+      background: #fffdfa;
+    }
+
+    .constrained-layout-circle .coin {
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+
+    .constrained-layout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 48px);
+      gap: 10px;
+      justify-content: center;
+      align-content: start;
+      min-height: 164px;
+    }
+
+    .constrained-state-list,
+    .constrained-answer-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .constrained-state-chip {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 8px;
+      font-size: 13px;
+      color: #33413e;
     }
 
     .coin {
@@ -1402,6 +1747,440 @@ def build_html(data):
       font-weight: 800;
     }
 
+    .binary-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .binary-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .binary-card.selected {
+      background: #edf7f2;
+      border-color: #71aa8d;
+    }
+
+    .binary-card-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      font-weight: 800;
+    }
+
+    .binary-number-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+      gap: 5px;
+    }
+
+    .binary-number {
+      display: inline-grid;
+      place-items: center;
+      min-height: 28px;
+      border: 1px solid #d8dedb;
+      border-radius: 6px;
+      background: #fbfdfc;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .xor-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(260px, .75fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .xor-board {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(58px, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .xor-cell {
+      display: grid;
+      gap: 6px;
+      place-items: center;
+      min-height: 86px;
+      border: 1px solid #cbd4d1;
+      border-radius: 8px;
+      background: #f8faf7;
+      color: #22312d;
+      cursor: pointer;
+    }
+
+    .xor-cell.selected {
+      border-color: #176b5f;
+      box-shadow: 0 0 0 3px rgba(23, 107, 95, .16);
+    }
+
+    .xor-cell.key-visible {
+      background: #fff6df;
+      border-color: #d1a755;
+    }
+
+    .xor-cell.correct-answer {
+      border-color: #1f7a45;
+      box-shadow: 0 0 0 3px rgba(31, 122, 69, .2);
+    }
+
+    .xor-cell.wrong-answer {
+      border-color: #b6513e;
+      box-shadow: 0 0 0 3px rgba(182, 81, 62, .18);
+    }
+
+    .xor-coin {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid #b98b35;
+      border-radius: 999px;
+      background: radial-gradient(circle at 35% 28%, #fff7bf 0, #e8bd54 52%, #ad7428 100%);
+      color: #2e2616;
+      font-weight: 900;
+    }
+
+    .xor-cell.bit-0 .xor-coin {
+      border-color: #879994;
+      background: radial-gradient(circle at 35% 28%, #ffffff 0, #dce8e5 52%, #879994 100%);
+      color: #263631;
+    }
+
+    .xor-pos {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .xor-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .xor-side .dense-card {
+      display: grid;
+      gap: 8px;
+    }
+
+    .permutation-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, .8fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .permutation-board {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(54px, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .permutation-box {
+      display: grid;
+      gap: 5px;
+      place-items: center;
+      min-height: 86px;
+      border: 1px solid #cbd4d1;
+      border-radius: 8px;
+      background: #f8faf7;
+      color: #22312d;
+      cursor: pointer;
+    }
+
+    .permutation-box.opened {
+      background: #fff7df;
+      border-color: #d1a755;
+    }
+
+    .permutation-box.expected {
+      border-color: #176b5f;
+      box-shadow: 0 0 0 3px rgba(23, 107, 95, .16);
+    }
+
+    .permutation-box.found {
+      border-color: #1f7a45;
+      box-shadow: 0 0 0 3px rgba(31, 122, 69, .2);
+    }
+
+    .permutation-box.missed {
+      border-color: #b6513e;
+      box-shadow: 0 0 0 3px rgba(182, 81, 62, .18);
+    }
+
+    .permutation-box-title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 750;
+    }
+
+    .permutation-box-value {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 1px solid #82928e;
+      border-radius: 8px;
+      background: #eef5f2;
+      color: #22312d;
+      font-weight: 900;
+    }
+
+    .cycle-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cycle-chip {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7f4e9;
+      padding: 8px 10px;
+      font-size: .9rem;
+      font-weight: 800;
+    }
+
+    .cycle-chip.bad {
+      border-color: #d9b7ae;
+      background: #fff0ec;
+      color: #773424;
+    }
+
+    .twenty-one-layout {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(280px, .8fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .twenty-one-board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(78px, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .twenty-one-column {
+      display: grid;
+      gap: 7px;
+      align-content: start;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #fbfaf6;
+    }
+
+    .twenty-one-column-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .twenty-one-column.actual {
+      border-color: #d1a755;
+      background: #fff8e5;
+    }
+
+    .twenty-one-column.reported {
+      border-color: #176b5f;
+      box-shadow: 0 0 0 3px rgba(23, 107, 95, .12);
+    }
+
+    .playing-card {
+      display: grid;
+      place-items: center;
+      min-height: 38px;
+      border: 1px solid #c8cac2;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #ffffff 0, #f7f5ed 100%);
+      color: #243331;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .playing-card.selected {
+      border-color: #176b5f;
+      background: #e9f4ef;
+      box-shadow: 0 0 0 3px rgba(23, 107, 95, .14);
+    }
+
+    .playing-card.final-card {
+      border-color: #1f7a45;
+      background: #e7f6eb;
+    }
+
+    .playing-card.hidden-card {
+      color: transparent;
+      background: repeating-linear-gradient(45deg, #24433d 0, #24433d 6px, #315b53 6px, #315b53 12px);
+      border-color: #24433d;
+    }
+
+    .playing-card:disabled {
+      cursor: default;
+    }
+
+    .twenty-one-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .twenty-one-stack-card {
+      display: inline-grid;
+      place-items: center;
+      min-width: 30px;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .twenty-one-stack-card.answer {
+      border-color: #1f7a45;
+      background: #e7f6eb;
+    }
+
+    .twenty-one-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .cycle-type-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .92rem;
+    }
+
+    .cycle-type-table th,
+    .cycle-type-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .cycle-type-table th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .treasure-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, .95fr) minmax(260px, .8fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .treasure-board {
+      display: grid;
+      grid-template-columns: repeat(var(--treasure-cols, 10), minmax(28px, 1fr));
+      gap: 4px;
+      width: min(100%, 560px);
+      aspect-ratio: 1;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .treasure-cell {
+      display: grid;
+      place-items: center;
+      min-width: 0;
+      min-height: 0;
+      border: 1px solid #cbd4d1;
+      border-radius: 6px;
+      background: #f8faf7;
+      color: #22312d;
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .treasure-cell:nth-child(odd) {
+      background: #f3f0e6;
+    }
+
+    .treasure-cell.possible {
+      background: #e7f3ef;
+      border-color: #8fc6bb;
+    }
+
+    .treasure-cell.eliminated {
+      color: #86908d;
+      background: #f1f1ee;
+      opacity: .74;
+    }
+
+    .treasure-cell.selected {
+      outline: 3px solid #176b5f;
+      outline-offset: -3px;
+    }
+
+    .treasure-cell.answer-pick {
+      outline: 3px solid #2d7dd2;
+      outline-offset: -3px;
+    }
+
+    .treasure-cell.asked-yes {
+      background: #dff3e5;
+      border-color: #5fa76d;
+    }
+
+    .treasure-cell.asked-no {
+      background: #fff1df;
+      border-color: #d6a86d;
+    }
+
+    .treasure-cell.actual {
+      box-shadow: inset 0 0 0 3px #1f7a45;
+    }
+
+    .treasure-cell:disabled {
+      cursor: default;
+    }
+
+    .treasure-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .treasure-pair-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      max-height: 140px;
+      overflow: auto;
+    }
+
     .scale-visual {
       position: relative;
       display: grid;
@@ -1630,8 +2409,13 @@ def build_html(data):
         z-index: 1;
       }
 
-      .grid, .two-grid, .home-stats, .interactive-config { grid-template-columns: 1fr; }
+      .grid, .two-grid, .home-stats, .interactive-config, .safe-pile-grid { grid-template-columns: 1fr; }
       .weighing-board,
+      .graph-search-board,
+      .treasure-layout,
+      .xor-layout,
+      .permutation-layout,
+      .twenty-one-layout,
       .scale-visual {
         grid-template-columns: 1fr;
       }
@@ -1846,6 +2630,7 @@ __WEIGHING_CHEATER_JS__
         return [item.id, item.title || item.id];
       }));
     }
+    const relationTypeById = Object.fromEntries((taxonomy.relation_types || []).map(item => [item.id, item]));
 
     const facetRecords = [];
     const facetRecordByProblem = {};
@@ -1871,6 +2656,12 @@ __WEIGHING_CHEATER_JS__
 
     function label(kind, id) {
       return labels[kind]?.[id] || id || '';
+    }
+
+    function relationTypeTitle(type, outbound) {
+      const item = relationTypeById[type];
+      if (!item) return label('relation_types', type);
+      return outbound ? (item.title || type) : (item.reverse_title || item.title || type);
     }
 
     function asArray(value) {
@@ -2022,16 +2813,37 @@ __WEIGHING_CHEATER_JS__
       const labels = {
         single_counterfeit_weighing: 'взвешивания',
         single_counterfeit_unknown_direction: 'взвешивания',
+        zero_one_two_counterfeit_sign: '0, 1 или 2 фальшивые одного знака',
+        safe_pile_balance_certificate: 'безопасная кучка',
         zoltar_heavier_hand_removal: 'Золтар забирает монету',
         paired_light_counterfeits: 'легкие монеты по парам',
         multiple_light_find_one: 'несколько легких монет',
         grouped_light_counterfeits: 'легкие монеты по группам',
+        threshold_balance_counterfeit_sets: 'ржавые весы с порогом',
         faulty_scale_identification: 'неисправные весы',
         broken_scale_counterfeit_coin: 'монета и сломанные весы',
         broken_detector_counterfeit_coin: 'монета и сломанный детектор',
         heaviest_coin_one_broken_scale: 'самая тяжелая монета',
+        balanced_weight_signature_protocol: 'равновесный код мешков',
         numeric_linear_signature: 'числовой код мешков',
-        finite_pair_matching_protocol: 'таблица пар карточек'
+        fitch_cheney_card_trick: 'фокус Чейни с пятью картами',
+        finite_pair_matching_protocol: 'таблица пар карточек',
+        balanced_subset_question_code: 'сбалансированные вопросы',
+        binary_cards_number_trick: 'двоичные карточки с числами',
+        ternary_question_code: 'троичный код вопросов',
+        repetition_code_one_lie_questions: 'повторный код с одной ложью',
+        finite_binary_state_protocol: 'да/нет протокол',
+        higher_lower_strategy_game: 'игра больше или меньше',
+        moving_target_graph_search: 'поиск движущейся цели',
+        xor_single_flip_protocol: 'один переворот XOR',
+        wise_men_even_parity_code: 'четный код мудрецов',
+        wise_men_color_count_parity_protocol: 'мудрецы и количества цветов',
+        prisoners_hats_parity_line: 'заключенные и четность колпаков',
+        hidden_hat_number_parity_protocol: 'четность спрятанного колпака',
+        three_letter_erasure_code: 'трехбуквенный код со стиранием',
+        permutation_message_order_code: 'порядок трех предметов',
+        permutation_cycle_protocol: 'циклы перестановки',
+        twenty_one_card_trick: 'фокус с 21 картой'
       };
       return labels[type] || type || 'интерактив';
     }
@@ -2814,12 +3626,26 @@ __WEIGHING_CHEATER_JS__
         identify_fake_bag: 'найти фальшивую стопку',
         identify_fake_bag_subset: 'найти фальшивые мешки',
         identify_fake_coin_set: 'найти фальшивые монеты',
+        identify_deficient_bag_or_none: 'найти мешок с недостачей или подтвердить отсутствие',
         identify_magic_subset: 'найти все волшебные объекты',
+        identify_hidden_card: 'угадать скрытую карту',
         identify_hidden_pair: 'угадать спрятанную пару',
+        decode_hidden_message: 'расшифровать скрытое сообщение',
+        identify_hidden_number: 'определить скрытое число',
+        identify_key_position: 'назвать позицию ключа',
+        identify_selected_card: 'назвать выбранную карту',
+        identify_state: 'определить точное состояние',
+        identify_liar: 'найти лжеца',
+        identify_one_genuine_coin: 'назвать настоящую монету',
+        identify_safe_pile: 'выбрать безопасную кучку',
         identify_one_from_each_pair: 'выбрать по одной монете из каждой пары',
         identify_one_light_coin: 'найти одну легкую монету',
         identify_one_genuine_coin_not_removed: 'назвать настоящую монету',
         identify_all_counterfeits: 'найти все фальшивые монеты',
+        detect_presence_and_sign: 'определить: нет / легче / тяжелее',
+        all_agents_find_own_state: 'все находят свой ответ',
+        guarantee_at_least_half_correct: 'гарантировать хотя бы половину верных ответов',
+        guarantee_all_but_first_correct: 'все кроме первого отвечают верно',
         prove_impossible: 'показать невозможность'
       };
       return labels[value] || value || '';
@@ -2832,7 +3658,8 @@ __WEIGHING_CHEATER_JS__
         exhaustive: 'Полный перебор',
         challenge: 'проверка',
         sandbox: 'свободная проба',
-        guided: 'с подсказками'
+        guided: 'с подсказками',
+        manual_spectator: 'зритель выбирает карту'
       };
       return labels[value] || value || '';
     }
@@ -2937,7 +3764,7 @@ __WEIGHING_CHEATER_JS__
         <div class="card interactive-panel" data-interactive-type="single_counterfeit_weighing">
           <div class="topline">
             ${pill('интерактив')}
-            ${pill(normalized.type, 'code')}
+            ${pill(interactiveTypeLabel(normalized.type))}
           </div>
           <div class="interactive-config" aria-label="Параметры интерактива">
             <div class="interactive-config-item"><strong>Монет</strong>${esc(normalized.coinCount)}</div>
@@ -2969,7 +3796,7 @@ __WEIGHING_CHEATER_JS__
         <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
-            ${pill(normalized.type, 'code')}
+            ${pill(interactiveTypeLabel(normalized.type))}
             <span class="pill" data-current-mode-pill>${esc(interactiveModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
@@ -3098,6 +3925,136 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeSafePileConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 1);
+      const rawPiles = asArray(config.piles);
+      const pileSizes = asArray(config.pile_sizes || config.pileSizes).map(Number);
+      const sourcePiles = rawPiles.length
+        ? rawPiles
+        : pileSizes.map((size, index) => ({ id: String.fromCharCode(65 + index), label: `Кучка ${String.fromCharCode(65 + index)}`, size }));
+      const piles = [];
+      let nextDiamond = 1;
+      for (let index = 0; index < sourcePiles.length; index += 1) {
+        const raw = sourcePiles[index] || {};
+        const id = String(raw.id || raw.key || String.fromCharCode(65 + index));
+        const label = String(raw.label || raw.name || `Кучка ${id}`);
+        const diamonds = asArray(raw.diamonds || raw.coins).map(Number).filter(Number.isInteger);
+        const size = Number(raw.size ?? raw.count ?? diamonds.length);
+        const pileDiamonds = diamonds.length
+          ? diamonds
+          : (Number.isInteger(size) && size > 0 ? Array.from({ length: size }, (_item, offset) => nextDiamond + offset) : []);
+        if (!id || !pileDiamonds.length) return null;
+        nextDiamond = Math.max(nextDiamond, ...pileDiamonds) + 1;
+        piles.push({ id, label, diamonds: pileDiamonds, size: pileDiamonds.length });
+      }
+      const diamondSet = new Set();
+      for (const pile of piles) {
+        for (const diamond of pile.diamonds) {
+          if (diamondSet.has(diamond)) return null;
+          diamondSet.add(diamond);
+        }
+      }
+      const objective = config.objective || profile.objective || 'identify_safe_pile';
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive']).filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (piles.length < 2) return null;
+      if (objective !== 'identify_safe_pile') return null;
+      return {
+        type: 'safe_pile_balance_certificate',
+        piles,
+        pileSizes: piles.map(pile => pile.size),
+        diamondCount: piles.reduce((sum, pile) => sum + pile.size, 0),
+        maxWeighings,
+        objective,
+        modes: modes.length ? modes : ['random', 'cheater', 'exhaustive'],
+        defaultMode: (modes.length ? modes : ['random'])[0],
+        requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        presetWeighings: asArray(config.preset_weighings || config.weighings).slice(0, maxWeighings)
+      };
+    }
+
+    function safePileModeLabel(value) {
+      const labels = {
+        random: 'случайное состояние',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderSafePileBalanceCertificateInteractive(problem, config) {
+      const normalized = normalizeSafePileConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = normalized.diamondCount * 2;
+      return `
+        <div class="card interactive-panel" data-interactive-type="safe_pile_balance_certificate" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(safePileModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Бильбо выбирает кучку без фальшивого алмаза</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.diamondCount, 'алмаз', 'алмаза', 'алмазов'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-safe-pile-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(safePileModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-safe-pile-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-safe-pile-reset>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Кучки</h4>
+              <div class="safe-pile-grid" data-safe-piles></div>
+            </div>
+            <div class="scale-area">
+              <h4>Весы</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-safe-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 алмазов</span></div>
+                  <div class="diamond-grid" data-pan-diamonds="left"></div>
+                </div>
+                <div class="pan pan-right" data-safe-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 алмазов</span></div>
+                  <div class="diamond-grid" data-pan-diamonds="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Совместимые состояния</h4>
+              <div class="pill-row" data-safe-state-list></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Выбор безопасной кучки</h4>
+              <div class="pill-row" data-safe-answer-list></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История одного взвешивания</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizePairedLightConfig(problem, config) {
       const profile = problem.weighing_profile || {};
       const pairCount = Number(config.pair_count ?? 3);
@@ -3144,7 +4101,7 @@ __WEIGHING_CHEATER_JS__
         <div class="card interactive-panel" data-interactive-type="paired_light_counterfeits" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
-            ${pill(normalized.type, 'code')}
+            ${pill(interactiveTypeLabel(normalized.type))}
             <span class="pill" data-current-mode-pill>${esc(pairedLightModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
@@ -3198,6 +4155,116 @@ __WEIGHING_CHEATER_JS__
                 </div>
               </div>
             </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeZeroOneTwoSignConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 3);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive']).filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'detect_presence_and_sign';
+      if (!Number.isInteger(coinCount) || coinCount < 2 || coinCount > 24) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (objective !== 'detect_presence_and_sign') return null;
+      return {
+        type: 'zero_one_two_counterfeit_sign',
+        coinCount,
+        maxWeighings,
+        objective,
+        modes: modes.length ? modes : ['random', 'cheater', 'exhaustive'],
+        defaultMode: (modes.length ? modes : ['random', 'cheater', 'exhaustive'])[0],
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function zeroOneTwoSignModeLabel(value) {
+      const labels = {
+        random: 'случайное состояние',
+        cheater: 'Шулер',
+        exhaustive: 'полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function zeroOneTwoSignStateCount(coinCount) {
+      return 1 + 2 * coinCount + coinCount * (coinCount - 1);
+    }
+
+    function renderZeroOneTwoSignInteractive(problem, config) {
+      const normalized = normalizeZeroOneTwoSignConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = zeroOneTwoSignStateCount(normalized.coinCount);
+      return `
+        <div class="card interactive-panel" data-interactive-type="zero_one_two_counterfeit_sign" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(zeroOneTwoSignModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>0, 1 или 2 фальшивые монеты одного знака</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(zeroOneTwoSignModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-zot-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-zot-clear>Снять с чаш</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Монеты</h4>
+              <div class="coin-grid" data-zot-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Весы</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-zot-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-zot-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-zot-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-zot-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Ответ</h4>
+              <div class="pill-row" data-zot-answers></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Совместимые классы</h4>
+              <div class="pill-row" data-zot-classes></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>Совместимые состояния</h4>
+            <div class="constrained-state-list" data-zot-states></div>
           </div>
           <div class="weighing-history">
             <h4>История взвешиваний</h4>
@@ -3290,7 +4357,7 @@ __WEIGHING_CHEATER_JS__
         <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
-            ${pill(normalized.type, 'code')}
+            ${pill(interactiveTypeLabel(normalized.type))}
             <span class="pill" data-current-mode-pill>${esc(multipleLightModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
@@ -3354,6 +4421,247 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeConstrainedLightConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 1);
+      const objective = config.objective || profile.objective || 'identify_one_light_coin';
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive']).filter(mode => supportedModes.includes(mode));
+      const hiddenStates = asArray(config.hidden_states || config.hiddenStates || config.states)
+        .map((state, index) => {
+          const coins = asArray(state?.coins || state?.fakeCoins || state?.fake_coins).map(Number).filter(Number.isInteger);
+          return {
+            id: String(state?.id || state?.key || state?.label || `s${index + 1}`),
+            label: String(state?.label || state?.name || state?.id || state?.key || `S${index + 1}`),
+            coins: [...new Set(coins)].sort((a, b) => a - b)
+          };
+        })
+        .filter(state => state.coins.length && state.coins.every(coin => coin >= 1 && coin <= coinCount));
+      const allowedObjectives = ['identify_one_light_coin', 'identify_one_counterfeit_coin', 'identify_counterfeit_count', 'identify_line_or_all_counterfeits', 'identify_all_counterfeits', 'identify_fake_coin_set'];
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (!hiddenStates.length) return null;
+      if (!allowedObjectives.includes(objective)) return null;
+      return {
+        type: 'constrained_light_counterfeit_sets',
+        coinCount,
+        maxWeighings,
+        objective,
+        hiddenStates,
+        layout: ['circle', 'grid', 'line'].includes(config.layout) ? config.layout : 'line',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function constrainedLightModeLabel(value) {
+      const labels = {
+        random: 'случайное скрытое состояние',
+        cheater: 'неудобный исход',
+        exhaustive: 'полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function constrainedLightObjectiveTitle(objective) {
+      const labels = {
+        identify_one_light_coin: 'назвать гарантированно фальшивую монету',
+        identify_one_counterfeit_coin: 'назвать гарантированно фальшивую монету',
+        identify_counterfeit_count: 'определить число фальшивых',
+        identify_line_or_all_counterfeits: 'назвать линию фальшивых монет',
+        identify_all_counterfeits: 'назвать все фальшивые монеты',
+        identify_fake_coin_set: 'назвать все фальшивые монеты'
+      };
+      return labels[objective] || interactiveObjectiveLabel(objective);
+    }
+
+    function renderConstrainedLightInteractive(problem, config) {
+      const normalized = normalizeConstrainedLightConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      return `
+        <div class="card interactive-panel" data-interactive-type="constrained_light_counterfeit_sets" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill('наборы легких фальшивых монет')}
+            <span class="pill" data-current-mode-pill>${esc(constrainedLightModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Ограниченные наборы легких фальшивых монет</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(normalized.hiddenStates.length, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(constrainedLightObjectiveTitle(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(constrainedLightModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-constrained-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-constrained-answer-mode>Ответить</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Монеты</h4>
+              <div data-constrained-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Весы</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-constrained-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-constrained-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-constrained-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-constrained-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="scale-area" data-constrained-answer-panel hidden>
+            <h4>Варианты ответа</h4>
+            <div class="constrained-answer-grid" data-constrained-answers></div>
+          </div>
+          <div class="weighing-history">
+            <h4>Оставшиеся совместимые состояния</h4>
+            <div class="constrained-state-list" data-constrained-states></div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeThresholdBalanceConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const counterfeitCount = Number(config.counterfeit_count ?? profile.counterfeit_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      const genuineWeight = Number(config.genuine_weight ?? 10);
+      const counterfeitDelta = Number(config.counterfeit_delta ?? 1);
+      const reliableDifference = Number(config.reliable_difference ?? config.tilt_threshold ?? config.threshold);
+      const objective = config.objective || profile.objective || 'identify_all_counterfeits';
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive']).filter(mode => supportedModes.includes(mode));
+      const counterfeitWeight = String(config.counterfeit_weight || profile.counterfeit_type || 'lighter').toLowerCase();
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(counterfeitCount) || counterfeitCount < 1 || counterfeitCount >= coinCount) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
+      if (!Number.isFinite(counterfeitDelta) || counterfeitDelta <= 0) return null;
+      if (!Number.isFinite(reliableDifference) || reliableDifference <= 0) return null;
+      if (!['lighter', 'light'].includes(counterfeitWeight)) return null;
+      if (!['identify_all_counterfeits', 'identify_fake_coin_set'].includes(objective)) return null;
+      return {
+        type: 'threshold_balance_counterfeit_sets',
+        coinCount,
+        counterfeitCount,
+        maxWeighings,
+        objective,
+        genuineWeight,
+        counterfeitDelta,
+        reliableDifference,
+        counterfeitWeight: 'lighter',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false
+      };
+    }
+
+    function thresholdBalanceModeLabel(value) {
+      const labels = {
+        random: 'случайный набор фальшивых монет',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderThresholdBalanceInteractive(problem, config) {
+      const normalized = normalizeThresholdBalanceConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = binomialCount(normalized.coinCount, normalized.counterfeitCount);
+      return `
+        <div class="card interactive-panel" data-interactive-type="threshold_balance_counterfeit_sets" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill('ржавые весы')}
+            <span class="pill" data-current-mode-pill>${esc(thresholdBalanceModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Восемь монет на ржавых весах</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(normalized.counterfeitCount)} фальшивые из ${esc(normalized.coinCount)}</span>
+              <span class="pill">10 г / 9 г</span>
+              <span class="pill">порог ${esc(normalized.reliableDifference)} г</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(thresholdBalanceModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-constrained-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-constrained-answer-mode>Ответить</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="weighing-board">
+            <div class="coin-area">
+              <h4>Монеты</h4>
+              <div data-constrained-zone="pool"></div>
+            </div>
+            <div class="scale-area">
+              <h4>Весы</h4>
+              <div class="scale-visual" data-scale>
+                <div class="pan pan-left" data-constrained-zone="left">
+                  <div class="pan-title"><span>Левая чаша</span><span data-left-count>0 монет</span></div>
+                  <div class="coin-grid" data-constrained-pan-coins="left"></div>
+                </div>
+                <div class="pan pan-right" data-constrained-zone="right">
+                  <div class="pan-title"><span>Правая чаша</span><span data-right-count>0 монет</span></div>
+                  <div class="coin-grid" data-constrained-pan-coins="right"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="scale-area" data-constrained-answer-panel hidden>
+            <h4>Финальный выбор 4 фальшивых монет</h4>
+            <div class="constrained-answer-grid" data-constrained-answers></div>
+          </div>
+          <div class="weighing-history">
+            <h4>Оставшиеся совместимые множества фальшивых монет</h4>
+            <div class="constrained-state-list" data-constrained-states></div>
+          </div>
+          <div class="weighing-history">
+            <h4>История взвешиваний</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizeFaultyScaleConfig(problem, config) {
       const profile = problem.weighing_profile || {};
       const scaleCount = Number(config.scale_count ?? config.object_count ?? profile.object_count);
@@ -3393,7 +4701,7 @@ __WEIGHING_CHEATER_JS__
         <div class="card interactive-panel" data-interactive-type="faulty_scale_identification" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
-            ${pill(normalized.type, 'code')}
+            ${pill(interactiveTypeLabel(normalized.type))}
             <span class="pill" data-current-mode-pill>${esc(faultyScaleModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
@@ -3750,6 +5058,126 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeBalancedWeightSignatureConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const bagWeights = asArray(config.bag_weights || config.bagWeights || config.nominal_weights || config.nominalWeights)
+        .map(Number)
+        .filter(value => Number.isFinite(value) && value > 0);
+      const bagCount = Number(config.bag_count ?? config.object_count ?? (bagWeights.length || profile.object_count));
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count ?? 2);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_deficient_bag_or_none';
+      if (!Number.isInteger(bagCount) || bagCount < 2 || bagCount > 12) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1 || maxWeighings > 5) return null;
+      if (objective !== 'identify_deficient_bag_or_none') return null;
+      const normalizedWeights = Array.from({ length: bagCount }, (_item, index) => bagWeights[index] || index + 1);
+      return {
+        type: 'balanced_weight_signature_protocol',
+        bagCount,
+        bagWeights: normalizedWeights,
+        maxWeighings,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function balancedWeightModeLabel(value) {
+      const labels = {
+        random: 'случайное состояние',
+        cheater: 'Шулер',
+        exhaustive: 'полный перебор ветвей'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderBalancedWeightSignatureInteractive(problem, config) {
+      const normalized = normalizeBalancedWeightSignatureConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const helper = window.WeighingCheater;
+      const stateCount = helper?.balancedWeightInitialStates
+        ? helper.balancedWeightInitialStates(normalized).length
+        : normalized.bagCount + 1;
+      const bagControls = Array.from({ length: normalized.bagCount }, (_item, index) => {
+        const id = index + 1;
+        return `
+          <div class="numeric-bag">
+            <strong>Мешок ${esc(id)}</strong>
+            <span class="local-muted">написано ${esc(normalized.bagWeights[index])} кг</span>
+            <label>Чаша
+              <select data-balanced-side="${esc(id)}">
+                <option value="pool">вне весов</option>
+                <option value="left">левая</option>
+                <option value="right">правая</option>
+              </select>
+            </label>
+          </div>
+        `;
+      }).join('');
+      const answerInputs = [
+        `<label><input data-balanced-answer="none" name="balanced-answer-${esc(problem.id)}" type="radio"> нет недостачи</label>`,
+        ...Array.from({ length: normalized.bagCount }, (_item, index) => {
+          const id = index + 1;
+          return `<label><input data-balanced-answer="${esc(id)}" name="balanced-answer-${esc(problem.id)}" type="radio"> мешок ${esc(id)}</label>`;
+        })
+      ].join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="balanced_weight_signature_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(balancedWeightModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Два равновесных сравнения мешков</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(normalized.bagCount, 'мешок', 'мешка', 'мешков'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(balancedWeightModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-balanced-weigh>Взвесить</button>
+            <button class="small-button" type="button" data-balanced-answer-submit>Ответить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="numeric-bag-grid">${bagControls}</div>
+          <div class="scale-area">
+            <h4>Чаши</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-balanced-left-total>слева 0 кг</span>
+              <span class="pill" data-balanced-right-total>справа 0 кг</span>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История результатов</h4>
+            <div class="history-list" data-history></div>
+          </div>
+          <div class="scale-area">
+            <h4>Оставшиеся состояния</h4>
+            <div class="pill-row" data-balanced-candidates></div>
+          </div>
+          <div class="scale-area">
+            <h4>Ответ</h4>
+            <div class="numeric-answer">${answerInputs}</div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizeNumericLinearSignatureConfig(problem, config) {
       const profile = problem.weighing_profile || {};
       const bagCount = Number(config.bag_count ?? config.object_count ?? profile.object_count);
@@ -3895,6 +5323,115 @@ __WEIGHING_CHEATER_JS__
           <div class="exhaustive-panel" data-exhaustive-panel hidden>
             <h4>Классы результатов для выбранных взвешиваний</h4>
             <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeFitchCheneyConfig(problem, config) {
+      const profile = problem.card_trick_profile || {};
+      const deckSize = Number(config.deck_size ?? config.deckSize ?? profile.deck_size ?? 52);
+      const handSize = Number(config.hand_size ?? config.handSize ?? profile.hand_size ?? 5);
+      const shownCards = Number(config.shown_cards ?? config.shownCards ?? profile.shown_cards ?? 4);
+      const hiddenCards = Number(config.hidden_cards ?? config.hiddenCards ?? profile.hidden_cards ?? 1);
+      const supportedModes = ['random', 'exhaustive', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || ['random', 'exhaustive', 'sandbox'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_hidden_card';
+      if (deckSize !== 52 || handSize !== 5 || shownCards !== 4 || hiddenCards !== 1) return null;
+      if (objective !== 'identify_hidden_card') return null;
+      const normalizedModes = modes.length ? modes : ['random', 'exhaustive', 'sandbox'];
+      return {
+        type: 'fitch_cheney_card_trick',
+        deckSize,
+        handSize,
+        shownCards,
+        hiddenCards,
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0]
+      };
+    }
+
+    function fitchCheneyModeLabel(value) {
+      const labels = {
+        random: 'случайная рука',
+        exhaustive: 'проверка всех рук',
+        sandbox: 'ручная проба'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderFitchCheneyInteractive(problem, config) {
+      const normalized = normalizeFitchCheneyConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const helper = window.WeighingCheater;
+      const deck = helper?.fitchCheneyDeck ? helper.fitchCheneyDeck(normalized) : [];
+      const deckButtons = deck.map(card => `
+        <button class="fitch-card ${esc(card.color)}" type="button" data-fitch-deck-card="${esc(card.id)}" aria-pressed="false" title="${esc(card.rank)} ${esc(card.suitName)}">${esc(card.label)}</button>
+      `).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="fitch_cheney_card_trick" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(fitchCheneyModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Пять карт и один скрытый ответ</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.deckSize, 'карта', 'карты', 'карт'))}</span>
+              <span class="pill" data-fitch-selected-counter>0 / 5</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(fitchCheneyModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-fitch-random>Случайная рука</button>
+            <button class="small-button" type="button" data-fitch-assistant>Ход ассистента</button>
+            <button class="small-button" type="button" data-fitch-guess>Проверить фокусника</button>
+            <button class="small-button" type="button" data-fitch-exhaustive>Перебрать все руки</button>
+            <button class="small-button" type="button" data-reset-interactive>Очистить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="fitch-board">
+            <div class="fitch-deck" data-fitch-deck>${deckButtons}</div>
+            <div class="fitch-zones">
+              <div class="fitch-zone">
+                <div class="fitch-zone-title">
+                  <span>Выбрано зрителем</span>
+                  <span data-fitch-hand-count>0 карт</span>
+                </div>
+                <div class="fitch-card-row" data-fitch-hand></div>
+              </div>
+              <div class="fitch-zone">
+                <div class="fitch-zone-title">
+                  <span>Скрытая карта</span>
+                  <span data-fitch-hidden-note>не выбрана</span>
+                </div>
+                <div class="fitch-card-row" data-fitch-hidden></div>
+                <div class="fitch-order-row" data-fitch-hidden-control></div>
+              </div>
+              <div class="fitch-zone">
+                <div class="fitch-zone-title">
+                  <span>Показанные 4 карты</span>
+                  <span data-fitch-shown-note>порядок пуст</span>
+                </div>
+                <div class="fitch-card-row" data-fitch-shown></div>
+                <div class="fitch-order-row" data-fitch-order-controls></div>
+              </div>
+            </div>
+            <div class="fitch-zone">
+              <div class="fitch-zone-title">
+                <span>Ответ фокусника</span>
+                <span data-fitch-decoded-note>ожидает проверки</span>
+              </div>
+              <div class="fitch-card-row" data-fitch-decoded></div>
+            </div>
           </div>
         </div>
       `;
@@ -4105,6 +5642,436 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeBalancedSubsetQuestionConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const objectCount = Number(config.object_count ?? config.objectCount ?? profile.object_count ?? 8);
+      const maxTests = Number(config.max_tests ?? config.maxTests ?? profile.question_count ?? 3);
+      const targetSum = Number(config.target_sum ?? config.targetSum);
+      const supportedModes = ['exhaustive', 'sandbox', 'random'];
+      const modes = asArray(config.modes || config.mode || ['exhaustive', 'random', 'sandbox'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_hidden_number';
+      if (!Number.isInteger(objectCount) || objectCount < 2 || objectCount > 12) return null;
+      if (!Number.isInteger(maxTests) || maxTests < 1 || maxTests > 6) return null;
+      if (!Number.isInteger(targetSum) || targetSum < 1) return null;
+      if (objective !== 'identify_hidden_number') return null;
+      const objectLabels = asArray(config.object_labels || config.objectLabels)
+        .map(String)
+        .filter(Boolean)
+        .slice(0, objectCount);
+      while (objectLabels.length < objectCount) objectLabels.push(String(objectLabels.length + 1));
+      return {
+        type: 'balanced_subset_question_code',
+        objectCount,
+        maxTests,
+        targetSum,
+        objective,
+        objectLabels,
+        modes: modes.length ? modes : ['exhaustive'],
+        defaultMode: modes[0] || 'exhaustive'
+      };
+    }
+
+    function balancedSubsetModeLabel(value) {
+      const labels = {
+        exhaustive: 'проверка всех чисел',
+        sandbox: 'свободная проба',
+        random: 'случайное число'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderBalancedSubsetQuestionInteractive(problem, config) {
+      const normalized = normalizeBalancedSubsetQuestionConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const questions = Array.from({ length: normalized.maxTests }, (_item, questionIndex) => {
+        const buttons = normalized.objectLabels.map((label, objectIndex) => `
+          <button class="subset-ball" type="button" data-balanced-subset-toggle="${esc(questionIndex)}:${esc(objectIndex + 1)}" aria-pressed="false">${esc(label)}</button>
+        `).join('');
+        return `
+          <div class="subset-test-row">
+            <div class="subset-test-title">
+              <span>Вопрос ${esc(questionIndex + 1)}</span>
+              <span class="pill" data-balanced-subset-sum="${esc(questionIndex)}">сумма 0</span>
+              <span class="pill" data-balanced-subset-question="${esc(questionIndex)}">пусто</span>
+            </div>
+            <div class="subset-ball-grid">${buttons}</div>
+          </div>
+        `;
+      }).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="balanced_subset_question_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(balancedSubsetModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Три вопроса о подмножествах чисел 1..${esc(normalized.objectCount)}</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill">сумма каждого вопроса: ${esc(normalized.targetSum)}</span>
+              <span class="pill" data-state-counter>${esc(countText(normalized.objectCount, 'число', 'числа', 'чисел'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(balancedSubsetModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-balanced-subset-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="subset-test-grid">${questions}</div>
+          <div class="scale-area">
+            <h4>Коды чисел</h4>
+            <div class="subset-code-grid" data-balanced-subset-codes></div>
+          </div>
+          <div class="numeric-result" data-balanced-subset-result></div>
+        </div>
+      `;
+    }
+
+    function normalizeBinaryCardsNumberTrickConfig(_problem, config) {
+      const cardCount = Number(config.card_count ?? config.cardCount ?? 5);
+      const numberMin = Number(config.number_min ?? config.numberMin ?? 1);
+      const numberMax = Number(config.number_max ?? config.numberMax ?? config.object_count ?? config.objectCount ?? 31);
+      const supportedModes = ['random', 'manual_spectator', 'exhaustive', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || ['random', 'manual_spectator', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_hidden_number';
+      if (!Number.isInteger(cardCount) || cardCount < 1 || cardCount > 10) return null;
+      if (!Number.isInteger(numberMin) || numberMin < 0) return null;
+      if (!Number.isInteger(numberMax) || numberMax < numberMin || numberMax >= 2 ** cardCount) return null;
+      if (objective !== 'identify_hidden_number') return null;
+      const configuredWeights = asArray(config.card_weights || config.cardWeights)
+        .map(Number)
+        .filter(weight => Number.isInteger(weight) && weight > 0)
+        .slice(0, cardCount);
+      const cardWeights = configuredWeights.length === cardCount
+        ? configuredWeights
+        : Array.from({ length: cardCount }, (_item, index) => 2 ** index);
+      if (new Set(cardWeights).size !== cardWeights.length) return null;
+      return {
+        type: 'binary_cards_number_trick',
+        cardCount,
+        card_count: cardCount,
+        numberMin,
+        number_min: numberMin,
+        numberMax,
+        number_max: numberMax,
+        cardWeights,
+        card_weights: cardWeights,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function binaryCardsModeLabel(value, config = null) {
+      const range = config ? `${config.numberMin}..${config.numberMax}` : 'всех чисел';
+      const labels = {
+        random: 'случайное число',
+        manual_spectator: 'число зрителя',
+        exhaustive: `проверка ${range}`,
+        sandbox: 'свободная проба'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderBinaryCardsNumberTrickInteractive(problem, config) {
+      const normalized = normalizeBinaryCardsNumberTrickConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const helper = window.WeighingCheater;
+      const cards = helper?.binaryCardsCards
+        ? helper.binaryCardsCards(normalized)
+        : normalized.cardWeights.map((weight, index) => ({
+          index,
+          weight,
+          numbers: Array.from({ length: normalized.numberMax - normalized.numberMin + 1 }, (_item, offset) => normalized.numberMin + offset)
+            .filter(number => (number & weight) !== 0)
+        }));
+      const cardMarkup = cards.map(card => `
+        <div class="binary-card" data-binary-card="${esc(card.weight)}">
+          <div class="binary-card-title">
+            <span>Вопрос ${esc(card.index + 1)}</span>
+            <button class="small-button" type="button" data-binary-toggle="${esc(card.weight)}" aria-pressed="false">нет</button>
+          </div>
+          <div class="binary-number-grid">
+            ${card.numbers.map(number => `<span class="binary-number">${esc(number)}</span>`).join('')}
+          </div>
+        </div>
+      `).join('');
+      const numberOptions = Array.from({ length: normalized.numberMax - normalized.numberMin + 1 }, (_item, index) => normalized.numberMin + index)
+        .map(number => `<option value="${esc(number)}">${esc(number)}</option>`)
+        .join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="binary_cards_number_trick" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(binaryCardsModeLabel(normalized.defaultMode, normalized))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Угадывание числа по ответам да/нет</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.cardCount, 'вопрос', 'вопроса', 'вопросов'))}</span>
+              <span class="pill">числа ${esc(normalized.numberMin)}..${esc(normalized.numberMax)}</span>
+              <span class="pill" data-binary-selected-counter>0 / ${esc(normalized.cardCount)}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(binaryCardsModeLabel(mode, normalized))}</option>`).join('')}
+              </select>
+            </label>
+            <label data-binary-manual-control>Число
+              <select data-binary-manual-number>${numberOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-binary-new>Новый случай</button>
+            <button class="small-button" type="button" data-binary-reveal>Показать ответы</button>
+            <button class="small-button" type="button" data-binary-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="binary-card-grid">${cardMarkup}</div>
+          <div class="numeric-result" data-binary-result></div>
+          <div class="weighing-history">
+            <h4>История</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeTernaryQuestionCodeConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const objectCount = Number(config.object_count ?? config.objectCount ?? config.number_max ?? config.numberMax ?? 27);
+      const maxTests = Number(config.max_tests ?? config.maxTests ?? profile.question_count ?? 3);
+      const supportedModes = ['random', 'manual_spectator', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_state';
+      if (!Number.isInteger(objectCount) || objectCount < 1 || objectCount > 729) return null;
+      if (!Number.isInteger(maxTests) || maxTests < 1 || maxTests > 6) return null;
+      if (objectCount > 3 ** maxTests) return null;
+      if (!['identify_state', 'identify_hidden_number'].includes(objective)) return null;
+      const alphabet = asArray(config.alphabet || config.answer_alphabet || config.answerAlphabet || config.outcome_labels || config.outcomeLabels)
+        .map(String)
+        .filter(Boolean)
+        .slice(0, 3);
+      while (alphabet.length < 3) alphabet.push(String(alphabet.length));
+      if (new Set(alphabet).size !== 3) return null;
+      const objectLabels = asArray(config.object_labels || config.objectLabels)
+        .map(String)
+        .filter(Boolean)
+        .slice(0, objectCount);
+      while (objectLabels.length < objectCount) objectLabels.push(String(objectLabels.length + 1));
+      const normalizedModes = modes.length ? modes : ['random', 'exhaustive'];
+      return {
+        type: 'ternary_question_code',
+        objectCount,
+        object_count: objectCount,
+        maxTests,
+        max_tests: maxTests,
+        alphabet,
+        objective,
+        objectLabels,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0]
+      };
+    }
+
+    function ternaryQuestionModeLabel(value, config = null) {
+      const size = config ? `${config.objectCount}` : '27';
+      const labels = {
+        random: 'случайный вариант',
+        manual_spectator: 'вариант зрителя',
+        exhaustive: `проверка всех ${size}`
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderTernaryQuestionCodeInteractive(problem, config) {
+      const normalized = normalizeTernaryQuestionCodeConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const questionRows = Array.from({ length: normalized.maxTests }, (_item, questionIndex) => {
+        const buttons = normalized.alphabet.map((label, digit) => `
+          <button class="subset-ball" type="button" data-ternary-answer="${esc(questionIndex)}:${esc(digit)}" aria-pressed="${digit === 0 ? 'true' : 'false'}">${esc(label)}</button>
+        `).join('');
+        return `
+          <div class="subset-test-row">
+            <div class="subset-test-title">
+              <span>Вопрос ${esc(questionIndex + 1)}</span>
+              <span class="pill" data-ternary-answer-pill="${esc(questionIndex)}">${esc(normalized.alphabet[0])}</span>
+            </div>
+            <div class="subset-ball-grid">${buttons}</div>
+          </div>
+        `;
+      }).join('');
+      const numberOptions = normalized.objectLabels.map((label, index) => `
+        <option value="${esc(index + 1)}">${esc(label)}</option>
+      `).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="ternary_question_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(ternaryQuestionModeLabel(normalized.defaultMode, normalized))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Три трехисходных ответа как троичный код</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.maxTests, 'вопрос', 'вопроса', 'вопросов'))}</span>
+              <span class="pill" data-state-counter>${esc(countText(normalized.objectCount, 'вариант', 'варианта', 'вариантов'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(ternaryQuestionModeLabel(mode, normalized))}</option>`).join('')}
+              </select>
+            </label>
+            <label data-ternary-manual-control>Вариант
+              <select data-ternary-manual-number>${numberOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-ternary-new>Новый случай</button>
+            <button class="small-button" type="button" data-ternary-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="subset-test-grid">${questionRows}</div>
+          <div class="numeric-result" data-ternary-result></div>
+          <div class="weighing-history">
+            <h4>История</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeRepetitionCodeOneLieConfig(_problem, config) {
+      const bitCount = Number(config.bit_count ?? config.bitCount ?? 3);
+      const numberMin = Number(config.number_min ?? config.numberMin ?? 0);
+      const numberMax = Number(config.number_max ?? config.numberMax ?? (2 ** bitCount - 1));
+      const repetitionsPerBit = Number(config.repetitions_per_bit ?? config.repetitionsPerBit ?? 3);
+      const maxLies = Number(config.max_lies ?? config.maxLies ?? 1);
+      const supportedModes = ['random', 'manual_spectator', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'manual_spectator', 'exhaustive'])
+        .map(mode => mode === 'manual' ? 'manual_spectator' : mode)
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_hidden_number';
+      if (!Number.isInteger(bitCount) || bitCount < 1 || bitCount > 10) return null;
+      if (!Number.isInteger(numberMin) || numberMin < 0) return null;
+      if (!Number.isInteger(numberMax) || numberMax < numberMin || numberMax >= 2 ** bitCount) return null;
+      if (repetitionsPerBit !== 3 || maxLies !== 1) return null;
+      if (objective !== 'identify_hidden_number') return null;
+      return {
+        type: 'repetition_code_one_lie_questions',
+        bitCount,
+        bit_count: bitCount,
+        numberMin,
+        number_min: numberMin,
+        numberMax,
+        number_max: numberMax,
+        repetitionsPerBit,
+        repetitions_per_bit: repetitionsPerBit,
+        maxLies,
+        max_lies: maxLies,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function repetitionCodeModeLabel(value) {
+      const labels = {
+        random: 'случайный случай',
+        manual_spectator: 'ручной случай',
+        exhaustive: '80 случаев'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderRepetitionCodeOneLieInteractive(problem, config) {
+      const normalized = normalizeRepetitionCodeOneLieConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const helper = window.WeighingCheater;
+      const rows = helper?.repetitionCodeQuestionRows
+        ? helper.repetitionCodeQuestionRows(normalized)
+        : Array.from({ length: normalized.bitCount * normalized.repetitionsPerBit }, (_item, index) => ({
+          index,
+          bit: Math.floor(index / normalized.repetitionsPerBit),
+          repeat: index % normalized.repetitionsPerBit,
+          weight: 2 ** Math.floor(index / normalized.repetitionsPerBit)
+        }));
+      const transcript = rows.map(row => `
+        <div class="history-item" data-repetition-row="${esc(row.index)}">
+          <span class="history-result">ответ ${esc(row.index + 1)}</span>
+          <span>вопрос про бит ${esc(row.weight)}, повтор ${esc(row.repeat + 1)}: <strong data-repetition-answer="${esc(row.index)}">?</strong></span>
+        </div>
+      `).join('');
+      const numberOptions = Array.from({ length: normalized.numberMax - normalized.numberMin + 1 }, (_item, index) => normalized.numberMin + index)
+        .map(number => `<option value="${esc(number)}">${esc(number)}</option>`)
+        .join('');
+      const lieOptions = [
+        '<option value="-1">без лжи</option>',
+        ...rows.map(row => `<option value="${esc(row.index)}">ответ ${esc(row.index + 1)}</option>`)
+      ].join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="repetition_code_one_lie_questions" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(repetitionCodeModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Три битовых вопроса с одной возможной ложью</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(normalized.bitCount)} бита</span>
+              <span class="pill">числа ${esc(normalized.numberMin)}..${esc(normalized.numberMax)}</span>
+              <span class="pill">${esc(rows.length)} ответов</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(repetitionCodeModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label data-repetition-manual-control>Число
+              <select data-repetition-manual-number>${numberOptions}</select>
+            </label>
+            <label data-repetition-manual-control>Ложь
+              <select data-repetition-manual-lie>${lieOptions}</select>
+            </label>
+            <label data-repetition-guess-control>Ваш ответ
+              <select data-repetition-guess>${numberOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-repetition-new>Новый случай</button>
+            <button class="small-button" type="button" data-repetition-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="interactive-grid">
+            <div>
+              <h4>Ответы</h4>
+              <div class="history-list" data-repetition-transcript>${transcript}</div>
+            </div>
+            <div>
+              <h4>Проверка</h4>
+              <div class="numeric-result" data-repetition-result></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizeZoltarConfig(problem, config) {
       const profile = problem.weighing_profile || {};
       const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count ?? 14);
@@ -4206,6 +6173,1267 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeFiniteBinaryConfig(_problem, config) {
+      const protocol = String(config.protocol || config.model || config.state_model || '').toLowerCase();
+      const maxTests = Number(config.max_tests ?? config.max_questions ?? config.question_count);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || 'random').filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || (protocol === 'one_liar_line_neighborhood' ? 'identify_state' : 'identify_one_genuine_coin');
+      if (!Number.isInteger(maxTests) || maxTests < 1) return null;
+      if (!['identify_state', 'identify_liar', 'identify_one_genuine_coin', 'identify_hidden_pair'].includes(objective)) return null;
+      if (!['one_liar_line_neighborhood', 'knight_liar_fake_coin_subset', 'adjacent_pair_grid_search'].includes(protocol) && !asArray(config.states).length) return null;
+      const normalized = {
+        type: 'finite_binary_state_protocol',
+        protocol,
+        maxTests,
+        objective,
+        layout: config.layout || 'generic',
+        query_includes_self: config.query_includes_self === true,
+        queryIncludesSelf: config.query_includes_self === true,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random',
+        states: asArray(config.states),
+        actions: asArray(config.actions),
+        response_table: config.response_table || config.responses || null,
+        answerLabels: {
+          yes: config.answer_labels?.yes || 'да',
+          no: config.answer_labels?.no || 'нет'
+        }
+      };
+      if (protocol === 'one_liar_line_neighborhood') {
+        const personCount = Number(config.person_count ?? config.personCount ?? config.object_count);
+        if (!Number.isInteger(personCount) || personCount < 2 || personCount > 60) return null;
+        normalized.personCount = personCount;
+      }
+      if (protocol === 'knight_liar_fake_coin_subset') {
+        const coinCount = Number(config.coin_count ?? config.coinCount);
+        const people = asArray(config.people || config.person_labels || config.personLabels).map(String).filter(Boolean);
+        const actionSubsetSizes = asArray(config.action_subset_sizes || [1, 2]).map(Number).filter(Number.isInteger);
+        if (!Number.isInteger(coinCount) || coinCount < 2 || coinCount > 12) return null;
+        if (people.length !== 2 || new Set(people).size !== 2) return null;
+        normalized.coinCount = coinCount;
+        normalized.people = people;
+        normalized.actionSubsetSizes = actionSubsetSizes.length ? actionSubsetSizes : [1, 2];
+      }
+      if (protocol === 'adjacent_pair_grid_search') {
+        const gridRows = Number(config.grid_rows ?? config.gridRows ?? config.rows ?? 10);
+        const gridCols = Number(config.grid_cols ?? config.gridCols ?? config.cols ?? config.columns ?? 10);
+        if (!Number.isInteger(gridRows) || !Number.isInteger(gridCols) || gridRows < 2 || gridCols < 2 || gridRows > 30 || gridCols > 30) return null;
+        if (objective !== 'identify_hidden_pair') return null;
+        normalized.gridRows = gridRows;
+        normalized.gridCols = gridCols;
+        normalized.grid_rows = gridRows;
+        normalized.grid_cols = gridCols;
+        normalized.layout = 'grid';
+      }
+      return normalized;
+    }
+
+    function finiteBinaryModeLabel(value) {
+      const labels = {
+        random: 'случайное состояние',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderAdjacentPairGridInteractive(problem, normalized) {
+      const helper = window.WeighingCheater;
+      const stateCount = helper?.finiteBinaryInitialStates ? helper.finiteBinaryInitialStates(normalized).length : 0;
+      const actionCount = helper?.finiteBinaryInitialActions ? helper.finiteBinaryInitialActions(normalized).length : normalized.gridRows * normalized.gridCols;
+      return `
+        <div class="card interactive-panel" data-interactive-type="finite_binary_state_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(finiteBinaryModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Сокровище в соседних клетках</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'возможная пара', 'возможные пары', 'возможных пар'))}</span>
+              <span class="pill">${esc(countText(actionCount, 'клетка', 'клетки', 'клеток'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(finiteBinaryModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-treasure-ask>Спросить клетку</button>
+            <button class="small-button" type="button" data-treasure-answer-mode>Выбрать пару</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="treasure-layout">
+            <div class="treasure-board" data-treasure-board style="--treasure-cols:${esc(normalized.gridCols)}"></div>
+            <div class="treasure-side">
+              <div class="card dense-card">
+                <h4>Возможные пары</h4>
+                <div class="treasure-pair-list" data-treasure-pairs></div>
+              </div>
+              <div class="weighing-history">
+                <h4>История вопросов</h4>
+                <div class="history-list" data-history></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFiniteBinaryStateProtocolInteractive(problem, config) {
+      const normalized = normalizeFiniteBinaryConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      if (normalized.protocol === 'adjacent_pair_grid_search') return renderAdjacentPairGridInteractive(problem, normalized);
+      const helper = window.WeighingCheater;
+      const stateCount = helper?.finiteBinaryInitialStates
+        ? helper.finiteBinaryInitialStates(normalized).length
+        : asArray(normalized.states).length;
+      const actionCount = helper?.finiteBinaryInitialActions
+        ? helper.finiteBinaryInitialActions(normalized).length
+        : asArray(normalized.actions).length;
+      const heading = normalized.protocol === 'one_liar_line_neighborhood'
+        ? 'Один лжец в шеренге'
+        : (normalized.protocol === 'knight_liar_fake_coin_subset' ? 'Рыцарь, лжец и фальшивая монета' : 'Конечный да/нет протокол');
+      return `
+        <div class="card interactive-panel" data-interactive-type="finite_binary_state_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(finiteBinaryModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>${esc(heading)}</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(countText(actionCount, 'действие', 'действия', 'действий'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(finiteBinaryModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Вопрос
+              <select data-finite-binary-action></select>
+            </label>
+            <button class="small-button" type="button" data-finite-binary-ask>Спросить</button>
+            <label data-answer-wrap>Ответ
+              <select data-finite-binary-answer></select>
+            </label>
+            <button class="small-button" type="button" data-finite-binary-submit-answer>Ответить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Ветви полного перебора</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Возможные состояния</h4>
+              <div class="pill-row" data-state-list></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Гарантированные ответы</h4>
+              <div class="pill-row" data-answer-list></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История вопросов</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeXorSingleFlipConfig(_problem, config) {
+      const positionCount = Number(config.position_count ?? config.positionCount ?? config.object_count ?? 8);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_key_position';
+      if (!Number.isInteger(positionCount) || positionCount < 2 || positionCount > 16) return null;
+      if ((positionCount & (positionCount - 1)) !== 0) return null;
+      if (objective !== 'identify_key_position') return null;
+      return {
+        type: 'xor_single_flip_protocol',
+        positionCount,
+        position_count: positionCount,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function xorSingleFlipModeLabel(value) {
+      const labels = {
+        random: 'случайная раскладка',
+        cheater: 'сложный случай',
+        exhaustive: 'все 2048 состояний'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderXorSingleFlipInteractive(problem, config) {
+      const normalized = normalizeXorSingleFlipConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = normalized.positionCount * (2 ** normalized.positionCount);
+      return `
+        <div class="card interactive-panel" data-interactive-type="xor_single_flip_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(xorSingleFlipModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Восемь монет: один переворот</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-xor-stage>первый заключенный</span>
+              <span class="pill" data-xor-state-counter>${esc(countText(stateCount, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(xorSingleFlipModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-xor-submit-flip>Перевернуть выбранную</button>
+            <button class="small-button" type="button" data-xor-submit-guess>Назвать выбранную</button>
+            <button class="small-button" type="button" data-xor-show-checksum>Показать контрольную сумму</button>
+            <button class="small-button" type="button" data-xor-exhaustive-check>Проверить все состояния</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="xor-layout">
+            <div class="xor-board" data-xor-board></div>
+            <div class="xor-side">
+              <div class="card dense-card">
+                <h4>Текущий ход</h4>
+                <div class="pill-row" data-xor-current></div>
+              </div>
+              <div class="numeric-result" data-xor-checksum hidden></div>
+              <div class="weighing-history">
+                <h4>История</h4>
+                <div class="history-list" data-history></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeWiseMenParityConfig(_problem, config) {
+      const personCount = Number(config.person_count ?? config.personCount ?? config.word_length ?? 6);
+      const colorCount = Number(config.color_count ?? config.colorCount ?? config.message_count ?? 32);
+      const supportedModes = ['random', 'challenge', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'challenge', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'all_agents_find_own_state';
+      if (!Number.isInteger(personCount) || personCount < 2 || personCount > 10) return null;
+      if (!Number.isInteger(colorCount) || colorCount < 2 || colorCount > 2 ** (personCount - 1)) return null;
+      if (objective !== 'all_agents_find_own_state') return null;
+      return {
+        type: 'wise_men_even_parity_code',
+        personCount,
+        person_count: personCount,
+        colorCount,
+        color_count: colorCount,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function wiseMenParityModeLabel(value) {
+      const labels = {
+        random: 'случайные колпаки',
+        challenge: 'ручная проверка',
+        exhaustive: 'проверить весь малый случай'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderWiseMenParityInteractive(problem, config) {
+      const normalized = normalizeWiseMenParityConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const peopleOptions = Array.from({ length: normalized.personCount }, (_item, index) =>
+        `<option value="${esc(index)}">мудрец ${esc(index + 1)}</option>`
+      ).join('');
+      const colorOptions = Array.from({ length: normalized.colorCount }, (_item, index) =>
+        `<option value="${esc(index + 1)}">цвет ${esc(index + 1)}</option>`
+      ).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="wise_men_even_parity_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(wiseMenParityModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>6 мудрецов: один бит от каждого</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.personCount, 'мудрец', 'мудреца', 'мудрецов'))}</span>
+              <span class="pill">${esc(countText(normalized.colorCount, 'цвет', 'цвета', 'цветов'))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(wiseMenParityModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Кто угадывает
+              <select data-wise-person>${peopleOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-wise-random>Новый расклад</button>
+            <button class="small-button" type="button" data-wise-send>Передать биты</button>
+            <button class="small-button" type="button" data-wise-decode>Восстановить цвет</button>
+            <button class="small-button" type="button" data-wise-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Колпаки и коды</h4>
+              <div class="history-list" data-wise-colors></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Переданные биты</h4>
+              <div class="pill-row" data-wise-messages></div>
+              <div class="numeric-result" data-wise-result hidden></div>
+            </div>
+          </div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Как восстанавливается цвет</h4>
+              <div class="history-list" data-wise-steps></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Таблица цветов</h4>
+              <div class="history-list" data-wise-codebook></div>
+            </div>
+          </div>
+          <template data-wise-color-options>${colorOptions}</template>
+        </div>
+      `;
+    }
+
+    function normalizeWiseMenColorCountConfig(_problem, config) {
+      const sageCount = Number(config.sage_count ?? config.sageCount ?? 6);
+      const colorCount = Number(config.color_count ?? config.colorCount ?? 4);
+      const rawValues = Array.isArray(config.count_values) ? config.count_values : config.countValues;
+      const countValues = (Array.isArray(rawValues) ? rawValues : Array.from({ length: colorCount }, (_item, index) => index))
+        .map(value => Number(value));
+      const targetCorrectMin = Number(config.target_correct_min ?? config.targetCorrectMin ?? Math.floor(sageCount / 2));
+      const supportedModes = ['random', 'cheater', 'exhaustive', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive', 'sandbox'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'guarantee_at_least_half_correct';
+      if (!Number.isInteger(sageCount) || sageCount < 2 || sageCount > 10) return null;
+      if (!Number.isInteger(colorCount) || colorCount < 2 || colorCount > 8) return null;
+      if (countValues.length !== colorCount || countValues.some(value => !Number.isInteger(value) || value < 0)) return null;
+      if (new Set(countValues).size !== countValues.length) return null;
+      if (countValues.reduce((sum, value) => sum + value, 0) !== sageCount) return null;
+      if (!Number.isInteger(targetCorrectMin) || targetCorrectMin < 1 || targetCorrectMin > Math.floor(sageCount / 2)) return null;
+      if (objective !== 'guarantee_at_least_half_correct') return null;
+      return {
+        type: 'wise_men_color_count_parity_protocol',
+        sageCount,
+        sage_count: sageCount,
+        colorCount,
+        color_count: colorCount,
+        countValues,
+        count_values: countValues,
+        targetCorrectMin,
+        target_correct_min: targetCorrectMin,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function wiseMenColorCountModeLabel(value) {
+      const labels = {
+        random: 'случайная расстановка',
+        cheater: 'проверка другой половины',
+        exhaustive: 'все допустимые расстановки',
+        sandbox: 'ручная расстановка'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderWiseMenColorCountInteractive(problem, config) {
+      const normalized = normalizeWiseMenColorCountConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const colorOptions = Array.from({ length: normalized.colorCount }, (_item, index) =>
+        `<option value="${esc(index + 1)}">цвет ${esc(index + 1)}</option>`
+      ).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="wise_men_color_count_parity_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(wiseMenColorCountModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>6 мудрецов: четыре цвета и разные количества</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.sageCount, 'мудрец', 'мудреца', 'мудрецов'))}</span>
+              <span class="pill">${esc(countText(normalized.colorCount, 'цвет', 'цвета', 'цветов'))}</span>
+              <span class="pill">количества: ${esc(normalized.countValues.join(', '))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(wiseMenColorCountModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-color-count-new>Новая расстановка</button>
+            <button class="small-button" type="button" data-color-count-run>Показать ответы</button>
+            <button class="small-button" type="button" data-color-count-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Колпаки</h4>
+              <div class="history-list" data-color-count-hats></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Итог</h4>
+              <div class="history-list" data-color-count-summary></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>Ответы мудрецов</h4>
+            <div class="history-list" data-color-count-answers></div>
+          </div>
+          <template data-color-count-options>${colorOptions}</template>
+        </div>
+      `;
+    }
+
+    function normalizePrisonersHatsParityLineConfig(_problem, config) {
+      const personCount = Number(config.person_count ?? config.personCount ?? config.prisoner_count ?? config.prisonerCount ?? 6);
+      const colorCount = Number(config.color_count ?? config.colorCount ?? 2);
+      const supportedModes = ['random', 'guided', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'guided', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'guarantee_all_but_first_correct';
+      if (!Number.isInteger(personCount) || personCount < 2 || personCount > 10) return null;
+      if (colorCount !== 2) return null;
+      if (objective !== 'guarantee_all_but_first_correct') return null;
+      return {
+        type: 'prisoners_hats_parity_line',
+        personCount,
+        person_count: personCount,
+        prisonerCount: personCount,
+        prisoner_count: personCount,
+        colorCount,
+        color_count: colorCount,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function prisonersHatsParityLineModeLabel(value) {
+      const labels = {
+        random: 'случайная расстановка',
+        guided: 'демонстрация стратегии',
+        exhaustive: 'все раскладки'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderPrisonersHatsParityLineInteractive(problem, config) {
+      const normalized = normalizePrisonersHatsParityLineConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      return `
+        <div class="card interactive-panel" data-interactive-type="prisoners_hats_parity_line" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(prisonersHatsParityLineModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Шесть заключенных: черные и белые колпаки</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.personCount, 'заключенный', 'заключенных', 'заключенных'))}</span>
+              <span class="pill">2 цвета</span>
+              <span class="pill" data-prisoner-hat-step>ход 1 / ${esc(normalized.personCount)}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(prisonersHatsParityLineModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Ответ текущего
+              <select data-prisoner-hat-answer>
+                <option value="0">белый</option>
+                <option value="1">черный</option>
+              </select>
+            </label>
+            <button class="small-button" type="button" data-prisoner-hat-submit>Записать ответ</button>
+            <button class="small-button" type="button" data-prisoner-hat-check>Проверить расклад</button>
+            <button class="small-button" type="button" data-prisoner-hat-demo>Демо стратегии</button>
+            <button class="small-button" type="button" data-prisoner-hat-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-reset-interactive>Новая расстановка</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Ряд</h4>
+              <div class="history-list" data-prisoner-hat-board></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Публичные ответы</h4>
+              <div class="pill-row" data-prisoner-hat-answers></div>
+              <div class="numeric-result" data-prisoner-hat-result hidden></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>Как проверяется четность</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeHiddenHatParityConfig(_problem, config) {
+      const sageCount = Number(config.sage_count ?? config.sageCount ?? 6);
+      const numberMin = Number(config.number_min ?? config.numberMin ?? 1);
+      const numberMax = Number(config.number_max ?? config.numberMax ?? 7);
+      const hiddenCount = Number(config.hidden_count ?? config.hiddenCount ?? 1);
+      const targetParity = String(config.target_parity ?? config.targetParity ?? 'even').toLowerCase() === 'odd' ? 'odd' : 'even';
+      const supportedModes = ['random', 'guided', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'guided', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'guarantee_all_but_first_correct';
+      if (!Number.isInteger(sageCount) || sageCount < 2 || sageCount > 8) return null;
+      if (!Number.isInteger(numberMin) || !Number.isInteger(numberMax) || numberMax - numberMin + 1 !== sageCount + 1) return null;
+      if (hiddenCount !== 1) return null;
+      if (objective !== 'guarantee_all_but_first_correct') return null;
+      return {
+        type: 'hidden_hat_number_parity_protocol',
+        sageCount,
+        sage_count: sageCount,
+        numberMin,
+        number_min: numberMin,
+        numberMax,
+        number_max: numberMax,
+        hiddenCount,
+        hidden_count: hiddenCount,
+        targetParity,
+        target_parity: targetParity,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function hiddenHatParityModeLabel(value) {
+      const labels = {
+        random: 'случайная расстановка',
+        guided: 'пошаговая проверка',
+        exhaustive: 'все 5040 расстановок'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderHiddenHatParityInteractive(problem, config) {
+      const normalized = normalizeHiddenHatParityConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const answerOptions = Array.from(
+        { length: normalized.numberMax - normalized.numberMin + 1 },
+        (_item, index) => normalized.numberMin + index
+      ).map(number => `<option value="${esc(number)}">${esc(number)}</option>`).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="hidden_hat_number_parity_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(hiddenHatParityModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Шесть мудрецов: четность спрятанного номера</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.sageCount, 'мудрец', 'мудреца', 'мудрецов'))}</span>
+              <span class="pill">${esc(normalized.numberMin)}..${esc(normalized.numberMax)}</span>
+              <span class="pill" data-hidden-hat-step>ход 1 / ${esc(normalized.sageCount)}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(hiddenHatParityModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Ответ текущего мудреца
+              <select data-hidden-hat-answer>${answerOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-hidden-hat-submit>Проверить ответ</button>
+            <button class="small-button" type="button" data-hidden-hat-next>Следующий мудрец</button>
+            <button class="small-button" type="button" data-hidden-hat-auto>Верный ход</button>
+            <button class="small-button" type="button" data-hidden-hat-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-reset-interactive>Новая расстановка</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Что видно текущему мудрецу</h4>
+              <div class="history-list" data-hidden-hat-board></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Публичные ответы</h4>
+              <div class="pill-row" data-hidden-hat-answers></div>
+              <div class="numeric-result" data-hidden-hat-result hidden></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История проверки</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizePermutationCycleConfig(_problem, config) {
+      const prisonerCount = Number(config.prisoner_count ?? config.prisonerCount ?? config.box_count ?? config.boxCount ?? 10);
+      const boxCount = Number(config.box_count ?? config.boxCount ?? prisonerCount);
+      const maxOpenings = Number(config.max_openings ?? config.maxOpenings ?? Math.floor(prisonerCount / 2));
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'all_agents_find_own_state';
+      if (!Number.isInteger(prisonerCount) || prisonerCount < 2 || prisonerCount > 12) return null;
+      if (boxCount !== prisonerCount) return null;
+      if (!Number.isInteger(maxOpenings) || maxOpenings < 1 || maxOpenings > prisonerCount) return null;
+      if (objective !== 'all_agents_find_own_state') return null;
+      return {
+        type: 'permutation_cycle_protocol',
+        prisonerCount,
+        prisoner_count: prisonerCount,
+        boxCount,
+        box_count: boxCount,
+        maxOpenings,
+        max_openings: maxOpenings,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function permutationCycleModeLabel(value) {
+      const labels = {
+        random: 'случайная перестановка',
+        cheater: 'длинный цикл',
+        exhaustive: 'разбор по типам циклов'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderPermutationCycleInteractive(problem, config) {
+      const normalized = normalizePermutationCycleConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const prisonerOptions = Array.from({ length: normalized.prisonerCount }, (_item, index) => index + 1)
+        .map(id => `<option value="${esc(id)}">заключенный ${esc(id)}</option>`)
+        .join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="permutation_cycle_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(permutationCycleModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>10 ящиков: пройти по циклу перестановки</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.prisonerCount, 'заключенный', 'заключенных', 'заключенных'))}</span>
+              <span class="pill" data-permutation-open-counter>0 / ${esc(normalized.maxOpenings)}</span>
+              <span class="pill" data-permutation-cycle-counter>циклы скрыты</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(permutationCycleModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label data-prisoner-select-wrap>Кто входит
+              <select data-permutation-prisoner>${prisonerOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-permutation-start>Начать проход</button>
+            <button class="small-button" type="button" data-permutation-run-all>Проверить всех</button>
+            <button class="small-button" type="button" data-permutation-exhaustive>Типы циклов</button>
+            <button class="small-button" type="button" data-reset-interactive>Новая перестановка</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="permutation-layout">
+            <div>
+              <div class="permutation-board" data-permutation-board></div>
+              <div class="weighing-history">
+                <h4>История открытий</h4>
+                <div class="history-list" data-history></div>
+              </div>
+            </div>
+            <div class="xor-side">
+              <div class="card dense-card">
+                <h4>Циклы этой перестановки</h4>
+                <div class="cycle-list" data-permutation-cycles></div>
+              </div>
+              <div class="card dense-card">
+                <h4>Трасса выбранного заключенного</h4>
+                <div class="pill-row" data-permutation-trace></div>
+              </div>
+              <div class="numeric-result" data-permutation-exhaustive-result hidden></div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeHigherLowerStrategyConfig(_problem, config) {
+      const boxCount = Number(config.box_count ?? config.boxCount ?? 9);
+      const supportedModes = ['guided', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || ['guided', 'sandbox']).filter(mode => supportedModes.includes(mode));
+      const compareBoxCounts = asArray(config.compare_box_counts || config.compareBoxCounts || [3, 4, boxCount])
+        .map(value => Number(value))
+        .filter(value => Number.isInteger(value) && value >= 1 && value <= 40)
+        .filter((value, index, values) => values.indexOf(value) === index);
+      if (!Number.isInteger(boxCount) || boxCount < 2 || boxCount > 40) return null;
+      if (!compareBoxCounts.length) compareBoxCounts.push(boxCount);
+      if (!compareBoxCounts.includes(boxCount)) compareBoxCounts.push(boxCount);
+      return {
+        type: 'higher_lower_strategy_game',
+        objective: config.objective || 'maximize_win_probability',
+        boxCount,
+        box_count: boxCount,
+        compareBoxCounts,
+        compare_box_counts: compareBoxCounts,
+        modes: modes.length ? modes : ['guided'],
+        defaultMode: modes[0] || 'guided'
+      };
+    }
+
+    function higherLowerModeLabel(value) {
+      const labels = {
+        guided: 'оптимальные ходы',
+        sandbox: 'свободный разбор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderHigherLowerStrategyInteractive(problem, config) {
+      const normalized = normalizeHigherLowerStrategyConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const solve = window.WeighingCheater?.higherLowerSolve
+        ? window.WeighingCheater.higherLowerSolve(normalized)
+        : null;
+      const countButtons = normalized.compareBoxCounts
+        .map(count => `<button class="small-button" type="button" data-higher-lower-count="${esc(count)}">${esc(count)}</button>`)
+        .join('');
+      const firstChance = solve?.first?.value?.label || '';
+      return `
+        <div class="card interactive-panel" data-interactive-type="higher_lower_strategy_game" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill('дерево стратегии')}
+            <span class="pill" data-current-mode-pill>${esc(higherLowerModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Игра «больше или меньше»: дерево стратегии</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-higher-lower-position>1-${esc(normalized.boxCount)}</span>
+              <span class="pill" data-higher-lower-turn-pill>ход первого</span>
+              <span class="pill" data-higher-lower-value>${esc(firstChance ? `шанс ${firstChance}` : '')}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(higherLowerModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Чей ход
+              <select data-higher-lower-turn>
+                <option value="first">первый игрок</option>
+                <option value="second">второй игрок</option>
+              </select>
+            </label>
+            <button class="small-button" type="button" data-reset-interactive>Снова</button>
+          </div>
+          <div class="interactive-actions" aria-label="Размеры игры">${countButtons}</div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <section>
+              <h4>Позиция</h4>
+              <div class="coin-grid" data-higher-lower-boxes></div>
+              <div class="interactive-actions" data-higher-lower-answers></div>
+            </section>
+            <section>
+              <h4>Цены ходов</h4>
+              <div data-higher-lower-table></div>
+            </section>
+          </div>
+          <div class="two-grid">
+            <section>
+              <h4>Сравнение малых игр</h4>
+              <div data-higher-lower-comparison></div>
+            </section>
+            <section>
+              <h4>История ветки</h4>
+              <div class="history-list" data-history></div>
+            </section>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeMovingTargetGraphConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const maxTests = Number(config.max_tests ?? config.max_moves ?? config.max_weighings ?? profile.question_count ?? 4);
+      const checkSize = Number(config.check_size ?? config.action_size ?? 3);
+      const supportedModes = ['random', 'cheater', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'cheater', 'exhaustive']).filter(mode => supportedModes.includes(mode));
+      const graph = window.WeighingCheater?.movingTargetNormalizeGraph
+        ? window.WeighingCheater.movingTargetNormalizeGraph(config)
+        : { vertices: asArray(config.vertices), edges: asArray(config.edges) };
+      if (!Number.isInteger(maxTests) || maxTests < 1) return null;
+      if (!Number.isInteger(checkSize) || checkSize < 1) return null;
+      if (!graph.vertices?.length || !graph.edges?.length) return null;
+      return {
+        type: 'moving_target_graph_search',
+        objective: config.objective || 'capture_hidden_moving_target',
+        graph_kind: config.graph_kind || config.layout || 'cube',
+        vertices: graph.vertices,
+        edges: graph.edges,
+        checkSize,
+        check_size: checkSize,
+        maxTests,
+        max_tests: maxTests,
+        allowFewer: config.allow_fewer === true || config.allow_up_to === true,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function movingTargetModeLabel(value) {
+      const labels = {
+        random: 'Случайная муха',
+        cheater: 'Шулер',
+        exhaustive: 'Полный перебор'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderMovingTargetGraphSearchInteractive(problem, config) {
+      const normalized = normalizeMovingTargetGraphConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const edges = normalized.edges.map(edge => {
+        const first = normalized.vertices.find(vertex => vertex.id === edge[0]);
+        const second = normalized.vertices.find(vertex => vertex.id === edge[1]);
+        if (!first || !second) return '';
+        return `<line class="graph-edge" x1="${esc(first.x)}%" y1="${esc(first.y)}%" x2="${esc(second.x)}%" y2="${esc(second.y)}%"></line>`;
+      }).join('');
+      const vertices = normalized.vertices.map(vertex => `
+        <button class="graph-vertex color-${esc(vertex.color || 'plain')}" type="button" data-graph-vertex="${esc(vertex.id)}" style="left:${esc(vertex.x)}%; top:${esc(vertex.y)}%;">
+          ${esc(vertex.label)}
+        </button>
+      `).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="moving_target_graph_search" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(movingTargetModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Паук ищет муху на кубе</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-test-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(normalized.vertices.length, 'позиция', 'позиции', 'позиций'))}</span>
+              <span class="pill">проверить ${esc(normalized.checkSize)}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(movingTargetModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-moving-target-run>Проверить вершины</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="graph-search-board">
+            <div class="graph-cube" data-graph-cube>
+              <svg viewBox="0 0 100 100" aria-hidden="true">${edges}</svg>
+              ${vertices}
+            </div>
+            <div class="graph-side-panel">
+              <div class="card dense-card">
+                <h4>Выбрано для проверки</h4>
+                <div class="pill-row" data-selected-list></div>
+              </div>
+              <div class="card dense-card">
+                <h4>Оставшиеся возможные положения</h4>
+                <div class="pill-row" data-state-list></div>
+              </div>
+              <div class="exhaustive-panel" data-exhaustive-panel hidden>
+                <h4>Ветви полного перебора</h4>
+                <div class="exhaustive-branches" data-exhaustive-branches></div>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История ходов</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeThreeLetterErasureConfig(_problem, config) {
+      const alphabet = asArray(config.alphabet || ['А', 'Б', 'В']).map(value => String(value || '').trim()).filter(Boolean);
+      const messageCount = Number(config.message_count ?? config.messageCount ?? 16);
+      const wordLength = Number(config.word_length ?? config.wordLength ?? 8);
+      const supportedModes = ['random', 'exhaustive', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || ['random', 'exhaustive', 'sandbox'])
+        .filter(mode => supportedModes.includes(mode));
+      const helper = window.WeighingCheater;
+      const codewords = helper?.threeLetterErasureNormalizeCodewords
+        ? helper.threeLetterErasureNormalizeCodewords(config)
+        : asArray(config.codewords).map(word => String(word || '').trim());
+      if (alphabet.length !== 3 || new Set(alphabet).size !== 3) return null;
+      if (!Number.isInteger(messageCount) || messageCount < 1 || messageCount > 64) return null;
+      if (!Number.isInteger(wordLength) || wordLength < 1 || wordLength > 32) return null;
+      if (codewords.length !== messageCount) return null;
+      return {
+        type: 'three_letter_erasure_code',
+        messageCount,
+        message_count: messageCount,
+        wordLength,
+        word_length: wordLength,
+        alphabet,
+        codewords,
+        objective: config.objective || 'decode_hidden_message',
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function threeLetterErasureModeLabel(value) {
+      const labels = {
+        random: 'случайное стирание',
+        exhaustive: 'все 48 стираний',
+        sandbox: 'своя таблица'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderThreeLetterErasureInteractive(problem, config) {
+      const normalized = normalizeThreeLetterErasureConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const rows = normalized.codewords.map((word, index) => `
+        <tr>
+          <td><button class="small-button" type="button" data-three-row="${esc(index)}">${esc(index)}</button></td>
+          <td><code>${esc(word)}</code></td>
+          <td data-three-row-status="${esc(index)}"></td>
+        </tr>
+      `).join('');
+      const messageOptions = normalized.codewords.map((word, index) => `<option value="${esc(index)}">${esc(index)} · ${esc(word)}</option>`).join('');
+      const eraseOptions = normalized.alphabet.map(letter => `<option value="${esc(letter)}">${esc(letter)}</option>`).join('');
+      const answerButtons = normalized.codewords.map((_word, index) => `<button class="small-button" type="button" data-three-answer="${esc(index)}">${esc(index)}</button>`).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="three_letter_erasure_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(threeLetterErasureModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Трехбуквенный код со стиранием</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(normalized.messageCount)} сообщений</span>
+              <span class="pill">длина ${esc(normalized.wordLength)}</span>
+              <span class="pill">${esc(normalized.alphabet.join('/'))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(threeLetterErasureModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Сообщение
+              <select data-three-message>${messageOptions}</select>
+            </label>
+            <label>Стереть
+              <select data-three-erased>${eraseOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-three-random>Случайно</button>
+            <button class="small-button" type="button" data-three-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-three-sandbox-check>Проверить таблицу</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Таблица кодов</h4>
+              <table class="finite-pair-table">
+                <thead><tr><th>№</th><th>слово</th><th>статус</th></tr></thead>
+                <tbody>${rows}</tbody>
+              </table>
+            </div>
+            <div class="card dense-card">
+              <h4>После стирания</h4>
+              <div class="pill-row">
+                <span class="pill" data-three-codeword></span>
+                <span class="pill" data-three-erased-pill></span>
+              </div>
+              <div class="interactive-status" data-three-observed></div>
+              <div class="pill-row" data-three-answers>${answerButtons}</div>
+              <div class="local-muted" data-three-decode-note></div>
+              <div class="local-row">
+                <textarea data-three-sandbox rows="7" spellcheck="false">${esc(normalized.codewords.join('\\n'))}</textarea>
+              </div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История проверок</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizePermutationMessageConfig(_problem, config) {
+      const itemCount = Number(config.item_count ?? config.itemCount ?? 3);
+      const messageCount = Number(config.message_count ?? config.messageCount ?? 6);
+      const supportedModes = ['random', 'exhaustive', 'sandbox'];
+      const modes = asArray(config.modes || config.mode || supportedModes).filter(mode => supportedModes.includes(mode));
+      const labels = asArray(config.object_labels || config.objectLabels)
+        .map(label => String(label || '').trim())
+        .filter(Boolean)
+        .slice(0, itemCount);
+      const objectLabels = labels.length === itemCount && new Set(labels).size === itemCount
+        ? labels
+        : ['A', 'B', 'C'].slice(0, itemCount);
+      const objective = config.objective || 'decode_hidden_message';
+      if (itemCount !== 3 || messageCount !== 6) return null;
+      if (objective !== 'decode_hidden_message') return null;
+      return {
+        type: 'permutation_message_order_code',
+        itemCount,
+        item_count: itemCount,
+        messageCount,
+        message_count: messageCount,
+        objectLabels,
+        object_labels: objectLabels,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function permutationMessageModeLabel(value) {
+      const labels = {
+        random: 'случайная задача',
+        exhaustive: 'проверка всех 6',
+        sandbox: 'ручная проба'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderPermutationMessageInteractive(problem, config) {
+      const normalized = normalizePermutationMessageConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const messageButtons = Array.from({ length: normalized.messageCount }, (_item, index) => `
+        <button class="small-button" type="button" data-permutation-message="${esc(index)}">Сообщение ${esc(index + 1)}</button>
+      `).join('');
+      const itemButtons = normalized.objectLabels.map((label, index) => `
+        <button class="permutation-item" type="button" data-permutation-item="${esc(index)}" aria-pressed="false">${esc(label)}</button>
+      `).join('');
+      const guessOptions = Array.from({ length: normalized.messageCount }, (_item, index) => `<option value="${esc(index)}">Сообщение ${esc(index + 1)}</option>`).join('');
+      const directionOptions = `
+        <option value="encode">составить порядок</option>
+        <option value="decode">прочитать порядок</option>
+      `;
+      return `
+        <div class="card interactive-panel" data-interactive-type="permutation_message_order_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill" data-current-mode-pill>${esc(permutationMessageModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Порядок трех предметов как сообщение</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(normalized.messageCount)} сообщений</span>
+              <span class="pill">${esc(normalized.objectLabels.join(' / '))}</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(permutationMessageModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label>Задание
+              <select data-permutation-direction>${directionOptions}</select>
+            </label>
+            <label data-permutation-guess-wrap>Ответ
+              <select data-permutation-guess>${guessOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-permutation-new>Новый случай</button>
+            <button class="small-button" type="button" data-permutation-check>Проверить</button>
+            <button class="small-button" type="button" data-permutation-exhaustive>Проверить все 6</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="permutation-board">
+            <div class="permutation-message-list">
+              <strong>Сообщения</strong>
+              ${messageButtons}
+            </div>
+            <div class="permutation-order-area">
+              <div class="pill-row">
+                <span class="pill" data-permutation-task></span>
+                <span class="pill" data-permutation-order-note></span>
+              </div>
+              <div class="permutation-slots" data-permutation-slots></div>
+              <div class="permutation-items">${itemButtons}</div>
+              <div class="local-muted" data-permutation-note></div>
+              <div class="permutation-table-preview" data-permutation-table hidden></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История проверок</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeTwentyOneCardTrickConfig(problem, config) {
+      const profile = problem.card_trick_profile || {};
+      const deckSize = Number(config.deck_size ?? config.deckSize ?? config.card_count ?? profile.deck_size ?? 21);
+      const columnCount = Number(config.column_count ?? config.columnCount ?? 3);
+      const rowCount = Number(config.row_count ?? config.rowCount ?? 7);
+      const roundCount = Number(config.round_count ?? config.roundCount ?? 3);
+      const supportedModes = ['random', 'manual_spectator', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || supportedModes).filter(mode => supportedModes.includes(mode));
+      if (!Number.isInteger(deckSize) || deckSize < 1) return null;
+      if (!Number.isInteger(columnCount) || columnCount < 2) return null;
+      if (!Number.isInteger(rowCount) || rowCount < 1) return null;
+      if (!Number.isInteger(roundCount) || roundCount < 1) return null;
+      if (deckSize !== columnCount * rowCount) return null;
+      const objective = config.objective || 'identify_selected_card';
+      if (objective !== 'identify_selected_card') return null;
+      return {
+        type: 'twenty_one_card_trick',
+        deckSize,
+        columnCount,
+        rowCount,
+        roundCount,
+        objective,
+        modes: modes.length ? modes : supportedModes,
+        defaultMode: modes[0] || 'random',
+        cardLabels: asArray(config.card_labels || config.cardLabels).map(String).slice(0, deckSize)
+      };
+    }
+
+    function twentyOneCardModeLabel(value) {
+      const labels = {
+        random: 'скрытая карта выбрана системой',
+        manual_spectator: 'зритель выбирает карту',
+        exhaustive: 'проверка всех карт'
+      };
+      return labels[value] || value || '';
+    }
+
+    function renderTwentyOneCardTrickInteractive(problem, config) {
+      const normalized = normalizeTwentyOneCardTrickConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const stateCount = normalized.deckSize;
+      return `
+        <div class="card interactive-panel" data-interactive-type="twenty_one_card_trick" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="interactive-head">
+            <div>
+              <div class="topline">
+                ${pill('интерактив')}
+                ${pill('21 карта')}
+                ${pill(normalized.type, 'code')}
+              </div>
+              <h4>Три раскладки по три столбца</h4>
+            </div>
+            <div class="interactive-meta">
+              <span class="pill" data-current-mode-pill>${esc(twentyOneCardModeLabel(normalized.defaultMode))}</span>
+              <span class="pill">${esc(countText(stateCount, 'карта', 'карты', 'карт'))}</span>
+            </div>
+          </div>
+          <div class="interactive-config" aria-label="Параметры интерактива">
+            <div class="interactive-config-item"><strong>Карт</strong>${esc(normalized.deckSize)}</div>
+            <div class="interactive-config-item"><strong>Столбцов</strong>${esc(normalized.columnCount)}</div>
+            <div class="interactive-config-item"><strong>Карт в столбце</strong>${esc(normalized.rowCount)}</div>
+            <div class="interactive-config-item"><strong>Раундов</strong>${esc(normalized.roundCount)}</div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(twentyOneCardModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-twenty-new>Новая попытка</button>
+            <button class="small-button" type="button" data-twenty-auto-column>Ответ зрителя</button>
+            <button class="small-button" type="button" data-twenty-reveal>Открыть финальную карту</button>
+            <button class="small-button" type="button" data-twenty-exhaustive>Проверить все 21</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="twenty-one-layout">
+            <div class="twenty-one-board" data-twenty-board></div>
+            <div class="twenty-one-side">
+              <div class="card dense-card">
+                <h4>Стопка после сбора</h4>
+                <div class="twenty-one-stack" data-twenty-stack></div>
+              </div>
+              <div class="card dense-card">
+                <h4>Финал</h4>
+                <div class="numeric-result" data-twenty-final></div>
+              </div>
+              <div class="card dense-card">
+                <h4>История ответов</h4>
+                <div class="history-list" data-history></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     function renderUnknownInteractive(_problem, config) {
       return `
         <div class="card interactive-panel" data-interactive-type="${esc(config?.type || '')}">
@@ -4221,17 +7449,39 @@ __WEIGHING_CHEATER_JS__
     const INTERACTIVE_RENDERERS = {
       single_counterfeit_weighing: renderSingleCounterfeitWeighingInteractive,
       single_counterfeit_unknown_direction: renderSingleCounterfeitWeighingInteractive,
+      zero_one_two_counterfeit_sign: renderZeroOneTwoSignInteractive,
+      safe_pile_balance_certificate: renderSafePileBalanceCertificateInteractive,
       zoltar_heavier_hand_removal: renderZoltarInteractive,
       paired_light_counterfeits: renderPairedLightCounterfeitsInteractive,
       multiple_light_find_one: renderMultipleLightFindOneInteractive,
       grouped_light_counterfeits: renderMultipleLightFindOneInteractive,
+      constrained_light_counterfeit_sets: renderConstrainedLightInteractive,
+      threshold_balance_counterfeit_sets: renderThresholdBalanceInteractive,
       faulty_scale_identification: renderFaultyScaleIdentificationInteractive,
       broken_scale_counterfeit_coin: renderBrokenScaleCounterfeitCoinInteractive,
       broken_detector_counterfeit_coin: renderBrokenDetectorCounterfeitCoinInteractive,
       heaviest_coin_one_broken_scale: renderHeaviestBrokenScaleInteractive,
+      balanced_weight_signature_protocol: renderBalancedWeightSignatureInteractive,
       numeric_linear_signature: renderNumericLinearSignatureInteractive,
+      fitch_cheney_card_trick: renderFitchCheneyInteractive,
       subset_signature_protocol: renderSubsetSignatureInteractive,
-      finite_pair_matching_protocol: renderFinitePairMatchingProtocolInteractive
+      balanced_subset_question_code: renderBalancedSubsetQuestionInteractive,
+      binary_cards_number_trick: renderBinaryCardsNumberTrickInteractive,
+      ternary_question_code: renderTernaryQuestionCodeInteractive,
+      repetition_code_one_lie_questions: renderRepetitionCodeOneLieInteractive,
+      finite_pair_matching_protocol: renderFinitePairMatchingProtocolInteractive,
+      finite_binary_state_protocol: renderFiniteBinaryStateProtocolInteractive,
+      higher_lower_strategy_game: renderHigherLowerStrategyInteractive,
+      moving_target_graph_search: renderMovingTargetGraphSearchInteractive,
+      xor_single_flip_protocol: renderXorSingleFlipInteractive,
+      wise_men_even_parity_code: renderWiseMenParityInteractive,
+      wise_men_color_count_parity_protocol: renderWiseMenColorCountInteractive,
+      prisoners_hats_parity_line: renderPrisonersHatsParityLineInteractive,
+      hidden_hat_number_parity_protocol: renderHiddenHatParityInteractive,
+      three_letter_erasure_code: renderThreeLetterErasureInteractive,
+      permutation_message_order_code: renderPermutationMessageInteractive,
+      permutation_cycle_protocol: renderPermutationCycleInteractive,
+      twenty_one_card_trick: renderTwentyOneCardTrickInteractive
     };
 
     function renderInteractive(problem) {
@@ -4245,16 +7495,38 @@ __WEIGHING_CHEATER_JS__
       const config = problem.interactive;
       if (!config?.type) return false;
       if (config.type === 'single_counterfeit_weighing' || config.type === 'single_counterfeit_unknown_direction') return !!normalizeCounterfeitInteractiveConfig(problem, config);
+      if (config.type === 'zero_one_two_counterfeit_sign') return !!normalizeZeroOneTwoSignConfig(problem, config);
+      if (config.type === 'safe_pile_balance_certificate') return !!normalizeSafePileConfig(problem, config);
       if (config.type === 'zoltar_heavier_hand_removal') return !!normalizeZoltarConfig(problem, config);
       if (config.type === 'paired_light_counterfeits') return !!normalizePairedLightConfig(problem, config);
       if (config.type === 'multiple_light_find_one' || config.type === 'grouped_light_counterfeits') return !!normalizeMultipleLightFindOneConfig(problem, config);
+      if (config.type === 'constrained_light_counterfeit_sets') return !!normalizeConstrainedLightConfig(problem, config);
+      if (config.type === 'threshold_balance_counterfeit_sets') return !!normalizeThresholdBalanceConfig(problem, config);
       if (config.type === 'faulty_scale_identification') return !!normalizeFaultyScaleConfig(problem, config);
       if (config.type === 'broken_scale_counterfeit_coin') return !!normalizeBrokenScaleCoinConfig(problem, config);
       if (config.type === 'broken_detector_counterfeit_coin') return !!normalizeBrokenDetectorCoinConfig(problem, config);
       if (config.type === 'heaviest_coin_one_broken_scale') return !!normalizeHeaviestBrokenScaleConfig(problem, config);
+      if (config.type === 'balanced_weight_signature_protocol') return !!normalizeBalancedWeightSignatureConfig(problem, config);
       if (config.type === 'numeric_linear_signature') return !!normalizeNumericLinearSignatureConfig(problem, config);
+      if (config.type === 'fitch_cheney_card_trick') return !!normalizeFitchCheneyConfig(problem, config);
       if (config.type === 'subset_signature_protocol') return !!normalizeSubsetSignatureConfig(problem, config);
+      if (config.type === 'balanced_subset_question_code') return !!normalizeBalancedSubsetQuestionConfig(problem, config);
+      if (config.type === 'binary_cards_number_trick') return !!normalizeBinaryCardsNumberTrickConfig(problem, config);
+      if (config.type === 'ternary_question_code') return !!normalizeTernaryQuestionCodeConfig(problem, config);
+      if (config.type === 'repetition_code_one_lie_questions') return !!normalizeRepetitionCodeOneLieConfig(problem, config);
       if (config.type === 'finite_pair_matching_protocol') return !!normalizeFinitePairMatchingConfig(problem, config);
+      if (config.type === 'finite_binary_state_protocol') return !!normalizeFiniteBinaryConfig(problem, config);
+      if (config.type === 'higher_lower_strategy_game') return !!normalizeHigherLowerStrategyConfig(problem, config);
+      if (config.type === 'moving_target_graph_search') return !!normalizeMovingTargetGraphConfig(problem, config);
+      if (config.type === 'xor_single_flip_protocol') return !!normalizeXorSingleFlipConfig(problem, config);
+      if (config.type === 'wise_men_even_parity_code') return !!normalizeWiseMenParityConfig(problem, config);
+      if (config.type === 'wise_men_color_count_parity_protocol') return !!normalizeWiseMenColorCountConfig(problem, config);
+      if (config.type === 'prisoners_hats_parity_line') return !!normalizePrisonersHatsParityLineConfig(problem, config);
+      if (config.type === 'hidden_hat_number_parity_protocol') return !!normalizeHiddenHatParityConfig(problem, config);
+      if (config.type === 'three_letter_erasure_code') return !!normalizeThreeLetterErasureConfig(problem, config);
+      if (config.type === 'permutation_message_order_code') return !!normalizePermutationMessageConfig(problem, config);
+      if (config.type === 'permutation_cycle_protocol') return !!normalizePermutationCycleConfig(problem, config);
+      if (config.type === 'twenty_one_card_trick') return !!normalizeTwentyOneCardTrickConfig(problem, config);
       return false;
     }
 
@@ -4294,22 +7566,3801 @@ __WEIGHING_CHEATER_JS__
     }
 
     function bindInteractiveControls() {
-      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config]')) {
+      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
         let config = null;
         try { config = JSON.parse(panel.dataset.config || '{}'); }
         catch (_error) { config = null; }
         if (config?.type === 'single_counterfeit_weighing' || config?.type === 'single_counterfeit_unknown_direction') initSingleCounterfeitInteractive(panel, config);
+        if (config?.type === 'zero_one_two_counterfeit_sign') initZeroOneTwoSignInteractive(panel, config);
+        if (config?.type === 'safe_pile_balance_certificate') initSafePileInteractive(panel, config);
         if (config?.type === 'zoltar_heavier_hand_removal') initZoltarInteractive(panel, config);
         if (config?.type === 'paired_light_counterfeits') initPairedLightInteractive(panel, config);
         if (config?.type === 'multiple_light_find_one' || config?.type === 'grouped_light_counterfeits') initMultipleLightFindOneInteractive(panel, config);
+        if (config?.type === 'constrained_light_counterfeit_sets') initConstrainedLightInteractive(panel, config);
+        if (config?.type === 'threshold_balance_counterfeit_sets') initConstrainedLightInteractive(panel, config);
         if (config?.type === 'faulty_scale_identification') initFaultyScaleInteractive(panel, config);
         if (config?.type === 'broken_scale_counterfeit_coin') initBrokenScaleCounterfeitCoinInteractive(panel, config);
         if (config?.type === 'broken_detector_counterfeit_coin') initBrokenDetectorCounterfeitCoinInteractive(panel, config);
         if (config?.type === 'heaviest_coin_one_broken_scale') initHeaviestBrokenScaleInteractive(panel, config);
+        if (config?.type === 'balanced_weight_signature_protocol') initBalancedWeightSignatureInteractive(panel, config);
         if (config?.type === 'numeric_linear_signature') initNumericLinearSignatureInteractive(panel, config);
+        if (config?.type === 'fitch_cheney_card_trick') initFitchCheneyInteractive(panel, config);
         if (config?.type === 'subset_signature_protocol') initSubsetSignatureInteractive(panel, config);
+        if (config?.type === 'balanced_subset_question_code') initBalancedSubsetQuestionInteractive(panel, config);
+        if (config?.type === 'binary_cards_number_trick') initBinaryCardsNumberTrickInteractive(panel, config);
+        if (config?.type === 'ternary_question_code') initTernaryQuestionCodeInteractive(panel, config);
+        if (config?.type === 'repetition_code_one_lie_questions') initRepetitionCodeOneLieInteractive(panel, config);
         if (config?.type === 'finite_pair_matching_protocol') initFinitePairMatchingInteractive(panel, config);
+        if (config?.type === 'finite_binary_state_protocol' && config?.protocol === 'adjacent_pair_grid_search') initAdjacentPairGridInteractive(panel, config);
+        else if (config?.type === 'finite_binary_state_protocol') initFiniteBinaryStateProtocolInteractive(panel, config);
+        if (config?.type === 'higher_lower_strategy_game') initHigherLowerStrategyInteractive(panel, config);
+        if (config?.type === 'moving_target_graph_search') initMovingTargetGraphSearchInteractive(panel, config);
+        if (config?.type === 'xor_single_flip_protocol') initXorSingleFlipInteractive(panel, config);
+        if (config?.type === 'wise_men_even_parity_code') initWiseMenParityInteractive(panel, config);
+        if (config?.type === 'wise_men_color_count_parity_protocol') initWiseMenColorCountInteractive(panel, config);
+        if (config?.type === 'prisoners_hats_parity_line') initPrisonersHatsParityLineInteractive(panel, config);
+        if (config?.type === 'hidden_hat_number_parity_protocol') initHiddenHatParityInteractive(panel, config);
+        if (config?.type === 'three_letter_erasure_code') initThreeLetterErasureInteractive(panel, config);
+        if (config?.type === 'permutation_message_order_code') initPermutationMessageInteractive(panel, config);
+        if (config?.type === 'permutation_cycle_protocol') initPermutationCycleInteractive(panel, config);
+        if (config?.type === 'twenty_one_card_trick') initTwentyOneCardTrickInteractive(panel, config);
       }
+    }
+
+    function initTwentyOneCardTrickInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function cardLabel(card) {
+        return config.cardLabels?.[Number(card) - 1] || String(card);
+      }
+
+      function columnLabel(column) {
+        return `${Number(column) + 1}`;
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const randomState = normalizedMode === 'random' && helper?.twentyOneCardRandomState
+          ? helper.twentyOneCardRandomState(config)
+          : { selectedCard: null, deck: helper?.twentyOneCardInitialDeck ? helper.twentyOneCardInitialDeck(config) : [] };
+        return {
+          mode: normalizedMode,
+          selectedCard: normalizedMode === 'manual_spectator' ? null : randomState.selectedCard,
+          deck: randomState.deck || helper.twentyOneCardInitialDeck(config),
+          answers: [],
+          rounds: [],
+          revealed: false,
+          exhaustive: null
+        };
+      }
+
+      function currentStep() {
+        if (!model.selectedCard || model.answers.length >= config.roundCount) return null;
+        return helper.twentyOneCardStep({
+          ...config,
+          deck: model.deck,
+          selectedCard: model.selectedCard
+        });
+      }
+
+      function answerColumn(column) {
+        if (!model.selectedCard) {
+          setStatus('Сначала выберите карту зрителя.', 'error');
+          return;
+        }
+        if (model.answers.length >= config.roundCount) return;
+        const step = helper.twentyOneCardStep({
+          ...config,
+          deck: model.deck,
+          selectedCard: model.selectedCard,
+          reportedColumn: column
+        });
+        model.answers.push(step.reportedColumn);
+        model.rounds.push({
+          round: model.answers.length,
+          actualColumn: step.actualColumn,
+          reportedColumn: step.reportedColumn,
+          truthful: step.truthful,
+          collectionOrder: step.collectionOrder,
+          collectedDeck: step.collectedDeck,
+          positionAfter: step.positionAfter
+        });
+        model.deck = step.collectedDeck;
+        model.revealed = false;
+        renderInteractiveState();
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        if (!status) return;
+        status.className = `interactive-status ${kind}`.trim();
+        status.textContent = text;
+      }
+
+      function renderBoard() {
+        const board = panel.querySelector('[data-twenty-board]');
+        const step = currentStep();
+        const layout = step?.layout || helper.twentyOneCardDeal(model.deck, config);
+        board.innerHTML = layout.map((cards, column) => {
+          const actual = step?.actualColumn === column;
+          const reported = model.rounds.at(-1)?.reportedColumn === column && model.answers.length > 0;
+          return `
+            <div class="twenty-one-column ${actual && model.mode === 'manual_spectator' ? 'actual' : ''} ${reported ? 'reported' : ''}" data-twenty-column="${esc(column)}">
+              <div class="twenty-one-column-title">
+                <span>Столбец ${esc(columnLabel(column))}</span>
+                <span>${esc(cards.length)}</span>
+              </div>
+              ${cards.map(card => `
+                <button class="playing-card ${model.selectedCard === card && model.mode === 'manual_spectator' ? 'selected' : ''}" type="button" data-twenty-card="${esc(card)}">
+                  ${esc(cardLabel(card))}
+                </button>
+              `).join('')}
+            </div>
+          `;
+        }).join('');
+        for (const columnNode of board.querySelectorAll('[data-twenty-column]')) {
+          columnNode.addEventListener('click', event => {
+            if (event.target.closest('[data-twenty-card]') && model.mode === 'manual_spectator' && !model.selectedCard) return;
+            answerColumn(Number(columnNode.dataset.twentyColumn));
+          });
+        }
+        for (const button of board.querySelectorAll('[data-twenty-card]')) {
+          button.addEventListener('click', event => {
+            if (model.mode !== 'manual_spectator' || model.answers.length > 0) return;
+            event.stopPropagation();
+            model.selectedCard = Number(button.dataset.twentyCard);
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function renderStack() {
+        const stack = panel.querySelector('[data-twenty-stack]');
+        const finalPosition = Math.ceil(config.deckSize / 2);
+        stack.innerHTML = model.deck.map((card, index) => `
+          <span class="twenty-one-stack-card ${model.revealed && index + 1 === finalPosition ? 'answer' : ''}">${esc(cardLabel(card))}</span>
+        `).join('');
+      }
+
+      function renderHistory() {
+        const history = panel.querySelector('[data-history]');
+        if (model.exhaustive) {
+          const rows = model.exhaustive.rows.slice(0, 21).map(row => `
+            <div class="history-item">
+              <span class="history-result">Карта ${esc(cardLabel(row.card))}</span>
+              <span>Ответы: ${esc(row.answers.map(column => Number(column) + 1).join(', '))}; финальная позиция ${esc(row.finalPosition)}.</span>
+            </div>
+          `).join('');
+          history.innerHTML = rows;
+          return;
+        }
+        history.innerHTML = model.rounds.length
+          ? model.rounds.map(round => `
+            <div class="history-item">
+              <span class="history-result">Раунд ${esc(round.round)}: столбец ${esc(columnLabel(round.reportedColumn))}</span>
+              <span>Сбор стопок: ${esc(round.collectionOrder.map(column => columnLabel(column)).join(' - '))}; выбранный столбец в середине.</span>
+            </div>
+          `).join('')
+          : '<span class="empty">Пока нет ответов зрителя.</span>';
+      }
+
+      function renderFinal() {
+        const final = panel.querySelector('[data-twenty-final]');
+        if (model.exhaustive) {
+          final.innerHTML = model.exhaustive.success
+            ? `Проверено ${esc(model.exhaustive.checked)} карт: каждая после трех раундов оказывается на позиции 11.`
+            : `Есть ошибки: ${esc(model.exhaustive.failures.length)}.`;
+          return;
+        }
+        if (model.answers.length < config.roundCount) {
+          final.innerHTML = `Осталось ответов: ${esc(config.roundCount - model.answers.length)}.`;
+          return;
+        }
+        const trace = helper.twentyOneCardTrace({ ...config, selectedCard: model.selectedCard, answers: model.answers });
+        if (!model.revealed) {
+          final.innerHTML = `Три ответа получены. Финальная карта пока закрыта.`;
+          return;
+        }
+        final.innerHTML = `
+          <div class="pill-row">
+            <span class="pill">позиция ${esc(trace.finalPosition)}</span>
+            <span class="pill">карта ${esc(cardLabel(trace.finalCard))}</span>
+          </div>
+        `;
+      }
+
+      function renderControls() {
+        panel.querySelector('[data-current-mode-pill]').textContent = twentyOneCardModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-twenty-auto-column]').disabled = !model.selectedCard || model.answers.length >= config.roundCount || model.mode === 'manual_spectator';
+        panel.querySelector('[data-twenty-reveal]').disabled = model.answers.length < config.roundCount || !!model.exhaustive;
+      }
+
+      function renderInteractiveState() {
+        renderControls();
+        renderBoard();
+        renderStack();
+        renderHistory();
+        renderFinal();
+        if (model.exhaustive) {
+          setStatus(model.exhaustive.success ? 'Полный перебор прошел: все 21 карты сходятся к позиции 11.' : 'Полный перебор нашел сбой.', model.exhaustive.success ? 'success' : 'error');
+        } else if (!model.selectedCard) {
+          setStatus(model.mode === 'manual_spectator' ? 'Выберите карту зрителя в раскладке.' : 'Скрытая карта не выбрана.', '');
+        } else if (model.answers.length < config.roundCount) {
+          setStatus(`Раунд ${model.answers.length + 1}: укажите столбец зрителя.`, '');
+        } else {
+          setStatus('Сбор завершен. Финальный ответ откроется только по кнопке.', 'success');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-twenty-new]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-twenty-auto-column]')?.addEventListener('click', () => {
+        const step = currentStep();
+        if (step) answerColumn(step.actualColumn);
+      });
+      panel.querySelector('[data-twenty-reveal]')?.addEventListener('click', () => {
+        model.revealed = true;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-twenty-exhaustive]')?.addEventListener('click', () => {
+        model = newModel('exhaustive');
+        model.exhaustive = helper.twentyOneCardExhaustive(config);
+        renderInteractiveState();
+      });
+
+      if (!helper?.twentyOneCardTrace) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode || 'random');
+      renderInteractiveState();
+    }
+
+    function initPermutationCycleInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function createPermutation(mode) {
+        if (mode === 'cheater') return helper.permutationCycleCheaterPermutation(config.prisonerCount, config.maxOpenings);
+        return helper.permutationCycleRandomPermutation(config.prisonerCount);
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        return {
+          mode: normalizedMode,
+          permutation: createPermutation(normalizedMode),
+          prisoner: 1,
+          trace: null,
+          opened: [],
+          result: null,
+          exhaustive: null,
+          manualError: null
+        };
+      }
+
+      function runAll() {
+        model.result = helper.permutationCycleRunAll(model.permutation, config.maxOpenings);
+        model.trace = null;
+        model.opened = [];
+        model.manualError = null;
+        renderState();
+      }
+
+      function startTrace(prisoner = null) {
+        model.prisoner = prisoner || Number(panel.querySelector('[data-permutation-prisoner]')?.value || 1);
+        model.trace = helper.permutationCycleTrace(model.permutation, model.prisoner, config.maxOpenings);
+        model.opened = [];
+        model.result = null;
+        model.manualError = null;
+        renderState();
+      }
+
+      function expectedBox() {
+        if (!model.trace || model.trace.found || model.opened.length >= config.maxOpenings) return null;
+        if (!model.opened.length) return model.prisoner;
+        return model.permutation[model.opened[model.opened.length - 1] - 1];
+      }
+
+      function clickBox(box) {
+        if (!model.trace) startTrace();
+        if (model.trace.found || model.opened.length >= config.maxOpenings) return;
+        const expected = expectedBox();
+        if (box !== expected) {
+          model.manualError = `По циклической стратегии следующим надо открыть ящик ${expected}, а не ${box}.`;
+          renderState();
+          return;
+        }
+        model.opened.push(box);
+        model.manualError = null;
+        const value = model.permutation[box - 1];
+        if (value === model.prisoner || model.opened.length >= config.maxOpenings) {
+          model.trace = helper.permutationCycleTrace(model.permutation, model.prisoner, config.maxOpenings);
+        }
+        renderState();
+      }
+
+      function showExhaustive() {
+        model.exhaustive = helper.permutationCycleTypeStatistics(config.prisonerCount, config.maxOpenings);
+        renderState();
+      }
+
+      function cycleLabel(cycle) {
+        return cycle.join(' → ');
+      }
+
+      function openedSet() {
+        return new Set(model.opened);
+      }
+
+      function visibleTrace() {
+        if (!model.trace) return [];
+        if (model.opened.length) return model.trace.openings.slice(0, model.opened.length);
+        return model.trace.openings;
+      }
+
+      function renderBoard() {
+        const opened = openedSet();
+        const expected = expectedBox();
+        const foundBox = model.trace?.found ? model.trace.openings.find(item => item.found)?.box : null;
+        const missed = model.trace && !model.trace.found && model.opened.length >= config.maxOpenings;
+        const board = panel.querySelector('[data-permutation-board]');
+        board.innerHTML = Array.from({ length: config.boxCount }, (_item, index) => {
+          const box = index + 1;
+          const isOpen = opened.has(box) || !!model.result;
+          const classes = [
+            'permutation-box',
+            isOpen ? 'opened' : '',
+            expected === box ? 'expected' : '',
+            foundBox === box ? 'found' : '',
+            missed && opened.has(box) ? 'missed' : ''
+          ].filter(Boolean).join(' ');
+          const value = isOpen ? model.permutation[index] : '?';
+          return `
+            <button class="${esc(classes)}" type="button" data-permutation-box="${esc(box)}">
+              <span class="permutation-box-title">ящик ${esc(box)}</span>
+              <span class="permutation-box-value">${esc(value)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of board.querySelectorAll('[data-permutation-box]')) {
+          button.addEventListener('click', () => clickBox(Number(button.dataset.permutationBox)));
+        }
+      }
+
+      function renderCycles() {
+        const cycles = helper.permutationCycleDecomposition(model.permutation);
+        const container = panel.querySelector('[data-permutation-cycles]');
+        container.innerHTML = cycles.map(cycle => `
+          <span class="cycle-chip${cycle.length > config.maxOpenings ? ' bad' : ''}">
+            ${esc(cycleLabel(cycle))} <span class="local-muted">(${esc(cycle.length)})</span>
+          </span>
+        `).join('');
+        const maxCycle = Math.max(...cycles.map(cycle => cycle.length));
+        panel.querySelector('[data-permutation-cycle-counter]').textContent = `максимальный цикл: ${maxCycle}`;
+      }
+
+      function renderTrace() {
+        const container = panel.querySelector('[data-permutation-trace]');
+        if (!model.trace) {
+          container.innerHTML = '<span class="empty">выберите заключенного и начните проход</span>';
+          return;
+        }
+        const trace = visibleTrace();
+        container.innerHTML = trace.length
+          ? trace.map(item => `<span class="pill">${esc(item.box)} → ${esc(item.value)}</span>`).join('')
+          : '<span class="empty">первый ящик еще не открыт</span>';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (model.result) {
+          container.innerHTML = model.result.traces.map(trace => `
+            <div class="history-item">
+              <div><strong>${esc(trace.prisoner)}.</strong> ${esc(trace.openings.map(item => `${item.box}→${item.value}`).join(', '))}</div>
+              <div class="history-result">${trace.found ? 'нашел свой номер' : 'не успел за лимит'}</div>
+            </div>
+          `).join('');
+          return;
+        }
+        const trace = visibleTrace();
+        if (!trace.length) {
+          container.innerHTML = '<div class="empty">Открытий пока нет.</div>';
+          return;
+        }
+        container.innerHTML = trace.map(item => `
+          <div class="history-item">
+            <div><strong>${esc(item.step)}.</strong> Ящик ${esc(item.box)}: внутри номер ${esc(item.value)}.</div>
+            <div class="history-result">${item.found ? 'это свой номер' : `следующий ящик ${esc(item.value)}`}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderExhaustive() {
+        const box = panel.querySelector('[data-permutation-exhaustive-result]');
+        box.hidden = !model.exhaustive;
+        if (!model.exhaustive) return;
+        const rows = model.exhaustive.rows.map(row => `
+          <tr>
+            <td>${esc(row.type)}</td>
+            <td>${esc(row.maxCycle)}</td>
+            <td>${esc(row.count)}</td>
+            <td>${row.success ? 'успех' : 'провал'}</td>
+          </tr>
+        `).join('');
+        box.innerHTML = `
+          <strong>Разбор без перебора 10!</strong>
+          <div>Перестановки сгруппированы по длинам циклов. Успех ровно тогда, когда максимальная длина цикла не больше ${esc(config.maxOpenings)}.</div>
+          <div>Успешных перестановок: ${esc(model.exhaustive.successCount)} из ${esc(model.exhaustive.total)}; вероятность ${esc((100 * model.exhaustive.probability).toFixed(2))}%.</div>
+          <table class="cycle-type-table">
+            <thead><tr><th>Тип циклов</th><th>Макс.</th><th>Сколько</th><th>Итог</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderBoard();
+        renderCycles();
+        renderTrace();
+        renderHistory();
+        renderExhaustive();
+        panel.querySelector('[data-current-mode-pill]').textContent = permutationCycleModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-permutation-prisoner]').value = String(model.prisoner);
+        const openCount = model.result ? config.maxOpenings : (model.opened.length || visibleTrace().length);
+        panel.querySelector('[data-permutation-open-counter]').textContent = `${openCount} / ${config.maxOpenings}`;
+        if (model.manualError) {
+          setStatus(model.manualError, 'error');
+        } else if (model.result) {
+          if (model.result.success) {
+            setStatus(`Успех: все ${config.prisonerCount} заключенных находят свои номера. Максимальный цикл имеет длину ${model.result.maxCycleLength}.`, 'success');
+          } else {
+            setStatus(`Провал: есть цикл длины ${model.result.maxCycleLength}, дольше лимита ${config.maxOpenings}. Не успевают: ${model.result.failingPrisoners.join(', ')}.`, 'error');
+          }
+        } else if (model.trace) {
+          const shown = visibleTrace();
+          const last = shown[shown.length - 1];
+          if (last?.found) setStatus(`Заключенный ${model.prisoner} нашел свой номер за ${shown.length} открытий.`, 'success');
+          else if (shown.length >= config.maxOpenings) setStatus(`Заключенный ${model.prisoner} не нашел свой номер за ${config.maxOpenings} открытий.`, 'error');
+          else setStatus(`Открывайте ящик ${expectedBox()}: стратегия всегда идет в ящик с номером, найденным на предыдущем шаге.`);
+        } else if (model.exhaustive) {
+          setStatus('Критерий проверен по типам циклов: успех тогда и только тогда, когда нет цикла длины больше лимита.', 'success');
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Построена перестановка с длинным циклом: циклическая стратегия должна провалиться.'
+            : 'Выберите заключенного и пройдите его цепочку или сразу проверьте всех.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-permutation-prisoner]')?.addEventListener('change', event => {
+        startTrace(Number(event.target.value));
+      });
+      panel.querySelector('[data-permutation-start]')?.addEventListener('click', () => startTrace());
+      panel.querySelector('[data-permutation-run-all]')?.addEventListener('click', runAll);
+      panel.querySelector('[data-permutation-exhaustive]')?.addEventListener('click', showExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.permutationCycleRunAll) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initXorSingleFlipInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function randomInt(limit) {
+        return Math.floor(Math.random() * limit);
+      }
+
+      function randomBits() {
+        return Array.from({ length: config.positionCount }, () => randomInt(2));
+      }
+
+      function createState(mode) {
+        let bits = randomBits();
+        let key = randomInt(config.positionCount);
+        if (mode === 'cheater') {
+          for (let attempt = 0; attempt < 100; attempt += 1) {
+            bits = randomBits();
+            key = randomInt(config.positionCount);
+            const flip = helper.xorSingleFlipRecommendedFlip(bits, key);
+            if (flip !== 0 && helper.xorSingleFlipChecksum(bits) !== key) break;
+          }
+        }
+        if (mode === 'exhaustive') {
+          bits = Array.from({ length: config.positionCount }, () => 0);
+          key = config.positionCount - 1;
+        }
+        return {
+          mode,
+          bits,
+          initialBits: bits.slice(),
+          key,
+          stage: 'flip',
+          selected: null,
+          flip: null,
+          guess: null,
+          finalBits: null,
+          showChecksum: false,
+          result: null,
+          exhaustive: null
+        };
+      }
+
+      function bitLabel(bit) {
+        return bit ? 'О' : 'Р';
+      }
+
+      function renderBoard() {
+        const board = panel.querySelector('[data-xor-board]');
+        const bits = model.stage === 'flip' ? model.bits : (model.finalBits || model.bits);
+        board.innerHTML = bits.map((bit, position) => {
+          const selected = model.selected === position ? ' selected' : '';
+          const keyClass = model.stage === 'flip' && model.key === position ? ' key-visible' : '';
+          const answerClass = model.result && model.guess === position
+            ? (model.result.secondOk ? ' correct-answer' : ' wrong-answer')
+            : '';
+          return `
+            <button class="xor-cell bit-${esc(bit)}${selected}${keyClass}${answerClass}" type="button" data-xor-position="${esc(position)}">
+              <span class="xor-pos">позиция ${esc(position)}</span>
+              <span class="xor-coin">${esc(bitLabel(bit))}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of board.querySelectorAll('[data-xor-position]')) {
+          button.addEventListener('click', () => {
+            if (model.result) return;
+            model.selected = Number(button.dataset.xorPosition);
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function renderCurrent() {
+        const container = panel.querySelector('[data-xor-current]');
+        const selected = model.selected == null ? 'не выбрано' : `позиция ${model.selected}`;
+        const keyText = model.stage === 'flip' ? `ключ: ${model.key}` : 'ключ скрыт';
+        const flipText = model.flip == null ? 'переворот не сделан' : `перевернута ${model.flip}`;
+        container.innerHTML = [keyText, selected, flipText].map(item => pill(item)).join('');
+      }
+
+      function renderHistory() {
+        const history = panel.querySelector('[data-history]');
+        const items = [];
+        items.push(`<div class="history-item"><span class="history-result">Старт</span><span>Раскладка: ${esc(model.initialBits.map(bitLabel).join(' '))}; первый видит ключ ${esc(model.key)}.</span></div>`);
+        if (model.flip != null) {
+          items.push(`<div class="history-item"><span class="history-result">Переворот</span><span>Первый перевернул позицию ${esc(model.flip)}. Второй видит новую раскладку: ${esc((model.finalBits || []).map(bitLabel).join(' '))}.</span></div>`);
+        }
+        if (model.guess != null) {
+          items.push(`<div class="history-item"><span class="history-result">Ответ</span><span>Второй назвал позицию ${esc(model.guess)}.</span></div>`);
+        }
+        if (model.exhaustive) {
+          const result = model.exhaustive;
+          items.push(`<div class="history-item"><span class="history-result">Полная проверка</span><span>${esc(result.success ? `Проверено ${result.checked} состояний, ошибок нет.` : `Найдено ошибок: ${result.failures.length}.`)}</span></div>`);
+        }
+        history.innerHTML = items.join('');
+      }
+
+      function renderChecksum() {
+        const box = panel.querySelector('[data-xor-checksum]');
+        box.hidden = !model.showChecksum;
+        if (!model.showChecksum) return;
+        const start = helper.xorSingleFlipChecksum(model.initialBits);
+        const recommended = helper.xorSingleFlipRecommendedFlip(model.initialBits, model.key);
+        const finalBits = model.finalBits || helper.xorSingleFlipApplyFlip(model.initialBits, recommended);
+        const finalChecksum = helper.xorSingleFlipFinalGuess(finalBits);
+        box.innerHTML = `
+          <strong>Контрольная сумма</strong>
+          <div>Исходная сумма: ${esc(start)}. Для ключа ${esc(model.key)} нужен переворот позиции ${esc(recommended)}.</div>
+          <div>Сумма текущей итоговой раскладки: ${esc(finalChecksum)}.</div>
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderBoard();
+        renderCurrent();
+        renderHistory();
+        renderChecksum();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = xorSingleFlipModeLabel(model.mode);
+        panel.querySelector('[data-xor-stage]').textContent = model.stage === 'flip' ? 'первый заключенный' : (model.result ? 'проверено' : 'второй заключенный');
+        panel.querySelector('[data-xor-submit-flip]').disabled = model.stage !== 'flip' || model.selected == null || !!model.result;
+        panel.querySelector('[data-xor-submit-guess]').disabled = model.stage !== 'guess' || model.selected == null || !!model.result;
+        panel.querySelector('[data-xor-show-checksum]').classList.toggle('answer-mode', model.showChecksum);
+        if (model.result) {
+          if (model.result.win) {
+            setInteractiveStatus(`Успех: итоговая контрольная сумма равна ${model.result.finalChecksum}, это позиция ключа.`, 'success');
+          } else if (!model.result.firstOk) {
+            setInteractiveStatus(`Протокол не сработал: после этого переворота итоговая сумма ${model.result.finalChecksum}, а ключ был в позиции ${model.key}.`, 'error');
+          } else {
+            setInteractiveStatus(`Переворот был верным, но второй назвал ${model.guess} вместо ${model.result.finalChecksum}.`, 'error');
+          }
+        } else if (model.exhaustive?.success) {
+          setInteractiveStatus(`Полная проверка принята: XOR-правило прошло ${model.exhaustive.checked} состояний.`, 'success');
+        } else if (model.exhaustive && !model.exhaustive.success) {
+          setInteractiveStatus(`Полная проверка нашла ошибки: ${model.exhaustive.failures.length}.`, 'error');
+        } else if (model.stage === 'flip') {
+          setInteractiveStatus('Первый заключенный видит ключ. Выберите одну монету для обязательного переворота.');
+        } else {
+          setInteractiveStatus('Теперь ключ скрыт. Второй заключенный видит только итоговую раскладку и выбирает позицию ключа.');
+        }
+      }
+
+      panel.querySelector('[data-xor-submit-flip]')?.addEventListener('click', () => {
+        if (model.stage !== 'flip' || model.selected == null) return;
+        model.flip = model.selected;
+        model.finalBits = helper.xorSingleFlipApplyFlip(model.initialBits, model.flip);
+        model.stage = 'guess';
+        model.selected = null;
+        renderInteractiveState();
+      });
+
+      panel.querySelector('[data-xor-submit-guess]')?.addEventListener('click', () => {
+        if (model.stage !== 'guess' || model.selected == null) return;
+        model.guess = model.selected;
+        model.result = helper.xorSingleFlipEvaluate({
+          ...config,
+          bits: model.initialBits,
+          key: model.key,
+          flip: model.flip,
+          guess: model.guess
+        });
+        renderInteractiveState();
+      });
+
+      panel.querySelector('[data-xor-show-checksum]')?.addEventListener('click', () => {
+        model.showChecksum = !model.showChecksum;
+        renderInteractiveState();
+      });
+
+      panel.querySelector('[data-xor-exhaustive-check]')?.addEventListener('click', () => {
+        model.exhaustive = helper.xorSingleFlipCheckStrategy(config);
+        model.showChecksum = true;
+        renderInteractiveState();
+      });
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = createState(event.target.value);
+        renderInteractiveState();
+      });
+
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = createState(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.xorSingleFlipCheckStrategy) {
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = createState(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initWiseMenParityInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function colorOptions(selected) {
+        return Array.from({ length: config.colorCount }, (_item, index) => index + 1)
+          .map(color => `<option value="${esc(color)}" ${color === selected ? 'selected' : ''}>цвет ${esc(color)}</option>`)
+          .join('');
+      }
+
+      function newModel(mode) {
+        const colors = mode === 'challenge'
+          ? Array.from({ length: config.personCount }, (_item, index) => (index % config.colorCount) + 1)
+          : helper.wiseMenParityRandomColors(config);
+        return {
+          mode,
+          colors,
+          messages: null,
+          target: 0,
+          decoded: null,
+          exhaustive: null
+        };
+      }
+
+      function wordLabel(color) {
+        return helper.wiseMenParityWordKey(helper.wiseMenParityCodeword(color, config));
+      }
+
+      function renderColors() {
+        const container = panel.querySelector('[data-wise-colors]');
+        container.innerHTML = model.colors.map((color, index) => `
+          <div class="history-item">
+            <span class="history-result">мудрец ${esc(index + 1)}</span>
+            <label>Цвет
+              <select data-wise-color="${esc(index)}">${colorOptions(color)}</select>
+            </label>
+            <span class="local-muted">код ${esc(wordLabel(color))}</span>
+          </div>
+        `).join('');
+        for (const select of container.querySelectorAll('[data-wise-color]')) {
+          select.addEventListener('change', event => {
+            const index = Number(event.target.dataset.wiseColor);
+            model.colors[index] = Number(event.target.value);
+            model.messages = null;
+            model.decoded = null;
+            model.exhaustive = null;
+            renderState();
+          });
+        }
+      }
+
+      function renderMessages() {
+        const container = panel.querySelector('[data-wise-messages]');
+        if (!model.messages) {
+          container.innerHTML = '<span class="empty">Биты еще не переданы.</span>';
+          return;
+        }
+        container.innerHTML = model.messages.map((bit, index) =>
+          pill(`мудрец ${index + 1}: ${bit}`)
+        ).join('');
+      }
+
+      function renderSteps() {
+        const container = panel.querySelector('[data-wise-steps]');
+        if (!model.decoded) {
+          container.innerHTML = '<div class="empty">Выберите мудреца и нажмите «Восстановить цвет».</div>';
+          return;
+        }
+        container.innerHTML = model.decoded.steps
+          .sort((a, b) => a.bit - b.bit)
+          .map(step => {
+            const bitTitle = `бит ${step.bit + 1}`;
+            const text = step.fromEvenParity
+              ? `свой переданный бит не помогает; последний бит берется из четности всего кода: ${step.value}`
+              : `бит мудреца ${step.speaker + 1} равен ${step.message}, видимая часть дает ${step.visibleParity}, значит свой ${bitTitle} равен ${step.value}`;
+            return `<div class="history-item"><span class="history-result">${esc(bitTitle)}</span><span>${esc(text)}</span></div>`;
+          }).join('');
+      }
+
+      function renderCodebook() {
+        const entries = helper.wiseMenParityCodebook(config);
+        panel.querySelector('[data-wise-codebook]').innerHTML = entries.map(entry => `
+          <div class="history-item">
+            <span class="history-result">цвет ${esc(entry.color)}</span>
+            <span>${esc(helper.wiseMenParityWordKey(entry.word))}</span>
+          </div>
+        `).join('');
+      }
+
+      function renderResult() {
+        const box = panel.querySelector('[data-wise-result]');
+        box.hidden = !model.decoded && !model.exhaustive;
+        if (model.decoded) {
+          box.innerHTML = `
+            <strong>Ответ мудреца ${esc(model.decoded.target + 1)}</strong>
+            <div>Восстановленный код: ${esc(helper.wiseMenParityWordKey(model.decoded.bits))}.</div>
+            <div>Назван цвет ${esc(model.decoded.decodedColor)}; настоящий цвет ${esc(model.decoded.actualColor)}.</div>
+          `;
+        } else if (model.exhaustive) {
+          box.innerHTML = `
+            <strong>Полная проверка</strong>
+            <div>Кодов в таблице: ${esc(model.exhaustive.validation.codebook.length)} из ${esc(model.exhaustive.validation.capacity)} возможных четных слов.</div>
+            <div>Проверено восстановлений: ${esc(model.exhaustive.checked)}.</div>
+          `;
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderColors();
+        renderMessages();
+        renderSteps();
+        renderCodebook();
+        renderResult();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = wiseMenParityModeLabel(model.mode);
+        const personSelect = panel.querySelector('[data-wise-person]');
+        if (personSelect) personSelect.value = String(model.target);
+
+        if (model.decoded) {
+          setStatus(
+            model.decoded.win
+              ? `Верно: мудрец ${model.decoded.target + 1} восстановил цвет ${model.decoded.decodedColor}.`
+              : `Ошибка: получился цвет ${model.decoded.decodedColor}, а нужен ${model.decoded.actualColor}.`,
+            model.decoded.win ? 'success' : 'error'
+          );
+        } else if (model.exhaustive) {
+          setStatus(
+            model.exhaustive.success
+              ? `Протокол принят: проверены таблица кодов и ${model.exhaustive.checked} восстановлений.`
+              : `Проверка нашла ошибку: ${model.exhaustive.failures.length || model.exhaustive.validation.errors.length}.`,
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.messages) {
+          setStatus('Биты переданы. Теперь выберите мудреца и восстановите его цвет.');
+        } else {
+          setStatus('Задайте цвета колпаков или возьмите случайный расклад, затем передайте по одному биту от каждого мудреца.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-wise-person]')?.addEventListener('change', event => {
+        model.target = Number(event.target.value);
+        model.decoded = null;
+        renderState();
+      });
+      panel.querySelector('[data-wise-random]')?.addEventListener('click', () => {
+        model.colors = helper.wiseMenParityRandomColors(config);
+        model.messages = null;
+        model.decoded = null;
+        model.exhaustive = null;
+        renderState();
+      });
+      panel.querySelector('[data-wise-send]')?.addEventListener('click', () => {
+        model.messages = helper.wiseMenParityMessages(model.colors, config);
+        model.decoded = null;
+        model.exhaustive = null;
+        renderState();
+      });
+      panel.querySelector('[data-wise-decode]')?.addEventListener('click', () => {
+        if (!model.messages) model.messages = helper.wiseMenParityMessages(model.colors, config);
+        model.decoded = helper.wiseMenParityDecodePerson({
+          ...config,
+          colors: model.colors,
+          messages: model.messages,
+          person: model.target
+        });
+        model.exhaustive = null;
+        renderState();
+      });
+      panel.querySelector('[data-wise-exhaustive]')?.addEventListener('click', () => {
+        model.exhaustive = helper.wiseMenParityExhaustiveCheck(config);
+        model.decoded = null;
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.wiseMenParityExhaustiveCheck) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initWiseMenColorCountInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function stateForMode(mode) {
+        if (mode === 'cheater') return helper.wiseMenColorCountCheaterState(config);
+        if (mode === 'sandbox') {
+          const colors = [];
+          config.countValues.forEach((count, colorIndex) => {
+            for (let copy = 0; copy < count; copy += 1) colors.push(colorIndex + 1);
+          });
+          return { colors, counts: helper.wiseMenColorCountCountsFromColors(colors, config), parity: 0 };
+        }
+        return helper.wiseMenColorCountRandomState(config);
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const state = stateForMode(normalizedMode);
+        return {
+          mode: normalizedMode,
+          colors: state.colors || [],
+          result: null,
+          exhaustive: null
+        };
+      }
+
+      function colorOptions(selected) {
+        return Array.from({ length: config.colorCount }, (_item, index) => index + 1)
+          .map(color => `<option value="${esc(color)}" ${color === selected ? 'selected' : ''}>цвет ${esc(color)}</option>`)
+          .join('');
+      }
+
+      function parityLabel(value) {
+        if (value === 0) return 'ровная';
+        if (value === 1) return 'перевернутая';
+        return 'не определена';
+      }
+
+      function countsText(counts) {
+        return (counts || []).map((count, index) => `цвет ${index + 1}: ${count}`).join('; ');
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        if (!status) return;
+        status.className = `interactive-status ${kind}`.trim();
+        status.textContent = text;
+      }
+
+      function renderHats() {
+        const container = panel.querySelector('[data-color-count-hats]');
+        if (!container) return;
+        container.innerHTML = model.colors.map((color, index) => `
+          <div class="history-item">
+            <span class="history-result">мудрец ${esc(index + 1)}</span>
+            <label>Цвет
+              <select data-color-count-hat="${esc(index)}">${colorOptions(color)}</select>
+            </label>
+          </div>
+        `).join('');
+        for (const select of container.querySelectorAll('[data-color-count-hat]')) {
+          select.addEventListener('change', event => {
+            const index = Number(event.target.dataset.colorCountHat);
+            model.colors[index] = Number(event.target.value);
+            model.result = null;
+            model.exhaustive = null;
+            renderState();
+          });
+        }
+      }
+
+      function renderSummary() {
+        const container = panel.querySelector('[data-color-count-summary]');
+        if (!container) return;
+        if (model.exhaustive) {
+          container.innerHTML = `
+            <div class="history-item">
+              <span class="history-result">полный перебор</span>
+              <span>проверено ${esc(model.exhaustive.checked)} расстановок; минимум верных ответов ${esc(model.exhaustive.minCorrect)}; максимум ${esc(model.exhaustive.maxCorrect)}.</span>
+            </div>
+            <div class="history-item">
+              <span class="history-result">половины</span>
+              <span>ровных случаев ${esc(model.exhaustive.parityCounts.even)}, перевернутых ${esc(model.exhaustive.parityCounts.odd)}.</span>
+            </div>
+          `;
+          return;
+        }
+        const check = helper.wiseMenColorCountValidateState(model.colors, config);
+        const parity = check.ok ? helper.wiseMenColorCountPermutationParity(check.counts, config) : null;
+        const resultLine = model.result
+          ? `<div class="history-item"><span class="history-result">верно</span><span>${esc(model.result.correctCount)} из ${esc(config.sageCount)}; цель ${esc(config.targetCorrectMin)}.</span></div>`
+          : '';
+        const errors = check.errors.map(error => `<div class="history-item"><span class="history-result">проверка</span><span>${esc(error)}</span></div>`).join('');
+        container.innerHTML = `
+          <div class="history-item">
+            <span class="history-result">количества</span>
+            <span>${esc(countsText(check.counts))}</span>
+          </div>
+          <div class="history-item">
+            <span class="history-result">тип таблицы</span>
+            <span>${esc(parityLabel(parity))}</span>
+          </div>
+          ${resultLine}
+          ${errors}
+        `;
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-color-count-answers]');
+        if (!container) return;
+        if (!model.result) {
+          container.innerHTML = '<span class="empty">Ответы еще не рассчитаны.</span>';
+          return;
+        }
+        if (!model.result.ok) {
+          container.innerHTML = model.result.errors.map(error => `
+            <div class="history-item">
+              <span class="history-result">нельзя проверить</span>
+              <span>${esc(error)}</span>
+            </div>
+          `).join('');
+          return;
+        }
+        container.innerHTML = model.result.rows.map(row => {
+          const verdict = row.correct ? 'верно' : `неверно, был цвет ${row.actualColor}`;
+          return `
+            <div class="history-item">
+              <span class="history-result">мудрец ${esc(row.sage)}: цвет ${esc(row.guess)}</span>
+              <span>${esc(verdict)}; видит ${esc(countsText(row.visibleCounts))}; его группа выбирает ${esc(parityLabel(row.targetParity))} таблицу.</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderControls() {
+        panel.querySelector('[data-current-mode-pill]').textContent = wiseMenColorCountModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+      }
+
+      function renderState() {
+        renderControls();
+        renderHats();
+        renderSummary();
+        renderAnswers();
+        if (model.exhaustive) {
+          setStatus(
+            model.exhaustive.success
+              ? `Проверка прошла: во всех ${model.exhaustive.checked} расстановках есть хотя бы ${model.exhaustive.targetCorrectMin} верных ответа.`
+              : `Полный перебор нашел сбой: ${model.exhaustive.failures.length}.`,
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.result) {
+          setStatus(
+            model.result.success
+              ? `Гарантия выполнена: ${model.result.correctCount} верных ответа из ${config.sageCount}.`
+              : `Гарантия не выполнена: ${model.result.correctCount} верных ответа из ${config.sageCount}.`,
+            model.result.success ? 'success' : 'error'
+          );
+        } else {
+          setStatus('Выберите допустимую расстановку цветов и нажмите «Показать ответы».');
+        }
+      }
+
+      function runCurrent() {
+        model.result = helper.wiseMenColorCountEvaluate({ ...config, colors: model.colors });
+        model.exhaustive = null;
+        renderState();
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-color-count-new]')?.addEventListener('click', () => {
+        const state = stateForMode(model?.mode || config.defaultMode || 'random');
+        model.colors = state.colors || [];
+        model.result = null;
+        model.exhaustive = null;
+        renderState();
+      });
+      panel.querySelector('[data-color-count-run]')?.addEventListener('click', runCurrent);
+      panel.querySelector('[data-color-count-exhaustive]')?.addEventListener('click', () => {
+        model.exhaustive = helper.wiseMenColorCountExhaustiveCheck(config);
+        model.result = null;
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.wiseMenColorCountEvaluate) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initPermutationMessageInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = {
+        mode: config.defaultMode || 'random',
+        direction: 'encode',
+        message: 0,
+        order: [],
+        guess: null,
+        checked: false,
+        exhaustive: null,
+        history: []
+      };
+
+      function randomInt(limit) {
+        return Math.floor(Math.random() * limit);
+      }
+
+      function table() {
+        return helper.permutationMessageTable(config);
+      }
+
+      function orderLabels(order = model.order) {
+        return order.map(index => config.objectLabels[index]);
+      }
+
+      function fullOrderText(order = model.order) {
+        const labels = orderLabels(order);
+        return labels.length ? labels.join(' -> ') : 'порядок не составлен';
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function resetCheck() {
+        model.checked = false;
+        model.exhaustive = null;
+      }
+
+      function startCase({ keepDirection = true } = {}) {
+        const direction = keepDirection
+          ? (panel.querySelector('[data-permutation-direction]')?.value || model.direction || 'encode')
+          : model.direction;
+        model.direction = direction === 'decode' ? 'decode' : 'encode';
+        if (model.mode === 'random') model.message = randomInt(config.messageCount);
+        else if (!Number.isInteger(model.message)) model.message = 0;
+        const row = helper.permutationMessageEncode(model.message, config);
+        model.order = model.direction === 'decode' && model.mode !== 'sandbox' && row ? [...row.order] : [];
+        model.guess = null;
+        resetCheck();
+      }
+
+      function canEditOrder() {
+        return model.direction === 'encode' || model.mode === 'sandbox';
+      }
+
+      function setMessage(value) {
+        const index = Number(value);
+        if (!Number.isInteger(index) || index < 0 || index >= config.messageCount) return;
+        model.message = index;
+        if (model.direction === 'decode' && model.mode !== 'sandbox') {
+          const row = helper.permutationMessageEncode(model.message, config);
+          model.order = row ? [...row.order] : [];
+        }
+        resetCheck();
+      }
+
+      function toggleItem(value) {
+        if (!canEditOrder()) return;
+        const index = Number(value);
+        if (!Number.isInteger(index) || index < 0 || index >= config.itemCount) return;
+        if (model.order.includes(index)) model.order = model.order.filter(item => item !== index);
+        else if (model.order.length < config.itemCount) model.order.push(index);
+        resetCheck();
+      }
+
+      function removeOrderAt(value) {
+        if (!canEditOrder()) return;
+        const index = Number(value);
+        if (!Number.isInteger(index)) return;
+        model.order.splice(index, 1);
+        resetCheck();
+      }
+
+      function renderSlots() {
+        const slots = panel.querySelector('[data-permutation-slots]');
+        slots.innerHTML = Array.from({ length: config.itemCount }, (_item, index) => {
+          const itemIndex = model.order[index];
+          const filled = Number.isInteger(itemIndex);
+          return `
+            <button class="permutation-slot" type="button" data-permutation-slot="${esc(index)}" ${!filled || !canEditOrder() ? 'disabled' : ''}>
+              ${filled ? esc(config.objectLabels[itemIndex]) : esc(index + 1)}
+            </button>
+          `;
+        }).join('');
+        for (const slot of slots.querySelectorAll('[data-permutation-slot]')) {
+          slot.addEventListener('click', () => {
+            removeOrderAt(slot.dataset.permutationSlot);
+            renderState();
+          });
+        }
+      }
+
+      function renderTablePreview() {
+        const box = panel.querySelector('[data-permutation-table]');
+        const show = model.checked || model.exhaustive;
+        box.hidden = !show;
+        if (!show) {
+          box.innerHTML = '';
+          return;
+        }
+        box.innerHTML = table().map(row => `
+          <span class="pill">Сообщение ${esc(row.message + 1)}: ${esc(row.labels.join(' -> '))}</span>
+        `).join('');
+      }
+
+      function renderHistory() {
+        const history = panel.querySelector('[data-history]');
+        history.innerHTML = model.history.length
+          ? model.history.slice(-8).map(entry => `
+              <div class="history-item">
+                <span class="history-result">${esc(entry.kind)}</span>
+                <span>${esc(entry.text)}</span>
+              </div>
+            `).join('')
+          : '<div class="local-muted">Пока нет проверок.</div>';
+      }
+
+      function renderState() {
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-current-mode-pill]').textContent = permutationMessageModeLabel(model.mode);
+        panel.querySelector('[data-permutation-direction]').value = model.direction;
+        panel.querySelector('[data-permutation-guess]').value = String(Number.isInteger(model.guess) ? model.guess : 0);
+        panel.querySelector('[data-permutation-guess-wrap]').hidden = model.direction !== 'decode';
+        panel.querySelector('[data-permutation-task]').textContent = model.direction === 'encode'
+          ? `Составьте порядок для сообщения ${model.message + 1}`
+          : `Прочитайте порядок: ${fullOrderText()}`;
+        panel.querySelector('[data-permutation-order-note]').textContent = `Текущий порядок: ${fullOrderText()}`;
+        panel.querySelector('[data-permutation-note]').textContent = model.direction === 'encode'
+          ? 'Нажимайте на предметы, чтобы собрать порядок; повторный нажим убирает предмет.'
+          : (model.mode === 'sandbox' ? 'Соберите полученный порядок вручную и выберите сообщение.' : 'Выберите номер сообщения, не пользуясь таблицей до проверки.');
+        panel.querySelector('[data-permutation-exhaustive]').hidden = model.mode === 'sandbox';
+
+        for (const button of panel.querySelectorAll('[data-permutation-message]')) {
+          const value = Number(button.dataset.permutationMessage);
+          const active = model.direction === 'decode' ? model.guess === value : model.message === value;
+          button.classList.toggle('answer-mode', active);
+        }
+        for (const button of panel.querySelectorAll('[data-permutation-item]')) {
+          const index = Number(button.dataset.permutationItem);
+          button.setAttribute('aria-pressed', model.order.includes(index) ? 'true' : 'false');
+          button.disabled = !canEditOrder();
+        }
+        renderSlots();
+        renderTablePreview();
+        renderHistory();
+
+        if (model.exhaustive) {
+          setStatus(
+            model.exhaustive.success
+              ? `Проверены все ${model.exhaustive.checked} сообщений: каждый порядок декодируется однозначно.`
+              : `Полная проверка нашла ошибку: ${model.exhaustive.errors.concat(model.exhaustive.failures.map(item => `сообщение ${item.message}`)).join('; ')}`,
+            model.exhaustive.success ? 'success' : 'error'
+          );
+          return;
+        }
+        if (!model.checked) {
+          setStatus(model.direction === 'encode'
+            ? 'Соберите порядок из трех предметов и нажмите «Проверить». Таблица пока скрыта.'
+            : 'Посмотрите на порядок, выберите сообщение и нажмите «Проверить». Таблица пока скрыта.');
+          return;
+        }
+        const result = helper.permutationMessageEvaluate({
+          ...config,
+          direction: model.direction,
+          message: model.message,
+          order: model.order,
+          guess: model.guess
+        });
+        if (result.win) {
+          setStatus(model.direction === 'encode'
+            ? `Верно: сообщение ${model.message + 1} кодируется порядком ${fullOrderText(model.order)}.`
+            : `Верно: порядок ${fullOrderText(model.order)} означает сообщение ${result.decoded.message + 1}.`,
+            'success'
+          );
+        } else {
+          const expected = result.expected?.labels?.join(' -> ') || '-';
+          setStatus(model.direction === 'encode'
+            ? `Неверно: для сообщения ${model.message + 1} нужен порядок ${expected}.`
+            : `Неверно: этот порядок означает сообщение ${result.decoded.message == null ? '?' : result.decoded.message + 1}.`,
+            'error'
+          );
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model.mode = event.target.value;
+        startCase();
+        renderState();
+      });
+      panel.querySelector('[data-permutation-direction]')?.addEventListener('change', event => {
+        model.direction = event.target.value === 'decode' ? 'decode' : 'encode';
+        startCase();
+        renderState();
+      });
+      panel.querySelector('[data-permutation-new]')?.addEventListener('click', () => {
+        startCase();
+        model.history.push({ kind: 'случай', text: model.direction === 'encode' ? `сообщение ${model.message + 1}` : `порядок ${fullOrderText()}` });
+        renderState();
+      });
+      panel.querySelector('[data-permutation-check]')?.addEventListener('click', () => {
+        model.checked = true;
+        model.exhaustive = null;
+        model.history.push({ kind: 'проверка', text: model.direction === 'encode' ? `сообщение ${model.message + 1}: ${fullOrderText()}` : `${fullOrderText()} -> сообщение ${Number.isInteger(model.guess) ? model.guess + 1 : '?'}` });
+        renderState();
+      });
+      panel.querySelector('[data-permutation-exhaustive]')?.addEventListener('click', () => {
+        model.exhaustive = helper.permutationMessageExhaustiveCheck(config);
+        model.checked = false;
+        model.history.push({ kind: 'перебор', text: model.exhaustive.success ? 'проверены все 6 сообщений' : 'найдена ошибка таблицы' });
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = {
+          mode: model?.mode || config.defaultMode || 'random',
+          direction: model?.direction || 'encode',
+          message: 0,
+          order: [],
+          guess: null,
+          checked: false,
+          exhaustive: null,
+          history: []
+        };
+        startCase();
+        renderState();
+      });
+      panel.querySelector('[data-permutation-guess]')?.addEventListener('change', event => {
+        model.guess = Number(event.target.value);
+        resetCheck();
+        renderState();
+      });
+      for (const button of panel.querySelectorAll('[data-permutation-message]')) {
+        button.addEventListener('click', () => {
+          const value = Number(button.dataset.permutationMessage);
+          if (model.direction === 'decode') model.guess = value;
+          else setMessage(value);
+          resetCheck();
+          renderState();
+        });
+      }
+      for (const button of panel.querySelectorAll('[data-permutation-item]')) {
+        button.addEventListener('click', () => {
+          toggleItem(button.dataset.permutationItem);
+          renderState();
+        });
+      }
+
+      if (!helper?.permutationMessageExhaustiveCheck) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      startCase({ keepDirection: false });
+      renderState();
+    }
+
+    function initThreeLetterErasureInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = {
+        mode: config.defaultMode || 'random',
+        message: 0,
+        erased: config.alphabet[0],
+        guess: null,
+        history: [],
+        lastCheck: null
+      };
+
+      function randomInt(limit) {
+        return Math.floor(Math.random() * limit);
+      }
+
+      function readSandboxCodewords() {
+        const text = panel.querySelector('[data-three-sandbox]')?.value || '';
+        return text.split(/\\n+/).map(line => line.trim()).filter(Boolean);
+      }
+
+      function activeConfig() {
+        if (model.mode !== 'sandbox') return config;
+        return {
+          ...config,
+          codewords: readSandboxCodewords()
+        };
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function selectCase(message, erased) {
+        model.message = Number(message);
+        model.erased = erased;
+        model.guess = null;
+        model.lastCheck = null;
+      }
+
+      function randomCase() {
+        selectCase(randomInt(config.messageCount), config.alphabet[randomInt(config.alphabet.length)]);
+      }
+
+      function markRows(check) {
+        for (const cell of panel.querySelectorAll('[data-three-row-status]')) cell.textContent = '';
+        if (!check) return;
+        const conflictMessages = new Set((check.conflicts || []).flatMap(conflict => conflict.messages || []));
+        for (let index = 0; index < config.messageCount; index += 1) {
+          const cell = panel.querySelector(`[data-three-row-status="${CSS.escape(String(index))}"]`);
+          if (!cell) continue;
+          if (conflictMessages.has(index)) cell.textContent = 'конфликт';
+          else if (check.codewords?.[index]) cell.textContent = 'ок';
+        }
+      }
+
+      function renderHistory() {
+        const history = panel.querySelector('[data-history]');
+        const rows = model.history.slice(-8).map(entry => `
+          <div class="history-item">
+            <span class="history-result">${esc(entry.kind)}</span>
+            <span>${esc(entry.text)}</span>
+          </div>
+        `);
+        history.innerHTML = rows.length ? rows.join('') : '<div class="local-muted">Пока нет проверок.</div>';
+      }
+
+      function renderInteractiveState() {
+        const cfg = activeConfig();
+        const codewords = helper.threeLetterErasureNormalizeCodewords(cfg);
+        const codeword = codewords[model.message] || '';
+        const observed = helper.threeLetterErasureErase(codeword, model.erased);
+        const decoded = helper.threeLetterErasureDecode({ ...cfg, observed });
+        const tableCheck = helper.threeLetterErasureCheckTable(cfg);
+
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-three-message]').value = String(model.message);
+        panel.querySelector('[data-three-erased]').value = model.erased;
+        panel.querySelector('[data-current-mode-pill]').textContent = threeLetterErasureModeLabel(model.mode);
+        panel.querySelector('[data-three-codeword]').textContent = `слово: ${codeword || '-'}`;
+        panel.querySelector('[data-three-erased-pill]').textContent = `стерта: ${model.erased}`;
+        panel.querySelector('[data-three-observed]').textContent = observed || 'пустая строка';
+        panel.querySelector('[data-three-decode-note]').textContent = decoded.messages.length
+          ? `По таблице подходят сообщения: ${decoded.messages.join(', ')}.`
+          : 'В таблице нет такого остатка.';
+        panel.querySelector('[data-three-sandbox-check]').hidden = model.mode !== 'sandbox';
+        panel.querySelector('[data-three-sandbox]').disabled = model.mode !== 'sandbox';
+        panel.querySelector('[data-three-exhaustive]').hidden = model.mode === 'sandbox';
+
+        for (const button of panel.querySelectorAll('[data-three-answer]')) {
+          const value = Number(button.dataset.threeAnswer);
+          button.classList.toggle('answer-mode', model.guess === value);
+          button.disabled = value >= codewords.length;
+        }
+        markRows(model.mode === 'sandbox' || model.lastCheck ? tableCheck : null);
+        renderHistory();
+
+        if (model.lastCheck?.kind === 'exhaustive') {
+          setInteractiveStatus(
+            tableCheck.success
+              ? `Полная проверка пройдена: ${tableCheck.checked} стираний декодируются однозначно.`
+              : `Полная проверка нашла конфликтов: ${tableCheck.conflicts.length}; ошибок таблицы: ${tableCheck.errors.length}.`,
+            tableCheck.success ? 'success' : 'error'
+          );
+          return;
+        }
+        if (model.lastCheck?.kind === 'sandbox') {
+          setInteractiveStatus(
+            tableCheck.success
+              ? `Таблица принята: ${tableCheck.codewords.length} слов, ${tableCheck.checked} стираний, конфликтов нет.`
+              : `Таблица не проходит: ${tableCheck.errors[0] || `конфликтов ${tableCheck.conflicts.length}`}.`,
+            tableCheck.success ? 'success' : 'error'
+          );
+          return;
+        }
+        if (model.guess == null) {
+          setInteractiveStatus('Выберите сообщение, букву для стирания и ответ фокусника.');
+          return;
+        }
+        const result = helper.threeLetterErasureEvaluate({ ...cfg, message: model.message, erased: model.erased, guess: model.guess });
+        if (result.win) {
+          setInteractiveStatus(`Верно: остаток "${result.observed}" однозначно указывает на сообщение ${result.message}.`, 'success');
+        } else {
+          setInteractiveStatus(`Неверно: ответ ${model.guess}, правильное сообщение ${model.message}.`, 'error');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model.mode = event.target.value;
+        model.guess = null;
+        model.lastCheck = null;
+        if (model.mode === 'random') randomCase();
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-message]')?.addEventListener('change', event => {
+        selectCase(event.target.value, model.erased);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-erased]')?.addEventListener('change', event => {
+        selectCase(model.message, event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-random]')?.addEventListener('click', () => {
+        randomCase();
+        model.history.push({ kind: 'случай', text: `сообщение ${model.message}, стерта ${model.erased}` });
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-exhaustive]')?.addEventListener('click', () => {
+        const check = helper.threeLetterErasureCheckTable(config);
+        model.lastCheck = { kind: 'exhaustive' };
+        model.history.push({ kind: 'перебор', text: check.success ? `проверено ${check.checked} стираний` : `конфликтов: ${check.conflicts.length}` });
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-sandbox-check]')?.addEventListener('click', () => {
+        const check = helper.threeLetterErasureCheckTable(activeConfig());
+        model.lastCheck = { kind: 'sandbox' };
+        model.history.push({ kind: 'sandbox', text: check.success ? 'таблица прошла проверку' : `ошибок: ${check.errors.length}, конфликтов: ${check.conflicts.length}` });
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-three-sandbox]')?.addEventListener('input', () => {
+        if (model.mode === 'sandbox') {
+          model.guess = null;
+          model.lastCheck = null;
+          renderInteractiveState();
+        }
+      });
+      for (const button of panel.querySelectorAll('[data-three-row]')) {
+        button.addEventListener('click', () => {
+          selectCase(button.dataset.threeRow, model.erased);
+          renderInteractiveState();
+        });
+      }
+      for (const button of panel.querySelectorAll('[data-three-answer]')) {
+        button.addEventListener('click', () => {
+          model.guess = Number(button.dataset.threeAnswer);
+          model.lastCheck = null;
+          model.history.push({ kind: 'ответ', text: `остаток после стирания ${model.erased}: выбран ответ ${model.guess}` });
+          renderInteractiveState();
+        });
+      }
+
+      if (!helper?.threeLetterErasureCheckTable) {
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      randomCase();
+      renderInteractiveState();
+    }
+
+    function initSafePileInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const outcomeToResult = { left_down: 'left_heavy', right_down: 'right_heavy', balance: 'balanced' };
+      const resultToOutcome = { left_heavy: 'left_down', right_heavy: 'right_down', balanced: 'balance' };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+      const statusLabels = {
+        open: 'открыта',
+        solved: 'есть безопасная кучка',
+        failed: 'нет сертификата'
+      };
+      const piles = helper.safePileNormalizePiles(config);
+      const diamondIds = piles.flatMap(pile => pile.diamonds);
+      const pileByDiamond = new Map();
+      for (const pile of piles) for (const diamond of pile.diamonds) pileByDiamond.set(diamond, pile.id);
+      let model = null;
+
+      function pileLabel(id) {
+        return piles.find(pile => pile.id === id)?.label || id;
+      }
+
+      function directionLabel(direction) {
+        return direction === 'lighter' ? 'легче' : 'тяжелее';
+      }
+
+      function formatState(state) {
+        return state ? `${pileLabel(state.pile)}, алмаз ${state.diamond}, ${directionLabel(state.direction)}` : '';
+      }
+
+      function initialStates() {
+        return helper.safePileInitialStates(config);
+      }
+
+      function branchStatus(states, usedWeighings) {
+        return helper.safePileBranchStatus(states, usedWeighings, config.maxWeighings, config);
+      }
+
+      function makeRootNode() {
+        const states = initialStates();
+        return {
+          id: 'n1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          states,
+          candidates: states,
+          usedWeighings: 0,
+          status: branchStatus(states, 0),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const hiddenDiamond = diamondIds[Math.floor(Math.random() * diamondIds.length)] || diamondIds[0];
+        const hiddenDirection = Math.random() < 0.5 ? 'heavier' : 'lighter';
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          fakeDiamond: normalizedMode === 'random' ? hiddenDiamond : null,
+          fakePile: normalizedMode === 'random' ? pileByDiamond.get(hiddenDiamond) : null,
+          fakeDirection: normalizedMode === 'random' ? hiddenDirection : null,
+          locations: Object.fromEntries(diamondIds.map(id => [id, pileByDiamond.get(id)])),
+          states: initialStates(),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          lastResult: 'balanced',
+          answer: null,
+          result: null,
+          locked: false
+        };
+      }
+
+      function activeNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function currentStates() {
+        return model.mode === 'exhaustive' ? (activeNode()?.states || []) : model.states;
+      }
+
+      function safePiles(states = currentStates()) {
+        return helper.safePileSafePileIds(states, config);
+      }
+
+      function diamondsIn(location) {
+        return diamondIds.filter(id => model.locations[id] === location);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked) return false;
+        if (model.mode === 'exhaustive') return activeNode()?.status === 'open';
+        return model.history.length < config.maxWeighings;
+      }
+
+      function clearPans() {
+        for (const id of diamondIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = pileByDiamond.get(id);
+        }
+      }
+
+      function cycleDiamond(id) {
+        if (!canEditPans()) return;
+        const home = pileByDiamond.get(id);
+        const current = model.locations[id];
+        model.locations[id] = current === home ? 'left' : (current === 'left' ? 'right' : home);
+        renderState();
+      }
+
+      function diamondWeight(id) {
+        if (id !== model.fakeDiamond) return 1;
+        return model.fakeDirection === 'heavier' ? 2 : 0;
+      }
+
+      function sumWeight(ids) {
+        return ids.reduce((sum, id) => sum + diamondWeight(id), 0);
+      }
+
+      function weigh() {
+        const left = diamondsIn('left');
+        const right = diamondsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let outcome;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.safePileChooseCheaterOutcome({
+            ...config,
+            currentStates: model.states,
+            leftDiamonds: left,
+            rightDiamonds: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] }))
+          });
+          outcome = decision.outcome;
+          model.states = decision.states;
+          scores = decision.scores;
+        } else {
+          const leftWeight = sumWeight(left);
+          const rightWeight = sumWeight(right);
+          outcome = leftWeight === rightWeight ? 'balance' : (leftWeight > rightWeight ? 'left_down' : 'right_down');
+          model.states = helper.safePileFilterStates({
+            ...config,
+            currentStates: model.states,
+            leftDiamonds: left,
+            rightDiamonds: right,
+            outcome
+          });
+        }
+        const result = outcomeToResult[outcome] || 'balanced';
+        model.history.push({ left: [...left], right: [...right], outcome, result, states: [...model.states], scores });
+        model.lastResult = result;
+        clearPans();
+        renderState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.safePileExpandExhaustiveNode({
+          ...config,
+          currentStates: node.states,
+          leftDiamonds: left,
+          rightDiamonds: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings
+        });
+        node.weighing = { left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `n${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { left: [...left], right: [...right], outcome: child.outcome }],
+          states: [...child.states],
+          candidates: [...child.states],
+          safePiles: [...child.safePiles],
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        clearPans();
+        model.locked = frontierNodes().length > 0 && frontierNodes().every(item => item.status !== 'open');
+        renderState();
+      }
+
+      function choosePile(id) {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const result = helper.safePileFinalizeAnswer({ ...config, currentStates: model.states, selectedPile: id });
+        model.answer = id;
+        model.result = result;
+        if (model.mode === 'cheater') {
+          model.fakeDiamond = result.actualState?.diamond ?? null;
+          model.fakePile = result.actualState?.pile ?? null;
+          model.fakeDirection = result.actualState?.direction ?? null;
+        }
+        model.locked = true;
+        renderState();
+      }
+
+      function makeDiamondButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'diamond';
+        button.textContent = String(id);
+        button.title = `Алмаз ${id}`;
+        const location = model.locations[id];
+        if (location === 'left') button.classList.add('left');
+        if (location === 'right') button.classList.add('right');
+        button.disabled = !canEditPans();
+        button.addEventListener('click', () => cycleDiamond(id));
+        return button;
+      }
+
+      function renderPileAreas() {
+        const container = panel.querySelector('[data-safe-piles]');
+        container.innerHTML = piles.map(pile => `
+          <div class="safe-pile" data-safe-pile="${esc(pile.id)}">
+            <div class="safe-pile-title"><span>${esc(pile.label)}</span><span>${esc(countText(pile.size, 'алмаз', 'алмаза', 'алмазов'))}</span></div>
+            <div class="diamond-grid" data-pile-diamonds="${esc(pile.id)}"></div>
+          </div>
+        `).join('');
+        for (const pile of piles) {
+          const target = panel.querySelector(`[data-pile-diamonds="${CSS.escape(pile.id)}"]`);
+          for (const id of pile.diamonds.filter(diamond => model.locations[diamond] === pile.id)) {
+            target.appendChild(makeDiamondButton(id));
+          }
+          if (!target.children.length) target.innerHTML = '<span class="empty">Нет алмазов.</span>';
+        }
+      }
+
+      function renderPan(location) {
+        const target = panel.querySelector(`[data-pan-diamonds="${location}"]`);
+        target.innerHTML = '';
+        for (const id of diamondsIn(location)) target.appendChild(makeDiamondButton(id));
+        if (!target.children.length) target.innerHTML = '<span class="empty">Пусто.</span>';
+      }
+
+      function renderStateCounts() {
+        const states = currentStates();
+        const counts = helper.safePileStateCounts(states, config);
+        const safe = new Set(safePiles(states));
+        panel.querySelector('[data-safe-state-list]').innerHTML = piles.map(pile => {
+          const count = counts[pile.id] || { total: 0, heavier: 0, lighter: 0 };
+          const extra = safe.has(pile.id) ? 'status-public_ready' : '';
+          return pill(`${pile.label}: ${count.total} (${count.heavier} тяж., ${count.lighter} лег.)`, extra);
+        }).join('');
+      }
+
+      function renderAnswers() {
+        const safe = new Set(safePiles());
+        const container = panel.querySelector('[data-safe-answer-list]');
+        container.innerHTML = piles.map(pile => `
+          <button class="small-button safe-pile-answer ${safe.has(pile.id) ? 'ready-true' : ''}" type="button" data-safe-pile-answer="${esc(pile.id)}" ${model.mode === 'exhaustive' || model.locked ? 'disabled' : ''}>
+            ${esc(pile.label)}
+          </button>
+        `).join('');
+        for (const button of container.querySelectorAll('[data-safe-pile-answer]')) {
+          button.addEventListener('click', () => choosePile(button.dataset.safePileAnswer));
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешивания пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history.map((item, index) => `
+          <div class="history-item">
+            <div><strong>${esc(index + 1)}.</strong> ${esc(item.left.join(', ') || 'пусто')} против ${esc(item.right.join(', ') || 'пусто')}</div>
+            <div class="history-result">${esc(resultLabels[item.outcome || item.result])}</div>
+            ${item.states ? `<div class="local-muted">Осталось: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}; безопасно: ${esc(safePiles(item.states).map(pileLabel).join(', ') || 'пока нет')}</div>` : ''}
+          </div>
+        `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const safe = safePiles(node.states).map(pileLabel);
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень дерева';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status] || node.status)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}; безопасно: ${esc(safe.join(', ') || 'нет')}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderState();
+          });
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderPileAreas();
+        renderPan('left');
+        renderPan('right');
+        renderStateCounts();
+        renderAnswers();
+        renderHistory();
+        renderExhaustiveBranches();
+        const left = diamondsIn('left');
+        const right = diamondsIn('right');
+        const states = currentStates();
+        const active = activeNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'алмаз', 'алмаза', 'алмазов');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'алмаз', 'алмаза', 'алмазов');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${active?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(states.length, 'состояние', 'состояния', 'состояний');
+        const modeSelect = panel.querySelector('[data-safe-pile-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = safePileModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy' || model.lastResult === 'right_light');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy' || model.lastResult === 'left_light');
+        const canWeigh = !model.locked
+          && (model.mode === 'exhaustive' ? active?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        panel.querySelector('[data-safe-pile-weigh]').disabled = !canWeigh;
+        panel.querySelector('[data-safe-pile-weigh]').textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const open = leaves.filter(node => node.status === 'open').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          if (open === 0 && failed === 0) setStatus(`Полная стратегия принята: во всех ${solved} ветках есть безопасная кучка.`, 'success');
+          else if (open === 0 && failed > 0) setStatus(`Стратегия не гарантирует ответ: ${failed} веток без безопасной кучки.`, 'error');
+          else setStatus(`Продолжайте активную ветку ${active?.id.slice(1)}: выберите одно взвешивание.`);
+        } else if (model.locked) {
+          if (model.result?.win) setStatus(`Ответ принят: ${pileLabel(model.answer)} безопасна во всех совместимых состояниях.`, 'success');
+          else setStatus(`Ответ не гарантирован: совместимо состояние ${formatState(model.result?.actualState)}.`, 'error');
+        } else if (safePiles().length) {
+          setStatus(`Уже можно выбрать: ${safePiles().map(pileLabel).join(', ')}.`, 'success');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setStatus('На чашах должно быть одинаковое число алмазов.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setStatus('Взвешивание уже использовано. Выберите кучку, если она гарантирована.');
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Шулер выберет самый неудобный исход. Нужно получить хотя бы одну кучку без совместимых фальшивых состояний.'
+            : 'Положите одинаковое число алмазов на чаши и нажмите «Взвесить».');
+        }
+      }
+
+      panel.querySelector('[data-safe-pile-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-safe-pile-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-safe-pile-reset]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode);
+        renderState();
+      });
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initConstrainedLightInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const isThresholdBalance = config.type === 'threshold_balance_counterfeit_sets';
+      const outcomeToResult = isThresholdBalance
+        ? { left_reliable_lighter: 'left_light', right_reliable_lighter: 'right_light', no_reliable_tilt: 'no_tilt' }
+        : { left_down: 'left_heavy', right_down: 'right_heavy', balance: 'balanced' };
+      const resultToOutcome = isThresholdBalance
+        ? { left_light: 'left_reliable_lighter', right_light: 'right_reliable_lighter', no_tilt: 'no_reliable_tilt' }
+        : { left_heavy: 'left_down', right_heavy: 'right_down', balanced: 'balance' };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_reliable_lighter: 'левая чаша надежно легче',
+        right_reliable_lighter: 'правая чаша надежно легче',
+        no_reliable_tilt: 'нет надежного перекоса',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие',
+        left_light: 'левая чаша надежно легче',
+        right_light: 'правая чаша надежно легче',
+        no_tilt: 'нет надежного перекоса'
+      };
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'лимит исчерпан' };
+      let model = null;
+
+      function allStates() {
+        if (isThresholdBalance) {
+          return helper.thresholdBalanceInitialStates(config.coinCount, config.counterfeitCount);
+        }
+        return helper.constrainedLightInitialStates({
+          coin_count: config.coinCount,
+          hidden_states: config.hiddenStates
+        });
+      }
+
+      function stateKey(state) {
+        if (isThresholdBalance) return helper.thresholdBalanceStateKey(state);
+        return helper.constrainedLightStateKey(state);
+      }
+
+      function stateLabel(state) {
+        if (isThresholdBalance) return helper.thresholdBalanceStateLabel(state);
+        return helper.constrainedLightStateLabel(state);
+      }
+
+      function stateCoinsLabel(state) {
+        return (state?.coins || []).join(', ') || '?';
+      }
+
+      function answerOptions(states = model.candidates) {
+        if (isThresholdBalance) return helper.thresholdBalanceAnswerOptionsForStates(states, config.objective);
+        return helper.constrainedLightAnswerOptionsForStates(states, config.objective);
+      }
+
+      function makeRootNode() {
+        const states = allStates();
+        return {
+          id: 'c1',
+          states,
+          candidates: states,
+          history: [],
+          children: [],
+          usedWeighings: 0,
+          status: isThresholdBalance
+            ? helper.thresholdBalanceBranchStatus(states, 0, config.maxWeighings, config.objective)
+            : helper.constrainedLightBranchStatus(states, 0, config.maxWeighings, config.objective)
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const hiddenState = states[Math.floor(Math.random() * states.length)] || states[0] || null;
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? hiddenState : null,
+          revealedState: null,
+          candidates: states,
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answerMode: false,
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked || model.answerMode) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[id] = zone;
+        renderInteractiveState();
+      }
+
+      function cycleCoin(id) {
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        moveCoin(id, current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool'));
+      }
+
+      function selectedStatesForMode() {
+        return model.mode === 'exhaustive' ? (activeExhaustiveNode()?.states || []) : model.candidates;
+      }
+
+      function maybeAutoLock() {
+        if (model.mode === 'exhaustive' || model.locked) return false;
+        if (isThresholdBalance && !helper.thresholdBalanceObjectiveSolved(model.candidates, config.objective)) return false;
+        if (isThresholdBalance) return false;
+        if (!helper.constrainedLightObjectiveSolved(model.candidates, config.objective)) return false;
+        return false;
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let outcome;
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = isThresholdBalance
+            ? helper.thresholdBalanceChooseCheaterOutcome({
+              coin_count: config.coinCount,
+              counterfeit_count: config.counterfeitCount,
+              objective: config.objective,
+              currentStates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+              genuine_weight: config.genuineWeight,
+              counterfeit_delta: config.counterfeitDelta,
+              reliable_difference: config.reliableDifference,
+              counterfeit_weight: config.counterfeitWeight,
+              require_equal_pan_counts: config.requireEqualPanCounts
+            })
+            : helper.constrainedLightChooseCheaterOutcome({
+              coin_count: config.coinCount,
+              hidden_states: config.hiddenStates,
+              objective: config.objective,
+              currentStates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+              require_equal_pan_counts: config.requireEqualPanCounts
+            });
+          outcome = decision.outcome;
+          model.candidates = decision.states;
+          scores = decision.scores;
+        } else {
+          outcome = isThresholdBalance
+            ? helper.outcomeForThresholdBalanceState(model.hiddenState, left, right, {
+              coinCount: config.coinCount,
+              counterfeitCount: config.counterfeitCount,
+              genuineWeight: config.genuineWeight,
+              counterfeitDelta: config.counterfeitDelta,
+              reliableDifference: config.reliableDifference,
+              counterfeitWeight: config.counterfeitWeight,
+              requireEqualPanCounts: config.requireEqualPanCounts
+            })
+            : helper.outcomeForConstrainedLightState(model.hiddenState, left, right, {
+              coinCount: config.coinCount,
+              requireEqualPanCounts: config.requireEqualPanCounts
+            });
+          model.candidates = isThresholdBalance
+            ? helper.thresholdBalanceFilterStates({
+              coin_count: config.coinCount,
+              counterfeit_count: config.counterfeitCount,
+              currentStates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              outcome,
+              genuine_weight: config.genuineWeight,
+              counterfeit_delta: config.counterfeitDelta,
+              reliable_difference: config.reliableDifference,
+              counterfeit_weight: config.counterfeitWeight,
+              require_equal_pan_counts: config.requireEqualPanCounts
+            })
+            : helper.constrainedLightFilterStates({
+              coin_count: config.coinCount,
+              hidden_states: config.hiddenStates,
+              currentStates: model.candidates,
+              leftCoins: left,
+              rightCoins: right,
+              outcome,
+              require_equal_pan_counts: config.requireEqualPanCounts
+            });
+        }
+        const result = outcomeToResult[outcome] || 'balanced';
+        model.history.push({ left: [...left], right: [...right], result, states: [...model.candidates], scores });
+        model.lastResult = result;
+        model.answerMode = false;
+        maybeAutoLock();
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = isThresholdBalance
+          ? helper.thresholdBalanceExpandExhaustiveNode({
+            coin_count: config.coinCount,
+            counterfeit_count: config.counterfeitCount,
+            objective: config.objective,
+            currentStates: node.states,
+            leftCoins: left,
+            rightCoins: right,
+            usedWeighings: node.usedWeighings,
+            maxWeighings: config.maxWeighings,
+            genuine_weight: config.genuineWeight,
+            counterfeit_delta: config.counterfeitDelta,
+            reliable_difference: config.reliableDifference,
+            counterfeit_weight: config.counterfeitWeight,
+            require_equal_pan_counts: config.requireEqualPanCounts
+          })
+          : helper.constrainedLightExpandExhaustiveNode({
+            coin_count: config.coinCount,
+            hidden_states: config.hiddenStates,
+            objective: config.objective,
+            currentStates: node.states,
+            leftCoins: left,
+            rightCoins: right,
+            usedWeighings: node.usedWeighings,
+            maxWeighings: config.maxWeighings,
+            require_equal_pan_counts: config.requireEqualPanCounts
+          });
+        node.children = expansion.children.map(child => ({
+          id: `c${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { left: [...left], right: [...right], outcome: child.outcome }],
+          states: [...child.states],
+          candidates: [...child.states],
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        clearPans();
+        model.locked = frontierNodes().length > 0 && frontierNodes().every(item => item.status !== 'open');
+        renderInteractiveState();
+      }
+
+      function submitAnswer(option) {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const params = {
+          coin_count: config.coinCount,
+          hidden_states: config.hiddenStates,
+          objective: config.objective,
+          currentStates: model.candidates
+        };
+        if (option.kind === 'coin') params.selectedCoin = option.value;
+        if (option.kind === 'count') params.selectedCount = option.value;
+        if (option.kind === 'state') params.selectedStateKey = option.value;
+        if (option.coins) params.selectedCoins = option.coins;
+        const result = isThresholdBalance
+          ? helper.thresholdBalanceFinalizeAnswer({
+            coin_count: config.coinCount,
+            counterfeit_count: config.counterfeitCount,
+            objective: config.objective,
+            currentStates: model.candidates,
+            selectedCoins: option.coins
+          })
+          : helper.constrainedLightFinalizeAnswer(params);
+        model.answer = option;
+        model.revealedState = result.actualState || null;
+        model.hiddenState = result.actualState || model.hiddenState;
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.coin = String(id);
+        button.title = `монета ${id}`;
+        button.draggable = canEditPans();
+        const actual = model.revealedState || (model.locked ? model.hiddenState : null);
+        if (actual?.coins?.includes(Number(id))) button.classList.add('real-counterfeit');
+        if (!canEditPans()) button.disabled = true;
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderPool(container) {
+        container.innerHTML = '';
+        const poolCoins = coinsIn('pool');
+        const wrap = document.createElement('div');
+        if (config.layout === 'circle') {
+          wrap.className = 'constrained-layout-circle';
+          const radius = 42;
+          poolCoins.forEach((id, index) => {
+            const angle = -Math.PI / 2 + (2 * Math.PI * (id - 1)) / coinIds.length;
+            const button = makeCoinButton(id);
+            button.style.left = `${50 + radius * Math.cos(angle)}%`;
+            button.style.top = `${50 + radius * Math.sin(angle)}%`;
+            wrap.appendChild(button);
+          });
+        } else if (config.layout === 'grid') {
+          wrap.className = 'constrained-layout-grid';
+          for (const id of poolCoins) wrap.appendChild(makeCoinButton(id));
+        } else {
+          wrap.className = 'coin-grid';
+          for (const id of poolCoins) wrap.appendChild(makeCoinButton(id));
+        }
+        if (!poolCoins.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = 'все выбранные монеты на чашах';
+          wrap.appendChild(empty);
+        }
+        container.appendChild(wrap);
+      }
+
+      function renderPan(zone, container) {
+        container.innerHTML = '';
+        for (const id of coinsIn(zone)) container.appendChild(makeCoinButton(id));
+        if (!container.children.length) {
+          const empty = document.createElement('span');
+          empty.className = 'empty';
+          empty.textContent = 'перенесите монеты сюда';
+          container.appendChild(empty);
+        }
+      }
+
+      function coinListLabel(ids) {
+        return (ids || []).join(', ') || 'пусто';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> ${esc(coinListLabel(item.left))} против ${esc(coinListLabel(item.right))}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome] || item.result || item.outcome)}</div>
+              ${item.states ? `<div class="local-muted">Осталось: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderRemainingStates() {
+        const container = panel.querySelector('[data-constrained-states]');
+        const states = selectedStatesForMode();
+        container.innerHTML = states.map(state => `
+          <span class="constrained-state-chip">${esc(stateLabel(state))}: {${esc(stateCoinsLabel(state))}}</span>
+        `).join('') || '<span class="empty">Совместимых состояний нет.</span>';
+      }
+
+      function renderAnswerOptions() {
+        const panelBlock = panel.querySelector('[data-constrained-answer-panel]');
+        const container = panel.querySelector('[data-constrained-answers]');
+        panelBlock.hidden = !model.answerMode || model.mode === 'exhaustive';
+        if (panelBlock.hidden) return;
+        container.innerHTML = answerOptions().map((option, index) => `
+          <button class="small-button" type="button" data-constrained-answer="${esc(index)}">
+            ${esc(option.label)}${option.coins ? `: {${esc(option.coins.join(', '))}}` : ''}
+          </button>
+        `).join('');
+        const options = answerOptions();
+        for (const button of container.querySelectorAll('[data-constrained-answer]')) {
+          button.addEventListener('click', () => submitAnswer(options[Number(button.dataset.constrainedAnswer)]));
+        }
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        renderPool(panel.querySelector('[data-constrained-zone="pool"]'));
+        renderPan('left', panel.querySelector('[data-constrained-pan-coins="left"]'));
+        renderPan('right', panel.querySelector('[data-constrained-pan-coins="right"]'));
+        renderHistory();
+        renderRemainingStates();
+        renderAnswerOptions();
+        renderExhaustiveBranches();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive'
+          ? countText(activeNode?.states.length || 0, 'состояние', 'состояния', 'состояний')
+          : countText(model.candidates.length, 'состояние', 'состояния', 'состояний');
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = constrainedLightModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+
+        const canWeigh = !model.locked
+          && !model.answerMode
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        const weighButton = panel.querySelector('[data-constrained-weigh]');
+        weighButton.disabled = !canWeigh;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Раскрыть ветку' : 'Взвесить';
+        const answerButton = panel.querySelector('[data-constrained-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const open = leaves.filter(node => node.status === 'open').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          if (!open && !failed) setInteractiveStatus('Стратегия принята: каждая ветка достигает цели.', 'success');
+          else if (!open && failed) setInteractiveStatus(`Некоторые ветки остались неоднозначными: ${failed}.`, 'error');
+          else setInteractiveStatus(`Продолжите ветку ${activeNode?.id.slice(1)}: осталось ${countText(activeNode?.states.length || 0, 'состояние', 'состояния', 'состояний')}.`);
+        } else if (model.locked) {
+          const result = isThresholdBalance
+            ? helper.thresholdBalanceFinalizeAnswer({
+              coin_count: config.coinCount,
+              counterfeit_count: config.counterfeitCount,
+              objective: config.objective,
+              currentStates: model.candidates,
+              selectedCoins: model.answer?.coins || null
+            })
+            : helper.constrainedLightFinalizeAnswer({
+              coin_count: config.coinCount,
+              hidden_states: config.hiddenStates,
+              objective: config.objective,
+              currentStates: model.candidates,
+              selectedCoin: model.answer?.kind === 'coin' ? model.answer.value : null,
+              selectedCount: model.answer?.kind === 'count' ? model.answer.value : null,
+              selectedStateKey: model.answer?.kind === 'state' ? model.answer.value : null,
+              selectedCoins: model.answer?.coins || null
+            });
+          setInteractiveStatus(
+            result.win
+              ? `Верно. Фактическое состояние: ${stateLabel(result.actualState)} = {${stateCoinsLabel(result.actualState)}}.`
+              : `Не гарантировано. Совместимое состояние: ${stateLabel(result.actualState)} = {${stateCoinsLabel(result.actualState)}}.`,
+            result.win ? 'success' : 'error'
+          );
+        } else if (model.answerMode) {
+          setInteractiveStatus('Выберите один из текущих гарантированных вариантов ответа.');
+        } else if (model.history.length >= config.maxWeighings) {
+          setInteractiveStatus('Взвешиваний не осталось. Перейдите к ответу.');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setInteractiveStatus('На чашах должно быть одинаковое число монет.');
+        } else if (isThresholdBalance
+          ? helper.thresholdBalanceObjectiveSolved(model.candidates, config.objective)
+          : helper.constrainedLightObjectiveSolved(model.candidates, config.objective)) {
+          setInteractiveStatus('Оставшиеся состояния уже дают гарантированный ответ. Перейдите к ответу.', 'success');
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Режим неудобного исхода оставляет самую большую и наименее информативную совместимую ветку.'
+            : 'Перенесите на чаши равные по размеру группы и взвесьте их.');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-constrained-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.constrainedZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-constrained-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-constrained-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        model.answerMode = !model.answerMode;
+        clearPans();
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (isThresholdBalance ? !helper?.thresholdBalanceChooseCheaterOutcome : !helper?.constrainedLightChooseCheaterOutcome) {
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initHigherLowerStrategyInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let mode = config.defaultMode || 'guided';
+      let state = helper?.higherLowerInitialState ? helper.higherLowerInitialState(config) : { low: 1, high: config.boxCount, turn: 'first' };
+      let selectedGuess = null;
+      let history = [];
+
+      function size() {
+        return helper?.higherLowerStateSize ? helper.higherLowerStateSize(state) : Math.max(0, state.high - state.low + 1);
+      }
+
+      function turnLabel(turn = state.turn) {
+        return turn === 'second' ? 'второй игрок' : 'первый игрок';
+      }
+
+      function chanceLabel(value) {
+        if (!value) return '';
+        return `${value.label} (${value.percent.toFixed(1)}%)`;
+      }
+
+      function branchLabel(branch) {
+        if (!branch) return '';
+        if (branch.answer === 'hit') return 'угадано';
+        return branch.answer === 'lower' ? 'ниже' : 'выше';
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function reset(count = config.boxCount) {
+        state = { low: 1, high: count, turn: 'first', finished: false, winner: null };
+        selectedGuess = null;
+        history = [];
+      }
+
+      function scoresForState() {
+        return helper.higherLowerActionScores({ ...config, box_count: size(), turn: state.turn });
+      }
+
+      function absoluteGuess(localGuess) {
+        return state.low + Number(localGuess) - 1;
+      }
+
+      function localGuess(absolute) {
+        return Number(absolute) - state.low + 1;
+      }
+
+      function renderBoxes() {
+        const container = panel.querySelector('[data-higher-lower-boxes]');
+        const scores = new Map(scoresForState().map(move => [move.guess, move]));
+        const buttons = [];
+        for (let box = state.low; box <= state.high; box += 1) {
+          const move = scores.get(localGuess(box));
+          const classes = ['coin-button'];
+          if (move?.optimal) classes.push('left');
+          if (box === selectedGuess) classes.push('right');
+          buttons.push(`<button class="${esc(classes.join(' '))}" type="button" data-higher-lower-guess="${esc(box)}" ${state.finished ? 'disabled' : ''}>${esc(box)}</button>`);
+        }
+        container.innerHTML = buttons.join('');
+        for (const button of container.querySelectorAll('[data-higher-lower-guess]')) {
+          button.addEventListener('click', () => {
+            selectedGuess = Number(button.dataset.higherLowerGuess);
+            renderState();
+          });
+        }
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-higher-lower-answers]');
+        if (state.finished || selectedGuess == null) {
+          container.innerHTML = state.finished ? '' : '<span class="empty">выберите догадку</span>';
+          return;
+        }
+        const branches = helper.higherLowerGuessBranches(state, selectedGuess, config);
+        container.innerHTML = branches.map(branch => `
+          <button class="small-button" type="button" data-higher-lower-answer="${esc(branch.answer)}">
+            ${esc(branchLabel(branch))}
+          </button>
+        `).join('');
+        for (const button of container.querySelectorAll('[data-higher-lower-answer]')) {
+          button.addEventListener('click', () => {
+            const answer = button.dataset.higherLowerAnswer;
+            const branch = branches.find(item => item.answer === answer);
+            if (!branch) return;
+            history.push({
+              turn: state.turn,
+              low: state.low,
+              high: state.high,
+              guess: selectedGuess,
+              answer,
+              next: branch.nextState,
+              chance: branch.firstWinChance
+            });
+            state = branch.nextState;
+            selectedGuess = null;
+            renderState();
+          });
+        }
+      }
+
+      function renderMoveTable() {
+        const container = panel.querySelector('[data-higher-lower-table]');
+        const rows = scoresForState().map(move => {
+          const absolute = absoluteGuess(move.guess);
+          const mark = move.optimal ? 'да' : '';
+          return `
+            <tr>
+              <td><button class="small-button" type="button" data-higher-lower-table-guess="${esc(absolute)}">${esc(absolute)}</button></td>
+              <td>${esc(move.lowerSize)}</td>
+              <td>${esc(move.higherSize)}</td>
+              <td>${esc(chanceLabel(move.value))}</td>
+              <td>${esc(mark)}</td>
+            </tr>
+          `;
+        }).join('');
+        container.innerHTML = `
+          <table class="kv-table">
+            <thead><tr><th>Догадка</th><th>Ниже</th><th>Выше</th><th>Шанс первого</th><th>Лучший ход</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+        for (const button of container.querySelectorAll('[data-higher-lower-table-guess]')) {
+          button.addEventListener('click', () => {
+            selectedGuess = Number(button.dataset.higherLowerTableGuess);
+            renderState();
+          });
+        }
+      }
+
+      function renderComparison() {
+        const solve = helper.higherLowerSolve(config);
+        const rows = solve.comparisons.map(row => `
+          <tr>
+            <td>${esc(row.boxCount)}</td>
+            <td>${esc(chanceLabel(row.first.value))}</td>
+            <td>${esc(row.first.moves.filter(move => move.optimal).map(move => move.guess).join(', '))}</td>
+            <td>${esc(chanceLabel(row.second.value))}</td>
+            <td>${esc(row.second.moves.filter(move => move.optimal).map(move => move.guess).join(', '))}</td>
+          </tr>
+        `).join('');
+        panel.querySelector('[data-higher-lower-comparison]').innerHTML = `
+          <table class="kv-table">
+            <thead><tr><th>Коробок</th><th>Ход первого</th><th>Лучшие догадки</th><th>Ход второго</th><th>Ответ второго</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        `;
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">ветка еще не начата</div>';
+          return;
+        }
+        container.innerHTML = history.slice().reverse().map((item, index) => `
+          <div class="history-item">
+            <div><strong>${esc(history.length - index)}.</strong> ${esc(turnLabel(item.turn))}: ${esc(item.guess)} в отрезке ${esc(item.low)}-${esc(item.high)}</div>
+            <div class="history-result">${esc(branchLabel(item))}; шанс первого дальше ${esc(chanceLabel(item.chance))}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderState() {
+        if (!helper?.higherLowerSolve || !helper?.higherLowerActionScores || !helper?.higherLowerGuessBranches) {
+          setStatus('Логика интерактива не загружена.', 'error');
+          return;
+        }
+        const value = helper.higherLowerStateValue(state, config);
+        const best = scoresForState().filter(move => move.optimal).map(move => absoluteGuess(move.guess));
+        renderBoxes();
+        renderAnswers();
+        renderMoveTable();
+        renderComparison();
+        renderHistory();
+        panel.querySelector('[data-current-mode-pill]').textContent = higherLowerModeLabel(mode);
+        panel.querySelector('[data-interactive-run-mode]').value = mode;
+        panel.querySelector('[data-higher-lower-turn]').value = state.turn;
+        panel.querySelector('[data-higher-lower-position]').textContent = state.finished ? `${state.low}` : `${state.low}-${state.high}`;
+        panel.querySelector('[data-higher-lower-turn-pill]').textContent = state.finished ? `выиграл ${turnLabel(state.winner)}` : `ход: ${turnLabel()}`;
+        panel.querySelector('[data-higher-lower-value]').textContent = `шанс первого ${chanceLabel(value)}`;
+        if (state.finished) {
+          setStatus(`Игра закончена: ${turnLabel(state.winner)} угадал коробку ${state.low}.`, state.winner === 'first' ? 'success' : 'error');
+        } else if (mode === 'guided') {
+          setStatus(`Оптимальные догадки сейчас: ${best.join(', ')}. Таблица показывает цену каждой ветки для первого игрока.`);
+        } else {
+          setStatus('Можно выбрать любую догадку и пройти одну из веток дерева.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        renderState();
+      });
+      panel.querySelector('[data-higher-lower-turn]')?.addEventListener('change', event => {
+        state.turn = event.target.value === 'second' ? 'second' : 'first';
+        selectedGuess = null;
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        reset(state.high - state.low + 1 || config.boxCount);
+        renderState();
+      });
+      for (const button of panel.querySelectorAll('[data-higher-lower-count]')) {
+        button.addEventListener('click', () => {
+          reset(Number(button.dataset.higherLowerCount) || config.boxCount);
+          renderState();
+        });
+      }
+      renderState();
+    }
+
+    function initMovingTargetGraphSearchInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const statusLabels = { open: 'открыта', solved: 'поймана', failed: 'лимит исчерпан' };
+      let model = null;
+
+      function allStates() {
+        return helper.movingTargetInitialStates(config);
+      }
+
+      function vertexById() {
+        return Object.fromEntries((config.vertices || []).map(vertex => [vertex.id, vertex]));
+      }
+
+      function vertexLabel(id) {
+        const vertex = vertexById()[id];
+        return vertex?.label || id;
+      }
+
+      function randomItem(items) {
+        return items[Math.floor(Math.random() * items.length)] || null;
+      }
+
+      function checkedVertices() {
+        return [...panel.querySelectorAll('[data-graph-vertex].selected')].map(button => button.dataset.graphVertex);
+      }
+
+      function clearSelection() {
+        for (const button of panel.querySelectorAll('[data-graph-vertex]')) button.classList.remove('selected');
+      }
+
+      function rootNode() {
+        const states = allStates();
+        return {
+          id: 'b1',
+          states,
+          history: [],
+          children: [],
+          usedTests: 0,
+          status: helper.movingTargetBranchStatus(states, 0, config.maxTests)
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const root = rootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? randomItem(states) : null,
+          states,
+          history: [],
+          result: null,
+          locked: false,
+          nodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2
+        };
+      }
+
+      function activeNode() {
+        return model.nodes.find(node => node.id === model.activeNodeId) || model.nodes[0];
+      }
+
+      function leaves() {
+        return model.nodes.filter(node => !node.children.length);
+      }
+
+      function currentStates() {
+        return model.mode === 'exhaustive' ? (activeNode()?.states || []) : model.states;
+      }
+
+      function currentHistory() {
+        return model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
+      }
+
+      function validateSelection() {
+        return helper.movingTargetValidation(checkedVertices(), config);
+      }
+
+      function neighborChoices(vertexId) {
+        const graph = helper.movingTargetNormalizeGraph(config);
+        return graph.neighbors[vertexId] || [];
+      }
+
+      function runCheck() {
+        if (model.locked) return;
+        const validation = validateSelection();
+        if (!validation.valid) {
+          setStatus(`Нужно выбрать ровно ${config.checkSize} вершины.`, 'error');
+          return;
+        }
+        if (model.mode === 'exhaustive') {
+          expandBranch(validation.checked);
+          return;
+        }
+        if (model.history.length >= config.maxTests) return;
+        if (model.mode === 'random') {
+          const caught = validation.checked.includes(model.hiddenState);
+          const caughtStates = helper.movingTargetCaughtStates({ ...config, currentStates: model.states, checkedVertices: validation.checked });
+          if (caught) {
+            model.history.push({ checked: validation.checked, outcome: 'caught', states: [], caughtStates: [model.hiddenState] });
+            model.result = { win: true, actualState: model.hiddenState };
+            model.locked = true;
+          } else {
+            const nextStates = helper.movingTargetTransitionStates({ ...config, currentStates: model.states, checkedVertices: validation.checked });
+            model.hiddenState = randomItem(neighborChoices(model.hiddenState));
+            model.states = nextStates;
+            model.history.push({ checked: validation.checked, outcome: 'not_found', states: nextStates, caughtStates });
+            if (model.history.length >= config.maxTests) {
+              model.result = { win: false, actualState: model.hiddenState };
+              model.locked = true;
+            }
+          }
+        } else {
+          const decision = helper.movingTargetChooseCheaterOutcome({
+            ...config,
+            currentStates: model.states,
+            checkedVertices: validation.checked,
+            usedTests: model.history.length,
+            maxTests: config.maxTests
+          });
+          model.history.push({ checked: validation.checked, outcome: decision.outcome, states: decision.states, caughtStates: decision.caughtStates, scores: decision.scores });
+          model.states = decision.states;
+          if (decision.caught || decision.status === 'failed') {
+            model.result = { win: decision.caught, states: decision.states };
+            model.locked = true;
+          }
+        }
+        clearSelection();
+        renderState();
+      }
+
+      function expandBranch(checked) {
+        const node = activeNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.movingTargetExpandExhaustiveNode({
+          ...config,
+          currentStates: node.states,
+          checkedVertices: checked,
+          usedTests: node.usedTests,
+          maxTests: config.maxTests
+        });
+        node.children = expansion.children.map(child => ({
+          id: `b${model.nextNodeId++}`,
+          states: child.states,
+          caughtStates: child.caughtStates || [],
+          outcome: child.outcome,
+          history: [...node.history, { checked, outcome: child.outcome, states: child.states, caughtStates: child.caughtStates || [] }],
+          children: [],
+          usedTests: child.usedTests,
+          status: child.status
+        }));
+        model.nodes.push(...node.children);
+        model.activeNodeId = (leaves().find(item => item.status === 'open') || node.children.find(item => item.outcome === 'not_found') || node.children[0] || node).id;
+        model.locked = leaves().length > 0 && leaves().every(item => item.status !== 'open');
+        clearSelection();
+        renderState();
+      }
+
+      function outcomeLabel(outcome) {
+        return outcome === 'caught' ? 'муха поймана' : 'мухи нет; она перелетела';
+      }
+
+      function renderSelected() {
+        const selected = checkedVertices();
+        const container = panel.querySelector('[data-selected-list]');
+        container.innerHTML = selected.length
+          ? selected.map(id => `<span class="pill">${esc(vertexLabel(id))}</span>`).join('')
+          : '<span class="empty">выберите вершины на схеме</span>';
+      }
+
+      function renderStates() {
+        const states = currentStates();
+        const container = panel.querySelector('[data-state-list]');
+        container.innerHTML = states.length
+          ? states.map(id => `<span class="pill">${esc(vertexLabel(id))}</span>`).join('')
+          : '<span class="empty">нет непойманных вариантов</span>';
+      }
+
+      function renderGraph() {
+        const possible = new Set(currentStates());
+        for (const button of panel.querySelectorAll('[data-graph-vertex]')) {
+          const id = button.dataset.graphVertex;
+          button.classList.toggle('possible', possible.has(id));
+          button.classList.toggle('actual', model.result?.win && model.result.actualState === id);
+          button.disabled = model.locked || (model.mode === 'exhaustive' && activeNode()?.status !== 'open');
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = currentHistory();
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Ходов пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history.map((item, index) => ({ item, index: index + 1 })).reverse().map(({ item, index }) => `
+          <div class="history-item">
+            <div><strong>${esc(index)}.</strong> Проверка: ${esc(item.checked.map(vertexLabel).join(', '))}</div>
+            <div class="history-result">${esc(outcomeLabel(item.outcome))}</div>
+            <div class="local-muted">Осталось: ${esc(countText(item.states.length, 'позиция', 'позиции', 'позиций'))}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        container.innerHTML = leaves().map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${step.checked.map(vertexLabel).join(',')} -> ${outcomeLabel(step.outcome)}`).join(' | ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-moving-target-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'позиция', 'позиции', 'позиций'))}; ${esc(node.usedTests)} / ${esc(config.maxTests)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-moving-target-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.movingTargetBranch;
+            renderState();
+          });
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderSelected();
+        renderStates();
+        renderGraph();
+        renderHistory();
+        renderBranches();
+        const node = activeNode();
+        const states = currentStates();
+        panel.querySelector('[data-test-counter]').textContent = model.mode === 'exhaustive'
+          ? `${node?.usedTests || 0} / ${config.maxTests}`
+          : `${model.history.length} / ${config.maxTests}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(states.length, 'позиция', 'позиции', 'позиций');
+        panel.querySelector('[data-current-mode-pill]').textContent = movingTargetModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-moving-target-run]').disabled = model.locked || (model.mode === 'exhaustive' ? node?.status !== 'open' : model.history.length >= config.maxTests);
+        if (model.mode === 'exhaustive') {
+          const open = leaves().filter(item => item.status === 'open').length;
+          const failed = leaves().filter(item => item.status === 'failed').length;
+          if (!open && !failed) setStatus('Стратегия принята: во всех ветках муха поймана.', 'success');
+          else if (!open) setStatus(`Есть ${failed} ветвей, где лимит ходов исчерпан.`, 'error');
+          else setStatus(`Продолжайте открытую ветку ${activeNode()?.id.slice(1)}.`);
+        } else if (model.locked && model.result?.win) {
+          setStatus(model.result.actualState
+            ? `Муха поймана в вершине ${vertexLabel(model.result.actualState)}.`
+            : 'Муха поймана: проверка накрывает все возможные позиции.',
+            'success');
+        } else if (model.locked) {
+          setStatus('Ходы закончились, муха не поймана.', 'error');
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Шулер оставляет самый большой набор возможных следующих позиций.'
+            : 'Выберите три вершины и проверьте их.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        clearSelection();
+        renderState();
+      });
+      for (const button of panel.querySelectorAll('[data-graph-vertex]')) {
+        button.addEventListener('click', () => {
+          if (button.disabled) return;
+          if (button.classList.contains('selected')) {
+            button.classList.remove('selected');
+          } else if (checkedVertices().length < config.checkSize) {
+            button.classList.add('selected');
+          }
+          renderSelected();
+        });
+      }
+      panel.querySelector('[data-moving-target-run]')?.addEventListener('click', runCheck);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        clearSelection();
+        renderState();
+      });
+
+      if (!helper?.movingTargetChooseCheaterOutcome) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
+    function initAdjacentPairGridInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const responseLabels = { yes: 'да', no: 'нет' };
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'лимит исчерпан', covered: 'закрыта' };
+      let model = null;
+
+      function allStates() {
+        return helper.finiteBinaryInitialStates(config);
+      }
+
+      function actions() {
+        return helper.finiteBinaryInitialActions(config);
+      }
+
+      function cellKey(row, col) {
+        return `r${row}c${col}`;
+      }
+
+      function parseCellKey(key) {
+        const match = String(key || '').match(/^r(\\d+)c(\\d+)$/);
+        return match ? { row: Number(match[1]), col: Number(match[2]) } : null;
+      }
+
+      function cellLabel(key) {
+        const cell = parseCellKey(key);
+        return cell ? `${cell.row}:${cell.col}` : '?';
+      }
+
+      function stateCells(state) {
+        return state?.cells || state?.data?.cells || [];
+      }
+
+      function stateLabel(state) {
+        const cells = stateCells(state);
+        return cells.length ? cells.map(cellLabel).join(' и ') : (state?.label || '?');
+      }
+
+      function actionForCell(cell) {
+        return actions().find(action => action.cell === cell || action.data?.cell === cell);
+      }
+
+      function branchStatus(states, usedTests) {
+        return helper.finiteBinaryBranchStatus(states, usedTests, config.maxTests, config);
+      }
+
+      function makeRootNode() {
+        const states = allStates();
+        return {
+          id: 'p1',
+          parentId: null,
+          response: null,
+          history: [],
+          states,
+          usedTests: 0,
+          status: branchStatus(states, 0),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const hiddenState = states[Math.floor(Math.random() * states.length)] || null;
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? hiddenState : null,
+          candidates: states,
+          selectedCell: null,
+          answerMode: false,
+          answerCells: [],
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          locked: false,
+          result: null
+        };
+      }
+
+      function activeNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children?.length);
+      }
+
+      function currentStates() {
+        return model.mode === 'exhaustive' ? (activeNode()?.states || []) : model.candidates;
+      }
+
+      function historyForView() {
+        return model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
+      }
+
+      function lastResponseForCell(cell) {
+        const item = historyForView().slice().reverse().find(entry => entry.cell === cell);
+        return item?.response || '';
+      }
+
+      function hitCounts(states) {
+        const counts = {};
+        for (const state of states || []) {
+          for (const cell of stateCells(state)) counts[cell] = (counts[cell] || 0) + 1;
+        }
+        return counts;
+      }
+
+      function pairIsAdjacent(cells) {
+        if (cells.length !== 2) return false;
+        const first = parseCellKey(cells[0]);
+        const second = parseCellKey(cells[1]);
+        if (!first || !second) return false;
+        return Math.abs(first.row - second.row) + Math.abs(first.col - second.col) === 1;
+      }
+
+      function selectedPairId() {
+        if (!pairIsAdjacent(model.answerCells)) return '';
+        return model.answerCells
+          .map(parseCellKey)
+          .sort((a, b) => a.row - b.row || a.col - b.col)
+          .map(cell => cellKey(cell.row, cell.col))
+          .join('_');
+      }
+
+      function toggleAnswerCell(cell) {
+        if (model.answerCells.includes(cell)) {
+          model.answerCells = model.answerCells.filter(item => item !== cell);
+        } else if (model.answerCells.length < 2) {
+          model.answerCells.push(cell);
+        } else {
+          model.answerCells = [model.answerCells[1], cell];
+        }
+        renderInteractiveState();
+      }
+
+      function selectCell(cell) {
+        if (model.locked) return;
+        if (model.answerMode) {
+          toggleAnswerCell(cell);
+          return;
+        }
+        model.selectedCell = cell;
+        renderInteractiveState();
+      }
+
+      function renderBoard() {
+        const board = panel.querySelector('[data-treasure-board]');
+        const states = currentStates();
+        const counts = hitCounts(states);
+        const actualCells = model.locked ? new Set(stateCells(model.result?.actualState || model.hiddenState || null)) : new Set();
+        board.innerHTML = '';
+        for (let row = 1; row <= config.gridRows; row += 1) {
+          for (let col = 1; col <= config.gridCols; col += 1) {
+            const cell = cellKey(row, col);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'treasure-cell';
+            button.dataset.treasureCell = cell;
+            button.textContent = cellLabel(cell);
+            button.title = `клетка ${cellLabel(cell)}`;
+            button.classList.add(counts[cell] ? 'possible' : 'eliminated');
+            if (model.selectedCell === cell && !model.answerMode) button.classList.add('selected');
+            if (model.answerCells.includes(cell)) button.classList.add('answer-pick');
+            const response = lastResponseForCell(cell);
+            if (response === 'yes') button.classList.add('asked-yes');
+            if (response === 'no') button.classList.add('asked-no');
+            if (actualCells.has(cell)) button.classList.add('actual');
+            button.disabled = model.locked;
+            button.addEventListener('click', () => selectCell(cell));
+            board.appendChild(button);
+          }
+        }
+      }
+
+      function renderPairs() {
+        const container = panel.querySelector('[data-treasure-pairs]');
+        const states = currentStates();
+        if (!states.length) {
+          container.innerHTML = '<span class="empty">нет совместимых пар</span>';
+          return;
+        }
+        const shown = states.slice(0, 40).map(state => `<span class="pill">${esc(stateLabel(state))}</span>`).join('');
+        const tail = states.length > 40 ? `<span class="pill">еще ${esc(states.length - 40)}</span>` : '';
+        container.innerHTML = shown + tail;
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = historyForView();
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Вопросов пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> клетка ${esc(cellLabel(item.cell))}</div>
+              <div class="history-result">${esc(responseLabels[item.response])}</div>
+              <div class="local-muted">Осталось: ${esc(countText(item.states.length, 'возможная пара', 'возможные пары', 'возможных пар'))}</div>
+            </div>
+          `).join('');
+      }
+
+      function renderBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        container.innerHTML = frontierNodes().map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const found = node.status === 'solved' && node.states.length === 1 ? `; пара ${stateLabel(node.states[0])}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${cellLabel(step.cell)} - ${responseLabels[step.response]}`).join(' -> ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветвь ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status] || node.status)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'возможная пара', 'возможные пары', 'возможных пар'))}; ${esc(node.usedTests)} / ${esc(config.maxTests)}${esc(found)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            model.selectedCell = null;
+            renderInteractiveState();
+          });
+        }
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function canAskSelectedCell() {
+        if (model.locked || model.answerMode || !model.selectedCell) return false;
+        if (model.mode === 'exhaustive') {
+          const node = activeNode();
+          return node?.status === 'open' && node.usedTests < config.maxTests;
+        }
+        return model.history.length < config.maxTests;
+      }
+
+      function renderInteractiveState() {
+        renderBoard();
+        renderPairs();
+        renderHistory();
+        renderBranches();
+        const states = currentStates();
+        const active = activeNode();
+        panel.querySelector('[data-test-counter]').textContent = model.mode === 'exhaustive'
+          ? `${active?.usedTests || 0} / ${config.maxTests}`
+          : `${model.history.length} / ${config.maxTests}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(states.length, 'возможная пара', 'возможные пары', 'возможных пар');
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-current-mode-pill]').textContent = finiteBinaryModeLabel(model.mode);
+        const askButton = panel.querySelector('[data-treasure-ask]');
+        askButton.disabled = !canAskSelectedCell();
+        askButton.textContent = model.selectedCell ? `Спросить ${cellLabel(model.selectedCell)}` : 'Спросить клетку';
+        const answerButton = panel.querySelector('[data-treasure-answer-mode]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || (model.answerMode && !selectedPairId());
+        answerButton.textContent = model.answerMode ? 'Ответить' : 'Выбрать пару';
+        answerButton.classList.toggle('answer-mode', model.answerMode);
+
+        if (model.locked) {
+          const actual = model.result?.actualState || model.hiddenState;
+          setInteractiveStatus(
+            model.result?.win
+              ? `Верно: сокровище занимает клетки ${stateLabel(actual)}.`
+              : `Пара не доказана этими ответами. Совместимый вариант: ${stateLabel(actual)}.`,
+            model.result?.win ? 'success' : 'error'
+          );
+        } else if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const open = leaves.filter(node => node.status === 'open').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          if (open === 0 && failed === 0) setInteractiveStatus(`Стратегия принята: решены ${solved} ветвей.`, 'success');
+          else if (open === 0) setInteractiveStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита с несколькими парами.`, 'error');
+          else if (active?.status === 'open') setInteractiveStatus(`Продолжайте ветвь ${active.id.slice(1)}: выберите клетку для следующего вопроса.`);
+          else setInteractiveStatus('Выберите открытую ветвь полного перебора.');
+        } else if (model.answerMode) {
+          const suffix = model.answerCells.length === 2 && !selectedPairId() ? ' Выбранные клетки не соседние.' : '';
+          setInteractiveStatus(`Выберите две соседние клетки: ${model.answerCells.length} / 2.${suffix}`, suffix ? 'error' : '');
+        } else if (states.length === 1) {
+          setInteractiveStatus(`Пара уже определена: ${stateLabel(states[0])}. Можно дать ответ.`, 'success');
+        } else if (model.history.length >= config.maxTests) {
+          setInteractiveStatus('Вопросов не осталось. Выберите пару, если она уже однозначно следует из ответов.');
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер каждый раз выбирает допустимый ответ, оставляющий больше всего возможных пар.'
+            : 'Выберите клетку на доске и задайте вопрос.');
+        }
+      }
+
+      function askSelectedCell() {
+        if (!canAskSelectedCell()) return;
+        const action = actionForCell(model.selectedCell);
+        if (!action) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(action);
+          return;
+        }
+        let response = 'no';
+        let states = [];
+        if (model.mode === 'cheater') {
+          const result = helper.finiteBinaryChooseCheaterResponse({ ...config, currentStates: model.candidates, action, history: model.history });
+          response = result.response;
+          states = result.states;
+        } else {
+          response = helper.finiteBinaryResponseForState(model.hiddenState, action, config);
+          states = helper.finiteBinaryFilterStates({ ...config, currentStates: model.candidates, action, response });
+        }
+        model.candidates = states;
+        model.history.push({ cell: model.selectedCell, response, states: [...states] });
+        model.selectedCell = null;
+        renderInteractiveState();
+      }
+
+      function expandActiveBranch(action) {
+        const node = activeNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.finiteBinaryExpandExhaustiveNode({
+          ...config,
+          currentStates: node.states,
+          action,
+          usedTests: node.usedTests,
+          maxTests: config.maxTests
+        });
+        node.action = action;
+        node.children = expansion.children.map(child => ({
+          id: `p${model.nextNodeId++}`,
+          parentId: node.id,
+          response: child.response,
+          history: [...node.history, { cell: action.cell, response: child.response, states: [...child.states] }],
+          states: [...child.states],
+          usedTests: child.usedTests,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.selectedCell = null;
+        renderInteractiveState();
+      }
+
+      function submitAnswer() {
+        if (!selectedPairId()) {
+          renderInteractiveState();
+          return;
+        }
+        const result = helper.finiteBinaryFinalizeAnswer({
+          ...config,
+          currentStates: model.candidates,
+          selectedCells: [...model.answerCells]
+        });
+        if (model.mode === 'random' && model.hiddenState) result.actualState = model.hiddenState;
+        model.result = result;
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-treasure-ask]')?.addEventListener('click', askSelectedCell);
+      panel.querySelector('[data-treasure-answer-mode]')?.addEventListener('click', () => {
+        if (model.locked) return;
+        if (model.answerMode) submitAnswer();
+        else {
+          model.answerMode = true;
+          model.answerCells = [];
+          model.selectedCell = null;
+          renderInteractiveState();
+        }
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.finiteBinaryInitialStates || !helper?.finiteBinaryChooseCheaterResponse) {
+        setInteractiveStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initFiniteBinaryStateProtocolInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'лимит исчерпан' };
+      let model = null;
+
+      function allStates() {
+        return helper.finiteBinaryInitialStates(config);
+      }
+
+      function allActions() {
+        return helper.finiteBinaryInitialActions(config);
+      }
+
+      function randomItem(items) {
+        return items[Math.floor(Math.random() * items.length)] || null;
+      }
+
+      function rootNode() {
+        const states = allStates();
+        return {
+          id: 'b1',
+          states,
+          candidates: states,
+          history: [],
+          children: [],
+          usedTests: 0,
+          status: helper.finiteBinaryBranchStatus(states, 0, config.maxTests, config)
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const states = allStates();
+        const root = rootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? randomItem(states) : null,
+          states,
+          history: [],
+          answer: null,
+          result: null,
+          locked: false,
+          nodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2
+        };
+      }
+
+      function activeNode() {
+        return model.nodes.find(node => node.id === model.activeNodeId) || model.nodes[0];
+      }
+
+      function leaves() {
+        return model.nodes.filter(node => !node.children.length);
+      }
+
+      function currentStates() {
+        return model.mode === 'exhaustive' ? (activeNode()?.states || []) : model.states;
+      }
+
+      function currentHistory() {
+        return model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
+      }
+
+      function selectedAction() {
+        const actionId = panel.querySelector('[data-finite-binary-action]')?.value || '';
+        return allActions().find(action => helper.finiteBinaryActionKey(action) === actionId) || null;
+      }
+
+      function responseLabel(response) {
+        return config.answerLabels?.[response] || response;
+      }
+
+      function stateLabel(state) {
+        return state?.label || helper.finiteBinaryStateKey(state) || '';
+      }
+
+      function actionLabel(action) {
+        return action?.label || helper.finiteBinaryActionKey(action) || '';
+      }
+
+      function formatAnswer(answer) {
+        if (config.objective === 'identify_one_genuine_coin') return `монета ${answer}`;
+        const state = allStates().find(item => helper.finiteBinaryStateKey(item) === String(answer));
+        return state ? stateLabel(state) : String(answer || '');
+      }
+
+      function guaranteedAnswers(states = currentStates()) {
+        return helper.finiteBinaryGuaranteedAnswers(states, config);
+      }
+
+      function ask() {
+        const action = selectedAction();
+        if (!action || model.locked) return;
+        if (model.mode === 'exhaustive') {
+          expandBranch(action);
+          return;
+        }
+        if (model.history.length >= config.maxTests) return;
+        let response = null;
+        let states = [];
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.finiteBinaryChooseCheaterResponse({
+            ...config,
+            currentStates: model.states,
+            action
+          });
+          response = decision.response;
+          states = decision.states;
+          scores = decision.scores;
+        } else {
+          response = helper.finiteBinaryResponseForState(model.hiddenState, action, config);
+          states = helper.finiteBinaryFilterStates({
+            ...config,
+            currentStates: model.states,
+            action,
+            response
+          });
+        }
+        model.states = states;
+        model.history.push({ action, response, states, scores });
+        renderState();
+      }
+
+      function expandBranch(action) {
+        const node = activeNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.finiteBinaryExpandExhaustiveNode({
+          ...config,
+          currentStates: node.states,
+          action,
+          usedTests: node.usedTests,
+          maxTests: config.maxTests
+        });
+        node.children = expansion.children.map(child => ({
+          id: `b${model.nextNodeId++}`,
+          states: child.states,
+          candidates: child.states,
+          response: child.response,
+          history: [...node.history, { action, response: child.response, states: child.states }],
+          children: [],
+          usedTests: child.usedTests,
+          status: child.status
+        }));
+        model.nodes.push(...node.children);
+        model.activeNodeId = (leaves().find(item => item.status === 'open') || node.children[0] || node).id;
+        model.locked = leaves().length > 0 && leaves().every(item => item.status !== 'open');
+        renderState();
+      }
+
+      function submitAnswer() {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const answer = panel.querySelector('[data-finite-binary-answer]')?.value || '';
+        const result = config.objective === 'identify_one_genuine_coin'
+          ? helper.finiteBinaryFinalizeAnswer({ ...config, currentStates: model.states, selectedCoin: Number(answer) })
+          : helper.finiteBinaryFinalizeAnswer({ ...config, currentStates: model.states, selectedStateId: answer });
+        model.answer = answer;
+        model.result = result;
+        model.locked = true;
+        renderState();
+      }
+
+      function renderActionSelect() {
+        const select = panel.querySelector('[data-finite-binary-action]');
+        const previous = select.value;
+        select.innerHTML = allActions().map(action =>
+          `<option value="${esc(helper.finiteBinaryActionKey(action))}">${esc(actionLabel(action))}</option>`
+        ).join('');
+        if ([...select.options].some(option => option.value === previous)) select.value = previous;
+      }
+
+      function renderAnswerSelect() {
+        const select = panel.querySelector('[data-finite-binary-answer]');
+        const previous = select.value;
+        if (config.objective === 'identify_one_genuine_coin') {
+          const coinCount = Number(config.coinCount || config.coin_count || 0);
+          select.innerHTML = Array.from({ length: coinCount }, (_item, index) => {
+            const coin = index + 1;
+            return `<option value="${coin}">монета ${coin}</option>`;
+          }).join('');
+        } else {
+          select.innerHTML = allStates().map(state =>
+            `<option value="${esc(helper.finiteBinaryStateKey(state))}">${esc(stateLabel(state))}</option>`
+          ).join('');
+        }
+        if ([...select.options].some(option => option.value === previous)) select.value = previous;
+      }
+
+      function renderStates() {
+        const container = panel.querySelector('[data-state-list]');
+        const states = currentStates();
+        const visible = states.slice(0, 48).map(state => `<span class="pill">${esc(stateLabel(state))}</span>`).join('');
+        const more = states.length > 48 ? `<span class="pill">еще ${states.length - 48}</span>` : '';
+        container.innerHTML = visible + more || '<span class="empty">нет совместимых состояний</span>';
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-answer-list]');
+        const answers = guaranteedAnswers();
+        container.innerHTML = answers.length
+          ? answers.map(answer => `<button class="small-button" type="button" data-finite-binary-quick-answer="${esc(answer)}">${esc(formatAnswer(answer))}</button>`).join('')
+          : '<span class="empty">пока нет</span>';
+        for (const button of container.querySelectorAll('[data-finite-binary-quick-answer]')) {
+          button.addEventListener('click', () => {
+            const select = panel.querySelector('[data-finite-binary-answer]');
+            select.value = button.dataset.finiteBinaryQuickAnswer;
+            submitAnswer();
+          });
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = currentHistory();
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Вопросов пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history.map((item, index) => ({ item, index: index + 1 })).reverse().map(({ item, index }) => `
+          <div class="history-item">
+            <div><strong>${esc(index)}.</strong> ${esc(actionLabel(item.action))}</div>
+            <div class="history-result">${esc(responseLabel(item.response))}</div>
+            <div class="local-muted">Совместимо: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        container.innerHTML = leaves().map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const answers = guaranteedAnswers(node.states);
+          const answerText = answers.length ? `; ответ: ${answers.map(formatAnswer).join(' или ')}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${actionLabel(step.action)} -> ${responseLabel(step.response)}`).join(' | ')
+            : 'корень';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-finite-binary-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status])}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedTests)} / ${esc(config.maxTests)}${esc(answerText)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-finite-binary-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.finiteBinaryBranch;
+            renderState();
+          });
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderActionSelect();
+        renderAnswerSelect();
+        renderStates();
+        renderAnswers();
+        renderHistory();
+        renderBranches();
+        const node = activeNode();
+        const states = currentStates();
+        const answers = guaranteedAnswers(states);
+        panel.querySelector('[data-test-counter]').textContent = model.mode === 'exhaustive'
+          ? `${node?.usedTests || 0} / ${config.maxTests}`
+          : `${model.history.length} / ${config.maxTests}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(states.length, 'состояние', 'состояния', 'состояний');
+        panel.querySelector('[data-current-mode-pill]').textContent = finiteBinaryModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-answer-wrap]').hidden = model.mode === 'exhaustive';
+        panel.querySelector('[data-finite-binary-submit-answer]').hidden = model.mode === 'exhaustive';
+        panel.querySelector('[data-finite-binary-ask]').disabled = model.locked || (model.mode === 'exhaustive' ? node?.status !== 'open' : model.history.length >= config.maxTests);
+        panel.querySelector('[data-finite-binary-submit-answer]').disabled = model.locked || model.mode === 'exhaustive';
+        if (model.mode === 'exhaustive') {
+          const open = leaves().filter(item => item.status === 'open').length;
+          const failed = leaves().filter(item => item.status === 'failed').length;
+          if (!open && !failed) setStatus('Стратегия принята: каждая ветка дает допустимый ответ.', 'success');
+          else if (!open) setStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита без ответа.`, 'error');
+          else if (node?.status === 'open') setStatus(`Продолжайте ветку ${node.id.slice(1)}.`);
+          else if (node?.status === 'solved') setStatus(`Ветка решена: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
+          else setStatus('Эта ветка исчерпала лимит без гарантированного ответа.', 'error');
+        } else if (model.locked && model.result) {
+          setStatus(model.result.win
+            ? `Ответ принят: ${formatAnswer(model.answer)}.`
+            : `Ответ не гарантирован. Совместимый контрпример: ${stateLabel(model.result.actualState)}.`,
+            model.result.win ? 'success' : 'error');
+        } else if (answers.length) {
+          setStatus(`Уже можно ответить: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
+        } else if (model.history.length >= config.maxTests) {
+          setStatus('Вопросов не осталось, но гарантированного ответа нет.', 'error');
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Шулер выбирает ответ, который оставляет максимум совместимых состояний.'
+            : 'Выберите вопрос и нажмите «Спросить».');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-finite-binary-ask]')?.addEventListener('click', ask);
+      panel.querySelector('[data-finite-binary-submit-answer]')?.addEventListener('click', submitAnswer);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.finiteBinaryChooseCheaterResponse) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
     }
 
     function initZoltarInteractive(panel, config) {
@@ -4882,6 +11933,911 @@ __WEIGHING_CHEATER_JS__
       renderInteractiveState();
     }
 
+    function initBalancedSubsetQuestionInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let mode = config.defaultMode || 'exhaustive';
+      let lastCheck = null;
+
+      function readQuestions() {
+        return Array.from({ length: config.maxTests }, (_item, questionIndex) => {
+          const selected = [];
+          for (let number = 1; number <= config.objectCount; number += 1) {
+            const button = panel.querySelector(`[data-balanced-subset-toggle="${questionIndex}:${number}"]`);
+            if (button?.getAttribute('aria-pressed') === 'true') selected.push(number);
+          }
+          return selected;
+        });
+      }
+
+      function numberLabel(state) {
+        return String(state?.number ?? state ?? '?');
+      }
+
+      function questionLabel(question) {
+        return question.length ? question.join(', ') : 'пусто';
+      }
+
+      function signatureLabel(signature) {
+        return (signature || []).map(bit => bit ? 'да' : 'нет').join(', ');
+      }
+
+      function renderCodes(questions) {
+        const container = panel.querySelector('[data-balanced-subset-codes]');
+        container.innerHTML = Array.from({ length: config.objectCount }, (_item, index) => {
+          const number = index + 1;
+          const code = questions.map(question => question.includes(number) ? '1' : '0').join('');
+          return `<span class="subset-code">${esc(number)}: ${esc(code)}</span>`;
+        }).join('');
+      }
+
+      function renderRows(questions) {
+        for (let index = 0; index < config.maxTests; index += 1) {
+          const question = questions[index] || [];
+          const sum = helper?.balancedSubsetQuestionSum ? helper.balancedSubsetQuestionSum(question) : question.reduce((total, value) => total + value, 0);
+          const sumPill = panel.querySelector(`[data-balanced-subset-sum="${index}"]`);
+          const questionPill = panel.querySelector(`[data-balanced-subset-question="${index}"]`);
+          if (sumPill) {
+            sumPill.textContent = `сумма ${sum}`;
+            sumPill.classList.toggle('status-ai_checked', sum === config.targetSum);
+            sumPill.classList.toggle('status-needs_human_review', question.length > 0 && sum !== config.targetSum);
+          }
+          if (questionPill) questionPill.textContent = questionLabel(question);
+        }
+        const filled = questions.filter(question => question.length > 0).length;
+        panel.querySelector('[data-test-counter]').textContent = `${filled} / ${config.maxTests}`;
+      }
+
+      function renderResult(questions) {
+        const container = panel.querySelector('[data-balanced-subset-result]');
+        if (!lastCheck) {
+          container.innerHTML = '<div class="empty">Выберите три подмножества. Проверка сравнит суммы и коды всех чисел.</div>';
+          return;
+        }
+        if (lastCheck.kind === 'random') {
+          container.innerHTML = `
+            <div><strong>Загаданное число:</strong> ${esc(numberLabel(lastCheck.hiddenState))}</div>
+            <div><strong>Ответы:</strong> ${esc(signatureLabel(lastCheck.signature))}</div>
+            <div class="local-muted">Совместимые числа: ${esc(lastCheck.states.map(numberLabel).join(', ') || 'нет')}.</div>
+          `;
+          return;
+        }
+        const rows = (lastCheck.partitions || []).map(part => `
+          <div class="exhaustive-branch ${part.states.length === 1 ? 'solved' : 'failed'}">
+            <span class="exhaustive-branch-title">${esc(signatureLabel(part.signature))}: ${esc(countText(part.states.length, 'число', 'числа', 'чисел'))}</span>
+            <span class="exhaustive-branch-history">${esc(part.states.map(numberLabel).join(', '))}</span>
+          </div>
+        `).join('');
+        container.innerHTML = `
+          <div><strong>Вопросы:</strong> ${questions.map((question, index) => `${index + 1}. {${questionLabel(question)}}`).join(' | ')}</div>
+          <div class="exhaustive-branches">${rows}</div>
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function check() {
+        const questions = readQuestions();
+        if (mode === 'random') {
+          const hiddenState = helper.balancedSubsetChooseRandom({ object_count: config.objectCount });
+          const signature = helper.balancedSubsetSignatureForState(hiddenState, questions);
+          const states = helper.balancedSubsetFilterStates({
+            object_count: config.objectCount,
+            max_tests: config.maxTests,
+            questions,
+            signature
+          });
+          const strategyCheck = helper.balancedSubsetCheckStrategy({
+            object_count: config.objectCount,
+            max_tests: config.maxTests,
+            target_sum: config.targetSum,
+            questions
+          });
+          lastCheck = { kind: 'random', hiddenState, signature, states, validation: strategyCheck.validation };
+        } else {
+          lastCheck = {
+            kind: mode,
+            ...helper.balancedSubsetCheckStrategy({
+              object_count: config.objectCount,
+              max_tests: config.maxTests,
+              target_sum: config.targetSum,
+              questions
+            })
+          };
+        }
+        renderInteractiveState();
+      }
+
+      function renderInteractiveState() {
+        const questions = readQuestions();
+        const validation = helper?.balancedSubsetValidateQuestions
+          ? helper.balancedSubsetValidateQuestions({
+            object_count: config.objectCount,
+            max_tests: config.maxTests,
+            target_sum: config.targetSum,
+            questions
+          })
+          : { ok: false, errors: ['Логика интерактива не загружена.'] };
+        renderRows(questions);
+        renderCodes(questions);
+        renderResult(questions);
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = balancedSubsetModeLabel(mode);
+        const stateCounter = panel.querySelector('[data-state-counter]');
+        if (lastCheck?.kind === 'random') {
+          stateCounter.textContent = countText(lastCheck.states.length, 'совместимое число', 'совместимых числа', 'совместимых чисел');
+        } else if (lastCheck?.partitions) {
+          stateCounter.textContent = countText(lastCheck.partitions.length, 'код', 'кода', 'кодов');
+        } else {
+          stateCounter.textContent = countText(config.objectCount, 'число', 'числа', 'чисел');
+        }
+        if (!helper?.balancedSubsetCheckStrategy) {
+          setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        } else if (!lastCheck) {
+          if (!validation.ok) setInteractiveStatus(validation.errors[0] || 'Проверьте суммы вопросов.', 'error');
+          else setInteractiveStatus(mode === 'random'
+            ? 'Суммы верны. Запустите случайную проверку, чтобы увидеть ответы да/нет.'
+            : 'Суммы верны. Запустите полный перебор, чтобы проверить уникальность кодов.');
+        } else if (lastCheck.validation && !lastCheck.validation.ok) {
+          setInteractiveStatus(lastCheck.validation.errors[0] || 'Сначала сделайте суммы вопросов правильными.', 'error');
+        } else if (lastCheck.kind === 'random') {
+          setInteractiveStatus(lastCheck.states.length === 1
+            ? `По ответам найдено число ${numberLabel(lastCheck.states[0])}.`
+            : `По этим ответам осталось ${countText(lastCheck.states.length, 'совместимое число', 'совместимых числа', 'совместимых чисел')}.`,
+            lastCheck.states.length === 1 ? 'success' : 'error');
+        } else if (lastCheck.success) {
+          setInteractiveStatus(`Стратегия принята: все ${config.objectCount} чисел имеют разные тройки ответов, суммы равны ${config.targetSum}.`, 'success');
+        } else if (lastCheck.conflict) {
+          const states = lastCheck.conflict.states || [];
+          setInteractiveStatus(
+            states.length >= 2
+              ? `Конфликт: числа ${numberLabel(states[0])} и ${numberLabel(states[1])} дают одинаковые ответы (${signatureLabel(lastCheck.conflict.signature)}).`
+              : 'Коды не различают все числа.',
+            'error'
+          );
+        } else {
+          setInteractiveStatus('Коды не различают все числа.', 'error');
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-balanced-subset-toggle]')) {
+        button.addEventListener('click', () => {
+          const pressed = button.getAttribute('aria-pressed') === 'true';
+          button.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+          lastCheck = null;
+          renderInteractiveState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        lastCheck = null;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-balanced-subset-check]')?.addEventListener('click', check);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        for (const button of panel.querySelectorAll('[data-balanced-subset-toggle]')) button.setAttribute('aria-pressed', 'false');
+        lastCheck = null;
+        renderInteractiveState();
+      });
+
+      renderInteractiveState();
+    }
+
+    function initBinaryCardsNumberTrickInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function allNumbers() {
+        return helper?.binaryCardsAllNumbers ? helper.binaryCardsAllNumbers(config) : [];
+      }
+
+      function selectedWeights() {
+        return [...panel.querySelectorAll('[data-binary-toggle][aria-pressed="true"]')]
+          .map(button => Number(button.dataset.binaryToggle))
+          .filter(weight => Number.isInteger(weight));
+      }
+
+      function hiddenFromControl() {
+        return Number(panel.querySelector('[data-binary-manual-number]')?.value || config.numberMin || 1);
+      }
+
+      function createModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const hidden = normalizedMode === 'random'
+          ? helper.binaryCardsChooseRandom(config)
+          : (normalizedMode === 'manual_spectator' ? hiddenFromControl() : null);
+        return {
+          mode: normalizedMode,
+          hidden,
+          revealed: false,
+          lastCheck: null,
+          exhaustive: null,
+          history: []
+        };
+      }
+
+      function setSelection(weights) {
+        const selected = new Set(weights || []);
+        for (const button of panel.querySelectorAll('[data-binary-toggle]')) {
+          const weight = Number(button.dataset.binaryToggle);
+          const pressed = selected.has(weight);
+          button.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+          button.textContent = pressed ? 'да' : 'нет';
+          panel.querySelector(`[data-binary-card="${weight}"]`)?.classList.toggle('selected', pressed);
+        }
+      }
+
+      function syncCards() {
+        const selected = new Set(selectedWeights());
+        for (const button of panel.querySelectorAll('[data-binary-toggle]')) {
+          const weight = Number(button.dataset.binaryToggle);
+          const pressed = selected.has(weight);
+          button.textContent = pressed ? 'да' : 'нет';
+          panel.querySelector(`[data-binary-card="${weight}"]`)?.classList.toggle('selected', pressed);
+        }
+        panel.querySelector('[data-binary-selected-counter]').textContent = `${selected.size} / ${config.cardCount}`;
+      }
+
+      function selectedLabel(weights = selectedWeights()) {
+        return weights.length ? weights.join(', ') : 'нет ответов «да»';
+      }
+
+      function answerLabel(number) {
+        return number == null ? 'не выбрано' : String(number);
+      }
+
+      function formulaLabel(weights) {
+        return weights.length ? weights.join(' + ') : '0';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!model.history.length) {
+          container.innerHTML = '<div class="empty">Проверок пока нет.</div>';
+          return;
+        }
+        container.innerHTML = model.history.slice().reverse().map((item, index) => `
+          <div class="history-item">
+            <div><strong>${esc(model.history.length - index)}.</strong> ${esc(item.modeLabel)}: ${esc(item.cards)}</div>
+            <div class="history-result">восстановлено ${esc(item.decoded)}${item.hidden != null ? `; число ${esc(item.hidden)}` : ''}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderExhaustive(result) {
+        if (!result) return '';
+        const rows = result.rows.map(row => `
+          <div class="exhaustive-branch ${row.ok ? 'solved' : 'failed'}">
+            <span class="exhaustive-branch-title">${esc(row.number)} → ${esc(selectedLabel(row.selection))}</span>
+            <span class="exhaustive-branch-history">восстановлено ${esc(row.decoded)}</span>
+          </div>
+        `).join('');
+        return `
+          <div><strong>Проверено:</strong> ${esc(result.checked)} случаев.</div>
+          <div class="exhaustive-branches">${rows}</div>
+        `;
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-binary-result]');
+        if (model.exhaustive) {
+          container.innerHTML = renderExhaustive(model.exhaustive);
+          return;
+        }
+        const selection = selectedWeights();
+        const decoded = helper?.binaryCardsDecodeSelection ? helper.binaryCardsDecodeSelection(selection, config) : selection.reduce((sum, item) => sum + item, 0);
+        const hiddenText = model.revealed || model.mode === 'manual_spectator'
+          ? `<div><strong>Число:</strong> ${esc(answerLabel(model.hidden))}</div>`
+          : '<div><strong>Число:</strong> скрыто</div>';
+        const formula = model.revealed
+          ? `<div class="local-muted">После открытия ответов: складываются веса вопросов с ответом «да», здесь ${esc(formulaLabel(selection))} = ${esc(decoded)}.</div>`
+          : '<div class="local-muted">Отметьте вопросы, на которые ответ «да». Разбор появится после открытия ответов.</div>';
+        container.innerHTML = `
+          ${hiddenText}
+          <div><strong>Ответы «да»:</strong> ${esc(selectedLabel(selection))}</div>
+          <div><strong>Восстановленное число:</strong> ${esc(decoded)}</div>
+          ${formula}
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function checkCurrent() {
+        if (model.mode === 'exhaustive') {
+          model.exhaustive = helper.binaryCardsExhaustiveCheck(config);
+          model.lastCheck = null;
+          renderState();
+          return;
+        }
+        if (model.mode === 'manual_spectator') model.hidden = hiddenFromControl();
+        if (model.hidden == null) model.hidden = helper.binaryCardsChooseRandom(config);
+        const result = helper.binaryCardsEvaluate({
+          ...config,
+          number: model.hidden,
+          selection: selectedWeights()
+        });
+        model.lastCheck = result;
+        model.history.push({
+          modeLabel: binaryCardsModeLabel(model.mode, config),
+          hidden: model.mode === 'random' && !model.revealed ? null : model.hidden,
+          cards: selectedLabel(result.selection),
+          decoded: result.decoded
+        });
+        renderState();
+      }
+
+      function revealAnswers() {
+        if (model.mode === 'exhaustive') {
+          model.exhaustive = helper.binaryCardsExhaustiveCheck(config);
+          renderState();
+          return;
+        }
+        if (model.mode === 'manual_spectator') model.hidden = hiddenFromControl();
+        if (model.hidden == null) model.hidden = helper.binaryCardsChooseRandom(config);
+        setSelection(helper.binaryCardsSelectionForNumber(model.hidden, config));
+        model.revealed = true;
+        model.lastCheck = helper.binaryCardsEvaluate({
+          ...config,
+          number: model.hidden,
+          selection: selectedWeights()
+        });
+        renderState();
+      }
+
+      function renderState() {
+        syncCards();
+        renderResult();
+        renderHistory();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = binaryCardsModeLabel(model.mode, config);
+        const manual = panel.querySelector('[data-binary-manual-control]');
+        if (manual) manual.hidden = model.mode !== 'manual_spectator';
+        panel.querySelector('[data-binary-reveal]').hidden = model.mode === 'exhaustive';
+        panel.querySelector('[data-binary-new]').textContent = model.mode === 'exhaustive' ? 'Очистить' : 'Новый случай';
+        if (!helper?.binaryCardsExhaustiveCheck) {
+          setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        } else if (model.exhaustive) {
+          setInteractiveStatus(
+            model.exhaustive.success
+              ? `Все ${model.exhaustive.checked} чисел восстанавливаются однозначно.`
+              : 'Есть число, которое не восстановилось или совпало по ответам с другим.',
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.lastCheck) {
+          if (model.mode === 'random' && !model.revealed) {
+            setInteractiveStatus(`По ответам «да» получается ${model.lastCheck.decoded}. Откройте ответы, чтобы свериться.`);
+          } else {
+            setInteractiveStatus(
+              model.lastCheck.win
+                ? `Верно: число восстановлено как ${model.lastCheck.decoded}.`
+                : `Пока не сходится: отмечено как ${model.lastCheck.decoded}, а выбрано ${model.hidden}.`,
+              model.lastCheck.win ? 'success' : 'error'
+            );
+          }
+        } else if (model.mode === 'exhaustive') {
+          setInteractiveStatus(`Запустите проверку всех чисел от ${config.numberMin} до ${config.numberMax}.`);
+        } else if (model.mode === 'random') {
+          setInteractiveStatus('Система выбрала число. Можно пробовать отмечать ответы «да» или открыть ответы.');
+        } else {
+          setInteractiveStatus('Выберите число и отметьте вопросы, на которые ответ «да».');
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-binary-toggle]')) {
+        button.addEventListener('click', () => {
+          const pressed = button.getAttribute('aria-pressed') === 'true';
+          button.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+          model.exhaustive = null;
+          model.lastCheck = null;
+          model.revealed = false;
+          renderState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = createModel(event.target.value);
+        setSelection([]);
+        renderState();
+      });
+      panel.querySelector('[data-binary-manual-number]')?.addEventListener('change', () => {
+        if (model.mode !== 'manual_spectator') return;
+        model.hidden = hiddenFromControl();
+        model.lastCheck = null;
+        model.revealed = false;
+        setSelection([]);
+        renderState();
+      });
+      panel.querySelector('[data-binary-new]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        setSelection([]);
+        renderState();
+      });
+      panel.querySelector('[data-binary-reveal]')?.addEventListener('click', revealAnswers);
+      panel.querySelector('[data-binary-check]')?.addEventListener('click', checkCurrent);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        setSelection([]);
+        renderState();
+      });
+
+      if (!helper?.binaryCardsExhaustiveCheck) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = createModel(config.defaultMode);
+      setSelection([]);
+      renderState();
+    }
+
+    function initTernaryQuestionCodeInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function hiddenFromControl() {
+        return Number(panel.querySelector('[data-ternary-manual-number]')?.value || 1);
+      }
+
+      function createModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const hidden = normalizedMode === 'random'
+          ? helper.ternaryQuestionChooseRandom(config)
+          : (normalizedMode === 'manual_spectator' ? hiddenFromControl() : null);
+        return {
+          mode: normalizedMode,
+          hidden,
+          revealed: false,
+          lastCheck: null,
+          exhaustive: null,
+          history: []
+        };
+      }
+
+      function stateLabel(number) {
+        const index = Number(number) - 1;
+        return config.objectLabels?.[index] || String(number);
+      }
+
+      function selectedOutcomes() {
+        return Array.from({ length: config.maxTests }, (_item, index) => {
+          const pressed = panel.querySelector(`[data-ternary-answer^="${index}:"][aria-pressed="true"]`);
+          const value = Number((pressed?.dataset.ternaryAnswer || `${index}:0`).split(':')[1]);
+          return Number.isInteger(value) && value >= 0 && value <= 2 ? value : 0;
+        });
+      }
+
+      function setOutcomes(outcomes) {
+        const digits = helper.ternaryQuestionNormalizeOutcomes(outcomes, config);
+        for (let questionIndex = 0; questionIndex < config.maxTests; questionIndex += 1) {
+          for (const button of panel.querySelectorAll(`[data-ternary-answer^="${questionIndex}:"]`)) {
+            const digit = Number(button.dataset.ternaryAnswer.split(':')[1]);
+            button.setAttribute('aria-pressed', digit === digits[questionIndex] ? 'true' : 'false');
+          }
+        }
+      }
+
+      function outcomeLabel(outcomes = selectedOutcomes()) {
+        return helper.ternaryQuestionNormalizeOutcomes(outcomes, config)
+          .map(digit => config.alphabet[digit] ?? String(digit))
+          .join(', ');
+      }
+
+      function codeLabel(outcomes = selectedOutcomes()) {
+        return helper.ternaryQuestionNormalizeOutcomes(outcomes, config)
+          .map(digit => config.alphabet[digit] ?? String(digit))
+          .join('');
+      }
+
+      function decodedLabel(outcomes = selectedOutcomes()) {
+        const decoded = helper.ternaryQuestionDecodeOutcomes(outcomes, config);
+        return decoded.inRange ? stateLabel(decoded.number) : `${decoded.number} вне диапазона`;
+      }
+
+      function syncButtons() {
+        for (let questionIndex = 0; questionIndex < config.maxTests; questionIndex += 1) {
+          const outcomes = selectedOutcomes();
+          const pill = panel.querySelector(`[data-ternary-answer-pill="${questionIndex}"]`);
+          if (pill) pill.textContent = config.alphabet[outcomes[questionIndex]] ?? String(outcomes[questionIndex]);
+        }
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!model.history.length) {
+          container.innerHTML = '<div class="empty">Проверок пока нет.</div>';
+          return;
+        }
+        container.innerHTML = model.history.slice().reverse().map((item, index) => `
+          <div class="history-item">
+            <div><strong>${esc(model.history.length - index)}.</strong> ${esc(item.modeLabel)}: ${esc(item.code)}</div>
+            <div class="history-result">расшифровано как ${esc(item.decoded)}${item.hidden ? `; вариант ${esc(item.hidden)}` : ''}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderExhaustive(result) {
+        if (!result) return '';
+        const rows = result.rows.map(row => `
+          <div class="exhaustive-branch ${row.ok ? 'solved' : 'failed'}">
+            <span class="exhaustive-branch-title">${esc(stateLabel(row.number))} → ${esc(codeLabel(row.outcomes))}</span>
+            <span class="exhaustive-branch-history">расшифровано как ${esc(stateLabel(row.decoded))}</span>
+          </div>
+        `).join('');
+        return `
+          <div><strong>Проверено:</strong> ${esc(result.checked)} вариантов.</div>
+          <div class="exhaustive-branches">${rows}</div>
+        `;
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-ternary-result]');
+        if (model.exhaustive) {
+          container.innerHTML = renderExhaustive(model.exhaustive);
+          return;
+        }
+        const outcomes = selectedOutcomes();
+        const hiddenText = model.revealed || model.mode === 'manual_spectator'
+          ? `<div><strong>Скрытый вариант:</strong> ${esc(stateLabel(model.hidden))}</div>`
+          : '<div><strong>Скрытый вариант:</strong> скрыт</div>';
+        const formula = model.revealed
+          ? `<div class="local-muted">Тройка исходов читается как троичная запись номера минус 1: ${esc(codeLabel(outcomes))} → ${esc(decodedLabel(outcomes))}.</div>`
+          : '<div class="local-muted">Выберите три исхода. Таблица и расшифровка всех вариантов появятся только после проверки полного перебора.</div>';
+        container.innerHTML = `
+          ${hiddenText}
+          <div><strong>Выбранные исходы:</strong> ${esc(outcomeLabel(outcomes))}</div>
+          <div><strong>Расшифровка:</strong> ${esc(decodedLabel(outcomes))}</div>
+          ${formula}
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function checkCurrent() {
+        if (model.mode === 'exhaustive') {
+          model.exhaustive = helper.ternaryQuestionExhaustiveCheck(config);
+          model.lastCheck = null;
+          renderState();
+          return;
+        }
+        if (model.mode === 'manual_spectator') model.hidden = hiddenFromControl();
+        if (model.hidden == null) model.hidden = helper.ternaryQuestionChooseRandom(config);
+        const result = helper.ternaryQuestionEvaluate({
+          ...config,
+          number: model.hidden,
+          outcomes: selectedOutcomes()
+        });
+        model.lastCheck = result;
+        model.revealed = true;
+        model.history.push({
+          modeLabel: ternaryQuestionModeLabel(model.mode, config),
+          hidden: model.mode === 'random' && !model.revealed ? null : stateLabel(model.hidden),
+          code: codeLabel(result.outcomes),
+          decoded: stateLabel(result.decoded)
+        });
+        renderState();
+      }
+
+      function renderState() {
+        syncButtons();
+        renderResult();
+        renderHistory();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = ternaryQuestionModeLabel(model.mode, config);
+        const manual = panel.querySelector('[data-ternary-manual-control]');
+        if (manual) manual.hidden = model.mode !== 'manual_spectator';
+        panel.querySelector('[data-ternary-new]').textContent = model.mode === 'exhaustive' ? 'Очистить' : 'Новый случай';
+        const stateCounter = panel.querySelector('[data-state-counter]');
+        if (stateCounter) stateCounter.textContent = countText(config.objectCount, 'вариант', 'варианта', 'вариантов');
+        if (!helper?.ternaryQuestionExhaustiveCheck) {
+          setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        } else if (model.exhaustive) {
+          setInteractiveStatus(
+            model.exhaustive.success
+              ? `Все ${model.exhaustive.checked} вариантов имеют разные троичные коды.`
+              : 'Есть конфликт троичных кодов или выход за диапазон.',
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.lastCheck) {
+          if (model.mode === 'random' && !model.revealed) {
+            setInteractiveStatus(`По выбранной тройке получается вариант ${decodedLabel(model.lastCheck.outcomes)}. Откройте исходы, чтобы свериться.`);
+          } else {
+            setInteractiveStatus(
+              model.lastCheck.win
+                ? `Верно: тройка исходов указывает на ${stateLabel(model.lastCheck.decoded)}.`
+                : `Пока не сходится: выбрана тройка для ${stateLabel(model.lastCheck.decoded)}, а скрыт ${stateLabel(model.hidden)}.`,
+              model.lastCheck.win ? 'success' : 'error'
+            );
+          }
+        } else if (model.mode === 'exhaustive') {
+          setInteractiveStatus(`Запустите проверку всех ${config.objectCount} вариантов.`);
+        } else if (model.mode === 'random') {
+          setInteractiveStatus('Система выбрала вариант. Отметьте три исхода и нажмите «Проверить».');
+        } else {
+          setInteractiveStatus('Выберите вариант зрителя и отметьте три исхода.');
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-ternary-answer]')) {
+        button.addEventListener('click', () => {
+          const [questionIndexRaw, digitRaw] = button.dataset.ternaryAnswer.split(':');
+          const questionIndex = Number(questionIndexRaw);
+          const digit = Number(digitRaw);
+          if (!Number.isInteger(questionIndex) || !Number.isInteger(digit)) return;
+          for (const peer of panel.querySelectorAll(`[data-ternary-answer^="${questionIndex}:"]`)) {
+            peer.setAttribute('aria-pressed', peer === button ? 'true' : 'false');
+          }
+          model.exhaustive = null;
+          model.lastCheck = null;
+          model.revealed = false;
+          renderState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = createModel(event.target.value);
+        setOutcomes([]);
+        renderState();
+      });
+      panel.querySelector('[data-ternary-manual-number]')?.addEventListener('change', () => {
+        if (model.mode !== 'manual_spectator') return;
+        model.hidden = hiddenFromControl();
+        model.lastCheck = null;
+        model.revealed = false;
+        setOutcomes([]);
+        renderState();
+      });
+      panel.querySelector('[data-ternary-new]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        setOutcomes([]);
+        renderState();
+      });
+      panel.querySelector('[data-ternary-check]')?.addEventListener('click', checkCurrent);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        setOutcomes([]);
+        renderState();
+      });
+
+      if (!helper?.ternaryQuestionExhaustiveCheck) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = createModel(config.defaultMode);
+      setOutcomes([]);
+      renderState();
+    }
+
+    function initRepetitionCodeOneLieInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function answerText(value) {
+        return value ? 'да' : 'нет';
+      }
+
+      function lieLabel(index) {
+        return index == null || Number(index) < 0 ? 'нет' : `ответ ${Number(index) + 1}`;
+      }
+
+      function hiddenFromControl() {
+        return Number(panel.querySelector('[data-repetition-manual-number]')?.value ?? config.numberMin);
+      }
+
+      function lieFromControl() {
+        return helper.repetitionCodeNormalizeLieIndex(
+          panel.querySelector('[data-repetition-manual-lie]')?.value,
+          config
+        );
+      }
+
+      function guessFromControl() {
+        return Number(panel.querySelector('[data-repetition-guess]')?.value ?? config.numberMin);
+      }
+
+      function caseFor(number, lieIndex) {
+        return {
+          number,
+          lieIndex,
+          answers: helper.repetitionCodeAnswersForCase({ ...config, number, lieIndex })
+        };
+      }
+
+      function createModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        const state = normalizedMode === 'random'
+          ? helper.repetitionCodeChooseRandom(config)
+          : (normalizedMode === 'manual_spectator' ? caseFor(hiddenFromControl(), lieFromControl()) : { number: null, lieIndex: -1, answers: [] });
+        return {
+          mode: normalizedMode,
+          number: state.number,
+          lieIndex: state.lieIndex,
+          answers: state.answers || [],
+          check: null,
+          exhaustive: null
+        };
+      }
+
+      function refreshManualCase() {
+        if (model.mode !== 'manual_spectator') return;
+        const state = caseFor(hiddenFromControl(), lieFromControl());
+        model.number = state.number;
+        model.lieIndex = state.lieIndex;
+        model.answers = state.answers;
+        model.check = null;
+        model.exhaustive = null;
+      }
+
+      function renderTranscript() {
+        const answers = model.mode === 'exhaustive' ? [] : model.answers;
+        for (const cell of panel.querySelectorAll('[data-repetition-answer]')) {
+          const index = Number(cell.dataset.repetitionAnswer);
+          if (!answers.length || answers[index] == null) {
+            cell.textContent = '?';
+            continue;
+          }
+          cell.textContent = answerText(answers[index]);
+        }
+      }
+
+      function renderExhaustive(result) {
+        if (!result) return '<div class="empty">Нажмите проверку, чтобы перебрать все скрытые числа и позиции лжи.</div>';
+        const failures = result.failures.slice(0, 8).map(row => `
+          <div class="exhaustive-branch failed">
+            <span class="exhaustive-branch-title">число ${esc(row.number)}, ложь: ${esc(lieLabel(row.lieIndex))}</span>
+            <span class="exhaustive-branch-history">восстановлено ${esc(row.decoded)}</span>
+          </div>
+        `).join('');
+        return `
+          <div><strong>Проверено:</strong> ${esc(result.checked)} случаев.</div>
+          <div>${result.success ? 'Все варианты восстановились правильно.' : `Ошибок: ${esc(result.failures.length)}.`}</div>
+          ${failures ? `<div class="exhaustive-branches">${failures}</div>` : ''}
+        `;
+      }
+
+      function renderCheck(check) {
+        if (!check) {
+          return '<div class="empty">Проверка еще не запускалась. До нее правило восстановления не показывается.</div>';
+        }
+        const rows = check.groups.map(group => `
+          <div class="history-item">
+            <span class="history-result">бит ${esc(group.weight)}</span>
+            <span>${esc(group.answers.map(answerText).join(', '))}; принято ${esc(group.bitValue ? 'да' : 'нет')}</span>
+          </div>
+        `).join('');
+        const guess = guessFromControl();
+        return `
+          <div><strong>Восстановлено:</strong> ${esc(check.decoded)}</div>
+          <div><strong>Скрытое число:</strong> ${esc(check.hidden)}</div>
+          <div><strong>Позиция лжи:</strong> ${esc(lieLabel(check.liePositions[0] ?? -1))}</div>
+          <div><strong>Ваш ответ:</strong> ${esc(guess)}</div>
+          <div class="local-muted">После проверки видно правило: в каждой тройке берется большинство ответов.</div>
+          <div class="history-list">${rows}</div>
+        `;
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-repetition-result]');
+        container.innerHTML = model.mode === 'exhaustive'
+          ? renderExhaustive(model.exhaustive)
+          : renderCheck(model.check);
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderTranscript();
+        renderResult();
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = repetitionCodeModeLabel(model.mode);
+        for (const control of panel.querySelectorAll('[data-repetition-manual-control]')) {
+          control.hidden = model.mode !== 'manual_spectator';
+        }
+        const guessControl = panel.querySelector('[data-repetition-guess-control]');
+        if (guessControl) guessControl.hidden = model.mode === 'exhaustive';
+        panel.querySelector('[data-repetition-new]').textContent = model.mode === 'exhaustive' ? 'Очистить' : 'Новый случай';
+
+        if (!helper?.repetitionCodeExhaustiveCheck) {
+          setInteractiveStatus('Логика интерактива не загрузилась.', 'error');
+        } else if (model.exhaustive) {
+          setInteractiveStatus(
+            model.exhaustive.success
+              ? `Полный перебор принят: проверено ${model.exhaustive.checked} случаев.`
+              : `Полный перебор нашел ошибки: ${model.exhaustive.failures.length}.`,
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.check) {
+          const guess = guessFromControl();
+          const ok = model.check.win && guess === model.check.hidden;
+          setInteractiveStatus(
+            ok
+              ? `Верно: число ${model.check.hidden} восстановлено по ответам.`
+              : `Проверка открыта: восстановлено ${model.check.decoded}, скрытое число ${model.check.hidden}.`,
+            ok ? 'success' : (model.check.win ? '' : 'error')
+          );
+        } else if (model.mode === 'exhaustive') {
+          setInteractiveStatus('Запустите полный перебор: 8 чисел и 10 вариантов лжи для каждого.');
+        } else if (model.mode === 'random') {
+          setInteractiveStatus('Ответы сгенерированы. Скрытое число и позиция лжи откроются только после проверки.');
+        } else {
+          setInteractiveStatus('Выберите число и одну позицию лжи или вариант без лжи, затем проверьте восстановление.');
+        }
+      }
+
+      function checkCurrent() {
+        if (model.mode === 'exhaustive') {
+          model.exhaustive = helper.repetitionCodeExhaustiveCheck(config);
+          model.check = null;
+          renderState();
+          return;
+        }
+        if (model.mode === 'manual_spectator') refreshManualCase();
+        model.check = helper.repetitionCodeEvaluate({
+          ...config,
+          number: model.number,
+          lieIndex: model.lieIndex,
+          answers: model.answers
+        });
+        model.exhaustive = null;
+        renderState();
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = createModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-repetition-manual-number]')?.addEventListener('change', () => {
+        refreshManualCase();
+        renderState();
+      });
+      panel.querySelector('[data-repetition-manual-lie]')?.addEventListener('change', () => {
+        refreshManualCase();
+        renderState();
+      });
+      panel.querySelector('[data-repetition-guess]')?.addEventListener('change', () => {
+        if (model.check) renderState();
+      });
+      panel.querySelector('[data-repetition-new]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+      panel.querySelector('[data-repetition-check]')?.addEventListener('click', checkCurrent);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.repetitionCodeExhaustiveCheck) {
+        setInteractiveStatus('Логика интерактива не загрузилась.', 'error');
+        return;
+      }
+      model = createModel(config.defaultMode);
+      renderState();
+    }
+
     function initFinitePairMatchingInteractive(panel, config) {
       const helper = window.WeighingCheater;
       let mode = config.defaultMode || 'sandbox';
@@ -4985,6 +12941,563 @@ __WEIGHING_CHEATER_JS__
         renderState();
       });
       renderState({ checked: mode === 'exhaustive' });
+    }
+
+    function initFitchCheneyInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const deck = helper?.fitchCheneyDeck ? helper.fitchCheneyDeck(config) : [];
+      const cardById = Object.fromEntries(deck.map(card => [card.id, card]));
+      let mode = config.defaultMode || 'random';
+      let selectedIds = [];
+      let hiddenId = '';
+      let shownIds = [];
+      let decoded = null;
+      let exhaustive = null;
+      let statusOverride = '';
+      let statusKind = '';
+
+      function cardLabel(id) {
+        return cardById[id]?.label || id || '';
+      }
+
+      function cardHtml(id, extraClass = '') {
+        const card = cardById[id];
+        if (!card) return '';
+        const classes = ['fitch-card', card.color, extraClass].filter(Boolean).join(' ');
+        return `<span class="${esc(classes)}" title="${esc(card.rank)} ${esc(card.suitName)}">${esc(card.label)}</span>`;
+      }
+
+      function hiddenBackHtml() {
+        return '<span class="fitch-card hidden">?</span>';
+      }
+
+      function selectedCards() {
+        return selectedIds.map(id => cardById[id]).filter(Boolean);
+      }
+
+      function syncShownFromHidden() {
+        if (!hiddenId || !selectedIds.includes(hiddenId)) {
+          hiddenId = selectedIds[0] || '';
+        }
+        const allowed = selectedIds.filter(id => id !== hiddenId);
+        shownIds = shownIds.filter(id => allowed.includes(id));
+        for (const id of allowed) {
+          if (!shownIds.includes(id)) shownIds.push(id);
+        }
+        shownIds = shownIds.slice(0, 4);
+      }
+
+      function setStatus(text, kind = '') {
+        statusOverride = text;
+        statusKind = kind;
+      }
+
+      function clearResult() {
+        decoded = null;
+        exhaustive = null;
+        statusOverride = '';
+        statusKind = '';
+      }
+
+      function setHand(handCards) {
+        selectedIds = handCards.map(card => card.id);
+        hiddenId = '';
+        shownIds = [];
+        clearResult();
+      }
+
+      function assistantMove() {
+        if (!helper?.fitchCheneyChooseAssistantMove) {
+          setStatus('Логика интерактива не загружена.', 'error');
+          renderState();
+          return;
+        }
+        const move = helper.fitchCheneyChooseAssistantMove(selectedCards(), config);
+        clearResult();
+        if (!move.ok) {
+          setStatus(move.error || 'Ассистент не смог подготовить показ.', 'error');
+          renderState();
+          return;
+        }
+        hiddenId = move.hiddenCard.id;
+        shownIds = move.shownCards.map(card => card.id);
+        setStatus('Ассистент подготовил четыре карты. Нажмите проверку, чтобы фокусник сделал ход.');
+        renderState();
+      }
+
+      function randomHand() {
+        if (!helper?.fitchCheneyRandomHand) return;
+        mode = 'random';
+        setHand(helper.fitchCheneyRandomHand(config));
+        assistantMove();
+      }
+
+      function evaluateCurrent() {
+        if (!helper?.fitchCheneyEvaluate) {
+          setStatus('Логика интерактива не загружена.', 'error');
+          renderState();
+          return;
+        }
+        if (selectedIds.length !== 5) {
+          setStatus('Сначала выберите ровно 5 карт.', 'error');
+          renderState();
+          return;
+        }
+        if (mode === 'sandbox') syncShownFromHidden();
+        const result = helper.fitchCheneyEvaluate({
+          ...config,
+          hand: selectedIds,
+          hiddenCard: hiddenId,
+          shownCards: shownIds
+        });
+        decoded = result;
+        exhaustive = null;
+        if (result.win) {
+          setStatus(`Фокусник назвал ${cardLabel(result.decodedCard.id)}. Скрытая карта восстановлена.`, 'success');
+        } else if (result.decodedCard) {
+          setStatus(`Фокусник назвал ${cardLabel(result.decodedCard.id)}, но скрыта была ${cardLabel(hiddenId)}.`, 'error');
+        } else {
+          setStatus(result.error || result.decoded?.error || 'Такой показ не декодируется.', 'error');
+        }
+        renderState();
+      }
+
+      function runExhaustive() {
+        if (!helper?.fitchCheneyExhaustiveCheck) {
+          setStatus('Логика интерактива не загружена.', 'error');
+          renderState();
+          return;
+        }
+        mode = 'exhaustive';
+        setStatus('Идет перебор всех 5-карточных рук...', '');
+        renderState();
+        window.setTimeout(() => {
+          exhaustive = helper.fitchCheneyExhaustiveCheck(config);
+          decoded = null;
+          if (exhaustive.ok) {
+            setStatus(`Проверено ${exhaustive.checked.toLocaleString('ru-RU')} рук: стратегия всегда восстанавливает карту.`, 'success');
+          } else {
+            const first = exhaustive.failures[0];
+            setStatus(`Найдена ошибка после ${exhaustive.checked.toLocaleString('ru-RU')} рук: ${first?.error || 'неверное декодирование'}.`, 'error');
+          }
+          renderState();
+        }, 20);
+      }
+
+      function readSandboxOrder() {
+        shownIds = [...panel.querySelectorAll('[data-fitch-order-select]')]
+          .map(select => select.value)
+          .filter(Boolean);
+        clearResult();
+        syncShownFromHidden();
+        renderState();
+      }
+
+      function renderHiddenControl() {
+        if (mode !== 'sandbox' || selectedIds.length !== 5) return '';
+        const options = selectedIds.map(id => `<option value="${esc(id)}" ${id === hiddenId ? 'selected' : ''}>${esc(cardLabel(id))}</option>`).join('');
+        return `<label>Скрыть <select data-fitch-hidden-select>${options}</select></label>`;
+      }
+
+      function renderOrderControls() {
+        if (mode !== 'sandbox' || selectedIds.length !== 5 || !hiddenId) return '';
+        const allowed = selectedIds.filter(id => id !== hiddenId);
+        return Array.from({ length: 4 }, (_item, index) => {
+          const options = [''].concat(allowed).map(id => `
+            <option value="${esc(id)}" ${id && shownIds[index] === id ? 'selected' : ''}>${id ? esc(cardLabel(id)) : 'карта'}</option>
+          `).join('');
+          return `<label>${index + 1}<select data-fitch-order-select="${index}">${options}</select></label>`;
+        }).join('');
+      }
+
+      function renderState() {
+        if (!helper?.fitchCheneyDeck) {
+          setStatus('Логика интерактива не загружена.', 'error');
+        }
+        if (selectedIds.length === 5) syncShownFromHidden();
+        for (const button of panel.querySelectorAll('[data-fitch-deck-card]')) {
+          const selected = selectedIds.includes(button.dataset.fitchDeckCard);
+          button.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        }
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = fitchCheneyModeLabel(mode);
+        const selectedCounter = panel.querySelector('[data-fitch-selected-counter]');
+        if (selectedCounter) selectedCounter.textContent = `${selectedIds.length} / 5`;
+        const handCount = panel.querySelector('[data-fitch-hand-count]');
+        if (handCount) handCount.textContent = countText(selectedIds.length, 'карта', 'карты', 'карт');
+        panel.querySelector('[data-fitch-hand]').innerHTML = selectedIds.map(id => cardHtml(id)).join('') || '<span class="empty">Выберите карты из колоды.</span>';
+        panel.querySelector('[data-fitch-hidden]').innerHTML = hiddenId
+          ? (mode === 'sandbox' ? cardHtml(hiddenId, 'hidden') : hiddenBackHtml())
+          : '<span class="empty">Пока нет скрытой карты.</span>';
+        panel.querySelector('[data-fitch-hidden-note]').textContent = hiddenId ? (mode === 'sandbox' ? cardLabel(hiddenId) : 'закрыта') : 'не выбрана';
+        panel.querySelector('[data-fitch-hidden-control]').innerHTML = renderHiddenControl();
+        panel.querySelector('[data-fitch-shown]').innerHTML = shownIds.length
+          ? shownIds.map(id => cardHtml(id)).join('')
+          : '<span class="empty">Пока нет показанных карт.</span>';
+        panel.querySelector('[data-fitch-shown-note]').textContent = shownIds.length ? `${shownIds.length} / 4` : 'порядок пуст';
+        panel.querySelector('[data-fitch-order-controls]').innerHTML = renderOrderControls();
+        const decodedCard = decoded?.decodedCard || null;
+        panel.querySelector('[data-fitch-decoded]').innerHTML = decodedCard
+          ? cardHtml(decodedCard.id, 'decoded')
+          : '<span class="empty">Нажмите проверку.</span>';
+        panel.querySelector('[data-fitch-decoded-note]').textContent = decodedCard ? cardLabel(decodedCard.id) : 'ожидает проверки';
+
+        const status = panel.querySelector('[data-interactive-status]');
+        let text = statusOverride;
+        let kind = statusKind;
+        if (!text) {
+          if (mode === 'exhaustive') text = exhaustive
+            ? (exhaustive.ok ? `Проверено ${exhaustive.checked.toLocaleString('ru-RU')} рук.` : 'Перебор нашел сбой.')
+            : 'Запустите перебор всех рук.';
+          else if (selectedIds.length !== 5) text = 'Выберите 5 карт или сгенерируйте случайную руку.';
+          else if (!shownIds.length) text = mode === 'sandbox' ? 'Выберите скрытую карту и задайте порядок четырех показанных.' : 'Нажмите «Ход ассистента».';
+          else text = 'Показ готов. Фокусник видит только четыре карты в этом порядке.';
+        }
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+
+        panel.querySelector('[data-fitch-hidden-select]')?.addEventListener('change', event => {
+          hiddenId = event.target.value;
+          shownIds = selectedIds.filter(id => id !== hiddenId);
+          clearResult();
+          renderState();
+        });
+        for (const select of panel.querySelectorAll('[data-fitch-order-select]')) {
+          select.addEventListener('change', readSandboxOrder);
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-fitch-deck-card]')) {
+        button.addEventListener('click', () => {
+          const id = button.dataset.fitchDeckCard;
+          if (selectedIds.includes(id)) selectedIds = selectedIds.filter(item => item !== id);
+          else if (selectedIds.length < 5) selectedIds.push(id);
+          clearResult();
+          if (selectedIds.length === 5) syncShownFromHidden();
+          else {
+            hiddenId = '';
+            shownIds = [];
+          }
+          renderState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        clearResult();
+        if (mode === 'random') randomHand();
+        else renderState();
+      });
+      panel.querySelector('[data-fitch-random]')?.addEventListener('click', randomHand);
+      panel.querySelector('[data-fitch-assistant]')?.addEventListener('click', assistantMove);
+      panel.querySelector('[data-fitch-guess]')?.addEventListener('click', evaluateCurrent);
+      panel.querySelector('[data-fitch-exhaustive]')?.addEventListener('click', runExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        selectedIds = [];
+        hiddenId = '';
+        shownIds = [];
+        clearResult();
+        renderState();
+      });
+
+      if (mode === 'random') randomHand();
+      else renderState();
+    }
+
+    function initBalancedWeightSignatureInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const bagIds = Array.from({ length: config.bagCount }, (_item, index) => index + 1);
+      const outcomeLabels = {
+        left_light: 'левая чаша легче',
+        right_light: 'правая чаша легче',
+        balance: 'равновесие'
+      };
+      const statusLabels = { open: 'открыта', solved: 'решена', failed: 'лимит исчерпан' };
+      let model = null;
+
+      function allStates() {
+        return helper.balancedWeightInitialStates(config);
+      }
+
+      function stateLabel(state) {
+        if (helper.balancedWeightStateKey(state) === 'none') return 'нет недостачи';
+        return `мешок ${state?.bag ?? '?'}`;
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const states = allStates();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? states[Math.floor(Math.random() * states.length)] : null,
+          candidates: states,
+          history: [],
+          exhaustiveNodes: [],
+          answer: null,
+          revealedState: null,
+          locked: false
+        };
+      }
+
+      function readWeighing() {
+        const left = [];
+        const right = [];
+        for (const id of bagIds) {
+          const value = panel.querySelector(`[data-balanced-side="${id}"]`)?.value || 'pool';
+          if (value === 'left') left.push(id);
+          if (value === 'right') right.push(id);
+        }
+        return { left, right };
+      }
+
+      function weighingParams(extra = {}) {
+        const weighing = readWeighing();
+        return {
+          ...config,
+          bag_count: config.bagCount,
+          bag_weights: config.bagWeights,
+          left: weighing.left,
+          right: weighing.right,
+          ...extra
+        };
+      }
+
+      function validation() {
+        return helper.balancedWeightValidateWeighing(weighingParams());
+      }
+
+      function selectedAnswer() {
+        const checked = panel.querySelector('[data-balanced-answer]:checked')?.dataset.balancedAnswer;
+        if (!checked || checked === 'none') return null;
+        return Number(checked);
+      }
+
+      function weighingLabel(item) {
+        const left = item.left.length ? item.left.join(', ') : '-';
+        const right = item.right.length ? item.right.join(', ') : '-';
+        return `левая: ${left}; правая: ${right}`;
+      }
+
+      function clearPans() {
+        for (const select of panel.querySelectorAll('[data-balanced-side]')) select.value = 'pool';
+      }
+
+      function weigh() {
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        const currentValidation = validation();
+        if (!currentValidation.valid) {
+          setInteractiveStatus(currentValidation.error || 'Задайте корректное взвешивание.', currentValidation.empty ? '' : 'error');
+          return;
+        }
+        const weighing = readWeighing();
+        if (model.mode === 'exhaustive') {
+          const baseNodes = model.exhaustiveNodes.length
+            ? model.exhaustiveNodes
+            : [{ id: 'b0', states: allStates(), candidates: allStates(), status: 'open', usedWeighings: 0 }];
+          const nextNodes = [];
+          for (const node of baseNodes) {
+            if (node.status !== 'open') {
+              nextNodes.push(node);
+              continue;
+            }
+            const expansion = helper.balancedWeightExpandExhaustiveNode(weighingParams({
+              currentStates: node.states,
+              usedWeighings: node.usedWeighings,
+              maxWeighings: config.maxWeighings
+            }));
+            expansion.children.forEach((child, index) => {
+              nextNodes.push({ ...child, id: `${node.id}.${index + 1}` });
+            });
+          }
+          model.exhaustiveNodes = nextNodes;
+          model.history.push({ ...weighing, outcome: null, leftTotal: currentValidation.leftTotal, rightTotal: currentValidation.rightTotal });
+          model.locked = model.history.length >= config.maxWeighings || nextNodes.every(node => node.status !== 'open');
+          renderInteractiveState();
+          return;
+        }
+
+        let outcome = 'balance';
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.balancedWeightChooseCheaterOutcome(weighingParams({ currentStates: model.candidates }));
+          outcome = decision.outcome;
+          scores = decision.scores;
+          model.candidates = decision.states;
+        } else {
+          outcome = helper.balancedWeightOutcomeForState(model.hiddenState, weighingParams());
+          model.candidates = helper.balancedWeightFilterStates(weighingParams({
+            currentStates: model.candidates,
+            outcome
+          }));
+        }
+        model.history.push({
+          ...weighing,
+          outcome,
+          leftTotal: currentValidation.leftTotal,
+          rightTotal: currentValidation.rightTotal,
+          candidates: [...model.candidates],
+          scores
+        });
+        clearPans();
+        renderInteractiveState();
+      }
+
+      function submitAnswer() {
+        if (model.mode === 'exhaustive' || model.locked || !model.history.length) return;
+        model.answer = selectedAnswer();
+        const result = helper.balancedWeightFinalizeAnswer({
+          ...config,
+          currentStates: model.candidates,
+          selectedBag: model.answer
+        });
+        model.revealedState = model.mode === 'random'
+          ? (model.candidates.length === 1 ? model.candidates[0] : model.hiddenState)
+          : result.actualState;
+        model.locked = true;
+        renderInteractiveState();
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!model.history.length) {
+          container.innerHTML = '<div class="empty">История пуста.</div>';
+          return;
+        }
+        container.innerHTML = model.history.map((item, index) => {
+          const result = item.outcome ? ` -> ${outcomeLabels[item.outcome] || item.outcome}` : '';
+          const scores = item.scores
+            ? `; ветви: ${Object.entries(item.scores).map(([key, value]) => `${outcomeLabels[key] || key}: ${value}`).join(', ')}`
+            : '';
+          return `<div>${esc(index + 1)}. ${esc(weighingLabel(item))}; номинал ${esc(item.leftTotal)} кг${esc(result)}<span class="local-muted">${esc(scores)}</span></div>`;
+        }).join('');
+      }
+
+      function renderCandidates() {
+        const container = panel.querySelector('[data-balanced-candidates]');
+        const states = model.mode === 'exhaustive' && model.exhaustiveNodes.length
+          ? model.exhaustiveNodes.flatMap(node => node.states || [])
+          : model.candidates;
+        const unique = [];
+        const seen = new Set();
+        for (const state of states) {
+          const key = helper.balancedWeightStateKey(state);
+          if (seen.has(key)) continue;
+          seen.add(key);
+          unique.push(state);
+        }
+        container.innerHTML = unique.map(state => pill(stateLabel(state))).join('') || '<span class="empty">нет состояний</span>';
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive' || !model.exhaustiveNodes.length;
+        if (block.hidden) return;
+        container.innerHTML = model.exhaustiveNodes.map(node => {
+          const candidates = (node.states || []).map(stateLabel).join('; ');
+          return `
+            <div class="${esc(`exhaustive-branch ${node.status}`)}">
+              <span class="exhaustive-branch-title">${esc(outcomeLabels[node.outcome] || 'ветвь')}: ${esc(statusLabels[node.status] || node.status)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText((node.states || []).length, 'состояние', 'состояния', 'состояний'))}</span>
+              <span class="exhaustive-branch-history">${esc(candidates)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderInteractiveState() {
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = balancedWeightModeLabel(model.mode);
+        const currentValidation = validation();
+        panel.querySelector('[data-balanced-left-total]').textContent = `слева ${currentValidation.leftTotal ?? 0} кг`;
+        panel.querySelector('[data-balanced-right-total]').textContent = `справа ${currentValidation.rightTotal ?? 0} кг`;
+        panel.querySelector('[data-weighing-counter]').textContent = `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = model.mode === 'exhaustive' && model.exhaustiveNodes.length
+          ? countText(model.exhaustiveNodes.length, 'ветвь', 'ветви', 'ветвей')
+          : countText(model.candidates.length, 'состояние', 'состояния', 'состояний');
+        for (const input of panel.querySelectorAll('[data-balanced-side]')) {
+          input.disabled = model.locked || model.history.length >= config.maxWeighings;
+        }
+        for (const input of panel.querySelectorAll('[data-balanced-answer]')) {
+          input.disabled = model.locked || model.mode === 'exhaustive' || !model.history.length;
+        }
+        const weighButton = panel.querySelector('[data-balanced-weigh]');
+        weighButton.disabled = model.locked || model.history.length >= config.maxWeighings || !currentValidation.valid;
+        weighButton.textContent = model.mode === 'exhaustive' ? 'Добавить взвешивание' : 'Взвесить';
+        const answerButton = panel.querySelector('[data-balanced-answer-submit]');
+        answerButton.hidden = model.mode === 'exhaustive';
+        answerButton.disabled = model.locked || model.mode === 'exhaustive' || !model.history.length;
+        renderHistory();
+        renderCandidates();
+        renderExhaustiveBranches();
+
+        if (!currentValidation.valid && !model.locked && !model.history.length) {
+          setInteractiveStatus(currentValidation.error || 'Номинальные суммы на чашах должны быть равны.', currentValidation.empty ? '' : 'error');
+        } else if (model.mode === 'exhaustive') {
+          if (!model.exhaustiveNodes.length) {
+            setInteractiveStatus('Задайте первое равновесное по номиналу взвешивание. Полный перебор покажет все возможные ответы весов.');
+          } else {
+            const failed = model.exhaustiveNodes.filter(node => node.status === 'failed').length;
+            const open = model.exhaustiveNodes.filter(node => node.status === 'open').length;
+            if (open === 0 && failed === 0) setInteractiveStatus('Последовательность взвешиваний различает все состояния.', 'success');
+            else if (open === 0) setInteractiveStatus(`После лимита остались неоднозначные ветви: ${failed}.`, 'error');
+            else setInteractiveStatus(`Открытых ветвей: ${open}. Можно выбрать следующее взвешивание для всех открытых ветвей.`);
+          }
+        } else if (model.locked) {
+          const correct = helper.balancedWeightStateKey({ bag: model.answer }) === helper.balancedWeightStateKey(model.revealedState) && model.candidates.length === 1;
+          setInteractiveStatus(
+            correct
+              ? `Верно: ${stateLabel(model.revealedState)}.`
+              : `Ответ не принят: совместимо ${countText(model.candidates.length, 'состояние', 'состояния', 'состояний')}; например, ${stateLabel(model.revealedState)}.`,
+            correct ? 'success' : 'error'
+          );
+        } else if (model.history.length && model.candidates.length === 1) {
+          setInteractiveStatus(`Осталось одно состояние: ${stateLabel(model.candidates[0])}. Можно дать ответ.`);
+        } else if (model.history.length) {
+          setInteractiveStatus(model.history.length >= config.maxWeighings
+            ? `Взвешивания закончились; осталось ${countText(model.candidates.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}.`
+            : `Осталось ${countText(model.candidates.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}. Выберите следующее взвешивание.`);
+        } else {
+          setInteractiveStatus(model.mode === 'cheater'
+            ? 'Шулер выберет исход с максимальным числом оставшихся состояний.'
+            : 'Разложите мешки по чашам так, чтобы суммы написанных весов совпадали.');
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        clearPans();
+        for (const input of panel.querySelectorAll('[data-balanced-answer]')) input.checked = false;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-balanced-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-balanced-answer-submit]')?.addEventListener('click', submitAnswer);
+      for (const input of panel.querySelectorAll('[data-balanced-side]')) input.addEventListener('change', renderInteractiveState);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        clearPans();
+        for (const input of panel.querySelectorAll('[data-balanced-answer]')) input.checked = false;
+        renderInteractiveState();
+      });
+
+      if (!helper?.balancedWeightChooseCheaterOutcome) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
     }
 
     function initNumericLinearSignatureInteractive(panel, config) {
@@ -7822,6 +16335,456 @@ __WEIGHING_CHEATER_JS__
       renderInteractiveState();
     }
 
+    function initZeroOneTwoSignInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const outcomeToResult = {
+        left_down: 'left_heavy',
+        right_down: 'right_heavy',
+        balance: 'balanced'
+      };
+      const resultToOutcome = {
+        left_heavy: 'left_down',
+        right_heavy: 'right_down',
+        balanced: 'balance'
+      };
+      const resultLabels = {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие',
+        left_heavy: 'левая чаша тяжелее',
+        right_heavy: 'правая чаша тяжелее',
+        balanced: 'равновесие'
+      };
+      const statusLabels = {
+        open: 'открыта',
+        solved: 'закрыта',
+        failed: 'лимит исчерпан'
+      };
+      const answerOrder = ['none', 'lighter', 'heavier'];
+      let model = null;
+
+      function answerLabel(value) {
+        return helper?.zeroOneTwoSignClassLabel ? helper.zeroOneTwoSignClassLabel(value) : String(value || '');
+      }
+
+      function allStates() {
+        return helper.zeroOneTwoSignInitialStates(config.coinCount);
+      }
+
+      function randomState() {
+        const states = allStates();
+        return states[Math.floor(Math.random() * states.length)] || states[0];
+      }
+
+      function makeRootNode() {
+        const states = allStates();
+        return {
+          id: 'n1',
+          parentId: null,
+          outcome: null,
+          history: [],
+          states,
+          candidates: states,
+          answerClasses: helper.zeroOneTwoSignAnswerClasses(states),
+          usedWeighings: 0,
+          status: helper.zeroOneTwoSignBranchStatus(states, 0, config.maxWeighings),
+          children: []
+        };
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
+        const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
+        const root = makeRootNode();
+        return {
+          mode: normalizedMode,
+          hiddenState: normalizedMode === 'random' ? randomState() : null,
+          states: allStates(),
+          locations: Object.fromEntries(coinIds.map(id => [id, 'pool'])),
+          history: [],
+          exhaustiveNodes: [root],
+          activeNodeId: root.id,
+          nextNodeId: 2,
+          answer: null,
+          locked: false,
+          lastResult: 'balanced'
+        };
+      }
+
+      function activeExhaustiveNode() {
+        return model.exhaustiveNodes.find(node => node.id === model.activeNodeId) || model.exhaustiveNodes[0];
+      }
+
+      function frontierNodes() {
+        return model.exhaustiveNodes.filter(node => !node.children.length);
+      }
+
+      function canEditPans() {
+        if (!model || model.locked) return false;
+        if (model.mode !== 'exhaustive') return true;
+        return activeExhaustiveNode()?.status === 'open';
+      }
+
+      function coinsIn(zone) {
+        return coinIds.filter(id => model.locations[id] === zone);
+      }
+
+      function clearPans() {
+        for (const id of coinIds) {
+          if (model.locations[id] === 'left' || model.locations[id] === 'right') model.locations[id] = 'pool';
+        }
+      }
+
+      function moveCoin(id, zone) {
+        if (!canEditPans() || !['pool', 'left', 'right'].includes(zone)) return;
+        model.locations[id] = zone;
+        renderState();
+      }
+
+      function cycleCoin(id) {
+        if (!canEditPans()) return;
+        const current = model.locations[id];
+        const next = current === 'pool' ? 'left' : (current === 'left' ? 'right' : 'pool');
+        moveCoin(id, next);
+      }
+
+      function stateClasses(states) {
+        return helper.zeroOneTwoSignAnswerClasses(states || []);
+      }
+
+      function currentStates() {
+        return model.mode === 'exhaustive' ? (activeExhaustiveNode()?.states || []) : model.states;
+      }
+
+      function currentClasses() {
+        return stateClasses(currentStates());
+      }
+
+      function weigh() {
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        if (!left.length && !right.length) return;
+        if (config.requireEqualPanCounts && left.length !== right.length) return;
+        if (model.mode === 'exhaustive') {
+          expandActiveBranch(left, right);
+          return;
+        }
+        if (model.locked || model.history.length >= config.maxWeighings) return;
+        let outcome = 'balance';
+        let scores = null;
+        if (model.mode === 'cheater') {
+          const decision = helper.zeroOneTwoSignChooseCheaterOutcome({
+            coin_count: config.coinCount,
+            currentStates: model.states,
+            leftCoins: left,
+            rightCoins: right,
+            history: model.history.map(item => ({ outcome: resultToOutcome[item.result] })),
+            requireEqualPanCounts: config.requireEqualPanCounts
+          });
+          outcome = decision.outcome;
+          model.states = decision.states;
+          scores = decision.scores;
+        } else {
+          outcome = helper.zeroOneTwoSignOutcomeForState(model.hiddenState, {
+            coin_count: config.coinCount,
+            leftCoins: left,
+            rightCoins: right,
+            requireEqualPanCounts: config.requireEqualPanCounts
+          }) || 'balance';
+          model.states = helper.zeroOneTwoSignFilterStates({
+            coin_count: config.coinCount,
+            currentStates: model.states,
+            leftCoins: left,
+            rightCoins: right,
+            outcome,
+            requireEqualPanCounts: config.requireEqualPanCounts
+          });
+        }
+        const result = outcomeToResult[outcome] || 'balanced';
+        model.history.push({ left: [...left], right: [...right], result, states: [...model.states], scores });
+        model.lastResult = result;
+        clearPans();
+        renderState();
+      }
+
+      function expandActiveBranch(left, right) {
+        const node = activeExhaustiveNode();
+        if (!node || node.status !== 'open') return;
+        const expansion = helper.zeroOneTwoSignExpandExhaustiveNode({
+          coin_count: config.coinCount,
+          currentStates: node.states,
+          leftCoins: left,
+          rightCoins: right,
+          usedWeighings: node.usedWeighings,
+          maxWeighings: config.maxWeighings,
+          requireEqualPanCounts: config.requireEqualPanCounts
+        });
+        node.weighing = { left: [...left], right: [...right] };
+        node.children = expansion.children.map(child => ({
+          id: `n${model.nextNodeId++}`,
+          parentId: node.id,
+          outcome: child.outcome,
+          history: [...node.history, { left: [...left], right: [...right], outcome: child.outcome }],
+          states: [...child.states],
+          candidates: [...child.states],
+          answerClasses: child.answerClasses || stateClasses(child.states),
+          usedWeighings: child.usedWeighings,
+          status: child.status,
+          children: []
+        }));
+        model.exhaustiveNodes.push(...node.children);
+        const nextOpen = frontierNodes().find(item => item.status === 'open');
+        model.activeNodeId = (nextOpen || node.children[0] || node).id;
+        model.lastResult = 'balanced';
+        clearPans();
+        const leaves = frontierNodes();
+        model.locked = leaves.length > 0 && leaves.every(item => item.status !== 'open');
+        renderState();
+      }
+
+      function submitAnswer(answer) {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const result = model.mode === 'cheater'
+          ? helper.zeroOneTwoSignFinalizeAnswer({
+            coin_count: config.coinCount,
+            currentStates: model.states,
+            selectedClass: answer
+          })
+          : { actualClass: model.hiddenState?.answer, win: answer === model.hiddenState?.answer };
+        model.answer = answer;
+        model.actualClass = result.actualClass;
+        model.locked = true;
+        renderState();
+      }
+
+      function makeCoinButton(id) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'coin';
+        button.textContent = String(id);
+        button.dataset.zotCoin = String(id);
+        button.draggable = canEditPans();
+        button.title = `Монета ${id}`;
+        const statuses = helper.zeroOneTwoSignCoinStatuses(currentStates(), config.coinCount);
+        const statusKey = statuses[id] || 'unmarked';
+        const definition = helper.statusDefinition(statusKey);
+        if (statusKey !== 'unmarked') {
+          button.classList.add(definition.className);
+          button.title = `${button.title}; статус: ${definition.label}`;
+        }
+        if (!canEditPans()) button.disabled = true;
+        button.addEventListener('click', () => cycleCoin(id));
+        button.addEventListener('dragstart', event => {
+          if (!canEditPans()) {
+            event.preventDefault();
+            return;
+          }
+          event.dataTransfer.setData('text/plain', String(id));
+          event.dataTransfer.effectAllowed = 'move';
+        });
+        return button;
+      }
+
+      function renderZone(zone, container) {
+        container.innerHTML = '';
+        const ids = coinsIn(zone);
+        for (const id of ids) container.appendChild(makeCoinButton(id));
+        if (!ids.length) {
+          const empty = document.createElement('div');
+          empty.className = 'empty';
+          empty.textContent = zone === 'pool' ? 'монет нет' : 'чаша пуста';
+          container.appendChild(empty);
+        }
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-zot-answers]');
+        container.innerHTML = answerOrder.map(answer => {
+          const picked = model.answer === answer;
+          const correct = model.locked && model.actualClass === answer;
+          const wrong = model.locked && picked && model.actualClass !== answer;
+          const classes = ['small-button', picked ? 'answer-mode' : '', correct ? 'correct-answer' : '', wrong ? 'answer-pick' : ''].filter(Boolean).join(' ');
+          return `<button class="${esc(classes)}" type="button" data-zot-answer="${esc(answer)}" ${model.mode === 'exhaustive' || model.locked ? 'disabled' : ''}>${esc(answerLabel(answer))}</button>`;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-zot-answer]')) {
+          button.addEventListener('click', () => submitAnswer(button.dataset.zotAnswer));
+        }
+      }
+
+      function renderClasses() {
+        const container = panel.querySelector('[data-zot-classes]');
+        container.innerHTML = currentClasses().map(item => pill(answerLabel(item))).join('') || '<span class="empty">нет совместимых классов</span>';
+      }
+
+      function renderStates() {
+        const container = panel.querySelector('[data-zot-states]');
+        const states = currentStates();
+        const shown = states.slice(0, 90).map(state => `
+          <div class="history-item">
+            <span class="history-result">${esc(answerLabel(state.answer))}</span>
+            <span>${esc(state.label || state.id)}</span>
+          </div>
+        `).join('');
+        const tail = states.length > 90 ? `<div class="local-muted">Показаны первые 90 из ${esc(states.length)} состояний.</div>` : '';
+        container.innerHTML = shown + tail || '<div class="empty">Совместимых состояний нет.</div>';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        const history = model.mode === 'exhaustive' ? (activeExhaustiveNode()?.history || []) : model.history;
+        if (!history.length) {
+          container.innerHTML = '<div class="empty">Взвешиваний пока нет.</div>';
+          return;
+        }
+        container.innerHTML = history
+          .map((item, index) => ({ item, index: index + 1 }))
+          .reverse()
+          .map(({ item, index }) => `
+            <div class="history-item">
+              <div><strong>${index}.</strong> ${(item.left || []).join(', ') || 'пусто'} против ${(item.right || []).join(', ') || 'пусто'}</div>
+              <div class="history-result">${esc(resultLabels[item.result || item.outcome])}</div>
+              ${item.states ? `<div class="local-muted">Осталось: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}; классы: ${esc(stateClasses(item.states).map(answerLabel).join(', '))}</div>` : ''}
+            </div>
+          `).join('');
+      }
+
+      function renderExhaustiveBranches() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = model.mode !== 'exhaustive';
+        if (block.hidden) return;
+        const leaves = frontierNodes();
+        container.innerHTML = leaves.map(node => {
+          const active = node.id === model.activeNodeId ? ' active' : '';
+          const classes = node.answerClasses || stateClasses(node.states);
+          const solved = node.status === 'solved' ? `; ответ: ${classes.map(answerLabel).join(', ')}` : '';
+          const history = node.history.length
+            ? node.history.map((step, index) => `${index + 1}: ${resultLabels[step.outcome]}`).join(' -> ')
+            : 'корень дерева';
+          return `
+            <button class="exhaustive-branch ${esc(node.status)}${active}" type="button" data-exhaustive-branch="${esc(node.id)}">
+              <span class="exhaustive-branch-title">Ветка ${esc(node.id.slice(1))}: ${esc(statusLabels[node.status] || node.status)}</span>
+              <span class="exhaustive-branch-meta">${esc(countText(node.states.length, 'состояние', 'состояния', 'состояний'))}; ${esc(node.usedWeighings)} / ${esc(config.maxWeighings)}; классы: ${esc(classes.map(answerLabel).join(', '))}${esc(solved)}</span>
+              <span class="exhaustive-branch-history">${esc(history)}</span>
+            </button>
+          `;
+        }).join('');
+        for (const button of container.querySelectorAll('[data-exhaustive-branch]')) {
+          button.addEventListener('click', () => {
+            model.activeNodeId = button.dataset.exhaustiveBranch;
+            clearPans();
+            renderState();
+          });
+        }
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderState() {
+        renderZone('pool', panel.querySelector('[data-zot-zone="pool"]'));
+        renderZone('left', panel.querySelector('[data-zot-pan-coins="left"]'));
+        renderZone('right', panel.querySelector('[data-zot-pan-coins="right"]'));
+        renderAnswers();
+        renderClasses();
+        renderStates();
+        renderHistory();
+        renderExhaustiveBranches();
+
+        const left = coinsIn('left');
+        const right = coinsIn('right');
+        const activeNode = activeExhaustiveNode();
+        panel.querySelector('[data-left-count]').textContent = countText(left.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-right-count]').textContent = countText(right.length, 'монета', 'монеты', 'монет');
+        panel.querySelector('[data-weighing-counter]').textContent = model.mode === 'exhaustive'
+          ? `${activeNode?.usedWeighings || 0} / ${config.maxWeighings}`
+          : `${model.history.length} / ${config.maxWeighings}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(currentStates().length, 'состояние', 'состояния', 'состояний');
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-current-mode-pill]').textContent = zeroOneTwoSignModeLabel(model.mode);
+        const scale = panel.querySelector('[data-scale]');
+        scale.classList.toggle('tilt-left', model.lastResult === 'left_heavy');
+        scale.classList.toggle('tilt-right', model.lastResult === 'right_heavy');
+        const canWeigh = !model.locked
+          && (model.mode === 'exhaustive' ? activeNode?.status === 'open' : model.history.length < config.maxWeighings)
+          && (left.length || right.length)
+          && (!config.requireEqualPanCounts || left.length === right.length);
+        panel.querySelector('[data-zot-weigh]').disabled = !canWeigh;
+        panel.querySelector('[data-zot-weigh]').textContent = model.mode === 'exhaustive' ? 'Проверить все исходы' : 'Взвесить';
+
+        if (model.mode === 'exhaustive') {
+          const leaves = frontierNodes();
+          const open = leaves.filter(node => node.status === 'open').length;
+          const failed = leaves.filter(node => node.status === 'failed').length;
+          const solved = leaves.filter(node => node.status === 'solved').length;
+          if (open === 0 && failed === 0) setStatus(`Полная стратегия принята: закрыты ${solved} веток.`, 'success');
+          else if (open === 0 && failed > 0) setStatus(`Полный перебор не завершен: ${failed} веток дошли до лимита без единственного класса ответа.`, 'error');
+          else if (activeNode?.status === 'open') setStatus(`Продолжайте ветку ${activeNode.id.slice(1)}: осталось ${countText(activeNode.states.length, 'состояние', 'состояния', 'состояний')}.`);
+          else setStatus(`Ветка ${activeNode?.id.slice(1)} уже закрыта. Выберите открытую ветку.`);
+        } else if (model.locked) {
+          const correct = model.answer === model.actualClass;
+          setStatus(
+            correct
+              ? `Верно: ${answerLabel(model.actualClass)}.`
+              : `Неверно: выбран ответ «${answerLabel(model.answer)}», совместим ответ «${answerLabel(model.actualClass)}».`,
+            correct ? 'success' : 'error'
+          );
+        } else if (currentClasses().length === 1) {
+          setStatus(`Класс ответа уже однозначен: ${answerLabel(currentClasses()[0])}.`, 'success');
+        } else if (model.history.length >= config.maxWeighings) {
+          setStatus('Взвешивания закончились. Выберите один из трех классов ответа.');
+        } else if (config.requireEqualPanCounts && left.length !== right.length) {
+          setStatus('На чашах должно быть одинаковое число монет.');
+        } else {
+          setStatus(model.mode === 'cheater'
+            ? 'Шулер выберет исход, который оставляет максимально неоднозначный класс ответа.'
+            : 'Положите одинаковое число монет на чаши и взвесьте.');
+        }
+      }
+
+      for (const zone of panel.querySelectorAll('[data-zot-zone]')) {
+        zone.addEventListener('dragover', event => {
+          if (!canEditPans()) return;
+          event.preventDefault();
+          zone.classList.add('drop-target');
+        });
+        zone.addEventListener('dragleave', () => zone.classList.remove('drop-target'));
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drop-target');
+          const id = Number(event.dataTransfer.getData('text/plain'));
+          if (coinIds.includes(id)) moveCoin(id, zone.dataset.zotZone);
+        });
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderState();
+      });
+      panel.querySelector('[data-zot-weigh]')?.addEventListener('click', weigh);
+      panel.querySelector('[data-zot-clear]')?.addEventListener('click', () => {
+        clearPans();
+        model.lastResult = 'balanced';
+        renderState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderState();
+      });
+
+      if (!helper?.zeroOneTwoSignInitialStates) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderState();
+    }
+
     function initMultipleLightFindOneInteractive(panel, config) {
       const helper = window.WeighingCheater;
       const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
@@ -9064,6 +18027,435 @@ __WEIGHING_CHEATER_JS__
       renderInteractiveState();
     }
 
+    function initPrisonersHatsParityLineInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function bitLabel(value) {
+        return Number(value) === 1 ? 'черный' : 'белый';
+      }
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        return {
+          mode: normalizedMode,
+          state: helper?.prisonerHatsParityRandomState ? helper.prisonerHatsParityRandomState(config) : null,
+          answers: [],
+          checked: null,
+          exhaustive: null
+        };
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        if (!status) return;
+        status.className = `interactive-status ${kind}`.trim();
+        status.textContent = text;
+      }
+
+      function currentIndex() {
+        return Math.min(model?.answers?.length || 0, config.personCount);
+      }
+
+      function submitAnswer() {
+        if (!model?.state || model.checked || model.exhaustive || model.answers.length >= config.personCount) return;
+        const answer = Number(panel.querySelector('[data-prisoner-hat-answer]')?.value);
+        model.answers.push(answer === 1 ? 1 : 0);
+        renderInteractiveState();
+      }
+
+      function checkAnswers() {
+        if (!model?.state || model.exhaustive || model.answers.length !== config.personCount) return;
+        model.checked = helper.prisonerHatsParityEvaluateTranscript({ ...config, state: model.state, answers: model.answers });
+        renderInteractiveState();
+      }
+
+      function runDemo() {
+        model = newModel('guided');
+        model.answers = helper.prisonerHatsParityProtocolTranscript(model.state, config);
+        model.checked = helper.prisonerHatsParityEvaluateTranscript({ ...config, state: model.state, answers: model.answers });
+        renderInteractiveState();
+      }
+
+      function runExhaustive() {
+        model = newModel('exhaustive');
+        model.exhaustive = helper.prisonerHatsParityExhaustiveCheck(config);
+        renderInteractiveState();
+      }
+
+      function renderBoard() {
+        const board = panel.querySelector('[data-prisoner-hat-board]');
+        if (!board || !model?.state) return;
+        const current = currentIndex();
+        const reveal = !!model.checked || !!model.exhaustive;
+        board.innerHTML = model.state.hats.map((hat, index) => {
+          const visibleNow = !reveal && current < config.personCount && index > current;
+          const value = reveal || visibleNow ? bitLabel(hat) : '?';
+          let note = '';
+          if (index === current && !reveal) note = 'сейчас отвечает';
+          else if (index < current && !reveal) note = `уже сказал ${bitLabel(model.answers[index])}`;
+          else if (visibleNow) note = 'виден текущему';
+          else if (reveal && model.exhaustive) note = index === 0 ? 'пример раскладки после перебора' : 'колпак открыт после перебора';
+          else if (reveal) note = index === 0 ? 'первый ответ мог быть сигналом' : (model.checked?.rows[index]?.correctHat ? 'выжил' : 'ошибся');
+          else note = 'пока скрыт';
+          return `
+            <div class="history-item">
+              <span class="history-result">№${esc(index + 1)} ${index === 0 ? '(сзади)' : (index === config.personCount - 1 ? '(спереди)' : '')}</span>
+              <span>колпак: ${esc(value)}; ${esc(note)}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-prisoner-hat-answers]');
+        if (!container) return;
+        container.innerHTML = model.answers.length
+          ? model.answers.map((answer, index) => `<span class="pill">№${esc(index + 1)}: ${esc(bitLabel(answer))}</span>`).join('')
+          : '<span class="empty">Ответов пока нет.</span>';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!container) return;
+        if (model.exhaustive) {
+          const check = model.exhaustive;
+          container.innerHTML = `
+            <div class="history-item">
+              <span class="history-result">полный перебор</span>
+              <span>проверено ${esc(check.checked)} раскладок; минимум правильных ответов ${esc(check.minCorrect)}; первый угадал в ${esc(check.firstCorrectCount)} случаях.</span>
+            </div>
+          `;
+          return;
+        }
+        if (!model.checked) {
+          const current = currentIndex();
+          const visible = model.state && current < config.personCount
+            ? helper.prisonerHatsParityVisibleAhead(model.state, current).map(bitLabel).join(', ')
+            : '';
+          container.innerHTML = current < config.personCount
+            ? `<div class="history-item"><span class="history-result">ход №${esc(current + 1)}</span><span>текущий видит впереди: ${esc(visible || 'никого')}.</span></div>`
+            : '<span class="empty">Все ответы записаны. Нажмите проверку, чтобы открыть расклад и разбор.</span>';
+          return;
+        }
+        container.innerHTML = model.checked.rows.map(row => {
+          const visibleBlack = row.visibleAhead.reduce((sum, bit) => sum + bit, 0);
+          const parityText = row.prisonerIndex === 0
+            ? `видимых черных: ${visibleBlack}; сигнал четности: ${bitLabel(row.expected)}`
+            : `сигнал: ${bitLabel(row.signal)}; четность уже названных черных: ${row.previousParity}; видимых черных: ${visibleBlack}`;
+          return `
+            <div class="history-item">
+              <span class="history-result">№${esc(row.prisoner)}: ${esc(bitLabel(row.answer))}</span>
+              <span>${esc(parityText)}; ожидалось ${esc(bitLabel(row.expected))}; настоящий колпак ${esc(bitLabel(row.actualHat))}; ${row.correctHat ? 'верно' : 'ошибка'}.</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function renderResult() {
+        const result = panel.querySelector('[data-prisoner-hat-result]');
+        if (!result) return;
+        if (model.exhaustive) {
+          result.hidden = false;
+          result.textContent = model.exhaustive.success
+            ? `Полная проверка пройдена: во всех ${model.exhaustive.checked} раскладках ошибается не более первый.`
+            : `Полная проверка нашла сбой: ${model.exhaustive.failures.length}.`;
+          return;
+        }
+        if (!model.checked) {
+          result.hidden = true;
+          result.textContent = '';
+          return;
+        }
+        result.hidden = false;
+        result.textContent = model.checked.success
+          ? `Итог: выжили все, кроме возможно первого; правильных ответов ${model.checked.correctCount} из ${config.personCount}.`
+          : `Итог: гарантия не выполнена; правильных ответов ${model.checked.correctCount} из ${config.personCount}.`;
+      }
+
+      function renderControls() {
+        panel.querySelector('[data-current-mode-pill]').textContent = prisonersHatsParityLineModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        const current = currentIndex();
+        panel.querySelector('[data-prisoner-hat-step]').textContent = current < config.personCount
+          ? `ход ${current + 1} / ${config.personCount}`
+          : `${config.personCount} / ${config.personCount}`;
+        panel.querySelector('[data-prisoner-hat-submit]').disabled = !!model.checked || !!model.exhaustive || current >= config.personCount;
+        panel.querySelector('[data-prisoner-hat-check]').disabled = !!model.checked || !!model.exhaustive || model.answers.length !== config.personCount;
+      }
+
+      function renderInteractiveState() {
+        renderControls();
+        renderBoard();
+        renderAnswers();
+        renderHistory();
+        renderResult();
+        if (model.exhaustive) {
+          setStatus(model.exhaustive.success ? 'Все раскладки проверены: четность дает нужную гарантию.' : 'Полный перебор нашел ошибку.', model.exhaustive.success ? 'success' : 'error');
+        } else if (model.checked) {
+          setStatus(model.checked.success ? 'Проверка завершена: все после первого ответили правильно.' : 'Проверка завершена: кто-то после первого ошибся.', model.checked.success ? 'success' : 'error');
+        } else if (model.answers.length >= config.personCount) {
+          setStatus('Ответы записаны. Теперь можно открыть проверку.');
+        } else {
+          setStatus(`Заключенный №${model.answers.length + 1} видит только колпаки впереди и слышит предыдущие ответы.`);
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        if (event.target.value === 'guided') runDemo();
+        else if (event.target.value === 'exhaustive') runExhaustive();
+        else {
+          model = newModel(event.target.value);
+          renderInteractiveState();
+        }
+      });
+      panel.querySelector('[data-prisoner-hat-submit]')?.addEventListener('click', submitAnswer);
+      panel.querySelector('[data-prisoner-hat-check]')?.addEventListener('click', checkAnswers);
+      panel.querySelector('[data-prisoner-hat-demo]')?.addEventListener('click', runDemo);
+      panel.querySelector('[data-prisoner-hat-exhaustive]')?.addEventListener('click', runExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode === 'exhaustive' ? 'random' : (model?.mode || config.defaultMode || 'random'));
+        renderInteractiveState();
+      });
+
+      if (!helper?.prisonerHatsParityExpectedAnswer) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
+    function initHiddenHatParityInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function newModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        return {
+          mode: normalizedMode,
+          state: helper?.hiddenHatParityRandomState ? helper.hiddenHatParityRandomState(config) : null,
+          current: 0,
+          answers: [],
+          history: [],
+          pending: null,
+          exhaustive: null
+        };
+      }
+
+      function currentStep() {
+        if (!model?.state || model.current >= config.sageCount) return null;
+        return helper.hiddenHatParityExpectedAnswer({
+          ...config,
+          sageIndex: model.current,
+          previousAnswers: model.answers,
+          visibleAhead: helper.hiddenHatParityVisibleAhead(model.state, model.current)
+        });
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        if (!status) return;
+        status.className = `interactive-status ${kind}`.trim();
+        status.textContent = text;
+      }
+
+      function submitAnswer() {
+        const step = currentStep();
+        if (!step || model.pending || model.current >= config.sageCount) return;
+        const answer = Number(panel.querySelector('[data-hidden-hat-answer]')?.value);
+        const repeated = model.answers.includes(answer);
+        model.pending = {
+          sageIndex: model.current,
+          sage: model.current + 1,
+          answer,
+          expected: step.answer,
+          actualHat: model.state.hats[model.current],
+          visibleAhead: helper.hiddenHatParityVisibleAhead(model.state, model.current),
+          repeated,
+          protocolOk: answer === step.answer && !repeated,
+          correctHat: answer === model.state.hats[model.current]
+        };
+        renderInteractiveState();
+      }
+
+      function acceptPending() {
+        if (!model.pending) return;
+        if (!model.pending.protocolOk) {
+          model.pending = null;
+          renderInteractiveState();
+          return;
+        }
+        model.answers.push(model.pending.answer);
+        model.history.push(model.pending);
+        model.current += 1;
+        model.pending = null;
+        renderInteractiveState();
+      }
+
+      function setExpectedAnswer() {
+        const step = currentStep();
+        if (!step) return;
+        const select = panel.querySelector('[data-hidden-hat-answer]');
+        if (select) select.value = String(step.answer);
+        setStatus('Верный ход поставлен в поле ответа. Нажмите проверку, чтобы зафиксировать его.', '');
+      }
+
+      function runExhaustive() {
+        model = newModel('exhaustive');
+        model.exhaustive = helper.hiddenHatParityExhaustiveCheck(config);
+        renderInteractiveState();
+      }
+
+      function renderBoard() {
+        const board = panel.querySelector('[data-hidden-hat-board]');
+        if (!board || !model?.state) return;
+        const finished = model.current >= config.sageCount;
+        const rows = model.state.hats.map((hat, index) => {
+          let value = '?';
+          let note = '';
+          if (finished) {
+            value = hat;
+            note = index === 0 ? 'задний мудрец' : (index === config.sageCount - 1 ? 'передний мудрец' : 'мудрец');
+          } else if (index > model.current) {
+            value = hat;
+            note = 'виден текущему';
+          } else if (index === model.current) {
+            note = 'сейчас отвечает';
+          } else {
+            note = `уже сказал ${model.answers[index]}`;
+          }
+          return `
+            <div class="history-item">
+              <span class="history-result">мудрец ${esc(index + 1)}</span>
+              <span>колпак: ${esc(value)}; ${esc(note)}</span>
+            </div>
+          `;
+        }).join('');
+        const hidden = finished ? model.state.hidden : '?';
+        board.innerHTML = `
+          <div class="history-item">
+            <span class="history-result">спрятанное место</span>
+            <span>номер: ${esc(hidden)}</span>
+          </div>
+          ${rows}
+        `;
+      }
+
+      function renderAnswers() {
+        const container = panel.querySelector('[data-hidden-hat-answers]');
+        if (!container) return;
+        const accepted = model.answers.map((answer, index) =>
+          `<span class="pill">мудрец ${esc(index + 1)}: ${esc(answer)}</span>`
+        ).join('');
+        const pending = model.pending
+          ? `<span class="pill ${model.pending.protocolOk ? '' : 'danger'}">проверка ${esc(model.pending.sage)}: ${esc(model.pending.answer)}</span>`
+          : '';
+        container.innerHTML = accepted || pending ? `${accepted}${pending}` : '<span class="empty">Ответов пока нет.</span>';
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!container) return;
+        if (model.exhaustive) {
+          const check = model.exhaustive;
+          container.innerHTML = `
+            <div class="history-item">
+              <span class="history-result">полный перебор</span>
+              <span>проверено ${esc(check.checked)} расстановок; минимум правильных ответов ${esc(check.minCorrect)}; максимум ${esc(check.maxCorrect)}.</span>
+            </div>
+          `;
+          return;
+        }
+        const rows = [...model.history, ...(model.pending ? [model.pending] : [])];
+        container.innerHTML = rows.length ? rows.map(item => `
+          <div class="history-item">
+            <span class="history-result">мудрец ${esc(item.sage)}: ${esc(item.answer)}</span>
+            <span>${item.protocolOk ? 'ход совпадает с четной гипотезой' : `нужно другое число: ${item.expected}`}; ${item.correctHat ? 'номер колпака угадан' : 'номер колпака не совпал'}</span>
+          </div>
+        `).join('') : '<span class="empty">Проверенных ходов пока нет.</span>';
+      }
+
+      function renderResult() {
+        const result = panel.querySelector('[data-hidden-hat-result]');
+        if (!result) return;
+        if (model.exhaustive) {
+          result.hidden = false;
+          result.textContent = model.exhaustive.success
+            ? `Полный перебор принят: во всех ${model.exhaustive.checked} расстановках верны все, кроме, возможно, первого.`
+            : `Полный перебор нашел сбой: ${model.exhaustive.failures.length}.`;
+          return;
+        }
+        if (model.current < config.sageCount) {
+          result.hidden = true;
+          result.textContent = '';
+          return;
+        }
+        const evaluation = helper.hiddenHatParityEvaluateTranscript({ ...config, state: model.state, answers: model.answers });
+        result.hidden = false;
+        result.textContent = evaluation.success
+          ? `Стратегия сработала: правильных ответов ${evaluation.correctCount} из ${config.sageCount}, спрятан номер ${model.state.hidden}.`
+          : `Есть ошибка в протоколе: правильных ответов ${evaluation.correctCount} из ${config.sageCount}.`;
+      }
+
+      function renderControls() {
+        panel.querySelector('[data-current-mode-pill]').textContent = hiddenHatParityModeLabel(model.mode);
+        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        panel.querySelector('[data-hidden-hat-step]').textContent = model.current < config.sageCount
+          ? `ход ${model.current + 1} / ${config.sageCount}`
+          : `${config.sageCount} / ${config.sageCount}`;
+        panel.querySelector('[data-hidden-hat-submit]').disabled = !!model.pending || model.current >= config.sageCount || !!model.exhaustive;
+        panel.querySelector('[data-hidden-hat-next]').disabled = !model.pending || !model.pending.protocolOk || !!model.exhaustive;
+        panel.querySelector('[data-hidden-hat-auto]').disabled = model.current >= config.sageCount || !!model.pending || !!model.exhaustive;
+      }
+
+      function renderInteractiveState() {
+        renderControls();
+        renderBoard();
+        renderAnswers();
+        renderHistory();
+        renderResult();
+        if (model.exhaustive) {
+          setStatus(model.exhaustive.success
+            ? 'Полная проверка прошла: четная гипотеза гарантирует пять правильных ответов.'
+            : 'Полная проверка нашла расстановку, где протокол не дает гарантии.',
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (model.pending) {
+          setStatus(
+            model.pending.protocolOk
+              ? 'Ответ принят для выбранной четности. Перейдите к следующему мудрецу.'
+              : (model.pending.repeated ? 'Такое число уже называли; повтор запрещен.' : 'Этот ответ не сохраняет выбранную четность.'),
+            model.pending.protocolOk ? 'success' : 'error'
+          );
+        } else if (model.current >= config.sageCount) {
+          setStatus('Все ответы проверены; теперь можно смотреть итоговую расстановку.', 'success');
+        } else {
+          setStatus(`Мудрец ${model.current + 1} видит только номера впереди и слышит уже сказанные числа.`);
+        }
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = newModel(event.target.value);
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-hidden-hat-submit]')?.addEventListener('click', submitAnswer);
+      panel.querySelector('[data-hidden-hat-next]')?.addEventListener('click', acceptPending);
+      panel.querySelector('[data-hidden-hat-auto]')?.addEventListener('click', setExpectedAnswer);
+      panel.querySelector('[data-hidden-hat-exhaustive]')?.addEventListener('click', runExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel(model?.mode || config.defaultMode || 'random');
+        renderInteractiveState();
+      });
+
+      if (!helper?.hiddenHatParityExpectedAnswer) {
+        setStatus('Интерактивная логика не загрузилась.', 'error');
+        return;
+      }
+      model = newModel(config.defaultMode);
+      renderInteractiveState();
+    }
+
     function renderLinkedIds(ids, map, title, routeType) {
       const present = asArray(ids).filter(Boolean);
       if (!present.length) return '';
@@ -9169,6 +18561,8 @@ __WEIGHING_CHEATER_JS__
             ${statusPill(entry.status || source.status)}
             ${source.official ? pill('official') : ''}
             ${source.language ? pill(source.language) : ''}
+            ${source.country ? pill(source.country) : ''}
+            ${source.region ? pill(source.region) : ''}
           </div>
         </div>
       `;
@@ -9185,7 +18579,7 @@ __WEIGHING_CHEATER_JS__
         return `
           <div class="card">
             <div class="topline">
-              ${pill(label('relation_types', relation.type))}
+              ${pill(relationTypeTitle(relation.type, outbound))}
               ${relation.distance != null ? pill(`distance ${relation.distance}`) : ''}
               ${statusPill(relation.status)}
               ${relation.confidence != null ? pill(`confidence ${relation.confidence}`) : ''}
@@ -10020,12 +19414,13 @@ __WEIGHING_CHEATER_JS__
 </body>
 </html>
 """
-    return (
+    rendered = (
         page.replace("__PAYLOAD__", payload)
         .replace("__WEIGHING_CHEATER_JS__", weighing_cheater_js)
         .replace("__FALLBACK_LIST__", fallback_list)
         .replace("__FALLBACK_CONTENT__", fallback_content)
     )
+    return "\n".join(line.rstrip() for line in rendered.splitlines()) + "\n"
 
 
 def output_path(value):

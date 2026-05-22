@@ -14,6 +14,31 @@ const limitedTwoUsesPreassignedConfig = loadProblemConfig('data/problems/general
 const thirteenIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-identify-only-three-weighings.yaml');
 const thirteenPreassignedIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-preassigned-identify-only-three-weighings.yaml');
 const thirteenKnownGenuineConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-known-genuine-three-weighings.yaml');
+const sixteenZeroOneTwoSignConfig = loadProblemConfig('data/problems/classical_more/sixteen-coins-zero-one-two-fakes-sign.yaml');
+const moebiusLineConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2023-ten-line-one-liar-four-questions.yaml');
+const moebiusCoinsConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2018-three-coins-knight-liar-genuine.yaml');
+const treasureGridConfig = loadProblemConfig('data/problems/serbia/jsmo-2016-adjacent-treasure-10x10.yaml');
+const moebiusSixCircleConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2021-six-circle-adjacent-light-fakes-one-weighing.yaml');
+const moebiusFiveCircleConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2019-five-circle-light-fakes-count.yaml');
+const moebiusGridLineConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2022-3x3-line-of-three-light-fakes.yaml');
+const rusanivskyiRustyConfig = loadProblemConfig('data/problems/rusanivskyi/rusanivskyi-2025-rusty-scales-eight-coins.yaml');
+const bilboSafePileConfig = loadProblemConfig('data/problems/israelmath/israelmath-5781-bilbo-three-diamond-piles-safe-pile.yaml');
+const israelCandyBagsConfig = loadProblemConfig('data/problems/israelmath/israelmath-5783-six-candy-bags-two-weighings.yaml');
+const spiderFlyCubeConfig = loadProblemConfig('data/problems/rusanivskyi/rusanivskyi-2025-spider-fly-cube-search.yaml');
+const xorEightCoinsConfig = loadProblemConfig('data/problems/classical_more/xor-8-coins-one-flip.yaml');
+const wiseMenSixColorsConfig = loadProblemConfig('data/problems/web_wise_prisoners/wise-men-6-32-colors-one-bit.yaml');
+const wiseMenFourColorCountsConfig = loadProblemConfig('data/problems/web_wise_prisoners/wise-men-6-four-colors-permutation-parity.yaml');
+const prisonersHatsLineConfig = loadProblemConfig('data/problems/classical/prisoners-hats-parity-line.yaml');
+const wiseMenSixHiddenHatConfig = loadProblemConfig('data/problems/classical_more/wise-men-6-hidden-hat-number-parity.yaml');
+const prisonersTenBoxesConfig = loadProblemConfig('data/problems/classical_more/prisoners-10-boxes-cycle-strategy.yaml');
+const balancedSubsetEightConfig = loadProblemConfig('data/problems/bulgaria_bas/balanced-subset-8-three-questions.yaml');
+const fitchCheneyConfig = loadProblemConfig('data/problems/card_tricks/fitch-cheney-five-card-trick.yaml');
+const binaryCardsConfig = loadProblemConfig('data/problems/classical/calendar-card-binary-trick.yaml');
+const ternaryQuestionConfig = loadProblemConfig('data/problems/coding_games/one-counterfeit-among-27-three-ternary-questions.yaml');
+const repetitionCodeConfig = loadProblemConfig('data/problems/coding_games/number-guessing-one-lie-by-repetition.yaml');
+const permutationMessageConfig = loadProblemConfig('data/problems/coding_games/permutation-encodes-six-messages.yaml');
+const twentyOneCardConfig = loadProblemConfig('data/problems/classical/twenty-one-card-trick.yaml');
+const higherLowerConfig = loadProblemConfig('data/problems/australia/mcya-2018-intermediate-higher-or-lower.yaml');
 
 assert.deepEqual(twelveCoinConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(twelveCoinConfig.modes.includes('cheater'), true);
@@ -33,6 +58,416 @@ assert.equal(thirteenPreassignedIdentifyOnlyConfig.modes.includes('exhaustive'),
 assert.deepEqual(thirteenKnownGenuineConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(thirteenKnownGenuineConfig.known_genuine_count, 1);
 assert.equal(thirteenKnownGenuineConfig.modes.includes('cheater'), true);
+assert.deepEqual(sixteenZeroOneTwoSignConfig.type, 'zero_one_two_counterfeit_sign');
+assert.equal(sixteenZeroOneTwoSignConfig.objective, 'detect_presence_and_sign');
+assert.equal(sixteenZeroOneTwoSignConfig.modes.includes('exhaustive'), true);
+assert.deepEqual(moebiusLineConfig.type, 'finite_binary_state_protocol');
+assert.equal(moebiusLineConfig.protocol, 'one_liar_line_neighborhood');
+assert.equal(moebiusLineConfig.max_tests, 4);
+assert.deepEqual(moebiusCoinsConfig.type, 'finite_binary_state_protocol');
+assert.equal(moebiusCoinsConfig.protocol, 'knight_liar_fake_coin_subset');
+assert.equal(moebiusCoinsConfig.max_tests, 2);
+assert.deepEqual(israelCandyBagsConfig.type, 'balanced_weight_signature_protocol');
+assert.equal(israelCandyBagsConfig.max_weighings, 2);
+assert.deepEqual(treasureGridConfig.type, 'finite_binary_state_protocol');
+assert.equal(treasureGridConfig.protocol, 'adjacent_pair_grid_search');
+assert.equal(treasureGridConfig.max_tests, 50);
+assert.deepEqual(spiderFlyCubeConfig.type, 'moving_target_graph_search');
+assert.equal(spiderFlyCubeConfig.objective, 'capture_hidden_moving_target');
+assert.equal(spiderFlyCubeConfig.max_tests, 4);
+assert.deepEqual(xorEightCoinsConfig.type, 'xor_single_flip_protocol');
+assert.equal(xorEightCoinsConfig.position_count, 8);
+assert.equal(xorEightCoinsConfig.objective, 'identify_key_position');
+assert.deepEqual(wiseMenSixColorsConfig.type, 'wise_men_even_parity_code');
+assert.equal(wiseMenSixColorsConfig.person_count, 6);
+assert.equal(wiseMenSixColorsConfig.color_count, 32);
+assert.deepEqual(wiseMenFourColorCountsConfig.type, 'wise_men_color_count_parity_protocol');
+assert.equal(wiseMenFourColorCountsConfig.sage_count, 6);
+assert.equal(wiseMenFourColorCountsConfig.color_count, 4);
+assert.deepEqual(wiseMenFourColorCountsConfig.count_values, [0, 1, 2, 3]);
+assert.equal(wiseMenFourColorCountsConfig.target_correct_min, 3);
+assert.deepEqual(prisonersHatsLineConfig.type, 'prisoners_hats_parity_line');
+assert.equal(prisonersHatsLineConfig.person_count, 6);
+assert.equal(prisonersHatsLineConfig.color_count, 2);
+assert.equal(prisonersHatsLineConfig.objective, 'guarantee_all_but_first_correct');
+assert.deepEqual(prisonersHatsLineConfig.modes, ['random', 'guided', 'exhaustive']);
+assert.deepEqual(wiseMenSixHiddenHatConfig.type, 'hidden_hat_number_parity_protocol');
+assert.equal(wiseMenSixHiddenHatConfig.sage_count, 6);
+assert.equal(wiseMenSixHiddenHatConfig.number_max, 7);
+assert.equal(wiseMenSixHiddenHatConfig.objective, 'guarantee_all_but_first_correct');
+assert.deepEqual(prisonersTenBoxesConfig.type, 'permutation_cycle_protocol');
+assert.equal(prisonersTenBoxesConfig.prisoner_count, 10);
+assert.equal(prisonersTenBoxesConfig.max_openings, 5);
+assert.equal(prisonersTenBoxesConfig.objective, 'all_agents_find_own_state');
+assert.deepEqual(balancedSubsetEightConfig.type, 'balanced_subset_question_code');
+assert.equal(balancedSubsetEightConfig.object_count, 8);
+assert.equal(balancedSubsetEightConfig.target_sum, 18);
+assert.deepEqual(fitchCheneyConfig.type, 'fitch_cheney_card_trick');
+assert.equal(fitchCheneyConfig.deck_size, 52);
+assert.equal(fitchCheneyConfig.objective, 'identify_hidden_card');
+assert.deepEqual(binaryCardsConfig.type, 'binary_cards_number_trick');
+assert.equal(binaryCardsConfig.card_count, 5);
+assert.equal(binaryCardsConfig.number_max, 31);
+assert.deepEqual(ternaryQuestionConfig.type, 'ternary_question_code');
+assert.equal(ternaryQuestionConfig.object_count, 27);
+assert.equal(ternaryQuestionConfig.max_tests, 3);
+assert.deepEqual(repetitionCodeConfig.type, 'repetition_code_one_lie_questions');
+assert.equal(repetitionCodeConfig.bit_count, 3);
+assert.equal(repetitionCodeConfig.repetitions_per_bit, 3);
+assert.deepEqual(permutationMessageConfig.type, 'permutation_message_order_code');
+assert.equal(permutationMessageConfig.item_count, 3);
+assert.equal(permutationMessageConfig.message_count, 6);
+assert.deepEqual(twentyOneCardConfig.type, 'twenty_one_card_trick');
+assert.equal(twentyOneCardConfig.deck_size, 21);
+assert.equal(twentyOneCardConfig.round_count, 3);
+assert.deepEqual(higherLowerConfig.type, 'higher_lower_strategy_game');
+assert.equal(higherLowerConfig.box_count, 9);
+assert.equal(higherLowerConfig.objective, 'maximize_win_probability');
+
+const higherLowerSolution = cheater.higherLowerSolve(higherLowerConfig);
+assert.equal(higherLowerSolution.comparisons.find(row => row.boxCount === 3).first.value.label, '2/3');
+assert.deepEqual(
+  higherLowerSolution.comparisons.find(row => row.boxCount === 3).first.moves.filter(move => move.optimal).map(move => move.guess),
+  [1, 3]
+);
+assert.equal(higherLowerSolution.comparisons.find(row => row.boxCount === 4).first.value.label, '1/2');
+assert.equal(higherLowerSolution.first.value.label, '5/9');
+assert.deepEqual(higherLowerSolution.first.moves.filter(move => move.optimal).map(move => move.guess), [1, 3, 5, 7, 9]);
+assert.deepEqual(cheater.higherLowerBestGuesses({ ...higherLowerConfig, box_count: 4, turn: 'second' }), [1, 2, 3, 4]);
+const higherLowerRoot = cheater.higherLowerInitialState(higherLowerConfig);
+const afterMiddleLower = cheater.higherLowerApplyAnswer(higherLowerRoot, 5, 'lower', higherLowerConfig);
+assert.deepEqual(afterMiddleLower, { low: 1, high: 4, turn: 'second', finished: false, winner: null });
+assert.equal(cheater.higherLowerStateValue(afterMiddleLower, higherLowerConfig).label, '1/2');
+
+assert.deepEqual(cheater.ternaryQuestionCodeForState(1, ternaryQuestionConfig), [0, 0, 0]);
+assert.deepEqual(cheater.ternaryQuestionCodeForState(27, ternaryQuestionConfig), [2, 2, 2]);
+assert.equal(cheater.ternaryQuestionDecodeOutcomes([2, 2, 2], ternaryQuestionConfig).number, 27);
+const ternaryQuestionExhaustive = cheater.ternaryQuestionExhaustiveCheck(ternaryQuestionConfig);
+assert.equal(ternaryQuestionExhaustive.success, true);
+assert.equal(ternaryQuestionExhaustive.checked, 27);
+assert.equal(ternaryQuestionExhaustive.collisions.length, 0);
+
+function finiteAction(config, actionId) {
+  const action = cheater.finiteBinaryInitialActions(config).find(item => cheater.finiteBinaryActionKey(item) === actionId);
+  assert.ok(action, `missing finite action ${actionId}`);
+  return action;
+}
+
+function finiteApply(config, states, actionId, response) {
+  return cheater.finiteBinaryFilterStates({
+    ...config,
+    currentStates: states,
+    action: finiteAction(config, actionId),
+    response
+  });
+}
+
+assert.equal(cheater.finiteBinaryInitialStates(moebiusLineConfig).length, 10);
+assert.equal(cheater.finiteBinaryInitialActions(moebiusLineConfig).length, 10);
+assert.equal(
+  cheater.finiteBinaryResponseForState(
+    { id: 'liar_2', liar: 2 },
+    finiteAction(moebiusLineConfig, 'ask_2'),
+    moebiusLineConfig
+  ),
+  'yes'
+);
+assert.deepEqual(
+  finiteApply(moebiusLineConfig, cheater.finiteBinaryInitialStates(moebiusLineConfig), 'ask_2', 'yes').map(state => state.liar),
+  [1, 2, 3]
+);
+let lineBranch = cheater.finiteBinaryInitialStates(moebiusLineConfig);
+lineBranch = finiteApply(moebiusLineConfig, lineBranch, 'ask_2', 'no');
+lineBranch = finiteApply(moebiusLineConfig, lineBranch, 'ask_5', 'no');
+lineBranch = finiteApply(moebiusLineConfig, lineBranch, 'ask_7', 'no');
+lineBranch = finiteApply(moebiusLineConfig, lineBranch, 'ask_8', 'no');
+assert.deepEqual(lineBranch.map(state => state.liar), [10]);
+assert.equal(
+  cheater.finiteBinaryBranchStatus(lineBranch, 4, moebiusLineConfig.max_tests, moebiusLineConfig),
+  'solved'
+);
+
+function lineStrategyAction(history) {
+  const key = history.join('');
+  if (key === '') return 'ask_2';
+  if (key === 'yes') return 'ask_1';
+  if (key === 'yesyes') return 'ask_3';
+  if (key === 'no') return 'ask_5';
+  if (key === 'noyes') return 'ask_3';
+  if (key === 'noyesno') return 'ask_4';
+  if (key === 'nono') return 'ask_7';
+  if (key === 'nonoyes') return 'ask_6';
+  if (key === 'nonono') return 'ask_8';
+  return null;
+}
+
+for (const hidden of cheater.finiteBinaryInitialStates(moebiusLineConfig)) {
+  let states = cheater.finiteBinaryInitialStates(moebiusLineConfig);
+  const history = [];
+  while (!cheater.finiteBinaryGuaranteedAnswers(states, moebiusLineConfig).length) {
+    const actionId = lineStrategyAction(history);
+    assert.ok(actionId, `line strategy missing branch ${history.join('/')}`);
+    const action = finiteAction(moebiusLineConfig, actionId);
+    const response = cheater.finiteBinaryResponseForState(hidden, action, moebiusLineConfig);
+    history.push(response);
+    states = cheater.finiteBinaryFilterStates({ ...moebiusLineConfig, currentStates: states, action, response });
+    assert.ok(history.length <= moebiusLineConfig.max_tests);
+  }
+  assert.deepEqual(cheater.finiteBinaryGuaranteedAnswers(states, moebiusLineConfig), [hidden.id]);
+}
+
+assert.equal(cheater.finiteBinaryInitialStates(moebiusCoinsConfig).length, 6);
+assert.equal(cheater.finiteBinaryInitialActions(moebiusCoinsConfig).length, 12);
+let coinBranch = cheater.finiteBinaryInitialStates(moebiusCoinsConfig);
+coinBranch = finiteApply(moebiusCoinsConfig, coinBranch, 'ask_Вася_1', 'yes');
+assert.deepEqual(coinBranch.map(state => [state.fakeCoin, state.knight]), [[1, 'Вася'], [2, 'Петя'], [3, 'Петя']]);
+coinBranch = finiteApply(moebiusCoinsConfig, coinBranch, 'ask_Вася_2', 'no');
+assert.deepEqual(cheater.finiteBinaryGuaranteedAnswers(coinBranch, moebiusCoinsConfig), [3]);
+assert.equal(
+  cheater.finiteBinaryFinalizeAnswer({ ...moebiusCoinsConfig, currentStates: coinBranch, selectedCoin: 3 }).win,
+  true
+);
+for (const hidden of cheater.finiteBinaryInitialStates(moebiusCoinsConfig)) {
+  let states = cheater.finiteBinaryInitialStates(moebiusCoinsConfig);
+  const firstAction = finiteAction(moebiusCoinsConfig, 'ask_Вася_1');
+  const firstResponse = cheater.finiteBinaryResponseForState(hidden, firstAction, moebiusCoinsConfig);
+  states = cheater.finiteBinaryFilterStates({ ...moebiusCoinsConfig, currentStates: states, action: firstAction, response: firstResponse });
+  const secondAction = finiteAction(moebiusCoinsConfig, 'ask_Вася_2');
+  const secondResponse = cheater.finiteBinaryResponseForState(hidden, secondAction, moebiusCoinsConfig);
+  states = cheater.finiteBinaryFilterStates({ ...moebiusCoinsConfig, currentStates: states, action: secondAction, response: secondResponse });
+  const guaranteed = cheater.finiteBinaryGuaranteedAnswers(states, moebiusCoinsConfig);
+  assert.equal(guaranteed.length > 0, true);
+  assert.equal(guaranteed.includes(hidden.fakeCoin), false);
+}
+const coinCheater = cheater.finiteBinaryChooseCheaterResponse({
+  ...moebiusCoinsConfig,
+  currentStates: cheater.finiteBinaryInitialStates(moebiusCoinsConfig),
+  action: finiteAction(moebiusCoinsConfig, 'ask_Вася_1')
+});
+assert.deepEqual(coinCheater.scores, {
+  yes: { states: 3, solved: false, answers: [] },
+  no: { states: 3, solved: false, answers: [] }
+});
+
+const candyStates = cheater.balancedWeightInitialStates(israelCandyBagsConfig);
+assert.equal(candyStates.length, 7);
+assert.equal(cheater.balancedWeightValidateWeighing({
+  ...israelCandyBagsConfig,
+  left: [6],
+  right: [1]
+}).valid, false);
+const candyStrategy = [
+  { left: [6], right: [1, 2, 3] },
+  { left: [2, 4], right: [1, 5] }
+];
+for (const hidden of candyStates) {
+  let states = candyStates;
+  const transcript = [];
+  for (const weighing of candyStrategy) {
+    const outcome = cheater.balancedWeightOutcomeForState(hidden, {
+      ...israelCandyBagsConfig,
+      ...weighing
+    });
+    transcript.push(outcome);
+    states = cheater.balancedWeightFilterStates({
+      ...israelCandyBagsConfig,
+      ...weighing,
+      currentStates: states,
+      outcome
+    });
+  }
+  assert.equal(states.length, 1, `candy transcript ${transcript.join('/')} should isolate one state`);
+  assert.equal(cheater.balancedWeightStateKey(states[0]), cheater.balancedWeightStateKey(hidden));
+  assert.equal(
+    cheater.balancedWeightFinalizeAnswer({
+      ...israelCandyBagsConfig,
+      currentStates: states,
+      selectedBag: hidden.bag
+    }).win,
+    true
+  );
+}
+assert.deepEqual(
+  candyStrategy.map(weighing => cheater.balancedWeightOutcomeForState({ id: 'none', bag: null }, {
+    ...israelCandyBagsConfig,
+    ...weighing
+  })),
+  ['balance', 'balance']
+);
+
+assert.equal(cheater.finiteBinaryInitialStates(treasureGridConfig).length, 180);
+assert.equal(cheater.finiteBinaryInitialActions(treasureGridConfig).length, 100);
+assert.equal(
+  cheater.finiteBinaryResponseForState(
+    { id: 'r1c1_r1c2', cells: ['r1c1', 'r1c2'] },
+    finiteAction(treasureGridConfig, 'ask_r1c1'),
+    treasureGridConfig
+  ),
+  'yes'
+);
+assert.equal(
+  cheater.finiteBinaryResponseForState(
+    { id: 'r1c1_r1c2', cells: ['r1c1', 'r1c2'] },
+    finiteAction(treasureGridConfig, 'ask_r2c2'),
+    treasureGridConfig
+  ),
+  'no'
+);
+let treasureBranch = cheater.finiteBinaryInitialStates(treasureGridConfig);
+treasureBranch = cheater.finiteBinaryFilterStates({
+  ...treasureGridConfig,
+  currentStates: treasureBranch,
+  action: finiteAction(treasureGridConfig, 'ask_r1c1'),
+  response: 'yes'
+});
+assert.deepEqual(treasureBranch.map(state => state.id), ['r1c1_r1c2', 'r1c1_r2c1']);
+treasureBranch = cheater.finiteBinaryFilterStates({
+  ...treasureGridConfig,
+  currentStates: treasureBranch,
+  action: finiteAction(treasureGridConfig, 'ask_r1c2'),
+  response: 'yes'
+});
+assert.deepEqual(cheater.finiteBinaryGuaranteedAnswers(treasureBranch, treasureGridConfig), ['r1c1_r1c2']);
+assert.equal(
+  cheater.finiteBinaryFinalizeAnswer({
+    ...treasureGridConfig,
+    currentStates: treasureBranch,
+    selectedCells: ['r1c1', 'r1c2']
+  }).win,
+  true
+);
+const treasureCheater = cheater.finiteBinaryChooseCheaterResponse({
+  ...treasureGridConfig,
+  currentStates: cheater.finiteBinaryInitialStates(treasureGridConfig),
+  action: finiteAction(treasureGridConfig, 'ask_r1c1')
+});
+assert.equal(treasureCheater.response, 'no');
+assert.deepEqual(treasureCheater.scores, {
+  yes: { states: 2, solved: false, answers: [] },
+  no: { states: 178, solved: false, answers: [] }
+});
+const treasureExpansion = cheater.finiteBinaryExpandExhaustiveNode({
+  ...treasureGridConfig,
+  currentStates: cheater.finiteBinaryInitialStates(treasureGridConfig),
+  action: finiteAction(treasureGridConfig, 'ask_r1c1'),
+  usedTests: 0,
+  maxTests: 50
+});
+assert.deepEqual(treasureExpansion.children.map(child => child.response), ['yes', 'no']);
+assert.deepEqual(treasureExpansion.children.map(child => child.states.length), [2, 178]);
+
+assert.deepEqual(moebiusSixCircleConfig.type, 'constrained_light_counterfeit_sets');
+assert.deepEqual(moebiusFiveCircleConfig.type, 'constrained_light_counterfeit_sets');
+assert.deepEqual(moebiusGridLineConfig.type, 'constrained_light_counterfeit_sets');
+assert.deepEqual(rusanivskyiRustyConfig.type, 'threshold_balance_counterfeit_sets');
+assert.equal(rusanivskyiRustyConfig.reliable_difference, 2);
+
+const rustyStates = cheater.thresholdBalanceInitialStates(
+  rusanivskyiRustyConfig.coin_count,
+  rusanivskyiRustyConfig.counterfeit_count
+);
+assert.equal(rustyStates.length, 70);
+assert.equal(
+  cheater.outcomeForThresholdBalanceState(
+    { coins: [1, 2, 3, 4] },
+    [1, 2],
+    [5, 6],
+    rusanivskyiRustyConfig
+  ),
+  'left_reliable_lighter'
+);
+assert.equal(
+  cheater.outcomeForThresholdBalanceState(
+    { coins: [1, 2, 3, 4] },
+    [1],
+    [5],
+    rusanivskyiRustyConfig
+  ),
+  'no_reliable_tilt'
+);
+assert.equal(
+  cheater.thresholdBalanceFilterStates({
+    ...rusanivskyiRustyConfig,
+    currentStates: rustyStates,
+    leftCoins: [1, 2],
+    rightCoins: [5, 6],
+    outcome: 'left_reliable_lighter'
+  }).every(state => state.coins.includes(1) && state.coins.includes(2) && !state.coins.includes(5) && !state.coins.includes(6)),
+  true
+);
+const rustySolved = cheater.thresholdBalanceFinalizeAnswer({
+  ...rusanivskyiRustyConfig,
+  currentStates: [{ coins: [1, 2, 3, 4] }],
+  selectedCoins: [1, 2, 3, 4]
+});
+assert.equal(rustySolved.win, true);
+assert.equal(cheater.movingTargetInitialStates(spiderFlyCubeConfig).length, 8);
+assert.deepEqual(
+  cheater.movingTargetValidation(['C', 'F', 'H'], spiderFlyCubeConfig),
+  { valid: true, error: '', checked: ['C', 'F', 'H'] }
+);
+assert.equal(cheater.movingTargetValidation(['C', 'F'], spiderFlyCubeConfig).valid, false);
+let flyStates = cheater.movingTargetInitialStates(spiderFlyCubeConfig);
+for (const [index, checkedVertices] of [['C', 'F', 'H'], ['B', 'D', 'E'], ['B', 'D', 'E'], ['C', 'F', 'H']].entries()) {
+  const step = cheater.movingTargetChooseCheaterOutcome({
+    ...spiderFlyCubeConfig,
+    currentStates: flyStates,
+    checkedVertices,
+    usedTests: index,
+    maxTests: spiderFlyCubeConfig.max_tests
+  });
+  flyStates = step.states;
+  if (index < 3) assert.equal(step.outcome, 'not_found');
+  else assert.equal(step.outcome, 'caught');
+}
+const movingTargetFailed = cheater.movingTargetChooseCheaterOutcome({
+  ...spiderFlyCubeConfig,
+  currentStates: cheater.movingTargetInitialStates(spiderFlyCubeConfig),
+  checkedVertices: ['A', 'B', 'C'],
+  usedTests: 3,
+  maxTests: 4
+});
+assert.equal(movingTargetFailed.status, 'failed');
+assert.equal(movingTargetFailed.states.length > 0, true);
+assert.deepEqual(bilboSafePileConfig.type, 'safe_pile_balance_certificate');
+assert.deepEqual(bilboSafePileConfig.pile_sizes, [17, 21, 27]);
+
+const bilboPiles = cheater.safePileNormalizePiles(bilboSafePileConfig);
+assert.deepEqual(bilboPiles.map(pile => pile.size), [17, 21, 27]);
+const bilboStates = cheater.safePileInitialStates(bilboSafePileConfig);
+assert.equal(bilboStates.length, 130);
+const bilboSolutionLeft = bilboPiles[0].diamonds;
+const bilboSolutionRight = bilboPiles[1].diamonds.slice(0, 17);
+const bilboExpansion = cheater.safePileExpandExhaustiveNode({
+  ...bilboSafePileConfig,
+  currentStates: bilboStates,
+  leftDiamonds: bilboSolutionLeft,
+  rightDiamonds: bilboSolutionRight,
+  usedWeighings: 0,
+  maxWeighings: 1
+});
+assert.deepEqual(bilboExpansion.children.map(child => child.outcome), ['left_down', 'right_down', 'balance']);
+assert.deepEqual(
+  Object.fromEntries(bilboExpansion.children.map(child => [child.outcome, child.safePiles])),
+  { left_down: ['C'], right_down: ['C'], balance: ['A'] }
+);
+assert.deepEqual(bilboExpansion.children.map(child => child.status), ['solved', 'solved', 'solved']);
+assert.equal(
+  cheater.safePileFinalizeAnswer({
+    ...bilboSafePileConfig,
+    currentStates: bilboExpansion.children.find(child => child.outcome === 'balance').states,
+    selectedPile: 'A'
+  }).win,
+  true
+);
+assert.equal(
+  cheater.safePileFinalizeAnswer({
+    ...bilboSafePileConfig,
+    currentStates: bilboExpansion.children.find(child => child.outcome === 'left_down').states,
+    selectedPile: 'A'
+  }).win,
+  false
+);
 
 let candidates = cheater.initialCandidates(9);
 let history = [];
@@ -100,6 +535,120 @@ assert.deepEqual(
     5: 'genuine'
   }
 );
+
+const zeroOneTwoStates = cheater.zeroOneTwoSignInitialStates(16);
+assert.equal(zeroOneTwoStates.length, 273);
+assert.deepEqual(cheater.zeroOneTwoSignAnswerClasses(zeroOneTwoStates), ['none', 'lighter', 'heavier']);
+assert.equal(zeroOneTwoStates.some(state => state.coins.length === 2 && state.sign === 'mixed'), false);
+assert.equal(
+  cheater.zeroOneTwoSignOutcomeForState(
+    { sign: 'heavier', coins: [1, 9] },
+    { coin_count: 16, leftCoins: [1, 2], rightCoins: [9, 10], requireEqualPanCounts: true }
+  ),
+  'balance'
+);
+assert.equal(
+  cheater.zeroOneTwoSignOutcomeForState(
+    { sign: 'lighter', coins: [1, 2] },
+    { coin_count: 16, leftCoins: [1, 3], rightCoins: [4, 5], requireEqualPanCounts: true }
+  ),
+  'right_down'
+);
+const zeroOneTwoFirstPartition = cheater.zeroOneTwoSignPartitionStates({
+  coin_count: 16,
+  currentStates: zeroOneTwoStates,
+  leftCoins: [1, 2, 3, 4, 5, 6, 7, 8],
+  rightCoins: [9, 10, 11, 12, 13, 14, 15, 16],
+  requireEqualPanCounts: true
+});
+assert.deepEqual(zeroOneTwoFirstPartition.map(part => part.states.length), [72, 72, 129]);
+assert.deepEqual(zeroOneTwoFirstPartition.map(part => part.answerClasses), [
+  ['lighter', 'heavier'],
+  ['lighter', 'heavier'],
+  ['none', 'lighter', 'heavier']
+]);
+
+function zeroOneTwoApply(states, hidden, left, right) {
+  const outcome = cheater.zeroOneTwoSignOutcomeForState(hidden, {
+    coin_count: 16,
+    leftCoins: left,
+    rightCoins: right,
+    requireEqualPanCounts: true
+  });
+  return {
+    outcome,
+    states: cheater.zeroOneTwoSignFilterStates({
+      coin_count: 16,
+      currentStates: states,
+      leftCoins: left,
+      rightCoins: right,
+      outcome,
+      requireEqualPanCounts: true
+    })
+  };
+}
+
+function zeroOneTwoKuhnPlan(hidden) {
+  let states = zeroOneTwoStates;
+  const first = zeroOneTwoApply(states, hidden, [1, 2, 3, 4, 5, 6, 7, 8], [9, 10, 11, 12, 13, 14, 15, 16]);
+  states = first.states;
+  if (first.outcome === 'balance') {
+    const second = zeroOneTwoApply(states, hidden, [8, 9, 11, 13, 16], [1, 10, 12, 14, 15]);
+    states = second.states;
+    if (second.outcome === 'balance') {
+      const third = zeroOneTwoApply(states, hidden, [1, 8, 9], [4, 5, 7]);
+      const answer = third.outcome === 'balance' ? 'none' : (third.outcome === 'left_down' ? 'heavier' : 'lighter');
+      return { answer, states: third.states };
+    }
+    const third = zeroOneTwoApply(states, hidden, [11, 16], [9, 13]);
+    const answer = second.outcome === 'left_down'
+      ? (third.outcome === 'balance' ? 'lighter' : 'heavier')
+      : (third.outcome === 'balance' ? 'heavier' : 'lighter');
+    return { answer, states: third.states };
+  }
+
+  const heavyPan = first.outcome === 'left_down'
+    ? [1, 2, 3, 4, 5, 6, 7, 8]
+    : [9, 10, 11, 12, 13, 14, 15, 16];
+  const lightPan = first.outcome === 'left_down'
+    ? [9, 10, 11, 12, 13, 14, 15, 16]
+    : [1, 2, 3, 4, 5, 6, 7, 8];
+  const H = index => heavyPan[index - 1];
+  const L = index => lightPan[index - 1];
+  const second = zeroOneTwoApply(
+    states,
+    hidden,
+    [H(4), H(5), H(6), H(7), L(3), L(4), L(5), L(7)],
+    [H(1), H(2), H(3), H(8), L(1), L(2), L(6), L(8)]
+  );
+  states = second.states;
+  if (second.outcome === 'balance') {
+    const third = zeroOneTwoApply(states, hidden, [L(1), L(2)], [L(6), L(8)]);
+    return { answer: third.outcome === 'balance' ? 'heavier' : 'lighter', states: third.states };
+  }
+  if (second.outcome === 'left_down') {
+    const third = zeroOneTwoApply(
+      states,
+      hidden,
+      [H(4), H(5), H(6), H(7), L(1)],
+      [H(1), H(2), H(3), L(4), L(7)]
+    );
+    return { answer: third.outcome === 'left_down' ? 'heavier' : 'lighter', states: third.states };
+  }
+  const third = zeroOneTwoApply(
+    states,
+    hidden,
+    [H(4), H(5), H(7), L(2), L(6), L(8)],
+    [H(1), H(2), H(3), H(8), L(3), L(7)]
+  );
+  return { answer: third.outcome === 'right_down' ? 'heavier' : 'lighter', states: third.states };
+}
+
+for (const hidden of zeroOneTwoStates) {
+  const result = zeroOneTwoKuhnPlan(hidden);
+  assert.equal(result.answer, hidden.answer);
+  assert.deepEqual(cheater.zeroOneTwoSignAnswerClasses(result.states), [hidden.answer]);
+}
 
 const scaleLabels = ['A', 'B', 'C'];
 assert.equal(
@@ -1001,6 +1550,97 @@ const pairedMirrorNotPairPreserving = cheater.pairedLightExpandExhaustiveNode({
 });
 assert.equal(pairedMirrorNotPairPreserving.children.some(child => child.status === 'covered'), false);
 
+const sixCircleStates = cheater.constrainedLightInitialStates({
+  coin_count: moebiusSixCircleConfig.coin_count,
+  hidden_states: moebiusSixCircleConfig.hidden_states
+});
+assert.equal(sixCircleStates.length, 6);
+assert.equal(
+  cheater.outcomeForConstrainedLightState(sixCircleStates[0], [1], [3], { coinCount: 6 }),
+  'right_down'
+);
+const sixAfterBalance = cheater.constrainedLightFilterStates({
+  coin_count: 6,
+  hidden_states: moebiusSixCircleConfig.hidden_states,
+  currentStates: sixCircleStates,
+  leftCoins: [1],
+  rightCoins: [3],
+  outcome: 'balance'
+});
+assert.deepEqual(sixAfterBalance.map(state => state.coins), [[4, 5], [5, 6]]);
+assert.deepEqual(cheater.commonLightCoins(sixAfterBalance), [5]);
+assert.equal(cheater.constrainedLightBranchStatus(sixAfterBalance, 1, 1, 'identify_one_counterfeit_coin'), 'solved');
+assert.equal(cheater.constrainedLightFinalizeAnswer({
+  coin_count: 6,
+  hidden_states: moebiusSixCircleConfig.hidden_states,
+  objective: 'identify_one_counterfeit_coin',
+  currentStates: sixAfterBalance,
+  selectedCoin: 5
+}).win, true);
+
+const fiveCircleStates = cheater.constrainedLightInitialStates({
+  coin_count: moebiusFiveCircleConfig.coin_count,
+  hidden_states: moebiusFiveCircleConfig.hidden_states
+});
+assert.equal(fiveCircleStates.length, 10);
+let fiveCompatible = cheater.constrainedLightFilterStates({
+  coin_count: 5,
+  hidden_states: moebiusFiveCircleConfig.hidden_states,
+  currentStates: fiveCircleStates,
+  leftCoins: [1],
+  rightCoins: [2],
+  outcome: 'left_down'
+});
+assert.deepEqual(fiveCompatible.map(state => state.coins), [[2], [2, 4], [2, 5]]);
+fiveCompatible = cheater.constrainedLightFilterStates({
+  coin_count: 5,
+  hidden_states: moebiusFiveCircleConfig.hidden_states,
+  currentStates: fiveCompatible,
+  leftCoins: [4],
+  rightCoins: [5],
+  outcome: 'balance'
+});
+assert.deepEqual(cheater.constrainedLightPossibleCounts(fiveCompatible), [1]);
+assert.equal(cheater.constrainedLightFinalizeAnswer({
+  coin_count: 5,
+  hidden_states: moebiusFiveCircleConfig.hidden_states,
+  objective: 'identify_counterfeit_count',
+  currentStates: fiveCompatible,
+  selectedCount: 1
+}).win, true);
+
+const gridStates = cheater.constrainedLightInitialStates({
+  coin_count: moebiusGridLineConfig.coin_count,
+  hidden_states: moebiusGridLineConfig.hidden_states
+});
+assert.equal(gridStates.length, 6);
+let gridCompatible = cheater.constrainedLightFilterStates({
+  coin_count: 9,
+  hidden_states: moebiusGridLineConfig.hidden_states,
+  currentStates: gridStates,
+  leftCoins: [1],
+  rightCoins: [5],
+  outcome: 'right_down'
+});
+assert.deepEqual(gridCompatible.map(state => state.id), ['R1', 'C1']);
+gridCompatible = cheater.constrainedLightFilterStates({
+  coin_count: 9,
+  hidden_states: moebiusGridLineConfig.hidden_states,
+  currentStates: gridCompatible,
+  leftCoins: [1],
+  rightCoins: [2],
+  outcome: 'balance'
+});
+assert.deepEqual(gridCompatible.map(state => state.id), ['R1']);
+assert.equal(cheater.constrainedLightBranchStatus(gridCompatible, 2, 2, 'identify_line_or_all_counterfeits'), 'solved');
+assert.equal(cheater.constrainedLightFinalizeAnswer({
+  coin_count: 9,
+  hidden_states: moebiusGridLineConfig.hidden_states,
+  objective: 'identify_line_or_all_counterfeits',
+  currentStates: gridCompatible,
+  selectedStateKey: 'R1'
+}).win, true);
+
 const multipleStates = cheater.initialMultipleLightCandidates(6, 2);
 assert.equal(multipleStates.length, 15);
 assert.deepEqual(multipleStates[0], { coins: [1, 2] });
@@ -1598,6 +2238,98 @@ assert.deepEqual(
   [[1]]
 );
 
+const balancedSubsetGoodQuestions = [[1, 2, 7, 8], [1, 3, 6, 8], [1, 4, 6, 7]];
+const balancedSubsetGoodCheck = cheater.balancedSubsetCheckStrategy({
+  object_count: 8,
+  max_tests: 3,
+  target_sum: 18,
+  questions: balancedSubsetGoodQuestions
+});
+assert.equal(balancedSubsetGoodCheck.success, true);
+assert.deepEqual(balancedSubsetGoodCheck.sums, [18, 18, 18]);
+assert.equal(balancedSubsetGoodCheck.partitions.length, 8);
+assert.deepEqual(
+  cheater.balancedSubsetSignatureForState({ number: 7 }, balancedSubsetGoodQuestions),
+  [1, 0, 1]
+);
+assert.deepEqual(
+  cheater.balancedSubsetFilterStates({
+    object_count: 8,
+    max_tests: 3,
+    questions: balancedSubsetGoodQuestions,
+    signature: [0, 0, 0]
+  }).map(state => state.number),
+  [5]
+);
+
+const balancedSubsetWrongSumCheck = cheater.balancedSubsetCheckStrategy({
+  object_count: 8,
+  max_tests: 3,
+  target_sum: 18,
+  questions: [[1, 2], [1, 3, 6, 8], [1, 4, 6, 7]]
+});
+assert.equal(balancedSubsetWrongSumCheck.success, false);
+assert.equal(balancedSubsetWrongSumCheck.validation.errors.some(error => error.includes('нужна 18')), true);
+
+const balancedSubsetCollisionCheck = cheater.balancedSubsetCheckStrategy({
+  object_count: 8,
+  max_tests: 3,
+  target_sum: 18,
+  questions: [[1, 2, 7, 8], [1, 2, 7, 8], [1, 2, 7, 8]]
+});
+assert.equal(balancedSubsetCollisionCheck.success, false);
+assert.equal(balancedSubsetCollisionCheck.conflicts.some(part => part.states.length > 1), true);
+
+assert.deepEqual(cheater.binaryCardsWeights(binaryCardsConfig), [1, 2, 4, 8, 16]);
+assert.deepEqual(
+  cheater.binaryCardsCards(binaryCardsConfig).map(card => card.numbers[0]),
+  [1, 2, 4, 8, 16]
+);
+assert.deepEqual(cheater.binaryCardsSelectionForNumber(21, binaryCardsConfig), [1, 4, 16]);
+assert.equal(cheater.binaryCardsDecodeSelection([1, 4, 16], binaryCardsConfig), 21);
+assert.equal(
+  cheater.binaryCardsEvaluate({
+    ...binaryCardsConfig,
+    number: 31,
+    selection: [1, 2, 4, 8, 16]
+  }).win,
+  true
+);
+const binaryCardsExhaustive = cheater.binaryCardsExhaustiveCheck(binaryCardsConfig);
+assert.equal(binaryCardsExhaustive.success, true);
+assert.equal(binaryCardsExhaustive.checked, 31);
+assert.equal(binaryCardsExhaustive.collisions.length, 0);
+
+assert.equal(cheater.repetitionCodeQuestionCount(repetitionCodeConfig), 9);
+assert.deepEqual(cheater.repetitionCodeAnswersForCase({ ...repetitionCodeConfig, number: 5, lieIndex: -1 }), [true, true, true, false, false, false, true, true, true]);
+assert.deepEqual(cheater.repetitionCodeAnswersForCase({ ...repetitionCodeConfig, number: 5, lieIndex: 1 }), [true, false, true, false, false, false, true, true, true]);
+const repetitionDecoded = cheater.repetitionCodeEvaluate({ ...repetitionCodeConfig, number: 5, lieIndex: 1 });
+assert.equal(repetitionDecoded.decoded, 5);
+assert.equal(repetitionDecoded.lieCount, 1);
+assert.equal(repetitionDecoded.win, true);
+const repetitionExhaustive = cheater.repetitionCodeExhaustiveCheck(repetitionCodeConfig);
+assert.equal(repetitionExhaustive.success, true);
+assert.equal(repetitionExhaustive.checked, 80);
+assert.equal(repetitionExhaustive.failures.length, 0);
+
+const twentyOneExhaustive = cheater.twentyOneCardExhaustive(twentyOneCardConfig);
+assert.equal(twentyOneExhaustive.checked, 21);
+assert.equal(twentyOneExhaustive.success, true);
+assert.equal(twentyOneExhaustive.rows.every(row => row.finalPosition === 11), true);
+assert.deepEqual(
+  cheater.twentyOneCardTrace({ ...twentyOneCardConfig, selectedCard: 1 }).rounds.map(round => round.actualColumn),
+  [0, 1, 0]
+);
+assert.equal(cheater.twentyOneCardTrace({ ...twentyOneCardConfig, selectedCard: 17 }).finalCard, 17);
+const twentyOneManualTrace = cheater.twentyOneCardTrace({
+  ...twentyOneCardConfig,
+  selectedCard: 9,
+  answers: [2, 0, 1]
+});
+assert.equal(twentyOneManualTrace.success, true);
+assert.equal(twentyOneManualTrace.finalCard, 9);
+assert.deepEqual(cheater.twentyOneCardCollectionOrder(2, twentyOneCardConfig), [0, 2, 1]);
+
 const finitePairs = cheater.finitePairAllPairs(5);
 assert.equal(finitePairs.length, 10);
 assert.deepEqual(cheater.finitePairAllowedShownPairs([1, 2], 5), [[3, 4], [3, 5], [4, 5]]);
@@ -1641,5 +2373,251 @@ const intersectingPairCheck = cheater.finitePairMatchingValidate({
 });
 assert.equal(intersectingPairCheck.ok, false);
 assert.equal(intersectingPairCheck.errors.some(error => error.includes('пересекается')), true);
+
+const xorAllStates = cheater.xorSingleFlipInitialStates(xorEightCoinsConfig);
+assert.equal(xorAllStates.length, 8 * 2 ** 8);
+const xorCheck = cheater.xorSingleFlipCheckStrategy(xorEightCoinsConfig);
+assert.equal(xorCheck.success, true);
+assert.equal(xorCheck.checked, 8 * 2 ** 8);
+assert.deepEqual(
+  cheater.xorSingleFlipEvaluate({
+    ...xorEightCoinsConfig,
+    bits: [0, 1, 1, 0, 1, 0, 0, 0],
+    key: 6,
+    flip: cheater.xorSingleFlipRecommendedFlip([0, 1, 1, 0, 1, 0, 0, 0], 6),
+    guess: 6
+  }).win,
+  true
+);
+
+const wiseMenValidation = cheater.wiseMenParityValidateCodebook(wiseMenSixColorsConfig);
+assert.equal(wiseMenValidation.ok, true);
+assert.equal(wiseMenValidation.codebook.length, 32);
+assert.deepEqual(cheater.wiseMenParityCodeword(32, wiseMenSixColorsConfig), [1, 1, 1, 1, 1, 1]);
+const wiseMenColors = [1, 2, 7, 12, 25, 32];
+const wiseMenMessages = cheater.wiseMenParityMessages(wiseMenColors, wiseMenSixColorsConfig);
+assert.deepEqual(wiseMenMessages, [1, 1, 1, 0, 1, 0]);
+const wiseMenDecodedThird = cheater.wiseMenParityDecodePerson({
+  ...wiseMenSixColorsConfig,
+  colors: wiseMenColors,
+  messages: wiseMenMessages,
+  person: 2
+});
+assert.equal(wiseMenDecodedThird.win, true);
+assert.equal(wiseMenDecodedThird.decodedColor, 7);
+assert.deepEqual(wiseMenDecodedThird.bits, cheater.wiseMenParityCodeword(7, wiseMenSixColorsConfig));
+const wiseMenEval = cheater.wiseMenParityEvaluate({
+  ...wiseMenSixColorsConfig,
+  colors: wiseMenColors
+});
+assert.equal(wiseMenEval.success, true);
+assert.deepEqual(wiseMenEval.decoded.map(item => item.decodedColor), wiseMenColors);
+const wiseMenFullCheck = cheater.wiseMenParityExhaustiveCheck(wiseMenSixColorsConfig);
+assert.equal(wiseMenFullCheck.success, true);
+assert.equal(wiseMenFullCheck.checked, 6 * 32);
+
+const wiseMenColorCountValidation = cheater.wiseMenColorCountValidateConfig(wiseMenFourColorCountsConfig);
+assert.equal(wiseMenColorCountValidation.ok, true);
+const wiseMenColorCountStates = cheater.wiseMenColorCountInitialStates(wiseMenFourColorCountsConfig);
+assert.equal(wiseMenColorCountStates.length, 1440);
+const wiseMenColorCountEval = cheater.wiseMenColorCountEvaluate({
+  ...wiseMenFourColorCountsConfig,
+  colors: [2, 3, 3, 4, 4, 4]
+});
+assert.equal(wiseMenColorCountEval.success, true);
+assert.equal(wiseMenColorCountEval.correctCount, 3);
+assert.deepEqual(wiseMenColorCountEval.counts, [0, 1, 2, 3]);
+assert.deepEqual(wiseMenColorCountEval.rows.map(row => row.options.length), [2, 2, 2, 2, 2, 2]);
+const wiseMenColorCountOddEval = cheater.wiseMenColorCountEvaluate({
+  ...wiseMenFourColorCountsConfig,
+  colors: [1, 3, 3, 4, 4, 4]
+});
+assert.equal(wiseMenColorCountOddEval.success, true);
+assert.equal(wiseMenColorCountOddEval.correctCount, 3);
+assert.equal(wiseMenColorCountOddEval.parity, 1);
+const wiseMenColorCountFullCheck = cheater.wiseMenColorCountExhaustiveCheck(wiseMenFourColorCountsConfig);
+assert.equal(wiseMenColorCountFullCheck.success, true);
+assert.equal(wiseMenColorCountFullCheck.checked, 1440);
+assert.equal(wiseMenColorCountFullCheck.minCorrect, 3);
+assert.equal(wiseMenColorCountFullCheck.maxCorrect, 3);
+
+const prisonerHatStates = cheater.prisonerHatsParityInitialStates(prisonersHatsLineConfig);
+assert.equal(prisonerHatStates.length, 64);
+const prisonerHatState = cheater.prisonerHatsParityNormalizeState(
+  { hats: [1, 0, 0, 0, 0, 0] },
+  prisonersHatsLineConfig
+);
+const prisonerHatTranscript = cheater.prisonerHatsParityProtocolTranscript(prisonerHatState, prisonersHatsLineConfig);
+assert.deepEqual(prisonerHatTranscript, [0, 0, 0, 0, 0, 0]);
+const prisonerHatEvaluation = cheater.prisonerHatsParityEvaluateTranscript({
+  ...prisonersHatsLineConfig,
+  state: prisonerHatState,
+  answers: prisonerHatTranscript
+});
+assert.equal(prisonerHatEvaluation.success, true);
+assert.equal(prisonerHatEvaluation.rows[0].correctHat, false);
+assert.equal(prisonerHatEvaluation.rows.slice(1).every(row => row.correctHat), true);
+assert.equal(prisonerHatEvaluation.correctCount, 5);
+const prisonerHatFullCheck = cheater.prisonerHatsParityExhaustiveCheck(prisonersHatsLineConfig);
+assert.equal(prisonerHatFullCheck.success, true);
+assert.equal(prisonerHatFullCheck.checked, 64);
+assert.equal(prisonerHatFullCheck.minCorrect, 5);
+assert.equal(prisonerHatFullCheck.maxCorrect, 6);
+assert.equal(prisonerHatFullCheck.firstCorrectCount, 32);
+
+const hiddenHatStates = cheater.hiddenHatParityInitialStates(wiseMenSixHiddenHatConfig);
+assert.equal(hiddenHatStates.length, 5040);
+const hiddenHatState = cheater.hiddenHatParityNormalizeState(
+  { hidden: 7, hats: [1, 2, 3, 4, 5, 6] },
+  wiseMenSixHiddenHatConfig
+);
+const hiddenHatTranscript = cheater.hiddenHatParityProtocolTranscript(hiddenHatState, wiseMenSixHiddenHatConfig);
+assert.equal(hiddenHatTranscript.length, 6);
+assert.equal(new Set(hiddenHatTranscript).size, 6);
+const hiddenHatEvaluation = cheater.hiddenHatParityEvaluateTranscript({
+  ...wiseMenSixHiddenHatConfig,
+  state: hiddenHatState,
+  answers: hiddenHatTranscript
+});
+assert.equal(hiddenHatEvaluation.success, true);
+assert.equal(hiddenHatEvaluation.rows.slice(1).every(row => row.correctHat), true);
+const hiddenHatFullCheck = cheater.hiddenHatParityExhaustiveCheck(wiseMenSixHiddenHatConfig);
+assert.equal(hiddenHatFullCheck.success, true);
+assert.equal(hiddenHatFullCheck.checked, 5040);
+assert.equal(hiddenHatFullCheck.minCorrect, 5);
+assert.equal(hiddenHatFullCheck.maxCorrect, 6);
+
+const tenBoxSuccessPermutation = [2, 3, 4, 5, 1, 7, 8, 9, 10, 6];
+const tenBoxSuccess = cheater.permutationCycleRunAll(tenBoxSuccessPermutation, 5);
+assert.equal(tenBoxSuccess.success, true);
+assert.deepEqual(tenBoxSuccess.cycles.map(cycle => cycle.length), [5, 5]);
+assert.deepEqual(
+  cheater.permutationCycleTrace(tenBoxSuccessPermutation, 3, 5).openings.map(item => [item.box, item.value]),
+  [[3, 4], [4, 5], [5, 1], [1, 2], [2, 3]]
+);
+
+const tenBoxFailurePermutation = cheater.permutationCycleCheaterPermutation(10, 5);
+const tenBoxFailure = cheater.permutationCycleRunAll(tenBoxFailurePermutation, 5);
+assert.equal(tenBoxFailure.success, false);
+assert.equal(tenBoxFailure.maxCycleLength, 6);
+assert.deepEqual(tenBoxFailure.failingPrisoners, [1, 2, 3, 4, 5, 6]);
+
+const tenBoxCycleStats = cheater.permutationCycleTypeStatistics(10, 5);
+assert.equal(tenBoxCycleStats.total, 3628800);
+assert.equal(tenBoxCycleStats.rows.length, 42);
+assert.equal(tenBoxCycleStats.successCount, 1285920);
+assert.equal(Math.round(tenBoxCycleStats.probability * 1000000), 354365);
+
+const fitchDeck = cheater.fitchCheneyDeck(fitchCheneyConfig);
+assert.equal(fitchDeck.length, 52);
+const fitchHand = ['C0', 'C5', 'D2', 'H8', 'S12'];
+const fitchMove = cheater.fitchCheneyChooseAssistantMove(fitchHand, fitchCheneyConfig);
+assert.equal(fitchMove.ok, true);
+assert.deepEqual(fitchMove.hand.map(card => card.id), fitchHand);
+assert.equal(fitchMove.hiddenCard.id, 'C5');
+assert.deepEqual(fitchMove.shownCards.map(card => card.id), ['C0', 'S12', 'D2', 'H8']);
+const fitchDecoded = cheater.fitchCheneyDecodeShown(fitchMove.shownCards, fitchCheneyConfig);
+assert.equal(fitchDecoded.ok, true);
+assert.equal(fitchDecoded.hiddenCard.id, fitchMove.hiddenCard.id);
+assert.equal(
+  cheater.fitchCheneyEvaluate({
+    ...fitchCheneyConfig,
+    hand: fitchHand,
+    hiddenCard: fitchMove.hiddenCard.id,
+    shownCards: fitchMove.shownCards.map(card => card.id)
+  }).win,
+  true
+);
+assert.equal(
+  cheater.fitchCheneyEvaluate({
+    ...fitchCheneyConfig,
+    hand: fitchHand,
+    hiddenCard: fitchMove.hiddenCard.id,
+    shownCards: ['C0', 'D2', 'H8', 'S12']
+  }).win,
+  false
+);
+const fitchExhaustive = cheater.fitchCheneyExhaustiveCheck(fitchCheneyConfig);
+assert.equal(fitchExhaustive.ok, true);
+assert.equal(fitchExhaustive.checked, 2598960);
+
+const threeLetterErasureConfig = {
+  message_count: 16,
+  word_length: 8,
+  alphabet: ['А', 'Б', 'В'],
+  codewords: [
+    'АББАВВАБ',
+    'АБВБВВВА',
+    'АВААВББВ',
+    'АВАВВБВБ',
+    'АВБББВАВ',
+    'АВББВВАБ',
+    'АВВББАББ',
+    'ББВААВАВ',
+    'БВААВББВ',
+    'БВВААВБВ',
+    'ВААБАББВ',
+    'ВАБАВВБА',
+    'ВАВВАБББ',
+    'ВБААВААБ',
+    'ВБВБВААВ',
+    'ВВБАБААА'
+  ]
+};
+const threeLetterCheck = cheater.threeLetterErasureCheckTable(threeLetterErasureConfig);
+assert.equal(threeLetterCheck.success, true);
+assert.equal(threeLetterCheck.checked, 48);
+assert.equal(threeLetterCheck.conflicts.length, 0);
+for (let message = 0; message < threeLetterErasureConfig.message_count; message += 1) {
+  for (const erased of threeLetterErasureConfig.alphabet) {
+    const result = cheater.threeLetterErasureEvaluate({
+      ...threeLetterErasureConfig,
+      message,
+      erased,
+      guess: message
+    });
+    assert.equal(result.win, true);
+    assert.deepEqual(result.candidates, [message]);
+  }
+}
+const threeLetterBadCheck = cheater.threeLetterErasureCheckTable({
+  ...threeLetterErasureConfig,
+  codewords: Array.from({ length: 16 }, () => 'АБАБАБАБ')
+});
+assert.equal(threeLetterBadCheck.success, false);
+assert.equal(threeLetterBadCheck.conflicts.length > 0, true);
+
+const permutationMessageLabels = cheater.permutationMessageLabels(permutationMessageConfig);
+assert.deepEqual(permutationMessageLabels, ['A', 'B', 'C']);
+const permutationMessageTable = cheater.permutationMessageTable(permutationMessageConfig);
+assert.equal(permutationMessageTable.length, 6);
+assert.deepEqual(permutationMessageTable.map(row => row.labels.join('')), ['ABC', 'ACB', 'BAC', 'BCA', 'CAB', 'CBA']);
+for (const row of permutationMessageTable) {
+  assert.deepEqual(cheater.permutationMessageEncode(row.message, permutationMessageConfig).order, row.order);
+  assert.equal(cheater.permutationMessageDecode(row.order, permutationMessageConfig).message, row.message);
+  assert.equal(
+    cheater.permutationMessageEvaluate({
+      ...permutationMessageConfig,
+      direction: 'encode',
+      message: row.message,
+      order: row.order
+    }).win,
+    true
+  );
+  assert.equal(
+    cheater.permutationMessageEvaluate({
+      ...permutationMessageConfig,
+      direction: 'decode',
+      order: row.order,
+      guess: row.message
+    }).win,
+    true
+  );
+}
+const permutationMessageExhaustive = cheater.permutationMessageExhaustiveCheck(permutationMessageConfig);
+assert.equal(permutationMessageExhaustive.success, true);
+assert.equal(permutationMessageExhaustive.checked, 6);
+assert.equal(permutationMessageExhaustive.failures.length, 0);
+assert.equal(cheater.permutationMessageDecode(['A', 'A', 'B'], permutationMessageConfig).message, null);
 
 console.log('weighing_cheater_selftest: ok');

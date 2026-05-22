@@ -1,0 +1,81 @@
+{
+  "relations": [
+    {
+      "id": "rel-knop-14-known-genuine-to-13-known-genuine",
+      "from": "knop-saladin-14-known-genuine-identify-only",
+      "to": "thirteen-coins-known-genuine-three-weighings",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Версия с 14 подозрительными монетами использует ту же таблицу, что и задача с 13 монетами и одной настоящей, но добавляет нулевую кодовую судьбу и поэтому не определяет знак для одной монеты.",
+      "backward_text": "Классическая версия с 13 подозрительными монетами является знакоразличающей основой: каждая ненулевая кодовая судьба определяет и монету, и направление отличия.",
+      "status": "ai_checked",
+      "confidence": 0.94
+    },
+    {
+      "id": "rel-knop-six-identify-only-to-13-identify-only",
+      "from": "knop-six-coins-two-weighings-identify-only-impossible",
+      "to": "thirteen-coins-identify-only-three-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Невозможность для 6 монет за 2 взвешивания показывает тонкость цели «найти монету без знака»: часть исходов все равно вынуждает различать знак.",
+      "backward_text": "Разрешимая задача для 13 монет за 3 взвешивания использует ту же идею склеивания противоположных состояний по цели, но имеет достаточно исходов и правильную кодировку.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-knop-spare-plan-to-12-preassigned",
+      "from": "knop-saladin-four-weighings-one-spare",
+      "to": "counterfeit-12-coins-3-preassigned-weighings",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "План с запасом усиливает заранее объявленную задачу Саладина: из четырех строк должна работать любая тройка после удаления одной строки.",
+      "backward_text": "Обычная заранее объявленная схема для 12 монет является базовым кодом без защиты от удаления одного взвешивания.",
+      "status": "ai_checked",
+      "confidence": 0.92
+    },
+    {
+      "id": "rel-knop-uniformity-to-zero-or-k",
+      "from": "knop-coin-uniformity-verification",
+      "to": "knop-zero-or-k-counterfeits-verification",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе серии являются неадаптивными проверками: равенства взвешиваний должны не найти фальшивые монеты, а исключить все нежелательные двухвесовые конфигурации.",
+      "backward_text": "Задачи «0 или k» используют более грубую цель, но тот же язык равенств групп и делимости числа фальшивых.",
+      "status": "needs_human_review",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-knop-expert-two-to-light-family",
+      "from": "emelyanov-expert-judge-two-counterfeits-two-weighings",
+      "to": "knop-expert-judge-light-counterfeits-extreme-sums",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Сертификат для двух равновесных фальшивых и серия для трех или шести легких фальшивых строятся на строгих неравенствах крайних сумм.",
+      "backward_text": "Серия с несколькими легкими фальшивыми развивает тот же экспертно-судейский прием: эксперт выбирает малую демонстрационную конфигурацию, невозможную при другом скрытом состоянии.",
+      "status": "needs_human_review",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-knop-expert-weights-family",
+      "from": "knop-expert-judge-eight-coins-3-4g-one-weighing",
+      "to": "knop-expert-judge-repeated-weights-cycle",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе карточки используют известный судье мультинобор весов и демонстрацию экспертными равенствами или неравенствами крайних сумм.",
+      "backward_text": "Серия с повторяющимися весами обобщает одноходовую идею для весов 3 г и 4 г на более сложные мультимножества.",
+      "status": "needs_human_review",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-tokarev-six-to-repeated-weights",
+      "from": "tokarev-expert-judge-six-weights-two-weighings",
+      "to": "knop-expert-judge-repeated-weights-cycle",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Задача Токарева о весах 1-6 и серия с повторяющимися весами обе являются сертификатами неизвестной перестановки известного набора весов.",
+      "backward_text": "Повторяющиеся веса дают похожий экспертно-судейский сертификат, но с мультимножеством, где одна и та же масса встречается несколько раз.",
+      "status": "needs_human_review",
+      "confidence": 0.76
+    }
+  ]
+}

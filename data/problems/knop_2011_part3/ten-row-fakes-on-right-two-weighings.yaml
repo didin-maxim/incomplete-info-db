@@ -1,0 +1,140 @@
+{
+  "id": "ten-row-fakes-on-right-two-weighings",
+  "title": "Фальшивые монеты справа в ряду из десяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "structural_constraint",
+      "case_analysis"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Фальшивые монеты справа в ряду из десяти",
+        "text": "В ряд лежат десять монет. Среди них есть настоящие монеты весом 10 г и фальшивые монеты весом 9 г; оба типа обязательно встречаются. Каждая настоящая монета лежит левее любой фальшивой. За два взвешивания определите все фальшивые монеты.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-boundary-nine-cases",
+      "title": "Искать границу между настоящими и фальшивыми",
+      "text": "Скрытое состояние - положение границы после одной из первых девяти монет. Первое взвешивание должно разделить эти девять границ на три группы по три.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "structural_constraint"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-1-8-vs-4-5",
+      "title": "Сравнить 1+8 с 4+5",
+      "text": "Первым взвешиванием сравним монеты 1 и 8 против монет 4 и 5. Если левая чаша тяжелее, последняя настоящая монета - 1-я, 2-я или 3-я; если левая чаша легче - 5-я, 6-я или 7-я; если равновесие - 4-я, 8-я или 9-я. В тройках 1, 2, 3 и 5, 6, 7 второе взвешивание сравнивает сумму двух пограничных монет с известной суммой 19 г: монета 1 настоящая, монета 10 фальшивая, поэтому 1+10 всегда весит 19 г. Для 1, 2, 3 сравним 2+3 против 1+10; исходы <, =, > дают соответственно 1, 2, 3. Для 5, 6, 7 сравним 6+7 против 1+10; исходы <, =, > дают соответственно 5, 6, 7. Для тройки 4, 8, 9 сравним 1+9 против 5+6; исходы >, <, = дают соответственно 4, 8, 9.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Возможны девять положений границы, а одно взвешивание дает не более трех исходов.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 состояний: граница между настоящими и фальшивыми после позиции 1-9",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_all_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "row_structure",
+      "right_block_of_fakes",
+      "boundary_search"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 10,
+    "counterfeit_count": "variable",
+    "counterfeit_type": "right_suffix_lighter_fakes",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_all_fakes"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Сложность в том, чтобы превратить монотонный ряд в ровно девять случаев и сделать физическое взвешивание с тремя исходами.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "structural_constraint",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.5; автор С. И. Токарев, Турнир Кванта, 1997.",
+      "2026-05-22: исправлены направления первого разбиения и добавлены вторые взвешивания для всех трех троек границы."
+    ]
+  }
+}

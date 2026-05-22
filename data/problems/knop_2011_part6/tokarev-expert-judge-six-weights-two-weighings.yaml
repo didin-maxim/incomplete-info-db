@@ -1,0 +1,124 @@
+{
+  "id": "tokarev-expert-judge-six-weights-two-weighings",
+  "title": "Эксперт доказывает веса шести гирь от 1 до 6 г",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d49",
+        "title": "Шесть последовательных весов",
+        "text": "Эксперт предъявил суду 6 гирь. Он знает вес каждой гири, а судья знает только то, что веса гирь - последовательные целые числа от 1 до 6 г. Как эксперт должен проделать два взвешивания, чтобы доказать судье вес каждой гири?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-extreme-sums-six-weights",
+      "title": "Равенство и неравенство фиксируют крайние веса",
+      "text": "Первое равенство выделяет гирю 6 г как сумму 1+2+3. Второе строгое неравенство отделяет оставшиеся веса так, что альтернативная перестановка невозможна.",
+      "standard_idea_ids": [
+        "extreme_sum_argument"
+      ],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-tokarev-two-weighings",
+      "title": "Два взвешивания из решения",
+      "text": "Если эксперт называет гири их истинными весами, он показывает равенство \\(1+2+3=6\\), а затем неравенство \\(1+6<3+5\\). Эти два публичных результата должны позволить судье восстановить соответствие гирь весам 1, 2, 3, 4, 5, 6.",
+      "standard_idea_ids": [
+        "extreme_sum_argument",
+        "certificate"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка весов 1, 2, 3, 4, 5, 6 между шестью гирями",
+    "observations": [
+      "два публичных результата взвешивания"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания"
+    ],
+    "goal": [
+      "certify_all_weights"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "extreme_sum_certificate"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "expert_judge",
+      "six_weights",
+      "1_to_6",
+      "tokarev"
+    ],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_multiset_weights_1_to_6_unknown_assignment",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Нужно проверить, что две числовые связи действительно единственно задают перестановку весов.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "structural_constraint",
+    "symmetry_breaking",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_d49",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "expert_judge_certificate_case",
+    "notes": [
+      "Автор по индексу книги: С. И. Токарев.",
+      "Оставлено закрытым: два демонстрационных взвешивания приведены, но нужна ручная проверка, что у судьи не остается альтернативной перестановки весов 1-6."
+    ]
+  }
+}

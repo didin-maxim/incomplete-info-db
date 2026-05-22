@@ -1,0 +1,68 @@
+{
+  "id": "knop-2011-part3",
+  "title": "Кноп 2011: занятие 3, поиск случая",
+  "created_at": "2026-05-22",
+  "status": "draft",
+  "items": [
+    {
+      "problem_id": "three-coins-unknown-sign-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "four-labeled-weights-one-defective-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "thirteen-labeled-weights-one-defective-three-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "lost-weight-among-nine-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "ten-row-fakes-on-right-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "ten-weights-adjacent-labels-swapped-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "nine-circle-arithmetic-progression-find-heaviest-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "nine-circle-two-adjacent-light-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "nine-circle-three-consecutive-light-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "nine-coins-one-sticking-balance-three-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "five-coins-two-equal-fakes-find-genuine",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    }
+  ],
+  "source_notes": [
+    "Импортированы новые недублирующие карточки из занятия 3 книги К. А. Кнопа «Взвешивания и алгоритмы: от головоломок к задачам», МЦНМО, 2011.",
+    "Явные дубли lktg-2008-three-balances-one-broken-nine-coins и problems-ru-65055-paid-weighings-genuine-coin не создавались в этом проходе; source-only обработан отдельно.",
+    "Интерактивы в карточки не добавлялись: кандидаты перечислены в docs/reviews/interactive-knop-2011-part3.md."
+  ]
+}

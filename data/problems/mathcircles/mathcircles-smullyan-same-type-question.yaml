@@ -1,6 +1,6 @@
 {
   "id": "mathcircles-smullyan-same-type-question",
-  "title": "Листок Смальяна: что ответит C на вопрос об одинаковом типе",
+  "title": "Листок Смаллиана: что ответит C на вопрос об одинаковом типе",
   "fragment": "questions",
   "kind": {"primary": "math_circle_problem", "secondary": ["truth_liar_reasoning", "hidden_types"]},
   "language": "ru",
@@ -59,7 +59,7 @@
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на четыре совместимых случая; трудность в том, что тип C влияет и на истинный ответ, и на то, соврет ли C.", "status": "ai_checked"},
   "tags": ["lie_detection", "truth_liar_normalization", "knowledge_elimination", "condition_middle_school"],
-  "novelty": {"status": "known_classic", "duplicate_risk": "medium", "advantage_note": "Это отдельный короткий вариант классических задач Смальяна: вместо поиска всех типов нужно предсказать ответ одного островитянина."},
+  "novelty": {"status": "known_classic", "duplicate_risk": "medium", "advantage_note": "Это отдельный короткий вариант классических задач Смаллиана: вместо поиска всех типов нужно предсказать ответ одного островитянина."},
   "sources": [{"source_id": "src-mathcircles-rodin-knights-and-knaves", "role": "math_circle_statement_with_primary_pointer", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
@@ -67,6 +67,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "mathcircles_batch",
-    "notes": ["Источник дает условие как Scenario 11 и отдельно указывает, что задачи листка взяты из книги Raymond Smullyan What Is the Name of This Book?; карточка является русским пересказом с собственным коротким решением. Altha Rodin оставлена автором листка только в реестре источников, не в авторах задачи."]
+    "notes": ["Источник дает условие как Scenario 11 и отдельно указывает, что задачи листка взяты из книги Raymond Smullyan What Is the Name of This Book?; карточка является русским пересказом с собственным коротким решением. Altha Rodin оставлена автором листка только в реестре источников, не в авторах задачи.", "Русская передача фамилии Smullyan нормализована как «Смаллиан»."]
   }
 }

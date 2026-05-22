@@ -1,0 +1,72 @@
+{
+  "id": "knop-2011-part4",
+  "title": "Кноп-2011, занятие 4: числовые и стрелочные весы",
+  "created_at": "2026-05-22",
+  "status": "draft",
+  "source_id": "src-knop-2011-weighings-algorithms",
+  "items": [
+    {
+      "problem_id": "knop-2011-21-coins-one-pointer-parity",
+      "status": "added"
+    },
+    {
+      "problem_id": "knop-2011-nine-apples-pair-sums-total",
+      "status": "added"
+    },
+    {
+      "problem_id": "knop-2011-seven-bags-subset-one-weighing",
+      "status": "added"
+    },
+    {
+      "problem_id": "apsimon-knop-2011-three-bags-four-coins-two-weighings",
+      "status": "added"
+    },
+    {
+      "problem_id": "mmo-1976-four-balls-distinct-pair-sums",
+      "status": "added"
+    },
+    {
+      "problem_id": "mmo-1981-five-weights-find-1000",
+      "status": "added"
+    },
+    {
+      "problem_id": "mmo-1988-four-coins-all-fakes-numeric-scale",
+      "status": "added"
+    },
+    {
+      "problem_id": "lindstrom-1969-two-triples-one-fake-each",
+      "status": "added"
+    },
+    {
+      "problem_id": "rmo-2002-three-consecutive-light-weights",
+      "status": "added"
+    },
+    {
+      "problem_id": "kvant-tournament-1997-two-fake-wallets",
+      "status": "added"
+    },
+    {
+      "problem_id": "tot-1994-geologists-cans-expert-proof",
+      "status": "added"
+    },
+    {
+      "problem_id": "kvant-tournament-1999-marked-ingots-100",
+      "status": "added"
+    },
+    {
+      "problem_id": "counterfeit-stack-one-weighing",
+      "status": "not_added_duplicate",
+      "notes": "Занятие 4, задача 4.3, уже обработана source-only первым проходом."
+    },
+    {
+      "problem_id": "problems-ru-78572-eleven-bags-two-numeric-balance-weighings",
+      "status": "not_added_duplicate",
+      "notes": "Занятие 4, задача 4.5, уже обработана source-only первым проходом."
+    },
+    {
+      "problem_id": "problems-ru-65817-six-coins-digital-scale-unknown-weights",
+      "status": "not_added_duplicate",
+      "notes": "Занятие 4, задача 4.6, уже обработана source-only первым проходом."
+    }
+  ]
+}

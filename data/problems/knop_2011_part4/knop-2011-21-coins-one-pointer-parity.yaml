@@ -1,0 +1,115 @@
+{
+  "id": "knop-2011-21-coins-one-pointer-parity",
+  "title": "Кноп-2011: проверить одну монету из 21 одним взвешиванием",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction",
+      "parity"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Стрелка и четность",
+        "text": "Среди 21 монеты 10 настоящих и 11 фальшивых. Фальшивые монеты на 1 г легче настоящих. Как за одно взвешивание на двухчашечных весах со стрелкой узнать, фальшива ли заранее выбранная монета?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-parity-of-rest",
+      "title": "Четность выдает тип оставшейся монеты",
+      "text": "Если не взвешивать проверяемую монету, на чашах окажутся 20 остальных. В зависимости от того, настоящая она или фальшивая, среди этих 20 монет будет соответственно 10 или 11 фальшивых; это меняет четность возможной разности весов.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "parity_invariant"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-weigh-ten-against-ten",
+      "title": "Разложить остальные монеты поровну",
+      "text": "Положим на каждую чашу по 10 монет из остальных двадцати. Если проверяемая монета фальшивая, то среди взвешенных монет 10 фальшивых и 10 настоящих, поэтому разность весов четна. Если проверяемая монета настоящая, среди взвешенных монет 11 фальшивых и 9 настоящих, поэтому разность весов нечетна. По четности показания стрелки определяем ответ.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "parity_invariant"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "выбранная монета может быть настоящей или фальшивой при известных общих числах 10 и 11",
+    "observations": [
+      "одно числовое показание разности весов"
+    ],
+    "allowed_actions": [
+      "выбрать по 10 монет на каждую чашу среди остальных 20"
+    ],
+    "goal": [
+      "decide_whether_named_coin_is_counterfeit"
+    ],
+    "strategy_type": [
+      "parity_test"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "one_pointer_weighing",
+      "parity",
+      "known_counts"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 21,
+    "counterfeit_count": 11,
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": "numeric_difference",
+    "adaptive": false,
+    "objective": "test_named_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 2,
+    "comment": "Короткая задача на инвариант четности.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "parity",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "Импортировано из занятия 4 книги К. А. Кнопа; интерактив намеренно не добавлен на этом проходе."
+    ]
+  }
+}

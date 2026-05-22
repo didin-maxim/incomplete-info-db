@@ -46,9 +46,23 @@
 
 Для `single_counterfeit_weighing` обязательны `coin_count`, `counterfeit_weight`, `max_weighings` и `objective`. Поле хранит только параметры модели и режима; стратегию, подсказки и решение оно не содержит.
 
+Для сертификационных задач, где не нужно найти фальшивый объект, а нужно выбрать кучку без него, используется `safe_pile_balance_certificate`. Обязательны `pile_sizes` или `piles`, `max_weighings` и `objective: "identify_safe_pile"`. Скрытые состояния имеют вид `(алмаз, heavier/lighter, кучка)`, а ответ принимается только если выбранная кучка не содержит фальшивого алмаза ни в одном совместимом состоянии.
+
 Для числовых весов используется `numeric_linear_signature`. Вариант `objective: "identify_fake_bag_subset"` задает подмножество фальшивых мешков через `bag_count`, `allow_empty_subset` и `exclude_all_fake`; вариант `objective: "identify_fake_bag"` задает ровно одну фальшивую стопку/мешок и дополнительно требует `state_model: "single_fake_bag"`, `fake_bag_count: 1`, `counterfeit_weight`, `counterfeit_delta`, `genuine_weight` и `observation_model: "actual_weight"`. Для нескольких цифровых взвешиваний выбранных подмножеств монет используется тот же тип с `objective: "identify_fake_coin_set"`, `state_model: "fixed_fake_count"`, `object_kind: "coin"` и `selection_model: "subset"`.
 
 Для не-взвешивательных числовых тестов подмножеств используется `subset_signature_protocol`: конфиг задает только `object_count`, `max_tests`, `objective: "identify_magic_subset"` и необязательные `object_labels`/`modes`. Viewer строит все `2^object_count` скрытых подмножеств на клиенте и принимает стратегию только когда кортежи числовых ответов для выбранных тестов попарно различны.
+
+Для малых задач BAS о вопросах "лежит ли скрытое число в подмножестве?" используется `balanced_subset_question_code`: конфиг задает `object_count`, `max_tests`, `target_sum`, `objective: "identify_hidden_number"` и опциональные `modes`. Viewer не хранит готовую стратегию в YAML: пользователь выбирает подмножества, UI проверяет сумму каждого вопроса и перебирает все скрытые числа, чтобы убедиться, что двоичные коды ответов различны.
+
+Для классического фокуса с пятью карточками чисел используется `binary_cards_number_trick`: конфиг задает `card_count`, `number_min`, `number_max`, `card_weights`, `objective: "identify_hidden_number"` и режимы `random`/`manual_spectator`/`exhaustive`. Движок строит карточки по битовым признакам, декодирует отмеченные карточки суммой их весов и в полном переборе проверяет все числа диапазона.
+
+Для протокола с одним обязательным переворотом монеты и XOR-контрольной суммой используется `xor_single_flip_protocol`. Конфиг задает `position_count`, `objective: "identify_key_position"` и режимы. Скрытое состояние состоит из начальной битовой раскладки и позиции ключа; viewer проверяет, что переворот одной позиции переводит итоговую XOR-сумму в адрес ключа, а exhaustive-режим перебирает все `position_count * 2^position_count` состояний.
+
+Для протокола заключенных с ящиками используется `permutation_cycle_protocol`. Конфиг задает только `prisoner_count`, `box_count`, `max_openings`, `objective: "all_agents_find_own_state"` и режимы. Скрытое состояние - перестановка номеров по ящикам; viewer строит трассы заключенных по правилу «открыть свой ящик, затем ящик с найденным номером». Полная проверка не перебирает все перестановки на экране, а группирует их по типам циклов и показывает критерий успеха: максимальная длина цикла не больше лимита открытий.
+
+Для ржавых чашечных весов с мертвой зоной используется `threshold_balance_counterfeit_sets`. Конфиг задает `coin_count`, `counterfeit_count`, `counterfeit_weight: "lighter"`, `genuine_weight`, `counterfeit_delta`, `reliable_difference`, `max_weighings`, `objective: "identify_all_counterfeits"` и режимы. Viewer строит все наборы фальшивых монет заданного размера; ответ `left_reliable_lighter`/`right_reliable_lighter` появляется только если абсолютная разница масс не меньше `reliable_difference`, иначе ветка получает `no_reliable_tilt`.
+
+Для поиска движущейся цели на конечном графе используется `moving_target_graph_search`. Конфиг задает `vertices`, `edges`, `check_size`, `max_tests`, `objective: "capture_hidden_moving_target"` и режимы. Скрытое состояние - текущая вершина цели. После неудачной проверки цель обязана перейти в соседнюю вершину; `random` хранит одну скрытую вершину, `cheater` оставляет худшее совместимое множество следующих вершин, `exhaustive` строит дерево непойманных веток до лимита.
 
 Для карточных фокусов с конечной таблицей пар используется
 `finite_pair_matching_protocol`. Конфиг задает только параметры пространства
@@ -82,6 +96,11 @@
 - `backward_text`
 - `status`
 - `confidence`
+
+Для типа `generalization` направление фиксировано так: `from` - частный случай,
+`to` - более общая карточка. Длина такой связи всегда `distance: 1`. Во viewer
+эта связь показывается как «обобщение» со стороны частного случая и как
+«частный случай» со стороны общей карточки.
 
 ### `data/sources/`
 

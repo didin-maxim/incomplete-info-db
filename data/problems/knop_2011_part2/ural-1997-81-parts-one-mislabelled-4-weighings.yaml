@@ -1,0 +1,55 @@
+{
+  "id": "ural-1997-81-parts-one-mislabelled-4-weighings",
+  "title": "81 деталь первого и второго сорта: одна промаркирована неверно",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "generalization"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d20",
+        "title": "Найти неправильно промаркированную деталь",
+        "text": "На складе лежит 81 деталь; каждая деталь промаркирована первым или вторым сортом. Детали одинакового сорта весят одинаково, а каждая деталь второго сорта немного легче детали первого сорта. Известно, что ровно одна деталь промаркирована неправильно. Нужно определить эту деталь за четыре взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-mislabel-as-type-dependent-sign",
+      "title": "Неверная маркировка задает знак фальшивости",
+      "text": "Деталь, помеченная первым сортом, но фактически второго, легче своей маркировки; деталь, помеченная вторым сортом, но фактически первого, тяжелее своей маркировки. Это та же схема, что у золотых и серебряных монет со знаком, зависящим от типа.",
+      "standard_idea_ids": ["state_space_encoding", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-reduce-like-gold-silver",
+      "title": "Повторять трисекцию по маркировкам",
+      "text": "Рассматриваем детали с маркировкой первого сорта как один тип, а второго сорта - как другой. Если неверна маркировка первого сорта, такая деталь фактически легче; если неверна маркировка второго сорта, она фактически тяжелее относительно своей маркировки. Поэтому можно действовать как в задачах о золотых и серебряных монетах: на каждом шаге паровать детали одинаковой маркировки и раскладывать пары по разным чашам так, чтобы каждый результат оставлял не больше трети подозрительных деталей. Четыре взвешивания различают \\(3^4=81\\) возможное положение ошибки.",
+      "standard_idea_ids": ["ternary_weighing_code", "state_space_encoding"],
+      "status": "needs_human_review",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "81 возможная неправильно промаркированная деталь; знак отклонения зависит от указанного сорта",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["сравнивать наборы деталей с учетом известных маркировок"],
+    "goal": ["identify_mislabelled_object"],
+    "strategy_type": ["adaptive_strategy", "ternary_search", "type_dependent_sign"],
+    "lower_bound_method": [],
+    "keywords": ["mislabelled_parts", "two_grades", "type_dependent_sign", "ural_1997"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 81, "counterfeit_count": 1, "counterfeit_type": "mislabelled_two_types_type_dependent_sign", "weighing_count": 4, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["grade_1_label", "grade_2_label"], "objective": "identify_object"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Это полная троичная емкость четырех взвешиваний в модели, где тип виден, а знак отклонения зависит от маркировки.", "status": "needs_human_review"},
+  "tags": ["balance_scale", "ternary_search", "ternary_code", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "needs_human_review", "public_ready": false, "relations_status": "knop_2011_part2", "notes": ["Дополнительная задача Д.20. В index указан автор А. В. Шаповалов и первоисточник: Уральский турнир, 1997. Книга отсылает к задачам второго занятия о золотых и серебряных монетах; карточка оставлена на review из-за краткости решения."]}
+}

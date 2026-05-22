@@ -1,0 +1,139 @@
+{
+  "id": "three-coins-unknown-sign-two-weighings",
+  "title": "Три монеты неизвестного знака за два взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "counterfeit_coin_problem",
+      "strategy_construction",
+      "optimality"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Три монеты неизвестного знака за два взвешивания",
+        "text": "Даны три одинаковые на вид монеты. Одна из них фальшивая, но неизвестно, легче она настоящих или тяжелее. Найдите фальшивую монету за два взвешивания на чашечных весах и определите, легче она или тяжелее.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-six-cases",
+      "title": "Различать надо шесть случаев",
+      "text": "У трех монет не три, а шесть возможных состояний: каждая монета может быть фальшивой легкой или фальшивой тяжелой. Первое взвешивание должно оставить не больше трех случаев.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound",
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-compare-1-2-then-1-3",
+      "title": "Сравнить 1 с 2, затем 1 с 3",
+      "text": "Сначала сравним монеты 1 и 2. Вторым взвешиванием сравним монеты 1 и 3. Пара результатов однозначно задает ответ: если оба раза левая чаша легче, то монета 1 легкая; если сначала левая легче, а затем равенство, то монета 2 тяжелая; если сначала равновесие, а затем левая чаша легче, то монета 3 тяжелая; если сначала равновесие, а затем левая чаша тяжелее, то монета 3 легкая; если сначала левая чаша тяжелее, а затем равенство, то монета 2 легкая; если оба раза левая чаша тяжелее, то монета 1 тяжелая. Две оставшиеся пары результатов невозможны при ровно одной фальшивой монете.",
+      "standard_idea_ids": [
+        "decision_tree",
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Одно взвешивание имеет только три исхода, а возможных состояний шесть. Поэтому за одно взвешивание нельзя гарантированно найти монету и знак отличия.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "6 состояний: 3 монеты, каждая может быть легкой или тяжелой",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_counterfeit_coin",
+      "identify_heavy_or_light"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "three_coins",
+      "unknown_direction",
+      "six_cases"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 3,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "identify_coin_and_sign"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Вводная задача на отличие числа предметов от числа состояний: после первого взвешивания остается не более двух кандидатов.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.1. Первоисточник в указателе не указан."
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "two-types-27-coins-light-heavy-3-weighings",
+  "title": "Двадцать семь серебряных и золотых монет: знак зависит от металла",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction", "generalization"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-10",
+        "title": "Смешанный знак для 27 монет",
+        "text": "Есть 27 монет, часть из них серебряные, остальные золотые. Ровно одна монета фальшивая, остальные настоящие; настоящая серебряная монета отличается по весу от настоящей золотой. Серебряная фальшивая монета легче настоящей серебряной, а золотая фальшивая тяжелее настоящей золотой. Нужно найти фальшивую монету за три взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-pair-by-type",
+      "title": "Пары одного металла дают равные нормальные чаши",
+      "text": "Если разложить пары монет одного металла по разным чашам, то при настоящих монетах чаши уравновешены. Результат оставляет одну из трех почти равных частей: отложенные монеты, серебряные с легкой чаши вместе с золотыми с тяжелой, или симметричный набор.",
+      "standard_idea_ids": ["ternary_weighing_code", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-paired-trisection",
+      "title": "Трижды оставить треть подозрительных состояний",
+      "text": "Разобьем монеты на пары одного металла, кроме, возможно, одной непарной монеты. Для первого взвешивания выберем девять таких пар и разложим каждую пару по разным чашам. Если весы равны, подозрительны девять отложенных монет. Если есть перекос, подозрительны серебряные монеты с легкой чаши и золотые монеты с тяжелой чаши; их тоже ровно девять.\n\nВо втором взвешивании применим тот же прием к девяти подозрительным монетам: выделим четыре пары одного металла, три пары разложим по чашам, а остальные монеты отложим. После результата останется три подозрительные монеты, причем среди них есть пара одного металла. Третьим взвешиванием сравним эту пару: если одна монета проявляет нужный для своего металла перекос, она фальшивая; если пара равна, фальшива третья подозрительная монета.",
+      "standard_idea_ids": ["ternary_weighing_code", "state_space_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "27 возможных положений единственной фальшивой монеты; серебряная фальшивка легче, золотая тяжелее",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["сравнивать наборы монет с равной нормальной массой"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "ternary_search", "pairing_by_type"],
+    "lower_bound_method": [],
+    "keywords": ["silver_gold", "mixed_sign_by_type", "pairing_same_type", "27_states"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 27, "counterfeit_count": 1, "counterfeit_type": "silver_lighter_gold_heavier", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["silver", "gold"], "objective": "identify_coin"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Троичная схема на 27 состояниях требует каждый раз паровать монеты одного металла и правильно читать направление перекоса.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_search", "ternary_code", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.10. Это обобщение задачи 2.9 на полную троичную емкость трех взвешиваний."]}
+}

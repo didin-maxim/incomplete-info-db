@@ -1,0 +1,140 @@
+{
+  "id": "tot-1994-geologists-cans-expert-proof",
+  "title": "Турнир городов-1994: геологи и консервы",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Завхоз доказывает маркировку банок",
+        "text": "Геологи взяли 80 банок консервов, веса которых все известны и различны. Надписи стали нечитаемыми, и только завхоз знает, где какая банка. Он должен доказать это всем, не вскрывая банки, пользуясь списком весов и двухчашечными весами со стрелкой, показывающей разницу весов. Докажите, что четырех взвешиваний достаточно, а трех недостаточно.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-extreme-thirding-certificate",
+      "title": "Крайние группы можно сертифицировать по максимальной разности",
+      "text": "Если положить самые легкие банки на одну чашу, самые тяжелые на другую, то разность весов будет экстремальной и достигается единственным образом. Такое взвешивание разбивает банки на три сертифицированные группы: легкие, средние и тяжелые.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "extremal_principle",
+        "partition_state_space"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-ternary-levels",
+      "title": "Четыре раза делить на трети",
+      "text": "Добавим фиктивную банку нулевого веса и получим 81 предмет. На первом шаге завхоз кладет 27 самых легких известных ему банок на левую чашу и 27 самых тяжелых на правую. Показанная максимальная разность доказывает, что эти группы выбраны верно, а оставшиеся 27 имеют средние веса. Затем каждая из трех групп делится на три группы по 9 тем же приемом, потом на тройки, потом на одиночные банки. После четырех уровней все банки определены.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "extremal_principle",
+        "partition_state_space"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-three-levels-not-enough",
+      "title": "Трех взвешиваний недостаточно",
+      "text": "Каждое взвешивание может поместить каждую банку в одну из трех ролей: левая чаша, правая чаша или вне весов. После трех взвешиваний получается не более 27 групп с одинаковой судьбой. Среди 80 банок в одной группе окажутся как минимум три банки; судья не сможет различить их перестановку.",
+      "method": "partition_counting",
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "неизвестное для судьи соответствие 80 известных различных весов банкам",
+    "observations": [
+      "демонстрационные взвешивания с числовой разностью весов"
+    ],
+    "allowed_actions": [
+      "эксперт, знающий веса, выбирает группы банок для доказательных взвешиваний"
+    ],
+    "goal": [
+      "certify_all_labels_to_judge"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "ternary_partition",
+      "extremal_principle"
+    ],
+    "lower_bound_method": [
+      "partition_counting"
+    ],
+    "keywords": [
+      "expert_judge",
+      "geologists_cans",
+      "extreme_principle",
+      "Tournament_of_Towns_1994"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 80,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_distinct_weights_unknown_labels",
+    "weighing_count": 4,
+    "outcome_count_per_weighing": "numeric_difference",
+    "adaptive": false,
+    "objective": "certify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Экспертная задача: доказательство строится как сертификат через экстремальные разности и троичное разбиение.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "structural_constraint",
+    "knowledge_elimination",
+    "decision_tree_lower_bound",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги: А. К. Толпыго; Турнир городов, 1994."
+    ]
+  },
+  "authors": [
+    {
+      "name": "А. К. Толпыго",
+      "role": "problem_author",
+      "status": "from_book_index",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    }
+  ]
+}

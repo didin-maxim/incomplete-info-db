@@ -1,7 +1,16 @@
 {
   "id": "fitch-cheney-five-card-trick",
-  "title": "Фокус Фитча-Чейни с пятью картами",
+  "title": "Фокус Чейни с пятью картами",
   "fragment": "card_tricks",
+  "authors": [
+    {
+      "name": "William Fitch Cheney Jr.",
+      "role": "trick_attribution",
+      "status": "source_verified",
+      "source_id": "src-fitch-cheney-five-card-trick",
+      "note": "William Fitch Cheney Jr. / William F. Cheney Jr. is one person; Fitch is a given name, not a second surname."
+    }
+  ],
   "kind": {
     "primary": "classical_problem",
     "secondary": ["communication_strategy"]
@@ -69,6 +78,15 @@
     "ordering_channel": true,
     "encoded_values_by_order": 6,
     "strategy_type": "same_suit_pair_plus_permutation"
+  },
+  "interactive": {
+    "type": "fitch_cheney_card_trick",
+    "deck_size": 52,
+    "hand_size": 5,
+    "shown_cards": 4,
+    "hidden_cards": 1,
+    "objective": "identify_hidden_card",
+    "modes": ["random", "exhaustive", "sandbox"]
   },
   "communication_profile": {
     "senders": 1,

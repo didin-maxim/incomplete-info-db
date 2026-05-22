@@ -10,6 +10,26 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "одна фальшивая монета или две несоседние фальшивые монеты среди пяти круговых позиций", "observations": ["два результата чашечных весов"], "allowed_actions": ["класть выбранные монеты на чаши весов", "после двух взвешиваний назвать количество фальшивых монет"], "goal": ["identify_counterfeit_count"], "strategy_type": ["adaptive_strategy", "state_space_partition", "decision_tree"], "lower_bound_method": [], "keywords": ["moebius_tour_3", "five_circle_coins", "nonadjacent_fakes", "count_only"], "status": "ai_checked"},
   "weighing_profile": {"object_count": 5, "counterfeit_count": "1 or 2", "counterfeit_type": "lighter_nonadjacent", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "objective": "identify_counterfeit_count"},
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "coin_count": 5,
+    "hidden_states": [
+      {"id": "1", "label": "{1}", "coins": [1]},
+      {"id": "2", "label": "{2}", "coins": [2]},
+      {"id": "3", "label": "{3}", "coins": [3]},
+      {"id": "4", "label": "{4}", "coins": [4]},
+      {"id": "5", "label": "{5}", "coins": [5]},
+      {"id": "13", "label": "{1,3}", "coins": [1, 3]},
+      {"id": "14", "label": "{1,4}", "coins": [1, 4]},
+      {"id": "24", "label": "{2,4}", "coins": [2, 4]},
+      {"id": "25", "label": "{2,5}", "coins": [2, 5]},
+      {"id": "35", "label": "{3,5}", "coins": [3, 5]}
+    ],
+    "max_weighings": 2,
+    "objective": "identify_counterfeit_count",
+    "layout": "circle",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Небольшое дерево из десяти допустимых состояний; удобно проверяется таблицей случаев.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-moebius-tour-3-problems", "role": "official_statement", "status": "source_verified"}],

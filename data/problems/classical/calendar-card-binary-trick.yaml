@@ -82,6 +82,15 @@
     "message": "подмножество из пяти карточек, где есть выбранное число",
     "message_capacity": "5 битов"
   },
+  "interactive": {
+    "type": "binary_cards_number_trick",
+    "card_count": 5,
+    "number_min": 1,
+    "number_max": 31,
+    "card_weights": [1, 2, 4, 8, 16],
+    "objective": "identify_hidden_number",
+    "modes": ["random", "manual_spectator", "exhaustive"]
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Прямая двоичная кодировка скрытого числа.", "status": "ai_checked"},
   "tags": ["card_trick", "binary_code", "counting_lower_bound", "condition_middle_school"],
   "sources": [{"source_id": "src-card-trick-folklore", "role": "folklore_statement", "status": "source_verified"}],

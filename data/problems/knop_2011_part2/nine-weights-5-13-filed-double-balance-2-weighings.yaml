@@ -1,0 +1,55 @@
+{
+  "id": "nine-weights-5-13-filed-double-balance-2-weighings",
+  "title": "Гирьки 5-13 г на весах с двойной правой чашей",
+  "fragment": "weighings",
+  "kind": {"primary": "book_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d19",
+        "title": "Одна гирька стала легче, а равновесие означает правый груз вдвое тяжелее",
+        "text": "Имеется девять гирек-эталонов весом 5 г, 6 г, ..., 13 г. Одна гирька стала немного легче, чем раньше. Есть чашечные весы особого вида: они находятся в равновесии, если груз на правой чашке ровно вдвое тяжелее груза на левой; если правый груз меньше удвоенного левого, перевешивает левая чашка, а если больше - правая. Нужно определить испорченную гирьку за два взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-weighted-equal-sum-triples",
+      "title": "Особые весы позволяют кодировать тройки через отношение 1:2",
+      "text": "Нужно подобрать наборы, у которых правая номинальная сумма вдвое больше левой. Тогда изменение исхода сообщает, в какой из трех групп находится подпиленная гирька.",
+      "standard_idea_ids": ["ternary_weighing_code", "state_space_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-567-vs-111213",
+      "title": "Первое взвешивание разбивает гирьки на три тройки",
+      "text": "Сначала положим на левую чашу гирьки 5, 6 и 7 г, а на правую - 11, 12 и 13 г. Номинально правая сумма 36 г ровно вдвое больше левой суммы 18 г. Если весы равны, подпиленная гирька среди 8, 9 и 10 г. Если левая чаша перевесила, подпиленная гирька среди 11, 12 и 13 г, потому что правая стала недостаточно тяжелой. Если перевесила правая, подпиленная гирька среди 5, 6 и 7 г.\n\nДальше книга дает конкретные вторые взвешивания для трех случаев: после равновесия сравнить 8 с 9+7; после перевеса левой чаши сравнить 11 с 10+12; после перевеса правой чаши сравнить 7 с 6+8. В каждом случае исход различает одну из трех оставшихся гирек.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных подпиленных гирек с номинальными весами 5-13 г",
+    "observations": ["три исхода особых чашечных весов"],
+    "allowed_actions": ["класть наборы гирек на левую и правую чаши, где равновесие означает правый вес вдвое больше левого"],
+    "goal": ["identify_counterfeit_object"],
+    "strategy_type": ["adaptive_strategy", "weighted_ternary_code"],
+    "lower_bound_method": [],
+    "keywords": ["double_balance", "known_nominal_weights", "filed_weight", "ternary_search"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "slightly_lighter_known_nominal_weight", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "double_right_balance", "object_weights": [5, 6, 7, 8, 9, 10, 11, 12, 13], "objective": "identify_object"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Обычная трисекция спрятана в необычном правиле равновесия: правая чаша должна быть вдвое тяжелее левой.", "status": "ai_checked"},
+  "tags": ["balance_scale", "weighted_sum_encoding", "ternary_code", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Дополнительная задача Д.19.", "2026-05-22: вторые взвешивания проверены по трем группам: 8 против 9+7, 11 против 10+12, 7 против 6+8."]}
+}

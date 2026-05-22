@@ -1,0 +1,126 @@
+{
+  "id": "emelyanov-expert-judge-two-counterfeits-two-weighings",
+  "title": "Эксперт доказывает две фальшивые монеты одинакового веса за два взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d45",
+        "title": "Судья знает, что фальшивых две",
+        "text": "Судья знает, что среди 100 монет ровно две фальшивые, их веса равны и отличаются от веса настоящих монет. Эксперт знает, какие именно монеты фальшивы и в какую сторону отличается их вес. Как ему за два взвешивания убедить судью во всей этой информации?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-extreme-sums",
+      "title": "Неравенства делают выбранные монеты крайними",
+      "text": "Эксперт выбирает маленький набор настоящих монет и демонстрирует такие строгие неравенства, которые возможны только если две названные монеты являются фальшивыми нужного знака.",
+      "standard_idea_ids": [
+        "extreme_sum_argument"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-light-fakes",
+      "title": "Доказательство для двух легких фальшивых",
+      "text": "Пусть монеты 1 и 2 - легкие фальшивые, а монеты 3, 4, 5 настоящие. Эксперт показывает два неравенства: \\(1<3\\) и \\(2+3<4+5\\). Первое доказывает, что монета 1 легче настоящей монеты 3. Второе, с учетом того что среди всех монет только две фальшивые одинакового веса, вынуждает монету 2 быть второй легкой фальшивой, а 4 и 5 - настоящими.",
+      "standard_idea_ids": [
+        "extreme_sum_argument",
+        "certificate"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "судья знает модель двух равновесных фальшивых монет, эксперт знает пару и знак",
+    "observations": [
+      "два публичных результата взвешивания"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания"
+    ],
+    "goal": [
+      "certify_two_counterfeit_coins",
+      "certify_heavy_or_light"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "extreme_sum_certificate"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "expert_judge",
+      "two_counterfeits",
+      "equal_fake_weights",
+      "emelyanov"
+    ],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": 100,
+    "counterfeit_count": 2,
+    "counterfeit_type": "two_equal_heavier_or_lighter_known_to_expert",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_two_counterfeits_and_sign"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Короткое доказательство, но требуется аккуратно формализовать, почему альтернативные пары невозможны.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "extreme_sum_argument",
+    "structural_constraint",
+    "symmetry_breaking",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_d45",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "expert_judge_certificate_case",
+    "notes": [
+      "Автор по индексу книги: Л. А. Емельянов.",
+      "Оставлено закрытым: сертификат двумя неравенствами записан по идее, но не проверены все альтернативные распределения двух фальшивых монет."
+    ]
+  }
+}

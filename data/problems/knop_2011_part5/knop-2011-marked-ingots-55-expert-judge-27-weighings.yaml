@@ -1,0 +1,141 @@
+{
+  "id": "knop-2011-marked-ingots-55-expert-judge-27-weighings",
+  "title": "Маркированные слитки: эксперт убеждает судью за 27 взвешиваний",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "public_communication",
+      "digital_scale",
+      "decision_tree",
+      "lower_bound"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-part5-5-13",
+        "title": "55 слитков и весы с ограничением",
+        "text": "Есть 55 слитков с различными маркировками масс от 1001 г до 1055 г. Эксперт знает, какая маркировка верна для каждого слитка, и должен убедить судью с помощью взвешиваний на весах со стрелкой, причем на весы нельзя класть груз тяжелее 3333 г. В постановке книги ответом является 27 взвешиваний.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space",
+          "strategy",
+          "information_lower_bound"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-expert-certificate",
+      "title": "Эксперт выбирает не поиск, а доказательство",
+      "text": "Судья не обязан сам искать маркировку с нуля: эксперт, зная истину, выбирает взвешивания как сертификат. Каждое взвешивание должно отсекать неверные перестановки маркировок, совместимые с уже увиденным.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-certificate-needs-review",
+      "title": "Сертификат через ограниченные числовые взвешивания",
+      "text": "Книжное решение использует ограничение на суммарный груз и подбирает демонстрационные взвешивания так, чтобы судья видел невозможность неверных перестановок. Полная последовательность сертификата требует отдельной редакторской сверки с текстом книги.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-27-needed",
+      "title": "Нижняя оценка относится к сертификату",
+      "text": "В книге задача сформулирована как точная оценка: меньше 27 демонстрационных взвешиваний не хватает. Это нижняя оценка для модели эксперт-судья, а не для обычного поиска неизвестного состояния без помощи эксперта.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка маркировок 55 слитков, известная эксперту и неизвестная судье",
+    "observations": [
+      "числовые показания весов со стрелкой при ограничении общего груза"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания, зная истинную маркировку"
+    ],
+    "goal": [
+      "convince_judge_of_labeling"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "numeric_weighing"
+    ],
+    "lower_bound_method": [
+      "certificate_lower_bound"
+    ],
+    "keywords": [
+      "marked_ingots",
+      "public_communication",
+      "weight_limit"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 55,
+    "counterfeit_count": 0,
+    "counterfeit_type": "mislabelling_certificate",
+    "weighing_count": 27,
+    "outcome_count_per_weighing": "numeric",
+    "adaptive": true,
+    "objective": "certify_labeling"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 8,
+    "comment": "Сертификационная задача со стрелочными весами и нижней оценкой; требует аккуратной сверки полного доказательства.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "expert_judge_certificate",
+    "public_communication",
+    "decision_tree",
+    "condition_older_students",
+    "solution_advanced_math"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "knop_2011_part5_batch",
+    "notes": [
+      "Занятие 5.13. В индексе указан А. В. Шаповалов. Отдельный первоисточник не добавлялся, так как write-scope не включает sources.yaml.",
+      "Оставлено закрытым: в карточке нет полной последовательности 27 сертифицирующих взвешиваний и нет проверенного доказательства нижней оценки."
+    ]
+  }
+}

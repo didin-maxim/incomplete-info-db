@@ -1,0 +1,47 @@
+{
+  "id": "point-in-square-three-line-questions",
+  "title": "Точка и квадрат: вопросы прямыми",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["geometry", "search_game", "optimality"]},
+  "language": "ru",
+  "authors": [{"name": "А. Я. Канель", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d3",
+        "title": "Определить, лежит ли точка внутри квадрата",
+        "text": "На плоскости расположен квадрат, и невидимыми чернилами нанесена точка \\(P\\). Человек в специальных очках видит точку. Если провести прямую, он отвечает, по какую сторону от нее лежит \\(P\\); если \\(P\\) лежит на прямой, он так и говорит. Какое наименьшее число таких вопросов необходимо задать, чтобы узнать, лежит ли точка \\(P\\) внутри квадрата?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-line-cuts-plane",
+      "title": "Один вопрос прямой дает три положения",
+      "text": "Ответ сообщает, в какой из двух полуплоскостей находится точка, или что она лежит на самой прямой. Нужно выбрать несколько прямых так, чтобы по этим сведениям отличить внутренность квадрата от внешности и границы.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "произвольная точка плоскости относительно заданного квадрата",
+    "observations": ["для каждой проведенной прямой: одна сторона, другая сторона или точка на прямой"],
+    "allowed_actions": ["выбирать прямые на плоскости"],
+    "goal": ["decide_point_inside_square"],
+    "strategy_type": ["geometric_partition"],
+    "lower_bound_method": ["geometric_indistinguishability"],
+    "keywords": ["knop_2011", "kanel", "line_questions", "point_in_square"],
+    "status": "needs_human_review"
+  },
+  "questions_profile": {"answer_alphabet_size": 3, "question_count": "minimum unknown in this card", "lies_allowed": 0, "adaptive": true, "objective": "decide_membership_in_square"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Карточка заведена как кандидат: условие и автор ясны, но решение из книги в этом проходе не восстановлено полностью.", "status": "needs_human_review"},
+  "tags": ["decision_tree", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, дополнительные задачи к занятию 1, Д.3; в индексе указан автор А. Я. Канель.", "В карточку не добавлена стратегия, потому что краткий проход не восстановил полное доказательство минимальности."]}
+}

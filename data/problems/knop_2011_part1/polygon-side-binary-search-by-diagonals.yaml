@@ -1,0 +1,55 @@
+{
+  "id": "polygon-side-binary-search-by-diagonals",
+  "title": "Сторона многоугольника и вопросы диагоналями",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["search_game", "geometry", "adaptive_strategy"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-3",
+        "title": "Сторона восьмиугольника или семиугольника",
+        "text": "Петя загадал одну из сторон правильного восьмиугольника. Витя может провести любую диагональ восьмиугольника и спросить, в какой из двух получившихся частей лежит загаданная сторона. Как отгадать сторону за 3 вопроса? Решите также такую же задачу для правильного семиугольника.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-diagonal-bisection",
+      "title": "Диагональ должна почти делить варианты пополам",
+      "text": "Каждый вопрос оставляет одну из двух частей многоугольника. Если первая диагональ делит возможные стороны на две почти равные группы, дальше можно продолжать обычное деление множества подозрительных сторон.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-diagonal-questions",
+      "title": "Начать с пополам делящей диагонали",
+      "text": "Для восьмиугольника первым вопросом проводим диагональ между противоположными вершинами; она делит восемь возможных сторон на две четверки. После ответа остаются четыре подряд идущие стороны, которые двумя следующими диагоналями снова делятся пополам и затем на одиночные варианты.\n\nДля семиугольника первая диагональ должна разделить стороны на группы из 4 и 3 возможных сторон. В группе из 4 двух оставшихся вопросов достаточно тем же делением пополам, а группу из 3 также можно разделить вопросом на 1 и 2, затем последним вопросом различить оставшиеся две стороны.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одна сторона правильного 7- или 8-угольника",
+    "observations": ["ответ, в какой части после проведенной диагонали лежит сторона"],
+    "allowed_actions": ["адаптивно проводить диагонали многоугольника"],
+    "goal": ["identify_hidden_side"],
+    "strategy_type": ["adaptive_strategy", "binary_search", "geometric_partition"],
+    "lower_bound_method": [],
+    "keywords": ["knop_2011", "polygon", "diagonal_questions", "binary_search"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 3, "lies_allowed": 0, "adaptive": true, "objective": "identify_hidden_side"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Обычное деление пополам, но вопросы ограничены диагоналями многоугольника.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.3; первоисточник в индексе не указан."]}
+}

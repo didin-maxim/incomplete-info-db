@@ -1,0 +1,60 @@
+{
+  "id": "israelmath-junior",
+  "title": "IsraelMath junior/final PDF: задачи про неполную информацию",
+  "created_at": "2026-05-21",
+  "status": "draft",
+  "queries": [
+    "site:israelmath.com/wp-content/uploads olymp5783 final en pdf knights knaves",
+    "site:israelmath.com/wp-content/uploads israelmath fake scales pdf",
+    "site:israelmath.com/wp-content/uploads israelmath liar truth yes/no final"
+  ],
+  "items": [
+    {
+      "problem_id": "israelmath-5783-four-siblings-knights-knaves",
+      "status": "added",
+      "source_id": "src-israelmath-5783-final-en-67",
+      "supporting_source_id": "src-israelmath-5783-final-en-45",
+      "note": "Одна и та же задача про Асафа и Бара встречается в финальных PDF 5783 для 4-5 и 6-7 классов."
+    },
+    {
+      "problem_id": "israelmath-5781-bilbo-three-diamond-piles-safe-pile",
+      "status": "added",
+      "source_id": "src-israelmath-5781-final-en-56",
+      "note": "Финал 2021 для 5-6 классов; задача про выбор безопасной кучки, а не поиск фальшивого алмаза."
+    },
+    {
+      "problem_id": "israelmath-5783-six-candy-bags-two-weighings",
+      "status": "added",
+      "source_id": "src-israelmath-5783-final-en-45",
+      "note": "Финал 5783 для 4-5 классов; задача про неизвестную величину недостачи и два равновесных сравнения."
+    },
+    {
+      "problem_id": "israelmath-5783-five-flour-sacks-transfer",
+      "status": "lead_not_added",
+      "source_id": "src-israelmath-5783-final-en-67",
+      "note": "Финал 5783 для 6-7 классов, задача 6: пять мешков 1,2,3,4,4 кг и перенос муки из одного в другой за три взвешивания. Отклонено в этом проходе: не найден официальный solution PDF, а редакционное решение не было доведено до полной проверки для произвольной величины переноса."
+    },
+    {
+      "problem_id": "israelmath-5781-four-answering-types",
+      "status": "lead_not_added",
+      "source_id": "",
+      "note": "Финал 2021 для 9 класса: положительный, отрицательный, правдивец и лжец, минимальное число yes/no questions. Тематически подходит, но публичная оптимальная стратегия на 5 вопросов требует отдельной аккуратной таблицы; не добавлено без полного решения."
+    },
+    {
+      "problem_id": "israelmath-5781-b-stage-six-floor-liars",
+      "status": "lead_not_added",
+      "source_id": "",
+      "note": "В Hebrew solution PDF для этапа B 5781 найден кандидат про шесть жильцов, двух лжецов и этажи. Не добавлен: пользователь просил начинать с английских junior/final PDF, а эта задача найдена в Hebrew stage B solution."
+    },
+    {
+      "problem_id": "israelmath-5780-final-5-6-field-trip-hats",
+      "status": "skipped_not_in_scope",
+      "source_id": "",
+      "note": "Финал 2019 для 5-6 классов: слово hats относится к обычной задаче о включениях-исключениях на предметы для экскурсии, а не к колпакам/мудрецам или неполной информации."
+    }
+  ],
+  "notes": [
+    "Просматривались только задачи с явными ключами knights/knaves, fake/scales, liar/truth/questions и близкими сюжетами; обычные геометрия, числа, комбинаторика и разрезания не добавлялись.",
+    "Для добавленных задач официальные английские PDF с условиями найдены на israelmath.com; официальные английские решения в этом проходе не верифицированы, поэтому решения помечены как редакционные."
+  ]
+}

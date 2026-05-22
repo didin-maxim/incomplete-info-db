@@ -1,0 +1,75 @@
+{
+  "id": "rusanivskyi-2025-spider-fly-cube-search",
+  "title": "Русановский лицей-2025: паук ищет муху на кубе",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["search_game", "strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-rusanivskyi-2025-spider-fly",
+        "title": "Проверять по три вершины",
+        "text": "В одной из вершин куба сидит муха. За один ход паук может проверить три вершины куба. Если муха находится в одной из них, паук ее ловит; иначе муха перелетает в одну из соседних вершин, и все повторяется. Докажите, что паук может гарантированно поймать муху за конечное число ходов.",
+        "source_ids": ["src-rusanivskyi-2025-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["strategy", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-bipartite-cube-colors",
+      "title": "Муха каждый ход меняет цвет вершины",
+      "text": "Вершины куба делятся на две доли шахматной раскраски. После каждого непойманного хода муха переходит в соседнюю вершину, значит обязательно меняет цвет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-step-color-trap",
+      "title": "Проверить три вершины одного цвета, затем три соседние",
+      "text": "Покрасим вершины куба в два цвета. Обозначим одну вершину первого цвета через \\(A\\), три остальные вершины первого цвета через \\(C,F,H\\), а три соседние с \\(A\\) вершины второго цвета через \\(B,D,E\\). Оставшаяся вершина второго цвета нам отдельно не понадобится.\n\nПервым ходом паук проверяет \\(C,F,H\\). Если муха была в одной из этих вершин, она поймана. Если муха была в вершине \\(A\\), то после неудачной проверки она перелетит в одну из вершин \\(B,D,E\\); вторым ходом паук проверяет именно \\(B,D,E\\) и ловит ее.\n\nЕсли после двух ходов муха не поймана, значит изначально она была во второй доле раскраски. После первого хода она перешла в первую долю, после второго - снова во вторую. Третьим ходом паук проверяет \\(B,D,E\\). Если муха там, она поймана; если нет, она находится в оставшейся вершине второго цвета и после хода перелетает в одну из \\(C,F,H\\). Четвертым ходом паук проверяет \\(C,F,H\\) и ловит муху. Значит четырех ходов достаточно.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy", "state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "текущая вершина куба, где находится муха",
+    "observations": ["после проверки трех вершин известно только, поймана муха или нет"],
+    "allowed_actions": ["на каждом ходу выбрать три вершины для проверки"],
+    "goal": ["guarantee_capture_hidden_moving_target"],
+    "strategy_type": ["adaptive_search_strategy", "bipartite_graph_coloring"],
+    "lower_bound_method": [],
+    "keywords": ["rusanivskyi_2025", "cube", "moving_target", "search_game"],
+    "status": "ai_checked"
+  },
+  "interactive": {
+    "type": "moving_target_graph_search",
+    "objective": "capture_hidden_moving_target",
+    "graph_kind": "cube",
+    "vertices": [
+      {"id": "A", "label": "A", "color": "light", "x": 24, "y": 72},
+      {"id": "B", "label": "B", "color": "dark", "x": 24, "y": 28},
+      {"id": "C", "label": "C", "color": "light", "x": 58, "y": 20},
+      {"id": "D", "label": "D", "color": "dark", "x": 58, "y": 64},
+      {"id": "E", "label": "E", "color": "dark", "x": 42, "y": 86},
+      {"id": "F", "label": "F", "color": "light", "x": 42, "y": 42},
+      {"id": "G", "label": "G", "color": "dark", "x": 76, "y": 34},
+      {"id": "H", "label": "H", "color": "light", "x": 76, "y": 78}
+    ],
+    "edges": [["A", "B"], ["B", "C"], ["C", "D"], ["D", "A"], ["E", "F"], ["F", "G"], ["G", "H"], ["H", "E"], ["A", "E"], ["B", "F"], ["C", "G"], ["D", "H"]],
+    "check_size": 3,
+    "max_tests": 4,
+    "modes": ["random", "cheater", "exhaustive"],
+    "adaptive": true
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 4, "lies_allowed": "none", "adaptive": true, "objective": "capture_hidden_moving_target"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Идея короткая: шахматная раскраска куба и четырехходовая ловушка.", "status": "ai_checked"},
+  "tags": ["decision_tree", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-rusanivskyi-2025-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-21", "review_status": "ai_checked", "public_ready": true, "relations_status": "rusanivskyi_batch", "notes": ["XXVIII олимпиада Русановского лицея, 2025, 6 класс, III тур, задача 10. Условие переведено с украинского."]}
+}

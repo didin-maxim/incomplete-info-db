@@ -1,0 +1,141 @@
+{
+  "id": "knop-expert-judge-repeated-weights-cycle",
+  "title": "Эксперт и судья: повторяющиеся веса и крайние суммы",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "problem_family",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_strategy",
+      "optimality"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d50-d52",
+        "title": "Парные и треугольные наборы гирь",
+        "text": "Эксперт знает вес каждой гири, а судья знает только мультимножество весов. В книге рассматриваются 8 гирь с весами \\(1,1,2,2,3,3,4,4\\), 10 гирь с весами \\(1,1,2,2,3,3,4,4,5,5\\), а также 45 гирь: 9 гирь по 1 г, 8 гирь по 2 г, ..., 1 гиря по 9 г. Нужно подобрать демонстрационные взвешивания, позволяющие судье восстановить все веса; для 45 гирь требуется наименьшее число взвешиваний.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-repeated-weights-extreme-sums",
+      "title": "Крайние равенства и неравенства выделяют блоки весов",
+      "text": "Сравнения подбираются так, чтобы равенство или строгое неравенство было возможно только при самых легких гирях на одной стороне и самых тяжелых на другой. После этого задача распадается на меньшие блоки.",
+      "standard_idea_ids": [
+        "extreme_sum_argument"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-knop-repeated-weights-hints",
+      "title": "Сертификаты из кратких решений",
+      "text": "Для 8 гирь книга дает три уровня сертификатов: четыре взвешивания \\(1=1\\), \\(2=2\\), \\(1+1+2+2=3+3\\), \\(3+3<4+4\\); три взвешивания \\(1+1=2\\), \\(2+2=4\\), \\(4=4\\); два взвешивания \\(1+1+2_1=4_1\\), \\(1+1+2_2=4_2\\).\n\nДля 10 гирь используются два взвешивания: \\(1+1+2+2+3<5+5\\), затем \\(1+1+3_2+5<3_1+4+4\\). Первое выделяет обе гири 5 г и два блока, второе выбирает в каждом блоке крайние элементы.\n\nДля 45 гирь минимум равен 2. Первое взвешивание сравнивает \\(9\\times1+8\\times2+7\\times3\\) с \\(1\\times9+2\\times8+3\\times7\\). Второе сравнивает \\(9\\times1+6\\times4+3\\times7\\) с \\(1\\times9+4\\times6+7\\times3\\). Эти равенства выделяют группы 1-3 г, 4-6 г и 7-9 г и затем окончательно определяют веса.",
+      "standard_idea_ids": [
+        "extreme_sum_argument",
+        "certificate"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-45-at-least-two",
+      "title": "Почему для 45 гирь не может хватить одного взвешивания",
+      "text": "Книга указывает ответ «за 2» для задачи о 45 гирях. Нижняя оценка в этой карточке оставлена для ручной проверки: одно равенство или неравенство должно исключать слишком мало перестановок мультимножества весов, чтобы полностью восстановить все 45 подписей.",
+      "standard_idea_ids": [
+        "information_lower_bound"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка известного мультимножества весов между внешне одинаковыми гирями",
+    "observations": [
+      "публичные результаты демонстрационных взвешиваний"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает взвешивания по известной ему перестановке"
+    ],
+    "goal": [
+      "certify_all_weights"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "extreme_sum_certificate"
+    ],
+    "lower_bound_method": [
+      "needs_human_review"
+    ],
+    "keywords": [
+      "expert_judge",
+      "repeated_weights",
+      "paired_weights",
+      "triangular_multiset",
+      "extreme_sums"
+    ],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": "8, 10, 45",
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_weight_multiset_unknown_assignment",
+    "weighing_count": "2_to_4",
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 8,
+    "comment": "Серия требует аккуратной проверки сертификатов крайними суммами, особенно оптимальности случая 45 гирь.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "extreme_sum_argument",
+    "structural_constraint",
+    "symmetry_breaking",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_problem_family_d50_d52_and_solution_hints",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "family_card_from_d50_d52",
+    "notes": [
+      "Автор по индексу книги: К. А. Кноп. Нижняя оценка для Д.52 оставлена на ручную проверку."
+    ]
+  }
+}

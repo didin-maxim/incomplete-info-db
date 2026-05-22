@@ -72,7 +72,8 @@
     {"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"},
     {"source_id": "src-nrich-money-measure", "role": "official_statement_and_student_solution", "status": "source_verified"},
     {"source_id": "src-problems-ru-88014", "role": "web_statement_and_solution_variant", "status": "source_verified"},
-    {"source_id": "src-aops-wiki-unm-pnm-2017-problem6", "role": "aops_duplicate_statement_and_solution", "status": "source_verified"}
+    {"source_id": "src-aops-wiki-unm-pnm-2017-problem6", "role": "aops_duplicate_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -83,7 +84,8 @@
     "notes": [
       "Здесь используются числовые весы, а не чашечные; это отражено в профиле.",
       "2026-05-18: в карточку слит NRICH-дубликат nrich-money-measure-one-weighing; источник сохранен как альтернативная формулировка.",
-      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2017 Contest II, Problem 6 добавлен как дубль с 12 стопками по 12 монет и цифровыми весами; механизм тот же дефицит веса по номеру стопки."
+      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2017 Contest II, Problem 6 добавлен как дубль с 12 стопками по 12 монет и цифровыми весами; механизм тот же дефицит веса по номеру стопки.",
+      "2026-05-22: книга К. А. Кнопа содержит частный вариант занятия 4, задача 4.3: семь мешков, один легкий мешок, одно числовое взвешивание."
     ]
   }
 }

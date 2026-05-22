@@ -32,6 +32,26 @@
           }
         ]
       }
+    },
+    "origin": {
+      "type": "string",
+      "description": "Original contest, publication, or problem context represented by the source."
+    },
+    "country": {
+      "type": "string",
+      "description": "Country or state-level origin of a non-Russian source when this is explicit."
+    },
+    "region": {
+      "type": "string",
+      "description": "Region for sources that are broader than one country, for example international contests."
+    },
+    "source_family": {
+      "type": "string",
+      "description": "Optional normalized source family key used by the viewer."
+    },
+    "attribution_status": {
+      "type": "string",
+      "description": "Editorial status for uncertain eponyms or author attribution, for example needs_primary_source."
     }
   }
 }

@@ -1,0 +1,23 @@
+{
+  "id": "knop-2011-part6",
+  "title": "Кноп 2011: занятие 6 и дополнительные экспертно-верификационные задачи",
+  "created_at": "2026-05-22",
+  "status": "draft",
+  "items": [
+    {"problem_id": "knop-saladin-14-known-genuine-identify-only", "status": "added"},
+    {"problem_id": "knop-six-coins-two-weighings-identify-only-impossible", "status": "added"},
+    {"problem_id": "knop-saladin-four-weighings-one-spare", "status": "added"},
+    {"problem_id": "knop-coin-uniformity-verification", "status": "needs_human_review"},
+    {"problem_id": "knop-zero-or-k-counterfeits-verification", "status": "needs_human_review"},
+    {"problem_id": "emelyanov-expert-judge-one-coin-two-weighings-lower-bound", "status": "added"},
+    {"problem_id": "emelyanov-expert-judge-two-counterfeits-two-weighings", "status": "needs_human_review"},
+    {"problem_id": "knop-expert-judge-light-counterfeits-extreme-sums", "status": "needs_human_review"},
+    {"problem_id": "knop-expert-judge-eight-coins-3-4g-one-weighing", "status": "added"},
+    {"problem_id": "tokarev-expert-judge-six-weights-two-weighings", "status": "needs_human_review"},
+    {"problem_id": "knop-expert-judge-repeated-weights-cycle", "status": "needs_human_review"},
+    {"lead": "Задача Саладина, 12 монет", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к counterfeit-12-coins-3-weighings."},
+    {"lead": "13 монет, найти только монету", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к thirteen-coins-identify-only-three-weighings."},
+    {"lead": "13 подозрительных и одна настоящая", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к thirteen-coins-known-genuine-three-weighings."},
+    {"lead": "Общая сигнатурная схема Саладина", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к ternary-signature-code-heavy-or-light и komal-2010-a512-nonadaptive-counterfeit-code."}
+  ]
+}

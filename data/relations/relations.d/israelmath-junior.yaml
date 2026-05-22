@@ -1,0 +1,37 @@
+{
+  "relations": [
+    {
+      "id": "rel-israelmath-siblings-to-ukmt-truth-count",
+      "from": "israelmath-5783-four-siblings-knights-knaves",
+      "to": "ukmt-imc-2019-q14-truth-tellers-count",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи сводят публичные высказывания к проверке возможного числа правдивцев или лжецов. Израильская версия короче: фразы Асафа и Бара зависят только от общего числа лжецов.",
+      "backward_text": "UKMT-версия является более разветвленным вариантом того же согласования: нужно подобрать число правдивых высказываний, совместимое с самими говорящими.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-israelmath-bilbo-to-mccme-safe-pile",
+      "from": "israelmath-5781-bilbo-three-diamond-piles-safe-pile",
+      "to": "mccme-2016-three-piles-one-genuine-pile",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи требуют сертифицировать безопасную кучку, не находя фальшивый объект. В задаче Бильбо одно сравнение 17 против 17 сразу делит случаи на «безопасна взвешенная кучка» и «безопасна невзвешенная кучка».",
+      "backward_text": "МЦНМО-версия сложнее тем, что в каждой кучке много монет и одна кучка целиком настоящая; но цель та же - предъявить гарантированно чистую кучку.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-israelmath-candy-bags-to-ternary-signature",
+      "from": "israelmath-5783-six-candy-bags-two-weighings",
+      "to": "komal-2010-a512-nonadaptive-counterfeit-code",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Израильская задача показывает маленький неадаптивный тернарный код: каждый мешок получает пару ролей в двух равновесных сравнениях. KöMaL A.512 развивает тот же язык столбцов для общего числа взвешиваний.",
+      "backward_text": "KöMaL A.512 является общей кодовой конструкцией для фальшивой монеты неизвестного знака; задача IsraelMath дает младший вариант, где знак недостачи известен, а веса мешков помогают сбалансировать строки.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    }
+  ]
+}

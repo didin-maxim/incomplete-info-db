@@ -1,0 +1,124 @@
+{
+  "id": "knop-expert-judge-eight-coins-3-4g-one-weighing",
+  "title": "Эксперт доказывает веса восьми монет 3 и 4 г одним взвешиванием",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d48",
+        "title": "Четыре монеты по 3 г и четыре по 4 г",
+        "text": "Эксперт предъявляет судье 8 одинаковых по внешнему виду монет. Судья знает, что половина из них весит по 3 г, а остальные по 4 г. Как эксперт может за одно взвешивание доказать судье вес каждой монеты?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-maximal-3g-sum",
+      "title": "Четыре трехграммовые монеты имеют ту же сумму, что три четырехграммовые",
+      "text": "Если эксперт кладет на одну чашу четыре заявленные монеты по 3 г, а на другую три заявленные монеты по 4 г и получает равенство, то левая сумма не может быть больше 12 г, а правая не может быть меньше 12 г. Равенство заставляет все выбранные монеты иметь заявленные веса.",
+      "standard_idea_ids": [
+        "extreme_sum_argument"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-threes-equal-three-fours",
+      "title": "Показать равенство \\(3+3+3+3=4+4+4\\)",
+      "text": "Эксперт кладет на левую чашу четыре монеты, которые он объявляет трехграммовыми, а на правую три монеты, которые он объявляет четырехграммовыми. Равенство весов дает сумму 12 г на каждой чаше. Четыре монеты слева не могут весить меньше 12 г, если каждая весит 3 или 4 г, поэтому все они весят по 3 г. Три монеты справа не могут весить больше 12 г, поэтому все они весят по 4 г. Оставшаяся восьмая монета имеет последний неиспользованный вес по известному судье составу.",
+      "standard_idea_ids": [
+        "extreme_sum_argument",
+        "certificate"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какие 4 из 8 монет весят 3 г, остальные весят 4 г",
+    "observations": [
+      "одно публичное взвешивание"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационное взвешивание"
+    ],
+    "goal": [
+      "certify_all_weights"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "extreme_sum_certificate"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "expert_judge",
+      "3g_4g",
+      "one_weighing",
+      "extreme_sums"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 8,
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_multiset_four_3g_four_4g",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_all_weights"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Красивая одноходовая экспертиза на крайних суммах.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "extreme_sum_argument",
+    "structural_constraint",
+    "symmetry_breaking",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_d48",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "expert_judge_certificate_case",
+    "notes": [
+      "Автор по индексу книги: К. А. Кноп."
+    ]
+  }
+}

@@ -70,6 +70,14 @@
     "keywords": ["permutation_channel", "factorial_code", "six_messages", "m_factorial_messages"],
     "status": "ai_checked"
   },
+  "interactive": {
+    "type": "permutation_message_order_code",
+    "item_count": 3,
+    "message_count": 6,
+    "object_labels": ["A", "B", "C"],
+    "objective": "decode_hidden_message",
+    "modes": ["random", "exhaustive", "sandbox"]
+  },
   "communication_profile": {
     "senders": 1,
     "receivers": 1,

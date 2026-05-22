@@ -1,0 +1,122 @@
+{
+  "id": "lost-weight-among-nine-two-weighings",
+  "title": "Потерянная гирька среди девяти",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "case_analysis"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Потерянная гирька среди девяти",
+        "text": "Было девять гирь массами 1 г, 2 г, ..., 9 г, причем большая масса соответствует большему размеру. Одна гиря потерялась. Оставшиеся восемь гирь можно упорядочить по размеру, но их исходные массы сдвинуты после пропажи. Как за два взвешивания выяснить, какая гиря потеряна?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-against-one",
+      "title": "Искать взвешивание две против одной",
+      "text": "Если пронумеровать оставшиеся гири по размеру от 1 до 8, то при потере гири массы \\(p\\) гиря с номером \\(k\\) весит \\(k\\) при \\(k<p\\) и \\(k+1\\) при \\(k\\ge p\\). Сравнение \\(m+n\\) против гири с номером \\(m+n\\) делит возможные потери по положению \\(p\\).",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-3-plus-5-vs-8",
+      "title": "Первое взвешивание 3+4 против 7",
+      "text": "Пронумеруем оставшиеся гири по размеру числами 1-8. Первым взвешиванием сравним гири с номерами 3 и 4 против гири с номером 7. Если левая чаша тяжелее, потеряна одна из гирь 1, 2, 3; если левая чаша легче - одна из 5, 6, 7; если равновесие - одна из 4, 8, 9. Второе взвешивание разбивает соответствующую тройку: для 1, 2, 3 сравним 1+2 против 3; исходы >, =, < дают соответственно 1, 2, 3. Для 5, 6, 7 сравним 5+6 против 1+3+7; исходы >, =, < дают соответственно 5, 6, 7. Для 4, 8, 9 сравним 4+5 против 1+8; исходы >, <, = дают соответственно 4, 8, 9.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 состояний: какая из гирь 1-9 потеряна",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_missing_object"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "decision_tree"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "lost_weight",
+      "ordered_by_size",
+      "two_against_one"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 8,
+    "counterfeit_count": 0,
+    "counterfeit_type": "missing_one_labeled_weight",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_missing_weight"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Нужно перевести потерю в сдвиг маркировок оставшихся гирь и подобрать первое взвешивание, делящее девять случаев на тройки.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.4; автор А. В. Шаповалов, Турнир Кванта, 1999.",
+      "2026-05-22: полная таблица второго взвешивания восстановлена и проверена перебором девяти возможных потерянных гирь."
+    ]
+  }
+}

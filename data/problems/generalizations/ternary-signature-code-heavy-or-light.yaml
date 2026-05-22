@@ -79,7 +79,8 @@
   "difficulty": {"main": "top_base", "local_score": 7, "comment": "Верх базы: это уже не частная монетная задача, а общая таблица взвешиваний с противоположными записями исходов и пределом (3^q-1)/2.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
   "sources": [
-    {"source_id": "src-classical-coin-weighing", "role": "folklore_generalization", "status": "source_verified"}
+    {"source_id": "src-classical-coin-weighing", "role": "folklore_generalization", "status": "source_verified"},
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -88,6 +89,6 @@
     "public_ready": true,
     "relations_status": "generalizations_batch",
     "generalization_status": "new_related_generalization_changes_solution_level",
-    "notes": ["Создана как родственная карточка, потому что переход от конкретных 12/13 монет к q взвешиваниям меняет решение с дерева случаев на заранее заданный код взвешиваний.", "Формулировка явно требует достаточно известных настоящих монет для баланса; частный случай с одной эталонной монетой при q=3 сохранен отдельной карточкой."]
+    "notes": ["Создана как родственная карточка, потому что переход от конкретных 12/13 монет к q взвешиваниям меняет решение с дерева случаев на заранее заданный код взвешиваний.", "Формулировка явно требует достаточно известных настоящих монет для баланса; частный случай с одной эталонной монетой при q=3 сохранен отдельной карточкой.", "2026-05-22: книга К. А. Кнопа обсуждает этот кодовый механизм в занятии 6 и дополнительной задаче Д.10 как обобщение задачи Саладина."]
   }
 }

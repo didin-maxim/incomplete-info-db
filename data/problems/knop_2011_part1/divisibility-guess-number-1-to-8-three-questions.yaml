@@ -1,0 +1,56 @@
+{
+  "id": "divisibility-guess-number-1-to-8-three-questions",
+  "title": "Угадывание числа по делимости",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["adaptive_strategy", "divisibility"]},
+  "language": "ru",
+  "authors": [{"name": "К. А. Кноп", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-11",
+        "title": "Три вопроса о делимости",
+        "text": "Петя загадал натуральное число \\(A\\) от 1 до 8. Витя называет любое натуральное число \\(X\\), а Петя отвечает, верно ли, что \\(X\\) делится на \\(A\\). Может ли Витя угадать \\(A\\) после трех таких вопросов?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-divisor-set-bisection",
+      "title": "Число \\(X\\) задает множество делителей",
+      "text": "Вопрос с числом \\(X\\) отделяет те возможные значения \\(A\\), которые делят \\(X\\). Чтобы три вопроса различили восемь вариантов, на каждом шаге нужно делить оставшиеся варианты пополам.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-knop-table",
+      "title": "Дерево вопросов 105, затем 3 или 4",
+      "text": "Первым вопросом Витя называет \\(105\\). Если ответ «да», то \\(A\\in\\{1,3,5,7\\}\\); если «нет», то \\(A\\in\\{2,4,6,8\\}\\).\n\nВ первой ветке вторым вопросом называем \\(3\\). Ответ «да» оставляет \\(\\{1,3\\}\\), и третий вопрос \\(1\\) различает 1 и 3: только 1 делит 1. Ответ «нет» оставляет \\(\\{5,7\\}\\), и третий вопрос \\(5\\) различает 5 и 7.\n\nВо второй ветке вторым вопросом называем \\(4\\). Ответ «да» оставляет \\(\\{2,4\\}\\), и третий вопрос \\(2\\) различает 2 и 4. Ответ «нет» оставляет \\(\\{6,8\\}\\), и третий вопрос \\(6\\) различает 6 и 8.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "число A среди 1..8",
+    "observations": ["ответ да/нет на вопрос: делится ли X на A"],
+    "allowed_actions": ["адаптивно выбирать натуральное число X"],
+    "goal": ["identify_hidden_number"],
+    "strategy_type": ["adaptive_strategy", "divisibility_partition"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["knop_2011", "ural_tournament_2008", "divisibility_questions"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 3, "lies_allowed": 0, "adaptive": true, "objective": "identify_one_of_8_states"},
+  "difficulty": {"main": "intro", "local_score": 3, "comment": "Нужно делить варианты пополам с ограничением, что вопросы задаются делимостью одного числа.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.11; в индексе указаны К. А. Кноп и Уральский турнир, 2008 как первоисточник."]}
+}

@@ -1,0 +1,86 @@
+{
+  "id": "prisoners-10-boxes-cycle-strategy",
+  "title": "10 заключенных и 10 ящиков",
+  "fragment": "communication",
+  "kind": {"primary": "classical_problem", "secondary": ["probabilistic_strategy", "permutation_strategy", "special_case"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-ten-prisoners-ten-boxes",
+        "title": "Найти свой номер за 5 открытий",
+        "text": "Есть 10 заключенных и 10 ящиков. В ящиках лежат номера заключенных от 1 до 10, по одному номеру в каждом ящике, в случайном порядке. Заключенные могут заранее договориться о стратегии, потом заходят в комнату по одному, не общаются и не оставляют следов. Каждый может открыть не более 5 ящиков. Все выигрывают, если каждый заключенный нашел свой номер. Какой простой заранее согласованный способ дает заметную вероятность общего успеха?",
+        "source_ids": ["src-winkler-seven-puzzles", "src-aops-wiki-kgs-math-club"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-boxes-as-permutation-cycles",
+      "title": "Ящики задают перестановку",
+      "text": "Если из ящика с номером \\(i\\) достали номер \\(j\\), будем считать, что стрелка идет из \\(i\\) в \\(j\\). Так все ящики разбиваются на циклы. Заключенный, который каждый раз идет в ящик с только что найденным номером, двигается по своему циклу.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-follow-own-cycle",
+      "title": "Идти по цепочке номеров",
+      "text": "До испытания заключенные договариваются: заключенный \\(i\\) сначала открывает ящик \\(i\\). Если внутри номер \\(i\\), он сразу закончил. Если внутри номер \\(j\\), следующим он открывает ящик \\(j\\), затем ящик с номером, который нашел там, и так далее, пока не найдет свой номер или не сделает 5 открытий.\n\nПочему это работает именно так: в перестановке «номер ящика -> номер внутри» заключенный \\(i\\) идет по тому циклу, где находится \\(i\\). Если длина этого цикла не больше 5, он обязательно за один оборот дойдет до своего номера. Если есть цикл длины 6 или больше, все заключенные из этого длинного цикла не успеют пройти его целиком, и общий успех невозможен для этой стратегии.\n\nЗначит, критерий успеха для всех десяти заключенных простой: в перестановке не должно быть цикла длины больше 5. Для случайной перестановки вероятность успеха равна \\(1-(1/6+1/7+1/8+1/9+1/10)\\), примерно \\(0.354\\). Это намного лучше, чем независимые случайные попытки, потому что заключенные не ищут вслепую: каждый проверяет ровно свой цикл.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "interactive": {
+    "type": "permutation_cycle_protocol",
+    "prisoner_count": 10,
+    "box_count": 10,
+    "max_openings": 5,
+    "objective": "all_agents_find_own_state",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
+  "incomplete_information_profile": {
+    "hidden_state_space": "случайная перестановка номеров 1..10 по ящикам",
+    "observations": ["номера в открытых ящиках одного заключенного"],
+    "allowed_actions": ["каждый заключенный открывает до 5 ящиков", "заранее согласовать одну общую стратегию"],
+    "goal": ["all_agents_find_own_state"],
+    "strategy_type": ["permutation_cycle_strategy"],
+    "lower_bound_method": [],
+    "keywords": ["10_prisoners", "names_in_boxes", "cycle_following", "long_cycle_threshold"],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "agents": 10,
+    "channel": "после выбора стратегии общения нет",
+    "message_capacity": "наблюдениями служит только содержимое открытых ящиков",
+    "privacy_goal": "не применяется"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Малый случай хорошо показывает идею циклов без тяжелого вероятностного аппарата; расчет успеха сводится к запрету циклов длины 6..10.",
+    "status": "ai_checked"
+  },
+  "tags": ["structural_constraint", "symmetry", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-winkler-seven-puzzles", "role": "general_problem_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-aops-wiki-kgs-math-club", "role": "duplicate_general_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "small_case_for_interactive",
+    "notes": [
+      "Создана как малый частный случай классической задачи о 100 заключенных и 100 ящиках.",
+      "Интерактив хранит только параметры модели; перестановка создается viewer на клиенте."
+    ]
+  }
+}

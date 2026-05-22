@@ -4,7 +4,7 @@
   "fragment": "communication",
   "kind": {"primary": "olympiad_problem", "secondary": ["prearranged_protocol"]},
   "language": "ru",
-  "authors": [{"name": "Шаповалов А.В.", "status": "source_verified", "source_id": "src-problems-ru-116064"}],
+  "authors": [{"name": "Шаповалов А.В.", "role": "problem_author", "status": "source_verified", "source_id": "src-problems-ru-116064"}],
   "statements": {
     "original": [
       {

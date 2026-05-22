@@ -18,5 +18,5 @@
   },
   "tags": ["common_knowledge", "knowledge_elimination", "public_announcement", "condition_middle_school"],
   "sources": [{"source_id": "src-sasmo-2015-grade-9-solutions", "role": "official_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Публичный текст переведен на русский, так как источник англоязычный."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Публичный текст переведен на русский, так как источник англоязычный.", "Имена локализованы для русской версии; исходная задача известна как SASMO 2015 Cheryl's Birthday."]}
 }

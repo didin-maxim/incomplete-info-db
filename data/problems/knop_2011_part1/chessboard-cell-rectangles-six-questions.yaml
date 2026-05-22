@@ -1,0 +1,64 @@
+{
+  "id": "chessboard-cell-rectangles-six-questions",
+  "title": "Клетка доски и вопросы прямоугольниками",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["search_game", "geometry", "adaptive_strategy"]},
+  "language": "ru",
+  "authors": [{"name": "А. В. Шаповалов", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-9",
+        "title": "Найти клетку прямоугольными вопросами",
+        "text": "Петя загадывает клетку шахматной доски \\(8\\times 8\\). Витя каждым ходом может обвести по границам клеток любой прямоугольник и узнать, попала ли в него загаданная клетка. Как угадать клетку за 6 ходов? Решите также такую же задачу для доски \\(5\\times 5\\) и пяти ходов.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-row-column-bisection",
+      "title": "Искать строку и столбец отдельно",
+      "text": "Вопрос прямоугольником позволяет спросить о нескольких подряд идущих строках или столбцах. Для доски \\(8\\times 8\\) можно за три вопроса определить строку и еще за три - столбец.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-eight-by-eight-rows-columns",
+      "title": "Три вопроса на строку и три на столбец",
+      "text": "На доске \\(8\\times 8\\) сначала тремя прямоугольными вопросами делим строки пополам: верхние 4 строки или нижние 4, затем одну из двух пар строк, затем одну строку. После этого так же тремя вопросами делим восемь столбцов. Пересечение найденной строки и найденного столбца дает загаданную клетку.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    },
+    {
+      "id": "str-five-by-five-frame",
+      "title": "Для \\(5\\times5\\) сначала оставить прямоугольник \\(3\\times5\\)",
+      "text": "Для доски \\(5\\times5\\) книга предлагает сначала очевидным прямоугольным вопросом оставить одну из частей размера не больше \\(3\\times5\\). Затем из прямоугольника \\(3\\times5\\) вторым ходом вырезается прямоугольник \\(2\\times4\\). Если клетка внутри него, дальше остаются восемь вариантов и трех вопросов достаточно. Если клетка вне него, оставшаяся каемка также делится следующим прямоугольным вопросом на две удобные части, после чего оставшихся вопросов хватает.",
+      "standard_idea_ids": ["partition_state_space", "adaptive_questions"],
+      "status": "needs_human_review",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одна клетка доски 8x8 или 5x5",
+    "observations": ["ответ да/нет: лежит ли клетка в выбранном прямоугольнике"],
+    "allowed_actions": ["адаптивно выбирать прямоугольники по границам клеток"],
+    "goal": ["identify_hidden_cell"],
+    "strategy_type": ["adaptive_strategy", "geometric_partition", "binary_search"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["knop_2011", "shapovalov", "grid", "rectangle_questions"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 6, "lies_allowed": 0, "adaptive": true, "objective": "identify_hidden_cell"},
+  "difficulty": {"main": "intro", "local_score": 3, "comment": "Случай 8x8 прямой, вариант 5x5 требует аккуратной геометрической разбивки.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.9; в индексе указан автор А. В. Шаповалов.", "Стратегия для 5x5 пересказана по тексту без переноса рисунка; перед публикацией желательно проверить разбиение по рисунку книги."]}
+}

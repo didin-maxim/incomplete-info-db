@@ -1,0 +1,56 @@
+{
+  "id": "rusanivskyi-2021-mafia-roles-public-dialogue",
+  "title": "Русановский лицей-2021: роли в игре «Мафия»",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning", "hidden_roles"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-rusanivskyi-2021-mafia",
+        "title": "Кто мафия, комиссар и мирные жители",
+        "text": "Пять человек A, B, C, D, E играют в «Мафию». Среди них 2 мирных жителя, 2 представителя мафии и 1 комиссар. Мафия знает друг друга, комиссар знает, кто мафия, а мирные жители знают только свои роли. Представители мафии всегда лгут, а мирные жители и комиссар всегда говорят правду. Во время игры последовательно прозвучали реплики:\n\nA: «Я знаю, кто B».\nB: «Я знаю, кто комиссар».\nC: «Я знаю, кто B».\nD: «Я знаю, кто E».\n\nОпределите, кто кем является.",
+        "source_ids": ["src-rusanivskyi-2021-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-knowledge-depends-on-role-and-previous-dialogue",
+      "title": "Учитывать, что игроки тоже слышат предыдущие реплики",
+      "text": "Фраза «я знаю» истинна только если игрок может вывести роль названного человека из своей роли и уже прозвучавшего диалога. Поэтому каждая новая реплика добавляет публичную информацию.",
+      "standard_idea_ids": ["public_announcement_induction", "knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-sequential-role-elimination",
+      "title": "Идти по репликам",
+      "text": "A не может быть мирным жителем: мирный житель в самом начале знает только собственную роль и не знает, кто B, а мирные жители говорят правду.\n\nПредположим, что A - комиссар. Тогда A правдиво знает, кто B. Игрок B не может быть комиссаром и не может быть мирным жителем: мирный житель не знал бы, кто комиссар. Значит, B был бы мафией. Но мафия знает друг друга; кроме того, из первой реплики B понял бы, что A не мирный житель, и знал бы, что A не мафия, иначе A знал бы B как мафию и должен был бы солгать. Тогда B знал бы, что A - комиссар, и его фраза оказалась бы правдивой, хотя мафия должна лгать. Противоречие.\n\nЗначит, A - мафия. Его фраза ложна, поэтому он не знает, кто B; следовательно, B не мафия. Тогда B говорит правду. Мирный житель после первой реплики еще не знал бы комиссара, значит B - комиссар.\n\nКогда C говорит третьим, он слышал первые две реплики и, как и мы, уже может вывести, что B - комиссар. Его фраза истинна, значит C - мирный житель. Когда D говорит четвертым, уже известно, что A - мафия, B - комиссар, C - мирный житель. Зная собственную роль, D может определить, кто E: если D мирный, то E мафия; если D мафия, то E мирный. Его фраза истинна, значит D - мирный житель. Оставшийся E - мафия.",
+      "standard_idea_ids": ["public_announcement_induction", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar", "state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "распределение ролей: два мафиози, два мирных жителя и один комиссар",
+    "observations": ["четыре публичные последовательные реплики о знании ролей"],
+    "allowed_actions": ["после каждой реплики обновлять, что мог знать каждый тип игрока"],
+    "goal": ["identify_all_roles"],
+    "strategy_type": ["knowledge_elimination", "truth_liar_constraints", "public_announcement"],
+    "lower_bound_method": [],
+    "keywords": ["rusanivskyi_2021", "mafia", "hidden_roles", "public_dialogue"],
+    "status": "ai_checked"
+  },
+  "truth_liar_profile": {"agents": 5, "types": ["truth_teller", "liar"], "statements_count": 4, "objective": "identify_roles"},
+  "questions_profile": {"answer_alphabet_size": 0, "question_count": 0, "lies_allowed": "mafia_always_lies", "adaptive": false, "objective": "deduce_roles_from_public_statements"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Нужно аккуратно различать реальные роли и знание игроков после предыдущих реплик.", "status": "ai_checked"},
+  "tags": ["lie_detection", "knowledge_elimination", "common_knowledge", "condition_middle_school"],
+  "sources": [{"source_id": "src-rusanivskyi-2021-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-21", "review_status": "ai_checked", "public_ready": true, "relations_status": "rusanivskyi_batch", "notes": ["XXV олимпиада Русановского лицея, 2021, задача 7. Условие переведено с украинского."]}
+}

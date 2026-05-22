@@ -1,0 +1,114 @@
+{
+  "relations": [
+    {
+      "id": "rel-knop-polygon-diagonals-to-fixed-questions",
+      "from": "polygon-side-binary-search-by-diagonals",
+      "to": "fixed-questions-as-binary-code",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Задача про сторону многоугольника использует ту же емкость двоичных ответов, но вопросы ограничены геометрически: спрашивать можно только диагоналями.",
+      "backward_text": "Общая карточка про двоичные вопросы объясняет информационную емкость; диагональная задача показывает, что еще нужно реализовать нужные разбиения допустимыми вопросами.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-knop-product-60-to-fixed-questions",
+      "from": "product-60-pair-three-yes-no-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "После перечисления шести пар с произведением 60 задача сводится к различению одного из конечного числа состояний вопросами да/нет.",
+      "backward_text": "Общая карточка формулирует тот же механизм как кодирование состояний наборами двоичных ответов.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-even-odd-pair-to-fixed-questions",
+      "from": "even-odd-pair-1-to-10-five-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "В задаче про четное и нечетное число сначала пространство состояний сжимается до 25 пар, а затем пары различаются двоичными ответами.",
+      "backward_text": "Общая карточка объясняет, почему пять двоичных ответов достаточно для любого множества не более чем из 32 состояний.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-chessboard-rectangles-to-fixed-questions",
+      "from": "chessboard-cell-rectangles-six-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Поиск клетки прямоугольниками реализует двоичное деление пространства состояний, но допустимые вопросы должны быть прямоугольными областями доски.",
+      "backward_text": "Общая карточка дает информационную схему; задача с доской добавляет геометрическое ограничение на форму вопросов.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-knop-chessboard-to-jsmo-adjacent-treasure",
+      "from": "chessboard-cell-rectangles-six-questions",
+      "to": "jsmo-2016-adjacent-treasure-10x10",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе задачи являются поиском скрытого положения на доске через адаптивные вопросы да/нет и используют разбиение клеток на удобные области.",
+      "backward_text": "Сербская задача сложнее: скрыто не одна клетка, а соседняя пара, и нужна нижняя оценка; прямоугольная задача Кнопа служит более простым геометрическим поиском.",
+      "status": "ai_checked",
+      "confidence": 0.72
+    },
+    {
+      "id": "rel-knop-divisibility-1-8-to-fixed-questions",
+      "from": "divisibility-guess-number-1-to-8-three-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Задача по делимости различает восемь состояний тремя ответами да/нет, но допустимые вопросы имеют специальный вид: делится ли выбранное число X на скрытое A.",
+      "backward_text": "Общая двоичная схема объясняет, почему нужно получить разные тройки ответов; в задаче Кнопа главное - реализовать нужные половинные разбиения через делимость.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-knop-unordered-triple-to-fixed-questions",
+      "from": "unordered-triple-1-to-10-eight-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "После подсчета 220 возможных троек задача сводится к кодированию конечного множества двоичными ответами.",
+      "backward_text": "Общая карточка про двоичные вопросы дает универсальную стратегию для любого множества не более чем из 2^q состояний.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-point-square-to-fixed-questions",
+      "from": "point-in-square-three-line-questions",
+      "to": "fixed-questions-as-binary-code",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Вопросы прямыми тоже разбивают пространство возможных положений точки на области, но пространство состояний непрерывное, а ответов у одного вопроса три.",
+      "backward_text": "Двоичная карточка служит дискретным ориентиром; геометрическая задача Кнеля требует уже не только подсчета ответов, но и разбиения плоскости прямыми.",
+      "status": "needs_human_review",
+      "confidence": 0.65
+    },
+    {
+      "id": "rel-knop-cowboy-to-calgary-hot-cold",
+      "from": "cowboy-target-by-closer-shot-comparisons",
+      "to": "calgary-jmc-2010-b5-hot-and-cold-treasure",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах новая проба сравнивается с предыдущей по близости к скрытой цели; ответ задает геометрическое ограничение на положение цели.",
+      "backward_text": "Задача Calgary является дискретным вариантом поиска по подсказкам ближе/дальше, а задача про ковбоя переносит тот же механизм на непрерывную геометрию.",
+      "status": "needs_human_review",
+      "confidence": 0.76
+    },
+    {
+      "id": "rel-knop-card-piles-to-twenty-one-card-trick",
+      "from": "different-size-card-piles-two-questions",
+      "to": "twenty-one-card-trick",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе карточные задачи кодируют выбранную карту ответами зрителя о стопке, но в задаче Кнопа размеры стопок должны быть попарно различны.",
+      "backward_text": "Классический фокус с 21 картой показывает c-арную емкость равных стопок; задача про разные стопки добавляет ограничение на размеры и приводит к треугольным числам.",
+      "status": "needs_human_review",
+      "confidence": 0.8
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "id": "rusanivskyi-2015-paired-knights-liars-phrases",
+  "title": "Русановский лицей-2015: пары рыцарей и лжецов",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning", "parity"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-rusanivskyi-2015-pairs",
+        "title": "Поровну двух фраз",
+        "text": "На острове живут 1234 человека, каждый из которых либо рыцарь, всегда говорящий правду, либо лжец, всегда лгущий. Однажды все жители разбились на пары, и каждый сказал о своем партнере одну из двух фраз: «Он рыцарь!» или «Он лжец!». Могло ли оказаться, что всего фраз первого и второго вида было сказано поровну?",
+        "source_ids": ["src-rusanivskyi-2015-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-each-pair-says-same-kind",
+      "title": "В каждой паре звучат две одинаковые фразы",
+      "text": "Если в паре люди одного типа, оба называют партнера рыцарем. Если типы разные, оба называют партнера лжецом. Значит, пары дают фразы только двойками одного вида.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-odd-number-of-pairs",
+      "title": "Посчитать пары",
+      "text": "Рассмотрим одну пару. Если это два рыцаря, каждый правдиво говорит о партнере: «Он рыцарь». Если это два лжеца, каждый лжет; правда была бы «Он лжец», поэтому оба говорят: «Он рыцарь». Если в паре рыцарь и лжец, рыцарь правдиво говорит: «Он лжец», а лжец лжет о рыцаре и тоже говорит: «Он лжец».\n\nЗначит каждая пара дает либо две фразы «Он рыцарь», либо две фразы «Он лжец». Всего пар \\(1234:2=617\\), а это нечетное число. Чтобы общее число фраз двух видов было поровну, число пар первого вида должно равняться числу пар второго вида. Нечетные 617 пар так разделить нельзя. Поэтому такая ситуация невозможна.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "proof-odd-pairs",
+      "title": "Почему поровну быть не может",
+      "text": "Пары дают вклады \\((2,0)\\) или \\((0,2)\\) в счетчики двух фраз. Равенство счетчиков требовало бы одинакового числа пар двух типов, но всего пар 617.",
+      "standard_idea_ids": ["parity_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого жителя острова: рыцарь или лжец",
+    "observations": ["каждый житель произносит одну фразу о типе своего партнера"],
+    "allowed_actions": ["проверять совместимость произнесенных фраз с типами в каждой паре"],
+    "goal": ["prove_equal_phrase_counts_impossible"],
+    "strategy_type": ["truth_liar_constraints", "parity_argument"],
+    "lower_bound_method": ["parity_contradiction"],
+    "keywords": ["rusanivskyi_2015", "knights_liars", "paired_statements", "parity"],
+    "status": "ai_checked"
+  },
+  "truth_liar_profile": {"agents": 1234, "types": ["truth_teller", "liar"], "statements_count": 1234, "objective": "prove_equal_counts_impossible"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 1234, "lies_allowed": "systematic_by_type", "adaptive": false, "objective": "check_phrase_count_possibility"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Простая: достаточно разобрать три типа пар и заметить нечетное число пар.", "status": "ai_checked"},
+  "tags": ["lie_detection", "parity", "condition_middle_school"],
+  "sources": [{"source_id": "src-rusanivskyi-2015-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-21", "review_status": "ai_checked", "public_ready": true, "relations_status": "rusanivskyi_batch", "notes": ["XX олимпиада Русановского лицея, 2015, 6 класс, I тур, задача 1. Условие переведено с украинского."]}
+}

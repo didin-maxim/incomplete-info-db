@@ -1,0 +1,17 @@
+{
+  "id": "knop-2011-gold-silver-24-half-half-preassigned",
+  "title": "Двенадцать золотых и двенадцать серебряных монет в заранее заданном плане",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["nonadaptive_strategy", "coding", "two_types"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-part5-5-10", "title": "Поровну золотых и серебряных", "text": "Среди 24 монет ровно 12 золотых и 12 серебряных. Ровно одна монета фальшивая: серебряная фальшивая легче настоящих серебряных, а золотая фальшивая тяжелее настоящих золотых. Нужно заранее назначить три взвешивания и по их результатам найти фальшивую монету.", "source_ids": ["src-knop-2011-weighings-algorithms"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "state_space"]}]},
+  "ideas": [{"id": "idea-half-half-balance", "title": "Поровну типов помогает балансировать строки", "text": "Одинаковое количество золотых и серебряных монет позволяет строить таблицу, в которой вклад настоящих монет на чашах равен, а фальшивый знак затем читается через тип монеты.", "standard_idea_ids": ["ternary_weighing_code", "symmetry_breaking"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-pair-opposite-codes-by-metal", "title": "Связывать золотые и серебряные монеты противоположными записями", "text": "Удобно разбить монеты на пары разных типов и назначать им согласованные или противоположные троичные записи так, чтобы в каждом из трех взвешиваний настоящие массы на чашах совпадали. Тогда последовательность исходов совпадает с записью одной монеты с учетом правила: серебряная фальшивка легкая, золотая тяжелая.", "standard_idea_ids": ["ternary_weighing_code"], "status": "needs_human_review", "definition_ids": ["balance_scale", "strategy"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "24 состояния: какая монета фальшивая", "observations": ["три исхода заранее назначенных чашечных взвешиваний"], "allowed_actions": ["использовать известное разбиение на 12 золотых и 12 серебряных"], "goal": ["identify_counterfeit_coin"], "strategy_type": ["nonadaptive_strategy", "ternary_code", "type_dependent_sign"], "lower_bound_method": ["answer_word_count"], "keywords": ["half_half", "mixed_signs"], "status": "ai_checked"},
+  "weighing_profile": {"object_count": 24, "counterfeit_count": 1, "counterfeit_type": "type_dependent_lighter_or_heavier", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": false, "objective": "identify_coin"},
+  "difficulty": {"main": "top_base", "local_score": 6, "comment": "Нужно совместить троичное кодирование с балансом настоящих золотых и серебряных монет.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "condition_older_students"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "needs_human_review", "public_ready": false, "relations_status": "knop_2011_part5_batch", "notes": ["Занятие 5.10. В книге приведены два решения; карточка пока не переносит полную таблицу, чтобы не подменить ее непроверенным пересказом."]}
+}

@@ -1,0 +1,55 @@
+{
+  "id": "spb-2004-filed-weight-9-standards-2-weighings",
+  "title": "Подпиленная гирька среди эталонов 100-900 граммов",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2-12",
+        "title": "Одна гирька стала немного легче",
+        "text": "Имеется девять гирек-эталонов весом 100 г, 200 г, ..., 900 г. Одна из них подпилена и теперь весит немного легче, чем раньше, причем потеря веса не больше 10 г. Нужно определить подпиленную гирьку за два взвешивания.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-equal-sum-triples",
+      "title": "Равносуммные тройки превращают разные веса в три случая",
+      "text": "Нужно найти две тройки гирек с одинаковым номинальным суммарным весом. Тогда при первом взвешивании подпиленная гирька либо окажется в более легкой тройке, либо, при равновесии, среди трех неиспользованных гирек.",
+      "standard_idea_ids": ["partition_state_space", "use_known_genuine_as_ballast"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-137-vs-245",
+      "title": "Сравнить две равносуммные тройки",
+      "text": "Первым взвешиванием сравним гирьки 100 г, 300 г и 700 г с гирьками 200 г, 400 г и 500 г. Номинальные суммы равны: 1100 г на каждой чаше. Если одна чаша легче, подпиленная гирька находится на ней; если равновесие, она среди гирек 600 г, 800 г и 900 г.\n\nПосле первого взвешивания есть три подозрительные гирьки, а остальные заведомо настоящие. Вторым взвешиванием сравним две подозрительные гирьки, уравновесив номинальные веса настоящими гирьками, если сами подозрительные имеют разные номиналы. Более легкий по сравнению с номинальным балансом вариант указывает подпиленную гирьку; равновесие указывает на третью подозрительную.",
+      "standard_idea_ids": ["knowledge_elimination", "ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 возможных подпиленных гирек с известными номинальными массами",
+    "observations": ["три исхода каждого взвешивания"],
+    "allowed_actions": ["сравнивать наборы гирек с известными номинальными суммами"],
+    "goal": ["identify_counterfeit_object"],
+    "strategy_type": ["adaptive_strategy", "equal_sum_coding", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["filed_weight", "known_nominal_weights", "equal_sum_triples", "spb_2004"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "slightly_lighter_known_nominal_weight", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_weights": [100, 200, 300, 400, 500, 600, 700, 800, 900], "objective": "identify_object"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Разные номинальные веса требуют сначала построить равносуммные наборы, а затем использовать настоящие гирьки как балласт.", "status": "ai_checked"},
+  "tags": ["balance_scale", "weighted_sum_encoding", "knowledge_elimination", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.12. В index указан автор О. Ю. Ванюшина и первоисточник: Санкт-Петербургская олимпиада, 2004."]}
+}

@@ -1,0 +1,126 @@
+{
+  "id": "knop-expert-judge-light-counterfeits-extreme-sums",
+  "title": "Эксперт доказывает несколько легких фальшивых монет крайними суммами",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "problem_family",
+    "secondary": [
+      "expert_judge_certificate",
+      "weighing_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d46-d47",
+        "title": "Три фальшивые за два взвешивания и шесть за три",
+        "text": "Судья знает, что фальшивые монеты легче настоящих. Эксперт знает, какие именно монеты фальшивы. Нужно провести экспертизу трех легких фальшивых монет за два взвешивания, а также шести легких фальшивых монет за три взвешивания.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-chain-extreme-inequalities",
+      "title": "Каждое неравенство закрепляет новые крайние монеты",
+      "text": "Сертификаты используют настоящие монеты как эталонный тяжелый край и уже установленные легкие фальшивые как легкий край. Подобранные суммы становятся возможны только при заявленном расположении легких монет.",
+      "standard_idea_ids": [
+        "extreme_sum_argument"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-and-six-light-fakes",
+      "title": "Сертификаты из книги",
+      "text": "Для трех легких фальшивых пусть монеты 1-3 фальшивые, а 4-6 настоящие. Эксперт показывает \\(1<4\\) и \\(2+3+4<1+5+6\\).\n\nДля шести легких фальшивых достаточно использовать 13 монет: 1-6 фальшивые, 7-13 настоящие. Эксперт показывает \\(1<7\\), затем \\(2+3+7<1+8+9\\), затем \\(4+5+6+7+8+9<2+3+10+11+12+13\\).",
+      "standard_idea_ids": [
+        "extreme_sum_argument",
+        "certificate"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "эксперт знает множество легких фальшивых монет; судья знает только их число и что они легче настоящих",
+    "observations": [
+      "публичные неравенства на чашечных весах"
+    ],
+    "allowed_actions": [
+      "эксперт выбирает демонстрационные взвешивания"
+    ],
+    "goal": [
+      "certify_all_light_counterfeits"
+    ],
+    "strategy_type": [
+      "expert_judge_certificate",
+      "extreme_sum_certificate"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "expert_judge",
+      "light_counterfeits",
+      "extreme_sums",
+      "three_fakes",
+      "six_fakes"
+    ],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": "100_or_enough",
+    "counterfeit_count": "3_or_6",
+    "counterfeit_type": "known_light_to_judge",
+    "weighing_count": "2_or_3",
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_all_light_counterfeits"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 6,
+    "comment": "Сертификаты короткие, но их проверка требует аккуратного рассуждения о крайних суммах.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "expert_judge_certificate",
+    "extreme_sum_argument",
+    "structural_constraint",
+    "symmetry_breaking",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_problem_family_d46_d47_and_solution_hints",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "family_card_from_d46_d47",
+    "notes": [
+      "Индекс книги не указывает отдельного автора для Д.46-Д.47.",
+      "Оставлено закрытым: карточка объединяет случаи с тремя и шестью легкими фальшивками, но не содержит полной проверки экстремальных сумм для всех конкурирующих состояний."
+    ]
+  }
+}

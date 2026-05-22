@@ -1,0 +1,124 @@
+{
+  "id": "knop-coin-uniformity-verification",
+  "title": "Проверка монет: доказать, что все веса одинаковы",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "problem_family",
+    "secondary": [
+      "verification",
+      "nonadaptive_strategy",
+      "weighing_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d37-d40",
+        "title": "Четыре задания на проверку",
+        "text": "Среди данных монет могут быть монеты двух весов: если фальшивые есть, то все они весят одинаково. Нужно с помощью заранее спланированных чашечных взвешиваний убедиться, что на самом деле все данные монеты весят одинаково. В книге предложены случаи: 4 монеты за 2 взвешивания, 8 монет за 3 взвешивания, 10 монет за 3 взвешивания, \\(10^n\\) монет за \\(3n\\) взвешиваний и 30 монет за 4 взвешивания.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-verification-is-nonadaptive",
+      "title": "Неравенство сразу дает отрицательный ответ",
+      "text": "Если хотя бы одно взвешивание дало неравенство, одинаковость всех монет уже опровергнута. Поэтому доказательство одинаковости должно состоять из заранее заданной системы равенств, из которой логически следует равенство весов всех монет.",
+      "standard_idea_ids": [
+        "linear_constraints"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-small-and-parametric-cases",
+      "title": "Системы равенств для случаев из книги",
+      "text": "Для 4 монет разделим их на две пары, проверим равенство пар, затем проверим равенство двух монет внутри одной пары. Для 8 монет повторим деление пополам три раза.\n\nДля 10 монет разделим их на группы размеров 1, 2, 3 и 4. Достаточно проверить равенства \\(1+2=3\\), \\(1+3=4\\) и \\(2+3=1+4\\). Если все три равенства выполнены, то веса всех групп совпадают с их размерами в общей единице, а значит все десять монет одного веса.\n\nСлучай \\(10^n\\) получается индукцией: рассматриваем десять блоков по \\(10^{n-1}\\) монет как десять больших монет и применяем схему для 10 объектов, а внутри каждого блока используем ту же проверку. Для 30 монет Кноп дает систему групп размеров 2, 5, 6, 8 и 9 с четырьмя проверками: \\(2+6=8\\), \\(5+6=2+9\\), \\(5+9=6+8\\), \\(2+5+8=6+9\\).",
+      "standard_idea_ids": [
+        "linear_constraints",
+        "induction"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "разбиение монет на два возможных веса, включая случай одного веса",
+    "observations": [
+      "результаты заранее заданных чашечных взвешиваний"
+    ],
+    "allowed_actions": [
+      "неадаптивная система сравнений групп монет"
+    ],
+    "goal": [
+      "verify_all_equal_weights"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "linear_certificate"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "uniformity_verification",
+      "two_possible_weights",
+      "linear_equalities",
+      "10_power_n"
+    ],
+    "status": "needs_human_review"
+  },
+  "weighing_profile": {
+    "object_count": "4, 8, 10, 10^n, 30",
+    "counterfeit_count": "unknown_or_zero",
+    "counterfeit_type": "all_counterfeits_same_unknown_weight",
+    "weighing_count": "2, 3, 3n, 4",
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "verify_all_weights_equal"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 7,
+    "comment": "Это не поиск фальшивки, а построение системы равенств, исключающей любой двухвесовой расклад.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "verification_task",
+    "nonadaptive_strategy",
+    "linear_signature",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_problem_family_d37_d40_and_solution_hints",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "family_card_from_d37_d40",
+    "notes": [
+      "Семейная карточка требует ручной проверки линейных выводов для случая 10 и 30 монет перед public_ready."
+    ]
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "id": "rusanivskyi-2017-sherlock-five-denomination-coins",
+  "title": "Русановский лицей-2017: пять монет Шерлока Холмса",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "case_analysis"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-rusanivskyi-2017-sherlock-coins",
+        "title": "Номинал не совпадает с массой",
+        "text": "Шерлок Холмс нашел пять монет номиналами 1, 2, 3, 5 и 10 динаров. Он быстро понял, что одна из них фальшивая: число на этой монете не равно ее массе в граммах. Как найти фальшивую монету за три взвешивания на чашечных весах без гирь?",
+        "source_ids": ["src-rusanivskyi-2017-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-use-2-plus-3-plus-5-equals-10",
+      "title": "Проверить равенства номинальных масс",
+      "text": "Равенства \\(2+3+5=10\\) и \\(2+3=5\\) позволяют сначала исключить монету 1, затем монету 10, а после этого определить, легче или тяжелее фальшивая монета относительно своего номинала.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-nominal-relations",
+      "title": "Сравнить 2+3+5 с 10",
+      "text": "Первым взвешиванием сравним монеты 2, 3 и 5 динаров с монетой 10 динаров. Если равновесие, то все эти четыре монеты имеют правильные массы, значит фальшивая монета - 1 динар.\n\nЕсли равновесия нет, вторым взвешиванием сравним 2 и 3 динара с 5 динарами. Если равновесие, то монеты 2, 3 и 5 настоящие, а из первого взвешивания следует, что фальшивая монета - 10 динаров.\n\nОстается случай, когда оба первых взвешивания не дали равновесия. Тогда монета 10 настоящая, а фальшивая среди 2, 3 и 5. По первому взвешиванию мы знаем, легче она своего номинала или тяжелее: если чаша с 2+3+5 была легче, фальшивая монета легче нормы; если тяжелее - тяжелее нормы. Рассмотрим для определенности легкий случай. Во втором взвешивании, если чаша с монетой 5 динаров легче, фальшива она. Если легче чаша с 2 и 3 динарами, то фальшивая среди 2 и 3. Третьим взвешиванием сравним 2 динара с 3 динарами: более легкая из них и есть фальшивая. В тяжелом случае все направления перекосов меняются на противоположные, но рассуждение то же самое.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какая из пяти монет имеет массу, не равную номиналу, и в какую сторону она отличается",
+    "observations": ["до трех трехисходных результатов чашечных весов"],
+    "allowed_actions": ["сравнивать выбранные суммы номинальных монет"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "linear_signature", "case_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["rusanivskyi_2017", "sherlock_holmes", "denomination_weights", "counterfeit_coin"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 5, "counterfeit_count": 1, "counterfeit_type": "unknown_offset_from_known_nominal_weight", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_coin"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: решение держится на двух числовых равенствах между номиналами и коротком разборе направления отличия.", "status": "ai_checked"},
+  "tags": ["balance_scale", "linear_signature", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-rusanivskyi-2017-official", "role": "official_statement_and_solution", "status": "source_verified"}, {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-21", "review_status": "ai_checked", "public_ready": true, "relations_status": "rusanivskyi_batch", "notes": ["XXII олимпиада Русановского лицея, 2017, 6 класс, I тур, задача 3. Условие переведено с украинского.", "2026-05-22: книга К. А. Кнопа содержит тот же набор номиналов 1, 2, 3, 5, 10 в дополнительной задаче Д.17; в указателе книги указан автор Д. В. Фомин."]}
+}

@@ -193,6 +193,11 @@
       "source_id": "src-aops-wiki-unm-pnm-2015-problem4",
       "role": "aops_duplicate_statement",
       "status": "source_verified"
+    },
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_variant",
+      "status": "source_verified"
     }
   ],
   "editorial": {
@@ -208,7 +213,8 @@
       "2026-05-18: problems.ru 60922 добавлен как источник той же классической задачи; решение источника использует номера монет по трем возможным исходам.",
       "2026-05-18: число 12 признано существенным для данной модели без эталона; родственная общая кодовая версия вынесена в отдельную карточку generalizations.",
       "2026-05-19 web-weighings: МЦНМО 2013, занятие 8, задача 2 добавлена как официальный кружковый дубль классической задачи о 12 монетах.",
-      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2015 Contest II, Problem 4 добавлен как еще один дубль той же классической задачи о 12 монетах за три взвешивания."
+      "2026-05-19 aops-weighings: AoPS Wiki, UNM-PNM 2015 Contest II, Problem 4 добавлен как еще один дубль той же классической задачи о 12 монетах за три взвешивания.",
+      "2026-05-22: книга К. А. Кнопа содержит задачу Саладина в занятии 6, задача 6.2; в тексте книги указаны ранние источники F. Dyson, Mathematical Gazette, 1945, и Donald Eves, American Mathematical Monthly, 1946. Отдельные source records для Dyson/Eves не заведены до точной библиографической сверки."
     ]
   }
 }

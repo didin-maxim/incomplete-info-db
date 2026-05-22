@@ -66,6 +66,15 @@
     "adaptive": false,
     "objective": "identify_one_of_N_states"
   },
+  "interactive": {
+    "type": "binary_cards_number_trick",
+    "card_count": 3,
+    "number_min": 0,
+    "number_max": 7,
+    "card_weights": [1, 2, 4],
+    "objective": "identify_hidden_number",
+    "modes": ["random", "manual_spectator", "exhaustive"]
+  },
   "difficulty": {
     "main": "intro",
     "local_score": 1,
@@ -74,7 +83,8 @@
   },
   "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
   "sources": [
-    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"}
+    {"source_id": "src-folklore", "role": "folklore_statement", "status": "source_verified"},
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -83,6 +93,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "already_parameterized_same_solution",
-    "notes": ["2026-05-18: карточка уже является общей N/q-формой для вопросов да/нет, выбранных заранее; числовые частные случаи не нужны."]
+    "notes": ["2026-05-18: карточка уже является общей N/q-формой для вопросов да/нет, выбранных заранее; числовые частные случаи не нужны.", "2026-05-22: книга К. А. Кнопа содержит частный случай занятия 5, задача 5.1: число от 1 до 8 и три заранее выбранные карточки да/нет; также занятие 1 использует общую бинарную емкость вопросов."]
   }
 }

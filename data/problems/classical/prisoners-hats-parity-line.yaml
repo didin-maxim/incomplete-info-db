@@ -78,6 +78,13 @@
     "message": "названные цвета",
     "message_capacity": "один бит в каждом ответе"
   },
+  "interactive": {
+    "type": "prisoners_hats_parity_line",
+    "person_count": 6,
+    "color_count": 2,
+    "objective": "guarantee_all_but_first_correct",
+    "modes": ["random", "guided", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

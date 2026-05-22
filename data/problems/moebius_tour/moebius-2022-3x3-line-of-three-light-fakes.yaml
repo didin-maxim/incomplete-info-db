@@ -67,6 +67,22 @@
     "scale_type": "balance_scale",
     "objective": "identify_all_fake_coins"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "coin_count": 9,
+    "hidden_states": [
+      {"id": "R1", "label": "строка 1", "coins": [1, 2, 3]},
+      {"id": "R2", "label": "строка 2", "coins": [4, 5, 6]},
+      {"id": "R3", "label": "строка 3", "coins": [7, 8, 9]},
+      {"id": "C1", "label": "столбец 1", "coins": [1, 4, 7]},
+      {"id": "C2", "label": "столбец 2", "coins": [2, 5, 8]},
+      {"id": "C3", "label": "столбец 3", "coins": [3, 6, 9]}
+    ],
+    "max_weighings": 2,
+    "objective": "identify_line_or_all_counterfeits",
+    "layout": "grid",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,
@@ -90,7 +106,7 @@
     "notes": [
       "В PDF X турнира задача встречается как задача 48 и повторяется в другой лиге как задача 80.",
       "Официального решения в PDF нет; приведенное решение восстановлено редакционно и проверено перебором шести возможных линий.",
-      "Интерактив не добавлялся: это обычная карточка со стратегией, а не проход по интерактивам сайта."
+      "Интерактив добавлен как конечная модель из шести скрытых линий R1,R2,R3,C1,C2,C3."
     ]
   }
 }

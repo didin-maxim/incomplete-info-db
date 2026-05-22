@@ -61,12 +61,38 @@ MOJIBAKE_CODEPOINTS = [
     (0x0412, 0x00AB),
     (0x0412, 0x00BB),
 ]
+
+RUSSIAN_SAMPLE_CHARS = (
+    "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
+    "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+    "№«»"
+)
+
+
+def mojibake_samples_for(encoding):
+    samples = set()
+    for ch in RUSSIAN_SAMPLE_CHARS:
+        try:
+            samples.add(ch.encode("utf-8").decode(encoding))
+        except UnicodeDecodeError:
+            pass
+    return samples
+
+
+def common_utf8_mojibake_samples():
+    samples = set()
+    samples.update(mojibake_samples_for("cp1251"))
+    samples.update(mojibake_samples_for("cp1252"))
+    return samples
+
+
 MOJIBAKE_MARKERS = [
     chr(0x00D0),
     chr(0x00D1),
     chr(0xFFFD),
     "?" * 4,
     *("".join(chr(code) for code in item) for item in MOJIBAKE_CODEPOINTS),
+    *sorted(common_utf8_mojibake_samples()),
 ]
 
 NON_RUSSIAN_CYRILLIC = {

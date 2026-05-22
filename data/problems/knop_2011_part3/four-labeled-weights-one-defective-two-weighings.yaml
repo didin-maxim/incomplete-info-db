@@ -1,0 +1,140 @@
+{
+  "id": "four-labeled-weights-one-defective-two-weighings",
+  "title": "Четыре подписанные гири и одна дефектная",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "weighing_strategy",
+      "linear_signature",
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Четыре подписанные гири и одна дефектная",
+        "text": "Есть гири с маркировками 1 г, 2 г, 3 г и 4 г. Одна гиря дефектная: она легче или тяжелее своей маркировки. Можно ли за два взвешивания узнать, какая гиря дефектная, и определить направление отличия?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-balanced-nominal-sums",
+      "title": "Сравнивать равные суммы маркировок",
+      "text": "Если дефектная гиря не участвует во взвешивании, чаши должны уравновеситься. Поэтому сравнения строятся из равенств между суммами маркировок.",
+      "standard_idea_ids": [
+        "linear_signature",
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-planned-nominal-weighings",
+      "title": "Два заранее заданных сравнения",
+      "text": "Сделаем два взвешивания: \\(1+2\\) против \\(3\\), затем \\(1+3\\) против \\(4\\). Возможные пары результатов дают восемь ответов: \\(<,<\\) означает, что гиря 1 легкая; \\(<,=\\) - гиря 2 легкая; \\(<,>\\) - гиря 3 тяжелая; \\(=,<\\) - гиря 4 тяжелая; \\(=,>\\) - гиря 4 легкая; \\(>,<\\) - гиря 3 легкая; \\(>,=\\) - гиря 2 тяжелая; \\(>,>\\) - гиря 1 тяжелая.",
+      "standard_idea_ids": [
+        "linear_signature",
+        "nonadaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-one-weighing",
+      "title": "Одного взвешивания недостаточно",
+      "text": "Нужно различить восемь состояний: четыре гири и два возможных направления дефекта. Одно чашечное взвешивание дает не более трех исходов.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "8 состояний: 4 подписанные гири, каждая может быть легче или тяжелее маркировки",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_defective_object",
+      "identify_heavy_or_light"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "linear_signature"
+    ],
+    "lower_bound_method": [
+      "decision_tree_leaf_count"
+    ],
+    "keywords": [
+      "labeled_weights",
+      "unknown_direction",
+      "nominal_sums"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": 1,
+    "counterfeit_type": "unknown_offset_from_known_nominal_weight",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "identify_defective_weight_and_sign"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Короткая, но требует увидеть состояния “гиря легче/тяжелее маркировки” и подобрать два равенства сумм.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "linear_signature",
+    "nonadaptive_strategy",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.2; в указателе указан первоисточник: Всероссийская олимпиада, районный этап, 1995."
+    ]
+  }
+}

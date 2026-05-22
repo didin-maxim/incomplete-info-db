@@ -2,16 +2,133 @@
   "id": "kvantik-2016-baron-table-fake-verification",
   "title": "Квантик-2016: проверить слова барона о фальшивой монете на столе",
   "fragment": "weighings",
-  "kind": {"primary": "journal_problem", "secondary": ["strategy_construction", "optimality"]},
+  "kind": {
+    "primary": "journal_problem",
+    "secondary": [
+      "strategy_construction",
+      "optimality"
+    ]
+  },
   "language": "ru",
-  "statements": {"original": [{"id": "stmt-original", "title": "Фальшивая монета осталась на столе?", "text": "На столе лежит кучка одинаковых с виду монет, одна из которых фальшивая: то ли легче, то ли тяжелее обычной. Барон Мюнхгаузен положил часть монет в карман, оставив на столе не менее двух монет, и заявил, что фальшивая монета осталась на столе. Как проверить слова барона с помощью чашечных весов без гирь, потратив как можно меньше взвешиваний? Доступны только монеты на столе, на весы можно класть любое число монет; решение может зависеть от количества оставшихся монет.", "source_ids": ["src-kvantik-math-contest-2016"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "state_space"]}]},
-  "ideas": [{"id": "idea-even-table-one-test", "title": "При четном числе все доступные монеты можно проверить одним сравнением", "text": "Если доступных монет четное число, их можно разделить поровну. Неравенство доказывает, что фальшивая среди доступных; равновесие доказывает, что все доступные настоящие.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
-  "strategies": [{"id": "str-even-one-odd-two", "title": "Один тест для четного числа, два для нечетного", "text": "Если на столе осталось четное число монет, делим их на две равные кучки и сравниваем. Если весы не в равновесии, фальшивая монета действительно осталась на столе; если равновесие, то все монеты на столе настоящие и барон соврал.\n\nЕсли на столе осталось нечетное число монет, одного взвешивания не хватит: если не взвесить какую-то монету, она может оказаться единственной фальшивой, а если пытаться положить все монеты, чаши нельзя сделать равными по числу. Двух взвешиваний достаточно. Сначала отложим одну монету и сравним две равные половины остальных. Если равновесия нет, фальшивая на столе. Если равновесие, все взвешенные монеты настоящие; вторым взвешиванием сравним отложенную монету с любой из них и проверим, фальшивая ли она.", "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"], "status": "ai_checked", "definition_ids": ["balance_scale"]}],
-  "impossibility_proofs": [{"id": "imp-odd-one-weighing", "title": "При нечетном числе одного взвешивания недостаточно", "text": "В одном взвешивании нельзя одновременно использовать все нечетное число монет равными по числу группами. Если часть монет не участвует и весы показывают равновесие, состояние «фальшивая среди неучаствующих» неотличимо от состояния «фальшивая у барона».", "standard_idea_ids": ["indistinguishable_states"], "status": "ai_checked"}],
-  "incomplete_information_profile": {"hidden_state_space": "фальшивая монета либо среди доступных монет на столе, либо среди забранных бароном; знак отличия неизвестен", "observations": ["один или два результата чашечных весов"], "allowed_actions": ["выбирать равные по числу группы только из монет на столе"], "goal": ["verify_counterfeit_on_table"], "strategy_type": ["adaptive_strategy", "state_elimination"], "lower_bound_method": ["indistinguishability_argument"], "keywords": ["kvantik_math_contest_2016", "counterfeit_presence_test", "parity_of_available_coins"], "status": "ai_checked"},
-  "weighing_profile": {"object_count": 0, "counterfeit_count": 1, "counterfeit_type": "unknown_heavy_or_light", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "verify_presence_not_identify_coin"},
-  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: цель слабее поиска монеты, но нужно отдельно обработать четный и нечетный размер и доказать нижнюю оценку в нечетном случае.", "status": "ai_checked"},
-  "tags": ["balance_scale", "indistinguishability_argument", "decision_tree", "condition_middle_school"],
-  "sources": [{"source_id": "src-kvantik-math-contest-2016", "role": "official_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_kvantik_deep", "notes": ["Математический конкурс «Квантика» 2016 года, задача 18; решение также опубликовано в PDF с ответами к туру."]}
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Фальшивая монета осталась на столе?",
+        "text": "На столе лежит кучка одинаковых с виду монет, одна из которых фальшивая: то ли легче, то ли тяжелее обычной. Барон Мюнхгаузен положил часть монет в карман, оставив на столе не менее двух монет, и заявил, что фальшивая монета осталась на столе. Как проверить слова барона с помощью чашечных весов без гирь, потратив как можно меньше взвешиваний? Доступны только монеты на столе, на весы можно класть любое число монет; решение может зависеть от количества оставшихся монет.",
+        "source_ids": [
+          "src-kvantik-math-contest-2016"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-even-table-one-test",
+      "title": "При четном числе все доступные монеты можно проверить одним сравнением",
+      "text": "Если доступных монет четное число, их можно разделить поровну. Неравенство доказывает, что фальшивая среди доступных; равновесие доказывает, что все доступные настоящие.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-even-one-odd-two",
+      "title": "Один тест для четного числа, два для нечетного",
+      "text": "Если на столе осталось четное число монет, делим их на две равные кучки и сравниваем. Если весы не в равновесии, фальшивая монета действительно осталась на столе; если равновесие, то все монеты на столе настоящие и барон соврал.\n\nЕсли на столе осталось нечетное число монет, одного взвешивания не хватит: если не взвесить какую-то монету, она может оказаться единственной фальшивой, а если пытаться положить все монеты, чаши нельзя сделать равными по числу. Двух взвешиваний достаточно. Сначала отложим одну монету и сравним две равные половины остальных. Если равновесия нет, фальшивая на столе. Если равновесие, все взвешенные монеты настоящие; вторым взвешиванием сравним отложенную монету с любой из них и проверим, фальшивая ли она.",
+      "standard_idea_ids": [
+        "partition_state_space",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-odd-one-weighing",
+      "title": "При нечетном числе одного взвешивания недостаточно",
+      "text": "В одном взвешивании нельзя одновременно использовать все нечетное число монет равными по числу группами. Если часть монет не участвует и весы показывают равновесие, состояние «фальшивая среди неучаствующих» неотличимо от состояния «фальшивая у барона».",
+      "standard_idea_ids": [
+        "indistinguishable_states"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "фальшивая монета либо среди доступных монет на столе, либо среди забранных бароном; знак отличия неизвестен",
+    "observations": [
+      "один или два результата чашечных весов"
+    ],
+    "allowed_actions": [
+      "выбирать равные по числу группы только из монет на столе"
+    ],
+    "goal": [
+      "verify_counterfeit_on_table"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "state_elimination"
+    ],
+    "lower_bound_method": [
+      "indistinguishability_argument"
+    ],
+    "keywords": [
+      "kvantik_math_contest_2016",
+      "counterfeit_presence_test",
+      "parity_of_available_coins"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 0,
+    "counterfeit_count": 1,
+    "counterfeit_type": "unknown_heavy_or_light",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "verify_presence_not_identify_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Средняя: цель слабее поиска монеты, но нужно отдельно обработать четный и нечетный размер и доказать нижнюю оценку в нечетном случае.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "verification_task",
+    "indistinguishability_argument",
+    "decision_tree",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-kvantik-math-contest-2016",
+      "role": "official_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-18",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kvant_kvantik_deep",
+    "notes": [
+      "Математический конкурс «Квантика» 2016 года, задача 18; решение также опубликовано в PDF с ответами к туру."
+    ]
+  }
 }

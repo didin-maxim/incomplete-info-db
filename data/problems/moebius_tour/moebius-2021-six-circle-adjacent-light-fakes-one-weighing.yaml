@@ -10,6 +10,22 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "одна из шести соседних пар легких фальшивых монет на круге", "observations": ["один результат чашечных весов"], "allowed_actions": ["сравнить выбранные монеты на чашечных весах", "назвать одну гарантированно фальшивую монету"], "goal": ["identify_one_counterfeit_coin"], "strategy_type": ["nonadaptive_strategy", "state_space_partition"], "lower_bound_method": [], "keywords": ["moebius_tour_8", "six_circle_coins", "adjacent_fakes", "one_weighing"], "status": "ai_checked"},
   "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_adjacent_lighter_coins", "weighing_count": 1, "outcome_count_per_weighing": 3, "adaptive": false, "scale_type": "balance_scale", "objective": "identify_one_counterfeit_coin"},
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "coin_count": 6,
+    "hidden_states": [
+      {"id": "12", "label": "{1,2}", "coins": [1, 2]},
+      {"id": "23", "label": "{2,3}", "coins": [2, 3]},
+      {"id": "34", "label": "{3,4}", "coins": [3, 4]},
+      {"id": "45", "label": "{4,5}", "coins": [4, 5]},
+      {"id": "56", "label": "{5,6}", "coins": [5, 6]},
+      {"id": "61", "label": "{6,1}", "coins": [6, 1]}
+    ],
+    "max_weighings": 1,
+    "objective": "identify_one_counterfeit_coin",
+    "layout": "circle",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "После сравнения монет 1 и 3 каждый исход имеет очевидную общую фальшивую монету.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-moebius-tour-8-problems", "role": "official_statement", "status": "source_verified"}],

@@ -1,0 +1,17 @@
+{
+  "id": "knop-2011-divisibility-1-8-three-planned-numbers",
+  "title": "Угадать число по делимости: три числа выбираются заранее",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["nonadaptive_strategy", "encoding", "number_theory"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-part5-5-3", "title": "Число от 1 до 8 и три проверки делимости", "text": "Петя задумал натуральное число \\(A\\) от 1 до 8. Нужно заранее выбрать три натуральных числа \\(X_1, X_2, X_3\\), а затем узнать для каждого из них, делится ли \\(X_i\\) на \\(A\\). Можно ли по этим трем ответам всегда определить число \\(A\\)?", "source_ids": ["src-knop-2011-weighings-algorithms"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space", "strategy"]}]},
+  "ideas": [{"id": "idea-divisibility-codewords", "title": "Каждое возможное число должно получить свой набор ответов", "text": "Заранее выбранные числа задают для каждого \\(A\\) трехбуквенное слово из ответов: делит или не делит. Нужно подобрать \\(X_i\\) так, чтобы эти восемь слов были различны и при этом могли возникнуть из отношения делимости.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-use-divisibility-code", "title": "Взять числа 6, 20 и 105", "text": "Заранее выберем \\(X_1=6\\), \\(X_2=20\\), \\(X_3=105\\). Для чисел от 1 до 8 получаются разные тройки ответов на вопрос «делит ли \\(A\\) число \\(X_i\\)»: \\(1\\mapsto да,да,да\\), \\(2\\mapsto да,да,нет\\), \\(3\\mapsto да,нет,да\\), \\(4\\mapsto нет,да,нет\\), \\(5\\mapsto нет,да,да\\), \\(6\\mapsto да,нет,нет\\), \\(7\\mapsto нет,нет,да\\), \\(8\\mapsto нет,нет,нет\\). Поэтому три заранее выбранные проверки однозначно восстанавливают \\(A\\).", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["strategy"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "8 вариантов: задуманное число от 1 до 8", "observations": ["три ответа да/нет на заранее выбранные проверки делимости"], "allowed_actions": ["до ответов выбрать три натуральных числа"], "goal": ["identify_hidden_number"], "strategy_type": ["nonadaptive_strategy", "binary_code"], "lower_bound_method": ["answer_word_count"], "keywords": ["divisibility_questions", "nonadaptive_questions", "binary_code"], "status": "ai_checked"},
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 3, "lies_allowed": 0, "adaptive": false, "objective": "identify_one_of_N_states"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Идея кодирования проста, но условие делимости накладывает нетривиальное ограничение на допустимые наборы ответов.", "status": "ai_checked"},
+  "tags": ["binary_code", "nonadaptive_strategy", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part5_batch", "notes": ["Занятие 5, задача 5.3. В книге указаны К. А. Кноп и Уральский турнир, 2008; отдельный нормализованный источник турнира в этом проходе не добавлялся.", "2026-05-22: добавлена явная проверенная тройка чисел 6, 20, 105."]}
+}

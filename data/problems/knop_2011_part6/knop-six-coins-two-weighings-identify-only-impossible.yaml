@@ -1,0 +1,81 @@
+{
+  "id": "knop-six-coins-two-weighings-identify-only-impossible",
+  "title": "Шесть монет: двух взвешиваний может не хватить даже без определения знака",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "impossibility_result",
+    "secondary": ["weighing_lower_bound", "classical_problem"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-6-7",
+        "title": "Найти только монету",
+        "text": "Из шести монет ровно одна фальшивая; неизвестно, легче она или тяжелее настоящих. Нужно найти фальшивую монету, но не требуется определять, легче она или тяжелее. Докажите, что двух взвешиваний на чашечных весах может не хватить.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-nonbalance-outcomes-force-signs",
+      "title": "Ненулевые исходы невольно раскрывают знак",
+      "text": "Если по итогам двух взвешиваний выпало хотя бы одно неравенство, то найденная монета в этот момент должна была лежать на весах, а направление неравенства вместе с положением монеты раскрывает, была она тяжелой или легкой.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "proof-eight-nonzero-outcomes",
+      "title": "Восемь исходов не различают десять знаковых состояний",
+      "text": "Предположим, что двух взвешиваний достаточно. Из девяти возможных пар исходов исключим пару «равновесие, равновесие». Остается восемь исходов с хотя бы одним неравенством. Им должны соответствовать пять монет, отличных от той, которая могла бы отвечать двойному равновесию.\n\nДля каждой из этих пяти монет в момент некоторого неравенства монета участвовала во взвешивании. Поэтому, когда стратегия называет эту монету фальшивой, по стороне чаши и направлению неравенства одновременно определяется знак отличия. Но для пяти монет есть десять состояний «эта монета легкая или тяжелая», а ненулевых исходов всего восемь. Противоречие.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "pigeonhole_principle"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "12 состояний: одна из 6 монет фальшивая и имеет один из двух знаков отличия",
+    "observations": ["два результата чашечных взвешиваний"],
+    "allowed_actions": ["адаптивные взвешивания на чашечных весах"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["impossibility_proof"],
+    "lower_bound_method": ["pigeonhole_principle", "sign_forcing_after_imbalance"],
+    "keywords": ["six_coins", "identify_coin_only", "unknown_direction", "two_weighings_impossible"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin_not_sign_impossible"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Информационной оценки 9 исходов против 6 монет недостаточно; нужно заметить, что почти все исходы фактически требуют различать знак.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree_lower_bound", "counting_lower_bound", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_part6_6_7", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "saladin_identify_only_impossibility",
+    "notes": ["Кноп, занятие 6, задача 6.7."]
+  }
+}

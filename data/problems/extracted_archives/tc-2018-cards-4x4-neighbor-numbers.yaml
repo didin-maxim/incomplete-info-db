@@ -5,7 +5,7 @@
   "kind": {"primary": "olympiad_problem", "secondary": ["limited_observation", "card_puzzle"]},
   "language": "ru",
   "authors": [
-    {"name": "Евдокимов М.А.", "status": "source_verified", "source_id": "src-problems-ru-67008"}
+    {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified", "source_id": "src-problems-ru-67008"}
   ],
   "statements": {
     "original": [

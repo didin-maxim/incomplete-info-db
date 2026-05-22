@@ -1,0 +1,89 @@
+{
+  "id": "israelmath-5783-six-candy-bags-two-weighings",
+  "title": "IsraelMath 5783: шесть мешков конфет и неизвестная недостача",
+  "fragment": "weighings",
+  "kind": {"primary": "official_olympiad_problem", "secondary": ["strategy_construction", "coding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-israelmath-5783-six-candy-bags",
+        "title": "Найти мешок, из которого могли съесть конфеты",
+        "text": "На складе стоят шесть мешков с шоколадными конфетами. На мешках написаны их веса: 1, 2, 3, 4, 5 и 6 килограммов. Однажды Итай открыл один из мешков и, возможно, съел из него часть конфет. Нужно с помощью двух взвешиваний на чашечных весах определить, из какого мешка, если вообще из какого-то, пропали конфеты.\n\nИтай мог съесть нецелое число килограммов, а мог и не съесть ничего.",
+        "source_ids": ["src-israelmath-5783-final-en-45"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-balanced-tests-as-code",
+      "title": "Два равных по паспортному весу сравнения дают код мешка",
+      "text": "В каждом взвешивании надо сравнивать наборы с одинаковым написанным весом. Тогда если мешок с недостачей стоит слева, слева станет легче; если справа - справа станет легче; если не участвует - будет равновесие. Две такие отметки различают шесть мешков, а два равновесия означают, что недостачи нет.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-balanced-signatures",
+      "title": "Два сравнения с разными ролями мешков",
+      "text": "Обозначим мешки по написанным на них весам: 1, 2, 3, 4, 5, 6.\n\nПервое взвешивание: сравним мешок 6 с мешками 1, 2 и 3 вместе. По написанным весам обе стороны весят 6 кг.\n\nВторое взвешивание: сравним мешки 2 и 4 вместе с мешками 1 и 5 вместе. По написанным весам обе стороны тоже весят 6 кг.\n\nЕсли конфеты пропали из некоторого мешка, то в каждом из этих взвешиваний результат показывает роль этого мешка: левая сторона легче, если мешок был слева; правая сторона легче, если мешок был справа; равновесие, если мешок не участвовал. Получаются такие пары результатов:\n\n\\(1\\): правая легче, правая легче; \\(2\\): правая легче, левая легче; \\(3\\): правая легче, равновесие; \\(4\\): равновесие, левая легче; \\(5\\): равновесие, правая легче; \\(6\\): левая легче, равновесие.\n\nВсе шесть пар различны. Если оба раза равновесие, значит недостачи нет: каждый мешок участвует хотя бы в одном из двух взвешиваний, и недостача в участвующем мешке нарушила бы соответствующее равенство.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "state_space"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "семь вариантов: недостачи нет или недостача в одном из шести мешков; величина недостачи неизвестна",
+    "observations": ["два исхода чашечных весов при сравнениях наборов равного написанного веса"],
+    "allowed_actions": ["заранее выбрать два сравнения мешков"],
+    "goal": ["identify_bag_with_missing_candy_or_none"],
+    "strategy_type": ["nonadaptive_strategy", "ternary_signature"],
+    "lower_bound_method": [],
+    "keywords": ["israelmath_5783", "candy_bags", "unknown_deficit", "two_weighings"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "6 мешков",
+    "counterfeit_count": "0_or_1_deficient_bag",
+    "counterfeit_type": "unknown_amount_removed",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "identify_deficient_bag_or_none"
+  },
+  "interactive": {
+    "type": "balanced_weight_signature_protocol",
+    "bag_count": 6,
+    "bag_weights": [1, 2, 3, 4, 5, 6],
+    "max_weighings": 2,
+    "objective": "identify_deficient_bag_or_none",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Нужно придумать две равновесные по паспортному весу проверки, в которых роли шести мешков дают разные пары исходов.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-israelmath-5783-final-en-45", "role": "official_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-21",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "israelmath_junior_batch",
+    "notes": [
+      "Английская формулировка переведена редакционно.",
+      "Официальный solution PDF на английском в этом проходе не найден; решение составлено редакционно.",
+      "Стратегия найдена как две различающие проверки с нулевой суммой написанных весов."
+    ]
+  }
+}

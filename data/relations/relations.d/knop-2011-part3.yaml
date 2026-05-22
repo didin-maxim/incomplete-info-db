@@ -1,0 +1,92 @@
+{
+  "relations": [
+    {
+      "id": "rel-knop3-three-coins-to-12-unknown-sign",
+      "from": "three-coins-unknown-sign-two-weighings",
+      "to": "counterfeit-12-coins-3-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Малая задача показывает тот же учет двух состояний на одну монету: фальшивая может быть легкой или тяжелой, поэтому дерево различает монету вместе со знаком.",
+      "backward_text": "Классическая задача о 12 монетах является большим вариантом той же модели неизвестного знака, где нужен полноценный трехуровневый разбор.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-knop3-four-labeled-to-rusanivskyi-denominations",
+      "from": "four-labeled-weights-one-defective-two-weighings",
+      "to": "rusanivskyi-2017-sherlock-five-denomination-coins",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют равенства между номинальными массами: отклонение от маркировки обнаруживается по нарушению заранее верных сумм.",
+      "backward_text": "Задача про монеты Шерлока Холмса переносит тот же механизм на другой набор номиналов и адаптивный разбор.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-knop3-thirteen-labeled-to-thirteen-known-genuine",
+      "from": "thirteen-labeled-weights-one-defective-three-weighings",
+      "to": "thirteen-coins-known-genuine-three-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих карточках 26 состояний кодируются тремя цепочками исходов; в карточке Кнопа дополнительно нужно соблюдать равенство номинальных сумм гирек.",
+      "backward_text": "Классическая схема с 13 подозрительными монетами показывает чистое кодирование противоположных цепочек без числовых номиналов.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-knop3-row-fakes-to-mmo-row",
+      "from": "ten-row-fakes-on-right-two-weighings",
+      "to": "mmo-2026-row-of-12-fakes-110-genuine",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи используют структурное ограничение на расположение фальшивых монет: скрытое состояние задается границей или линией, а взвешивания делят возможные положения.",
+      "backward_text": "Задача ММО-2026 является более крупной задачей о сертификации настоящих монет при скрытой структуре фальшивых, а не о полном поиске границы.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-knop3-two-adjacent-to-moebius-six-circle",
+      "from": "nine-circle-two-adjacent-light-two-weighings",
+      "to": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе карточки используют круговое расположение и скрытую соседнюю пару легких объектов; взвешивание группирует возможные пары по общему элементу или по тройкам случаев.",
+      "backward_text": "Турнирная задача Мёбиуса - меньший одновзвешивательный вариант, где надо найти одну фальшивую монету, а не обе соседние.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop3-three-consecutive-to-two-adjacent",
+      "from": "nine-circle-three-consecutive-light-two-weighings",
+      "to": "nine-circle-two-adjacent-light-two-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Здесь та же круговая трисекция скрытого блока, но блок состоит из трех подряд легких объектов вместо соседней пары.",
+      "backward_text": "Вариант с двумя соседними легкими объектами имеет тот же каркас из девяти возможных положений блока на круге.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-knop3-sticking-to-broken-balances",
+      "from": "nine-coins-one-sticking-balance-three-weighings",
+      "to": "lktg-2008-three-balances-one-broken-nine-coins",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи ищут легкую монету при ненадежном приборе; решение должно отличать полезные неравенства от показаний, которые могли прийти с неисправных весов.",
+      "backward_text": "Задача ЛКТГ допускает произвольную ложь одних из трех весов и требует более сильной отказоустойчивой схемы.",
+      "status": "ai_checked",
+      "confidence": 0.83
+    },
+    {
+      "id": "rel-knop3-find-genuine-to-usamts-zoltar",
+      "from": "five-coins-two-equal-fakes-find-genuine",
+      "to": "usamts-2011-zoltar-fourteen-coins-real-coin",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе задачи не требуют найти все фальшивые монеты: достаточно получить гарантированный сертификат хотя бы одной настоящей монеты.",
+      "backward_text": "Золтар добавляет удаление монет и равные большие классы, но цель сертификата настоящей монеты остается общей.",
+      "status": "ai_checked",
+      "confidence": 0.72
+    }
+  ]
+}

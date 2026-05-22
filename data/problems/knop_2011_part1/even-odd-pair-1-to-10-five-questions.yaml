@@ -1,0 +1,55 @@
+{
+  "id": "even-odd-pair-1-to-10-five-questions",
+  "title": "Одно четное и одно нечетное число от 1 до 10",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["adaptive_strategy", "encoding"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-1-8",
+        "title": "Угадать пару за пять вопросов",
+        "text": "Петя загадывает два натуральных числа от 1 до 10: одно четное и одно нечетное. Как Вите угадать оба числа за 5 вопросов да/нет?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-twenty-five-pairs",
+      "title": "Пар всего двадцать пять",
+      "text": "Есть пять четных и пять нечетных чисел, значит возможных пар 25. Пять вопросов да/нет дают до 32 наборов ответов, поэтому достаточно не угадывать числа по отдельности, а делить пополам сразу множество пар.",
+      "standard_idea_ids": ["partition_state_space", "answer_word_count"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-number-all-pairs",
+      "title": "Пронумеровать все пары",
+      "text": "Витя заранее нумерует все 25 возможных пар и сообщает Пете эту нумерацию. Затем он задает пять вопросов о номере пары, каждый раз деля оставшееся множество возможных номеров на две части как можно ближе к равным. После пяти ответов среди 25 исходных вариантов остается единственная пара.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "25 пар: одно четное и одно нечетное число от 1 до 10",
+    "observations": ["пять ответов да/нет"],
+    "allowed_actions": ["адаптивно задавать вопросы о скрытой паре"],
+    "goal": ["identify_hidden_pair"],
+    "strategy_type": ["adaptive_strategy", "binary_search", "state_space_numbering"],
+    "lower_bound_method": ["answer_word_count"],
+    "keywords": ["knop_2011", "even_odd_pair", "binary_search"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 5, "lies_allowed": 0, "adaptive": true, "objective": "identify_one_of_25_states"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Главный шаг - считать состояниями пары, а не отдельные числа.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "new_links", "notes": ["Книга К. А. Кнопа, занятие 1, задача 1.8; первоисточник в индексе не указан."]}
+}

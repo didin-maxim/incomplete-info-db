@@ -1,0 +1,163 @@
+{
+  "id": "three-letter-erasure-4-bit-code",
+  "title": "Три буквы и стирание одной буквы: таблица для 16 сообщений",
+  "fragment": "communication",
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": [
+      "communication_strategy",
+      "coding",
+      "small_case"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-three-letter-erasure-4-bit",
+        "title": "Передать одно из 16 сообщений после стирания всех одинаковых букв",
+        "text": "Помощник и фокусник заранее договариваются о таблице. Потом помощник должен передать одно из 16 сообщений, записав строку длины 8 из букв А, Б, В. Зритель выбирает одну из этих трех букв и стирает все ее вхождения. Фокусник видит только оставшуюся строку и не знает, какая буква была стерта. Можно ли заранее выбрать 16 кодовых слов так, чтобы фокусник всегда восстанавливал сообщение?",
+        "source_ids": [
+          "src-kolmogorov-2022-official"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked",
+          "review_notes": "Редакционный малый случай задачи КОЛМ-2022: вместо 2^2022 сообщений и длины 4044 рассматриваются 16 сообщений и длина 8."
+        },
+        "definition_ids": [
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-erasure-shadows-disjoint",
+      "title": "У каждого слова есть три тени после стирания",
+      "text": "Для кодового слова посмотрим на три строки, которые получаются после стирания всех А, всех Б или всех В. Если две разные строки-кода имеют общую тень, фокусник не сможет различить соответствующие сообщения. Поэтому достаточно выбрать 16 слов так, чтобы множества их теней не пересекались.",
+      "standard_idea_ids": [
+        "error_correcting_code",
+        "prearranged_code"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-explicit-16-codewords",
+      "title": "Использовать проверенную таблицу из 16 слов",
+      "text": "Договоримся о такой таблице, где номер сообщения записан слева:\n\n0: АББАВВАБ\n1: АБВБВВВА\n2: АВААВББВ\n3: АВАВВБВБ\n4: АВБББВАВ\n5: АВББВВАБ\n6: АВВББАББ\n7: ББВААВАВ\n8: БВААВББВ\n9: БВВААВБВ\n10: ВААБАББВ\n11: ВАБАВВБА\n12: ВАВВАБББ\n13: ВБААВААБ\n14: ВБВБВААВ\n15: ВВБАБААА\n\nФокусник заранее знает эту таблицу. После стирания он ищет оставшуюся строку среди всех 48 возможных теней таблицы. Встроенная проверка перебирает все 16 сообщений и все 3 стирания: ни одна видимая строка не относится к двум разным сообщениям. Значит поиск по таблице всегда дает единственный номер.",
+      "standard_idea_ids": [
+        "error_correcting_code",
+        "prearranged_code"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "state_space"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одно из 16 сообщений, то есть 4 бита",
+    "observations": [
+      "строка, оставшаяся после стирания всех вхождений одной неизвестной буквы из А, Б, В"
+    ],
+    "allowed_actions": [
+      "заранее назначить каждому сообщению кодовое слово длины 8 над алфавитом А, Б, В",
+      "после наблюдения назвать номер сообщения"
+    ],
+    "goal": [
+      "decode_hidden_message_after_erasure"
+    ],
+    "strategy_type": [
+      "prearranged_protocol",
+      "erasure_robust_code",
+      "lookup_table"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "three_letter_code",
+      "erasure",
+      "four_bit_message",
+      "small_case"
+    ],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "senders": 1,
+    "receivers": 1,
+    "message": "одно из 16 заранее согласованных сообщений",
+    "prearranged_strategy": true,
+    "channel_capacity": "строка длины 8 над тремя буквами, затем все вхождения одной буквы стираются",
+    "public_or_private": "public_remaining_string",
+    "privacy_goal": "нет",
+    "objective": "восстановить сообщение"
+  },
+  "interactive": {
+    "type": "three_letter_erasure_code",
+    "message_count": 16,
+    "word_length": 8,
+    "alphabet": [
+      "А",
+      "Б",
+      "В"
+    ],
+    "codewords": [
+      "АББАВВАБ",
+      "АБВБВВВА",
+      "АВААВББВ",
+      "АВАВВБВБ",
+      "АВБББВАВ",
+      "АВББВВАБ",
+      "АВВББАББ",
+      "ББВААВАВ",
+      "БВААВББВ",
+      "БВВААВБВ",
+      "ВААБАББВ",
+      "ВАБАВВБА",
+      "ВАВВАБББ",
+      "ВБААВААБ",
+      "ВБВБВААВ",
+      "ВВБАБААА"
+    ],
+    "objective": "decode_hidden_message",
+    "modes": [
+      "random",
+      "exhaustive",
+      "sandbox"
+    ]
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Малый конечный случай: идея проста после перехода к теням кодовых слов, но явную таблицу удобно проверять перебором.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "error_correcting_code",
+    "ternary_code",
+    "public_communication",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-kolmogorov-2022-official",
+      "role": "source_of_general_problem",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_small_case",
+    "notes": [
+      "Карточка создана как частный интерактивный случай kolm-2022-three-letter-erasure-card-trick.",
+      "Таблица сгенерирована как конечный код длины 8 и проверена перебором: для разных сообщений множества строк после стирания А/Б/В не пересекаются.",
+      "Блочная идея общей КОЛМ-карточки 0 -> АБ, 1 -> БВ для четырех бит без специальных крайних слов дает конфликт между 0000 после стирания А и 1111 после стирания В; поэтому здесь используется отдельная проверенная таблица."
+    ]
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "id": "nine-coins-one-sticking-balance-three-weighings",
+  "title": "Две пары весов, одна всегда показывает равенство",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "training_problem",
+    "secondary": [
+      "strategy_construction",
+      "optimality",
+      "decision_tree"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-2011-part3",
+        "title": "Две пары весов, одна всегда показывает равенство",
+        "text": "Даны 9 одинаковых на вид монет, одна из них фальшивая и легче остальных. Есть две внешне неразличимые пары чашечных весов; одна пара исправна, а другая заедает и при любом взвешивании с равным числом монет на чашах показывает равенство. За какое наименьшее число взвешиваний можно найти фальшивую монету?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-find-good-scale-or-glue-cases",
+      "title": "Найти исправные весы или склеить случаи",
+      "text": "Неравенство сразу доказывает, что использованные весы исправны. Если подряд получаются равенства на разных весах, нужно объединять случаи, в которых фальшивая монета найдена, но неисправные весы не определены.",
+      "standard_idea_ids": [
+        "fault_tolerant_testing",
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-weighings-sticking-balance",
+      "title": "Три взвешивания",
+      "text": "Сначала на одних весах сравним 1+2+3+4 с 5+6+7+8. Если есть неравенство, эти весы исправны, и за два обычных взвешивания на них находим легкую монету среди четырех с легкой чаши. Если равновесие, вторым взвешиванием на других весах сравним 1+2+3 с 5+6+7. Если есть неравенство, вторые весы исправны, и одним взвешиванием на них находим легкую монету среди трех с легкой чаши. Если снова равновесие, то либо первые весы исправны и фальшива 9, либо вторые исправны и фальшива одна из 4, 8, 9. Последним взвешиванием на вторых весах сравним 4 с 8: при неравенстве находим фальшивую, а при равенстве фальшива 9.",
+      "standard_idea_ids": [
+        "fault_tolerant_testing",
+        "adaptive_strategy"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "strategy"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-not-enough",
+      "title": "Двух взвешиваний недостаточно",
+      "text": "Если в первом взвешивании сравнить по четыре монеты и получить неравенство, то останутся четыре подозрительные монеты, а одним взвешиванием их не различить. Если на чашах меньше четырех монет, то отложены как минимум две монеты; второе взвешивание придется делать на других весах, и если именно они заедают, отложенные монеты останутся неразличимыми.",
+      "standard_idea_ids": [
+        "adversary_argument",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "9 вариантов фальшивой монеты и 2 варианта заедающих весов",
+    "observations": [
+      "результаты чашечных весов"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать группы предметов для сравнения"
+    ],
+    "goal": [
+      "identify_counterfeit_coin"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "fault_tolerant_testing"
+    ],
+    "lower_bound_method": [
+      "adversary_argument"
+    ],
+    "keywords": [
+      "sticking_balance",
+      "faulty_scale",
+      "light_coin"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 9,
+    "counterfeit_count": 1,
+    "counterfeit_type": "lighter",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_light_coin_with_one_sticking_balance"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Задача требует не только поиска монеты, но и контроля, какие показания могли быть фиктивными; нижняя оценка тоже существенна.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree",
+    "decision_tree_lower_bound",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3",
+    "notes": [
+      "Книга Кнопа, занятие 3, задача 3.11; первоисточник: Московская олимпиада, отборочный тур, 1994."
+    ]
+  }
+}

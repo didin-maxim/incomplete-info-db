@@ -1,0 +1,125 @@
+{
+  "id": "four-guineas-exactly-two-counterfeits-verification",
+  "title": "Четыре гинеи: проверить, что фальшивых ровно две",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "verification",
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d18",
+        "title": "Доказать или опровергнуть ровно две фальшивые",
+        "text": "В коллекции есть четыре гинеи. Нужно проверить, то есть доказать или опровергнуть, что среди них есть ровно две фальшивые гинеи, причем фальшивые равны друг другу и отличаются по весу от настоящих. Можно ли сделать это за два взвешивания на чашечных весах без гирь?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "decision_tree"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-parity-after-pair-weighing",
+      "title": "Первый результат подсказывает, какую проверку сделать второй",
+      "text": "Если две гинеи против двух равны, то достаточно проверить одну пару внутри чаши. Если равенства нет, полезно поменять местами по одной гинее с разных чаш: изменение результата проверяет, была ли на каждой чаше ровно одна фальшивая.",
+      "standard_idea_ids": [
+        "parity_argument",
+        "case_analysis"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-two-pairs-then-swap-or-compare",
+      "title": "Сначала взвесить две против двух",
+      "text": "Разделим гинеи на пары \\(A,B\\) и \\(C,D\\), сравним \\(A+B\\) с \\(C+D\\). Если чаши равны, вторым взвешиванием сравним \\(A\\) и \\(B\\). При равенстве все четыре гинеи одного веса, значит ровно двух фальшивых нет; при неравенстве в первой паре одна настоящая и одна фальшивая, и из равенства пар следует то же для второй пары, значит фальшивых ровно две.\n\nЕсли первое взвешивание не равно, вторым взвешиванием поменяем местами по одной гинее, например сравним \\(A+C\\) с \\(B+D\\). Если теперь чаши равны, то исходные пары были однородны по весу, и ровно две гинеи одного веса отличаются от двух других. Если равенства снова нет, то распределение весов не соответствует условию «ровно две равные фальшивые и две равные настоящие».",
+      "standard_idea_ids": [
+        "case_analysis"
+      ],
+      "status": "needs_human_review",
+      "definition_ids": [
+        "balance_scale"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "возможные разбиения четырех гиней на настоящие и фальшивые либо нарушение этой модели",
+    "observations": [
+      "три исхода каждого взвешивания"
+    ],
+    "allowed_actions": [
+      "сравнивать любые подмножества гиней с равным числом объектов"
+    ],
+    "goal": [
+      "verify_exactly_two_equal_counterfeits"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "verification_protocol",
+      "case_analysis"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "verification",
+      "exactly_two_counterfeits",
+      "guineas",
+      "parity"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": "verify_exactly_2",
+    "counterfeit_type": "two_equal_unknown_sign",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "scale_type": "balance_scale",
+    "objective": "verify_condition"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Это не поиск фальшивых, а проверка глобального свойства; второй ход зависит от равенства или неравенства первого.",
+    "status": "needs_human_review"
+  },
+  "tags": [
+    "balance_scale",
+    "verification_task",
+    "knowledge_elimination",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "knop_2011_part2",
+    "notes": [
+      "Дополнительная задача Д.18. В index указан Н. Н. Константинов и первоисточник: Турнир городов. Стратегия перенесена по краткому книжному решению; желательно ручное подтверждение полной логики отрицательных случаев."
+    ]
+  }
+}

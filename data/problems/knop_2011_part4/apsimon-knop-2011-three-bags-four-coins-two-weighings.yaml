@@ -1,0 +1,125 @@
+{
+  "id": "apsimon-knop-2011-three-bags-four-coins-two-weighings",
+  "title": "Апсаймон у Кнопа: три мешка, четыре монеты и два взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Три мешка и не более четырех монет",
+        "text": "Имеются 3 мешка; некоторые из них наполнены фальшивыми монетами, остальные настоящими. Настоящая монета весит 10 г, фальшивая 9 г. Как найти все мешки с фальшивыми монетами за два взвешивания на одночашечных весах со стрелкой, использовав во взвешиваниях не более четырех монет?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-two-small-linear-signatures",
+      "title": "Две малые суммы различают восемь случаев",
+      "text": "Нужно не просто дать мешкам двоичные веса, а подобрать две короткие линейные суммы, в которых всего участвуют четыре монеты. Пара числовых показаний должна быть различной для всех восьми наборов настоящих и фальшивых мешков.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-2a-plus-b-and-b-plus-c",
+      "title": "Взвесить 2a+b и b+c",
+      "text": "Обозначим веса монет из трех мешков через \\(a,b,c\\), каждый из них равен 9 или 10. Первым взвешиванием найдем \\(X=2a+b\\), вторым \\(Y=b+c\\). Для всех восьми троек \\((a,b,c)\\) пары \\((X,Y)\\) различны, поэтому по двум показаниям восстанавливаются все три мешка.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "weighted_sum_encoding"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "любой из восьми наборов фальшивых мешков среди трех",
+    "observations": [
+      "два числовых показания веса малых выбранных наборов"
+    ],
+    "allowed_actions": [
+      "за два взвешивания использовать суммарно не более четырех монет"
+    ],
+    "goal": [
+      "identify_fake_bag_subset"
+    ],
+    "strategy_type": [
+      "linear_signature",
+      "resource_limited_code"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "Apsimon_bags",
+      "small_coin_budget",
+      "two_numeric_weighings"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "3 мешка",
+    "counterfeit_count": "arbitrary_subset_of_bags",
+    "counterfeit_type": "all_coins_in_fake_bags_lighter_by_one_gram",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": "numeric_weight",
+    "adaptive": false,
+    "objective": "identify_fake_bag_subset"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Малый пример числового кодирования с жестким ограничением на число использованных монет.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "linear_signature",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "Первоисточник по указателю книги: H. Apsimon, Mathematical byways in Ayling, Beeling and Ceeling, 1991, с. 65--76."
+    ]
+  },
+  "authors": [
+    {
+      "name": "H. Apsimon",
+      "role": "source_author",
+      "status": "from_book_index",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "note": "В книге указан источник: H. Apsimon, Mathematical byways in Ayling, Beeling and Ceeling, 1991, с. 65--76."
+    }
+  ]
+}

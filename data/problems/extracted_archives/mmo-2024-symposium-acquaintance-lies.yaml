@@ -5,7 +5,7 @@
   "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_logic", "counting"]},
   "language": "ru",
   "authors": [
-    {"name": "Евдокимов М.А.", "status": "source_verified", "source_id": "src-mmo-2024-25-sol-11-tur1-final"}
+    {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified", "source_id": "src-mmo-2024-25-sol-11-tur1-final"}
   ],
   "statements": {
     "original": [

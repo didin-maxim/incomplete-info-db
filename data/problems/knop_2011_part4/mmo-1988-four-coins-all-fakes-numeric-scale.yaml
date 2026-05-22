@@ -1,0 +1,138 @@
+{
+  "id": "mmo-1988-four-coins-all-fakes-numeric-scale",
+  "title": "ММО-1988: четыре монеты и все фальшивые за три взвешивания",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": [
+      "strategy_construction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-original",
+        "title": "Сколько взвешиваний нужно для четырех монет",
+        "text": "Даны четыре монеты, среди которых может быть любой набор фальшивых. Настоящая монета весит 10 г, фальшивая 9 г. Найдите наименьшее количество взвешиваний на одночашечных весах со стрелкой, позволяющее определить все фальшивые монеты.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "digital_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-three-equations-plus-parity",
+      "title": "Три суммы дают систему и четность",
+      "text": "Три выбранных набора дают три уравнения на веса монет. Одну монету удобно выделить четностью суммы показаний, а остальные затем восстановить из трех попарных сумм.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "linear_equations",
+        "parity_invariant"
+      ]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-three-weighings-124-13-23",
+      "title": "Взвесить 1+2+4, 1+3 и 2+3",
+      "text": "Пронумеруем монеты 1--4 и взвесим наборы 1+2+4, 1+3 и 2+3. Монета 4 участвует нечетное число раз, остальные в сумме трех показаний дают четный вклад; поэтому по четности суммы показаний узнаем вес монеты 4. После этого из уравнений \\(x_1+x_2=w_1-x_4\\), \\(x_1+x_3=w_2\\), \\(x_2+x_3=w_3\\) находятся веса первых трех монет.",
+      "status": "ai_checked",
+      "standard_idea_ids": [
+        "linear_equations",
+        "parity_invariant"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-two-weighings-not-enough",
+      "title": "Двух взвешиваний недостаточно",
+      "text": "В двух взвешиваниях каждая монета имеет один из четырех вариантов участия. Если две монеты имеют одинаковый вариант, состояния, где фальшива ровно одна из них, неразличимы. Если же все варианты разные, одна монета не взвешивалась вовсе, и ее тип нельзя определить.",
+      "method": "indistinguishability",
+      "status": "ai_checked"
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "любой из 16 наборов фальшивых монет среди четырех",
+    "observations": [
+      "числовые веса выбранных подмножеств"
+    ],
+    "allowed_actions": [
+      "каждый раз выбрать любое подмножество монет"
+    ],
+    "goal": [
+      "identify_all_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "linear_signature",
+      "parity_test"
+    ],
+    "lower_bound_method": [
+      "pigeonhole_indistinguishability"
+    ],
+    "keywords": [
+      "four_coins",
+      "all_fake_subsets",
+      "numeric_scale",
+      "Moscow_1988"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 4,
+    "counterfeit_count": "arbitrary_subset",
+    "counterfeit_type": "lighter_known",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": "numeric_weight",
+    "adaptive": false,
+    "objective": "identify_counterfeit_subset"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Нужно и построить три измерения, и доказать, что двух не хватает.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "linear_signature",
+    "parity",
+    "decision_tree_lower_bound",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution_primary_source",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop-2011-part4",
+    "notes": [
+      "По указателю книги: С. Б. Гашков; Московская математическая олимпиада, городской тур, 1988."
+    ]
+  },
+  "authors": [
+    {
+      "name": "С. Б. Гашков",
+      "role": "problem_author",
+      "status": "from_book_index",
+      "source_id": "src-knop-2011-weighings-algorithms"
+    }
+  ]
+}

@@ -57,6 +57,16 @@
     "adaptive": false,
     "objective": "identify_one_of_2^m_states"
   },
+  "interactive": {
+    "type": "repetition_code_one_lie_questions",
+    "bit_count": 3,
+    "number_min": 0,
+    "number_max": 7,
+    "repetitions_per_bit": 3,
+    "max_lies": 1,
+    "objective": "identify_hidden_number",
+    "modes": ["random", "manual_spectator", "exhaustive"]
+  },
   "difficulty": {
     "main": "intro",
     "local_score": 2,

@@ -1,0 +1,59 @@
+{
+  "relations": [
+    {
+      "id": "rel-rusanivskyi2015-pairs-to-matprazdnik-parity",
+      "from": "rusanivskyi-2015-paired-knights-liars-phrases",
+      "to": "matprazdnik-1998-contrast-island-parity",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи сводят высказывания рыцарей и лжецов к четности: в Русановском варианте каждая пара дает две одинаковые фразы, а в Матпразднике две разрешенные фразы имеют одинаковую истинность при нечетном населении.",
+      "backward_text": "Матпраздничная задача показывает близкий островной прием: после проверки истинности фраз остается только четностное противоречие.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-rusanivskyi2017-denominations-to-problemsru88304",
+      "from": "rusanivskyi-2017-sherlock-five-denomination-coins",
+      "to": "problems-ru-88304-denomination-coins",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "В обеих задачах монеты имеют известные номинальные массы, а фальшивая нарушает одно из числовых равенств. Русановский вариант добавляет монету 10 и использует три взвешивания вместо двух.",
+      "backward_text": "problems.ru 88304 является более коротким вариантом того же механизма: равенство 2+3=5 сразу оставляет один малый разбор.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-rusanivskyi2021-mafia-to-moebius-spies",
+      "from": "rusanivskyi-2021-mafia-roles-public-dialogue",
+      "to": "moebius-2022-four-knights-liars-spies",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи совмещают правдивцев/лжецов со скрытыми ролями. В Русановском варианте важен порядок публичных реплик о знании, а в турнире Мёбиуса роли проверяются по готовым утверждениям.",
+      "backward_text": "Задача Мёбиуса дает статическую систему скрытых ролей; Русановская добавляет динамику знания после предыдущих реплик.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-rusanivskyi2025-rusty-to-noisy-balance",
+      "from": "rusanivskyi-2025-rusty-scales-eight-coins",
+      "to": "problems-ru-35224-noisy-balance-four-coins",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Обе задачи меняют обычную модель чашечных весов: в одной равные чаши могут дать произвольный перекос, а в другой малый перевес до 1 г не дает надежного сигнала.",
+      "backward_text": "problems.ru 35224 показывает малую задачу с ненадежным равенством; Русановская задача требует планировать сравнения так, чтобы полезные перекосы были достаточно большими.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-rusanivskyi2025-fly-to-hot-cold-search",
+      "from": "rusanivskyi-2025-spider-fly-cube-search",
+      "to": "calgary-jmc-2010-b5-hot-and-cold-treasure",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "В обеих задачах скрыто положение объекта, но в задаче про муху состояние меняется после каждой неудачной проверки, а стратегия использует раскраску графа.",
+      "backward_text": "Калгарийская задача дает статический поиск скрытой позиции по ответам; Русановская показывает соседний вариант, где цель движется между проверками.",
+      "status": "ai_checked",
+      "confidence": 0.68
+    }
+  ]
+}

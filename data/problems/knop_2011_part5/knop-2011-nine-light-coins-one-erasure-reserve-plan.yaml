@@ -1,0 +1,17 @@
+{
+  "id": "knop-2011-nine-light-coins-one-erasure-reserve-plan",
+  "title": "Девять легких монет: план с одним запасом",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["nonadaptive_strategy", "error_correcting_code", "coding"]},
+  "language": "ru",
+  "statements": {"original": [{"id": "stmt-part5-5-11", "title": "Любое одно взвешивание можно выкинуть", "text": "Среди 9 внешне одинаковых монет ровно одна фальшивая, и она легче настоящих. Нужно заранее назначить 3 взвешивания на чашечных весах так, чтобы после этого можно было отбросить любое одно из них и по оставшимся двум результатам все равно определить фальшивую монету.", "source_ids": ["src-knop-2011-weighings-algorithms"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["balance_scale", "state_space", "strategy"]}]},
+  "ideas": [{"id": "idea-erasure-code", "title": "Запасное взвешивание похоже на защиту от стирания", "text": "Каждая монета получает слово из положений в заранее назначенных взвешиваниях. Требование «можно выкинуть любое взвешивание» означает, что слова разных монет должны оставаться различными после удаления любой одной координаты.", "standard_idea_ids": ["ternary_weighing_code"], "status": "ai_checked"}],
+  "strategies": [{"id": "str-use-erasure-separated-words", "title": "Код \\((a,b,a+b)\\) над тремя символами", "text": "Назначим девяти монетам слова длины 3, где 0 означает «не класть», Л - «на левую чашу», П - «на правую чашу»: 000, 0ЛЛ, 0ПП, Л0Л, ЛЛП, ЛП0, П0П, ПЛ0, ППЛ. В каждом из трех взвешиваний ровно три монеты стоят слева, три справа и три не участвуют, поэтому план сбалансирован. Любые два слова различаются как минимум в двух координатах: это код \\((a,b,a+b)\\) над полем из трех элементов. Поэтому после удаления любой одной координаты оставшиеся два результата однозначно указывают слово, а значит и легкую монету.", "standard_idea_ids": ["ternary_weighing_code"], "status": "ai_checked", "definition_ids": ["balance_scale", "strategy"]}],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {"hidden_state_space": "9 состояний: какая монета легче", "observations": ["результаты любых двух сохраненных взвешиваний из заранее назначенных трех"], "allowed_actions": ["назначить все взвешивания заранее", "после результатов потерять одну координату"], "goal": ["identify_counterfeit_coin"], "strategy_type": ["nonadaptive_strategy", "erasure_resilient_code"], "lower_bound_method": ["code_distance"], "keywords": ["reserve_plan", "erasure_code", "known_light_coin"], "status": "ai_checked"},
+  "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "lighter_known", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": false, "objective": "identify_coin_after_erasure"},
+  "difficulty": {"main": "top_base", "local_score": 6, "comment": "План должен сохранять различимость после потери одного результата.", "status": "ai_checked"},
+  "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "error_correcting_code", "condition_older_students"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part5_batch", "notes": ["Занятие 5.11. К. А. Кноп.", "2026-05-22: внесена явная таблица запасного плана; строки сбалансированы, код имеет расстояние 2."]}
+}

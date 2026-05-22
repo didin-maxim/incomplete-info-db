@@ -1,0 +1,68 @@
+{
+  "id": "rusanivskyi-2025-rusty-scales-eight-coins",
+  "title": "Русановский лицей-2025: восемь монет на ржавых весах",
+  "fragment": "weighings",
+  "kind": {"primary": "olympiad_problem", "secondary": ["strategy_construction", "fault_tolerance"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-rusanivskyi-2025-rusty-scales",
+        "title": "Четыре настоящие и четыре фальшивые",
+        "text": "Есть восемь внешне одинаковых монет. Среди них четыре настоящие монеты массой 10 г и четыре фальшивые монеты массой 9 г. Ржавые чашечные весы надежно показывают, какая чаша перевесила, если массы на чашах отличаются хотя бы на 2 г; если разница меньше 2 г, надежного направления перевеса они не дают. Докажите, что все фальшивые монеты можно найти за 6 взвешиваний на ржавых весах.",
+        "source_ids": ["src-rusanivskyi-2025-official"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-weigh-even-number-of-fakes",
+      "title": "Планировать сравнения так, чтобы разница была надежной",
+      "text": "Ржавость мешает только при разнице масс 1 г. Поэтому стратегия сравнивает пары и четверки так, чтобы полезные перекосы отличались на 2 г или больше, а отсутствие надежного перекоса переводилось в утверждения о парах монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-pair-blocks",
+      "title": "Сначала сравнить две четверки",
+      "text": "Пронумеруем монеты от 1 до 8, их массы обозначим \\(m_1,\\ldots,m_8\\). Первым взвешиванием сравним \\(1,2,3,4\\) с \\(5,6,7,8\\), вторым - \\(1,2,5,6\\) с \\(3,4,7,8\\). В этих взвешиваниях сравниваются по четыре монеты, поэтому отсутствие надежного перекоса означает настоящее равенство масс.\n\nСлучай 1: первые два взвешивания не дали надежного перекоса. Тогда \\(m_1+m_2=m_7+m_8\\) и \\(m_3+m_4=m_5+m_6\\). Значит либо в каждой из пар \\((1,2),(3,4),(5,6),(7,8)\\) по одной настоящей и одной фальшивой монете, либо монеты \\(1,2,7,8\\) одного типа, а монеты \\(3,4,5,6\\) другого типа. Сравним третьим взвешиванием \\(1+7\\) с \\(2+8\\), а четвертым \\(1+8\\) с \\(2+7\\). Если оба раза нет надежного перекоса, то четверки \\(1,2,7,8\\) и \\(3,4,5,6\\) однородны; пятым взвешиванием сравним эти четверки и узнаем, какая вся фальшивая. Если хотя бы одно из третьего и четвертого взвешиваний дает надежный перекос, то среди \\(1,2,7,8\\) уже найдены две настоящие и две фальшивые монеты; тем же приемом за пятое и шестое взвешивания разбираем \\(3,4,5,6\\).\n\nСлучай 2: среди первых двух взвешиваний был надежный перекос. Третьим взвешиванием сравним \\(1,2,7,8\\) с \\(3,4,5,6\\). После этих трех сравнений четверок пары \\((1,2),(3,4),(5,6),(7,8)\\) имеют массы либо \\(20,20,18,18\\), либо \\(20,19,19,18\\) в некотором порядке; вариант \\(19,19,19,19\\) невозможен, потому что тогда первые два сравнения не дали бы надежного перекоса. По трем сравнениям четверок либо сразу известны все настоящие и фальшивые пары, либо остаются две смешанные пары, в каждой из которых одна монета настоящая и одна фальшивая. Пусть это пары \\((2i-1,2i)\\) и \\((2j-1,2j)\\). Тогда четвертым взвешиванием сравним \\((2i-1)+(2j)\\) с \\((2i)+(2j-1)\\), а пятым - \\((2i-1)+(2j-1)\\) с \\((2i)+(2j)\\). Одно из этих сравнений обязательно покажет разницу 2 г и тем самым определит обе оставшиеся пары. Во всех ветвях хватает не более шести взвешиваний.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какие четыре из восьми монет фальшивые и весят 9 г",
+    "observations": ["до шести сравнений на ржавых чашечных весах"],
+    "allowed_actions": ["класть выбранные группы монет на две чаши"],
+    "goal": ["identify_all_counterfeit_coins"],
+    "strategy_type": ["adaptive_strategy", "fault_tolerant_testing", "case_elimination"],
+    "lower_bound_method": [],
+    "keywords": ["rusanivskyi_2025", "rusty_scales", "four_light_fakes", "eight_coins"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {"object_count": 8, "counterfeit_count": 4, "counterfeit_type": "lighter", "weighing_count": 6, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_all_counterfeit_coins"},
+  "interactive": {
+    "type": "threshold_balance_counterfeit_sets",
+    "coin_count": 8,
+    "counterfeit_count": 4,
+    "counterfeit_weight": "lighter",
+    "genuine_weight": 10,
+    "counterfeit_delta": 1,
+    "reliable_difference": 2,
+    "max_weighings": 6,
+    "objective": "identify_all_counterfeits",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
+  "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Трудная для средней школы: нужно построить надежные сравнения при слепой зоне весов в 1 грамм и вести несколько случаев.", "status": "ai_checked"},
+  "tags": ["balance_scale", "decision_tree", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-rusanivskyi-2025-official", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {"created_by": "ai", "created_at": "2026-05-21", "review_status": "ai_checked", "public_ready": true, "relations_status": "rusanivskyi_batch", "notes": ["XXVIII олимпиада Русановского лицея, 2025, 9-10 класс, задача 8. Условие переведено с украинского.", "Интерактив добавлен как отдельная модель ржавых весов: надежный ответ появляется только при разнице масс не меньше 2 г."]}
+}
