@@ -1,0 +1,87 @@
+{
+  "id": "knop-expert-judge-one-weighing-one-weight",
+  "title": "Эксперт и судья: определить вес одной гирьки одним взвешиванием",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["expert_judge_certificate", "weighing_strategy", "extreme_principle"]
+  },
+  "language": "ru",
+  "authors": [{"name": "К. А. Кноп", "role": "problem_author", "status": "source_verified", "source_id": "src-knop-2011-weighings-algorithms"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d16",
+        "title": "Судья должен узнать вес одной гирьки",
+        "text": "У эксперта есть затейливый набор из \\(N\\) гирек весами 1, 2, ..., \\(N\\) г. Эксперт знает, какая гирька сколько весит, и хочет убедить в этом судью. Он берется так провести одно взвешивание на чашечных весах без других гирь, чтобы судья сам смог определить вес одной из гирек. Как это сделать, если а) \\(N=3\\); б) \\(N=7\\); в) \\(N=8\\); г) \\(N=25\\)?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-role-forced-by-extreme-sums",
+      "title": "Один предмет получает вынужденный вес через крайние суммы",
+      "text": "Судье не нужно восстановить всю перестановку весов. Достаточно устроить равенство или строгий перевес так, чтобы при известных весах \\(1,2,\\ldots,N\\) только один вес мог находиться в особой роли: на одиночной чаше или вне весов.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-extreme-certificates",
+      "title": "Четыре одноходовых сертификата",
+      "text": "Для \\(N=3\\) эксперт кладет гирьку 3 г на одну чашу, а гирьки 1 г и 2 г - на другую. Равенство возможно единственным образом: одиночная гирька весит 3 г.\n\nДля \\(N=7\\) эксперт кладет гирьку 7 г на одну чашу, а гирьки 1 г, 2 г и 3 г - на другую. Одиночная гирька может перевесить три другие только в случае \\(7>1+2+3\\); если бы одиночная гирька весила 6 г или меньше, три другие весили бы не меньше 6 г. Поэтому судья узнает гирьку 7 г.\n\nДля \\(N=8\\) эксперт оставляет гирьку 6 г вне весов и показывает равенство \\(7+8=1+2+3+4+5\\). Сумма всех весов равна 36. Если вне весов лежит вес \\(x\\), то при равенстве сумма каждой чаши равна \\((36-x)/2\\). Для двух гирек на левой чаше такая сумма возможна только при \\(x=6\\): тогда это \\(15=7+8\\). Значит, судья определяет невзвешенную гирьку 6 г.\n\nДля \\(N=25\\) эксперт оставляет гирьку 18 г вне весов и кладет \\(19+20+21+22+23+24+25\\) против \\(1+2+\\cdots+17\\). Левая чаша перевешивает: \\(154>153\\). Если невзвешенная гирька имела бы вес не больше 17, то минимальная сумма 17 гирек на другой чаше была бы не меньше 154. Если бы она имела вес не меньше 19, то максимальная сумма 7 гирек на левой чаше была бы не больше 153. Поэтому строгий перевес возможен только при невзвешенной гирьке 18 г.",
+      "standard_idea_ids": ["knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка весов 1..N между внешне неразличимыми гирьками, известная эксперту и неизвестная судье",
+    "observations": ["одно публичное взвешивание: равенство или направление перевеса"],
+    "allowed_actions": ["эксперт выбирает демонстрационное взвешивание"],
+    "goal": ["certify_one_weight"],
+    "strategy_type": ["expert_judge_certificate", "extreme_sum_certificate"],
+    "lower_bound_method": [],
+    "keywords": ["knop_2011", "expert_judge", "one_weighing", "one_weight", "extreme_sums"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "3_or_7_or_8_or_25",
+    "counterfeit_count": 0,
+    "counterfeit_type": "known_set_weights_1_to_N_unknown_assignment",
+    "weighing_count": 1,
+    "outcome_count_per_weighing": 3,
+    "adaptive": false,
+    "objective": "certify_one_weight"
+  },
+  "interactive": {
+    "type": "expert_judge_certificate",
+    "object_counts": [3, 7, 8, 25],
+    "max_weighings": 1,
+    "objective": "identify_one_weight",
+    "modes": ["sandbox", "exhaustive"],
+    "weight_model": "permutation_1_to_N",
+    "certificate_goal": "one_forced_weight"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 5, "comment": "Нужно подобрать крайние суммы так, чтобы слабая цель фиксировала хотя бы одну особую гирьку.", "status": "ai_checked"},
+  "tags": ["balance_scale", "expert_judge_certificate", "extreme_sum_argument", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_d16", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "expert_judge_certificate_case",
+    "notes": [
+      "Проверено против существующих expert_judge_certificate карточек: это не дубль, потому что цель слабее - судья должен определить вес одной гирьки, а не всю перестановку.",
+      "Дополнительная задача Д.16 из dop_zad.tex.utf8.txt."
+    ]
+  }
+}

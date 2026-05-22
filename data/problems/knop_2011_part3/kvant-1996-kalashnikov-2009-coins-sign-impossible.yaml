@@ -1,0 +1,93 @@
+{
+  "id": "kvant-1996-kalashnikov-2009-coins-sign-impossible",
+  "title": "Купец Калашников: 2009 монет и знак фальшивой узнать нельзя",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": ["impossibility", "adversary_argument", "parity"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d14",
+        "title": "Настоящие монеты сразу выплачиваются",
+        "text": "В кассе купца Калашникова появились деньги - 2009 монет. Известно, что одна из них фальшивая, отличающаяся по весу от настоящих. Работники требуют немедленной выдачи зарплаты настоящими монетами. У приказчика имеются чашечные весы без гирь. Как только становится ясно, что какие-либо монеты настоящие, они выплачиваются очередным работникам и в дальнейших взвешиваниях не участвуют. Любопытный приказчик хочет определить, легче фальшивая монета настоящей или тяжелее. Сможет ли он наверняка это сделать?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-equality-removes-even-number",
+      "title": "Равенства удаляют только четное число монет",
+      "text": "Если при сравнении равных групп весы дают равновесие, все монеты на чашах настоящие и немедленно уходят из игры. Было нечетное число монет, и после удаления двух равных групп остается снова нечетное число.",
+      "standard_idea_ids": ["parity"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-last-coin-sign-hidden",
+      "title": "Последняя оставшаяся монета не раскрывает знак",
+      "text": "Сценарий, в котором фальшивая монета каждый раз остается вне равного взвешивания, совместим со всеми наблюдениями. В конце может остаться одна монета, но без настоящей монеты для сравнения нельзя узнать, легче она или тяжелее.",
+      "standard_idea_ids": ["indistinguishable_states"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "imp-all-equalities-adversary",
+      "title": "Ответ «равно» можно поддерживать до последней монеты",
+      "text": "Нет, гарантировать определение знака нельзя. Рассмотрим допустимый ход событий, где каждое информативное взвешивание равных по числу групп дает равновесие. Тогда все монеты, попавшие на чаши, становятся заведомо настоящими и по условию сразу выплачиваются. Из нечетного числа монет каждый раз удаляется четное число, поэтому до конца остается нечетное число невыданных монет; в предельном случае последняя монета может быть фальшивой. К этому моменту все настоящие монеты уже выданы и не участвуют во взвешиваниях, так что сравнить последнюю монету с настоящей невозможно. Два состояния - последняя монета легче настоящей и последняя монета тяжелее настоящей - дают один и тот же предыдущий протокол равенств.",
+      "standard_idea_ids": ["parity", "indistinguishable_states"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "4018 вариантов: номер фальшивой монеты и знак ее отличия",
+    "observations": ["результаты чашечных взвешиваний при обязательном удалении доказанно настоящих монет"],
+    "allowed_actions": ["взвешивать оставшиеся монеты", "после доказательства подлинности монеты обязаны быть удалены"],
+    "goal": ["identify_counterfeit_sign"],
+    "strategy_type": ["impossibility", "adversary_argument", "parity"],
+    "lower_bound_method": ["indistinguishability", "parity_invariant"],
+    "keywords": ["knop_d14", "kalashnikov", "coin_payment", "sign_only", "kvant_tournament_1996"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 2009,
+    "counterfeit_count": 1,
+    "counterfeit_type": "single_unknown_direction",
+    "weighing_count": 0,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "prove_sign_identification_impossible"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 6,
+    "comment": "Короткое решение, но оно требует увидеть противника, поддерживающего равенства, и инвариант нечетности оставшихся монет.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "parity", "indistinguishability_argument", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3_remainder",
+    "notes": [
+      "Дополнительная задача Д.14; автор по указателю: С. И. Токарев, Турнир Кванта, 1996.",
+      "Оформлено как отрицательная карточка: ответ книги - нет."
+    ]
+  },
+  "authors": [
+    {"name": "С. И. Токарев", "role": "problem_author", "status": "from_book_index", "source_id": "src-knop-2011-weighings-algorithms"}
+  ]
+}

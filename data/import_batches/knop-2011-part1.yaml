@@ -12,6 +12,7 @@
     {"problem_id": "yes-no-dont-know-one-question-three-numbers", "status": "added"},
     {"problem_id": "unordered-triple-1-to-10-eight-questions", "status": "added"},
     {"problem_id": "point-in-square-three-line-questions", "status": "needs_human_review", "notes": "Условие и автор внесены; полное решение и минимальность нужно восстановить отдельно."},
+    {"problem_id": "function-sign-change-interval-value-queries", "status": "needs_human_review", "notes": "Д.4 добавлена как пограничная для базы: скрытая функция раскрывается через адаптивные запросы значений; нижняя оценка требует ручной сверки."},
     {"problem_id": "cowboy-target-by-closer-shot-comparisons", "status": "needs_human_review", "notes": "Механизм сравнения расстояний внесен; точный счет до 18-го выстрела нужно проверить."},
     {"problem_id": "different-size-card-piles-two-questions", "status": "needs_human_review", "notes": "Ответ из книги: N=k(k+1)/2; конструкцию второй раскладки нужно проверить перед публикацией."},
     {"lead": "Занятие 1, задачи 1.1, 1.2, 1.4, 1.5, 1.6 и Д.1", "status": "not_added_duplicate_or_too_general", "notes": "Это частные случаи общей емкости вопросов да/нет; не плодил отдельные карточки."},

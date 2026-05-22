@@ -1,0 +1,102 @@
+{
+  "id": "knop-2011-21-coins-double-right-balance-three-weighings",
+  "title": "Двадцать одна монета на весах с двойной правой чашей",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": ["strategy_construction", "adaptive_strategy", "special_scale"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d8",
+        "title": "Одна легкая монета и равновесие при правом грузе вдвое тяжелее",
+        "text": "Среди 21 внешне одинаковых монет все, кроме одной, настоящие, весящие одинаково, и одна фальшивая, весящая легче настоящей. Имеются чашечные весы, которые оказываются в равновесии, если груз на правой их чашке ровно вдвое тяжелее, чем на левой. Если груз на правой чашке меньше, чем удвоенный груз на левой, то перевешивает левая чашка, а если больше, то правая. Как за три взвешивания на этих весах найти фальшивую монету?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-4-8-9-first-split",
+      "title": "Первое взвешивание делит 21 монету на 4, 8 и 9",
+      "text": "Если положить 4 монеты на левую чашу и 8 на правую, то при настоящих монетах весы должны быть в равновесии. Легкая монета слева даст перевес правой чаши, легкая монета справа - перевес левой, а легкая монета вне весов - равновесие.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-known-genuine-ballast-after-first-weighing",
+      "title": "После первого ответа появляются настоящие монеты для балласта",
+      "text": "Любой исход первого взвешивания оставляет не больше 9 подозреваемых монет, а остальные уже известны как настоящие. Эти настоящие монеты можно добавлять на чаши, чтобы номинально поддерживать отношение правой чаши к левой как 2:1 и дальше вести обычное троичное деление подозреваемых.",
+      "standard_idea_ids": ["ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-4-vs-8",
+      "title": "Сначала 4 против 8",
+      "text": "Первым взвешиванием положим на левую чашу любые 4 монеты, а на правую - любые другие 8 монет. Если перевесила правая чаша, фальшивая среди 4 левых монет; если перевесила левая - среди 8 правых; если равновесие - среди 9 монет вне весов. Все остальные монеты в соответствующей ветви становятся известными настоящими.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    },
+    {
+      "id": "str-finish-with-ternary-splits",
+      "title": "Дальше делить подозреваемых на три группы",
+      "text": "В оставшиеся два взвешивания работаем с группой из 4, 8 или 9 подозреваемых. Остальные монеты в этой ветви уже настоящие. Делим подозреваемых на три части \\(A,B,C\\): для 9 монет - по 3, для 8 монет - 3, 3 и 2, для 4 монет - 1, 1 и 2. Кладем \\(A\\) на левую чашу, \\(B\\) на правую и добавляем на правую столько настоящих монет, сколько лежит в \\(A\\). Тогда при настоящих подозреваемых правая чаша ровно вдвое тяжелее левой.\n\nЕсли фальшивая монета в \\(A\\), левая чаша становится чуть легче, и перевешивает правая. Если фальшивая в \\(B\\), правый груз становится меньше удвоенного левого, и перевешивает левая. Если фальшивая в \\(C\\), сохраняется равновесие. После этого остается не больше трех подозреваемых. Последним взвешиванием делаем то же самое с разбиением 1, 1 и остаток: одну подозрительную кладем налево, вторую - направо вместе с одной настоящей монетой, остальные подозрительные оставляем вне весов. Три исхода указывают соответственно на первую, вторую или оставшуюся монету.",
+      "standard_idea_ids": ["ternary_weighing_code", "adaptive_strategy"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "21 вариант: какая монета легче",
+    "observations": ["три исхода особых чашечных весов, где равновесие означает правый груз вдвое тяжелее левого"],
+    "allowed_actions": ["адаптивно выбирать монеты и известные настоящие балластные монеты для чаш"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "ternary_partition", "weighted_balance"],
+    "lower_bound_method": [],
+    "keywords": ["knop_d8", "double_right_balance", "light_coin", "rubanov"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 21,
+    "counterfeit_count": 1,
+    "counterfeit_type": "single_lighter_known",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "scale_type": "double_right_balance",
+    "objective": "identify_coin"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Нужно увидеть неравное первое деление 4/8/9 и затем использовать найденные настоящие монеты как балласт.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "weighted_sum_encoding", "ternary_search", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_outline", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3_remainder",
+    "notes": [
+      "Дополнительная задача Д.8; автор по указателю: И. С. Рубанов.",
+      "2026-05-22: балластные ветви после первого хода расписаны явно: деления 3/3/3, 3/3/2 и 1/1/2 используют настоящие монеты на правой чаше для отношения 1:2."
+    ]
+  },
+  "authors": [
+    {"name": "И. С. Рубанов", "role": "problem_author", "status": "from_book_index", "source_id": "src-knop-2011-weighings-algorithms"}
+  ]
+}

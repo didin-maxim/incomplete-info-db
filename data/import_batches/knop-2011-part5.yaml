@@ -14,11 +14,23 @@
     {"problem_id": "knop-2011-nine-light-coins-two-erasure-reserve-plan", "status": "added"},
     {"problem_id": "knop-2011-marked-ingots-55-expert-judge-27-weighings", "status": "added"},
     {"problem_id": "knop-2011-two-gold-many-silver-two-fakes-k-weighings", "status": "added"},
-    {"problem_id": "knop-2011-gold-silver-4-7-two-fakes-three-impossible", "status": "added"}
+    {"problem_id": "knop-2011-gold-silver-three-to-five-gold-three-weighings", "status": "added", "source_location": "Д.24", "notes": "2026-05-22: условия и первый ход сверены; полные двухвзвешивательные ветви восстановлены редакторски и проверены перебором."},
+    {"problem_id": "knop-2011-gold-silver-three-to-five-gold-four-weighings", "status": "needs_human_review", "source_location": "Д.25", "notes": "Условия и первый ход сверены; полные равновесные ветви после первого хода пока не восстановлены. В равновесных ветвях нет заведомо настоящего балласта, нужна явная трехходовая таблица или отдельная лемма."},
+    {"problem_id": "knop-2011-gold-silver-4-7-two-fakes-three-impossible", "status": "added"},
+    {"problem_id": "knop-2011-five-coins-at-least-one-fake-three-impossible", "status": "added"},
+    {"problem_id": "knop-2011-divisibility-1-16-four-planned-numbers-impossible", "status": "added"},
+    {"problem_id": "knop-2011-five-coins-at-least-two-fakes-three-impossible", "status": "added"},
+    {"problem_id": "knop-2011-nineteen-coins-two-weights-twelve-impossible", "status": "added", "notes": "Д.30 открыта: в книге указано 196688, прямой пересчет равновесной ветви дает 196608; это опечатка источника, вывод невозможности не меняется."}
+  ],
+  "source_notes": [
+    "Д.27-Д.30 взяты из dop_zad.tex.utf8.txt; решения сверены по разделу кратких решений того же файла.",
+    "Для Д.30 зафиксировано расхождение: текст решения содержит число 196688, а прямой пересчет равновесной ветви для 2 против 2 дает 196608. Это арифметическая опечатка источника; исправленное число все равно больше \\(3^{11}\\)."
   ],
   "notes": [
     "Write-scope worker E: new cards only under data/problems/knop_2011_part5/.",
     "Дубли fixed-questions-as-binary-code, lighter-25, problems-ru-34945 и savin-12 не создавались заново.",
-    "Интерактивы не добавлялись в YAML; кандидаты вынесены в docs/reviews/interactive-knop-2011-part5.md."
+    "Интерактивы не добавлялись в YAML; кандидаты вынесены в docs/reviews/interactive-knop-2011-part5.md.",
+    "2026-05-22: добавлены дополнительные задачи Д.24-Д.25. Д.24 открыта после восстановления полных ветвей; Д.25 оставлена как честный черновик без равновесных таблиц.",
+    "2026-05-22: добавлены дополнительные задачи Д.27-Д.30. Д.27, Д.29 и Д.30 не сливались: у них разные нижние оценки, от чистого счета состояний до узкого места первого взвешивания."
   ]
 }

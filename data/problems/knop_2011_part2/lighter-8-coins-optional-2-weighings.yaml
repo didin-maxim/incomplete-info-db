@@ -47,7 +47,17 @@
     "keywords": ["known_lighter_coin", "optional_counterfeit", "null_state", "ternary_search"],
     "status": "ai_checked"
   },
-  "weighing_profile": {"object_count": 8, "counterfeit_count": "0_or_1", "counterfeit_type": "lighter_known_if_present", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "objective": "identify_coin_or_certify_none"},
+  "weighing_profile": {"object_count": 8, "counterfeit_count": "0_or_1", "counterfeit_type": "lighter_known_if_present", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "objective": "identify_coin_or_none"},
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 8,
+    "counterfeit_weight": "lighter",
+    "allow_no_counterfeit": true,
+    "max_weighings": 2,
+    "objective": "identify_coin_or_none",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Это обычный троичный поиск, в котором отсутствие фальшивой монеты добавляет ровно одно скрытое состояние.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_search", "ternary_code", "condition_middle_school"],
   "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],

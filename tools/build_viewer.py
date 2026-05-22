@@ -1,6 +1,7 @@
 import argparse
 import html
 import json
+import os
 from pathlib import Path
 
 from lib import (
@@ -57,6 +58,19 @@ def make_payload():
 
 def safe_json(data):
     return json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+def feedback_config():
+    endpoint = (
+        os.environ.get("INCOMPLETE_INFO_FEEDBACK_ENDPOINT")
+        or os.environ.get("FEEDBACK_ENDPOINT")
+        or ""
+    ).strip()
+    return {
+        "endpoint": endpoint,
+        "project": "incomplete-info-db",
+        "subjectPrefix": "[incomplete-info-db] Ошибка в задаче",
+    }
 
 
 def inline_script_asset(path):
@@ -223,6 +237,7 @@ def build_fallback_content(data):
 
 def build_html(data):
     payload = safe_json(data)
+    feedback_config_json = safe_json(feedback_config())
     weighing_cheater_js = inline_script_asset(ROOT / "viewer" / "weighing_cheater.js")
     fallback_list = build_fallback_list(data.get("problems", []), data.get("taxonomy", {}))
     fallback_content = build_fallback_content(data)
@@ -2513,10 +2528,7 @@ __WEIGHING_CHEATER_JS__
 
     const LOCAL_DATA_KEY = 'incomplete-info-db:local-user-data:v1';
     const LOCAL_DATA_VERSION = 1;
-    const FEEDBACK_CONFIG = {
-      email: '',
-      subjectPrefix: '[incomplete-info-db] Ошибка в задаче'
-    };
+    const FEEDBACK_CONFIG = __FEEDBACK_CONFIG__;
     const PROGRESS_OPTIONS = [
       { value: 'not_started', label: 'не решал' },
       { value: 'tried', label: 'пробовал' },
@@ -2791,6 +2803,56 @@ __WEIGHING_CHEATER_JS__
       return `<span class="pill ${extra}">${esc(value)}</span>`;
     }
 
+    function tagLabel(tag) {
+      const labels = {
+        balance_scale: 'чашечные весы',
+        binary_search: 'деление пополам',
+        binary_code: 'ответы да/нет',
+        card_trick: 'карточный фокус',
+        common_knowledge: 'общее знание',
+        condition_middle_school: 'понятно младшим школьникам',
+        condition_older_students: 'для старших школьников',
+        counting_lower_bound: 'подсчет вариантов',
+        designated_counter_protocol: 'назначенный счетчик',
+        decision_tree: 'дерево вопросов',
+        decision_tree_lower_bound: 'меньше ходов нельзя',
+        digital_scale: 'цифровые весы',
+        error_correcting_code: 'запас на ошибку',
+        expert_judge_certificate: 'эксперт убеждает судью',
+        extreme_sum_argument: 'крайние суммы',
+        guard_paradox: 'вопрос стражнику',
+        hamming_bound: 'оценка по запасу ответов',
+        hat_puzzle: 'колпаки',
+        indistinguishability_argument: 'случаи не отличить',
+        knowledge_induction: 'рассуждение по раундам',
+        knowledge_elimination: 'вычеркивание вариантов',
+        lie_detection: 'рыцари и лжецы',
+        linear_signature: 'числовые суммы',
+        modular_sum_code: 'остатки',
+        nonadaptive_strategy: 'план заранее',
+        parity: 'четность',
+        parity_code: 'четность как подсказка',
+        permutation_order_code: 'порядок как подсказка',
+        public_announcement: 'сказано вслух',
+        public_announcement_induction: 'общие объявления',
+        public_communication: 'сообщение видно всем',
+        repetition_code: 'повторение вопросов',
+        self_reference_question: 'вопрос о самом ответе',
+        self_reference_truth: 'фраза о себе',
+        single_bit_signal: 'один да/нет сигнал',
+        solution_advanced_math: 'решение требует старших идей',
+        structural_constraint: 'особое расположение',
+        symmetry: 'симметрия',
+        symmetry_breaking: 'нарушение симметрии',
+        ternary_code: 'три исхода',
+        ternary_search: 'деление на три группы',
+        truth_liar_normalization: 'вопрос рыцарю или лжецу',
+        verification_task: 'проверить свойство',
+        weighted_sum_encoding: 'суммы с весами'
+      };
+      return labels[tag] || tag;
+    }
+
     function statusPill(status) {
       return status ? pill(label('statuses', status), `status-${cssId(status)}`) : '';
     }
@@ -2813,6 +2875,7 @@ __WEIGHING_CHEATER_JS__
       const labels = {
         single_counterfeit_weighing: 'взвешивания',
         single_counterfeit_unknown_direction: 'взвешивания',
+        fixed_weighing_transcript: 'готовые результаты взвешиваний',
         zero_one_two_counterfeit_sign: '0, 1 или 2 фальшивые одного знака',
         safe_pile_balance_certificate: 'безопасная кучка',
         zoltar_heavier_hand_removal: 'Золтар забирает монету',
@@ -2824,23 +2887,25 @@ __WEIGHING_CHEATER_JS__
         broken_scale_counterfeit_coin: 'монета и сломанные весы',
         broken_detector_counterfeit_coin: 'монета и сломанный детектор',
         heaviest_coin_one_broken_scale: 'самая тяжелая монета',
-        balanced_weight_signature_protocol: 'равновесный код мешков',
-        numeric_linear_signature: 'числовой код мешков',
+        balanced_weight_signature_protocol: 'равные суммы в мешках',
+        numeric_linear_signature: 'числа и суммы',
         fitch_cheney_card_trick: 'фокус Чейни с пятью картами',
         finite_pair_matching_protocol: 'таблица пар карточек',
+        petya_vasya_five_cards_protocol: 'Петя и Вася: пять карточек',
         balanced_subset_question_code: 'сбалансированные вопросы',
         binary_cards_number_trick: 'двоичные карточки с числами',
-        ternary_question_code: 'троичный код вопросов',
-        repetition_code_one_lie_questions: 'повторный код с одной ложью',
+        fixed_feedback_code: 'пароль с позиционной обратной связью',
+        ternary_question_code: 'вопросы с тремя ответами',
+        repetition_code_one_lie_questions: 'повторения с одной ложью',
         finite_binary_state_protocol: 'да/нет протокол',
         higher_lower_strategy_game: 'игра больше или меньше',
         moving_target_graph_search: 'поиск движущейся цели',
-        xor_single_flip_protocol: 'один переворот XOR',
-        wise_men_even_parity_code: 'четный код мудрецов',
+        xor_single_flip_protocol: 'один переворот по четности',
+        wise_men_even_parity_code: 'мудрецы и четность',
         wise_men_color_count_parity_protocol: 'мудрецы и количества цветов',
         prisoners_hats_parity_line: 'заключенные и четность колпаков',
         hidden_hat_number_parity_protocol: 'четность спрятанного колпака',
-        three_letter_erasure_code: 'трехбуквенный код со стиранием',
+        three_letter_erasure_code: 'три буквы, одна стерта',
         permutation_message_order_code: 'порядок трех предметов',
         permutation_cycle_protocol: 'циклы перестановки',
         twenty_one_card_trick: 'фокус с 21 картой'
@@ -3618,6 +3683,7 @@ __WEIGHING_CHEATER_JS__
       const labels = {
         identify_coin: 'найти фальшивую монету',
         identify_coin_only: 'найти фальшивую монету',
+        identify_coin_or_none: 'найти фальшивую монету или доказать, что ее нет',
         identify_coin_only_unknown_direction: 'найти фальшивую монету',
         identify_coin_and_sign: 'найти монету и легче/тяжелее',
         identify_coin_and_direction: 'найти монету и легче/тяжелее',
@@ -3626,14 +3692,17 @@ __WEIGHING_CHEATER_JS__
         identify_fake_bag: 'найти фальшивую стопку',
         identify_fake_bag_subset: 'найти фальшивые мешки',
         identify_fake_coin_set: 'найти фальшивые монеты',
+        identify_selected_bag_weight: 'определить вес указанного мешка',
         identify_deficient_bag_or_none: 'найти мешок с недостачей или подтвердить отсутствие',
         identify_magic_subset: 'найти все волшебные объекты',
         identify_hidden_card: 'угадать скрытую карту',
         identify_hidden_pair: 'угадать спрятанную пару',
         decode_hidden_message: 'расшифровать скрытое сообщение',
         identify_hidden_number: 'определить скрытое число',
+        recover_hidden_password: 'восстановить скрытый пароль',
         identify_key_position: 'назвать позицию ключа',
         identify_selected_card: 'назвать выбранную карту',
+        identify_spectator_card: 'назвать карточку зрителей',
         identify_state: 'определить точное состояние',
         identify_liar: 'найти лжеца',
         identify_one_genuine_coin: 'назвать настоящую монету',
@@ -3682,7 +3751,8 @@ __WEIGHING_CHEATER_JS__
       if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
       if (!['heavier', 'lighter'].includes(counterfeitWeight)) return null;
       const objective = config.objective || profile.objective || 'identify_coin';
-      if (!['identify_coin', 'prove_impossible'].includes(objective)) return null;
+      if (!['identify_coin', 'identify_coin_or_none', 'prove_impossible'].includes(objective)) return null;
+      const allowNoCounterfeit = !!(config.allow_no_counterfeit || config.allowNoCounterfeit || objective === 'identify_coin_or_none');
       const normalizedModes = modes.length ? modes : (adaptive ? ['random'] : ['exhaustive']);
       const presetWeighings = asArray(config.preset_weighings || config.preassigned_weighings || config.weighings)
         .map(row => ({
@@ -3699,10 +3769,12 @@ __WEIGHING_CHEATER_JS__
         maxWeighings,
         counterfeitWeight,
         objective,
+        allowNoCounterfeit,
         adaptive,
         modes: normalizedModes,
         defaultMode: normalizedModes[0],
         requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        autoCheck: config.auto_check !== false && config.autoCheck !== false,
         presetWeighings
       };
     }
@@ -3727,6 +3799,7 @@ __WEIGHING_CHEATER_JS__
       if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
       if (!Number.isInteger(knownGenuineCount) || knownGenuineCount < 0) return null;
       if (!['identify_coin_and_sign', 'identify_coin_only_unknown_direction'].includes(objective)) return null;
+      const allowNoCounterfeit = !!(config.allow_no_counterfeit || config.allowNoCounterfeit);
       const normalizedModes = modes.length ? modes : ['random'];
       const presetWeighings = asArray(config.preset_weighings || config.preassigned_weighings || config.weighings)
         .map(row => ({
@@ -3743,10 +3816,12 @@ __WEIGHING_CHEATER_JS__
         maxWeighings,
         counterfeitWeight: 'unknown',
         objective,
+        allowNoCounterfeit,
         adaptive,
         modes: normalizedModes,
         defaultMode: normalizedModes[0],
         requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        autoCheck: config.auto_check !== false && config.autoCheck !== false,
         presetWeighings
       };
     }
@@ -3786,10 +3861,14 @@ __WEIGHING_CHEATER_JS__
       if (normalized.adaptive === false) {
         return renderNonadaptiveUnknownDirectionInteractive(problem, normalized);
       }
-      const candidateTotal = normalized.directionUnknown ? normalized.coinCount * 2 : normalized.coinCount;
+      const candidateTotal = normalized.directionUnknown
+        ? normalized.coinCount * 2 + (normalized.allowNoCounterfeit ? 1 : 0)
+        : normalized.coinCount + (normalized.allowNoCounterfeit ? 1 : 0);
       const totalCoins = normalized.coinCount + normalized.knownGenuineCount;
       const coinOnlyUnknownDirection = normalized.directionUnknown && normalized.objective === 'identify_coin_only_unknown_direction';
-      const heading = normalized.directionUnknown
+      const heading = normalized.allowNoCounterfeit
+        ? `Фальшивая монета может отсутствовать`
+        : normalized.directionUnknown
         ? (coinOnlyUnknownDirection ? 'Одна фальшивая монета: нужно найти только номер' : 'Одна фальшивая монета: легче или тяжелее?')
         : `Одна фальшивая монета ${interactiveWeightLabel(normalized.counterfeitWeight)}`;
       return `
@@ -3830,6 +3909,7 @@ __WEIGHING_CHEATER_JS__
             </label>
             <button class="small-button" type="button" data-weigh>Взвесить</button>
             <button class="small-button" type="button" data-answer-mode>${normalized.directionUnknown && !coinOnlyUnknownDirection ? 'Указать монету и знак' : 'Указать монету'}</button>
+            ${normalized.allowNoCounterfeit ? '<button class="small-button" type="button" data-answer-none hidden>Фальшивой нет</button>' : ''}
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
@@ -3860,6 +3940,106 @@ __WEIGHING_CHEATER_JS__
           <div class="weighing-history">
               <h4>История взвешиваний</h4>
             <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeFixedWeighingTranscriptConfig(problem, config) {
+      const profile = problem.weighing_profile || {};
+      const coinCount = Number(config.coin_count ?? config.object_count ?? profile.object_count);
+      const maxWeighings = Number(config.max_weighings ?? config.weighing_count ?? profile.weighing_count);
+      let counterfeitWeight = String(config.counterfeit_weight || config.counterfeit_direction || config.direction || '').toLowerCase();
+      const profileType = String(profile.counterfeit_type || '').toLowerCase();
+      if (!counterfeitWeight && profileType.includes('heav')) counterfeitWeight = 'heavier';
+      if (!counterfeitWeight && (profileType.includes('light') || profileType.includes('lighter'))) counterfeitWeight = 'lighter';
+      if (counterfeitWeight === 'heavy') counterfeitWeight = 'heavier';
+      if (counterfeitWeight === 'light') counterfeitWeight = 'lighter';
+      const transcript = asArray(config.transcript || config.weighings)
+        .map(row => ({
+          left: asArray(row?.left ?? row?.leftCoins ?? row?.left_coins).map(Number).filter(Number.isInteger),
+          right: asArray(row?.right ?? row?.rightCoins ?? row?.right_coins).map(Number).filter(Number.isInteger),
+          outcome: row?.outcome || row?.result || ''
+        }))
+        .filter(row => row.left.length || row.right.length || row.outcome)
+        .slice(0, maxWeighings || undefined);
+      const objective = config.objective || profile.objective || 'identify_coin';
+      if (!Number.isInteger(coinCount) || coinCount < 2) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1) return null;
+      if (!['heavier', 'lighter'].includes(counterfeitWeight)) return null;
+      if (objective !== 'identify_coin') return null;
+      if (!transcript.length || transcript.some(row => !['left_down', 'right_down', 'balance'].includes(row.outcome))) return null;
+      return {
+        type: 'fixed_weighing_transcript',
+        coinCount,
+        coin_count: coinCount,
+        maxWeighings,
+        max_weighings: maxWeighings,
+        counterfeitWeight,
+        counterfeit_weight: counterfeitWeight,
+        objective,
+        modes: ['guided'],
+        defaultMode: 'guided',
+        requireEqualPanCounts: config.require_equal_pan_counts !== false,
+        transcript
+      };
+    }
+
+    function renderFixedWeighingTranscriptInteractive(problem, config) {
+      const normalized = normalizeFixedWeighingTranscriptConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const answerOptions = Array.from({ length: normalized.coinCount }, (_item, index) => index + 1)
+        .map(coin => `<option value="${esc(coin)}">монета ${esc(coin)}</option>`)
+        .join('');
+      const rows = normalized.transcript.map((row, index) => `
+        <div class="history-item" data-fixed-row="${esc(index)}">
+          <span class="history-result" data-fixed-row-result="${esc(index)}">результат скрыт</span>
+          <span><strong>${esc(index + 1)}.</strong> ${esc(row.left.join(', '))} против ${esc(row.right.join(', '))}</span>
+        </div>
+      `).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="fixed_weighing_transcript" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(interactiveTypeLabel(normalized.type))}
+            <span class="pill">фиксированные данные</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Разобрать два результата взвешивания</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-weighing-counter>0 / ${esc(normalized.transcript.length)}</span>
+              <span class="pill" data-candidate-counter>${esc(countText(normalized.coinCount, 'кандидат', 'кандидата', 'кандидатов'))}</span>
+              <span class="pill">${esc(countText(normalized.coinCount, 'монета', 'монеты', 'монет'))}</span>
+              <span class="pill">фальшивая ${esc(interactiveWeightLabel(normalized.counterfeitWeight))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <button class="small-button" type="button" data-fixed-next>Показать следующий результат</button>
+            <label>Ответ
+              <select data-fixed-answer>${answerOptions}</select>
+            </label>
+            <button class="small-button" type="button" data-fixed-check>Проверить</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="status-legend">
+            <span class="status-chip coin-status-possible-fake">отмечена как совместимая</span>
+            <span class="status-chip coin-status-genuine">отмечена как исключенная</span>
+          </div>
+          <div class="interactive-grid">
+            <div>
+              <h4>Монеты</h4>
+              <div class="coin-grid" data-fixed-coins></div>
+              <div class="local-muted">До проверки ответа подсветка остается вашей пометкой: нажимайте на монеты, чтобы отмечать «совместима» или «исключена».</div>
+            </div>
+            <div>
+              <h4>Данные</h4>
+              <div class="history-list" data-fixed-transcript>${rows}</div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>Разбор</h4>
+            <div class="history-list" data-fixed-diagnostics></div>
           </div>
         </div>
       `;
@@ -4333,12 +4513,22 @@ __WEIGHING_CHEATER_JS__
       return binomialCount(config.coinCount, config.counterfeitCount);
     }
 
-    function multipleLightModeLabel(value) {
+    function multipleLightCountPhrase(count) {
+      const lightPart = countText(count, 'легкая', 'легкие', 'легких');
+      const coinPart = countText(count, 'монета', 'монеты', 'монет').replace(/^\\d+\\s+/, '');
+      return `${lightPart} ${coinPart}`;
+    }
+
+    function multipleLightModeLabel(value, counterfeitCount = null) {
       const labels = {
-        random: 'случайная пара',
         cheater: 'Шулер',
         exhaustive: 'Полный перебор'
       };
+      if (value === 'random') {
+        if (Number(counterfeitCount) === 2) return 'случайная пара';
+        if (Number(counterfeitCount) === 3) return 'случайная тройка';
+        return 'случайный набор';
+      }
       return labels[value] || interactiveModeLabel(value);
     }
 
@@ -4351,14 +4541,14 @@ __WEIGHING_CHEATER_JS__
         : '';
       const title = normalized.type === 'grouped_light_counterfeits'
         ? 'Фальшивые монеты по группам'
-        : 'Две легкие монеты: найти одну';
+        : `${multipleLightCountPhrase(normalized.counterfeitCount)}: найти одну`;
       const answerText = normalized.objective === 'identify_all_counterfeits' ? 'Выбрать пару' : 'Выбрать монету';
       return `
         <div class="card interactive-panel" data-interactive-type="${esc(normalized.type)}" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
             ${pill('интерактив')}
             ${pill(interactiveTypeLabel(normalized.type))}
-            <span class="pill" data-current-mode-pill>${esc(multipleLightModeLabel(normalized.defaultMode))}</span>
+            <span class="pill" data-current-mode-pill>${esc(multipleLightModeLabel(normalized.defaultMode, normalized.counterfeitCount))}</span>
           </div>
           <div class="interactive-head">
             <h4>${esc(title)}</h4>
@@ -4374,7 +4564,7 @@ __WEIGHING_CHEATER_JS__
           <div class="interactive-actions">
             <label>Режим
               <select data-interactive-run-mode>
-                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(multipleLightModeLabel(mode))}</option>`).join('')}
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(multipleLightModeLabel(mode, normalized.counterfeitCount))}</option>`).join('')}
               </select>
             </label>
             <label>Статусы
@@ -5189,7 +5379,7 @@ __WEIGHING_CHEATER_JS__
       };
       const rawObjective = config.objective || profile.objective || 'identify_fake_bag_subset';
       const objective = objectiveAliases[rawObjective] || rawObjective;
-      const stateModel = config.state_model || (objective === 'identify_fake_bag' ? 'single_fake_bag' : (objective === 'identify_fake_coin_set' ? 'fixed_fake_count' : 'fake_bag_subset'));
+      const stateModel = config.state_model || (objective === 'identify_fake_bag' ? 'single_fake_bag' : (objective === 'identify_fake_coin_set' ? 'fixed_fake_count' : (objective === 'identify_selected_bag_weight' ? 'selected_bag_weight' : 'fake_bag_subset')));
       const fakeBagCount = Number(config.fake_bag_count ?? config.fake_count ?? config.counterfeit_count ?? (stateModel === 'single_fake_bag' ? 1 : NaN));
       const counterfeitWeight = String(config.counterfeit_weight || 'lighter').toLowerCase();
       const counterfeitDelta = Number(config.counterfeit_delta ?? 1);
@@ -5197,12 +5387,22 @@ __WEIGHING_CHEATER_JS__
       const observationModel = config.observation_model || (stateModel === 'single_fake_bag' ? 'actual_weight' : 'deficit_residue');
       const objectKind = config.object_kind || (objective === 'identify_fake_coin_set' ? 'coin' : (stateModel === 'single_fake_bag' ? 'stack' : 'bag'));
       const selectionModel = config.selection_model || (objectKind === 'coin' ? 'subset' : 'quantities');
+      const weightValues = asArray(config.weight_values || config.weightValues || config.possible_weights || config.possibleWeights)
+        .map(Number)
+        .filter(value => Number.isInteger(value) && value > 0);
+      const maxCoinsPerBag = Number(config.max_coins_per_bag ?? config.maxCoinsPerBag ?? 100);
+      const referenceTotal = Number(config.reference_total ?? config.referenceTotal ?? weightValues.reduce((sum, value) => sum + value, 0));
       if (!Number.isInteger(bagCount) || bagCount < 2 || bagCount > 12) return null;
       if (!Number.isInteger(maxWeighings) || maxWeighings < 1 || maxWeighings > 5) return null;
-      if (!['identify_fake_bag_subset', 'identify_fake_bag', 'identify_fake_coin_set'].includes(objective)) return null;
+      if (!['identify_fake_bag_subset', 'identify_fake_bag', 'identify_fake_coin_set', 'identify_selected_bag_weight'].includes(objective)) return null;
       if (!['bag', 'stack', 'coin'].includes(objectKind)) return null;
       if (!['quantities', 'subset'].includes(selectionModel)) return null;
-      if (stateModel === 'single_fake_bag') {
+      if (stateModel === 'selected_bag_weight') {
+        if (objective !== 'identify_selected_bag_weight') return null;
+        if (weightValues.length !== bagCount) return null;
+        if (!Number.isInteger(maxCoinsPerBag) || maxCoinsPerBag < 1) return null;
+        if (!Number.isFinite(referenceTotal) || referenceTotal <= 0) return null;
+      } else if (stateModel === 'single_fake_bag') {
         if (fakeBagCount !== 1) return null;
         if (!['lighter', 'heavier'].includes(counterfeitWeight)) return null;
         if (!Number.isFinite(counterfeitDelta) || counterfeitDelta <= 0) return null;
@@ -5230,6 +5430,9 @@ __WEIGHING_CHEATER_JS__
         observationModel,
         objectKind,
         selectionModel,
+        weightValues,
+        referenceTotal,
+        maxCoinsPerBag,
         allowEmptySubset: config.allow_empty_subset !== false,
         excludeAllFake: config.exclude_all_fake !== false,
         modes: modes.length ? modes : ['random'],
@@ -5246,6 +5449,14 @@ __WEIGHING_CHEATER_JS__
       return labels[value] || interactiveModeLabel(value);
     }
 
+    function selectedBagWeightModeLabel(value) {
+      const labels = {
+        random: 'случайный вес',
+        cheater: 'самый неоднозначный исход'
+      };
+      return labels[value] || numericSignatureModeLabel(value);
+    }
+
     function smallCombinationCount(n, k) {
       if (!Number.isInteger(n) || !Number.isInteger(k) || k < 0 || k > n) return 0;
       let result = 1;
@@ -5258,6 +5469,64 @@ __WEIGHING_CHEATER_JS__
     function renderNumericLinearSignatureInteractive(problem, config) {
       const normalized = normalizeNumericLinearSignatureConfig(problem, config);
       if (!normalized) return renderUnknownInteractive(problem, config);
+      if (normalized.stateModel === 'selected_bag_weight') {
+        const stateCount = normalized.weightValues.length;
+        const answerInputs = normalized.weightValues.map(weight => `
+          <label><input data-selected-weight-answer="${esc(weight)}" name="selected-weight-answer-${esc(problem.id)}" type="radio"> ${esc(weight)} г</label>
+        `).join('');
+        return `
+          <div class="card interactive-panel" data-interactive-type="numeric_linear_signature" data-config="${esc(JSON.stringify(normalized))}">
+            <div class="topline">
+              ${pill('интерактив')}
+              ${pill(normalized.type, 'code')}
+              <span class="pill" data-current-mode-pill>${esc(selectedBagWeightModeLabel(normalized.defaultMode))}</span>
+            </div>
+            <div class="interactive-head">
+              <h4>Вес указанного мешка за два сравнения</h4>
+              <div class="interactive-meta">
+                <span class="pill" data-weighing-counter>0 / ${esc(normalized.maxWeighings)}</span>
+                <span class="pill" data-candidate-counter>${esc(countText(stateCount, 'вариант веса', 'варианта веса', 'вариантов веса'))}</span>
+                <span class="pill">веса ${esc(normalized.weightValues.join(', '))} г</span>
+                <span class="pill">комплект: ${esc(normalized.referenceTotal)} г</span>
+              </div>
+            </div>
+            <div class="interactive-actions">
+              <label>Режим
+                <select data-interactive-run-mode>
+                  ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(selectedBagWeightModeLabel(mode))}</option>`).join('')}
+                </select>
+              </label>
+              <button class="small-button" type="button" data-selected-weight-weigh>Взвесить</button>
+              <button class="small-button" type="button" data-selected-weight-answer-submit>Ответить</button>
+              <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+            </div>
+            <div class="interactive-status" data-interactive-status></div>
+            <div class="numeric-bag-grid">
+              <div class="numeric-bag">
+                <strong>Левая чаша</strong>
+                <label>Монет из указанного мешка
+                  <input data-selected-weight-coins type="number" min="0" max="${esc(normalized.maxCoinsPerBag)}" step="1" inputmode="numeric" placeholder="70">
+                </label>
+              </div>
+              <div class="numeric-bag">
+                <strong>Правая чаша</strong>
+                <label>Полных комплектов всех мешков
+                  <input data-selected-weight-kits type="number" min="0" max="${esc(normalized.maxCoinsPerBag)}" step="1" inputmode="numeric" placeholder="10">
+                </label>
+              </div>
+            </div>
+            <div class="numeric-result" data-selected-weight-result></div>
+            <div class="scale-area">
+              <h4>Оставшиеся варианты</h4>
+              <div class="pill-row" data-selected-weight-candidates></div>
+            </div>
+            <div class="scale-area">
+              <h4>Ответ</h4>
+              <div class="numeric-answer">${answerInputs}</div>
+            </div>
+          </div>
+        `;
+      }
       const singleFake = normalized.stateModel === 'single_fake_bag';
       const fixedFakeCount = normalized.stateModel === 'fixed_fake_count';
       const objectLabels = normalized.objectKind === 'stack'
@@ -5552,6 +5821,111 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizePetyaVasyaConfig(problem, config) {
+      const profile = problem.card_trick_profile || {};
+      const cardCount = Number(config.card_count ?? config.cardCount ?? profile.deck_size ?? 5);
+      const petyaCount = Number(config.petya_count ?? config.petyaCount ?? 2);
+      const vasyaCount = Number(config.vasya_count ?? config.vasyaCount ?? 1);
+      const spectatorCount = Number(config.spectator_count ?? config.spectatorCount ?? 2);
+      const supportedModes = ['random', 'sandbox', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'sandbox', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || 'identify_spectator_card';
+      if (cardCount !== 5 || petyaCount !== 2 || vasyaCount !== 1 || spectatorCount !== 2) return null;
+      if (objective !== 'identify_spectator_card') return null;
+      const normalizedModes = modes.length ? modes : ['random', 'sandbox', 'exhaustive'];
+      return {
+        type: 'petya_vasya_five_cards_protocol',
+        cardCount,
+        petyaCount,
+        vasyaCount,
+        spectatorCount,
+        objective,
+        modes: normalizedModes,
+        defaultMode: normalizedModes[0]
+      };
+    }
+
+    function petyaVasyaModeLabel(value) {
+      const labels = {
+        random: 'случайное распределение',
+        sandbox: 'ручной выбор',
+        exhaustive: 'все распределения'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderPetyaVasyaInteractive(problem, config) {
+      const normalized = normalizePetyaVasyaConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const cards = Array.from({ length: normalized.cardCount }, (_item, index) => index + 1);
+      const ownerOptions = [
+        ['petya', 'Петя'],
+        ['vasya', 'Вася'],
+        ['spectators', 'зрители']
+      ];
+      const rows = cards.map(card => `
+        <tr>
+          <td><button class="fitch-card" type="button" data-pv-card="${esc(card)}">${esc(card)}</button></td>
+          <td>
+            <select data-pv-owner="${esc(card)}" aria-label="У кого карточка ${esc(card)}">
+              ${ownerOptions.map(([value, label]) => `<option value="${esc(value)}">${esc(label)}</option>`).join('')}
+            </select>
+          </td>
+          <td><button class="small-button" type="button" data-pv-named="${esc(card)}">${esc(card)}</button></td>
+          <td><button class="small-button" type="button" data-pv-answer="${esc(card)}">${esc(card)}</button></td>
+        </tr>
+      `).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="petya_vasya_five_cards_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(petyaVasyaModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Пять карточек Пети, Васи и зрителей</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.cardCount, 'карточка', 'карточки', 'карточек'))}</span>
+              <span class="pill" data-pv-owner-counter>Петя 2, Вася 1, зрители 2</span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(petyaVasyaModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-pv-random>Случайное распределение</button>
+            <button class="small-button" type="button" data-pv-check>Проверить ход</button>
+            <button class="small-button" type="button" data-pv-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <table class="finite-pair-table">
+            <thead>
+              <tr>
+                <th>Карточка</th>
+                <th>У кого</th>
+                <th>Петя называет</th>
+                <th>Вася отвечает</th>
+              </tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="scale-area">
+            <h4>Проверка</h4>
+            <div class="history-list" data-pv-result><div class="empty">Выберите распределение и два хода.</div></div>
+          </div>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
+            <h4>Полный перебор</h4>
+            <div class="exhaustive-branches" data-exhaustive-branches></div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizeSubsetSignatureConfig(problem, config) {
       const profile = problem.questions_profile || {};
       const objectCount = Number(config.object_count ?? config.objectCount ?? profile.object_count ?? 4);
@@ -5842,6 +6216,114 @@ __WEIGHING_CHEATER_JS__
           <div class="numeric-result" data-binary-result></div>
           <div class="weighing-history">
             <h4>История</h4>
+            <div class="history-list" data-history></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function normalizeFixedFeedbackCodeConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const defaultAlphabetSize = Number(profile.answer_alphabet_size || 5);
+      const defaultAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].slice(0, Number.isInteger(defaultAlphabetSize) ? defaultAlphabetSize : 5);
+      const alphabet = asArray(config.alphabet || config.letters || defaultAlphabet)
+        .map(letter => String(letter || '').trim().toUpperCase())
+        .filter(Boolean)
+        .filter((letter, index, list) => list.indexOf(letter) === index);
+      const passwordLength = Number(config.password_length ?? config.passwordLength ?? profile.password_length ?? 10);
+      const maxTests = Number(config.max_tests ?? config.maxTests ?? config.feedback_attempts ?? config.feedbackAttempts ?? Math.max(0, alphabet.length - 1));
+      const maxGuesses = Number(config.max_guesses ?? config.maxGuesses ?? profile.question_count ?? maxTests + 1);
+      const supportedModes = ['random', 'sandbox', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['random', 'sandbox', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'recover_hidden_password';
+      if (alphabet.length < 2 || alphabet.length > 8) return null;
+      if (!Number.isInteger(passwordLength) || passwordLength < 1 || passwordLength > 20) return null;
+      if (!Number.isInteger(maxTests) || maxTests < 0 || maxTests > 20) return null;
+      if (!Number.isInteger(maxGuesses) || maxGuesses < maxTests || maxGuesses > 25) return null;
+      if (objective !== 'recover_hidden_password') return null;
+      return {
+        type: 'fixed_feedback_code',
+        alphabet,
+        passwordLength,
+        password_length: passwordLength,
+        maxTests,
+        max_tests: maxTests,
+        maxGuesses,
+        max_guesses: maxGuesses,
+        objective,
+        modes: modes.length ? modes : ['random'],
+        defaultMode: modes[0] || 'random'
+      };
+    }
+
+    function fixedFeedbackModeLabel(value) {
+      const labels = {
+        random: 'случайный пароль',
+        sandbox: 'свой пароль',
+        exhaustive: 'проверка всех паролей'
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderFixedFeedbackCodeInteractive(problem, config) {
+      const normalized = normalizeFixedFeedbackCodeConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const helper = window.WeighingCheater;
+      const stateCount = helper?.fixedFeedbackStateCount
+        ? helper.fixedFeedbackStateCount(normalized)
+        : normalized.alphabet.length ** normalized.passwordLength;
+      const alphabetText = normalized.alphabet.join(', ');
+      return `
+        <div class="card interactive-panel" data-interactive-type="fixed_feedback_code" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(fixedFeedbackModeLabel(normalized.defaultMode))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Пароль и обратная связь по позициям</h4>
+            <div class="interactive-meta">
+              <span class="pill">${esc(countText(normalized.passwordLength, 'позиция', 'позиции', 'позиций'))}</span>
+              <span class="pill">буквы: ${esc(alphabetText)}</span>
+              <span class="pill" data-fixed-feedback-counter>0 / ${esc(normalized.maxTests)}</span>
+              <span class="pill">${esc(countText(stateCount, 'пароль', 'пароля', 'паролей'))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(fixedFeedbackModeLabel(mode))}</option>`).join('')}
+              </select>
+            </label>
+            <label data-fixed-feedback-secret-wrap>Скрытый пароль
+              <input data-fixed-feedback-secret maxlength="${esc(normalized.passwordLength)}" value="${esc(normalized.alphabet[0].repeat(normalized.passwordLength))}">
+            </label>
+            <label>Попытка
+              <input data-fixed-feedback-attempt maxlength="${esc(normalized.passwordLength)}" placeholder="${esc(normalized.alphabet[0].repeat(normalized.passwordLength))}">
+            </label>
+            <button class="small-button" type="button" data-fixed-feedback-suggest>Заполнить тест</button>
+            <button class="small-button" type="button" data-fixed-feedback-ask>Получить ответ</button>
+            <label>Итоговый пароль
+              <input data-fixed-feedback-answer maxlength="${esc(normalized.passwordLength)}">
+            </label>
+            <button class="small-button" type="button" data-fixed-feedback-submit>Проверить пароль</button>
+            <button class="small-button" type="button" data-fixed-feedback-exhaustive>Проверить схему</button>
+            <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="two-grid">
+            <div class="card dense-card">
+              <h4>Информация по позициям</h4>
+              <div class="pill-row" data-fixed-feedback-knowledge></div>
+            </div>
+            <div class="card dense-card">
+              <h4>Полная проверка</h4>
+              <div class="numeric-result" data-fixed-feedback-exhaustive-result></div>
+            </div>
+          </div>
+          <div class="weighing-history">
+            <h4>История попыток</h4>
             <div class="history-list" data-history></div>
           </div>
         </div>
@@ -7449,6 +7931,7 @@ __WEIGHING_CHEATER_JS__
     const INTERACTIVE_RENDERERS = {
       single_counterfeit_weighing: renderSingleCounterfeitWeighingInteractive,
       single_counterfeit_unknown_direction: renderSingleCounterfeitWeighingInteractive,
+      fixed_weighing_transcript: renderFixedWeighingTranscriptInteractive,
       zero_one_two_counterfeit_sign: renderZeroOneTwoSignInteractive,
       safe_pile_balance_certificate: renderSafePileBalanceCertificateInteractive,
       zoltar_heavier_hand_removal: renderZoltarInteractive,
@@ -7467,9 +7950,11 @@ __WEIGHING_CHEATER_JS__
       subset_signature_protocol: renderSubsetSignatureInteractive,
       balanced_subset_question_code: renderBalancedSubsetQuestionInteractive,
       binary_cards_number_trick: renderBinaryCardsNumberTrickInteractive,
+      fixed_feedback_code: renderFixedFeedbackCodeInteractive,
       ternary_question_code: renderTernaryQuestionCodeInteractive,
       repetition_code_one_lie_questions: renderRepetitionCodeOneLieInteractive,
       finite_pair_matching_protocol: renderFinitePairMatchingProtocolInteractive,
+      petya_vasya_five_cards_protocol: renderPetyaVasyaInteractive,
       finite_binary_state_protocol: renderFiniteBinaryStateProtocolInteractive,
       higher_lower_strategy_game: renderHigherLowerStrategyInteractive,
       moving_target_graph_search: renderMovingTargetGraphSearchInteractive,
@@ -7495,6 +7980,7 @@ __WEIGHING_CHEATER_JS__
       const config = problem.interactive;
       if (!config?.type) return false;
       if (config.type === 'single_counterfeit_weighing' || config.type === 'single_counterfeit_unknown_direction') return !!normalizeCounterfeitInteractiveConfig(problem, config);
+      if (config.type === 'fixed_weighing_transcript') return !!normalizeFixedWeighingTranscriptConfig(problem, config);
       if (config.type === 'zero_one_two_counterfeit_sign') return !!normalizeZeroOneTwoSignConfig(problem, config);
       if (config.type === 'safe_pile_balance_certificate') return !!normalizeSafePileConfig(problem, config);
       if (config.type === 'zoltar_heavier_hand_removal') return !!normalizeZoltarConfig(problem, config);
@@ -7512,9 +7998,11 @@ __WEIGHING_CHEATER_JS__
       if (config.type === 'subset_signature_protocol') return !!normalizeSubsetSignatureConfig(problem, config);
       if (config.type === 'balanced_subset_question_code') return !!normalizeBalancedSubsetQuestionConfig(problem, config);
       if (config.type === 'binary_cards_number_trick') return !!normalizeBinaryCardsNumberTrickConfig(problem, config);
+      if (config.type === 'fixed_feedback_code') return !!normalizeFixedFeedbackCodeConfig(problem, config);
       if (config.type === 'ternary_question_code') return !!normalizeTernaryQuestionCodeConfig(problem, config);
       if (config.type === 'repetition_code_one_lie_questions') return !!normalizeRepetitionCodeOneLieConfig(problem, config);
       if (config.type === 'finite_pair_matching_protocol') return !!normalizeFinitePairMatchingConfig(problem, config);
+      if (config.type === 'petya_vasya_five_cards_protocol') return !!normalizePetyaVasyaConfig(problem, config);
       if (config.type === 'finite_binary_state_protocol') return !!normalizeFiniteBinaryConfig(problem, config);
       if (config.type === 'higher_lower_strategy_game') return !!normalizeHigherLowerStrategyConfig(problem, config);
       if (config.type === 'moving_target_graph_search') return !!normalizeMovingTargetGraphConfig(problem, config);
@@ -7566,11 +8054,12 @@ __WEIGHING_CHEATER_JS__
     }
 
     function bindInteractiveControls() {
-      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
+      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="fixed_weighing_transcript"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="fixed_feedback_code"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="petya_vasya_five_cards_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
         let config = null;
         try { config = JSON.parse(panel.dataset.config || '{}'); }
         catch (_error) { config = null; }
         if (config?.type === 'single_counterfeit_weighing' || config?.type === 'single_counterfeit_unknown_direction') initSingleCounterfeitInteractive(panel, config);
+        if (config?.type === 'fixed_weighing_transcript') initFixedWeighingTranscriptInteractive(panel, config);
         if (config?.type === 'zero_one_two_counterfeit_sign') initZeroOneTwoSignInteractive(panel, config);
         if (config?.type === 'safe_pile_balance_certificate') initSafePileInteractive(panel, config);
         if (config?.type === 'zoltar_heavier_hand_removal') initZoltarInteractive(panel, config);
@@ -7588,9 +8077,11 @@ __WEIGHING_CHEATER_JS__
         if (config?.type === 'subset_signature_protocol') initSubsetSignatureInteractive(panel, config);
         if (config?.type === 'balanced_subset_question_code') initBalancedSubsetQuestionInteractive(panel, config);
         if (config?.type === 'binary_cards_number_trick') initBinaryCardsNumberTrickInteractive(panel, config);
+        if (config?.type === 'fixed_feedback_code') initFixedFeedbackCodeInteractive(panel, config);
         if (config?.type === 'ternary_question_code') initTernaryQuestionCodeInteractive(panel, config);
         if (config?.type === 'repetition_code_one_lie_questions') initRepetitionCodeOneLieInteractive(panel, config);
         if (config?.type === 'finite_pair_matching_protocol') initFinitePairMatchingInteractive(panel, config);
+        if (config?.type === 'petya_vasya_five_cards_protocol') initPetyaVasyaInteractive(panel, config);
         if (config?.type === 'finite_binary_state_protocol' && config?.protocol === 'adjacent_pair_grid_search') initAdjacentPairGridInteractive(panel, config);
         else if (config?.type === 'finite_binary_state_protocol') initFiniteBinaryStateProtocolInteractive(panel, config);
         if (config?.type === 'higher_lower_strategy_game') initHigherLowerStrategyInteractive(panel, config);
@@ -7605,6 +8096,177 @@ __WEIGHING_CHEATER_JS__
         if (config?.type === 'permutation_cycle_protocol') initPermutationCycleInteractive(panel, config);
         if (config?.type === 'twenty_one_card_trick') initTwentyOneCardTrickInteractive(panel, config);
       }
+    }
+
+    function initFixedWeighingTranscriptInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      if (!helper) return;
+      const coinIds = Array.from({ length: config.coinCount }, (_item, index) => index + 1);
+      const resultLabels = helper.OUTCOME_LABELS || {
+        left_down: 'левая чаша тяжелее',
+        right_down: 'правая чаша тяжелее',
+        balance: 'равновесие'
+      };
+      const markCycle = ['unmarked', 'possible_fake', 'genuine'];
+      let model = newModel();
+
+      function newModel() {
+        return {
+          shownCount: 0,
+          marks: {},
+          answer: null,
+          locked: false
+        };
+      }
+
+      function coinListLabel(coins) {
+        return (coins || []).join(', ') || 'пусто';
+      }
+
+      function candidatesAfter(count) {
+        let candidates = helper.initialCandidates(config.coinCount);
+        for (const row of config.transcript.slice(0, count)) {
+          candidates = helper.filterCandidates({
+            coin_count: config.coinCount,
+            counterfeit_weight: config.counterfeitWeight,
+            currentCandidates: candidates,
+            leftCoins: row.left,
+            rightCoins: row.right,
+            outcome: row.outcome
+          });
+        }
+        return candidates;
+      }
+
+      function finalCandidates() {
+        return candidatesAfter(config.transcript.length);
+      }
+
+      function statusDefinition(key) {
+        return helper.statusDefinition(key) || {
+          label: key,
+          className: key === 'genuine' ? 'coin-status-genuine' : 'coin-status-possible-fake'
+        };
+      }
+
+      function cycleMark(coin) {
+        if (model.locked) return;
+        const current = model.marks[coin] || 'unmarked';
+        const next = markCycle[(Math.max(0, markCycle.indexOf(current)) + 1) % markCycle.length];
+        if (next === 'unmarked') delete model.marks[coin];
+        else model.marks[coin] = next;
+        renderInteractiveState();
+      }
+
+      function setStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderCoins() {
+        const container = panel.querySelector('[data-fixed-coins]');
+        const revealedStatuses = model.locked ? helper.knownDirectionCoinStatuses(finalCandidates(), config.coinCount) : {};
+        container.innerHTML = '';
+        for (const coin of coinIds) {
+          const button = document.createElement('button');
+          button.className = 'coin';
+          button.type = 'button';
+          button.textContent = String(coin);
+          button.title = model.locked ? `Монета ${coin}` : `Монета ${coin}: изменить вашу пометку`;
+          const statusKey = model.locked ? (revealedStatuses[coin] || 'unmarked') : (model.marks[coin] || 'unmarked');
+          if (statusKey !== 'unmarked') {
+            const definition = statusDefinition(statusKey);
+            button.classList.add(definition.className);
+            button.title += `; статус: ${definition.label}`;
+          }
+          if (model.locked && model.answer === coin) {
+            button.classList.add(finalCandidates().includes(coin) ? 'correct-answer' : 'answer-pick');
+          }
+          if (model.locked && finalCandidates().includes(coin)) button.classList.add('real-counterfeit');
+          button.addEventListener('click', () => cycleMark(coin));
+          container.appendChild(button);
+        }
+      }
+
+      function renderTranscript() {
+        for (const row of config.transcript) {
+          const index = config.transcript.indexOf(row);
+          const target = panel.querySelector(`[data-fixed-row-result="${index}"]`);
+          if (!target) continue;
+          target.textContent = index < model.shownCount ? (resultLabels[row.outcome] || row.outcome) : 'результат скрыт';
+        }
+      }
+
+      function renderDiagnostics() {
+        const container = panel.querySelector('[data-fixed-diagnostics]');
+        if (!model.locked) {
+          container.innerHTML = '<div class="empty">Разбор появится после проверки ответа.</div>';
+          return;
+        }
+        const rows = [];
+        for (let index = 0; index < config.transcript.length; index += 1) {
+          const row = config.transcript[index];
+          const candidates = candidatesAfter(index + 1);
+          rows.push(`
+            <div class="history-item">
+              <span class="history-result">${esc(resultLabels[row.outcome] || row.outcome)}</span>
+              <span>${esc(index + 1)}. ${esc(coinListLabel(row.left))} против ${esc(coinListLabel(row.right))}; совместимы: ${esc(coinListLabel(candidates))}</span>
+            </div>
+          `);
+        }
+        const finalList = finalCandidates();
+        rows.push(`
+          <div class="history-item">
+            <span class="history-result">вывод</span>
+            <span>после двух результатов остается ${esc(coinListLabel(finalList))}</span>
+          </div>
+        `);
+        container.innerHTML = rows.join('');
+      }
+
+      function renderInteractiveState() {
+        const candidates = candidatesAfter(model.shownCount);
+        renderCoins();
+        renderTranscript();
+        renderDiagnostics();
+        panel.querySelector('[data-weighing-counter]').textContent = `${model.shownCount} / ${config.transcript.length}`;
+        panel.querySelector('[data-candidate-counter]').textContent = countText(candidates.length, 'кандидат', 'кандидата', 'кандидатов');
+        const nextButton = panel.querySelector('[data-fixed-next]');
+        nextButton.disabled = model.locked || model.shownCount >= config.transcript.length;
+        panel.querySelector('[data-fixed-check]').disabled = model.locked || model.shownCount < config.transcript.length;
+        if (model.locked) return;
+        if (model.shownCount < config.transcript.length) {
+          setStatus('Просмотрите результаты по очереди, затем выберите номер фальшивой монеты.');
+        } else {
+          setStatus('Все результаты открыты. Выберите фальшивую монету и проверьте ответ.');
+        }
+      }
+
+      panel.querySelector('[data-fixed-next]')?.addEventListener('click', () => {
+        if (model.locked || model.shownCount >= config.transcript.length) return;
+        model.shownCount += 1;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-fixed-check]')?.addEventListener('click', () => {
+        if (model.locked || model.shownCount < config.transcript.length) return;
+        const answer = Number(panel.querySelector('[data-fixed-answer]')?.value);
+        if (!Number.isInteger(answer)) return;
+        const candidates = finalCandidates();
+        model.answer = answer;
+        model.locked = true;
+        const correct = candidates.length === 1 && candidates[0] === answer;
+        setStatus(correct
+          ? `Верно: со всеми результатами совместима только монета ${answer}.`
+          : `Неверно: выбранная монета ${answer} не является единственным совместимым вариантом.`, correct ? 'success' : 'error');
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = newModel();
+        renderInteractiveState();
+      });
+      renderInteractiveState();
     }
 
     function initTwentyOneCardTrickInteractive(panel, config) {
@@ -12381,6 +13043,208 @@ __WEIGHING_CHEATER_JS__
       renderState();
     }
 
+    function initFixedFeedbackCodeInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let model = null;
+
+      function normalizeInput(selector) {
+        return helper.fixedFeedbackNormalizeWord(panel.querySelector(selector)?.value || '', config);
+      }
+
+      function createModel(mode = config.defaultMode || 'random') {
+        const normalizedMode = config.modes.includes(mode) ? mode : config.defaultMode;
+        return {
+          mode: normalizedMode,
+          hidden: normalizedMode === 'random' ? helper.fixedFeedbackRandomPassword(config) : null,
+          history: [],
+          locked: false,
+          finalCheck: null,
+          exhaustive: null
+        };
+      }
+
+      function matchesLabel(matches) {
+        return matches?.length ? matches.join(', ') : 'нет совпадений';
+      }
+
+      function currentKnowledge() {
+        return helper.fixedFeedbackKnowledgeFromHistory(model.history, config);
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function ensureHidden() {
+        if (model.mode === 'random') return model.hidden;
+        if (model.mode === 'sandbox') {
+          const secret = normalizeInput('[data-fixed-feedback-secret]');
+          return secret.valid ? secret.word : null;
+        }
+        return null;
+      }
+
+      function renderKnowledge() {
+        const container = panel.querySelector('[data-fixed-feedback-knowledge]');
+        const knowledge = currentKnowledge();
+        container.innerHTML = knowledge.map((letters, index) => `
+          <span class="pill">${esc(index + 1)}: ${esc(letters.join('') || 'нет вариантов')}</span>
+        `).join('');
+      }
+
+      function renderHistory() {
+        const container = panel.querySelector('[data-history]');
+        if (!model.history.length) {
+          container.innerHTML = '<div class="empty">Попыток пока нет.</div>';
+          return;
+        }
+        container.innerHTML = model.history.slice().reverse().map((item, index) => `
+          <div class="history-item">
+            <div><strong>${esc(model.history.length - index)}.</strong> ${esc(item.guess)}</div>
+            <div class="history-result">верные позиции: ${esc(matchesLabel(item.matches))}</div>
+          </div>
+        `).join('');
+      }
+
+      function renderExhaustive() {
+        const container = panel.querySelector('[data-fixed-feedback-exhaustive-result]');
+        if (!model.exhaustive) {
+          container.innerHTML = 'Нажмите «Проверить схему», чтобы сверить четыре одноцветные попытки для всех паролей.';
+          return;
+        }
+        container.innerHTML = model.exhaustive.success
+          ? `Схема проходит: после ${esc(model.exhaustive.requiredTests)} проверок восстановим каждый из ${esc(model.exhaustive.checked)} паролей.`
+          : `Схема не проходит: нужно ${esc(model.exhaustive.requiredTests)} проверок, а разрешено ${esc(model.exhaustive.maxTests)}.`;
+      }
+
+      function renderState() {
+        renderKnowledge();
+        renderHistory();
+        renderExhaustive();
+        const knowledge = currentKnowledge();
+        const known = helper.fixedFeedbackKnownPassword(knowledge, config);
+        const candidateCount = helper.fixedFeedbackCandidateCount(knowledge, config);
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = model.mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = fixedFeedbackModeLabel(model.mode);
+        panel.querySelector('[data-fixed-feedback-secret-wrap]').hidden = model.mode !== 'sandbox';
+        panel.querySelector('[data-fixed-feedback-counter]').textContent = `${model.history.length} / ${config.maxTests}`;
+        panel.querySelector('[data-fixed-feedback-ask]').disabled = model.mode === 'exhaustive' || model.locked || model.history.length >= config.maxTests;
+        panel.querySelector('[data-fixed-feedback-submit]').disabled = model.mode === 'exhaustive' || model.locked;
+        panel.querySelector('[data-fixed-feedback-suggest]').disabled = model.mode === 'exhaustive' || model.locked;
+        panel.querySelector('[data-fixed-feedback-exhaustive]').hidden = model.mode !== 'exhaustive';
+        if (model.finalCheck) {
+          setInteractiveStatus(
+            model.finalCheck.win
+              ? 'Верно: этот пароль открывает замок.'
+              : `Неверно: введенный пароль не совпадает со скрытым. Совместим с ответами: ${model.finalCheck.followsFeedback ? 'да' : 'нет'}.`,
+            model.finalCheck.win ? 'success' : 'error'
+          );
+        } else if (model.exhaustive) {
+          const testedLetters = config.alphabet.slice(0, Math.max(0, config.alphabet.length - 1)).join(', ');
+          setInteractiveStatus(
+            model.exhaustive.success
+              ? `Проверка всех паролей подтверждает стратегию: тесты букв ${testedLetters} оставляют один вариант.`
+              : 'Для такого алфавита разрешено слишком мало проверок.',
+            model.exhaustive.success ? 'success' : 'error'
+          );
+        } else if (known) {
+          setInteractiveStatus(`Пароль уже восстановлен: ${known}. Осталась финальная попытка.`, 'success');
+          const answer = panel.querySelector('[data-fixed-feedback-answer]');
+          if (answer && !answer.value) answer.value = known;
+        } else if (model.mode === 'exhaustive') {
+          setInteractiveStatus('Запустите проверку схемы для всех возможных паролей.');
+        } else {
+          setInteractiveStatus(`Совместимо ${countText(candidateCount, 'пароль', 'пароля', 'паролей')}. Делайте попытки, которые быстро уменьшают варианты.`);
+        }
+      }
+
+      function submitAttempt() {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const hidden = ensureHidden();
+        if (!hidden) {
+          setInteractiveStatus('Введите скрытый пароль из разрешенных букв.', 'error');
+          return;
+        }
+        const attempt = normalizeInput('[data-fixed-feedback-attempt]');
+        if (!attempt.valid) {
+          setInteractiveStatus(`Попытка должна содержать ровно ${config.passwordLength} букв из алфавита ${config.alphabet.join(', ')}.`, 'error');
+          return;
+        }
+        if (model.history.length >= config.maxTests) {
+          setInteractiveStatus('Лимит проверочных попыток уже исчерпан. Введите итоговый пароль.', 'error');
+          return;
+        }
+        const matches = helper.fixedFeedbackFeedback(hidden, attempt.word, config);
+        model.history.push({ guess: attempt.word, matches });
+        model.finalCheck = null;
+        panel.querySelector('[data-fixed-feedback-attempt]').value = '';
+        renderState();
+      }
+
+      function fillSuggestedAttempt() {
+        const index = Math.min(model.history.length, Math.max(0, config.alphabet.length - 2));
+        const input = panel.querySelector('[data-fixed-feedback-attempt]');
+        input.value = helper.fixedFeedbackUniformGuess(index, config);
+        input.focus();
+      }
+
+      function submitFinalAnswer() {
+        if (model.mode === 'exhaustive' || model.locked) return;
+        const hidden = ensureHidden();
+        if (!hidden) {
+          setInteractiveStatus('Введите скрытый пароль из разрешенных букв.', 'error');
+          return;
+        }
+        const answer = normalizeInput('[data-fixed-feedback-answer]');
+        if (!answer.valid) {
+          setInteractiveStatus(`Итоговый пароль должен содержать ровно ${config.passwordLength} букв из алфавита ${config.alphabet.join(', ')}.`, 'error');
+          return;
+        }
+        model.finalCheck = helper.fixedFeedbackFinalizeAnswer({
+          ...config,
+          history: model.history,
+          secret: hidden,
+          answer: answer.word
+        });
+        model.locked = true;
+        renderState();
+      }
+
+      function runExhaustive() {
+        model.exhaustive = helper.fixedFeedbackExhaustiveCheck(config);
+        renderState();
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        model = createModel(event.target.value);
+        panel.querySelector('[data-fixed-feedback-attempt]').value = '';
+        panel.querySelector('[data-fixed-feedback-answer]').value = '';
+        renderState();
+      });
+      panel.querySelector('[data-fixed-feedback-suggest]')?.addEventListener('click', fillSuggestedAttempt);
+      panel.querySelector('[data-fixed-feedback-ask]')?.addEventListener('click', submitAttempt);
+      panel.querySelector('[data-fixed-feedback-submit]')?.addEventListener('click', submitFinalAnswer);
+      panel.querySelector('[data-fixed-feedback-exhaustive]')?.addEventListener('click', runExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        model = createModel(model?.mode || config.defaultMode || 'random');
+        panel.querySelector('[data-fixed-feedback-attempt]').value = '';
+        panel.querySelector('[data-fixed-feedback-answer]').value = '';
+        renderState();
+      });
+
+      if (!helper?.fixedFeedbackExhaustiveCheck) {
+        setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        return;
+      }
+      model = createModel(config.defaultMode);
+      renderState();
+    }
+
     function initTernaryQuestionCodeInteractive(panel, config) {
       const helper = window.WeighingCheater;
       let model = null;
@@ -12941,6 +13805,224 @@ __WEIGHING_CHEATER_JS__
         renderState();
       });
       renderState({ checked: mode === 'exhaustive' });
+    }
+
+    function initPetyaVasyaInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      const cards = Array.from({ length: config.cardCount }, (_item, index) => index + 1);
+      const ownerLabels = { petya: 'Петя', vasya: 'Вася', spectators: 'зрители' };
+      let mode = config.defaultMode || 'random';
+      let namedCard = null;
+      let answerCard = null;
+      let lastCheck = null;
+      let exhaustive = null;
+
+      function defaultDistribution() {
+        return { petya: [1, 2], vasya: [3], spectators: [4, 5] };
+      }
+
+      function readDistribution() {
+        const owners = {};
+        for (const card of cards) owners[card] = panel.querySelector(`[data-pv-owner="${card}"]`)?.value || '';
+        return helper.petyaVasyaNormalizeDistribution({ owners }, config);
+      }
+
+      function setDistribution(distribution) {
+        const normalized = helper.petyaVasyaNormalizeDistribution(distribution, config);
+        for (const card of cards) {
+          const select = panel.querySelector(`[data-pv-owner="${card}"]`);
+          if (select) select.value = normalized.owners[card] || 'spectators';
+        }
+        namedCard = null;
+        answerCard = null;
+        lastCheck = null;
+        exhaustive = null;
+      }
+
+      function setRandomDistribution() {
+        setDistribution(helper.petyaVasyaRandomDistribution(config));
+      }
+
+      function cardList(values) {
+        return (values || []).join(', ') || '-';
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-pv-result]');
+        if (exhaustive) {
+          const rows = exhaustive.rows.slice(0, 30).map(row => `
+            <div class="history-item">
+              <div><strong>Петя:</strong> ${esc(cardList(row.petya))}; <strong>Вася:</strong> ${esc(row.vasya)}; <strong>зрители:</strong> ${esc(cardList(row.spectators))}</div>
+              <div class="history-result">Петя называет ${esc(row.namedCard)}, Вася отвечает ${esc(row.answerCard)}</div>
+            </div>
+          `).join('');
+          container.innerHTML = rows || '<div class="empty">Нет строк перебора.</div>';
+          return;
+        }
+        if (!lastCheck) {
+          container.innerHTML = '<div class="empty">Проверка появится после выбора хода.</div>';
+          return;
+        }
+        const result = lastCheck;
+        const move = result.move || {};
+        container.innerHTML = `
+          <div class="history-item">
+            <div><strong>Петя:</strong> ${esc(cardList(result.distribution.petya))}; <strong>Вася:</strong> ${esc(result.distribution.vasyaCard)}; <strong>зрители:</strong> ${esc(cardList(result.distribution.spectators))}</div>
+            <div class="history-result">${result.strategyWin ? 'Договоренный ход сработал.' : (result.win ? 'Ответ попал в карточку зрителей, но это не проверенный договоренный ход.' : 'Ход не проходит.')}</div>
+            <div class="local-muted">После проверки: договоренный ход для этого распределения - Петя называет ${esc(move.namedCard || '?')}, Вася отвечает ${esc(move.answerCard || '?')}.</div>
+            <div class="local-muted">Почему: от названной Петей карточки смотрим две следующие по кругу; карточку Васи из них исключаем, оставшаяся точно у зрителей.</div>
+          </div>
+        `;
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function renderExhaustive() {
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        const container = panel.querySelector('[data-exhaustive-branches]');
+        block.hidden = !exhaustive;
+        if (!exhaustive) return;
+        container.innerHTML = `
+          <div class="exhaustive-branch ${exhaustive.ok ? 'solved' : 'failed'}">
+            <span class="exhaustive-branch-title">${exhaustive.ok ? 'Все распределения закрыты' : 'Есть сбой'}</span>
+            <span class="exhaustive-branch-meta">Проверено ${esc(exhaustive.checked)} из 30 распределений.</span>
+            <span class="exhaustive-branch-history">${exhaustive.ok ? 'В каждом случае ответ Васи оказывается карточкой зрителей.' : esc(exhaustive.failures[0]?.error || 'первый сбой не описан')}</span>
+          </div>
+        `;
+      }
+
+      function renderState() {
+        const distribution = readDistribution();
+        const petyaSet = new Set(distribution.petya);
+        const spectatorSet = new Set(distribution.spectators);
+        if (!petyaSet.has(namedCard)) namedCard = null;
+        for (const card of cards) {
+          const owner = distribution.owners[card] || '';
+          const cardButton = panel.querySelector(`[data-pv-card="${card}"]`);
+          if (cardButton) {
+            cardButton.classList.toggle('selected', Boolean(owner));
+            cardButton.textContent = `${card}`;
+            cardButton.title = ownerLabels[owner] || '';
+          }
+          const namedButton = panel.querySelector(`[data-pv-named="${card}"]`);
+          if (namedButton) {
+            namedButton.disabled = !petyaSet.has(card);
+            namedButton.classList.toggle('answer-mode', namedCard === card);
+          }
+          const answerButton = panel.querySelector(`[data-pv-answer="${card}"]`);
+          if (answerButton) {
+            answerButton.classList.toggle('answer-mode', answerCard === card);
+            answerButton.classList.toggle('correct-answer', Boolean(lastCheck && spectatorSet.has(card)));
+          }
+        }
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = petyaVasyaModeLabel(mode);
+        panel.querySelector('[data-pv-owner-counter]').textContent =
+          `Петя ${distribution.petya.length} / 2, Вася ${distribution.vasya.length} / 1, зрители ${distribution.spectators.length} / 2`;
+        renderResult();
+        renderExhaustive();
+
+        if (!helper?.petyaVasyaEvaluate) {
+          setInteractiveStatus('Логика интерактива не загрузилась.', 'error');
+        } else if (exhaustive) {
+          setInteractiveStatus(exhaustive.ok
+            ? 'Полная проверка принята: договоренность работает для всех распределений.'
+            : 'Полная проверка нашла сбой.',
+            exhaustive.ok ? 'success' : 'error');
+        } else if (!distribution.valid) {
+          setInteractiveStatus('Нужно распределить ровно 2 карточки Пете, 1 Васе и 2 зрителям.', 'error');
+        } else if (!namedCard || !answerCard) {
+          setInteractiveStatus('Выберите, какую свою карточку называет Петя, и что отвечает Вася.');
+        } else if (lastCheck?.strategyWin) {
+          setInteractiveStatus('Верно: это ход заранее согласованной стратегии.', 'success');
+        } else if (lastCheck?.win) {
+          setInteractiveStatus('Ответ Васи действительно у зрителей, но выбранный ход не совпал с проверяемой договоренностью.', 'error');
+        } else if (lastCheck) {
+          setInteractiveStatus('Ход не проходит: Вася назвал не карточку зрителей или Петя назвал не тот сигнал.', 'error');
+        } else {
+          setInteractiveStatus('Нажмите проверку. Объяснение появится только после нее.');
+        }
+      }
+
+      function checkCurrent() {
+        const distribution = readDistribution();
+        lastCheck = helper.petyaVasyaEvaluate({
+          ...config,
+          distribution,
+          namedCard,
+          answerCard
+        });
+        exhaustive = null;
+        renderState();
+      }
+
+      function runExhaustive() {
+        exhaustive = helper.petyaVasyaExhaustiveCheck(config);
+        lastCheck = null;
+        renderState();
+      }
+
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        if (mode === 'random') setRandomDistribution();
+        else {
+          lastCheck = null;
+          exhaustive = null;
+          renderState();
+        }
+      });
+      for (const select of panel.querySelectorAll('[data-pv-owner]')) {
+        select.addEventListener('change', () => {
+          mode = 'sandbox';
+          namedCard = null;
+          answerCard = null;
+          lastCheck = null;
+          exhaustive = null;
+          renderState();
+        });
+      }
+      for (const button of panel.querySelectorAll('[data-pv-named]')) {
+        button.addEventListener('click', () => {
+          namedCard = Number(button.dataset.pvNamed);
+          lastCheck = null;
+          exhaustive = null;
+          renderState();
+        });
+      }
+      for (const button of panel.querySelectorAll('[data-pv-answer]')) {
+        button.addEventListener('click', () => {
+          answerCard = Number(button.dataset.pvAnswer);
+          lastCheck = null;
+          exhaustive = null;
+          renderState();
+        });
+      }
+      panel.querySelector('[data-pv-random]')?.addEventListener('click', () => {
+        mode = 'random';
+        setRandomDistribution();
+        renderState();
+      });
+      panel.querySelector('[data-pv-check]')?.addEventListener('click', checkCurrent);
+      panel.querySelector('[data-pv-exhaustive]')?.addEventListener('click', runExhaustive);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
+        mode = config.defaultMode || 'random';
+        setDistribution(mode === 'random' ? helper.petyaVasyaRandomDistribution(config) : defaultDistribution());
+        renderState();
+      });
+
+      if (!helper?.petyaVasyaNormalizeDistribution) {
+        setInteractiveStatus('Логика интерактива не загрузилась.', 'error');
+        return;
+      }
+      setDistribution(mode === 'random' ? helper.petyaVasyaRandomDistribution(config) : defaultDistribution());
+      renderState();
     }
 
     function initFitchCheneyInteractive(panel, config) {
@@ -15667,7 +16749,7 @@ __WEIGHING_CHEATER_JS__
         input.addEventListener('change', runCheck);
       }
       setStatus('Введите все взвешивания заранее и запустите проверку.');
-      if (config.presetWeighings?.length === config.maxWeighings) runCheck();
+      if (config.autoCheck && config.presetWeighings?.length === config.maxWeighings) runCheck();
     }
 
     function initSingleCounterfeitInteractive(panel, config) {
@@ -15721,7 +16803,9 @@ __WEIGHING_CHEATER_JS__
       }
 
       function formatCandidate(candidate) {
+        if (!config.directionUnknown && Number(candidate) === 0) return 'фальшивой монеты нет';
         if (config.directionUnknown) {
+          if (Number(candidate?.coin) === 0 || candidate?.coin === 'none') return 'фальшивой монеты нет';
           return isCoinOnlyUnknownDirection()
             ? `монета ${candidate.coin}`
             : `монета ${candidate.coin}, ${directionLabel(candidate.direction)}`;
@@ -15743,8 +16827,8 @@ __WEIGHING_CHEATER_JS__
 
       function initialInteractiveCandidates() {
         return config.directionUnknown
-          ? helper.initialUnknownDirectionCandidates(config.coinCount)
-          : helper.initialCandidates(config.coinCount);
+          ? helper.initialUnknownDirectionCandidates(config.coinCount, config.allowNoCounterfeit)
+          : helper.initialCandidates(config.coinCount, config.allowNoCounterfeit);
       }
 
       function statusModelKind() {
@@ -15761,7 +16845,7 @@ __WEIGHING_CHEATER_JS__
           : model.candidates;
         const statuses = config.directionUnknown
           ? helper.unknownDirectionCoinStatuses(source, config.coinCount)
-          : helper.knownDirectionCoinStatuses(source, config.coinCount);
+          : helper.knownDirectionCoinStatuses(source, config.coinCount, { allowNoCounterfeit: config.allowNoCounterfeit });
         for (let coin = config.coinCount + 1; coin <= totalCoinCount; coin += 1) statuses[coin] = 'genuine';
         return statuses;
       }
@@ -15814,10 +16898,17 @@ __WEIGHING_CHEATER_JS__
         const statuses = computedCoinStatuses();
         if (!config.directionUnknown) {
           const solvedCoin = Object.entries(statuses).find(([_coin, status]) => status === 'definite_fake')?.[0];
-          if (!solvedCoin) return false;
-          model.fakeCoin = Number(solvedCoin);
-          model.revealedCoin = Number(solvedCoin);
-          model.answer = Number(solvedCoin);
+          if (solvedCoin) {
+            model.fakeCoin = Number(solvedCoin);
+            model.revealedCoin = Number(solvedCoin);
+            model.answer = Number(solvedCoin);
+          } else if (config.allowNoCounterfeit && model.candidates.length === 1 && Number(model.candidates[0]) === 0) {
+            model.fakeCoin = 0;
+            model.revealedCoin = 0;
+            model.answer = 'none';
+          } else {
+            return false;
+          }
         } else if (isCoinOnlyUnknownDirection()) {
           const possibleCoins = possibleCandidateCoins(model.candidates);
           if (possibleCoins.length !== 1) return false;
@@ -15841,7 +16932,10 @@ __WEIGHING_CHEATER_JS__
 
       function branchStatus(candidates, usedWeighings) {
         return config.directionUnknown
-          ? helper.exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings, config.maxWeighings, config.objective)
+          ? helper.exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings, config.maxWeighings, {
+            objective: config.objective,
+            allowNoCounterfeit: config.allowNoCounterfeit
+          })
           : helper.exhaustiveBranchStatus(candidates, usedWeighings, config.maxWeighings);
       }
 
@@ -15862,8 +16956,10 @@ __WEIGHING_CHEATER_JS__
       function newModel(mode = config.defaultMode || 'random') {
         const runModes = Array.isArray(config.modes) && config.modes.length ? config.modes : ['random'];
         const normalizedMode = runModes.includes(mode) ? mode : runModes[0];
-        const fakeCoin = 1 + Math.floor(Math.random() * config.coinCount);
-        const fakeDirection = Math.random() < 0.5 ? 'heavier' : 'lighter';
+        const randomCandidates = initialInteractiveCandidates();
+        const randomCandidate = randomCandidates[Math.floor(Math.random() * randomCandidates.length)] ?? 1;
+        const fakeCoin = config.directionUnknown ? Number(randomCandidate?.coin ?? 0) : Number(randomCandidate);
+        const fakeDirection = config.directionUnknown ? (randomCandidate?.direction || 'heavier') : (Math.random() < 0.5 ? 'heavier' : 'lighter');
         const root = makeRootNode();
         return {
           mode: normalizedMode,
@@ -15964,7 +17060,8 @@ __WEIGHING_CHEATER_JS__
               rightCoins: right,
               remainingWeighings: config.maxWeighings - model.history.length,
               history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] })),
-              require_equal_pan_counts: config.requireEqualPanCounts
+              require_equal_pan_counts: config.requireEqualPanCounts,
+              allow_no_counterfeit: config.allowNoCounterfeit
             })
             : WeighingCheater.chooseCheaterOutcome({
               coin_count: config.coinCount,
@@ -15973,7 +17070,8 @@ __WEIGHING_CHEATER_JS__
               leftCoins: left,
               rightCoins: right,
               remainingWeighings: config.maxWeighings - model.history.length,
-              history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] }))
+              history: model.history.map(item => ({ outcome: resultToCheaterOutcome[item.result] })),
+              allow_no_counterfeit: config.allowNoCounterfeit
             });
           result = cheaterOutcomeToResult[decision.outcome] || 'balanced';
           model.candidates = decision.candidates;
@@ -15990,7 +17088,8 @@ __WEIGHING_CHEATER_JS__
                 leftCoins: left,
                 rightCoins: right,
                 outcome: resultToCheaterOutcome[result],
-                require_equal_pan_counts: config.requireEqualPanCounts
+                require_equal_pan_counts: config.requireEqualPanCounts,
+                allow_no_counterfeit: config.allowNoCounterfeit
               })
               : WeighingCheater.filterCandidates({
                 coin_count: config.coinCount,
@@ -15998,7 +17097,8 @@ __WEIGHING_CHEATER_JS__
                 currentCandidates: model.candidates,
                 leftCoins: left,
                 rightCoins: right,
-                outcome: resultToCheaterOutcome[result]
+                outcome: resultToCheaterOutcome[result],
+                allow_no_counterfeit: config.allowNoCounterfeit
               });
           }
         }
@@ -16020,7 +17120,8 @@ __WEIGHING_CHEATER_JS__
             rightCoins: right,
             usedWeighings: node.usedWeighings,
             maxWeighings: config.maxWeighings,
-            objective: config.objective
+            objective: config.objective,
+            allow_no_counterfeit: config.allowNoCounterfeit
           })
           : helper.expandExhaustiveNode({
             coin_count: config.coinCount,
@@ -16029,7 +17130,8 @@ __WEIGHING_CHEATER_JS__
             leftCoins: left,
             rightCoins: right,
             usedWeighings: node.usedWeighings,
-            maxWeighings: config.maxWeighings
+            maxWeighings: config.maxWeighings,
+            allow_no_counterfeit: config.allowNoCounterfeit
           });
         node.weighing = { left: [...left], right: [...right] };
         node.children = expansion.children.map(child => ({
@@ -16072,7 +17174,8 @@ __WEIGHING_CHEATER_JS__
           const result = WeighingCheater.finalizeCheaterAnswer({
             coin_count: config.coinCount,
             currentCandidates: model.candidates,
-            selectedCoin: id
+            selectedCoin: id,
+            allow_no_counterfeit: config.allowNoCounterfeit
           });
           model.fakeCoin = result.actualCoin;
           model.revealedCoin = result.actualCoin;
@@ -16082,7 +17185,39 @@ __WEIGHING_CHEATER_JS__
             currentCandidates: model.candidates,
             selectedCoin: id,
             selectedDirection,
-            objective: config.objective
+            objective: config.objective,
+            allow_no_counterfeit: config.allowNoCounterfeit
+          });
+          model.fakeCoin = result.actualCoin;
+          model.fakeDirection = result.actualDirection;
+          model.revealedCoin = result.actualCoin;
+          model.revealedDirection = result.actualDirection;
+        }
+        model.locked = true;
+        model.answerMode = false;
+        renderInteractiveState();
+      }
+
+      function submitNoCounterfeitAnswer() {
+        if (!config.allowNoCounterfeit || model.mode === 'exhaustive' || config.objective === 'prove_impossible' || model.locked) return;
+        model.answer = config.directionUnknown ? { coin: 'none', direction: 'none' } : 'none';
+        if (!config.directionUnknown && model.mode === 'cheater' && window.WeighingCheater) {
+          const result = WeighingCheater.finalizeCheaterAnswer({
+            coin_count: config.coinCount,
+            currentCandidates: model.candidates,
+            selectedCoin: 'none',
+            allow_no_counterfeit: config.allowNoCounterfeit
+          });
+          model.fakeCoin = result.actualCoin;
+          model.revealedCoin = result.actualCoin;
+        } else if (config.directionUnknown && model.mode === 'cheater' && window.WeighingCheater) {
+          const result = WeighingCheater.finalizeCheaterUnknownDirectionAnswer({
+            coin_count: config.coinCount,
+            currentCandidates: model.candidates,
+            selectedCoin: 'none',
+            selectedDirection: 'none',
+            objective: config.objective,
+            allow_no_counterfeit: config.allowNoCounterfeit
           });
           model.fakeCoin = result.actualCoin;
           model.fakeDirection = result.actualDirection;
@@ -16109,9 +17244,9 @@ __WEIGHING_CHEATER_JS__
         if (model.answerMode && isKnownGenuineCoin(id)) button.disabled = true;
         const answeredCoin = config.directionUnknown ? model.answer?.coin : model.answer;
         const answeredDirection = config.directionUnknown ? model.answer?.direction : config.counterfeitWeight;
-        const correctAnswer = answeredCoin === model.fakeCoin && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
+        const correctAnswer = (answeredCoin === model.fakeCoin || (answeredCoin === 'none' && model.fakeCoin === 0)) && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
         if (answeredCoin === id) button.classList.add(correctAnswer ? 'correct-answer' : 'answer-pick');
-        if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
+        if (model.locked && model.fakeCoin === id && id > 0) button.classList.add('real-counterfeit');
         applyStatusClasses(button, id);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
@@ -16236,6 +17371,12 @@ __WEIGHING_CHEATER_JS__
         answerButton.hidden = model.mode === 'exhaustive' || config.objective === 'prove_impossible';
         answerButton.disabled = model.locked || model.mode === 'exhaustive' || config.objective === 'prove_impossible';
         answerButton.classList.toggle('answer-mode', model.answerMode);
+        const answerNoneButton = panel.querySelector('[data-answer-none]');
+        if (answerNoneButton) {
+          answerNoneButton.hidden = model.mode === 'exhaustive' || config.objective === 'prove_impossible' || !model.answerMode;
+          answerNoneButton.disabled = model.locked || model.mode === 'exhaustive' || config.objective === 'prove_impossible';
+          answerNoneButton.classList.toggle('answer-mode', model.answer === 'none' || model.answer?.coin === 'none');
+        }
         const answerDirectionWrap = panel.querySelector('[data-answer-direction-wrap]');
         if (answerDirectionWrap) answerDirectionWrap.hidden = !config.directionUnknown || isCoinOnlyUnknownDirection() || model.mode === 'exhaustive' || !model.answerMode;
 
@@ -16263,28 +17404,42 @@ __WEIGHING_CHEATER_JS__
             setInteractiveStatus(`Ветка ${activeNode?.id.slice(1)} проиграна: лимит исчерпан, кандидатов больше одного.`, 'error');
           }
         } else if (model.autoCompleted) {
-          const text = config.directionUnknown && !isCoinOnlyUnknownDirection()
+          const text = config.allowNoCounterfeit && model.fakeCoin === 0
+            ? 'Статусы однозначны: фальшивой монеты нет.'
+            : config.directionUnknown && !isCoinOnlyUnknownDirection()
             ? `Статусы однозначны: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`
             : `Статусы достаточны: фальшивая монета ${model.fakeCoin}.`;
           setInteractiveStatus(text, 'success');
         } else if (model.locked) {
           const answeredCoin = config.directionUnknown ? model.answer?.coin : model.answer;
           const answeredDirection = config.directionUnknown ? model.answer?.direction : config.counterfeitWeight;
-          const correct = answeredCoin === model.fakeCoin && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
+          const correct = (answeredCoin === model.fakeCoin || (answeredCoin === 'none' && model.fakeCoin === 0)) && (!config.directionUnknown || isCoinOnlyUnknownDirection() || answeredDirection === model.fakeDirection);
           const text = correct
-            ? (config.directionUnknown
+            ? (answeredCoin === 'none'
+              ? 'Верно: фальшивой монеты нет.'
+              : config.directionUnknown
               ? (isCoinOnlyUnknownDirection() ? `Верно: фальшивая монета ${model.fakeCoin}.` : `Верно: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`)
               : `Верно: фальшивая монета ${model.fakeCoin}.`)
             : (config.directionUnknown
-              ? (isCoinOnlyUnknownDirection() ? `Не угадали: выбрана монета ${answeredCoin}, фальшивая монета ${model.fakeCoin}.` : `Не угадали: выбрано ${formatCandidate(model.answer)}, верно: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`)
-              : `Не угадали: выбрана ${model.answer}, фальшивая монета ${model.fakeCoin}.`);
+              ? (model.fakeCoin === 0
+                ? 'Не угадали: фальшивой монеты нет.'
+                : (isCoinOnlyUnknownDirection() ? `Не угадали: выбрана монета ${answeredCoin}, фальшивая монета ${model.fakeCoin}.` : `Не угадали: выбрано ${formatCandidate(model.answer)}, верно: монета ${model.fakeCoin}, ${directionLabel(model.fakeDirection)}.`))
+              : (model.fakeCoin === 0
+                ? 'Не угадали: фальшивой монеты нет.'
+                : `Не угадали: выбрано ${model.answer === 'none' ? '«фальшивой нет»' : `монета ${model.answer}`}, фальшивая монета ${model.fakeCoin}.`));
           setInteractiveStatus(text, correct ? 'success' : 'error');
         } else if (model.answerMode) {
-          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите, фальшивая монета легче или тяжелее настоящих, затем нажмите на ее номер.' : 'Нажмите на номер фальшивой монеты.');
+          setInteractiveStatus(config.allowNoCounterfeit
+            ? (config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите знак и номер фальшивой монеты или нажмите «Фальшивой нет».' : 'Нажмите на номер фальшивой монеты или выберите «Фальшивой нет».')
+            : (config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Выберите, фальшивая монета легче или тяжелее настоящих, затем нажмите на ее номер.' : 'Нажмите на номер фальшивой монеты.'));
         } else if (model.history.length >= config.maxWeighings) {
-          setInteractiveStatus(config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Взвешивания закончились. Назовите фальшивую монету и укажите, легче она или тяжелее.' : 'Взвешивания закончились. Назовите фальшивую монету.');
+          setInteractiveStatus(config.allowNoCounterfeit
+            ? (config.directionUnknown && !isCoinOnlyUnknownDirection()
+              ? 'Взвешивания закончились. Назовите фальшивую монету и знак или выберите «Фальшивой нет».'
+              : 'Взвешивания закончились. Назовите фальшивую монету или выберите «Фальшивой нет».')
+            : (config.directionUnknown && !isCoinOnlyUnknownDirection() ? 'Взвешивания закончились. Назовите фальшивую монету и укажите, легче она или тяжелее.' : 'Взвешивания закончились. Назовите фальшивую монету.'));
         } else if (!config.directionUnknown && model.mode === 'cheater' && model.candidates.length === 1) {
-          setInteractiveStatus(`Осталась одна возможная монета: ${model.candidates[0]}. Можно указать ее как ответ.`);
+          setInteractiveStatus(model.candidates[0] === 0 ? 'Остался один возможный случай: фальшивой монеты нет.' : `Осталась одна возможная монета: ${model.candidates[0]}. Можно указать ее как ответ.`);
         } else if (isCoinOnlyUnknownDirection() && model.mode === 'cheater' && possibleCandidateCoins(model.candidates).length === 1) {
           setInteractiveStatus(`Осталась одна возможная монета: ${possibleCandidateCoins(model.candidates)[0]}. Можно указать ее как ответ.`);
         } else if (config.requireEqualPanCounts && left.length !== right.length) {
@@ -16326,6 +17481,7 @@ __WEIGHING_CHEATER_JS__
         model.answerMode = !model.answerMode;
         renderInteractiveState();
       });
+      panel.querySelector('[data-answer-none]')?.addEventListener('click', submitNoCounterfeitAnswer);
       panel.querySelector('[data-reset-interactive]').addEventListener('click', () => {
         model = newModel(model?.mode || 'random');
         renderInteractiveState();
@@ -17312,7 +18468,7 @@ __WEIGHING_CHEATER_JS__
         const modeSelect = panel.querySelector('[data-interactive-run-mode]');
         if (modeSelect) modeSelect.value = model.mode;
         const modePill = panel.querySelector('[data-current-mode-pill]');
-        if (modePill) modePill.textContent = multipleLightModeLabel(model.mode);
+        if (modePill) modePill.textContent = multipleLightModeLabel(model.mode, config.counterfeitCount);
         const statusSelect = panel.querySelector('[data-status-mode]');
         if (statusSelect) statusSelect.value = model.statusMode;
         const scale = panel.querySelector('[data-scale]');
@@ -18907,9 +20063,10 @@ __WEIGHING_CHEATER_JS__
         ['relation', 'Связи или метки'],
         ['other', 'Другое']
       ].map(([value, labelText]) => `<option value="${esc(value)}">${esc(labelText)}</option>`).join('');
-      const mailNote = FEEDBACK_CONFIG.email
-        ? 'Кнопка почты откроет готовое письмо.'
-        : 'Почта не настроена. Скопируйте отчет и отправьте его вручную.';
+      const feedbackReady = Boolean(FEEDBACK_CONFIG.endpoint);
+      const feedbackNote = feedbackReady
+        ? 'Отчет будет отправлен в настроенный backend и попадет в data/comments только после подтверждения записи.'
+        : 'Автоматическая запись в базу не настроена: статический GitHub Pages не может сам создавать файлы data/comments. Нужен backend endpoint без регистрации пользователя.';
       return `
         <div class="card local-panel" data-local-panel data-problem-id="${esc(problem.id)}">
           <div class="local-row">
@@ -18942,11 +20099,10 @@ __WEIGHING_CHEATER_JS__
                 <textarea class="report-output" data-report-output readonly></textarea>
               </label>
               <div class="local-row">
-                <button class="small-button" type="button" data-copy-report>Скопировать отчет</button>
-                <button class="small-button" type="button" data-mail-report ${FEEDBACK_CONFIG.email ? '' : 'disabled'}>Отправить по почте</button>
+                <button class="small-button" type="button" data-submit-report ${feedbackReady ? '' : 'disabled'}>Отправить в базу</button>
                 <span class="local-save-status" data-report-status></span>
               </div>
-              <div class="local-muted">${esc(mailNote)}</div>
+              <div class="local-muted">${esc(feedbackNote)}</div>
             </div>
           </div>
         </div>
@@ -18961,7 +20117,7 @@ __WEIGHING_CHEATER_JS__
         ${problem.difficulty?.comment ? `<div class="card">${esc(problem.difficulty.comment)}</div>` : ''}
         <div class="card">
           <h4>Метки</h4>
-          <div class="pill-row">${(problem.tags || []).map(tag => pill(tag)).join('') || '<span class="empty">Меток нет.</span>'}</div>
+          <div class="pill-row">${(problem.tags || []).map(tag => pill(tagLabel(tag))).join('') || '<span class="empty">Меток нет.</span>'}</div>
         </div>
         <div class="card">
           <h4>Кластеры</h4>
@@ -19043,9 +20199,50 @@ __WEIGHING_CHEATER_JS__
       ].join('\\n');
     }
 
+    function currentReportPayload(problem, panel) {
+      const typeSelect = panel.querySelector('[data-report-type]');
+      const typeLabel = typeSelect?.selectedOptions?.[0]?.textContent || typeSelect?.value || '';
+      const comment = panel.querySelector('[data-report-comment]')?.value.trim() || '';
+      const contact = panel.querySelector('[data-report-contact]')?.value.trim() || '';
+      const createdAt = new Date().toISOString();
+      return {
+        project: FEEDBACK_CONFIG.project || 'incomplete-info-db',
+        kind: typeSelect?.value || 'bug_report',
+        title: `${typeLabel}: ${problem.title || problem.id}`,
+        text: comment,
+        contact,
+        created_at: createdAt,
+        page_url: reportProblemUrl(problem),
+        user_agent: navigator.userAgent || '',
+        target: { type: 'problem', problem_id: problem.id },
+        problem: { id: problem.id, title: problem.title || '' },
+        report_text: currentReportText(problem, panel)
+      };
+    }
+
     function updateReportOutput(problem, panel) {
       const output = panel.querySelector('[data-report-output]');
       if (output) output.value = currentReportText(problem, panel);
+    }
+
+    async function submitReport(problem, panel) {
+      if (!FEEDBACK_CONFIG.endpoint) {
+        throw new Error('Автоматическая запись в базу не настроена.');
+      }
+      const payload = currentReportPayload(problem, panel);
+      if (!payload.text) {
+        throw new Error('Заполните комментарий перед отправкой.');
+      }
+      const response = await fetch(FEEDBACK_CONFIG.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) {
+        const message = await response.text().catch(() => '');
+        throw new Error(message || `Endpoint вернул HTTP ${response.status}.`);
+      }
+      return response;
     }
 
     async function copyText(text) {
@@ -19110,22 +20307,15 @@ __WEIGHING_CHEATER_JS__
         field.addEventListener('change', () => updateReportOutput(problem, panel));
       }
 
-      panel.querySelector('[data-copy-report]')?.addEventListener('click', async () => {
+      panel.querySelector('[data-submit-report]')?.addEventListener('click', async () => {
         updateReportOutput(problem, panel);
+        if (reportStatus) reportStatus.textContent = 'отправляю...';
         try {
-          await copyText(panel.querySelector('[data-report-output]').value);
-          if (reportStatus) reportStatus.textContent = 'скопировано';
-        } catch (_error) {
-          if (reportStatus) reportStatus.textContent = 'не удалось скопировать';
+          await submitReport(problem, panel);
+          if (reportStatus) reportStatus.textContent = 'записано в базу';
+        } catch (error) {
+          if (reportStatus) reportStatus.textContent = error.message || 'не удалось отправить';
         }
-      });
-
-      panel.querySelector('[data-mail-report]')?.addEventListener('click', () => {
-        if (!FEEDBACK_CONFIG.email) return;
-        updateReportOutput(problem, panel);
-        const subject = `${FEEDBACK_CONFIG.subjectPrefix}: ${problem.id}`;
-        const body = panel.querySelector('[data-report-output]').value;
-        window.location.href = `mailto:${encodeURIComponent(FEEDBACK_CONFIG.email)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       });
     }
 
@@ -19417,6 +20607,7 @@ __WEIGHING_CHEATER_JS__
     rendered = (
         page.replace("__PAYLOAD__", payload)
         .replace("__WEIGHING_CHEATER_JS__", weighing_cheater_js)
+        .replace("__FEEDBACK_CONFIG__", feedback_config_json)
         .replace("__FALLBACK_LIST__", fallback_list)
         .replace("__FALLBACK_CONTENT__", fallback_content)
     )

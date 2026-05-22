@@ -49,6 +49,15 @@
   },
   "card_trick_profile": {"deck_size": 5, "hand_size": 5, "shown_cards": 1, "hidden_cards": 2, "ordering_channel": false, "encoded_values_by_order": 1, "strategy_type": "one_named_card_as_cyclic_signal"},
   "communication_profile": {"senders": 1, "receivers": 1, "message": "одно из двух чисел на карточках Пети", "message_capacity": "двоичный выбор, ограниченный рукой Пети"},
+  "interactive": {
+    "type": "petya_vasya_five_cards_protocol",
+    "card_count": 5,
+    "petya_count": 2,
+    "vasya_count": 1,
+    "spectator_count": 2,
+    "objective": "identify_spectator_card",
+    "modes": ["random", "sandbox", "exhaustive"]
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "7 класс: короткая заранее согласованная договоренность с числами по кругу.", "status": "ai_checked"},
   "tags": ["card_trick", "structural_constraint", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2026-book", "role": "official_statement_and_solution", "status": "source_verified"}],

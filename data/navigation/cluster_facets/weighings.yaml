@@ -45,7 +45,7 @@
         "erasure_resilient_weighing_code": "план с запасом на потерю одного или нескольких взвешиваний",
         "mixed_type_counterfeit_signs": "тип монеты задает, легче или тяжелее будет фальшивая",
         "unknown_direction_counterfeit": "неизвестно, легче фальшивая монета или тяжелее",
-        "numeric_linear_signature": "ответ читается из чисел и сумм",
+      "numeric_linear_signature": "ответ читается из чисел и сумм",
         "structured_counterfeit": "фальшивые монеты связаны расположением или группами",
         "faulty_or_limited_instrument": "прибор сломан или дает не все ответы",
         "expert_judge_certificate": "эксперт знает ответ и убеждает судью взвешиваниями",
@@ -122,9 +122,9 @@
       },
       "proof_method": {
         "ternary_search": "деление на три группы",
-        "ternary_signature_code": "таблица из трех исходов взвешивания",
+      "ternary_signature_code": "таблица из трех исходов взвешивания",
         "decision_tree_lower_bound": "счет листьев дерева решений",
-        "numeric_linear_signature": "числовые суммы как подсказка",
+      "numeric_linear_signature": "числовые суммы как подсказка",
         "structural_partition": "разбиение по структуре",
         "indistinguishability": "два случая выглядят одинаково",
         "adversary_lower_bound": "противник мешает выбрать короче",
@@ -138,7 +138,7 @@
         "ternary_signature": "таблица результатов из трех исходов",
         "numeric_linear": "числовая подсказка",
         "binary_decision_tree": "дерево да/нет",
-        "binary_subset_code": "код выбранных групп",
+        "binary_subset_code": "подсказка выбранными группами",
         "parity_or_equality": "четность или равенство",
         "balanced_ternary": "три варианта для каждой гири",
         "none": "кода нет"
@@ -147,7 +147,7 @@
         "finite_instance": "конкретная задача",
         "capacity_bound": "оценка по числу исходов",
         "parametric_generalization": "общая формула",
-        "open_ended_investigation": "открытое исследование",
+        "open_ended_investigation": "задача на исследование",
         "probability_instance": "вероятностный пример",
         "boundary_included": "пограничный пример"
       }

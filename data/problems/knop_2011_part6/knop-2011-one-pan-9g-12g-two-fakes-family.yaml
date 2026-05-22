@@ -1,0 +1,165 @@
+{
+  "id": "knop-2011-one-pan-9g-12g-two-fakes-family",
+  "title": "Фальшивые 9 г и 12 г на одночашечных весах",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem_family",
+    "secondary": [
+      "strategy_construction",
+      "impossibility_result",
+      "induction"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d34-d36",
+        "title": "Две фальшивые среди 10-граммовых монет",
+        "text": "Среди данных 10-граммовых монет ровно две фальшивые: одна весит 9 г, другая - 12 г. Нужно определить обе фальшивые монеты при помощи одночашечных весов со стрелкой. В книге поставлены три задачи: Д.34 - найти обе фальшивые из четырех монет за два взвешивания; Д.35 - решить, можно ли найти обе фальшивые из девяти монет за три взвешивания; Д.36 - найти обе такие фальшивые из \\(2^n\\) монет за \\(n\\) взвешиваний.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space",
+          "decision_tree"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-four-outcomes-one-pan",
+      "title": "Одно взвешивание сообщает попадание каждой фальшивки",
+      "text": "Если на весы положено \\(k\\) монет, то нормальный вес равен \\(10k\\). Отклонения от него равны 0, \\(-1\\), \\(+2\\) или \\(+1\\) граммам в четырех случаях: на чаше нет фальшивых, лежит только 9-граммовая, лежит только 12-граммовая, лежат обе. Значит одно взвешивание дает два двоичных ответа: попала ли в выбранное множество легкая фальшивая и попала ли тяжелая.",
+      "standard_idea_ids": [
+        "binary_encoding",
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-binary-labels-for-two-special-coins",
+      "title": "Биты выбранных множеств становятся номерами двух монет",
+      "text": "Если заранее сопоставить каждой монете двоичный номер, то взвешивание по очередному биту сообщает этот бит отдельно для 9-граммовой и для 12-граммовой фальшивой монеты.",
+      "standard_idea_ids": [
+        "binary_encoding"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-d34-four-coins",
+      "title": "Д.34: два взвешивания для четырех монет",
+      "text": "Взвесим монеты 1 и 2, затем монеты 1 и 3. В каждом взвешивании по отклонению от нормального веса узнаем, какие из двух фальшивых монет попали на чашу: 9-граммовая, 12-граммовая, обе или ни одна.\n\nДля каждой из двух фальшивых монет получаем пару ответов о попадании в множества \\(\\{1,2\\}\\) и \\(\\{1,3\\}\\). Пара «да, да» означает монету 1, «да, нет» - монету 2, «нет, да» - монету 3, «нет, нет» - монету 4. Так определяются и 9-граммовая, и 12-граммовая монеты.",
+      "standard_idea_ids": [
+        "binary_encoding"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "decision_tree"
+      ]
+    },
+    {
+      "id": "str-d36-binary-code",
+      "title": "Д.36: двоичные номера для \\(2^n\\) монет",
+      "text": "Пронумеруем монеты всеми двоичными словами длины \\(n\\). В \\(j\\)-м взвешивании положим на чашу все монеты, у которых \\(j\\)-й бит номера равен 1. Отклонение от нормального веса сообщает, лежит ли среди этих монет 9-граммовая фальшивая и лежит ли 12-граммовая. После \\(n\\) взвешиваний мы знаем все биты номера каждой из двух фальшивых монет.\n\nЭто та же индукция, что в книге: первое взвешивание половины монет сообщает, в какой половине находится каждая фальшивая монета; дальше подозрительные множества либо совпадают, либо не пересекаются, и каждое из них делится пополам на следующем шаге.",
+      "standard_idea_ids": [
+        "binary_encoding",
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "decision_tree"
+      ]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "imp-d35-nine-coins-three-weighings",
+      "title": "Д.35: девять монет за три взвешивания невозможны",
+      "text": "Скрытое состояние задается выбором 9-граммовой и 12-граммовой монеты. Таких состояний \\(9\\cdot8=72\\). Одно взвешивание на одночашечных весах в этой задаче имеет не более четырех информативных исходов: ни одной фальшивой на чаше, только 9-граммовая, только 12-граммовая, обе. Поэтому три взвешивания различают не более \\(4^3=64\\) исходовых слов. Так как \\(72>64\\), гарантированно определить обе фальшивые монеты невозможно.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "упорядоченная пара разных монет: какая монета весит 9 г и какая весит 12 г",
+    "observations": [
+      "числовое показание одночашечных весов после взвешивания выбранного подмножества монет"
+    ],
+    "allowed_actions": [
+      "выбирать подмножества монет для одночашечного взвешивания"
+    ],
+    "goal": [
+      "identify_light_and_heavy_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "nonadaptive_strategy",
+      "binary_encoding",
+      "decision_tree_lower_bound"
+    ],
+    "lower_bound_method": [
+      "answer_word_count"
+    ],
+    "keywords": [
+      "knop_d34_d36",
+      "one_pan_scale",
+      "9g_12g_counterfeits",
+      "four_outcomes",
+      "binary_code"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "4, 9, 2^n",
+    "counterfeit_count": 2,
+    "counterfeit_type": "one_9g_one_12g_among_10g",
+    "weighing_count": "2, 3, n",
+    "outcome_count_per_weighing": 4,
+    "adaptive": false,
+    "scale_type": "one_pan_pointer_scale",
+    "objective": "identify_light_and_heavy_counterfeit_coins"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "После вычитания нормального веса одно взвешивание превращается в два бита информации: отдельно для 9-граммовой и для 12-граммовой монеты.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "digital_scale",
+    "binary_code",
+    "counting_lower_bound",
+    "nonadaptive_strategy",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_problem_family_d34_d36_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_remaining_batch",
+    "notes": [
+      "Дополнительные задачи Д.34-Д.36 из dop_zad.tex.utf8.txt, строки 309-332 и решения строки 681-697.",
+      "Для Д.35 цель считается знаковой: нужно различить, какая монета 9 г, а какая 12 г; это соответствует книжному подсчету 72 вариантов."
+    ]
+  }
+}

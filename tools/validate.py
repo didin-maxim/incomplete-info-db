@@ -35,16 +35,19 @@ REQUIRED_RELATION_FIELDS = [
 IMAGE_EXTENSIONS = {".webp", ".png", ".jpg", ".jpeg"}
 MAX_IMAGE_BYTES = 2_000_000
 INTERACTIVE_COUNTERFEIT_WEIGHTS = {"lighter", "heavier"}
-INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "guarantee_all_but_first_correct", "prove_impossible"}
+INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "guarantee_all_but_first_correct", "prove_impossible"}
 INTERACTIVE_MODES = {"random", "cheater", "exhaustive", "challenge", "sandbox", "guided", "manual_spectator"}
 INTERACTIVE_OBJECTIVES.add("all_agents_find_own_state")
 INTERACTIVE_OBJECTIVES.add("maximize_win_probability")
 INTERACTIVE_OBJECTIVES.add("guarantee_at_least_half_correct")
-INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "safe_pile_balance_certificate", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "balanced_weight_signature_protocol", "numeric_linear_signature", "fitch_cheney_card_trick", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "ternary_question_code", "repetition_code_one_lie_questions", "finite_pair_matching_protocol", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "three_letter_erasure_code", "permutation_message_order_code", "twenty_one_card_trick", "hidden_hat_number_parity_protocol"}
+INTERACTIVE_OBJECTIVES.add("identify_spectator_card")
+INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "safe_pile_balance_certificate", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "balanced_weight_signature_protocol", "numeric_linear_signature", "expert_judge_certificate", "fitch_cheney_card_trick", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_pair_matching_protocol", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "three_letter_erasure_code", "permutation_message_order_code", "twenty_one_card_trick", "hidden_hat_number_parity_protocol"}
+INTERACTIVE_TYPES.add("fixed_weighing_transcript")
 INTERACTIVE_TYPES.add("higher_lower_strategy_game")
 INTERACTIVE_TYPES.add("permutation_cycle_protocol")
 INTERACTIVE_TYPES.add("wise_men_color_count_parity_protocol")
 INTERACTIVE_TYPES.add("prisoners_hats_parity_line")
+INTERACTIVE_TYPES.add("petya_vasya_five_cards_protocol")
 
 
 def fail(errors, message):
@@ -144,13 +147,15 @@ def validate_interactive(errors, label, problem):
     if interactive_type not in INTERACTIVE_TYPES:
         return
     required_fields = ["objective"]
-    if interactive_type in {"finite_pair_matching_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol"}:
+    if interactive_type in {"finite_pair_matching_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol"}:
         if interactive_type == "subset_signature_protocol":
             required_fields.extend(["object_count", "max_tests"])
         elif interactive_type == "balanced_subset_question_code":
             required_fields.extend(["object_count", "max_tests", "target_sum"])
         elif interactive_type == "binary_cards_number_trick":
             required_fields.extend(["card_count", "number_max"])
+        elif interactive_type == "fixed_feedback_code":
+            required_fields.extend(["password_length", "alphabet", "max_tests"])
         elif interactive_type == "ternary_question_code":
             required_fields.extend(["object_count", "max_tests"])
         elif interactive_type == "repetition_code_one_lie_questions":
@@ -181,9 +186,13 @@ def validate_interactive(errors, label, problem):
         required_fields.extend(["deck_size", "column_count", "row_count", "round_count"])
     elif interactive_type == "fitch_cheney_card_trick":
         required_fields.extend(["deck_size", "hand_size", "shown_cards", "hidden_cards"])
+    elif interactive_type == "petya_vasya_five_cards_protocol":
+        required_fields.extend(["card_count", "petya_count", "vasya_count", "spectator_count"])
+    elif interactive_type == "expert_judge_certificate":
+        required_fields.extend(["object_counts", "max_weighings"])
     else:
         required_fields.append("max_weighings")
-    if interactive_type in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale"}:
+    if interactive_type in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "fixed_weighing_transcript", "zero_one_two_counterfeit_sign", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale"}:
         required_fields.append("coin_count")
     if interactive_type == "safe_pile_balance_certificate":
         if "pile_sizes" not in interactive and "piles" not in interactive:
@@ -322,8 +331,10 @@ def validate_interactive(errors, label, problem):
             fail(errors, f"{label}: interactive.objective must be identify_hidden_number for {interactive_type}")
     if interactive_type in {"balanced_weight_signature_protocol", "numeric_linear_signature"}:
         required_fields.append("bag_count")
-    if interactive_type in {"single_counterfeit_weighing", "broken_scale_counterfeit_coin"}:
+    if interactive_type in {"single_counterfeit_weighing", "fixed_weighing_transcript", "broken_scale_counterfeit_coin"}:
         required_fields.append("counterfeit_weight")
+    if interactive_type == "fixed_weighing_transcript":
+        required_fields.append("transcript")
     if interactive_type == "faulty_scale_identification":
         required_fields.extend(["scale_count", "faulty_scale_count", "weighable_objects"])
     if interactive_type == "broken_scale_counterfeit_coin":
@@ -336,7 +347,7 @@ def validate_interactive(errors, label, problem):
         if field not in interactive:
             fail(errors, f"{label}: interactive.{field} is required for {interactive_type}")
     coin_count = interactive.get("coin_count")
-    if interactive_type in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale"} and (
+    if interactive_type in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "fixed_weighing_transcript", "zero_one_two_counterfeit_sign", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale"} and (
         not isinstance(coin_count, int) or isinstance(coin_count, bool) or coin_count < 2
     ):
         fail(errors, f"{label}: interactive.coin_count must be an integer >= 2")
@@ -493,6 +504,24 @@ def validate_interactive(errors, label, problem):
         not isinstance(bag_count, int) or isinstance(bag_count, bool) or bag_count < 2
     ):
         fail(errors, f"{label}: interactive.bag_count must be an integer >= 2")
+    if interactive_type == "expert_judge_certificate":
+        object_counts = interactive.get("object_counts")
+        if not isinstance(object_counts, list) or not object_counts:
+            fail(errors, f"{label}: interactive.object_counts must be a non-empty list")
+        else:
+            seen_counts = set()
+            for index, count in enumerate(object_counts):
+                if not isinstance(count, int) or isinstance(count, bool) or count < 2 or count > 30:
+                    fail(errors, f"{label}: interactive.object_counts[{index}] must be an integer between 2 and 30")
+                elif count in seen_counts:
+                    fail(errors, f"{label}: interactive.object_counts contains duplicate value {count}")
+                seen_counts.add(count)
+        if interactive.get("weight_model", "permutation_1_to_N") != "permutation_1_to_N":
+            fail(errors, f"{label}: interactive.weight_model must be permutation_1_to_N for expert_judge_certificate")
+        if interactive.get("certificate_goal", "one_forced_weight") != "one_forced_weight":
+            fail(errors, f"{label}: interactive.certificate_goal must be one_forced_weight for expert_judge_certificate")
+        if interactive.get("max_weighings") != 1:
+            fail(errors, f"{label}: interactive.max_weighings must be 1 for expert_judge_certificate")
     if interactive_type == "xor_single_flip_protocol":
         position_count = interactive.get("position_count", interactive.get("object_count"))
         if not isinstance(position_count, int) or isinstance(position_count, bool) or position_count < 2:
@@ -664,6 +693,15 @@ def validate_interactive(errors, label, problem):
             fail(errors, f"{label}: interactive.shown_cards must be 4 for fitch_cheney_card_trick")
         if interactive.get("hidden_cards") != 1:
             fail(errors, f"{label}: interactive.hidden_cards must be 1 for fitch_cheney_card_trick")
+    if interactive_type == "petya_vasya_five_cards_protocol":
+        if card_count != 5:
+            fail(errors, f"{label}: interactive.card_count must be 5 for petya_vasya_five_cards_protocol")
+        if interactive.get("petya_count") != 2:
+            fail(errors, f"{label}: interactive.petya_count must be 2 for petya_vasya_five_cards_protocol")
+        if interactive.get("vasya_count") != 1:
+            fail(errors, f"{label}: interactive.vasya_count must be 1 for petya_vasya_five_cards_protocol")
+        if interactive.get("spectator_count") != 2:
+            fail(errors, f"{label}: interactive.spectator_count must be 2 for petya_vasya_five_cards_protocol")
     if interactive_type == "finite_binary_state_protocol":
         protocol = interactive.get("protocol")
         if protocol not in {"one_liar_line_neighborhood", "knight_liar_fake_coin_subset", "adjacent_pair_grid_search"}:
@@ -791,10 +829,10 @@ def validate_interactive(errors, label, problem):
         elif len(set(detector_labels)) != len(detector_labels):
             fail(errors, f"{label}: interactive.detector_labels must be unique")
     max_weighings = interactive.get("max_weighings")
-    if interactive_type not in {"broken_detector_counterfeit_coin", "fitch_cheney_card_trick", "finite_pair_matching_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "wise_men_even_parity_code", "wise_men_color_count_parity_protocol", "prisoners_hats_parity_line", "hidden_hat_number_parity_protocol", "higher_lower_strategy_game", "permutation_message_order_code", "permutation_cycle_protocol", "three_letter_erasure_code", "twenty_one_card_trick"} and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
+    if interactive_type not in {"broken_detector_counterfeit_coin", "fitch_cheney_card_trick", "finite_pair_matching_protocol", "petya_vasya_five_cards_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "wise_men_even_parity_code", "wise_men_color_count_parity_protocol", "prisoners_hats_parity_line", "hidden_hat_number_parity_protocol", "higher_lower_strategy_game", "permutation_message_order_code", "permutation_cycle_protocol", "three_letter_erasure_code", "twenty_one_card_trick"} and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
         fail(errors, f"{label}: interactive.max_weighings must be an integer >= 1")
     max_tests = interactive.get("max_tests")
-    if interactive_type in {"broken_detector_counterfeit_coin", "subset_signature_protocol", "balanced_subset_question_code", "ternary_question_code", "finite_binary_state_protocol", "moving_target_graph_search"} and (
+    if interactive_type in {"broken_detector_counterfeit_coin", "subset_signature_protocol", "balanced_subset_question_code", "fixed_feedback_code", "ternary_question_code", "finite_binary_state_protocol", "moving_target_graph_search"} and (
         not isinstance(max_tests, int) or isinstance(max_tests, bool) or max_tests < 1
     ):
         fail(errors, f"{label}: interactive.max_tests must be an integer >= 1")
@@ -814,6 +852,9 @@ def validate_interactive(errors, label, problem):
     require_equal_pan_counts = interactive.get("require_equal_pan_counts")
     if require_equal_pan_counts is not None and not isinstance(require_equal_pan_counts, bool):
         fail(errors, f"{label}: interactive.require_equal_pan_counts must be a boolean")
+    allow_no_counterfeit = interactive.get("allow_no_counterfeit")
+    if allow_no_counterfeit is not None and not isinstance(allow_no_counterfeit, bool):
+        fail(errors, f"{label}: interactive.allow_no_counterfeit must be a boolean")
     preset_weighings = interactive.get("preset_weighings")
     if preset_weighings is not None:
         if interactive_type not in {"single_counterfeit_weighing", "single_counterfeit_unknown_direction"}:
@@ -846,7 +887,39 @@ def validate_interactive(errors, label, problem):
                         fail(errors, f"{label}: interactive.preset_weighings[{row_index}] has coin on both pans: {sorted(overlap)}")
                     if require_equal_pan_counts is not False and len(left) != len(right):
                         fail(errors, f"{label}: interactive.preset_weighings[{row_index}] must have equal pan sizes")
-    if interactive_type in {"single_counterfeit_weighing", "broken_scale_counterfeit_coin"} and interactive.get("counterfeit_weight") not in INTERACTIVE_COUNTERFEIT_WEIGHTS:
+    transcript = interactive.get("transcript")
+    if interactive_type == "fixed_weighing_transcript":
+        if not isinstance(transcript, list) or not transcript:
+            fail(errors, f"{label}: interactive.transcript must be a non-empty list")
+        else:
+            if isinstance(max_weighings, int) and not isinstance(max_weighings, bool) and len(transcript) > max_weighings:
+                fail(errors, f"{label}: interactive.transcript length must not exceed max_weighings")
+            for row_index, row in enumerate(transcript):
+                if not isinstance(row, dict):
+                    fail(errors, f"{label}: interactive.transcript[{row_index}] must be an object")
+                    continue
+                if row.get("outcome") not in {"left_down", "right_down", "balance"}:
+                    fail(errors, f"{label}: interactive.transcript[{row_index}].outcome must be left_down, right_down, or balance")
+                left = row.get("left")
+                right = row.get("right")
+                for side_name, coins in [("left", left), ("right", right)]:
+                    if not isinstance(coins, list):
+                        fail(errors, f"{label}: interactive.transcript[{row_index}].{side_name} must be a list")
+                        continue
+                    seen = set()
+                    for coin in coins:
+                        if not isinstance(coin, int) or isinstance(coin, bool) or not isinstance(coin_count, int) or coin < 1 or coin > coin_count:
+                            fail(errors, f"{label}: interactive.transcript[{row_index}].{side_name} contains invalid coin {coin}")
+                        if coin in seen:
+                            fail(errors, f"{label}: interactive.transcript[{row_index}].{side_name} contains duplicate coin {coin}")
+                        seen.add(coin)
+                if isinstance(left, list) and isinstance(right, list):
+                    overlap = set(left) & set(right)
+                    if overlap:
+                        fail(errors, f"{label}: interactive.transcript[{row_index}] has coin on both pans: {sorted(overlap)}")
+                    if require_equal_pan_counts is not False and len(left) != len(right):
+                        fail(errors, f"{label}: interactive.transcript[{row_index}] must have equal pan sizes")
+    if interactive_type in {"single_counterfeit_weighing", "fixed_weighing_transcript", "broken_scale_counterfeit_coin"} and interactive.get("counterfeit_weight") not in INTERACTIVE_COUNTERFEIT_WEIGHTS:
         fail(errors, f"{label}: interactive.counterfeit_weight must be one of {sorted(INTERACTIVE_COUNTERFEIT_WEIGHTS)}")
     if interactive_type == "single_counterfeit_unknown_direction" and interactive.get("counterfeit_weight") not in (None, "unknown"):
         fail(errors, f"{label}: interactive.counterfeit_weight must be omitted or 'unknown' for single_counterfeit_unknown_direction")
@@ -856,6 +929,12 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective must be identify_coin_and_sign or identify_coin_only_unknown_direction for single_counterfeit_unknown_direction")
     if interactive_type == "single_counterfeit_weighing" and interactive.get("objective") in {"identify_coin_and_sign", "identify_coin_and_direction"}:
         fail(errors, f"{label}: interactive.objective identify_coin_and_sign requires single_counterfeit_unknown_direction")
+    if interactive.get("objective") == "identify_coin_or_none" and interactive_type != "single_counterfeit_weighing":
+        fail(errors, f"{label}: interactive.objective identify_coin_or_none requires single_counterfeit_weighing")
+    if interactive_type == "single_counterfeit_weighing" and interactive.get("objective") == "identify_coin_or_none" and interactive.get("allow_no_counterfeit") is not True:
+        fail(errors, f"{label}: interactive.allow_no_counterfeit must be true for identify_coin_or_none")
+    if interactive_type == "fixed_weighing_transcript" and interactive.get("objective") != "identify_coin":
+        fail(errors, f"{label}: interactive.objective must be identify_coin for fixed_weighing_transcript")
     if interactive_type == "safe_pile_balance_certificate" and interactive.get("objective") != "identify_safe_pile":
         fail(errors, f"{label}: interactive.objective must be identify_safe_pile for safe_pile_balance_certificate")
     if interactive_type == "faulty_scale_identification" and interactive.get("objective") != "identify_faulty_scale":
@@ -868,6 +947,8 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective must be identify_heaviest_coin for heaviest_coin_one_broken_scale")
     if interactive_type == "balanced_weight_signature_protocol" and interactive.get("objective") != "identify_deficient_bag_or_none":
         fail(errors, f"{label}: interactive.objective must be identify_deficient_bag_or_none for balanced_weight_signature_protocol")
+    if interactive_type == "expert_judge_certificate" and interactive.get("objective") != "identify_one_weight":
+        fail(errors, f"{label}: interactive.objective must be identify_one_weight for expert_judge_certificate")
     if interactive_type == "paired_light_counterfeits" and interactive.get("objective") != "identify_one_from_each_pair":
         fail(errors, f"{label}: interactive.objective must be identify_one_from_each_pair for paired_light_counterfeits")
     if interactive_type == "multiple_light_find_one" and interactive.get("objective") != "identify_one_light_coin":
@@ -887,6 +968,8 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective must be identify_hidden_pair for finite_pair_matching_protocol")
     if interactive_type == "fitch_cheney_card_trick" and interactive.get("objective") != "identify_hidden_card":
         fail(errors, f"{label}: interactive.objective must be identify_hidden_card for fitch_cheney_card_trick")
+    if interactive_type == "petya_vasya_five_cards_protocol" and interactive.get("objective") != "identify_spectator_card":
+        fail(errors, f"{label}: interactive.objective must be identify_spectator_card for petya_vasya_five_cards_protocol")
     if interactive_type == "subset_signature_protocol" and interactive.get("objective") != "identify_magic_subset":
         fail(errors, f"{label}: interactive.objective must be identify_magic_subset for subset_signature_protocol")
     if interactive_type == "balanced_subset_question_code" and interactive.get("objective") != "identify_hidden_number":

@@ -1,0 +1,101 @@
+{
+  "id": "fake-chain-link-31-95-cuts",
+  "title": "Фальшивое звено в цепочке: 31 звено или 95 звеньев",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": ["strategy_construction", "adaptive_strategy", "case_reduction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-3-9",
+        "title": "Разрезать мало звеньев и найти фальшивое",
+        "text": "а) Незамкнутая цепочка составлена из 31 звена. Известно, что одно из звеньев фальшивое, оно легче остальных. Докажите, что при помощи взвешиваний можно найти фальшивое звено, разрезав не более четырех звеньев.\n\nб) Незамкнутая цепочка составлена из 95 звеньев. Известно, что одно из звеньев фальшивое, оно отличается по весу от остальных: неизвестно, легче оно или тяжелее. Докажите, что при помощи взвешиваний можно найти фальшивое звено, разрезав не более шести звеньев.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-cut-middle-to-create-equal-chains",
+      "title": "Разрезанное среднее звено становится отдельным третьим случаем",
+      "text": "В цепочке длины \\(2n+1\\) один разрез среднего звена оставляет две одинаковые цепочки длины \\(n\\) и одно отдельное звено. Сравнение двух цепочек либо выбирает легкую половину, либо показывает, что фальшивым было именно разрезанное звено.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-unknown-sign-reduces-to-three-blocks",
+      "title": "Случай неизвестного знака сначала сводится к легкому случаю",
+      "text": "Цепочку из 95 звеньев можно двумя разрезами разбить на три равные цепочки по 31 звену. Если один блок отличается от двух других, знак отличия виден по сравнению блоков. Если все три блока равны, фальшивое звено одно из двух разрезанных; тогда любое звено большого блока уже служит настоящим эталоном.",
+      "standard_idea_ids": ["structural_constraint", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-31-chain-binary-halving",
+      "title": "Цепочка из 31 звена",
+      "text": "Разрежем среднее, 16-е звено и сравним две получившиеся цепочки по 15 звеньев. Если одна цепочка легче, фальшивое звено находится в ней; если они равны, фальшиво разрезанное звено. В первом случае снова разрезаем середину подозрительной цепочки: 15 превращается в две цепочки по 7 и отдельное звено, затем 7 - в две цепочки по 3 и отдельное звено, затем 3 - в два крайних звена и среднее. После четвертого разреза сравнение крайних звеньев находит фальшивое либо оставляет среднее как единственный вариант.",
+      "standard_idea_ids": ["binary_search", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    },
+    {
+      "id": "str-95-chain-reduction",
+      "title": "Цепочка из 95 звеньев",
+      "text": "Сначала разрежем 32-е и 64-е звенья. Останутся три неразрезанные цепочки по 31 звену и два отдельных звена. Сравним три большие цепочки между собой. Если одна цепочка легче или тяжелее двух других, фальшивое звено лежит в ней, а его знак уже известен; дальше используем схему для 31 звена, потратив еще четыре разреза. Для известного тяжелого звена та же схема работает с заменой слова «легче» на «тяжелее».\n\nЕсли все три большие цепочки равны, фальшивое звено не в них, а среди двух разрезанных. Возьмем любое звено из большой цепочки: оно настоящее. Сравним с ним одно из двух разрезанных звеньев. При неравенстве это звено фальшивое, при равенстве фальшиво второе разрезанное звено. Дополнительных разрезов не требуется, поэтому всего хватает шести разрезов.",
+      "standard_idea_ids": ["binary_search", "structural_constraint"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "31 вариантов в пункте а; в пункте б - 190 вариантов: номер фальшивого звена и знак отклонения",
+    "observations": ["результаты сравнений на чашечных весах после выбранных разрезов"],
+    "allowed_actions": ["разрезать звенья цепочки", "взвешивать получившиеся куски цепочки и отдельные звенья"],
+    "goal": ["identify_counterfeit_link"],
+    "strategy_type": ["adaptive_strategy", "halving", "case_reduction"],
+    "lower_bound_method": [],
+    "keywords": ["knop_3_9", "fake_chain_link", "cuts", "backward_analysis"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 95,
+    "counterfeit_count": 1,
+    "counterfeit_type": "single_light_or_unknown_direction_link",
+    "weighing_count": 6,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_counterfeit_link"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Главная идея - анализ с конца: цепочки длины 3, 7, 15, 31 решаются последовательным разрезанием середины.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "binary_search", "structural_constraint", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3_remainder",
+    "notes": [
+      "Книга К. А. Кнопа, занятие 3, задача 3.9; автор по указателю: А. В. Шаповалов, Уральский турнир.",
+      "2026-05-22: закрыта ветвь равенства в пункте б. Если три 31-звенные цепочки равны, они дают настоящий эталон; сравнение с ним отличает два разрезанных звена даже при неизвестном знаке фальшивости."
+    ]
+  },
+  "authors": [
+    {"name": "А. В. Шаповалов", "role": "problem_author", "status": "from_book_index", "source_id": "src-knop-2011-weighings-algorithms"}
+  ]
+}

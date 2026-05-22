@@ -1,0 +1,75 @@
+{
+  "id": "function-sign-change-interval-value-queries",
+  "title": "Отрезок смены знака функции по значениям в точках",
+  "fragment": "questions",
+  "kind": {"primary": "training_problem", "secondary": ["search_game", "adaptive_strategy", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-knop-d4",
+        "title": "Найти короткий отрезок со сменой знака",
+        "text": "Петя знает функцию \\(f\\), определенную на \\([0;100]\\), для которой \\(f(0)f(100)\\leqslant 0\\). За один вопрос Витя называет Пете число \\(x\\), а Петя сообщает значение \\(f(x)\\). За какое наименьшее число вопросов Витя сможет найти отрезок \\([a;b]\\) длины не больше 1, для которого \\(f(a)f(b)\\leqslant 0\\)?",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "adaptive_strategy", "information_lower_bound"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-one-endpoint-anchors-sign",
+      "title": "Одного значения на конце хватает, чтобы начать бисекцию",
+      "text": "Если узнать знак \\(f(0)\\), то из условия \\(f(0)f(100)\\leqslant 0\\) уже известен противоположный или нулевой знак на правом конце. Дальше каждый вопрос в середине текущего отрезка выбирает ту половину, на концах которой произведение значений неположительно.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-endpoint-then-seven-bisections",
+      "title": "Спросить конец и семь раз делить пополам",
+      "text": "Сначала Витя спрашивает значение \\(f(0)\\). Если оно равно нулю, подойдет любой отрезок \\([0;b]\\) с \\(0<b\\le 1\\). Иначе знак \\(f(100)\\) известен из условия: он противоположен знаку \\(f(0)\\) или равен нулю.\n\nТеперь Витя поддерживает отрезок \\([u;v]\\), для которого \\(f(u)f(v)\\leqslant 0\\). На каждом шаге он спрашивает значение в середине \\(m=(u+v)/2\\). Если \\(f(u)f(m)\\leqslant 0\\), оставляет \\([u;m]\\); иначе оставляет \\([m;v]\\). После семи таких вопросов длина отрезка не больше \\(100/2^7<1\\). Значит, достаточно 8 вопросов.",
+      "standard_idea_ids": ["adaptive_questions", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["adaptive_strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-eight-questions-needed",
+      "title": "Почему семи вопросов недостаточно",
+      "text": "Для нижней оценки достаточно рассмотреть функции, значения которых в запрошенных точках всегда равны \\(+1\\) или \\(-1\\), а смена знака спрятана в одном из 100 единичных промежутков. Один вопрос нужен, чтобы зафиксировать знак одного края; после этого каждый новый ответ имеет только две существенные возможности - оставить левую или правую часть текущего отрезка. Шесть дальнейших двоичных ответов различают не больше \\(2^6=64\\) единичных промежутков, а их 100. Поэтому 7 вопросов не гарантируют отрезок длины не больше 1; стратегия выше показывает оптимальность 8.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "adversary_strategy"],
+      "status": "needs_human_review",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "произвольная функция на [0;100] с неположительным произведением значений на концах",
+    "observations": ["точное значение функции в выбранной точке"],
+    "allowed_actions": ["адаптивно выбирать точки запроса"],
+    "goal": ["find_short_sign_change_interval"],
+    "strategy_type": ["adaptive_strategy", "binary_search", "value_oracle"],
+    "lower_bound_method": ["decision_tree_leaf_count", "adversary_strategy"],
+    "keywords": ["knop_2011", "function_value_queries", "sign_change", "bisection", "borderline_scope"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": "real_value", "question_count": 8, "lies_allowed": 0, "adaptive": true, "objective": "find_interval_with_nonpositive_endpoint_product"},
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Пограничная для базы карточка: нет конечного множества состояний, но есть скрытая функция, адаптивные запросы и нижняя оценка для стратегии поиска.", "status": "ai_checked"},
+  "tags": ["binary_search", "decision_tree", "decision_tree_lower_bound", "condition_older_students"],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_d4", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "notes": [
+      "Книга К. А. Кнопа, дополнительные задачи, Д.4.",
+      "Добавлена как пограничная, но тематически допустимая карточка: неполная информация задается неизвестной функцией и раскрывается только через адаптивные запросы значений.",
+      "Нижняя оценка записана в сжатой adversary-форме и оставлена needs_human_review."
+    ]
+  }
+}

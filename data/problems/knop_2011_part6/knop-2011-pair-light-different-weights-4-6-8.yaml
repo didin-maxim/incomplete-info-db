@@ -1,0 +1,160 @@
+{
+  "id": "knop-2011-pair-light-different-weights-4-6-8",
+  "title": "Две легкие фальшивые монеты разного веса",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem_family",
+    "secondary": [
+      "strategy_construction",
+      "adaptive_strategy"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d31-d33",
+        "title": "Две фальшивые легче настоящих, но между собой не равны",
+        "text": "Среди внешне одинаковых монет ровно две фальшивые. Обе они легче настоящих монет, но одна фальшивая монета легче другой. Нужно найти обе фальшивые монеты на чашечных весах: Д.31 - из четырех монет за два взвешивания; Д.32 - из шести монет за три взвешивания; Д.33 - из восьми монет за четыре взвешивания. В первых двух задачах не требуется выяснять, какая из двух фальшивых монет легче.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space",
+          "decision_tree"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-equality-means-two-genuine",
+      "title": "Равенство двух монет означает две настоящие",
+      "text": "Две фальшивые монеты имеют разные веса, поэтому равенство при сравнении одной монеты с одной возможно только для двух настоящих монет. Это позволяет склеивать случаи: равная пара сразу исключается, а неравная пара часто содержит ровно одну фальшивую монету.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-four-coin-block",
+      "title": "Четырехмонетный блок распадается по двум парам",
+      "text": "Сравнение двух пар внутри блока из четырех монет либо находит две настоящие монеты, либо разбивает фальшивые по двум неравным парам. Поэтому блок из четырех можно закрыть двумя простыми сравнениями, а более крупные случаи сводятся к одному или двум таким блокам.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-d31-four-coins",
+      "title": "Д.31: четыре монеты",
+      "text": "Сравним монеты 1 и 2, затем монеты 3 и 4. Если одно из сравнений дало равенство, то эта пара состоит из двух настоящих монет, а две оставшиеся монеты фальшивые. Если оба сравнения дали неравенство, то в каждой паре ровно одна фальшивая монета; это более легкая монета в своей паре.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "decision_tree"
+      ]
+    },
+    {
+      "id": "str-d32-six-coins",
+      "title": "Д.32: шесть монет",
+      "text": "Сначала сравним монеты 1 и 2. Если они равны, то обе настоящие, и среди монет 3, 4, 5, 6 остается задача Д.31.\n\nЕсли, например, монета 1 легче монеты 2, то фальшива монета 1, а вторая фальшивая либо монета 2, либо одна из монет 3, 4, 5, 6. Сравним \\(2+3\\) с \\(4+5\\). Если равновесие, то вторая фальшивая монета - 6. Если левая чаша легче, то вторая фальшивая среди 2 и 3; сравним 2 и 3 и выберем более легкую. Если правая чаша легче, то вторая фальшивая среди 4 и 5; сравним 4 и 5 и выберем более легкую. Случай, когда монета 2 легче монеты 1, симметричен.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "decision_tree"
+      ]
+    },
+    {
+      "id": "str-d33-eight-coins",
+      "title": "Д.33: восемь монет",
+      "text": "Сравним \\(1+2\\) с \\(3+4\\), а также \\(5+6\\) с \\(7+8\\). Два равновесия невозможны.\n\nЕсли оба сравнения дали неравенство, то в каждом четырехмонетном блоке есть ровно одна фальшивая монета, и она лежит на более легкой чаше своего сравнения. Оставшимися двумя взвешиваниями сравним монеты внутри каждой из двух более легких пар; более легкая монета в каждой паре фальшивая.\n\nЕсли одно сравнение дало равновесие, то обе фальшивые монеты находятся в другом блоке из четырех монет. Пусть в этом блоке одна пара тяжелее другой. Сравним две монеты из более тяжелой пары. Если они равны, то они настоящие, а обе монеты более легкой пары фальшивые. Если они не равны, то более легкая из них фальшивая; последним взвешиванием сравним две монеты из другой пары и выберем более легкую из них.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "balance_scale",
+        "decision_tree"
+      ]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "упорядоченная по весу пара фальшивых монет: одна более легкая фальшивая и одна менее легкая фальшивая, обе легче настоящих",
+    "observations": [
+      "три исхода каждого чашечного взвешивания"
+    ],
+    "allowed_actions": [
+      "адаптивно сравнивать равные по числу группы монет"
+    ],
+    "goal": [
+      "identify_all_counterfeit_coins"
+    ],
+    "strategy_type": [
+      "adaptive_strategy",
+      "case_gluing",
+      "state_space_partition"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "knop_d31_d33",
+      "two_light_counterfeits",
+      "different_counterfeit_weights",
+      "case_gluing"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": "4, 6, 8",
+    "counterfeit_count": 2,
+    "counterfeit_type": "two_lighter_counterfeits_of_different_weights",
+    "weighing_count": "2, 3, 4",
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_all_counterfeits"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 5,
+    "comment": "Короткие алгоритмы держатся на ключевом факте: две фальшивые монеты не равны между собой, поэтому равенство пары сразу доказывает подлинность обеих монет.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree",
+    "structural_constraint",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_problem_family_d31_d33_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_remaining_batch",
+    "notes": [
+      "Дополнительные задачи Д.31-Д.33 из dop_zad.tex.utf8.txt, строки 283-306 и решения строки 661-675.",
+      "В Д.33 книжное решение сжато; ветвь с одним равенством раскрыта явно до четвертого взвешивания."
+    ]
+  }
+}

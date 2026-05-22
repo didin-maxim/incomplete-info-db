@@ -1,0 +1,70 @@
+{
+  "relations": [
+    {
+      "id": "rel-knop3-fake-chain-to-lighter25",
+      "from": "fake-chain-link-31-95-cuts",
+      "to": "lighter-25-coins-3-weighings",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи используют тройной исход чашечных весов для поиска одной фальшивой детали, но в цепочке каждое разделение требует физически разрезать среднее звено.",
+      "backward_text": "Классическая задача о 25 монетах показывает чистое троичное деление без стоимости разрезов и без связности объектов.",
+      "status": "needs_human_review",
+      "confidence": 0.72
+    },
+    {
+      "id": "rel-knop-d8-to-double-right-standards",
+      "from": "knop-2011-21-coins-double-right-balance-three-weighings",
+      "to": "nine-weights-5-13-filed-double-balance-2-weighings",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "В обеих задачах равновесие особых весов означает, что правый груз ровно вдвое тяжелее левого; решение строит взвешивания с учетом отношения 1:2.",
+      "backward_text": "Задача с гирьками 5-13 г использует тот же прибор, но кодирует подпиленную гирьку через известные номинальные массы, а не через одинаковые монеты и балласт.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-d9-source-note-to-3-6",
+      "from": "ten-weights-adjacent-labels-swapped-two-weighings",
+      "to": "knop-2011-21-coins-double-right-balance-three-weighings",
+      "type": "contrast",
+      "distance": 3,
+      "forward_text": "Д.9 не стала отдельной карточкой: она является редукцией к задаче 3.6 о перепутанных соседних этикетках, тогда как Д.8 добавляет новый тип весов.",
+      "backward_text": "Д.8 заведена отдельно из-за особого правила равновесия, в отличие от Д.9, где новая формулировка не меняет механизм поиска.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-knop-d12-to-two-adjacent-circle",
+      "from": "knop-2011-two-fakes-distance-eight-coins-two-weighings",
+      "to": "nine-circle-two-adjacent-light-two-weighings",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи работают с двумя легкими объектами и склеивают случаи по структурному признаку; в Д.12 нужно узнать только расстояние между фальшивыми, а не сами монеты.",
+      "backward_text": "Круговая задача требует полной идентификации соседней пары, поэтому не допускает такого агрессивного склеивания случаев, как задача о расстоянии.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-knop-d13-to-opposite-fakes",
+      "from": "knop-2011-nine-coins-1g-4g-find-heavy-three-weighings",
+      "to": "problems-ru-64498-five-coins-two-opposite-fakes",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "Обе задачи содержат две фальшивые монеты с противоположными отклонениями; в задаче Кнопа нужно найти только тяжелую 4-граммовую монету.",
+      "backward_text": "Задача problems.ru требует найти обе противоположные фальшивки, тогда как Д.13 использует частичную цель и известные массы 1, 2 и 4 г.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-knop-d14-to-utyum-parity",
+      "from": "kvant-1996-kalashnikov-2009-coins-sign-impossible",
+      "to": "utyum-2010-seventeen-coins-parity-test",
+      "type": "contrast",
+      "distance": 2,
+      "forward_text": "Обе задачи используют четность, но у Калашникова четность оставшихся монет дает невозможность узнать знак, а в задаче про 17 монет четность равных пар дает рабочий тест.",
+      "backward_text": "Задача про 17 монет превращает четность в положительный протокол, тогда как Д.14 использует ее как инвариант противника.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    }
+  ]
+}

@@ -49,15 +49,25 @@
   },
   "weighing_profile": {
     "object_count": 4,
-    "counterfeit_count": 1,
+    "counterfeit_count": "0_or_1",
     "counterfeit_type": "heavier_or_lighter_or_none_with_standard",
     "weighing_count": 2,
     "outcome_count_per_weighing": 3,
     "adaptive": true,
-    "objective": "identify_coin_and_sign_or_none"
+    "objective": "identify_coin_and_sign"
+  },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 4,
+    "known_genuine_count": 1,
+    "max_weighings": 2,
+    "objective": "identify_coin_and_sign",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true,
+    "allow_no_counterfeit": true
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Средняя: два взвешивания требуют заранее разбить девять случаев на три равные ветви с помощью эталонной монеты.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "decision_tree", "weighted_sum_encoding", "condition_middle_school"],
   "sources": [{"source_id": "src-kvant-2003-04-four-coins-standard", "role": "official_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["В PDF доступна страница с рассуждением и решением; начало рассказа находится на предыдущей странице журнала, поэтому условие сформулировано самодостаточно по перечисленным в источнике девяти случаям."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "kvant_batch", "notes": ["В PDF доступна страница с рассуждением и решением; начало рассказа находится на предыдущей странице журнала, поэтому условие сформулировано самодостаточно по перечисленным в источнике девяти случаям.", "2026-05-22: добавлен интерактив single_counterfeit_unknown_direction: четыре подозрительные монеты, одна эталонная монета, девять скрытых состояний включая отсутствие фальшивой."]}
 }

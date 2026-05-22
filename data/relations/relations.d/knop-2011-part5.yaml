@@ -78,6 +78,72 @@
       "confidence": 0.9
     },
     {
+      "id": "rel-knop-d24-to-d25-gold-silver-extension",
+      "from": "knop-2011-gold-silver-three-to-five-gold-three-weighings",
+      "to": "knop-2011-gold-silver-three-to-five-gold-four-weighings",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Д.25 повторяет те же три числа золотых монет, но увеличивает число серебряных так, чтобы после первого смешанного разреза оставалось до \\(3^3\\) состояний вместо \\(3^2\\).",
+      "backward_text": "Д.24 является малым трехвзвешивательным прототипом: после первого разреза ветви имеют размер 8 или 9 и явно кодируются двумя оставшимися взвешиваниями.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-knop-d24-to-two-gold-family",
+      "from": "knop-2011-gold-silver-three-to-five-gold-three-weighings",
+      "to": "knop-2011-two-gold-many-silver-two-fakes-k-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Обе карточки ищут ровно одну легкую фальшивку среди золотых и ровно одну среди серебряных; Д.24 показывает, как смешанный первый ход работает при 3-5 золотых.",
+      "backward_text": "Серия с двумя золотыми дает параметрическую базу той же модели, а Д.24 добавляет больше золотых и требует разбирать ветви первого смешанного взвешивания.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
+      "id": "rel-knop-d25-to-two-gold-family",
+      "from": "knop-2011-gold-silver-three-to-five-gold-four-weighings",
+      "to": "knop-2011-two-gold-many-silver-two-fakes-k-weighings",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Д.25 использует ту же модель одной легкой фальшивки каждого видимого типа, но подгоняет первые ветви под емкость трех оставшихся взвешиваний.",
+      "backward_text": "Параметрическая карточка с двумя золотыми показывает более регулярную конструкцию; Д.25 является близким, но пока не полностью раскрытым набором конечных случаев.",
+      "status": "ai_checked",
+      "confidence": 0.84
+    },
+    {
+      "id": "rel-knop-d24-to-d26-boundary",
+      "from": "knop-2011-gold-silver-three-to-five-gold-three-weighings",
+      "to": "knop-2011-gold-silver-4-7-two-fakes-three-impossible",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "Д.24б решает случай 4 золотые и 6 серебряных за три взвешивания, а следующая невозможная карточка показывает, что добавление еще одной серебряной монеты уже дает \\(4\\cdot7=28>27\\) состояний.",
+      "backward_text": "Невозможный случай 4+7 объясняет остроту параметров в Д.24: трех исходов в трех взвешиваниях хватает только до 27 различимых состояний.",
+      "status": "ai_checked",
+      "confidence": 0.93
+    },
+    {
+      "id": "rel-knop-d24-to-savin-two-fakes",
+      "from": "knop-2011-gold-silver-three-to-five-gold-three-weighings",
+      "to": "savin-12-six-coins-two-fakes-two-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе задачи имеют структурное обещание о двух легких фальшивках из разных видимых классов и требуют кодировать пару состояний, а не произвольное множество фальшивых монет.",
+      "backward_text": "Задача Савина является малой двухвзвешивательной моделью поиска двух фальшивок при известном разделении на группы; Д.24 масштабирует идею и добавляет смешанные золото-серебряные чаши.",
+      "status": "ai_checked",
+      "confidence": 0.8
+    },
+    {
+      "id": "rel-knop-d24-to-moebius-mixed-types",
+      "from": "knop-2011-gold-silver-three-to-five-gold-three-weighings",
+      "to": "moebius-cupscales-2-silver-copper-counterfeit",
+      "type": "strategy_transfer",
+      "distance": 2,
+      "forward_text": "Д.24 и карточка Мёбиуса используют видимые типы монет при составлении взвешиваний; в Д.24 нормальные веса типов равны, но нужно одновременно кодировать две легкие фальшивки.",
+      "backward_text": "Карточка Мёбиуса дает общий язык смешанных типов и троичных ветвей; Д.24 является более жесткой двухфальшивочной версией с одной фальшивкой каждого типа.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
       "id": "rel-knop-part5-divisibility-to-fixed-questions",
       "from": "knop-2011-divisibility-1-8-three-planned-numbers",
       "to": "fixed-questions-as-binary-code",
@@ -87,6 +153,39 @@
       "backward_text": "Общая карточка про двоичный код объясняет информационную часть; делимость добавляет арифметическое ограничение на вопросы.",
       "status": "ai_checked",
       "confidence": 0.91
+    },
+    {
+      "id": "rel-knop-part5-divisibility-8-to-16",
+      "from": "knop-2011-divisibility-1-8-three-planned-numbers",
+      "to": "knop-2011-divisibility-1-16-four-planned-numbers-impossible",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "Положительная задача для чисел 1..8 реализует полный двоичный код делимости, а вариант 1..16 показывает, что следующая емкостная граница \\(2^4\\) недостижима из-за арифметического ограничения на вопросы.",
+      "backward_text": "Невозможность для 1..16 объясняет, почему в задачах по делимости простого подсчета двоичных слов недостаточно: не всякая таблица ответов реализуется делимостью заранее выбранных чисел.",
+      "status": "ai_checked",
+      "confidence": 0.94
+    },
+    {
+      "id": "rel-knop-part5-five-fakes-d27-to-d29",
+      "from": "knop-2011-five-coins-at-least-one-fake-three-impossible",
+      "to": "knop-2011-five-coins-at-least-two-fakes-three-impossible",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Обе карточки спрашивают о полном восстановлении множества легких фальшивых монет среди пяти, но в Д.27 достаточно счета \\(31>27\\), а в Д.29 одиночные состояния исключены и требуется анализ первого взвешивания.",
+      "backward_text": "Д.29 является более тонким вариантом той же пятимонетной модели: глобально состояний только 26, но равновесная ветвь первого взвешивания все равно слишком велика.",
+      "status": "ai_checked",
+      "confidence": 0.95
+    },
+    {
+      "id": "rel-knop-part5-d29-to-d30-bottleneck",
+      "from": "knop-2011-five-coins-at-least-two-fakes-three-impossible",
+      "to": "knop-2011-nineteen-coins-two-weights-twelve-impossible",
+      "type": "lower_bound_analogy",
+      "distance": 2,
+      "forward_text": "В обеих задачах простая емкость дерева решений не запрещает успех; невозможность получается из слишком большой ветви уже после первого взвешивания.",
+      "backward_text": "Девятнадцатимонетная задача - большой расчетный вариант того же узкого места: нужно оценивать не общее число листьев, а минимально неизбежную крупную первую ветвь.",
+      "status": "needs_human_review",
+      "confidence": 0.86
     },
     {
       "id": "rel-knop-part5-ingots-expert-certificate",

@@ -34,6 +34,28 @@
       "confidence": 0.92
     },
     {
+      "id": "rel-knop-pair-light-different-to-komal-two-light",
+      "from": "knop-2011-pair-light-different-weights-4-6-8",
+      "to": "komal-2020-k664-six-coins-two-light",
+      "type": "variant",
+      "distance": 2,
+      "forward_text": "У Кнопа две легкие фальшивые монеты имеют разные веса, и это делает равенство двух монет сильным сертификатом подлинности обеих. В задаче KöMaL две легкие монеты равны, поэтому малые разбиения требуют другого контрольного приема.",
+      "backward_text": "Задача KöMaL показывает близкую модель с двумя легкими фальшивыми монетами, но с целью найти одну монету и без преимущества разных весов фальшивок.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-knop-one-pan-9-12-to-lmo-one-pan-heavy",
+      "from": "knop-2011-one-pan-9g-12g-two-fakes-family",
+      "to": "lmo-1980-nine-coins-two-heavy-one-pan-five-weighings",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "Обе карточки используют одночашечные числовые показания как подписи выбранных подмножеств. У Кнопа отклонения -1 и +2 дают четыре исхода за одно взвешивание, а в ЛМО две одинаково тяжелые фальшивки восстанавливаются по суммам двоичных кодов.",
+      "backward_text": "ЛМО-1980 является родственной числовой подписью для пары фальшивых монет; отличие в том, что обе фальшивки одинакового типа, поэтому нужны уникальные суммы кодов, а не два независимых двоичных номера.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    },
+    {
       "id": "rel-knop-uniformity-to-zero-or-k",
       "from": "knop-coin-uniformity-verification",
       "to": "knop-zero-or-k-counterfeits-verification",
@@ -65,6 +87,28 @@
       "backward_text": "Серия с повторяющимися весами обобщает одноходовую идею для весов 3 г и 4 г на более сложные мультимножества.",
       "status": "needs_human_review",
       "confidence": 0.82
+    },
+    {
+      "id": "rel-knop-one-weight-to-expert-weights-family",
+      "from": "knop-expert-judge-one-weighing-one-weight",
+      "to": "knop-expert-judge-repeated-weights-cycle",
+      "type": "teaches_before",
+      "distance": 1,
+      "forward_text": "Д.16 является более слабым экспертным сертификатом: одно взвешивание должно зафиксировать вес хотя бы одной гирьки. Серия с повторяющимися весами требует уже восстановить все веса и использует тот же принцип крайних сумм для исключения альтернативных назначений.",
+      "backward_text": "Повторяющиеся веса развивают тот же язык публичного сертификата для судьи, но с полной целью вместо определения одной особой гирьки.",
+      "status": "ai_checked",
+      "confidence": 0.86
+    },
+    {
+      "id": "rel-knop-one-weight-to-tokarev-six",
+      "from": "knop-expert-judge-one-weighing-one-weight",
+      "to": "tokarev-expert-judge-six-weights-two-weighings",
+      "type": "contrast",
+      "distance": 1,
+      "forward_text": "В Д.16 эксперту достаточно сделать так, чтобы судья узнал один вес; в задаче Токарева два взвешивания должны восстановить всю перестановку весов 1-6.",
+      "backward_text": "Задача Токарева показывает усиленную цель expert/judge: судья должен узнать все веса, а не только одну гирьку, поэтому одного экстремального сертификата уже недостаточно.",
+      "status": "ai_checked",
+      "confidence": 0.84
     },
     {
       "id": "rel-tokarev-six-to-repeated-weights",

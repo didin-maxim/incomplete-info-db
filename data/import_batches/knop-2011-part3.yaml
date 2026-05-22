@@ -30,6 +30,12 @@
       "source_id": "src-knop-2011-weighings-algorithms"
     },
     {
+      "problem_id": "knop-2011-row-fakes-right-optional-k-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "notes": "Дополнительные задачи Д.6-Д.7. Д.6 восстановлена явной таблицей; для Д.7 добавлена индуктивная конструкция для k >= 2 и явно отмечено исключение k = 1."
+    },
+    {
       "problem_id": "ten-weights-adjacent-labels-swapped-two-weighings",
       "status": "added",
       "source_id": "src-knop-2011-weighings-algorithms"
@@ -50,6 +56,13 @@
       "source_id": "src-knop-2011-weighings-algorithms"
     },
     {
+      "problem_id": "fake-chain-link-31-95-cuts",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "PART3, задача 3.9",
+      "note": "Пункт б закрыт: при равенстве трех больших кусков они дают настоящий эталон для проверки двух разрезанных звеньев."
+    },
+    {
       "problem_id": "nine-coins-one-sticking-balance-three-weighings",
       "status": "added",
       "source_id": "src-knop-2011-weighings-algorithms"
@@ -58,10 +71,45 @@
       "problem_id": "five-coins-two-equal-fakes-find-genuine",
       "status": "added",
       "source_id": "src-knop-2011-weighings-algorithms"
+    },
+    {
+      "problem_id": "knop-2011-21-coins-double-right-balance-three-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "dop_zad, Д.8",
+      "note": "Первый ход взят из книги; дальнейшая трисекция через настоящие монеты-балласт расписана по ветвям 4, 8 и 9 подозреваемых."
+    },
+    {
+      "problem_id": "ten-weights-adjacent-labels-swapped-two-weighings",
+      "status": "source_note_added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "dop_zad, Д.9",
+      "note": "Д.9 не заведена отдельной карточкой: это редукция к 3.6 через виртуальный обмен 9 и 10."
+    },
+    {
+      "problem_id": "knop-2011-two-fakes-distance-eight-coins-two-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "dop_zad, Д.12"
+    },
+    {
+      "problem_id": "knop-2011-nine-coins-1g-4g-find-heavy-three-weighings",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "dop_zad, Д.13",
+      "note": "Явное дерево проверено перебором 72 состояний."
+    },
+    {
+      "problem_id": "kvant-1996-kalashnikov-2009-coins-sign-impossible",
+      "status": "added",
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "source_location": "dop_zad, Д.14",
+      "note": "Автор по index: С. И. Токарев; первоисточник: Турнир Кванта, 1996."
     }
   ],
   "source_notes": [
     "Импортированы новые недублирующие карточки из занятия 3 книги К. А. Кнопа «Взвешивания и алгоритмы: от головоломок к задачам», МЦНМО, 2011.",
+    "2026-05-22: добавлена семейная карточка по дополнительным задачам Д.6-Д.7; она не является дублем задачи 3.5, потому что допускает отсутствие фальшивых монет.",
     "Явные дубли lktg-2008-three-balances-one-broken-nine-coins и problems-ru-65055-paid-weighings-genuine-coin не создавались в этом проходе; source-only обработан отдельно.",
     "Интерактивы в карточки не добавлялись: кандидаты перечислены в docs/reviews/interactive-knop-2011-part3.md."
   ]

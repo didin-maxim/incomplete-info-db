@@ -89,6 +89,17 @@
       "confidence": 0.65
     },
     {
+      "id": "rel-knop-function-sign-to-fixed-questions",
+      "from": "function-sign-change-interval-value-queries",
+      "to": "fixed-questions-as-binary-code",
+      "type": "variant",
+      "distance": 3,
+      "forward_text": "Поиск отрезка смены знака является непрерывной версией дерева вопросов: вместо конечной таблицы состояний Витя получает значения функции и адаптивно делит текущий отрезок пополам.",
+      "backward_text": "Общая карточка про двоичные вопросы дает дискретный ориентир для подсчета ветвей; задача о функции показывает пограничный для базы случай, где скрытый объект бесконечен, но существенный ответ каждого шага сводится к выбору одной из двух половин.",
+      "status": "needs_human_review",
+      "confidence": 0.68
+    },
+    {
       "id": "rel-knop-cowboy-to-calgary-hot-cold",
       "from": "cowboy-target-by-closer-shot-comparisons",
       "to": "calgary-jmc-2010-b5-hot-and-cold-treasure",

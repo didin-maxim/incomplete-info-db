@@ -11,9 +11,11 @@ function loadProblemConfig(relativePath) {
 const twelveCoinConfig = loadProblemConfig('data/problems/weighings/counterfeit-12-coins-3-weighings.yaml');
 const twelveCoinPreassignedConfig = loadProblemConfig('data/problems/weighings/counterfeit-12-coins-3-preassigned-weighings.yaml');
 const limitedTwoUsesPreassignedConfig = loadProblemConfig('data/problems/generalizations/light-coin-limited-two-uses-preassigned-weighings.yaml');
+const knopKnownLightPreassignedConfig = loadProblemConfig('data/problems/knop_2011_part5/knop-2011-known-light-coin-preassigned-ternary-code.yaml');
 const thirteenIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-identify-only-three-weighings.yaml');
 const thirteenPreassignedIdentifyOnlyConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-preassigned-identify-only-three-weighings.yaml');
 const thirteenKnownGenuineConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-known-genuine-three-weighings.yaml');
+const optionalLightEightConfig = loadProblemConfig('data/problems/knop_2011_part2/lighter-8-coins-optional-2-weighings.yaml');
 const sixteenZeroOneTwoSignConfig = loadProblemConfig('data/problems/classical_more/sixteen-coins-zero-one-two-fakes-sign.yaml');
 const moebiusLineConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2023-ten-line-one-liar-four-questions.yaml');
 const moebiusCoinsConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2018-three-coins-knight-liar-genuine.yaml');
@@ -34,11 +36,14 @@ const prisonersTenBoxesConfig = loadProblemConfig('data/problems/classical_more/
 const balancedSubsetEightConfig = loadProblemConfig('data/problems/bulgaria_bas/balanced-subset-8-three-questions.yaml');
 const fitchCheneyConfig = loadProblemConfig('data/problems/card_tricks/fitch-cheney-five-card-trick.yaml');
 const binaryCardsConfig = loadProblemConfig('data/problems/classical/calendar-card-binary-trick.yaml');
+const passwordFeedbackConfig = loadProblemConfig('data/problems/extracted_archives/calgary-jmc-2021-b3-password-feedback.yaml');
 const ternaryQuestionConfig = loadProblemConfig('data/problems/coding_games/one-counterfeit-among-27-three-ternary-questions.yaml');
 const repetitionCodeConfig = loadProblemConfig('data/problems/coding_games/number-guessing-one-lie-by-repetition.yaml');
 const permutationMessageConfig = loadProblemConfig('data/problems/coding_games/permutation-encodes-six-messages.yaml');
 const twentyOneCardConfig = loadProblemConfig('data/problems/classical/twenty-one-card-trick.yaml');
+const petyaVasyaConfig = loadProblemConfig('data/problems/matprazdnik_deep/matprazdnik-2026-five-cards-petya-vasya.yaml');
 const higherLowerConfig = loadProblemConfig('data/problems/australia/mcya-2018-intermediate-higher-or-lower.yaml');
+const expertJudgeOneWeightConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-expert-judge-one-weighing-one-weight.yaml');
 
 assert.deepEqual(twelveCoinConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(twelveCoinConfig.modes.includes('cheater'), true);
@@ -48,6 +53,10 @@ assert.equal(twelveCoinPreassignedConfig.modes.includes('exhaustive'), true);
 assert.deepEqual(limitedTwoUsesPreassignedConfig.type, 'single_counterfeit_weighing');
 assert.equal(limitedTwoUsesPreassignedConfig.adaptive, false);
 assert.equal(limitedTwoUsesPreassignedConfig.counterfeit_weight, 'lighter');
+assert.deepEqual(knopKnownLightPreassignedConfig.type, 'single_counterfeit_weighing');
+assert.equal(knopKnownLightPreassignedConfig.adaptive, false);
+assert.equal(knopKnownLightPreassignedConfig.coin_count, 27);
+assert.equal(knopKnownLightPreassignedConfig.counterfeit_weight, 'lighter');
 assert.deepEqual(thirteenIdentifyOnlyConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(thirteenIdentifyOnlyConfig.objective, 'identify_coin_only_unknown_direction');
 assert.equal(thirteenIdentifyOnlyConfig.modes.includes('cheater'), true);
@@ -58,6 +67,9 @@ assert.equal(thirteenPreassignedIdentifyOnlyConfig.modes.includes('exhaustive'),
 assert.deepEqual(thirteenKnownGenuineConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(thirteenKnownGenuineConfig.known_genuine_count, 1);
 assert.equal(thirteenKnownGenuineConfig.modes.includes('cheater'), true);
+assert.deepEqual(optionalLightEightConfig.type, 'single_counterfeit_weighing');
+assert.equal(optionalLightEightConfig.allow_no_counterfeit, true);
+assert.equal(optionalLightEightConfig.objective, 'identify_coin_or_none');
 assert.deepEqual(sixteenZeroOneTwoSignConfig.type, 'zero_one_two_counterfeit_sign');
 assert.equal(sixteenZeroOneTwoSignConfig.objective, 'detect_presence_and_sign');
 assert.equal(sixteenZeroOneTwoSignConfig.modes.includes('exhaustive'), true);
@@ -108,6 +120,9 @@ assert.equal(fitchCheneyConfig.objective, 'identify_hidden_card');
 assert.deepEqual(binaryCardsConfig.type, 'binary_cards_number_trick');
 assert.equal(binaryCardsConfig.card_count, 5);
 assert.equal(binaryCardsConfig.number_max, 31);
+assert.deepEqual(passwordFeedbackConfig.type, 'fixed_feedback_code');
+assert.equal(passwordFeedbackConfig.password_length, 10);
+assert.equal(passwordFeedbackConfig.max_tests, 4);
 assert.deepEqual(ternaryQuestionConfig.type, 'ternary_question_code');
 assert.equal(ternaryQuestionConfig.object_count, 27);
 assert.equal(ternaryQuestionConfig.max_tests, 3);
@@ -120,9 +135,86 @@ assert.equal(permutationMessageConfig.message_count, 6);
 assert.deepEqual(twentyOneCardConfig.type, 'twenty_one_card_trick');
 assert.equal(twentyOneCardConfig.deck_size, 21);
 assert.equal(twentyOneCardConfig.round_count, 3);
+assert.deepEqual(petyaVasyaConfig.type, 'petya_vasya_five_cards_protocol');
+assert.equal(petyaVasyaConfig.card_count, 5);
+assert.equal(petyaVasyaConfig.objective, 'identify_spectator_card');
 assert.deepEqual(higherLowerConfig.type, 'higher_lower_strategy_game');
 assert.equal(higherLowerConfig.box_count, 9);
 assert.equal(higherLowerConfig.objective, 'maximize_win_probability');
+assert.deepEqual(expertJudgeOneWeightConfig.type, 'expert_judge_certificate');
+assert.equal(expertJudgeOneWeightConfig.objective, 'identify_one_weight');
+
+const petyaVasyaAll = cheater.petyaVasyaExhaustiveCheck(petyaVasyaConfig);
+assert.equal(petyaVasyaAll.ok, true);
+assert.equal(petyaVasyaAll.checked, 30);
+const petyaVasyaSample = cheater.petyaVasyaEvaluate({
+  ...petyaVasyaConfig,
+  distribution: { petya: [1, 4], vasya: [5], spectators: [2, 3] },
+  namedCard: 1,
+  answerCard: 2
+});
+assert.equal(petyaVasyaSample.strategyWin, true);
+assert.equal(petyaVasyaSample.petyaFollowsStrategy, true);
+assert.equal(petyaVasyaSample.vasyaAnswerSpectator, true);
+const petyaVasyaWrong = cheater.petyaVasyaEvaluate({
+  ...petyaVasyaConfig,
+  distribution: { petya: [1, 4], vasya: [5], spectators: [2, 3] },
+  namedCard: 4,
+  answerCard: 5
+});
+assert.equal(petyaVasyaWrong.strategyWin, false);
+assert.equal(petyaVasyaWrong.vasyaAnswerSpectator, false);
+
+const expertJudgeCases = [
+  {
+    object_count: 3,
+    left: [3],
+    right: [1, 2],
+    assignment: [1, 2, 3],
+    forced: [{ object: 3, weight: 3 }]
+  },
+  {
+    object_count: 7,
+    left: [7],
+    right: [1, 2, 3],
+    assignment: [1, 2, 3, 4, 5, 6, 7],
+    forced: [{ object: 7, weight: 7 }]
+  },
+  {
+    object_count: 8,
+    left: [7, 8],
+    right: [1, 2, 3, 4, 5],
+    assignment: [1, 2, 3, 4, 5, 6, 7, 8],
+    forced: [{ object: 6, weight: 6 }]
+  },
+  {
+    object_count: 25,
+    left: [19, 20, 21, 22, 23, 24, 25],
+    right: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+    assignment: Array.from({ length: 25 }, (_item, index) => index + 1),
+    forced: [{ object: 18, weight: 18 }]
+  }
+];
+
+for (const testCase of expertJudgeCases) {
+  const result = cheater.expertJudgeEvaluateCertificate(testCase);
+  assert.equal(result.success, true);
+  for (const expected of testCase.forced) {
+    const forced = result.learned.find(item => item.object === expected.object);
+    assert.ok(forced, `missing forced object ${expected.object} for N=${testCase.object_count}`);
+    assert.equal(forced.forcedWeight, expected.weight);
+  }
+}
+
+assert.deepEqual(
+  cheater.expertJudgePossibleWeightsForSingleton('outside', {
+    object_count: 8,
+    left: [1, 2],
+    right: [3, 4, 5, 6, 7],
+    outcome: 'balance'
+  }),
+  [6]
+);
 
 const higherLowerSolution = cheater.higherLowerSolve(higherLowerConfig);
 assert.equal(higherLowerSolution.comparisons.find(row => row.boxCount === 3).first.value.label, '2/3');
@@ -138,6 +230,28 @@ const higherLowerRoot = cheater.higherLowerInitialState(higherLowerConfig);
 const afterMiddleLower = cheater.higherLowerApplyAnswer(higherLowerRoot, 5, 'lower', higherLowerConfig);
 assert.deepEqual(afterMiddleLower, { low: 1, high: 4, turn: 'second', finished: false, winner: null });
 assert.equal(cheater.higherLowerStateValue(afterMiddleLower, higherLowerConfig).label, '1/2');
+
+assert.deepEqual(
+  cheater.fixedFeedbackFeedback('ABCDEABCDE', 'AABBDDCCEE', passwordFeedbackConfig),
+  [1, 8, 10]
+);
+const passwordStrategyHistory = cheater.fixedFeedbackStrategyHistory('ABCDEABCDE', passwordFeedbackConfig);
+assert.equal(passwordStrategyHistory.length, 4);
+assert.equal(cheater.fixedFeedbackCandidateCount(passwordStrategyHistory, passwordFeedbackConfig), 1);
+assert.equal(cheater.fixedFeedbackKnownPassword(passwordStrategyHistory, passwordFeedbackConfig), 'ABCDEABCDE');
+assert.equal(
+  cheater.fixedFeedbackFinalizeAnswer({
+    ...passwordFeedbackConfig,
+    history: passwordStrategyHistory,
+    secret: 'ABCDEABCDE',
+    answer: 'ABCDEABCDE'
+  }).win,
+  true
+);
+const passwordFeedbackExhaustive = cheater.fixedFeedbackExhaustiveCheck(passwordFeedbackConfig);
+assert.equal(passwordFeedbackExhaustive.success, true);
+assert.equal(passwordFeedbackExhaustive.checked, 5 ** 10);
+assert.equal(passwordFeedbackExhaustive.requiredTests, 4);
 
 assert.deepEqual(cheater.ternaryQuestionCodeForState(1, ternaryQuestionConfig), [0, 0, 0]);
 assert.deepEqual(cheater.ternaryQuestionCodeForState(27, ternaryQuestionConfig), [2, 2, 2]);
@@ -534,6 +648,47 @@ assert.deepEqual(
     4: 'definite_fake',
     5: 'genuine'
   }
+);
+
+const optionalLightStates = cheater.initialCandidates(8, true);
+assert.deepEqual(optionalLightStates, [0, 1, 2, 3, 4, 5, 6, 7, 8]);
+const optionalFirst = cheater.partitionCandidates({
+  coin_count: 8,
+  counterfeit_weight: 'light',
+  allow_no_counterfeit: true,
+  currentCandidates: optionalLightStates,
+  leftCoins: [1, 2, 3],
+  rightCoins: [4, 5, 6]
+});
+assert.deepEqual(optionalFirst.left_down, [4, 5, 6]);
+assert.deepEqual(optionalFirst.right_down, [1, 2, 3]);
+assert.deepEqual(optionalFirst.balance, [0, 7, 8]);
+const optionalNullBranch = cheater.expandExhaustiveNode({
+  coin_count: 8,
+  counterfeit_weight: 'light',
+  allow_no_counterfeit: true,
+  currentCandidates: optionalFirst.balance,
+  leftCoins: [7],
+  rightCoins: [8],
+  usedWeighings: 1,
+  maxWeighings: 2
+});
+assert.deepEqual(
+  Object.fromEntries(optionalNullBranch.children.map(child => [child.outcome, child.candidates])),
+  { left_down: [8], right_down: [7], balance: [0] }
+);
+assert.equal(
+  cheater.finalizeCheaterAnswer({
+    coin_count: 8,
+    allow_no_counterfeit: true,
+    currentCandidates: [0],
+    selectedCoin: 'none'
+  }).win,
+  true
+);
+assert.deepEqual(
+  cheater.knownDirectionCoinStatuses([0], 8, { allowNoCounterfeit: true }),
+  { 1: 'genuine', 2: 'genuine', 3: 'genuine', 4: 'genuine', 5: 'genuine', 6: 'genuine', 7: 'genuine', 8: 'genuine' }
 );
 
 const zeroOneTwoStates = cheater.zeroOneTwoSignInitialStates(16);
@@ -1056,6 +1211,53 @@ const unknownEqualSizeNonEquivalent = cheater.expandUnknownDirectionExhaustiveNo
 assert.deepEqual(unknownEqualSizeNonEquivalent.children.map(child => child.candidates.length), [2, 2]);
 assert.equal(unknownEqualSizeNonEquivalent.children.some(child => child.status === 'covered'), false);
 
+const fourCoinsStandardCandidates = cheater.initialUnknownDirectionCandidates(4, true);
+assert.equal(fourCoinsStandardCandidates.length, 9);
+assert.deepEqual(fourCoinsStandardCandidates[0], { coin: 0, direction: 'none' });
+
+const fourCoinsStandardFirst = cheater.expandUnknownDirectionExhaustiveNode({
+  coin_count: 4,
+  currentCandidates: fourCoinsStandardCandidates,
+  leftCoins: [1, 2],
+  rightCoins: [3, 5],
+  usedWeighings: 0,
+  maxWeighings: 2,
+  objective: 'identify_coin_and_sign',
+  allow_no_counterfeit: true,
+  require_equal_pan_counts: true
+});
+assert.deepEqual(fourCoinsStandardFirst.children.map(child => child.candidates.length), [3, 3, 3]);
+
+const fourCoinsStandardBalance = fourCoinsStandardFirst.children.find(child => child.outcome === 'balance');
+assert.deepEqual(
+  fourCoinsStandardBalance.candidates,
+  [{ coin: 0, direction: 'none' }, { coin: 4, direction: 'heavier' }, { coin: 4, direction: 'lighter' }]
+);
+
+const fourCoinsStandardSecond = cheater.expandUnknownDirectionExhaustiveNode({
+  coin_count: 4,
+  currentCandidates: fourCoinsStandardBalance.candidates,
+  leftCoins: [4],
+  rightCoins: [5],
+  usedWeighings: fourCoinsStandardBalance.usedWeighings,
+  maxWeighings: 2,
+  objective: 'identify_coin_and_sign',
+  allow_no_counterfeit: true,
+  require_equal_pan_counts: true
+});
+assert.deepEqual(fourCoinsStandardSecond.children.map(child => child.status), ['solved', 'covered', 'solved']);
+
+const fourCoinsStandardNoneAnswer = cheater.finalizeCheaterUnknownDirectionAnswer({
+  coin_count: 4,
+  currentCandidates: [{ coin: 0, direction: 'none' }],
+  selectedCoin: 'none',
+  selectedDirection: 'none',
+  objective: 'identify_coin_and_sign',
+  allow_no_counterfeit: true
+});
+assert.equal(fourCoinsStandardNoneAnswer.win, true);
+assert.deepEqual(fourCoinsStandardNoneAnswer.actualCandidate, { coin: 0, direction: 'none' });
+
 const unknownCheaterFirst = cheater.chooseCheaterUnknownDirectionOutcome({
   coin_count: 12,
   currentCandidates: cheater.initialUnknownDirectionCandidates(12),
@@ -1184,6 +1386,31 @@ const limitedTwoUsesBadPreassignedCheck = cheater.checkKnownDirectionNonadaptive
 });
 assert.equal(limitedTwoUsesBadPreassignedCheck.success, false);
 assert.equal(limitedTwoUsesBadPreassignedCheck.conflicts.length > 0, true);
+
+const knopKnownLightPreassignedCheck = cheater.checkKnownDirectionNonadaptiveStrategy({
+  coin_count: knopKnownLightPreassignedConfig.coin_count,
+  max_weighings: knopKnownLightPreassignedConfig.max_weighings,
+  counterfeit_weight: knopKnownLightPreassignedConfig.counterfeit_weight,
+  weighings: knopKnownLightPreassignedConfig.preset_weighings,
+  require_equal_pan_counts: knopKnownLightPreassignedConfig.require_equal_pan_counts
+});
+assert.equal(knopKnownLightPreassignedCheck.success, true);
+assert.equal(knopKnownLightPreassignedCheck.states.length, 27);
+assert.equal(knopKnownLightPreassignedCheck.partitions.length, 27);
+assert.deepEqual(knopKnownLightPreassignedCheck.conflicts, []);
+assert.equal(
+  knopKnownLightPreassignedConfig.preset_weighings.every(row => row.left.length === 9 && row.right.length === 9),
+  true
+);
+assert.deepEqual(
+  cheater.knownDirectionSignatureForCandidate(
+    14,
+    'lighter',
+    knopKnownLightPreassignedConfig.preset_weighings,
+    { coinCount: knopKnownLightPreassignedConfig.coin_count, requireEqualPanCounts: true }
+  ),
+  ['right_down', 'right_down', 'right_down']
+);
 
 const thirteenPreassignedIdentifyOnlyCheck = cheater.checkUnknownDirectionNonadaptiveStrategy({
   coin_count: thirteenPreassignedIdentifyOnlyConfig.coin_count,
@@ -1706,6 +1933,48 @@ for (const child of multipleFirst.children) {
   assert.deepEqual(expanded.children.map(branch => branch.status), expanded.children.map(() => 'solved'));
   assert.equal(expanded.children.every(branch => cheater.commonLightCoins(branch.candidates).length > 0), true);
 }
+
+const israelSevenThreeStates = cheater.initialMultipleLightCandidates(7, 3);
+assert.equal(israelSevenThreeStates.length, 35);
+const israelSevenThreeFirst = cheater.multipleLightExpandExhaustiveNode({
+  coin_count: 7,
+  light_count: 3,
+  currentCandidates: israelSevenThreeStates,
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  usedWeighings: 0,
+  maxWeighings: 2,
+  objective: 'identify_one_light_coin'
+});
+assert.equal(israelSevenThreeFirst.children.length, 3);
+assert.deepEqual(israelSevenThreeFirst.children.map(child => child.candidates.length), [11, 11, 13]);
+for (const child of israelSevenThreeFirst.children) {
+  const second = child.outcome === 'left_down'
+    ? { leftCoins: [1], rightCoins: [3] }
+    : { leftCoins: [1], rightCoins: [2] };
+  const expanded = cheater.multipleLightExpandExhaustiveNode({
+    coin_count: 7,
+    light_count: 3,
+    currentCandidates: child.candidates,
+    leftCoins: second.leftCoins,
+    rightCoins: second.rightCoins,
+    usedWeighings: child.usedWeighings,
+    maxWeighings: 2,
+    objective: 'identify_one_light_coin'
+  });
+  assert.equal(expanded.children.every(branch => cheater.commonLightCoins(branch.candidates).length > 0), true);
+}
+const israelSevenThreeCheaterFirst = cheater.multipleLightChooseCheaterOutcome({
+  coin_count: 7,
+  light_count: 3,
+  currentCandidates: israelSevenThreeStates,
+  leftCoins: [1, 2],
+  rightCoins: [3, 4],
+  history: [],
+  objective: 'identify_one_light_coin'
+});
+assert.equal(israelSevenThreeCheaterFirst.outcome, 'balance');
+assert.equal(israelSevenThreeCheaterFirst.candidates.length, 13);
 
 const multipleCheaterFirst = cheater.multipleLightChooseCheaterOutcome({
   coin_count: 6,

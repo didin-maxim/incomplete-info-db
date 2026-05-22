@@ -1,0 +1,125 @@
+{
+  "id": "knop-2011-five-coins-at-least-one-fake-three-impossible",
+  "title": "Пять монет: хотя бы одна фальшивая, трех взвешиваний не хватает",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "decision_tree_lower_bound",
+    "secondary": [
+      "impossibility_proof",
+      "counting"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d27",
+        "title": "Найти все фальшивые среди пяти",
+        "text": "Имеются пять монет. Некоторые из них настоящие, а остальные фальшивые; фальшивые монеты легкие и равны друг другу. Известно, что хотя бы одна фальшивая монета точно есть. Можно ли отыскать все фальшивые монеты за три взвешивания на чашечных весах без гирь?",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-all-nonempty-subsets",
+      "title": "Каждое непустое подмножество может быть множеством фальшивых",
+      "text": "Скрытое состояние - непустое множество фальшивых монет. Для пяти монет таких множеств \\(2^5-1=31\\).",
+      "standard_idea_ids": [
+        "pigeonhole_principle",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "imp-31-more-than-27",
+      "title": "Трех исходов в трех взвешиваниях мало",
+      "text": "Каждое чашечное взвешивание дает не более трех исходов, поэтому за три взвешивания можно различить не более \\(3^3=27\\) листьев дерева решений. Но возможных непустых множеств фальшивых монет \\(31\\). Значит, два разных множества неизбежно дадут одинаковую цепочку результатов, и все фальшивые монеты определить нельзя.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound",
+        "pigeonhole_principle"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "31 состояние: любое непустое подмножество из пяти монет может быть фальшивым",
+    "observations": [
+      "три исхода каждого чашечного взвешивания"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать следующие взвешивания"
+    ],
+    "goal": [
+      "identify_all_counterfeits"
+    ],
+    "strategy_type": [
+      "impossibility_proof",
+      "decision_tree_lower_bound"
+    ],
+    "lower_bound_method": [
+      "answer_word_count"
+    ],
+    "keywords": [
+      "knop_d27",
+      "all_nonempty_fake_subsets",
+      "five_coins",
+      "counting_bound"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 5,
+    "counterfeit_count": "1_to_5",
+    "counterfeit_type": "lighter_equal_fakes",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "prove_impossible_identify_all_counterfeits"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 2,
+    "comment": "Чистая нижняя оценка: число возможных подмножеств превышает число листьев трехвзвешивательного дерева.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree_lower_bound",
+    "counting_lower_bound",
+    "condition_middle_school"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part5_batch",
+    "notes": [
+      "Дополнительная задача Д.27. Не слита с Д.29: здесь невозможность следует уже из \\(31>27\\), а в Д.29 грубый счет состояний не запрещает решение."
+    ]
+  }
+}

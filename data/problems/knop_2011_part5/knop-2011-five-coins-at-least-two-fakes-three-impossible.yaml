@@ -1,0 +1,136 @@
+{
+  "id": "knop-2011-five-coins-at-least-two-fakes-three-impossible",
+  "title": "Пять монет: не менее двух фальшивых, первое взвешивание застревает",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "decision_tree_lower_bound",
+    "secondary": [
+      "impossibility_proof",
+      "bottleneck_argument"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d29",
+        "title": "Найти все фальшивые, если их не меньше двух",
+        "text": "Из пяти монет не менее двух фальшивых. Докажите, что все фальшивые монеты не удастся найти за три взвешивания на чашечных весах без гирь.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-count-not-enough",
+      "title": "Простой счет уже не запрещает решение",
+      "text": "Возможных множеств фальшивых монет \\(\\binom52+\\binom53+\\binom54+\\binom55=26\\), а три взвешивания имеют 27 возможных цепочек исходов. Поэтому нужна более тонкая нижняя оценка по первому взвешиванию.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-first-weighing-bottleneck",
+      "title": "В одной ветви первого взвешивания остается больше девяти случаев",
+      "text": "После первого взвешивания должно оставаться не более девяти состояний в каждой ветви, иначе двух оставшихся взвешиваний не хватит. Но любое нетривиальное первое взвешивание на пяти монетах имеет слишком большую ветвь равновесия.",
+      "standard_idea_ids": [
+        "pigeonhole_principle",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "imp-first-weighing-equality-branch",
+      "title": "Равновесная ветвь первого взвешивания слишком велика",
+      "text": "После первого взвешивания каждая ветвь должна содержать не более \\(3^2=9\\) возможных множеств фальшивых монет. Достаточно рассмотреть осмысленные первые взвешивания с одинаковым числом монет на чашах.\n\nЕсли сравнить одну монету с одной, то равновесие означает, что эти две монеты одного типа. Возможны 8 случаев, когда обе они фальшивые, и 4 случая, когда обе настоящие, итого 12 состояний. Если сравнить две монеты с двумя, то равновесие означает одинаковое число фальшивых на чашах; получается 8 состояний с одной фальшивой на каждой чаше и 2 состояния с двумя фальшивыми на каждой чаше, итого 10. В обоих случаях равновесная ветвь больше 9, поэтому двумя оставшимися взвешиваниями все состояния уже не различить.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound",
+        "pigeonhole_principle"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "26 состояний: множество фальшивых монет имеет размер 2, 3, 4 или 5",
+    "observations": [
+      "три исхода каждого чашечного взвешивания"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать следующие взвешивания"
+    ],
+    "goal": [
+      "identify_all_counterfeits"
+    ],
+    "strategy_type": [
+      "impossibility_proof",
+      "decision_tree_lower_bound",
+      "bottleneck_argument"
+    ],
+    "lower_bound_method": [
+      "first_weighing_bottleneck"
+    ],
+    "keywords": [
+      "knop_d29",
+      "five_coins",
+      "at_least_two_fakes",
+      "bottleneck"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 5,
+    "counterfeit_count": "2_to_5",
+    "counterfeit_type": "lighter_equal_fakes",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "prove_impossible_identify_all_counterfeits"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 5,
+    "comment": "Информационный счет \\(26<27\\) выглядит благоприятно, но равновесная ветвь любого первого взвешивания слишком велика.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree_lower_bound",
+    "structural_constraint",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part5_batch",
+    "notes": [
+      "Дополнительная задача Д.29. Не слита с Д.27: там невозможность следует сразу из числа состояний, здесь нужна оценка узкого места первого взвешивания.",
+      "В доказательстве явно восстановлены подсчеты равновесных ветвей: 12 для взвешивания 1 против 1 и 10 для 2 против 2."
+    ]
+  }
+}

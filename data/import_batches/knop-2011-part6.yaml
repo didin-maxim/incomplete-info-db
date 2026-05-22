@@ -7,6 +7,8 @@
     {"problem_id": "knop-saladin-14-known-genuine-identify-only", "status": "added"},
     {"problem_id": "knop-six-coins-two-weighings-identify-only-impossible", "status": "added"},
     {"problem_id": "knop-saladin-four-weighings-one-spare", "status": "added"},
+    {"problem_id": "knop-2011-pair-light-different-weights-4-6-8", "status": "added"},
+    {"problem_id": "knop-2011-one-pan-9g-12g-two-fakes-family", "status": "added"},
     {"problem_id": "knop-coin-uniformity-verification", "status": "needs_human_review"},
     {"problem_id": "knop-zero-or-k-counterfeits-verification", "status": "needs_human_review"},
     {"problem_id": "emelyanov-expert-judge-one-coin-two-weighings-lower-bound", "status": "added"},
@@ -15,9 +17,17 @@
     {"problem_id": "knop-expert-judge-eight-coins-3-4g-one-weighing", "status": "added"},
     {"problem_id": "tokarev-expert-judge-six-weights-two-weighings", "status": "needs_human_review"},
     {"problem_id": "knop-expert-judge-repeated-weights-cycle", "status": "needs_human_review"},
+    {"problem_id": "knop-expert-judge-one-weighing-one-weight", "status": "added"},
     {"lead": "Задача Саладина, 12 монет", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к counterfeit-12-coins-3-weighings."},
     {"lead": "13 монет, найти только монету", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к thirteen-coins-identify-only-three-weighings."},
     {"lead": "13 подозрительных и одна настоящая", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к thirteen-coins-known-genuine-three-weighings."},
-    {"lead": "Общая сигнатурная схема Саладина", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к ternary-signature-code-heavy-or-light и komal-2010-a512-nonadaptive-counterfeit-code."}
+    {"lead": "Общая сигнатурная схема Саладина", "status": "not_added_duplicate", "notes": "Источник книги уже добавлен к ternary-signature-code-heavy-or-light и komal-2010-a512-nonadaptive-counterfeit-code."},
+    {"lead": "Занятие 6, задача 6.6: фальшивой монеты может не быть", "status": "source_note_added", "notes": "Не заведена отдельной карточкой: это мета-вариант задач 6.2-6.5. Source-note добавлен к саладинским карточкам: отсутствие фальшивой монеты занимает нулевую судьбу OOO."}
+  ],
+  "notes": [
+    "2026-05-22: добавлены семейные карточки дополнительных задач Д.31-Д.33 и Д.34-Д.36 из dop_zad.tex.utf8.txt.",
+    "В рабочем дереве найдены другие частичные незакоммиченные карточки Кнопа в part3/part5; этот batch фиксирует только Д.31-Д.36.",
+    "2026-05-22: Д.16 добавлена отдельной карточкой после проверки, что это не дубль existing expert_judge_certificate задач.",
+    "2026-05-22: 6.6 зафиксирована как source-note/relation-level вариант, а не отдельная карточка."
   ]
 }

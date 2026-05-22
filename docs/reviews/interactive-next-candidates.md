@@ -2,6 +2,78 @@
 
 Дата ревизии: 2026-05-19.
 
+## Ревизия 2026-05-22: ближайшая очередь
+
+Контекст: часть кандидатов из ревизии 2026-05-19 уже получила интерактивы или YAML-поле `interactive`: `nrich-spot-the-fake-two-weighings`, `heavier-4-coins-one-weighing-impossible`, `counterfeit-12-coins-3-weighings`, `spb-primary-2023-seven-coins-two-weighing-results`, `three-coins-unknown-sign-two-weighings`, `komal-2020-k664-six-coins-two-light`, `savin-12-six-coins-two-fakes-two-weighings`, `poland-omg-2005-five-coins-48g-three-digital-weighings`, `kvant-2003-01-three-scales-two-weighings`, `prisoners-hats-parity-line`, `fixed-questions-as-binary-code`, `number-guessing-one-lie-by-repetition`, `one-counterfeit-among-27-three-ternary-questions`, `permutation-encodes-six-messages`, `mcya-2018-intermediate-higher-or-lower`, `knop-2011-known-light-coin-preassigned-ternary-code`. Их не считать ближайшими кандидатами на новую разработку, кроме регрессионной проверки уже готовых движков.
+
+### Делать следующим
+
+1. `spb-primary-2023-seven-coins-two-weighing-results`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - Реализация: семь монет, две уже показанные строки взвешиваний, ручные статусы "совместима/исключена", финальный выбор легкой монеты.
+   - Режимы: только `transcript`/`guided`; `random`, `cheater`, `exhaustive` не нужны.
+   - Основа: новый минимальный `fixed_weighing_transcript`, визуально близкий к обычному интерфейсу чашечных весов без дерева стратегии.
+
+2. `three-coins-unknown-sign-two-weighings`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - План: три монеты, два взвешивания, ответ "монета + легче/тяжелее"; полезный маленький тест неизвестного направления.
+   - Режимы: `random`, `cheater`, `exhaustive`.
+   - Основа: уже реализованный класс `single_counterfeit_unknown_direction` из `counterfeit-12-coins-3-weighings`, только с малым `coin_count: 3`.
+
+3. `lighter-8-coins-optional-2-weighings`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - План: восемь монет, фальшивая легкая может отсутствовать; пользователь строит два взвешивания и в конце выбирает монету или "фальшивой нет".
+   - Режимы: `random`, `cheater`, `exhaustive`.
+   - Основа: `single_counterfeit_weighing` с флагом `allow_no_counterfeit`, который добавляет честное нулевое состояние.
+
+4. `kvant-2003-04-four-coins-standard-two-weighings`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - Реализация: четыре подозрительные монеты и эталон; скрыто "нет фальшивой" или одна монета со знаком; ответ - монета и знак либо нулевой случай.
+   - Режимы: `random`, `cheater`, `exhaustive`.
+   - Основа: `single_counterfeit_unknown_direction` плюс известная настоящая монета и `allow_no_counterfeit`; нулевой случай добавлен как отдельное скрытое состояние.
+
+5. `israel-2020-seven-coins-three-light-find-one`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - Реализация: семь монет, ровно три легкие; пользователь строит адаптивные взвешивания и должен назвать монету, легкую во всех совместимых тройках.
+   - План: семь монет, ровно три легкие; пользователь взвешивает и должен назвать хотя бы одну гарантированно легкую монету.
+   - Режимы: `random`, `cheater`, `exhaustive`.
+   - Основа: семейство `multiple_light_find_one`; состояние маленькое, цель не требует восстанавливать все три фальшивые.
+
+6. `matprazdnik-2023-seven-bags-two-weighings`
+   - Статус карточки: `public_ready: true`, интерактива нет.
+   - План: семь мешков с разными весами как скрытая перестановка; пользователь выбирает два взвешивания и в конце вес указанного мешка.
+   - Режимы: `random`, `cheater` для перестановок, ограниченный `exhaustive` по типам/семплам.
+   - Основа: проще всего от `numeric_linear_signature`, но с целью `identify_selected_bag_weight`, а не найти фальшивый объект.
+
+### Делать после небольшой доводки карточки или ТЗ
+
+1. `mccme-2016-three-piles-one-genuine-pile`
+   - Карточка `public_ready: true`, но нужно явно зафиксировать малый UI: три кучки, одно взвешивание равных выборок, ответ - безопасная кучка.
+   - Основа: `safe_pile_balance_certificate`; режимы `random`, `cheater`, `exhaustive` по возможным кучкам.
+
+2. `problems-ru-78810-thousand-coins-zero-one-two-fakes-sign`
+   - Карточка `public_ready: true`, но нужен малый случай, например 16 монет.
+   - Основа: `zero_one_two_counterfeit_sign`; режимы `random`, `cheater`, `exhaustive`. Цель - наличие и знак, не номера монет.
+
+3. `knop-expert-judge-one-weighing-one-weight`
+   - Карточка `public_ready: true`, но нужно коротко описать формат "эксперт предъявляет одно взвешивание, судья проверяет вынужденность веса".
+   - Основа: новый малый `expert_judge_certificate`; режимы `sandbox` и `exhaustive` по совместимым назначениям весов.
+
+4. `calgary-jmc-2021-b3-password-feedback`
+   - 2026-05-22: интерактив добавлен.
+   - Реализован `fixed_feedback_code`: режимы `random`, `sandbox`, `exhaustive`; проверка схемы не перебирает 5^10 слов явно, а использует покоординатную структуру обратной связи.
+
+5. `matprazdnik-2026-five-cards-petya-vasya`
+   - Статус карточки: `public_ready: true`, интерактив добавлен 2026-05-22.
+   - Реализация: отдельный малый `petya_vasya_five_cards_protocol`: 5 карточек, распределение 2 Пете / 1 Васе / 2 зрителям, выбор названной Петей карточки и ответа Васи.
+   - Режимы: `random`, `sandbox`, `exhaustive`; полный перебор проверяет все 30 распределений.
+
+### Пока не делать
+
+- `cemc-2025-pascal-three-question-quiz`, `moebius-cupscales-2-silver-copper-counterfeit`, `four-guineas-exactly-two-counterfeits-verification`, `knop-coin-uniformity-verification`, `tokarev-expert-judge-six-weights-two-weighings`: карточки сейчас `public_ready: false`.
+- `mmo-2026-row-of-12-fakes-110-genuine`, `problems-ru-66710-hats-with-madmen-oracle`, `sum-product-two-numbers`, `boolos-hardest-logic-puzzle`: интерактив возможен, но движок тяжелее ближайшей пользы.
+- `knop-saladin-four-weighings-one-spare`, `knop-2011-nine-light-coins-one-erasure-reserve-plan`, `knop-2011-nine-light-coins-two-erasure-reserve-plan`: интересные, но требуют отдельного режима удаления строк плана и проверки устойчивости, поэтому не первая очередь.
+
 Контекст: уже работает `single_counterfeit_weighing` для одной фальшивой монеты известного направления. В viewer есть режимы `Случайная монета`, `Шулер`, `Полный перебор`; вычислительная часть вынесена в `viewer/weighing_cheater.js`, самопроверка - в `tools/weighing_cheater_selftest.js`.
 
 Принцип отбора: интерактив должен моделировать исходную задачу как игру или проверку действий читателя, а не показывать готовую стратегию. Для параметрических карточек допустим фиксированный малый случай, если он явно сохраняет математическую суть карточки и не выглядит как новая задача.

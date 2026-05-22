@@ -15,6 +15,18 @@ Scope: new cards in `data/problems/knop_2011_part6/`. Do not add `interactive` Y
   - Existing nearby type: `single_counterfeit_unknown_direction`, but objective should permit identifying the coin without sign and should allow a zero-signature coin whose two sign states are intentionally merged.
   - Also relevant as a negative/explanatory sandbox for `knop-six-coins-two-weighings-identify-only-impossible`.
 
+- `two_light_different_weights`
+  - Card: `knop-2011-pair-light-different-weights-4-6-8`.
+  - Hidden states: two counterfeit coins, both lighter than genuine, with two different counterfeit weights.
+  - User action: build an adaptive balance-scale decision tree for the 4/6/8 coin cases.
+  - Needs a small checker where equality of two single coins is allowed to certify that both are genuine.
+
+- `one_pan_two_signed_counterfeits`
+  - Card: `knop-2011-one-pan-9g-12g-two-fakes-family`.
+  - Hidden states: one 9 g coin and one 12 g coin among otherwise 10 g coins.
+  - User action: choose subsets for a one-pan pointer scale and decode both the 9 g and 12 g coins.
+  - Needs support for four per-weighing outcomes relative to normal weight: none, light only, heavy only, both.
+
 - `uniformity_verification`
   - Card: `knop-coin-uniformity-verification`.
   - Hidden states: all assignments of two possible weights, including the all-equal case.
@@ -22,10 +34,16 @@ Scope: new cards in `data/problems/knop_2011_part6/`. Do not add `interactive` Y
   - Important: this is inherently nonadaptive for positive verification because the only successful branch is all equalities.
 
 - `expert_judge_certificate`
-  - Cards: `emelyanov-expert-judge-one-coin-two-weighings-lower-bound`, `emelyanov-expert-judge-two-counterfeits-two-weighings`, `knop-expert-judge-light-counterfeits-extreme-sums`, `knop-expert-judge-eight-coins-3-4g-one-weighing`, `tokarev-expert-judge-six-weights-two-weighings`, `knop-expert-judge-repeated-weights-cycle`.
+  - Cards: `emelyanov-expert-judge-one-coin-two-weighings-lower-bound`, `emelyanov-expert-judge-two-counterfeits-two-weighings`, `knop-expert-judge-light-counterfeits-extreme-sums`, `knop-expert-judge-eight-coins-3-4g-one-weighing`, `tokarev-expert-judge-six-weights-two-weighings`, `knop-expert-judge-repeated-weights-cycle`, `knop-expert-judge-one-weighing-one-weight`.
   - Hidden states are known to the expert but not to the judge.
   - User action should model the expert choosing demonstrations; checker verifies that the judge has a unique compatible hidden state or claimed property after public outcomes.
+  - For `knop-expert-judge-one-weighing-one-weight`, the claimed property is weaker than full reconstruction: at least one named гирька must have a unique forced weight after the public weighing.
   - This should not reveal the intended certificate as a hint in normal mode.
+
+- `optional_no_counterfeit_signature`
+  - Source-note only for Knop 6.6: no separate YAML card was added.
+  - Relevant cards: `counterfeit-12-coins-3-weighings`, `thirteen-coins-identify-only-three-weighings`, `thirteen-coins-known-genuine-three-weighings`, `knop-saladin-14-known-genuine-identify-only`.
+  - UI implication: the all-zero outcome `OOO` can be an explicit "no counterfeit coin" state, so it cannot also be assigned to an extra suspect coin.
 
 ## Probability Layer Notes
 

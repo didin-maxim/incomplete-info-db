@@ -45,6 +45,17 @@
       "confidence": 0.78
     },
     {
+      "id": "rel-knop3-row-fakes-to-optional-family",
+      "from": "ten-row-fakes-on-right-two-weighings",
+      "to": "knop-2011-row-fakes-right-optional-k-weighings",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Семейная карточка Д.6-Д.7 сохраняет ту же монотонную границу в ряду, но добавляет случай, когда суффикс фальшивых монет пуст, и формулирует параметрический ответ для k взвешиваний.",
+      "backward_text": "Задача 3.5 - базовый десятимонетный вариант, где настоящие и фальшивые монеты точно есть; ее таблица служит моделью для редукции с воображаемой фальшивой монетой справа.",
+      "status": "needs_human_review",
+      "confidence": 0.82
+    },
+    {
       "id": "rel-knop3-two-adjacent-to-moebius-six-circle",
       "from": "nine-circle-two-adjacent-light-two-weighings",
       "to": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing",

@@ -1,0 +1,137 @@
+{
+  "id": "knop-2011-nineteen-coins-two-weights-twelve-impossible",
+  "title": "Девятнадцать монет двух весов: двенадцати взвешиваний не хватает",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "decision_tree_lower_bound",
+    "secondary": [
+      "impossibility_proof",
+      "bottleneck_argument"
+    ]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d30",
+        "title": "Определить, какие монеты легче",
+        "text": "Имеется 19 монет двух разных весов. Докажите, что за 12 взвешиваний не удастся выяснить, какие из них более легкие.",
+        "source_ids": [
+          "src-knop-2011-weighings-algorithms"
+        ],
+        "status": "source_verified",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "balance_scale",
+          "state_space"
+        ]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-capacity-not-enough-to-prove",
+      "title": "Грубая емкость не запрещает решение",
+      "text": "Даже если считать все возможные наборы легких монет, \\(2^{19}\\le 3^{12}\\). Поэтому невозможность доказывается не числом всех листьев, а тем, что уже после первого взвешивания одна из ветвей слишком велика для оставшихся 11 взвешиваний.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-first-weighing-large-branch",
+      "title": "Первое взвешивание неизбежно оставляет больше \\(3^{11}\\) случаев",
+      "text": "Если на каждой чаше не более двух монет, то равновесная ветвь огромна. Если на каждой чаше хотя бы три монеты, то уже одна из ветвей неравенства содержит слишком много вариантов.",
+      "standard_idea_ids": [
+        "pigeonhole_principle",
+        "decision_tree_lower_bound"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [],
+  "impossibility_proofs": [
+    {
+      "id": "imp-first-weighing-branch-counts",
+      "title": "Ветвь первого взвешивания больше \\(3^{11}\\)",
+      "text": "После первого взвешивания должно остаться не более \\(3^{11}=177147\\) состояний в каждой ветви. Рассмотрим первое взвешивание с \\(m\\) монетами на каждой чаше.\n\nЕсли \\(m\\le2\\), то наименьшая равновесная ветвь получается при \\(m=2\\). Тогда на двух чашах может быть поровну 0, 1 или 2 легкие монеты, а остальные 15 монет свободны: \\((1+4+1)\\cdot 2^{15}=196608\\) вариантов. Если в условии строго требовать, чтобы оба веса действительно встречались, из этого числа надо убрать только два крайних случая «все тяжелые» и «все легкие»; все равно остается \\(196606>177147\\).\n\nЕсли \\(m\\ge3\\), рассмотрим одну фиксированную ветвь неравенства, например когда на левой чаше легких монет больше, чем на правой. Число совместимых состояний равно \\(2^{19-2m}\\sum_{i>j}\\binom mi\\binom mj\\). Для \\(m=3,4,5,6,7,8,9\\) это соответственно \\(180224, 190464, 197632, 203008, 207232, 210664, 213524\\), то есть минимум уже при \\(m=3\\) больше \\(3^{11}\\). Значит, какое бы первое взвешивание ни выбрали, одна ветвь оставляет больше \\(3^{11}\\) состояний, и 12 взвешиваний недостаточно.",
+      "standard_idea_ids": [
+        "decision_tree_lower_bound",
+        "pigeonhole_principle"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "information_lower_bound"
+      ]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "какое подмножество из 19 монет является более легким; оба веса встречаются",
+    "observations": [
+      "исходы чашечных взвешиваний"
+    ],
+    "allowed_actions": [
+      "адаптивно выбирать следующие взвешивания"
+    ],
+    "goal": [
+      "identify_light_coin_set"
+    ],
+    "strategy_type": [
+      "impossibility_proof",
+      "decision_tree_lower_bound",
+      "bottleneck_argument"
+    ],
+    "lower_bound_method": [
+      "first_weighing_bottleneck"
+    ],
+    "keywords": [
+      "knop_d30",
+      "nineteen_coins",
+      "two_weights",
+      "bottleneck"
+    ],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 19,
+    "counterfeit_count": "unknown_subset",
+    "counterfeit_type": "two_weight_classes_identify_lighter_set",
+    "weighing_count": 12,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "prove_impossible_identify_light_set"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 7,
+    "comment": "Глобальная емкость дерева не запрещает решение; нужна оценка минимально возможной большой ветви первого взвешивания.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "balance_scale",
+    "decision_tree_lower_bound",
+    "structural_constraint",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-knop-2011-weighings-algorithms",
+      "role": "book_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part5_batch",
+    "notes": [
+      "Дополнительная задача Д.30.",
+      "2026-05-22: сверено с dop_zad.tex.utf8.txt: в источнике напечатано 196688, но прямой пересчет равновесной ветви 2 против 2 дает 196608. Это арифметическая опечатка источника; вывод невозможности не меняется.",
+      "Карточка не слита с Д.29: это тот же тип узкого места первого взвешивания, но другой набор возможных случаев и существенно больший расчет."
+    ]
+  }
+}

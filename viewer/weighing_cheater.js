@@ -63,10 +63,34 @@
     return result;
   }
 
-  function initialCandidates(coinCount) {
+  function initialCandidates(coinCount, allowNoCounterfeit = false) {
     const count = Number(coinCount);
     if (!Number.isInteger(count) || count < 1) return [];
-    return Array.from({ length: count }, (_item, index) => index + 1);
+    const candidates = Array.from({ length: count }, (_item, index) => index + 1);
+    return allowNoCounterfeit ? [0, ...candidates] : candidates;
+  }
+
+  function normalizeKnownDirectionCandidates(candidates, coinCount = null, allowNoCounterfeit = false) {
+    const limit = Number(coinCount);
+    const hasLimit = coinCount != null && Number.isInteger(limit);
+    const seen = new Set();
+    const result = [];
+    for (const raw of candidates || []) {
+      const coin = Number(raw?.coin ?? raw?.id ?? raw);
+      if (coin === 0 && allowNoCounterfeit) {
+        if (!seen.has(0)) {
+          seen.add(0);
+          result.push(0);
+        }
+        continue;
+      }
+      if (!Number.isInteger(coin) || coin < 1) continue;
+      if (hasLimit && coin > limit) continue;
+      if (seen.has(coin)) continue;
+      seen.add(coin);
+      result.push(coin);
+    }
+    return result;
   }
 
   function statusDefinition(key) {
@@ -91,10 +115,10 @@
     return null;
   }
 
-  function initialUnknownDirectionCandidates(coinCount) {
+  function initialUnknownDirectionCandidates(coinCount, allowNoCounterfeit = false) {
     const count = Number(coinCount);
     if (!Number.isInteger(count) || count < 1) return [];
-    const result = [];
+    const result = allowNoCounterfeit ? [{ coin: 0, direction: 'none' }] : [];
     for (let coin = 1; coin <= count; coin += 1) {
       result.push({ coin, direction: 'heavier' });
       result.push({ coin, direction: 'lighter' });
@@ -102,14 +126,23 @@
     return result;
   }
 
-  function normalizeUnknownDirectionCandidates(candidates, coinCount = null) {
+  function normalizeUnknownDirectionCandidates(candidates, coinCount = null, allowNoCounterfeit = false) {
     const limit = Number(coinCount);
     const hasLimit = coinCount != null && Number.isInteger(limit);
     const seen = new Set();
     const result = [];
     for (const raw of candidates || []) {
-      const coin = Number(raw?.coin ?? raw?.id ?? raw?.[0]);
+      const rawCoin = raw === 'none' ? 0 : (raw?.coin === 'none' ? 0 : (raw?.coin ?? raw?.id ?? raw?.[0]));
+      const coin = Number(rawCoin);
       const direction = normalizeDirection(raw?.direction ?? raw?.weight ?? raw?.[1]);
+      if (coin === 0 && allowNoCounterfeit) {
+        const key = '0:none';
+        if (!seen.has(key)) {
+          seen.add(key);
+          result.push({ coin: 0, direction: 'none' });
+        }
+        continue;
+      }
       if (!Number.isInteger(coin) || coin < 1 || !direction) continue;
       if (hasLimit && coin > limit) continue;
       const key = `${coin}:${direction}`;
@@ -120,15 +153,21 @@
     return result;
   }
 
-  function knownDirectionCoinStatuses(candidates, coinCount) {
+  function knownDirectionCoinStatuses(candidates, coinCount, options = {}) {
     const count = Number(coinCount);
     if (!Number.isInteger(count) || count < 1) return {};
-    const current = uniqueCoins(candidates?.length ? candidates : initialCandidates(count), count);
+    const allowNoCounterfeit = options?.allowNoCounterfeit ?? options?.allow_no_counterfeit ?? false;
+    const current = normalizeKnownDirectionCandidates(
+      candidates?.length ? candidates : initialCandidates(count, allowNoCounterfeit),
+      count,
+      allowNoCounterfeit
+    );
     const possible = new Set(current);
     const result = {};
+    const possibleRealCoinFakes = current.filter(coin => coin > 0);
     for (let coin = 1; coin <= count; coin += 1) {
       if (!possible.has(coin)) result[coin] = 'genuine';
-      else result[coin] = current.length === 1 ? 'definite_fake' : 'possible_fake';
+      else result[coin] = current.length === 1 && possibleRealCoinFakes.length === 1 ? 'definite_fake' : 'possible_fake';
     }
     return result;
   }
@@ -136,9 +175,11 @@
   function unknownDirectionCoinStatuses(candidates, coinCount) {
     const count = Number(coinCount);
     if (!Number.isInteger(count) || count < 1) return {};
+    const allowNoCounterfeit = (candidates || []).some(candidate => Number(candidate?.coin ?? candidate) === 0);
     const current = normalizeUnknownDirectionCandidates(
       candidates?.length ? candidates : initialUnknownDirectionCandidates(count),
-      count
+      count,
+      allowNoCounterfeit
     );
     const directionsByCoin = new Map();
     for (const candidate of current) {
@@ -171,6 +212,7 @@
   }
 
   function outcomeForCandidate(candidate, counterfeitWeight, leftCoins, rightCoins) {
+    if (Number(candidate) === 0) return 'balance';
     const weight = normalizeWeight(counterfeitWeight);
     if (!weight) return null;
     const left = new Set(leftCoins || []);
@@ -231,12 +273,14 @@
   }
 
   function unknownDirectionCandidateLabel(candidate) {
-    const normalized = normalizeUnknownDirectionCandidates([candidate])[0];
+    const normalized = normalizeUnknownDirectionCandidates([candidate], null, true)[0];
+    if (normalized?.coin === 0) return 'фальшивой монеты нет';
     return normalized ? `${normalized.coin} ${normalized.direction === 'lighter' ? 'легче' : 'тяжелее'}` : '';
   }
 
   function outcomeForUnknownDirectionCandidate(candidate, leftCoins, rightCoins, options = {}) {
-    const normalized = normalizeUnknownDirectionCandidates([candidate])[0];
+    const allowNoCounterfeit = options.allowNoCounterfeit ?? options.allow_no_counterfeit ?? false;
+    const normalized = normalizeUnknownDirectionCandidates([candidate], null, allowNoCounterfeit)[0];
     if (!normalized) return null;
     const leftList = uniqueCoins(leftCoins);
     const rightList = uniqueCoins(rightCoins);
@@ -248,9 +292,11 @@
     if (onLeft && onRight) return null;
     let leftWeight = leftList.length;
     let rightWeight = rightList.length;
-    const delta = normalized.direction === 'heavier' ? 1 : -1;
-    if (onLeft) leftWeight += delta;
-    if (onRight) rightWeight += delta;
+    if (normalized.coin > 0) {
+      const delta = normalized.direction === 'heavier' ? 1 : -1;
+      if (onLeft) leftWeight += delta;
+      if (onRight) rightWeight += delta;
+    }
     if (leftWeight > rightWeight) return 'left_down';
     if (rightWeight > leftWeight) return 'right_down';
     return 'balance';
@@ -258,9 +304,11 @@
 
   function filterCandidates(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
-    const currentCandidates = uniqueCoins(
-      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
+    const currentCandidates = normalizeKnownDirectionCandidates(
+      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
     const leftCoins = uniqueCoins(params?.leftCoins, Number.isInteger(coinCount) ? coinCount : null);
     const rightCoins = uniqueCoins(params?.rightCoins, Number.isInteger(coinCount) ? coinCount : null);
@@ -272,16 +320,19 @@
 
   function filterUnknownDirectionCandidates(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
     const currentCandidates = normalizeUnknownDirectionCandidates(
-      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
     const leftCoins = uniqueCoins(params?.leftCoins);
     const rightCoins = uniqueCoins(params?.rightCoins);
     const outcome = params?.outcome;
     return currentCandidates.filter(candidate =>
       outcomeForUnknownDirectionCandidate(candidate, leftCoins, rightCoins, {
-        requireEqualPanCounts: params?.requireEqualPanCounts ?? params?.require_equal_pan_counts
+        requireEqualPanCounts: params?.requireEqualPanCounts ?? params?.require_equal_pan_counts,
+        allowNoCounterfeit
       }) === outcome
     );
   }
@@ -291,12 +342,12 @@
     return partitions;
   }
 
-  function knownDirectionCandidateSetKey(candidates, coinCount = null) {
-    return uniqueCoins(candidates || [], coinCount).sort((a, b) => a - b).join('|');
+  function knownDirectionCandidateSetKey(candidates, coinCount = null, allowNoCounterfeit = false) {
+    return normalizeKnownDirectionCandidates(candidates || [], coinCount, allowNoCounterfeit).sort((a, b) => a - b).join('|');
   }
 
-  function permutedKnownDirectionCandidateSetKey(candidates, permutation, coinCount = null) {
-    return uniqueCoins(candidates || [], coinCount)
+  function permutedKnownDirectionCandidateSetKey(candidates, permutation, coinCount = null, allowNoCounterfeit = false) {
+    return normalizeKnownDirectionCandidates(candidates || [], coinCount, allowNoCounterfeit)
       .map(coin => permuteCoin(coin, permutation))
       .sort((a, b) => a - b)
       .join('|');
@@ -2006,7 +2057,7 @@
   }
 
   function exhaustiveBranchStatus(candidates, usedWeighings, maxWeighings) {
-    const remaining = uniqueCoins(candidates);
+    const remaining = normalizeKnownDirectionCandidates(candidates, null, true);
     const used = Number(usedWeighings);
     const limit = Number(maxWeighings);
     if (remaining.length === 1) return 'solved';
@@ -2016,9 +2067,11 @@
 
   function expandExhaustiveNode(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
-    const currentCandidates = uniqueCoins(
-      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
+    const currentCandidates = normalizeKnownDirectionCandidates(
+      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
     const usedWeighings = Number(params?.usedWeighings ?? params?.used_weighings ?? 0);
     const maxWeighings = Number(params?.maxWeighings ?? params?.max_weighings);
@@ -2046,8 +2099,8 @@
       : null;
     if (permutation) {
       markSymmetricOutcomeChildren(children, {
-        candidateSetKey: branchCandidates => knownDirectionCandidateSetKey(branchCandidates, coinCount),
-        transformedCandidateSetKey: branchCandidates => permutedKnownDirectionCandidateSetKey(branchCandidates, permutation, coinCount),
+        candidateSetKey: branchCandidates => knownDirectionCandidateSetKey(branchCandidates, coinCount, allowNoCounterfeit),
+        transformedCandidateSetKey: branchCandidates => permutedKnownDirectionCandidateSetKey(branchCandidates, permutation, coinCount, allowNoCounterfeit),
         reason: 'pan_mirror_coin_permutation'
       });
     }
@@ -2056,7 +2109,9 @@
 
   function exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings, maxWeighings) {
     const coinCount = Number(maxCoinFromCandidates(candidates));
-    const remaining = normalizeUnknownDirectionCandidates(candidates, Number.isInteger(coinCount) ? coinCount : null);
+    const options = typeof arguments[3] === 'object' ? arguments[3] : {};
+    const allowNoCounterfeit = options.allowNoCounterfeit ?? options.allow_no_counterfeit ?? (candidates || []).some(candidate => Number(candidate?.coin ?? candidate) === 0);
+    const remaining = normalizeUnknownDirectionCandidates(candidates, Number.isInteger(coinCount) && coinCount > 0 ? coinCount : null, allowNoCounterfeit);
     const used = Number(usedWeighings);
     const limit = Number(maxWeighings);
     const objective = typeof arguments[3] === 'string' ? arguments[3] : arguments[3]?.objective;
@@ -2075,8 +2130,9 @@
   }
 
   function flippedUnknownDirectionCandidate(candidate) {
-    const normalized = normalizeUnknownDirectionCandidates([candidate])[0];
+    const normalized = normalizeUnknownDirectionCandidates([candidate], null, true)[0];
     if (!normalized) return null;
+    if (normalized.coin === 0) return { coin: 0, direction: 'none' };
     return {
       coin: normalized.coin,
       direction: normalized.direction === 'heavier' ? 'lighter' : 'heavier'
@@ -2084,7 +2140,8 @@
   }
 
   function unknownDirectionCandidateSetKey(candidates) {
-    return normalizeUnknownDirectionCandidates(candidates || [])
+    const allowNoCounterfeit = (candidates || []).some(candidate => Number(candidate?.coin ?? candidate) === 0);
+    return normalizeUnknownDirectionCandidates(candidates || [], null, allowNoCounterfeit)
       .map(unknownDirectionCandidateKey)
       .sort()
       .join('|');
@@ -2109,9 +2166,11 @@
 
   function expandUnknownDirectionExhaustiveNode(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
     const currentCandidates = normalizeUnknownDirectionCandidates(
-      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
     const usedWeighings = Number(params?.usedWeighings ?? params?.used_weighings ?? 0);
     const maxWeighings = Number(params?.maxWeighings ?? params?.max_weighings);
@@ -2128,7 +2187,10 @@
           label: OUTCOME_LABELS[outcome],
           candidates,
           usedWeighings: usedWeighings + 1,
-          status: exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings + 1, maxWeighings, params?.objective)
+          status: exhaustiveUnknownDirectionBranchStatus(candidates, usedWeighings + 1, maxWeighings, {
+            objective: params?.objective,
+            allowNoCounterfeit
+          })
         };
       })
       .filter(child => child.candidates.length > 0);
@@ -2415,11 +2477,13 @@
 
   function finalizeCheaterAnswer(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
-    const candidates = uniqueCoins(
-      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
+    const candidates = normalizeKnownDirectionCandidates(
+      params?.currentCandidates?.length ? params.currentCandidates : initialCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
-    const selectedCoin = Number(params?.selectedCoin);
+    const selectedCoin = params?.selectedCoin === 'none' ? 0 : Number(params?.selectedCoin);
     if (candidates.length === 1) {
       const actualCoin = candidates[0];
       return { win: actualCoin === selectedCoin, actualCoin, candidates };
@@ -2430,16 +2494,18 @@
 
   function finalizeCheaterUnknownDirectionAnswer(params) {
     const coinCount = Number(params?.coin_count ?? params?.coinCount);
+    const allowNoCounterfeit = params?.allowNoCounterfeit ?? params?.allow_no_counterfeit ?? false;
     const candidates = normalizeUnknownDirectionCandidates(
-      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount),
-      Number.isInteger(coinCount) ? coinCount : null
+      params?.currentCandidates?.length ? params.currentCandidates : initialUnknownDirectionCandidates(coinCount, allowNoCounterfeit),
+      Number.isInteger(coinCount) ? coinCount : null,
+      allowNoCounterfeit
     );
     const selected = normalizeUnknownDirectionCandidates([{
       coin: params?.selectedCoin,
       direction: params?.selectedDirection ?? params?.selectedWeight
-    }], Number.isInteger(coinCount) ? coinCount : null)[0];
+    }], Number.isInteger(coinCount) ? coinCount : null, allowNoCounterfeit)[0];
     const selectedKey = selected ? unknownDirectionCandidateKey(selected) : null;
-    const selectedCoin = Number(params?.selectedCoin);
+    const selectedCoin = params?.selectedCoin === 'none' ? 0 : Number(params?.selectedCoin);
     const coinOnly = isUnknownDirectionCoinOnlyObjective(params?.objective);
     const possibleCoins = uniqueCandidateCoins(candidates);
     if (coinOnly && possibleCoins.length === 1) {
@@ -5025,6 +5091,174 @@
     return { win: false, actualState, candidates };
   }
 
+  function expertJudgeObjectCount(params = {}) {
+    const count = Number(params.objectCount ?? params.object_count ?? params.weightCount ?? params.weight_count);
+    return Number.isInteger(count) && count >= 2 && count <= 30 ? count : 0;
+  }
+
+  function expertJudgeWeightValues(params = {}) {
+    const explicit = params.weightValues ?? params.weight_values;
+    if (Array.isArray(explicit)) {
+      const values = explicit.map(value => Number(value));
+      if (values.length >= 2 && values.every(value => Number.isInteger(value) && value > 0) && new Set(values).size === values.length) {
+        return values.slice().sort((a, b) => a - b);
+      }
+    }
+    const count = expertJudgeObjectCount(params);
+    return count ? Array.from({ length: count }, (_item, index) => index + 1) : [];
+  }
+
+  function expertJudgeNormalizeAssignment(assignment, params = {}) {
+    const values = expertJudgeWeightValues(params);
+    const count = values.length;
+    const allowed = new Set(values);
+    const raw = Array.isArray(assignment)
+      ? assignment
+      : (assignment?.weights ?? assignment?.assignment ?? params.assignment ?? params.weights ?? []);
+    const normalized = Array.isArray(raw)
+      ? raw.map(value => Number(value))
+      : [];
+    if (normalized.length === count && normalized.every(value => allowed.has(value)) && new Set(normalized).size === count) {
+      return normalized;
+    }
+    return [...values];
+  }
+
+  function expertJudgeRandomAssignment(params = {}) {
+    const values = expertJudgeWeightValues(params);
+    const result = [...values];
+    for (let index = result.length - 1; index > 0; index -= 1) {
+      const swapIndex = Math.floor(Math.random() * (index + 1));
+      [result[index], result[swapIndex]] = [result[swapIndex], result[index]];
+    }
+    return result;
+  }
+
+  function expertJudgeNormalizeWeighing(params = {}) {
+    const count = expertJudgeObjectCount(params);
+    const left = uniqueCoins(params.left ?? params.leftObjects ?? params.left_objects, count);
+    const right = uniqueCoins(params.right ?? params.rightObjects ?? params.right_objects, count);
+    const leftSet = new Set(left);
+    const overlap = right.filter(item => leftSet.has(item));
+    const outside = Array.from({ length: count }, (_item, index) => index + 1)
+      .filter(item => !leftSet.has(item) && !right.includes(item));
+    return {
+      valid: count >= 2 && overlap.length === 0 && (left.length > 0 || right.length > 0),
+      objectCount: count,
+      left,
+      right,
+      outside,
+      overlap
+    };
+  }
+
+  function expertJudgeOutcomeFromSums(leftSum, rightSum) {
+    if (leftSum > rightSum) return 'left_down';
+    if (rightSum > leftSum) return 'right_down';
+    return 'balance';
+  }
+
+  function expertJudgeOutcomeForAssignment(assignment, params = {}) {
+    const weighing = expertJudgeNormalizeWeighing(params);
+    if (!weighing.valid) return null;
+    const normalized = expertJudgeNormalizeAssignment(assignment, { ...params, object_count: weighing.objectCount });
+    const leftSum = weighing.left.reduce((sum, item) => sum + (normalized[item - 1] || 0), 0);
+    const rightSum = weighing.right.reduce((sum, item) => sum + (normalized[item - 1] || 0), 0);
+    return {
+      outcome: expertJudgeOutcomeFromSums(leftSum, rightSum),
+      label: OUTCOME_LABELS[expertJudgeOutcomeFromSums(leftSum, rightSum)],
+      leftSum,
+      rightSum
+    };
+  }
+
+  function expertJudgeCompareMatches(leftSum, rightSum, outcome) {
+    if (outcome === 'left_down') return leftSum > rightSum;
+    if (outcome === 'right_down') return rightSum > leftSum;
+    if (outcome === 'balance') return leftSum === rightSum;
+    return false;
+  }
+
+  function expertJudgeSubsetSums(values, size) {
+    const targetSize = Number(size);
+    if (!Number.isInteger(targetSize) || targetSize < 0 || targetSize > values.length) return new Set();
+    const dp = Array.from({ length: targetSize + 1 }, () => new Set());
+    dp[0].add(0);
+    for (const value of values) {
+      for (let count = targetSize - 1; count >= 0; count -= 1) {
+        for (const sum of dp[count]) dp[count + 1].add(sum + value);
+      }
+    }
+    return dp[targetSize];
+  }
+
+  function expertJudgePossibleWeightsForSingleton(role, params = {}) {
+    const values = expertJudgeWeightValues(params);
+    const weighing = expertJudgeNormalizeWeighing(params);
+    const outcome = String(params.outcome || '').toLowerCase();
+    if (!values.length || !weighing.valid || !OUTCOMES.includes(outcome)) return [];
+    if (role === 'left' && weighing.left.length === 1) {
+      return values.filter(value => {
+        const rightSums = expertJudgeSubsetSums(values.filter(candidate => candidate !== value), weighing.right.length);
+        return [...rightSums].some(rightSum => expertJudgeCompareMatches(value, rightSum, outcome));
+      });
+    }
+    if (role === 'right' && weighing.right.length === 1) {
+      return values.filter(value => {
+        const leftSums = expertJudgeSubsetSums(values.filter(candidate => candidate !== value), weighing.left.length);
+        return [...leftSums].some(leftSum => expertJudgeCompareMatches(leftSum, value, outcome));
+      });
+    }
+    if (role === 'outside' && weighing.outside.length === 1) {
+      return values.filter(value => {
+        const remaining = values.filter(candidate => candidate !== value);
+        const total = remaining.reduce((sum, item) => sum + item, 0);
+        const leftSums = expertJudgeSubsetSums(remaining, weighing.left.length);
+        return [...leftSums].some(leftSum => expertJudgeCompareMatches(leftSum, total - leftSum, outcome));
+      });
+    }
+    return [];
+  }
+
+  function expertJudgeForcedWeights(params = {}) {
+    const weighing = expertJudgeNormalizeWeighing(params);
+    const roles = [
+      { role: 'left', items: weighing.left },
+      { role: 'right', items: weighing.right },
+      { role: 'outside', items: weighing.outside }
+    ];
+    return roles
+      .filter(entry => entry.items.length === 1)
+      .map(entry => {
+        const possibleWeights = expertJudgePossibleWeightsForSingleton(entry.role, params);
+        return {
+          role: entry.role,
+          object: entry.items[0],
+          possibleWeights,
+          forcedWeight: possibleWeights.length === 1 ? possibleWeights[0] : null
+        };
+      });
+  }
+
+  function expertJudgeEvaluateCertificate(params = {}) {
+    const assignment = expertJudgeNormalizeAssignment(params.assignment ?? params.weights, params);
+    const observed = params.outcome
+      ? { outcome: String(params.outcome).toLowerCase(), label: OUTCOME_LABELS[String(params.outcome).toLowerCase()] }
+      : expertJudgeOutcomeForAssignment(assignment, params);
+    const forced = expertJudgeForcedWeights({ ...params, outcome: observed?.outcome });
+    return {
+      valid: !!observed && OUTCOMES.includes(observed.outcome),
+      assignment,
+      outcome: observed?.outcome || null,
+      label: observed?.label || '',
+      leftSum: observed?.leftSum ?? null,
+      rightSum: observed?.rightSum ?? null,
+      forced,
+      learned: forced.filter(item => item.forcedWeight != null),
+      success: forced.some(item => item.forcedWeight != null)
+    };
+  }
+
   function numericSignatureInitialStates(bagCount, options = {}) {
     const count = Number(bagCount);
     if (!Number.isInteger(count) || count < 1 || count > 20) return [];
@@ -5324,6 +5558,189 @@
       return { win: numericSignatureStateKey(actualState) === selectedKey, actualState, candidates };
     }
     const actualState = candidates.find(state => numericSignatureStateKey(state) !== selectedKey) ?? candidates[0] ?? null;
+    return { win: false, actualState, candidates };
+  }
+
+  const SELECTED_BAG_WEIGHT_OUTCOMES = ['left_down', 'balance', 'right_down'];
+  const SELECTED_BAG_WEIGHT_LABELS = {
+    left_down: 'левая чаша тяжелее',
+    balance: 'равновесие',
+    right_down: 'правая чаша тяжелее'
+  };
+
+  function selectedBagWeightValues(params = {}) {
+    const rawValues = params.weightValues ?? params.weight_values ?? params.possibleWeights ?? params.possible_weights;
+    const values = Array.isArray(rawValues)
+      ? rawValues.map(value => Number(value)).filter(value => Number.isInteger(value) && value > 0)
+      : [];
+    const unique = [...new Set(values)].sort((a, b) => a - b);
+    if (unique.length) return unique;
+    const bagCount = Number(params.bagCount ?? params.bag_count ?? params.objectCount ?? params.object_count ?? 7);
+    const start = Number(params.weightMin ?? params.weight_min ?? 1);
+    if (!Number.isInteger(bagCount) || bagCount < 1 || bagCount > 20) return [];
+    return Array.from({ length: bagCount }, (_item, index) => start + index);
+  }
+
+  function selectedBagWeightReferenceTotal(params = {}) {
+    const explicit = Number(params.referenceTotal ?? params.reference_total);
+    if (Number.isFinite(explicit) && explicit > 0) return explicit;
+    return selectedBagWeightValues(params).reduce((sum, value) => sum + value, 0);
+  }
+
+  function selectedBagWeightInitialStates(params = {}) {
+    return selectedBagWeightValues(params).map(weight => ({
+      id: `weight_${weight}`,
+      weight,
+      label: `${weight} г`
+    }));
+  }
+
+  function selectedBagWeightStateKey(state) {
+    const weight = Number(state?.weight ?? state?.value ?? state);
+    return Number.isInteger(weight) && weight > 0 ? String(weight) : '';
+  }
+
+  function selectedBagWeightNormalizeStates(states, params = {}) {
+    const allowed = new Set(selectedBagWeightValues(params));
+    const seen = new Set();
+    const result = [];
+    for (const raw of states || []) {
+      const weight = Number(raw?.weight ?? raw?.value ?? raw);
+      if (!allowed.has(weight) || seen.has(weight)) continue;
+      seen.add(weight);
+      result.push({ id: `weight_${weight}`, weight, label: `${weight} г` });
+    }
+    return result;
+  }
+
+  function selectedBagWeightCurrentStates(params = {}) {
+    const current = params.currentStates ?? params.current_states ?? params.currentCandidates ?? params.current_candidates;
+    return current?.length
+      ? selectedBagWeightNormalizeStates(current, params)
+      : selectedBagWeightInitialStates(params);
+  }
+
+  function selectedBagWeightComparison(params = {}) {
+    const selectedCoins = Number(params.selectedCoins ?? params.selected_coins ?? params.leftCoins ?? params.left_coins);
+    const kitCount = Number(params.kitCount ?? params.kit_count ?? params.referenceKits ?? params.reference_kits ?? params.rightKits ?? params.right_kits);
+    const maxCoins = Number(params.maxCoinsPerBag ?? params.max_coins_per_bag ?? 100);
+    const referenceTotal = selectedBagWeightReferenceTotal(params);
+    if (!Number.isInteger(selectedCoins) || selectedCoins < 0) {
+      return { valid: false, empty: true, error: 'Введите целое число монет из указанного мешка.', selectedCoins: 0, kitCount: 0, referenceTotal };
+    }
+    if (!Number.isInteger(kitCount) || kitCount < 0) {
+      return { valid: false, empty: true, error: 'Введите целое число полных комплектов.', selectedCoins, kitCount: 0, referenceTotal };
+    }
+    if (selectedCoins === 0 && kitCount === 0) {
+      return { valid: false, empty: true, error: 'Положите что-нибудь на весы.', selectedCoins, kitCount, referenceTotal };
+    }
+    if (Number.isInteger(maxCoins) && maxCoins > 0 && selectedCoins > maxCoins) {
+      return { valid: false, error: `В указанном мешке только ${maxCoins} монет.`, selectedCoins, kitCount, referenceTotal };
+    }
+    if (Number.isInteger(maxCoins) && maxCoins > 0 && kitCount > maxCoins) {
+      return { valid: false, error: `Полных комплектов можно взять не больше ${maxCoins}: в каждом мешке по ${maxCoins} монет.`, selectedCoins, kitCount, referenceTotal };
+    }
+    if (!Number.isFinite(referenceTotal) || referenceTotal <= 0) {
+      return { valid: false, error: 'Не задана сумма весов одного полного комплекта.', selectedCoins, kitCount, referenceTotal };
+    }
+    return {
+      valid: true,
+      error: '',
+      selectedCoins,
+      kitCount,
+      referenceTotal,
+      leftNominalAtMiddle: selectedCoins * (referenceTotal / Math.max(1, selectedBagWeightValues(params).length)),
+      rightWeight: kitCount * referenceTotal
+    };
+  }
+
+  function selectedBagWeightOutcomeForState(state, params = {}) {
+    const comparison = selectedBagWeightComparison(params);
+    if (!comparison.valid) return null;
+    const weight = Number(state?.weight ?? state?.value ?? state);
+    const leftWeight = comparison.selectedCoins * weight;
+    const rightWeight = comparison.rightWeight;
+    if (leftWeight > rightWeight) return 'left_down';
+    if (rightWeight > leftWeight) return 'right_down';
+    return 'balance';
+  }
+
+  function selectedBagWeightPartitionStates(params = {}) {
+    const states = selectedBagWeightCurrentStates(params);
+    const comparison = selectedBagWeightComparison(params);
+    if (!comparison.valid) return [];
+    const partitions = Object.fromEntries(SELECTED_BAG_WEIGHT_OUTCOMES.map(outcome => [outcome, []]));
+    for (const state of states) {
+      const outcome = selectedBagWeightOutcomeForState(state, params);
+      if (outcome) partitions[outcome].push(state);
+    }
+    return SELECTED_BAG_WEIGHT_OUTCOMES
+      .filter(outcome => partitions[outcome].length)
+      .map(outcome => ({
+        outcome,
+        label: SELECTED_BAG_WEIGHT_LABELS[outcome],
+        states: partitions[outcome],
+        candidates: partitions[outcome],
+        comparison
+      }));
+  }
+
+  function selectedBagWeightFilterStates(params = {}) {
+    const outcome = String(params.outcome || '').toLowerCase();
+    const part = selectedBagWeightPartitionStates(params).find(item => item.outcome === outcome);
+    return part ? part.states : [];
+  }
+
+  function selectedBagWeightChooseCheaterOutcome(params = {}) {
+    const partitions = selectedBagWeightPartitionStates(params);
+    const order = Object.fromEntries(SELECTED_BAG_WEIGHT_OUTCOMES.map((outcome, index) => [outcome, index]));
+    const chosen = partitions.slice().sort((a, b) =>
+      b.states.length - a.states.length || order[a.outcome] - order[b.outcome]
+    )[0] || { outcome: 'balance', label: SELECTED_BAG_WEIGHT_LABELS.balance, states: [], candidates: [] };
+    return {
+      outcome: chosen.outcome,
+      label: chosen.label,
+      states: chosen.states,
+      candidates: chosen.states,
+      partitions,
+      scores: Object.fromEntries(partitions.map(part => [part.outcome, part.states.length])),
+      comparison: chosen.comparison
+    };
+  }
+
+  function selectedBagWeightBranchStatus(states, usedWeighings, maxWeighings) {
+    const remaining = states || [];
+    const used = Number(usedWeighings);
+    const limit = Number(maxWeighings);
+    if (remaining.length === 1) return 'solved';
+    if (Number.isInteger(used) && Number.isInteger(limit) && used >= limit) return 'failed';
+    return 'open';
+  }
+
+  function selectedBagWeightExpandExhaustiveNode(params = {}) {
+    const usedWeighings = Number(params.usedWeighings ?? params.used_weighings ?? 0);
+    const maxWeighings = Number(params.maxWeighings ?? params.max_weighings ?? 1);
+    const partitions = selectedBagWeightPartitionStates(params);
+    const children = partitions.map(part => ({
+      outcome: part.outcome,
+      label: part.label,
+      states: part.states,
+      candidates: part.states,
+      comparison: part.comparison,
+      usedWeighings: usedWeighings + 1,
+      status: selectedBagWeightBranchStatus(part.states, usedWeighings + 1, maxWeighings)
+    }));
+    return { partitions, children };
+  }
+
+  function selectedBagWeightFinalizeAnswer(params = {}) {
+    const candidates = selectedBagWeightCurrentStates(params);
+    const selectedWeight = Number(params.selectedWeight ?? params.selected_weight ?? params.answer ?? params.weight);
+    if (candidates.length === 1) {
+      const actualState = candidates[0];
+      return { win: actualState.weight === selectedWeight, actualState, candidates };
+    }
+    const actualState = candidates.find(state => state.weight !== selectedWeight) ?? candidates[0] ?? null;
     return { win: false, actualState, candidates };
   }
 
@@ -5700,6 +6117,187 @@
   function binaryCardsChooseRandom(params = {}) {
     const numbers = binaryCardsAllNumbers(params);
     return numbers[Math.floor(Math.random() * numbers.length)] ?? null;
+  }
+
+  function fixedFeedbackAlphabet(params = {}) {
+    const rawAlphabet = Array.isArray(params.alphabet)
+      ? params.alphabet
+      : ['A', 'B', 'C', 'D', 'E'];
+    const seen = new Set();
+    const result = [];
+    for (const item of rawAlphabet) {
+      const letter = String(item || '').trim().toUpperCase();
+      if (!letter || seen.has(letter)) continue;
+      seen.add(letter);
+      result.push(letter);
+    }
+    return result.length ? result : ['A', 'B', 'C', 'D', 'E'];
+  }
+
+  function fixedFeedbackPasswordLength(params = {}) {
+    const length = Number(params.password_length ?? params.passwordLength ?? params.word_length ?? params.wordLength ?? 10);
+    return Number.isInteger(length) && length >= 1 && length <= 20 ? length : 10;
+  }
+
+  function fixedFeedbackMaxTests(params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const tests = Number(params.max_tests ?? params.maxTests ?? params.feedback_attempts ?? params.feedbackAttempts ?? alphabet.length - 1);
+    return Number.isInteger(tests) && tests >= 0 && tests <= 20 ? tests : Math.max(0, alphabet.length - 1);
+  }
+
+  function fixedFeedbackStateCount(params = {}) {
+    return fixedFeedbackAlphabet(params).length ** fixedFeedbackPasswordLength(params);
+  }
+
+  function fixedFeedbackNormalizeWord(word, params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const allowed = new Set(alphabet);
+    const raw = String(word || '').trim().toUpperCase().replace(/\s+/g, '');
+    const letters = Array.from(raw);
+    const length = fixedFeedbackPasswordLength(params);
+    return {
+      word: letters.join(''),
+      letters,
+      valid: letters.length === length && letters.every(letter => allowed.has(letter)),
+      length,
+      alphabet
+    };
+  }
+
+  function fixedFeedbackRandomPassword(params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const length = fixedFeedbackPasswordLength(params);
+    let word = '';
+    for (let index = 0; index < length; index += 1) {
+      word += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+    return word;
+  }
+
+  function fixedFeedbackFeedback(secret, guess, params = {}) {
+    const normalizedSecret = fixedFeedbackNormalizeWord(secret, params);
+    const normalizedGuess = fixedFeedbackNormalizeWord(guess, params);
+    if (!normalizedSecret.valid || !normalizedGuess.valid) return [];
+    const positions = [];
+    for (let index = 0; index < normalizedSecret.length; index += 1) {
+      if (normalizedSecret.letters[index] === normalizedGuess.letters[index]) positions.push(index + 1);
+    }
+    return positions;
+  }
+
+  function fixedFeedbackNormalizePositions(positions, params = {}) {
+    const length = fixedFeedbackPasswordLength(params);
+    const seen = new Set();
+    const result = [];
+    for (const item of positions || []) {
+      const position = Number(item);
+      if (!Number.isInteger(position) || position < 1 || position > length || seen.has(position)) continue;
+      seen.add(position);
+      result.push(position);
+    }
+    return result.sort((a, b) => a - b);
+  }
+
+  function fixedFeedbackInitialKnowledge(params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    return Array.from({ length: fixedFeedbackPasswordLength(params) }, () => alphabet.slice());
+  }
+
+  function fixedFeedbackKnowledgeFromHistory(history = [], params = {}) {
+    const knowledge = fixedFeedbackInitialKnowledge(params);
+    for (const step of history || []) {
+      const guess = fixedFeedbackNormalizeWord(step.guess ?? step.attempt ?? step.word, params);
+      if (!guess.valid) continue;
+      const matches = new Set(fixedFeedbackNormalizePositions(step.matches ?? step.positions ?? step.feedback, params));
+      for (let index = 0; index < knowledge.length; index += 1) {
+        const letter = guess.letters[index];
+        if (matches.has(index + 1)) {
+          knowledge[index] = knowledge[index].includes(letter) ? [letter] : [];
+        } else {
+          knowledge[index] = knowledge[index].filter(item => item !== letter);
+        }
+      }
+    }
+    return knowledge;
+  }
+
+  function fixedFeedbackCandidateCount(knowledgeOrHistory = [], params = {}) {
+    const knowledge = Array.isArray(knowledgeOrHistory?.[0])
+      ? knowledgeOrHistory
+      : fixedFeedbackKnowledgeFromHistory(knowledgeOrHistory, params);
+    return knowledge.reduce((product, letters) => product * Math.max(0, letters.length), 1);
+  }
+
+  function fixedFeedbackKnownPassword(knowledgeOrHistory = [], params = {}) {
+    const knowledge = Array.isArray(knowledgeOrHistory?.[0])
+      ? knowledgeOrHistory
+      : fixedFeedbackKnowledgeFromHistory(knowledgeOrHistory, params);
+    return knowledge.every(letters => letters.length === 1)
+      ? knowledge.map(letters => letters[0]).join('')
+      : null;
+  }
+
+  function fixedFeedbackUniformGuess(letterIndex, params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const index = Number(letterIndex);
+    const letter = Number.isInteger(index) && index >= 0 && index < alphabet.length
+      ? alphabet[index]
+      : alphabet[0];
+    return letter.repeat(fixedFeedbackPasswordLength(params));
+  }
+
+  function fixedFeedbackStrategyHistory(secret, params = {}) {
+    const maxTests = fixedFeedbackMaxTests(params);
+    const alphabet = fixedFeedbackAlphabet(params);
+    const testCount = Math.min(maxTests, Math.max(0, alphabet.length - 1));
+    return Array.from({ length: testCount }, (_item, index) => {
+      const guess = fixedFeedbackUniformGuess(index, params);
+      return {
+        guess,
+        matches: fixedFeedbackFeedback(secret, guess, params)
+      };
+    });
+  }
+
+  function fixedFeedbackFinalizeAnswer(params = {}) {
+    const history = params.history ?? params.transcript ?? [];
+    const answer = fixedFeedbackNormalizeWord(params.answer ?? params.guess ?? params.password, params);
+    const secret = fixedFeedbackNormalizeWord(params.secret ?? params.hidden ?? params.hiddenPassword, params);
+    const knowledge = fixedFeedbackKnowledgeFromHistory(history, params);
+    const knownPassword = fixedFeedbackKnownPassword(knowledge, params);
+    const candidateCount = fixedFeedbackCandidateCount(knowledge, params);
+    return {
+      answer: answer.word,
+      validAnswer: answer.valid,
+      secret: secret.valid ? secret.word : null,
+      knownPassword,
+      candidateCount,
+      win: answer.valid && secret.valid && answer.word === secret.word,
+      followsFeedback: answer.valid && answer.letters.every((letter, index) => knowledge[index].includes(letter))
+    };
+  }
+
+  function fixedFeedbackExhaustiveCheck(params = {}) {
+    const alphabet = fixedFeedbackAlphabet(params);
+    const length = fixedFeedbackPasswordLength(params);
+    const maxTests = fixedFeedbackMaxTests(params);
+    const requiredTests = Math.max(0, alphabet.length - 1);
+    const checked = alphabet.length ** length;
+    const success = maxTests >= requiredTests;
+    return {
+      success,
+      checked,
+      alphabet,
+      length,
+      maxTests,
+      requiredTests,
+      candidateCountAfterStrategy: success ? 1 : alphabet.length ** Math.max(0, length),
+      rows: alphabet.slice(0, requiredTests).map((letter, index) => ({
+        test: index + 1,
+        letter,
+        guess: fixedFeedbackUniformGuess(index, params)
+      }))
+    };
   }
 
   function ternaryQuestionObjectCount(params = {}) {
@@ -6608,6 +7206,168 @@
     };
   }
 
+  function petyaVasyaCardCount(params = {}) {
+    const count = Number(params.card_count ?? params.cardCount ?? 5);
+    return Number.isInteger(count) && count === 5 ? count : 5;
+  }
+
+  function petyaVasyaCards(params = {}) {
+    return Array.from({ length: petyaVasyaCardCount(params) }, (_item, index) => index + 1);
+  }
+
+  function petyaVasyaNextCard(card, offset = 1, params = {}) {
+    const count = petyaVasyaCardCount(params);
+    const value = Number(card);
+    if (!Number.isInteger(value) || value < 1 || value > count) return null;
+    return ((value - 1 + offset + count * 10) % count) + 1;
+  }
+
+  function petyaVasyaNormalizeDistribution(raw, params = {}) {
+    const count = petyaVasyaCardCount(params);
+    const cards = petyaVasyaCards(params);
+    const petyaCount = Number(params.petya_count ?? params.petyaCount ?? 2);
+    const vasyaCount = Number(params.vasya_count ?? params.vasyaCount ?? 1);
+    const spectatorCount = Number(params.spectator_count ?? params.spectatorCount ?? 2);
+    const source = raw && typeof raw === 'object' ? raw : {};
+    const ownerMap = source.owners ?? source.ownerMap ?? null;
+    let petya = [];
+    let vasya = [];
+    let spectators = [];
+    if (ownerMap && typeof ownerMap === 'object' && !Array.isArray(ownerMap)) {
+      for (const card of cards) {
+        const owner = String(ownerMap[card] ?? ownerMap[String(card)] ?? '').toLowerCase();
+        if (owner === 'petya' || owner === 'петя') petya.push(card);
+        else if (owner === 'vasya' || owner === 'вася') vasya.push(card);
+        else if (owner === 'spectator' || owner === 'spectators' || owner === 'viewer' || owner === 'зрители') spectators.push(card);
+      }
+    } else {
+      petya = uniqueCoins(source.petya ?? source.petyaCards ?? source.petya_cards, count);
+      vasya = uniqueCoins(source.vasya ?? source.vasyaCards ?? source.vasya_cards, count);
+      spectators = uniqueCoins(source.spectators ?? source.spectatorCards ?? source.spectator_cards, count);
+    }
+    if (!spectators.length) {
+      const used = new Set([...petya, ...vasya]);
+      spectators = cards.filter(card => !used.has(card));
+    }
+    const all = [...petya, ...vasya, ...spectators];
+    const valid = petya.length === petyaCount
+      && vasya.length === vasyaCount
+      && spectators.length === spectatorCount
+      && all.length === count
+      && new Set(all).size === count
+      && all.every(card => cards.includes(card));
+    return {
+      valid,
+      petya: petya.slice().sort((a, b) => a - b),
+      vasya: vasya.slice().sort((a, b) => a - b),
+      vasyaCard: vasya[0] || null,
+      spectators: spectators.slice().sort((a, b) => a - b),
+      owners: Object.fromEntries(cards.map(card => [
+        card,
+        petya.includes(card) ? 'petya' : (vasya.includes(card) ? 'vasya' : (spectators.includes(card) ? 'spectators' : ''))
+      ]))
+    };
+  }
+
+  function petyaVasyaAllDistributions(params = {}) {
+    const cards = petyaVasyaCards(params);
+    const states = [];
+    for (let first = 0; first < cards.length; first += 1) {
+      for (let second = first + 1; second < cards.length; second += 1) {
+        const petya = [cards[first], cards[second]];
+        const remaining = cards.filter(card => !petya.includes(card));
+        for (const vasyaCard of remaining) {
+          const spectators = remaining.filter(card => card !== vasyaCard);
+          states.push(petyaVasyaNormalizeDistribution({ petya, vasya: [vasyaCard], spectators }, params));
+        }
+      }
+    }
+    return states;
+  }
+
+  function petyaVasyaRandomDistribution(params = {}, random = Math.random) {
+    const states = petyaVasyaAllDistributions(params);
+    return states[Math.floor(random() * states.length)] || petyaVasyaNormalizeDistribution({ petya: [1, 2], vasya: [3], spectators: [4, 5] }, params);
+  }
+
+  function petyaVasyaStrategyMove(rawDistribution, params = {}) {
+    const distribution = petyaVasyaNormalizeDistribution(rawDistribution, params);
+    if (!distribution.valid) return { ok: false, error: 'Распределите 2 карточки Пете, 1 Васе и 2 зрителям.', distribution };
+    const count = petyaVasyaCardCount(params);
+    const [first, second] = distribution.petya;
+    const forward = (second - first + count) % count;
+    const backward = (first - second + count) % count;
+    const namedCard = forward >= 1 && forward <= 2 ? second : first;
+    const otherPetyaCard = namedCard === second ? first : second;
+    const vasyaCard = distribution.vasyaCard;
+    const nextCards = [petyaVasyaNextCard(namedCard, 1, params), petyaVasyaNextCard(namedCard, 2, params)];
+    const answerOptions = nextCards.filter(card => card !== vasyaCard);
+    const answerCard = answerOptions[0] || null;
+    return {
+      ok: Boolean(namedCard && answerCard),
+      distribution,
+      namedCard,
+      otherPetyaCard,
+      vasyaCard,
+      nextCards,
+      answerOptions,
+      answerCard,
+      shortArcLength: namedCard === second ? forward : backward
+    };
+  }
+
+  function petyaVasyaEvaluate(params = {}) {
+    const distribution = petyaVasyaNormalizeDistribution(params.distribution ?? params, params);
+    const namedCard = Number(params.namedCard ?? params.named_card ?? params.petyaNamed ?? params.petya_named);
+    const answerCard = Number(params.answerCard ?? params.answer_card ?? params.vasyaAnswer ?? params.vasya_answer);
+    const move = petyaVasyaStrategyMove(distribution, params);
+    const petyaNamedOwn = distribution.petya.includes(namedCard);
+    const petyaFollowsStrategy = move.ok && namedCard === move.namedCard;
+    const vasyaAnswerSpectator = distribution.spectators.includes(answerCard);
+    const vasyaAnswerByRule = move.ok && move.answerOptions.includes(answerCard);
+    return {
+      valid: distribution.valid && Number.isInteger(namedCard) && Number.isInteger(answerCard),
+      distribution,
+      namedCard,
+      answerCard,
+      move,
+      petyaNamedOwn,
+      petyaFollowsStrategy,
+      vasyaAnswerSpectator,
+      vasyaAnswerByRule,
+      win: distribution.valid && petyaNamedOwn && vasyaAnswerSpectator,
+      strategyWin: distribution.valid && petyaFollowsStrategy && vasyaAnswerByRule && vasyaAnswerSpectator
+    };
+  }
+
+  function petyaVasyaExhaustiveCheck(params = {}) {
+    const rows = petyaVasyaAllDistributions(params).map(distribution => {
+      const move = petyaVasyaStrategyMove(distribution, params);
+      const evaluation = petyaVasyaEvaluate({
+        ...params,
+        distribution,
+        namedCard: move.namedCard,
+        answerCard: move.answerCard
+      });
+      return {
+        distribution,
+        move,
+        ok: move.ok && evaluation.strategyWin,
+        petya: distribution.petya,
+        vasya: distribution.vasyaCard,
+        spectators: distribution.spectators,
+        namedCard: move.namedCard,
+        answerCard: move.answerCard
+      };
+    });
+    return {
+      ok: rows.length > 0 && rows.every(row => row.ok),
+      checked: rows.length,
+      rows,
+      failures: rows.filter(row => !row.ok)
+    };
+  }
+
   const FITCH_CHENEY_RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   const FITCH_CHENEY_SUITS = [
     { id: 'C', label: '♣', name: 'трефы', color: 'black' },
@@ -7508,6 +8268,7 @@
     initialUnknownDirectionCandidates,
     uniqueCoins,
     normalizeDirection,
+    normalizeKnownDirectionCandidates,
     normalizeUnknownDirectionCandidates,
     isUnknownDirectionCoinOnlyObjective,
     unknownDirectionCandidateKey,
@@ -7691,6 +8452,15 @@
     balancedWeightBranchStatus,
     balancedWeightExpandExhaustiveNode,
     balancedWeightFinalizeAnswer,
+    expertJudgeObjectCount,
+    expertJudgeWeightValues,
+    expertJudgeNormalizeAssignment,
+    expertJudgeRandomAssignment,
+    expertJudgeNormalizeWeighing,
+    expertJudgeOutcomeForAssignment,
+    expertJudgePossibleWeightsForSingleton,
+    expertJudgeForcedWeights,
+    expertJudgeEvaluateCertificate,
     numericSignatureInitialStates,
     numericSignatureNormalizeStates,
     numericSignatureStateKey,
@@ -7706,6 +8476,19 @@
     numericSignatureBranchStatus,
     numericSignatureExpandExhaustiveNode,
     numericSignatureFinalizeAnswer,
+    selectedBagWeightValues,
+    selectedBagWeightReferenceTotal,
+    selectedBagWeightInitialStates,
+    selectedBagWeightStateKey,
+    selectedBagWeightNormalizeStates,
+    selectedBagWeightComparison,
+    selectedBagWeightOutcomeForState,
+    selectedBagWeightPartitionStates,
+    selectedBagWeightFilterStates,
+    selectedBagWeightChooseCheaterOutcome,
+    selectedBagWeightBranchStatus,
+    selectedBagWeightExpandExhaustiveNode,
+    selectedBagWeightFinalizeAnswer,
     subsetSignatureInitialStates,
     subsetSignatureNormalizeState,
     subsetSignatureNormalizeTests,
@@ -7738,6 +8521,22 @@
     binaryCardsEvaluate,
     binaryCardsExhaustiveCheck,
     binaryCardsChooseRandom,
+    fixedFeedbackAlphabet,
+    fixedFeedbackPasswordLength,
+    fixedFeedbackMaxTests,
+    fixedFeedbackStateCount,
+    fixedFeedbackNormalizeWord,
+    fixedFeedbackRandomPassword,
+    fixedFeedbackFeedback,
+    fixedFeedbackNormalizePositions,
+    fixedFeedbackInitialKnowledge,
+    fixedFeedbackKnowledgeFromHistory,
+    fixedFeedbackCandidateCount,
+    fixedFeedbackKnownPassword,
+    fixedFeedbackUniformGuess,
+    fixedFeedbackStrategyHistory,
+    fixedFeedbackFinalizeAnswer,
+    fixedFeedbackExhaustiveCheck,
     ternaryQuestionObjectCount,
     ternaryQuestionMaxTests,
     ternaryQuestionAlphabet,
@@ -7892,6 +8691,15 @@
     finitePairAllowedShownPairs,
     finitePairNormalizeAssignment,
     finitePairMatchingValidate,
+    petyaVasyaCardCount,
+    petyaVasyaCards,
+    petyaVasyaNextCard,
+    petyaVasyaNormalizeDistribution,
+    petyaVasyaAllDistributions,
+    petyaVasyaRandomDistribution,
+    petyaVasyaStrategyMove,
+    petyaVasyaEvaluate,
+    petyaVasyaExhaustiveCheck,
     fitchCheneyRanks,
     fitchCheneySuits,
     fitchCheneyDeck,

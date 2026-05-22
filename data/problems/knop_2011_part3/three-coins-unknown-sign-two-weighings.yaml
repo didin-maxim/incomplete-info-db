@@ -108,6 +108,18 @@
     "adaptive": false,
     "objective": "identify_coin_and_sign"
   },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "coin_count": 3,
+    "max_weighings": 2,
+    "objective": "identify_coin_and_sign",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {
     "main": "intro",
     "local_score": 2,
@@ -133,7 +145,8 @@
     "public_ready": true,
     "relations_status": "knop_2011_part3",
     "notes": [
-      "Книга Кнопа, занятие 3, задача 3.1. Первоисточник в указателе не указан."
+      "Книга Кнопа, занятие 3, задача 3.1. Первоисточник в указателе не указан.",
+      "2026-05-22: добавлен интерактив single_counterfeit_unknown_direction на 3 монеты и 2 взвешивания; ответ требует указать и монету, и знак."
     ]
   }
 }

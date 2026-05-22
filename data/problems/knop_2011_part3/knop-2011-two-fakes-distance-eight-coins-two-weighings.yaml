@@ -1,0 +1,97 @@
+{
+  "id": "knop-2011-two-fakes-distance-eight-coins-two-weighings",
+  "title": "Расстояние между двумя легкими фальшивыми монетами",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "book_problem",
+    "secondary": ["strategy_construction", "partial_identification", "case_gluing"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-d12",
+        "title": "Сколько настоящих монет между фальшивыми",
+        "text": "В ряд лежат 8 монет, при этом из левых четырех одна фальшивая и из правых четырех тоже одна. Обе фальшивые легче настоящих и равны по весу друг другу. За два взвешивания найдите, сколько настоящих монет лежит между парой фальшивых; сами фальшивые монеты определять не обязательно.",
+        "source_ids": ["src-knop-2011-weighings-algorithms"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-distance-not-pair",
+      "title": "Нужно различить расстояния, а не все пары",
+      "text": "Всего есть 16 пар фальшивых монет, но ответов о расстоянии только 7. Поэтому допустимо склеивать разные пары, если между ними одинаковое число настоящих монет.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-two-by-two-first-split",
+      "title": "Первое взвешивание отделяет три типа расстояний",
+      "text": "Сравнение 1+2 против 5+6 выделяет левую, правую и равную ветви. В равной ветви, самой трудной по книге, второе сравнение 1+3 против 5+7 сразу отделяет расстояния 2, 3 и 4.",
+      "standard_idea_ids": ["state_space_encoding"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-12-vs-56",
+      "title": "Первое взвешивание 1+2 против 5+6",
+      "text": "Пронумеруем монеты слева направо. Сначала сравним 1+2 с 5+6. Если левая чаша легче, возможны пары (1,7), (1,8), (2,7), (2,8), то есть расстояния 5, 6, 4, 5. Вторым взвешиванием сравним 1 и 7: левая легче дает расстояние 6, правая легче - расстояние 4, равновесие - расстояние 5.\n\nЕсли правая чаша легче, симметрично возможны пары (3,5), (3,6), (4,5), (4,6), то есть расстояния 1, 2, 0, 1. Вторым взвешиванием сравним 3 и 5: левая легче дает расстояние 2, правая легче - расстояние 0, равновесие - расстояние 1.",
+      "standard_idea_ids": ["state_space_encoding", "adaptive_strategy"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    },
+    {
+      "id": "str-equality-branch",
+      "title": "Равная ветвь",
+      "text": "Если первое взвешивание дало равновесие, возможны пары (1,5), (1,6), (2,5), (2,6), (3,7), (3,8), (4,7), (4,8). Вторым взвешиванием, как в книге, сравним 1+3 с 5+7. Если левая чаша легче, расстояние равно 4; если правая легче, расстояние равно 2; если равновесие, расстояние равно 3.",
+      "standard_idea_ids": ["state_space_encoding", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "16 вариантов: одна легкая монета среди 1-4 и одна среди 5-8",
+    "observations": ["два результата чашечных взвешиваний"],
+    "allowed_actions": ["адаптивно выбирать сравниваемые группы монет"],
+    "goal": ["identify_distance_between_counterfeit_coins"],
+    "strategy_type": ["adaptive_strategy", "case_gluing", "partial_identification"],
+    "lower_bound_method": [],
+    "keywords": ["knop_d12", "distance_between_fakes", "case_gluing"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 8,
+    "counterfeit_count": 2,
+    "counterfeit_type": "two_lighter_one_in_each_half",
+    "weighing_count": 2,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_distance_between_counterfeits"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 6,
+    "comment": "Задача сложнее полного поиска тем, что надо заранее решить, какие случаи можно склеить по одинаковому расстоянию.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "structural_constraint", "decision_tree", "condition_older_students"],
+  "sources": [
+    {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-22",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "knop_2011_part3_remainder",
+    "notes": [
+      "Дополнительная задача Д.12. Книжное решение дает первый ход 1+2 против 5+6 и равную ветвь 1+3 против 5+7; неравные ветви восстановлены прямой проверкой четырех оставшихся случаев."
+    ]
+  }
+}

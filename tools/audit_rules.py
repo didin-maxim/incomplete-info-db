@@ -182,6 +182,7 @@ def warn_interactive_profile(warnings, pid, problem):
     profile_objective = profile.get("objective")
     objective_aliases = {
         "identify_coin": "identify_coin",
+        "identify_coin_or_none": "identify_coin_or_none",
         "identify_coin_only": "identify_coin",
         "identify_coin_only_unknown_direction": "identify_coin",
         "identify_one_counterfeit": "identify_coin",

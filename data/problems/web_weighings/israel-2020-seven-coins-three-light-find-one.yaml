@@ -50,7 +50,7 @@
     "hidden_state_space": "35 вариантов: какие три из семи монет фальшивые",
     "observations": ["исход чашечных весов: левая сторона легче, правая сторона легче или равновесие"],
     "allowed_actions": ["адаптивно выбирать две группы монет для сравнения"],
-    "goal": ["identify_one_counterfeit_coin"],
+    "goal": ["identify_one_light_coin"],
     "strategy_type": ["adaptive_strategy", "certificate_of_one_object"],
     "lower_bound_method": ["case_check_after_one_weighing"],
     "keywords": ["three_light_counterfeits", "find_one_fake", "seven_coins", "certificate"],
@@ -63,7 +63,20 @@
     "weighing_count": 2,
     "outcome_count_per_weighing": 3,
     "adaptive": true,
-    "objective": "identify_one_counterfeit_coin"
+    "objective": "identify_one_light_coin"
+  },
+  "interactive": {
+    "type": "multiple_light_find_one",
+    "coin_count": 7,
+    "counterfeit_count": 3,
+    "max_weighings": 2,
+    "objective": "identify_one_light_coin",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
   },
   "difficulty": {
     "main": "olympiad_medium",
