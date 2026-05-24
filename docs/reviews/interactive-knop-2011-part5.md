@@ -1,12 +1,14 @@
 # Interactive Review: Knop 2011 Part 5
 
-Scope: занятие 5 книги К. А. Кнопа, новые карточки worker E. Для `knop-2011-known-light-coin-preassigned-ternary-code` и `knop-2011-nine-light-coins-one-erasure-reserve-plan` YAML-поле `interactive` уже добавлено.
+Scope: занятие 5 книги К. А. Кнопа, новые карточки worker E. Заметка 2026-05-24: этот файл исторический; текущий выбор следующих задач см. в `interactive-queue-quality-review.md`.
+
+YAML-поле `interactive` уже есть у `knop-2011-known-light-coin-preassigned-ternary-code`, `knop-2011-nine-light-coins-one-erasure-reserve-plan` и `knop-2011-nine-light-coins-two-erasure-reserve-plan`. Эти карточки не брать повторно как новые интерактивы.
 
 ## Strong candidates
 
 - `knop-2011-known-light-coin-preassigned-ternary-code`: тип `preassigned_weighing_code`. Пользователь выбирает таблицу из `Л/П/0`, движок проверяет баланс строк и попарную различимость слов исходов.
 - `knop-2011-nine-light-coins-one-erasure-reserve-plan`: сделано через `single_counterfeit_weighing`, `adaptive: false`, `erasure_count: 1`. После задания 3 строк движок перебирает удаление любой одной строки и проверяет различимость 9 монет.
-- `knop-2011-nine-light-coins-two-erasure-reserve-plan`: тот же тип, но удаляются любые две строки из 4; нужен быстрый exhaustive-check по проекциям слов.
+- `knop-2011-nine-light-coins-two-erasure-reserve-plan`: тот же тип, но удаляются любые две строки из 4; 2026-05-24 уже закрыт через `single_counterfeit_weighing` с `erasure_count: 2`.
 - `knop-2011-gold-silver-27-preassigned-three-weighings`: тип `mixed gold/silver signs`. Скрытое состояние - одна фальшивая монета; знак отклонения зависит от типа монеты.
 - `knop-2011-gold-silver-24-half-half-preassigned`: тот же движок, но с фиксированными 12 золотыми и 12 серебряными монетами и дополнительной проверкой баланса настоящих масс.
 - `knop-2011-marked-ingots-55-expert-judge-27-weighings`: тип `expert_judge_certificate`. Это не обычный поиск: эксперт знает истинную маркировку и предъявляет взвешивания, судья проверяет, что альтернативы исключены.

@@ -1,0 +1,73 @@
+{
+  "id": "cmo-2015-grade7-desk-neighbor-knights-liars",
+  "title": "КМО-2015, 7 класс: пересадка рыцарей и лжецов за партами",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-cmo-2015-7-4",
+        "title": "Сначала рядом с лжецом, потом рядом с рыцарем",
+        "text": "В классе 26 учащихся. Они договорились, что каждый из них будет либо лжецом, который всегда лжет, либо рыцарем, который всегда говорит правду. Когда они пришли в класс и сели за парты, каждый сказал: «Я сижу рядом с лжецом». Затем некоторые учащиеся пересели за другие парты. Мог ли после этого каждый сказать: «Я сижу рядом с рыцарем»? Каждый раз за любой партой сидело ровно двое учащихся.",
+        "source_ids": ["src-cmo-2015-grade7"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-seating-forces-mixed-pairs",
+      "title": "Первая фраза заставляет каждую парту быть смешанной",
+      "text": "Фраза «я сижу рядом с лжецом» истинна для рыцаря ровно тогда, когда его сосед - лжец, а для лжеца она должна быть ложной, значит его сосед тоже не лжец. Поэтому за каждой партой сначала сидят один рыцарь и один лжец.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-second-seating-needs-even-equal-pairs",
+      "title": "Вторая фраза потребовала бы пар одного типа",
+      "text": "Фраза «я сижу рядом с рыцарем» может быть произнесена рыцарем только рядом с рыцарем, а лжецом - только рядом с лжецом. После пересадки все парты должны были бы разбиться на пары RR и LL, но рыцарей и лжецов по 13, а 13 не делится на 2.",
+      "standard_idea_ids": ["parity"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-count-types-at-desks",
+      "title": "Посчитать типы по партам",
+      "text": "Из первой рассадки следует, что каждая парта смешанная: рыцарь не может сидеть рядом с рыцарем, иначе его первая фраза была бы ложной; лжец не может сидеть рядом с лжецом, иначе его первая фраза была бы истинной. Значит, в классе 13 рыцарей и 13 лжецов.\n\nВо второй рассадке фраза «я сижу рядом с рыцарем» означает обратное: рыцарь должен сидеть рядом с рыцарем, а лжец - рядом с лжецом. Тогда всех 13 рыцарей нужно разбить на пары и всех 13 лжецов тоже нужно разбить на пары, что невозможно из-за нечетности. Поэтому такая пересадка невозможна.",
+      "standard_idea_ids": ["partition_state_space", "parity"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "тип каждого из 26 учеников: рыцарь или лжец, и две рассадки по партам",
+    "observations": ["публичные одинаковые фразы о типе соседа по парте в двух рассадках"],
+    "allowed_actions": ["переводить истинность фразы в локальное ограничение на тип соседей"],
+    "goal": ["decide_possible_rearrangement"],
+    "strategy_type": ["state_elimination", "parity_argument", "local_constraint_propagation"],
+    "lower_bound_method": [],
+    "keywords": ["cmo_2015", "knights_liars", "desk_pairs", "neighbor_statement"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 26, "lies_allowed": "лжецы всегда лгут", "adaptive": false, "objective": "decide_possible_rearrangement"},
+  "truth_liar_profile": {"agent_types": ["truth_teller", "liar"], "truth_rule": "fixed_truth_or_lie", "interaction_mode": ["public_answers", "local_neighborhood"], "topology": "matching", "goal": ["decide_possible_rearrangement"]},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "7 класс: два локальных перевода фразы и одна нечетность.", "status": "ai_checked"},
+  "tags": ["lie_detection", "parity", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-cmo-2015-grade7", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "cmo_batch",
+    "notes": [
+      "Официальный PDF КМО-2015, 7 класс, задача 7.4; автор в PDF не указан.",
+      "Интерактив не нужен: задача сводится к двум статическим локальным ограничениям на паросочетания и короткому подсчету четности."
+    ]
+  }
+}

@@ -57,8 +57,25 @@
     "status": "ai_checked"
   },
   "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "silver_lighter_gold_heavier", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["silver", "gold"], "objective": "identify_coin"},
+  "interactive": {
+    "type": "single_counterfeit_weighing",
+    "coin_count": 9,
+    "coin_types": ["silver", "silver", "silver", "silver", "silver", "gold", "gold", "gold", "gold"],
+    "coin_type_labels": {"silver": "silver", "gold": "gold"},
+    "genuine_weights": {"silver": 10, "gold": 11},
+    "counterfeit_weights": {
+      "silver": {"lighter": 9},
+      "gold": {"heavier": 12}
+    },
+    "counterfeit_weight": "lighter",
+    "counterfeit_weight_by_type": {"silver": "lighter", "gold": "heavier"},
+    "max_weighings": 2,
+    "objective": "identify_coin",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": false
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Это троичный поиск на девяти состояниях, но направление перекоса читается по-разному для серебряной и золотой фальшивки.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "decision_tree_lower_bound", "condition_middle_school"],
-  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
+  "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}, {"source_id": "src-mccme-circle-2016-weighings", "role": "math_circle_statement_problem_14", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part2", "notes": ["Книга К. А. Кнопа, занятие 2, задача 2.9."]}
 }

@@ -2,7 +2,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from lib import ROOT, load_problem_files, load_relations, load_sources, load_taxonomy
+from lib import ROOT, load_problem_files, load_relations, load_resource_files, load_sources, load_taxonomy
 
 
 REQUIRED_PROBLEM_FIELDS = [
@@ -35,7 +35,7 @@ REQUIRED_RELATION_FIELDS = [
 IMAGE_EXTENSIONS = {".webp", ".png", ".jpg", ".jpeg"}
 MAX_IMAGE_BYTES = 2_000_000
 INTERACTIVE_COUNTERFEIT_WEIGHTS = {"lighter", "heavier"}
-INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_sign_only", "identify_sign_only_unknown_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_swapped_adjacent_labels", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_all_weights_after_rotation", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "guarantee_all_but_first_correct", "prove_impossible"}
+INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_sign_only", "identify_sign_only_unknown_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_swapped_adjacent_labels", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "identify_criminal_from_witness", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_all_weights_after_rotation", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "guarantee_all_but_first_correct", "prove_impossible"}
 INTERACTIVE_MODES = {"random", "cheater", "exhaustive", "challenge", "sandbox", "guided", "manual_spectator"}
 INTERACTIVE_PRESENTATIONS = {"exercise", "demonstration", "review_only"}
 INTERACTIVE_OBJECTIVES.add("all_agents_find_own_state")
@@ -44,7 +44,7 @@ INTERACTIVE_OBJECTIVES.add("guarantee_at_least_half_correct")
 INTERACTIVE_OBJECTIVES.add("identify_spectator_card")
 INTERACTIVE_OBJECTIVES.add("identify_defective_weight_and_sign")
 INTERACTIVE_OBJECTIVES.add("identify_light_and_heavy_counterfeit_coins")
-INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "safe_pile_balance_certificate", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "uniformity_verification", "selected_coin_parity_detector", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "balanced_weight_signature_protocol", "numeric_linear_signature", "rotated_tray_balance_protocol", "expert_judge_certificate", "fitch_cheney_card_trick", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_pair_matching_protocol", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "three_letter_erasure_code", "permutation_message_order_code", "twenty_one_card_trick", "hidden_hat_number_parity_protocol"}
+INTERACTIVE_TYPES = {"single_counterfeit_weighing", "single_counterfeit_unknown_direction", "zero_one_two_counterfeit_sign", "safe_pile_balance_certificate", "paired_light_counterfeits", "multiple_light_find_one", "grouped_light_counterfeits", "constrained_light_counterfeit_sets", "threshold_balance_counterfeit_sets", "uniformity_verification", "selected_coin_parity_detector", "faulty_scale_identification", "broken_scale_counterfeit_coin", "broken_detector_counterfeit_coin", "heaviest_coin_one_broken_scale", "balanced_weight_signature_protocol", "numeric_linear_signature", "rotated_tray_balance_protocol", "expert_judge_certificate", "fitch_cheney_card_trick", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "antichain_code_protocol", "ternary_question_code", "repetition_code_one_lie_questions", "finite_pair_matching_protocol", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "three_letter_erasure_code", "permutation_message_order_code", "twenty_one_card_trick", "hidden_hat_number_parity_protocol"}
 INTERACTIVE_TYPES.add("fixed_weighing_transcript")
 INTERACTIVE_TYPES.add("higher_lower_strategy_game")
 INTERACTIVE_TYPES.add("permutation_cycle_protocol")
@@ -154,7 +154,7 @@ def validate_interactive(errors, label, problem):
     if interactive_type not in INTERACTIVE_TYPES:
         return
     required_fields = ["objective"]
-    if interactive_type in {"finite_pair_matching_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol"}:
+    if interactive_type in {"finite_pair_matching_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "antichain_code_protocol", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol"}:
         if interactive_type == "subset_signature_protocol":
             required_fields.extend(["object_count", "max_tests"])
         elif interactive_type == "balanced_subset_question_code":
@@ -165,6 +165,8 @@ def validate_interactive(errors, label, problem):
             required_fields.extend(["card_count", "number_max"])
         elif interactive_type == "fixed_feedback_code":
             required_fields.extend(["password_length", "alphabet", "max_tests"])
+        elif interactive_type == "antichain_code_protocol":
+            required_fields.extend(["object_count", "max_tests"])
         elif interactive_type == "ternary_question_code":
             required_fields.extend(["object_count", "max_tests"])
         elif interactive_type == "repetition_code_one_lie_questions":
@@ -575,8 +577,10 @@ def validate_interactive(errors, label, problem):
             fail(errors, f"{label}: interactive.weight_model must be permutation_1_to_N or equal_halves_binary for expert_judge_certificate")
         if certificate_goal not in {"one_forced_weight", "all_forced_weights"}:
             fail(errors, f"{label}: interactive.certificate_goal must be one_forced_weight or all_forced_weights for expert_judge_certificate")
-        if weight_model == "permutation_1_to_N" and certificate_goal != "one_forced_weight":
-            fail(errors, f"{label}: permutation_1_to_N expert_judge_certificate requires certificate_goal one_forced_weight")
+        if weight_model == "permutation_1_to_N" and certificate_goal == "all_forced_weights":
+            for count in object_counts if isinstance(object_counts, list) else []:
+                if isinstance(count, int) and not isinstance(count, bool) and count > 8:
+                    fail(errors, f"{label}: permutation_1_to_N all_forced_weights expert_judge_certificate supports object_counts up to 8")
         if weight_model == "equal_halves_binary":
             if certificate_goal != "all_forced_weights":
                 fail(errors, f"{label}: equal_halves_binary expert_judge_certificate requires certificate_goal all_forced_weights")
@@ -598,8 +602,8 @@ def validate_interactive(errors, label, problem):
                 for count in object_counts:
                     if count != light_count + heavy_count:
                         fail(errors, f"{label}: each object_count must equal light_count + heavy_count for equal_halves_binary")
-        if interactive.get("max_weighings") != 1:
-            fail(errors, f"{label}: interactive.max_weighings must be 1 for expert_judge_certificate")
+        if not isinstance(interactive.get("max_weighings"), int) or isinstance(interactive.get("max_weighings"), bool) or interactive.get("max_weighings") < 1 or interactive.get("max_weighings") > 4:
+            fail(errors, f"{label}: interactive.max_weighings must be an integer from 1 to 4 for expert_judge_certificate")
     if interactive_type == "xor_single_flip_protocol":
         position_count = interactive.get("position_count", interactive.get("object_count"))
         if not isinstance(position_count, int) or isinstance(position_count, bool) or position_count < 2:
@@ -730,7 +734,7 @@ def validate_interactive(errors, label, problem):
                     if not isinstance(weight, (int, float)) or isinstance(weight, bool) or weight <= 0:
                         fail(errors, f"{label}: interactive.bag_weights[{index}] must be a positive number")
     object_count = interactive.get("object_count")
-    if interactive_type in {"subset_signature_protocol", "balanced_subset_question_code", "binary_question_code"} and (
+    if interactive_type in {"subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "antichain_code_protocol"} and (
         not isinstance(object_count, int) or isinstance(object_count, bool) or object_count < 1
     ):
         fail(errors, f"{label}: interactive.object_count must be an integer >= 1")
@@ -907,10 +911,10 @@ def validate_interactive(errors, label, problem):
         elif len(set(detector_labels)) != len(detector_labels):
             fail(errors, f"{label}: interactive.detector_labels must be unique")
     max_weighings = interactive.get("max_weighings")
-    if interactive_type not in {"broken_detector_counterfeit_coin", "selected_coin_parity_detector", "fitch_cheney_card_trick", "finite_pair_matching_protocol", "petya_vasya_five_cards_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "wise_men_even_parity_code", "wise_men_color_count_parity_protocol", "prisoners_hats_parity_line", "hidden_hat_number_parity_protocol", "higher_lower_strategy_game", "permutation_message_order_code", "permutation_cycle_protocol", "three_letter_erasure_code", "twenty_one_card_trick"} and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
+    if interactive_type not in {"broken_detector_counterfeit_coin", "selected_coin_parity_detector", "fitch_cheney_card_trick", "finite_pair_matching_protocol", "petya_vasya_five_cards_protocol", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "binary_cards_number_trick", "fixed_feedback_code", "antichain_code_protocol", "ternary_question_code", "repetition_code_one_lie_questions", "finite_binary_state_protocol", "moving_target_graph_search", "xor_single_flip_protocol", "wise_men_even_parity_code", "wise_men_color_count_parity_protocol", "prisoners_hats_parity_line", "hidden_hat_number_parity_protocol", "higher_lower_strategy_game", "permutation_message_order_code", "permutation_cycle_protocol", "three_letter_erasure_code", "twenty_one_card_trick"} and (not isinstance(max_weighings, int) or isinstance(max_weighings, bool) or max_weighings < 1):
         fail(errors, f"{label}: interactive.max_weighings must be an integer >= 1")
     max_tests = interactive.get("max_tests")
-    if interactive_type in {"broken_detector_counterfeit_coin", "selected_coin_parity_detector", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "fixed_feedback_code", "ternary_question_code", "finite_binary_state_protocol", "moving_target_graph_search"} and (
+    if interactive_type in {"broken_detector_counterfeit_coin", "selected_coin_parity_detector", "subset_signature_protocol", "balanced_subset_question_code", "binary_question_code", "fixed_feedback_code", "antichain_code_protocol", "ternary_question_code", "finite_binary_state_protocol", "moving_target_graph_search"} and (
         not isinstance(max_tests, int) or isinstance(max_tests, bool) or max_tests < 1
     ):
         fail(errors, f"{label}: interactive.max_tests must be an integer >= 1")
@@ -1065,11 +1069,11 @@ def validate_interactive(errors, label, problem):
     if interactive_type == "balanced_weight_signature_protocol" and interactive.get("objective") != "identify_deficient_bag_or_none":
         fail(errors, f"{label}: interactive.objective must be identify_deficient_bag_or_none for balanced_weight_signature_protocol")
     if interactive_type == "expert_judge_certificate":
-        if interactive.get("weight_model", "permutation_1_to_N") == "equal_halves_binary":
+        if interactive.get("certificate_goal", "one_forced_weight") == "all_forced_weights":
             if interactive.get("objective") != "identify_all_weights":
-                fail(errors, f"{label}: interactive.objective must be identify_all_weights for equal_halves_binary expert_judge_certificate")
+                fail(errors, f"{label}: interactive.objective must be identify_all_weights for all_forced_weights expert_judge_certificate")
         elif interactive.get("objective") != "identify_one_weight":
-            fail(errors, f"{label}: interactive.objective must be identify_one_weight for expert_judge_certificate")
+            fail(errors, f"{label}: interactive.objective must be identify_one_weight for one_forced_weight expert_judge_certificate")
     if interactive_type == "paired_light_counterfeits" and interactive.get("objective") != "identify_one_from_each_pair":
         fail(errors, f"{label}: interactive.objective must be identify_one_from_each_pair for paired_light_counterfeits")
     if interactive_type == "multiple_light_find_one" and interactive.get("objective") != "identify_one_light_coin":
@@ -1099,6 +1103,8 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective must be identify_hidden_number for balanced_subset_question_code")
     if interactive_type == "binary_question_code" and interactive.get("objective") != "identify_hidden_number":
         fail(errors, f"{label}: interactive.objective must be identify_hidden_number for binary_question_code")
+    if interactive_type == "antichain_code_protocol" and interactive.get("objective") != "identify_criminal_from_witness":
+        fail(errors, f"{label}: interactive.objective must be identify_criminal_from_witness for antichain_code_protocol")
     if interactive_type == "binary_cards_number_trick" and interactive.get("objective") != "identify_hidden_number":
         fail(errors, f"{label}: interactive.objective must be identify_hidden_number for binary_cards_number_trick")
     if interactive_type == "ternary_question_code" and interactive.get("objective") not in {"identify_state", "identify_hidden_number"}:
@@ -1347,6 +1353,116 @@ def validate_interactive(errors, label, problem):
         fail(errors, f"{label}: interactive.objective prove_impossible must use modes: ['exhaustive']")
 
 
+def validate_resources(errors, resource_files, source_ids, problem_ids):
+    seen_list_ids = set()
+    seen_resource_ids = set()
+    for path, data in resource_files:
+        label = str(path)
+        lists = data.get("resource_lists")
+        legacy_resources = data.get("resources")
+        if lists is None and legacy_resources is not None:
+            validate_legacy_resources(errors, label, legacy_resources, source_ids, problem_ids, seen_resource_ids)
+            continue
+        if not isinstance(lists, list) or not lists:
+            fail(errors, f"{label}: resource_lists must be a non-empty list")
+            continue
+        for resource_list in lists:
+            if not isinstance(resource_list, dict):
+                fail(errors, f"{label}: resource_lists items must be objects")
+                continue
+            list_id = resource_list.get("id")
+            if not isinstance(list_id, str) or not list_id.strip():
+                fail(errors, f"{label}: resource list missing id")
+            elif list_id in seen_list_ids:
+                fail(errors, f"duplicate resource list id: {list_id}")
+            else:
+                seen_list_ids.add(list_id)
+            for field in ["title", "scope", "items"]:
+                if field not in resource_list:
+                    fail(errors, f"{label}: resource list {list_id} missing {field}")
+            scope = resource_list.get("scope", {})
+            if not isinstance(scope, dict):
+                fail(errors, f"{label}: resource list {list_id} scope must be an object")
+            items = resource_list.get("items", [])
+            if not isinstance(items, list) or not items:
+                fail(errors, f"{label}: resource list {list_id} items must be a non-empty list")
+                continue
+            seen_source_ids = set()
+            for index, item in enumerate(items):
+                item_label = f"{label}: resource list {list_id} items[{index}]"
+                if not isinstance(item, dict):
+                    fail(errors, f"{item_label} must be an object")
+                    continue
+                source_id = item.get("source_id")
+                if source_id not in source_ids:
+                    fail(errors, f"{item_label}: unknown source_id {source_id}")
+                elif source_id in seen_source_ids:
+                    fail(errors, f"{item_label}: duplicate source_id {source_id} in resource list")
+                else:
+                    seen_source_ids.add(source_id)
+                for field in ["kind", "use_for", "why_useful"]:
+                    if field not in item:
+                        fail(errors, f"{item_label}: missing {field}")
+                if not isinstance(item.get("use_for"), list) or not item.get("use_for"):
+                    fail(errors, f"{item_label}: use_for must be a non-empty list")
+                linked_problem_ids = item.get("linked_problem_ids", [])
+                if linked_problem_ids is not None:
+                    if not isinstance(linked_problem_ids, list):
+                        fail(errors, f"{item_label}: linked_problem_ids must be a list")
+                    else:
+                        for problem_id in linked_problem_ids:
+                            if problem_id not in problem_ids:
+                                fail(errors, f"{item_label}: unknown linked_problem_id {problem_id}")
+                video = item.get("video")
+                if video is not None:
+                    if not isinstance(video, dict):
+                        fail(errors, f"{item_label}: video must be an object")
+                    else:
+                        for field in ["title", "author_or_channel", "topic", "why_useful"]:
+                            if not isinstance(video.get(field), str) or not video.get(field).strip():
+                                fail(errors, f"{item_label}: video.{field} must be a non-empty string")
+
+
+def validate_legacy_resources(errors, label, resources, source_ids, problem_ids, seen_resource_ids):
+    if not isinstance(resources, list) or not resources:
+        fail(errors, f"{label}: resources must be a non-empty list")
+        return
+    for index, resource in enumerate(resources):
+        item_label = f"{label}: resources[{index}]"
+        if not isinstance(resource, dict):
+            fail(errors, f"{item_label} must be an object")
+            continue
+        resource_id = resource.get("id")
+        if not isinstance(resource_id, str) or not resource_id.strip():
+            fail(errors, f"{item_label}: missing id")
+        elif resource_id in seen_resource_ids:
+            fail(errors, f"duplicate resource id: {resource_id}")
+        else:
+            seen_resource_ids.add(resource_id)
+        for field in ["title", "resource_type", "language", "targets", "topics", "description", "usefulness"]:
+            if field not in resource:
+                fail(errors, f"{item_label}: missing {field}")
+        source_id_list = resource.get("source_ids")
+        if not isinstance(source_id_list, list) or not source_id_list:
+            fail(errors, f"{item_label}: source_ids must be a non-empty list")
+        else:
+            for source_id in source_id_list:
+                if source_id not in source_ids:
+                    fail(errors, f"{item_label}: unknown source_id {source_id}")
+        targets = resource.get("targets", [])
+        if not isinstance(targets, list) or not targets:
+            fail(errors, f"{item_label}: targets must be a non-empty list")
+        else:
+            for target_index, target in enumerate(targets):
+                if not isinstance(target, dict):
+                    fail(errors, f"{item_label}: targets[{target_index}] must be an object")
+                    continue
+                if target.get("kind") == "problem" and target.get("id") not in problem_ids:
+                    fail(errors, f"{item_label}: unknown target problem {target.get('id')}")
+        if not isinstance(resource.get("topics"), list) or not resource.get("topics"):
+            fail(errors, f"{item_label}: topics must be a non-empty list")
+
+
 def main():
     errors = []
     problem_files = load_problem_files()
@@ -1437,12 +1553,17 @@ def main():
         if not relation.get("forward_text") or not relation.get("backward_text"):
             fail(errors, f"{label}: relation texts must be non-empty")
 
+    resource_files = load_resource_files()
+    validate_resources(errors, resource_files, source_ids, id_set)
+
     if errors:
         for error in errors:
             print(f"ERROR: {error}")
         print(f"FAILED: {len(errors)} errors")
         return 1
-    print(f"OK: {len(problems)} problems, {len(relations)} relations, {len(source_ids)} sources.")
+    resource_list_count = sum(len(data.get("resource_lists", [])) for _, data in resource_files)
+    legacy_resource_count = sum(len(data.get("resources", [])) for _, data in resource_files)
+    print(f"OK: {len(problems)} problems, {len(relations)} relations, {len(source_ids)} sources, {resource_list_count} resource lists, {legacy_resource_count} legacy resources.")
     return 0
 
 

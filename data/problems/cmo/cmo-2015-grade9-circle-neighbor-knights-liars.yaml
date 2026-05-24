@@ -1,0 +1,73 @@
+{
+  "id": "cmo-2015-grade9-circle-neighbor-knights-liars",
+  "title": "КМО-2015, 9 класс: оба соседа - рыцари",
+  "fragment": "questions",
+  "kind": {"primary": "olympiad_problem", "secondary": ["truth_liar_reasoning", "structural_counting"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-cmo-2015-9-1",
+        "title": "Сколько человек могли сказать фразу о двух соседях",
+        "text": "За круглым столом сидят 10 человек, некоторые из них - рыцари, а остальные - лжецы; рыцари всегда говорят правду, а лжецы всегда лгут. Известно, что среди них есть хотя бы один рыцарь и хотя бы один лжец. Какое наибольшее число из сидящих за столом может сказать: «Оба моих соседа - рыцари»? Ложным считается утверждение, которое хотя бы частично не является верным.",
+        "source_ids": ["src-cmo-2015-grade9"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-not-all-can-say",
+      "title": "Все десять сказать не могут",
+      "text": "Если все десять произнесли фразу, то из наличия хотя бы одного рыцаря и одного лжеца найдутся соседние рыцарь и лжец. У этого рыцаря один из соседей - лжец, поэтому его фраза не могла быть истинной.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-nine-liars-one-knight",
+      "title": "Девять лжецов и один рыцарь достигают оценки",
+      "text": "Если за столом один рыцарь и девять лжецов, то каждый лжец, не сидящий напротив особого запрета, может ложно сказать, что оба его соседа - рыцари: у каждого лжеца среди соседей есть лжец. Все девять лжецов могут произнести фразу, а рыцарь не обязан ее произносить.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-upper-and-example",
+      "title": "Оценка сверху и пример на 9",
+      "text": "Предположим, что требуемую фразу сказали все 10 человек. Так как за столом есть хотя бы один рыцарь и хотя бы один лжец, где-то по кругу сидят рядом рыцарь и лжец. Тогда у этого рыцаря не оба соседа являются рыцарями, поэтому он не мог правдиво сказать указанную фразу. Противоречие, значит больше 9 человек сказать ее не могут.\n\nПример на 9 получается так: посадим за стол одного рыцаря и девять лжецов. Каждый лжец имеет хотя бы одного соседа-лжеца, поэтому фраза «оба моих соседа - рыцари» для него ложна, и он может ее произнести. Так фразу произносят все девять лжецов.",
+      "standard_idea_ids": ["partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "расположение рыцарей и лжецов на цикле из 10 мест",
+    "observations": ["часть участников публично произносит одинаковую фразу о двух соседях"],
+    "allowed_actions": ["использовать истинность или ложность фразы как ограничение на соседние места"],
+    "goal": ["maximize_number_of_possible_speakers"],
+    "strategy_type": ["state_elimination", "extremal_example", "local_constraint_propagation"],
+    "lower_bound_method": [],
+    "keywords": ["cmo_2015", "knights_liars", "circle", "neighbors"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {"answer_alphabet_size": 2, "question_count": 10, "lies_allowed": "лжецы всегда лгут", "adaptive": false, "objective": "maximize_speakers"},
+  "truth_liar_profile": {"agent_types": ["truth_teller", "liar"], "truth_rule": "fixed_truth_or_lie", "interaction_mode": ["public_answers", "local_neighborhood"], "topology": "circle", "goal": ["maximize_speakers"]},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "9 класс: простая экстремальная задача на соседей рыцарей и лжецов.", "status": "ai_checked"},
+  "tags": ["lie_detection", "structural_constraint", "condition_middle_school"],
+  "sources": [{"source_id": "src-cmo-2015-grade9", "role": "official_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "cmo_batch",
+    "notes": [
+      "Официальный PDF КМО-2015, 9 класс, задача 9.1; автор в PDF не указан.",
+      "Интерактив не нужен: малое круговое ограничение лучше объясняется статически, без содержательного выбора стратегии пользователем."
+    ]
+  }
+}

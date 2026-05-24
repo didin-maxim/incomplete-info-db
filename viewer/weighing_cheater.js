@@ -241,7 +241,7 @@
 
   function counterfeitWeightForType(type, direction, options = {}) {
     const weights = options.counterfeitWeights ?? options.counterfeit_weights ?? {};
-    const normalizedDirection = direction === 'heavy' ? 'heavier' : 'lighter';
+    const normalizedDirection = normalizeDirection(direction) || (direction === 'heavy' ? 'heavier' : 'lighter');
     const nested = weights?.[type]?.[normalizedDirection];
     const flat = weights?.[`${type}_${normalizedDirection}`] ?? weights?.[normalizedDirection];
     const value = Number(nested ?? flat);
@@ -250,12 +250,29 @@
     return normalizedDirection === 'heavier' ? genuine + 1 : genuine - 1;
   }
 
+  function counterfeitDirectionForCoin(coin, fallbackDirection, options = {}) {
+    const type = coinTypeFor(coin, options);
+    const byType = options.counterfeitWeightByType
+      ?? options.counterfeit_weight_by_type
+      ?? options.counterfeitDirectionByType
+      ?? options.counterfeit_direction_by_type
+      ?? {};
+    const typed = normalizeDirection(byType?.[type] ?? byType?.[String(coin)]);
+    if (typed) return typed;
+    const fallback = normalizeDirection(fallbackDirection);
+    if (fallback) return fallback;
+    const weight = normalizeWeight(fallbackDirection);
+    if (weight === 'heavy') return 'heavier';
+    if (weight === 'light') return 'lighter';
+    return null;
+  }
+
   function typedCoinWeight(coin, fakeCoin, counterfeitWeight, options = {}) {
     const type = coinTypeFor(coin, options);
     if (Number(coin) !== Number(fakeCoin)) return genuineWeightForType(type, options);
-    const weight = normalizeWeight(counterfeitWeight);
-    if (!weight) return null;
-    return counterfeitWeightForType(type, weight, options);
+    const direction = counterfeitDirectionForCoin(coin, counterfeitWeight, options);
+    if (!direction) return null;
+    return counterfeitWeightForType(type, direction, options);
   }
 
   function compareWeights(leftWeight, rightWeight) {
@@ -272,8 +289,8 @@
         .reduce((sum, coin) => sum + genuineWeightForType(coinTypeFor(coin, options), options), 0);
       return compareWeights(leftWeight, rightWeight);
     }
-    const weight = normalizeWeight(counterfeitWeight);
-    if (!weight) return null;
+    const direction = counterfeitDirectionForCoin(candidate, counterfeitWeight, options);
+    if (!direction) return null;
     const coinCount = options.coinCount ?? options.coin_count ?? null;
     const leftList = uniqueCoins(leftCoins, coinCount);
     const rightList = uniqueCoins(rightCoins, coinCount);
@@ -3220,6 +3237,157 @@
     };
   }
 
+  function antichainCodePersonCount(params = {}) {
+    const count = Number(params.person_count ?? params.personCount ?? params.object_count ?? params.objectCount ?? 70);
+    if (!Number.isInteger(count) || count < 2 || count > 120) return 0;
+    return count;
+  }
+
+  function antichainCodeDayCount(params = {}) {
+    const count = Number(params.day_count ?? params.dayCount ?? params.max_tests ?? params.maxTests ?? 8);
+    if (!Number.isInteger(count) || count < 1 || count > 12) return 0;
+    return count;
+  }
+
+  function antichainCodeBinomial(n, k) {
+    const nn = Number(n);
+    const kk = Number(k);
+    if (!Number.isInteger(nn) || !Number.isInteger(kk) || kk < 0 || kk > nn) return 0;
+    let result = 1;
+    const limit = Math.min(kk, nn - kk);
+    for (let index = 1; index <= limit; index += 1) {
+      result = (result * (nn - limit + index)) / index;
+    }
+    return Math.round(result);
+  }
+
+  function antichainCodeCapacity(dayCount) {
+    const days = Number(dayCount);
+    if (!Number.isInteger(days) || days < 1) return 0;
+    return antichainCodeBinomial(days, Math.floor(days / 2));
+  }
+
+  function antichainCodeNormalizeCodeword(raw, dayCount) {
+    const days = antichainCodeDayCount({ day_count: dayCount });
+    if (!days) return [];
+    if (typeof raw === 'string') {
+      const chars = raw.replace(/[^01]/g, '').slice(0, days).split('');
+      while (chars.length < days) chars.push('0');
+      return chars.map(char => char === '1' ? 1 : 0);
+    }
+    const row = Array.isArray(raw) ? raw : [];
+    return Array.from({ length: days }, (_item, index) => Number(row[index]) ? 1 : 0);
+  }
+
+  function antichainCodeNormalizeCodewords(params = {}) {
+    const people = antichainCodePersonCount(params);
+    const days = antichainCodeDayCount(params);
+    const raw = params.codewords ?? params.codes ?? [];
+    return Array.from({ length: people }, (_item, index) =>
+      antichainCodeNormalizeCodeword(raw[index] || [], days)
+    );
+  }
+
+  function antichainCodewordKey(codeword) {
+    return (codeword || []).map(bit => Number(bit) ? '1' : '0').join('');
+  }
+
+  function antichainCodewordWeight(codeword) {
+    return (codeword || []).reduce((sum, bit) => sum + (Number(bit) ? 1 : 0), 0);
+  }
+
+  function antichainCodeIsSubset(left, right) {
+    const length = Math.max(left?.length || 0, right?.length || 0);
+    for (let index = 0; index < length; index += 1) {
+      if (Number(left?.[index]) && !Number(right?.[index])) return false;
+    }
+    return true;
+  }
+
+  function antichainCodeWitnessDay(witnessCode, criminalCode) {
+    const length = Math.max(witnessCode?.length || 0, criminalCode?.length || 0);
+    for (let index = 0; index < length; index += 1) {
+      if (Number(witnessCode?.[index]) && !Number(criminalCode?.[index])) return index + 1;
+    }
+    return null;
+  }
+
+  function antichainCodeDefaultCodewords(params = {}) {
+    const people = antichainCodePersonCount(params);
+    const days = antichainCodeDayCount(params);
+    const targetWeight = Number(params.target_weight ?? params.targetWeight ?? Math.floor(days / 2));
+    const rows = [];
+    const limit = 1 << days;
+    for (let mask = 0; mask < limit && rows.length < people; mask += 1) {
+      const row = Array.from({ length: days }, (_item, index) => (mask & (1 << index)) ? 1 : 0);
+      if (antichainCodewordWeight(row) === targetWeight) rows.push(row);
+    }
+    while (rows.length < people) rows.push(Array.from({ length: days }, () => 0));
+    return rows;
+  }
+
+  function antichainCodeFindConflict(params = {}) {
+    const codewords = antichainCodeNormalizeCodewords(params);
+    for (let leftIndex = 0; leftIndex < codewords.length; leftIndex += 1) {
+      for (let rightIndex = leftIndex + 1; rightIndex < codewords.length; rightIndex += 1) {
+        const left = codewords[leftIndex];
+        const right = codewords[rightIndex];
+        const leftSubsetRight = antichainCodeIsSubset(left, right);
+        const rightSubsetLeft = antichainCodeIsSubset(right, left);
+        if (leftSubsetRight || rightSubsetLeft) {
+          return {
+            leftPerson: leftIndex + 1,
+            rightPerson: rightIndex + 1,
+            leftCode: left,
+            rightCode: right,
+            leftSubsetRight,
+            rightSubsetLeft,
+            equal: leftSubsetRight && rightSubsetLeft
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  function antichainCodeCheckStrategy(params = {}) {
+    const people = antichainCodePersonCount(params);
+    const days = antichainCodeDayCount(params);
+    const codewords = antichainCodeNormalizeCodewords(params);
+    const capacity = antichainCodeCapacity(days);
+    const conflict = antichainCodeFindConflict({ ...params, codewords });
+    const weights = codewords.map(antichainCodewordWeight);
+    return {
+      success: people > 0 && days > 0 && people <= capacity && !conflict,
+      personCount: people,
+      dayCount: days,
+      codewords,
+      capacity,
+      lowerBoundOk: people <= capacity,
+      conflict,
+      weights,
+      minWeight: weights.length ? Math.min(...weights) : 0,
+      maxWeight: weights.length ? Math.max(...weights) : 0
+    };
+  }
+
+  function antichainCodeEvaluatePair(params = {}) {
+    const codewords = antichainCodeNormalizeCodewords(params);
+    const witness = Number(params.witness ?? params.witnessPerson ?? params.witness_person);
+    const criminal = Number(params.criminal ?? params.criminalPerson ?? params.criminal_person);
+    const witnessCode = codewords[witness - 1];
+    const criminalCode = codewords[criminal - 1];
+    const day = witness !== criminal ? antichainCodeWitnessDay(witnessCode, criminalCode) : null;
+    return {
+      witness,
+      criminal,
+      witnessCode,
+      criminalCode,
+      day,
+      success: Number.isInteger(day)
+    };
+  }
+
   function wiseMenParityPersonCount(params = {}) {
     const count = Number(params.person_count ?? params.personCount ?? params.word_length ?? 6);
     if (!Number.isInteger(count) || count < 2 || count > 10) return 0;
@@ -5645,7 +5813,9 @@
   }
 
   function expertJudgeObjectCount(params = {}) {
-    const count = Number(params.objectCount ?? params.object_count ?? params.weightCount ?? params.weight_count);
+    const configuredCounts = params.objectCounts ?? params.object_counts;
+    const configuredCount = Array.isArray(configuredCounts) ? configuredCounts[0] : configuredCounts;
+    const count = Number(params.objectCount ?? params.object_count ?? params.weightCount ?? params.weight_count ?? configuredCount);
     return Number.isInteger(count) && count >= 2 && count <= 30 ? count : 0;
   }
 
@@ -5824,6 +5994,70 @@
     });
   }
 
+  function expertJudgePermutationAssignments(params = {}) {
+    const values = expertJudgeWeightValues(params);
+    if (expertJudgeWeightModel(params) !== 'permutation_1_to_N' || values.length > 8) return null;
+    const states = [];
+    function add(remaining, assignment) {
+      if (!remaining.length) {
+        states.push([...assignment]);
+        return;
+      }
+      for (let index = 0; index < remaining.length; index += 1) {
+        assignment.push(remaining[index]);
+        add([...remaining.slice(0, index), ...remaining.slice(index + 1)], assignment);
+        assignment.pop();
+      }
+    }
+    add(values, []);
+    return states;
+  }
+
+  function expertJudgeAllAssignments(params = {}) {
+    if (expertJudgeWeightModel(params) === 'equal_halves_binary') return expertJudgeBinaryAssignments(params);
+    return expertJudgePermutationAssignments(params);
+  }
+
+  function expertJudgeNormalizeWeighingSequence(params = {}) {
+    const raw = Array.isArray(params.weighings)
+      ? params.weighings
+      : (Array.isArray(params.weighingSequence) ? params.weighingSequence : []);
+    const outcomeList = Array.isArray(params.outcomes) ? params.outcomes : [];
+    const items = raw.length
+      ? raw
+      : [{ left: params.left ?? params.leftObjects ?? params.left_objects, right: params.right ?? params.rightObjects ?? params.right_objects, outcome: params.outcome }];
+    return items.map((item, index) => {
+      const normalized = expertJudgeNormalizeWeighing({ ...params, ...item });
+      const outcome = String(item?.outcome ?? outcomeList[index] ?? '').toLowerCase();
+      return { ...normalized, outcome: OUTCOMES.includes(outcome) ? outcome : null };
+    });
+  }
+
+  function expertJudgeOutcomeForNormalizedWeighing(assignment, weighing) {
+    if (!weighing?.valid) return null;
+    const leftSum = weighing.left.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+    const rightSum = weighing.right.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+    const outcome = expertJudgeOutcomeFromSums(leftSum, rightSum);
+    return {
+      outcome,
+      label: OUTCOME_LABELS[outcome],
+      leftSum,
+      rightSum
+    };
+  }
+
+  function expertJudgeCompatibleAssignments(params = {}) {
+    const sequence = expertJudgeNormalizeWeighingSequence(params);
+    if (!sequence.length || sequence.some(weighing => !weighing.valid || !OUTCOMES.includes(weighing.outcome))) return [];
+    const assignments = expertJudgeAllAssignments(params);
+    if (!assignments) return null;
+    return assignments.filter(assignment => sequence.every(weighing => {
+      const leftSum = weighing.left.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+      const rightSum = weighing.right.reduce((sum, item) => sum + (assignment[item - 1] || 0), 0);
+      return expertJudgeCompareMatches(leftSum, rightSum, weighing.outcome);
+    }));
+  }
+
   function expertJudgeSubsetSums(values, size) {
     const targetSize = Number(size);
     if (!Number.isInteger(targetSize) || targetSize < 0 || targetSize > values.length) return new Set();
@@ -5867,13 +6101,13 @@
 
   function expertJudgeForcedWeights(params = {}) {
     const weighing = expertJudgeNormalizeWeighing(params);
-    if (expertJudgeWeightModel(params) === 'equal_halves_binary') {
-      const compatible = expertJudgeCompatibleBinaryAssignments(params);
+    const exhaustiveCompatible = expertJudgeCompatibleAssignments(params);
+    if (Array.isArray(exhaustiveCompatible)) {
       const roleFor = item => (
         weighing.left.includes(item) ? 'left' : (weighing.right.includes(item) ? 'right' : 'outside')
       );
       return Array.from({ length: weighing.objectCount }, (_item, index) => index + 1).map(object => {
-        const possibleWeights = [...new Set(compatible.map(assignment => assignment[object - 1]))].sort((a, b) => a - b);
+        const possibleWeights = [...new Set(exhaustiveCompatible.map(assignment => assignment[object - 1]))].sort((a, b) => a - b);
         return {
           role: roleFor(object),
           object,
@@ -5902,28 +6136,33 @@
 
   function expertJudgeEvaluateCertificate(params = {}) {
     const assignment = expertJudgeNormalizeAssignment(params.assignment ?? params.weights, params);
-    const observed = params.outcome
-      ? { outcome: String(params.outcome).toLowerCase(), label: OUTCOME_LABELS[String(params.outcome).toLowerCase()] }
-      : expertJudgeOutcomeForAssignment(assignment, params);
-    const forced = expertJudgeForcedWeights({ ...params, outcome: observed?.outcome });
-    const compatible = expertJudgeWeightModel(params) === 'equal_halves_binary'
-      ? expertJudgeCompatibleBinaryAssignments({ ...params, outcome: observed?.outcome })
-      : null;
+    const sequence = expertJudgeNormalizeWeighingSequence(params);
+    const observedWeighings = sequence.map(weighing => {
+      const observed = weighing.outcome
+        ? { outcome: weighing.outcome, label: OUTCOME_LABELS[weighing.outcome], leftSum: null, rightSum: null }
+        : expertJudgeOutcomeForNormalizedWeighing(assignment, weighing);
+      return { ...weighing, ...observed };
+    });
+    const observed = observedWeighings[0] || null;
+    const forced = expertJudgeForcedWeights({ ...params, weighings: observedWeighings, outcome: observed?.outcome });
+    const compatible = expertJudgeCompatibleAssignments({ ...params, weighings: observedWeighings });
     const goal = String(params.certificateGoal ?? params.certificate_goal ?? 'one_forced_weight').toLowerCase();
     const learned = forced.filter(item => item.forcedWeight != null);
     const success = goal === 'all_forced_weights'
       ? forced.length > 0 && forced.every(item => item.forcedWeight != null)
       : learned.length > 0;
     return {
-      valid: !!observed && OUTCOMES.includes(observed.outcome),
+      valid: observedWeighings.length > 0 && observedWeighings.every(item => item.valid && OUTCOMES.includes(item.outcome)),
       assignment,
       outcome: observed?.outcome || null,
+      outcomes: observedWeighings.map(item => item.outcome),
+      weighings: observedWeighings,
       label: observed?.label || '',
       leftSum: observed?.leftSum ?? null,
       rightSum: observed?.rightSum ?? null,
       forced,
       learned,
-      compatibleCount: compatible ? compatible.length : null,
+      compatibleCount: Array.isArray(compatible) ? compatible.length : null,
       success
     };
   }
@@ -9808,6 +10047,8 @@
     expertJudgeRandomAssignment,
     expertJudgeNormalizeWeighing,
     expertJudgeOutcomeForAssignment,
+    expertJudgeNormalizeWeighingSequence,
+    expertJudgeCompatibleAssignments,
     expertJudgePossibleWeightsForSingleton,
     expertJudgeForcedWeights,
     expertJudgeEvaluateCertificate,
@@ -9962,6 +10203,20 @@
     xorSingleFlipStateKey,
     xorSingleFlipEvaluate,
     xorSingleFlipCheckStrategy,
+    antichainCodePersonCount,
+    antichainCodeDayCount,
+    antichainCodeBinomial,
+    antichainCodeCapacity,
+    antichainCodeNormalizeCodeword,
+    antichainCodeNormalizeCodewords,
+    antichainCodewordKey,
+    antichainCodewordWeight,
+    antichainCodeIsSubset,
+    antichainCodeWitnessDay,
+    antichainCodeDefaultCodewords,
+    antichainCodeFindConflict,
+    antichainCodeCheckStrategy,
+    antichainCodeEvaluatePair,
     wiseMenParityPersonCount,
     wiseMenParityColorCount,
     wiseMenParityCodeword,

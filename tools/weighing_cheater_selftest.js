@@ -57,6 +57,7 @@ const wiseMenSixHiddenHatConfig = loadProblemConfig('data/problems/classical_mor
 const prisonersTenBoxesConfig = loadProblemConfig('data/problems/classical_more/prisoners-10-boxes-cycle-strategy.yaml');
 const balancedSubsetEightConfig = loadProblemConfig('data/problems/bulgaria_bas/balanced-subset-8-three-questions.yaml');
 const fixedBinaryQuestionsConfig = loadProblemConfig('data/problems/coding_games/fixed-questions-as-binary-code.yaml');
+const detectiveSeventyConfig = loadProblemConfig('data/problems/kvantlandia/kvantland-detective-70-witness-criminal.yaml');
 const fitchCheneyConfig = loadProblemConfig('data/problems/card_tricks/fitch-cheney-five-card-trick.yaml');
 const binaryCardsConfig = loadProblemConfig('data/problems/classical/calendar-card-binary-trick.yaml');
 const passwordFeedbackConfig = loadProblemConfig('data/problems/extracted_archives/calgary-jmc-2021-b3-password-feedback.yaml');
@@ -69,10 +70,12 @@ const petyaVasyaConfig = loadProblemConfig('data/problems/matprazdnik_deep/matpr
 const higherLowerConfig = loadProblemConfig('data/problems/australia/mcya-2018-intermediate-higher-or-lower.yaml');
 const expertJudgeOneWeightConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-expert-judge-one-weighing-one-weight.yaml');
 const expertJudgeEightCoinsConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-expert-judge-eight-coins-3-4g-one-weighing.yaml');
+const tokarevSixWeightsConfig = loadProblemConfig('data/problems/knop_2011_part6/tokarev-expert-judge-six-weights-two-weighings.yaml');
 const uniformityConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-coin-uniformity-verification.yaml');
 const knopPairDifferentWeightsConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-2011-pair-light-different-weights-4-6-8.yaml');
 const utyumParityConfig = loadProblemConfig('data/problems/russian_young/utyum-2010-seventeen-coins-parity-test.yaml');
 const moebiusCupscalesConfig = loadProblemConfig('data/problems/moebius_tour/moebius-cupscales-2-silver-copper-counterfeit.yaml');
+const fiveSilverFourGoldConfig = loadProblemConfig('data/problems/knop_2011_part2/five-silver-four-gold-light-heavy-2-weighings.yaml');
 const rotatedTrayHelperFixtureConfig = {
   type: 'rotated_tray_balance_protocol',
   objective: 'identify_all_weights_after_rotation',
@@ -615,6 +618,9 @@ assert.equal(balancedSubsetEightConfig.target_sum, 18);
 assert.deepEqual(fixedBinaryQuestionsConfig.type, 'binary_question_code');
 assert.equal(fixedBinaryQuestionsConfig.object_count, 8);
 assert.equal(fixedBinaryQuestionsConfig.max_tests, 3);
+assert.deepEqual(detectiveSeventyConfig.type, 'antichain_code_protocol');
+assert.equal(detectiveSeventyConfig.object_count, 70);
+assert.equal(detectiveSeventyConfig.max_tests, 8);
 assert.deepEqual(fitchCheneyConfig.type, 'fitch_cheney_card_trick');
 assert.equal(fitchCheneyConfig.deck_size, 52);
 assert.equal(fitchCheneyConfig.objective, 'identify_hidden_card');
@@ -650,6 +656,9 @@ assert.equal(expertJudgeOneWeightConfig.objective, 'identify_one_weight');
 assert.deepEqual(expertJudgeEightCoinsConfig.type, 'expert_judge_certificate');
 assert.equal(expertJudgeEightCoinsConfig.objective, 'identify_all_weights');
 assert.equal(expertJudgeEightCoinsConfig.weight_model, 'equal_halves_binary');
+assert.deepEqual(tokarevSixWeightsConfig.type, 'expert_judge_certificate');
+assert.equal(tokarevSixWeightsConfig.objective, 'identify_all_weights');
+assert.equal(tokarevSixWeightsConfig.max_weighings, 2);
 assert.deepEqual(uniformityConfig.type, 'uniformity_verification');
 assert.equal(uniformityConfig.objective, 'verify_all_weights_equal');
 assert.deepEqual(uniformityConfig.modes, ['exhaustive', 'sandbox']);
@@ -659,6 +668,53 @@ assert.deepEqual(moebiusCupscalesConfig.type, 'single_counterfeit_weighing');
 assert.deepEqual(moebiusCupscalesConfig.counterfeit_weight_options, ['lighter', 'heavier']);
 assert.equal(moebiusCupscalesConfig.coin_types.filter(type => type === 'silver').length, 4);
 assert.equal(moebiusCupscalesConfig.coin_types.filter(type => type === 'copper').length, 5);
+assert.deepEqual(fiveSilverFourGoldConfig.type, 'single_counterfeit_weighing');
+assert.equal(fiveSilverFourGoldConfig.coin_types.filter(type => type === 'silver').length, 5);
+assert.equal(fiveSilverFourGoldConfig.coin_types.filter(type => type === 'gold').length, 4);
+assert.equal(fiveSilverFourGoldConfig.counterfeit_weight_by_type.silver, 'lighter');
+assert.equal(fiveSilverFourGoldConfig.counterfeit_weight_by_type.gold, 'heavier');
+{
+  const options = {
+    coin_count: fiveSilverFourGoldConfig.coin_count,
+    counterfeit_weight: fiveSilverFourGoldConfig.counterfeit_weight,
+    coinTypes: fiveSilverFourGoldConfig.coin_types,
+    genuineWeights: fiveSilverFourGoldConfig.genuine_weights,
+    counterfeitWeights: fiveSilverFourGoldConfig.counterfeit_weights,
+    counterfeitWeightByType: fiveSilverFourGoldConfig.counterfeit_weight_by_type,
+    allow_no_counterfeit: false
+  };
+  const first = cheater.expandExhaustiveNode({
+    ...options,
+    leftCoins: [1, 2, 6],
+    rightCoins: [3, 4, 7],
+    maxWeighings: 2,
+    usedWeighings: 0
+  }).children;
+  assert.deepEqual(first.map(branch => branch.candidates.length).sort((a, b) => a - b), [3, 3, 3]);
+  const secondByOutcome = {
+    left_down: { leftCoins: [3], rightCoins: [4] },
+    right_down: { leftCoins: [1], rightCoins: [2] },
+    balance: { leftCoins: [8], rightCoins: [9] }
+  };
+  const solvedLeaves = first.flatMap(branch => cheater.expandExhaustiveNode({
+    ...options,
+    ...secondByOutcome[branch.outcome],
+    currentCandidates: branch.candidates,
+    maxWeighings: 2,
+    usedWeighings: 1
+  }).children);
+  assert.equal(solvedLeaves.length, 9);
+  assert.equal(solvedLeaves.every(branch => branch.status === 'solved' || branch.status === 'covered'), true);
+  assert.equal(solvedLeaves.every(branch => branch.candidates.length === 1), true);
+  assert.equal(
+    cheater.outcomeForCandidate(6, fiveSilverFourGoldConfig.counterfeit_weight, [1, 2, 6], [3, 4, 7], options),
+    'left_down'
+  );
+  assert.equal(
+    cheater.outcomeForCandidate(3, fiveSilverFourGoldConfig.counterfeit_weight, [1, 2, 6], [3, 4, 7], options),
+    'left_down'
+  );
+}
 assert.equal(
   cheater.outcomeForCandidate(2, 'lighter', [1], [5], moebiusCupscalesConfig),
   'right_down',
@@ -836,6 +892,31 @@ const expertJudgeEightWeak = cheater.expertJudgeEvaluateCertificate({
 });
 assert.equal(expertJudgeEightWeak.success, false);
 assert.equal(expertJudgeEightWeak.compatibleCount > 1, true);
+
+const tokarevSixResult = cheater.expertJudgeEvaluateCertificate({
+  ...tokarevSixWeightsConfig,
+  assignment: [1, 2, 3, 4, 5, 6],
+  weighings: [
+    { left: [1, 2, 3], right: [6] },
+    { left: [1, 6], right: [3, 5] }
+  ]
+});
+assert.deepEqual(tokarevSixResult.outcomes, ['balance', 'right_down']);
+assert.equal(tokarevSixResult.compatibleCount, 1);
+assert.equal(tokarevSixResult.success, true);
+assert.deepEqual(
+  tokarevSixResult.learned.map(item => [item.object, item.forcedWeight]),
+  [[1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]]
+);
+const tokarevSixWeak = cheater.expertJudgeEvaluateCertificate({
+  ...tokarevSixWeightsConfig,
+  assignment: [1, 2, 3, 4, 5, 6],
+  weighings: [
+    { left: [1, 2, 3], right: [6] }
+  ]
+});
+assert.equal(tokarevSixWeak.success, false);
+assert.equal(tokarevSixWeak.compatibleCount > 1, true);
 
 const higherLowerSolution = cheater.higherLowerSolve(higherLowerConfig);
 assert.equal(higherLowerSolution.comparisons.find(row => row.boxCount === 3).first.value.label, '2/3');
@@ -4016,6 +4097,29 @@ assert.deepEqual(
   }).win,
   true
 );
+
+const detectiveCodes = cheater.antichainCodeDefaultCodewords(detectiveSeventyConfig);
+assert.equal(detectiveCodes.length, 70);
+assert.equal(detectiveCodes.every(code => cheater.antichainCodewordWeight(code) === 4), true);
+const detectiveCheck = cheater.antichainCodeCheckStrategy({
+  ...detectiveSeventyConfig,
+  codewords: detectiveCodes
+});
+assert.equal(detectiveCheck.success, true);
+assert.equal(detectiveCheck.capacity, 70);
+const detectivePair = cheater.antichainCodeEvaluatePair({
+  ...detectiveSeventyConfig,
+  codewords: detectiveCodes,
+  witness: 1,
+  criminal: 2
+});
+assert.equal(Number.isInteger(detectivePair.day), true);
+const badDetectiveCheck = cheater.antichainCodeCheckStrategy({
+  ...detectiveSeventyConfig,
+  codewords: detectiveCodes.map((code, index) => index === 1 ? detectiveCodes[0] : code)
+});
+assert.equal(badDetectiveCheck.success, false);
+assert.equal(badDetectiveCheck.conflict.equal, true);
 
 const wiseMenValidation = cheater.wiseMenParityValidateCodebook(wiseMenSixColorsConfig);
 assert.equal(wiseMenValidation.ok, true);

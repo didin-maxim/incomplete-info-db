@@ -24,6 +24,60 @@
       "status": "added_ai_checked",
       "source_id": "src-kvantland-telegram-paid-questions-55",
       "note": "Пост Telegram-канала Квантландии; указано происхождение: древний Всерос, автор М. Островский. Решение восстановлено как оптимальное дерево с фибоначчиевой емкостью."
+    },
+    {
+      "problem_id": "kvantland-mudretsy-card-players",
+      "status": "added_ai_checked",
+      "source_id": "src-kvantland-telegram-mudretsy-card-players",
+      "note": "Пост 11 с условием и пост 411 с решением; найден подтверждающий источник problems.ru 66388 с автором Евдокимовым М.А. и источником «Квантик», 2016, №9."
+    },
+    {
+      "problem_id": "kvantland-four-wise-men-12-cards",
+      "status": "added_ai_checked",
+      "source_id": "src-kvantland-telegram-four-wise-men-12-cards",
+      "note": "Пост 488; найден подтверждающий источник problems.ru 67055 с автором Евдокимовым М.А. и первоисточником Турнир городов 2019/20."
+    },
+    {
+      "problem_id": "kvantland-detective-70-witness-criminal",
+      "status": "added_ai_checked",
+      "source_id": "src-kvantland-telegram-detective-70",
+      "note": "Пост 503; автор О. Косухин. Родственная задача problems.ru 66096 использована для подтверждения авторства; решение для 70 человек оформлено через антицепи и теорему Шпернера."
+    },
+    {
+      "problem_id": "kvantland-pasha-broken-display-weights",
+      "status": "added_ai_checked",
+      "source_id": "src-kvantland-telegram-broken-display-weights",
+      "note": "Пост 712; задача Георгия Караваева из конкурса «Квантика». Официальный PDF конкурса добавлен как источник условия, решение редакционное."
+    },
+    {
+      "problem_id": "tot-2002-fall-senior-sum-product-2002-card",
+      "status": "duplicate_source_added",
+      "source_id": "src-kvantland-telegram-sum-product-2002",
+      "note": "Пост 346 является перепубликацией уже заведенной задачи Турнира городов 2002 про сумму/произведение 2002."
+    },
+    {
+      "problem_id": "hat-line-k-colors-modulo",
+      "status": "duplicate_source_added",
+      "source_id": "src-kvantland-telegram-hat-line-three-colors",
+      "note": "Пост 451 является трехцветной версией уже заведенного k-цветного протокола колпаков в ряд."
+    },
+    {
+      "problem_id": "matprazdnik-2023-seven-bags-two-weighings",
+      "status": "duplicate_source_added",
+      "source_id": "src-kvantland-telegram-seven-bags-2023",
+      "note": "Пост 212 перепубликует уже заведенную задачу Матпраздника-2023 про семь мешков."
+    },
+    {
+      "problem_id": "tc-2018-cards-4x4-neighbor-numbers",
+      "status": "duplicate_source_added",
+      "source_id": "src-kvantland-telegram-4x4-cards-neighbor",
+      "note": "Пост 562 перепубликует уже заведенную задачу устного тура Турнира городов 2017/18 про карточки 1..16."
+    },
+    {
+      "problem_id": "mmo-2024-symposium-acquaintance-lies",
+      "status": "duplicate_source_added",
+      "source_id": "src-kvantland-telegram-mmo-2025-symposium",
+      "note": "Пост 645 перепубликует уже заведенную задачу ММО 2024/25 про симпозиум лжецов и правдолюбов."
     }
   ],
   "candidate_review": [
@@ -51,6 +105,7 @@
   "source_notes": [
     "Публичные страницы Telegram t.me/s открылись без входа и использованы как главный источник условий.",
     "Официальный сайт Квантландии и math.kvantland.com открылись, но полные турнирные задачи не доступны без регистрации; поэтому из сайта не извлекались закрытые условия.",
+    "2026-05-24: выполнена программная выгрузка публичного зеркала t.me/s/kvantland по страницам ?before=20..1140; извлечены 1100 текстовых постов, диапазон id с текстом 1..1139. Тематический фильтр затем проверялся вручную по найденным постам.",
     "Перед добавлением выполнен поиск по id/title/ключевым словам/родственным сюжетам в data/problems, data/relations и docs/reviews."
   ]
 }

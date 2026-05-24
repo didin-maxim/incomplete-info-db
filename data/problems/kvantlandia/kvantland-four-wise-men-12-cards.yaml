@@ -1,0 +1,73 @@
+{
+  "id": "kvantland-four-wise-men-12-cards",
+  "title": "Квантландия: четыре мудреца и 12 карточек",
+  "fragment": "wise_people",
+  "kind": {"primary": "channel_problem", "secondary": ["knowledge_reasoning", "card_puzzle", "truthful_public_statements"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified", "source_id": "src-problems-ru-67055"}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-four-wise-men-12-cards",
+        "title": "Какие карточки у A?",
+        "text": "Мудрецам A, B, C, D сообщили, что числа 1, 2, ..., 12 написаны по одному на 12 карточках и что эти карточки будут розданы им по три, причём каждый увидит лишь свои карточки. После раздачи мудрецы по очереди сказали следующее. A: «На одной из моих карточек - число 8». B: «Все числа на моих карточках простые». C: «А все числа на моих - составные, причём имеют общий простой делитель». D: «Тогда я знаю, какие карточки у каждого из вас». Какие карточки у A, если все сказали правду?",
+        "source_ids": ["src-kvantland-telegram-four-wise-men-12-cards", "src-problems-ru-67055"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["common_knowledge", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-d-uniqueness-filters-deals",
+      "title": "Фраза D означает единственность расклада для его трёх карт",
+      "text": "Первые три фразы задают конечный список возможных раздач. Утверждение D оставляет только такие тройки карт D, при которых среди всех совместимых раздач ровно одна имеет эти карты у D.",
+      "standard_idea_ids": ["knowledge_elimination", "public_announcement_induction"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-a-has-1-8-9",
+      "title": "Перебор совместимых троек вынуждает 1, 8, 9",
+      "text": "Простые числа среди 1..12: 2, 3, 5, 7, 11; составные: 4, 6, 8, 9, 10, 12. Так как у A есть 8, число 8 не может быть у C. После первых трёх фраз возможные тройки C с общим простым делителем - это тройки из 4, 6, 10, 12, делящиеся на 2, и тройка 6, 9, 12, делящаяся на 3; B получает любые три оставшиеся простые числа.\n\nТеперь учитываем фразу D. Проверка этих конечных вариантов показывает: если D действительно может по своим картам однозначно восстановить всю раздачу, то у D две простые карточки и одна из карточек 6 или 12; у C соответственно либо 4, 6, 10, либо 4, 10, 12, а у B - три оставшиеся простые карточки. Во всех таких единственных для D раздачах карточки A равны 1, 8 и 9. Поэтому у A были карточки 1, 8, 9.",
+      "standard_idea_ids": ["knowledge_elimination", "public_announcement_induction"],
+      "status": "ai_checked",
+      "definition_ids": ["common_knowledge"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "раздача чисел 1..12 четырём мудрецам по 3 карточки",
+    "observations": ["каждый мудрец видит только свои карточки", "публичные правдивые высказывания A, B, C", "публичное высказывание D о знании всей раздачи"],
+    "allowed_actions": ["перебирать совместимые раздачи", "использовать фразу о знании как условие единственности"],
+    "goal": ["identify_cards_of_A"],
+    "strategy_type": ["public_announcement", "knowledge_elimination", "finite_state_filter"],
+    "lower_bound_method": [],
+    "keywords": ["kvantland", "four_wise_men", "12_cards", "public_knowledge", "prime_composite_cards"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": 4,
+    "private_information": "каждый знает свои три карточки",
+    "public_announcements": ["A has 8", "B has only primes", "C has composites with common prime divisor", "D knows the full deal"],
+    "objective": "найти карточки A"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Нужно аккуратно использовать фразу D как условие единственности в конечном списке раздач.", "status": "ai_checked"},
+  "tags": ["card_trick", "common_knowledge", "knowledge_elimination", "public_announcement", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-kvantland-telegram-four-wise-men-12-cards", "role": "channel_statement", "status": "source_verified"},
+    {"source_id": "src-problems-ru-67055", "role": "web_author_metadata_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kvantlandia_deep_batch",
+    "notes": ["Пост Квантландии сообщает, что это задача автора канала, бывшая на Турнире городов; problems.ru 67055 указывает автора Евдокимов М.А. и первоисточник: Турнир городов 2019/20, 41-й, осенний тур, сложный вариант, 8-9 классы, задача 6."]
+  }
+}

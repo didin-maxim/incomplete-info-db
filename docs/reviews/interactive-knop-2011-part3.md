@@ -6,13 +6,13 @@
 
 - `three-coins-unknown-sign-two-weighings`: малый интерактив `single_counterfeit_unknown_direction`; полезен как учебный режим для неизвестного знака и таблицы невозможных пар исходов.
 - `four-labeled-weights-one-defective-two-weighings`: интерактив для подписанных гирь с известными номиналами и неизвестным направлением дефекта; нужен учет номинальных сумм.
-- `thirteen-labeled-weights-one-defective-three-weighings`: плановая версия с таблицей “судеб” гирь; хороший кандидат для будущего слоя ternary/linear signatures.
+- `thirteen-labeled-weights-one-defective-three-weighings`: плановая версия с таблицей "судеб" гирь; хороший кандидат для будущего слоя ternary/linear signatures.
 - `ten-row-fakes-on-right-two-weighings`: интерактив на скрытую границу в ряду; пользователь выбирает взвешивания, движок хранит монотонный суффикс легких монет.
 - `knop-2011-row-fakes-right-optional-k-weighings`: тот же движок скрытой границы, но нужно разрешить пустой суффикс фальшивых и параметр `k`.
 - `ten-weights-adjacent-labels-swapped-two-weighings`: интерактив на девять соседних обменов этикеток; нужен режим подписанных масс.
 - `nine-circle-two-adjacent-light-two-weighings` и `nine-circle-three-consecutive-light-two-weighings`: общий интерактив `constrained_light_counterfeit_sets` с круговой раскладкой и скрытым соседним блоком.
 - `nine-coins-one-sticking-balance-three-weighings`: отдельный тип для двух внешне одинаковых весов, одни из которых всегда показывают равенство; важен режим противника.
-- `five-coins-two-equal-fakes-find-genuine`: интерактив “найти хотя бы одну настоящую”, где цель не полная идентификация фальшивых.
+- `five-coins-two-equal-fakes-find-genuine`: интерактив "найти хотя бы одну настоящую", где цель не полная идентификация фальшивых.
 
 ## Более осторожные кандидаты
 

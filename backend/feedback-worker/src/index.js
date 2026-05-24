@@ -95,10 +95,10 @@ function looksLikeMojibake(value) {
 
 function limitString(value, max, field) {
   if (value == null) return '';
-  if (typeof value !== 'string') throw new Error(`${field} must be a string.`);
+  if (typeof value !== 'string') throw new Error(`${field}: ожидается строка.`);
   const trimmed = value.trim();
-  if (trimmed.length > max) throw new Error(`${field} is too long.`);
-  if (looksLikeMojibake(trimmed)) throw new Error(`${field} looks like broken Cyrillic encoding.`);
+  if (trimmed.length > max) throw new Error(`${field}: слишком длинное поле.`);
+  if (looksLikeMojibake(trimmed)) throw new Error(`${field}: похоже на битую кириллицу; проверьте кодировку отправки.`);
   return trimmed;
 }
 
@@ -119,7 +119,7 @@ function safeKind(value, projectConfig) {
 
 function normalizeIncomingPayload(payload) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
-    throw new Error('Request body must be a JSON object.');
+    throw new Error('Тело запроса должно быть JSON-объектом.');
   }
   if (payload.comment && typeof payload.comment === 'object' && !Array.isArray(payload.comment)) {
     return { ...payload.comment, project: payload.project };
@@ -129,16 +129,16 @@ function normalizeIncomingPayload(payload) {
 
 function projectConfig(project) {
   const config = DEFAULT_PROJECTS[project];
-  if (!config) throw new Error(`Unsupported project: ${project || '(empty)'}.`);
+  if (!config) throw new Error(`Неподдерживаемый project: ${project || '(пусто)'}.`);
   return config;
 }
 
 function validateTarget(rawTarget) {
   const target = rawTarget || {};
   if (target.type === 'architecture') return { type: 'architecture' };
-  if (target.type !== 'problem') throw new Error('Unsupported target type.');
+  if (target.type !== 'problem') throw new Error('Неподдерживаемый тип цели.');
   const problemId = limitString(target.problem_id, 160, 'target.problem_id');
-  if (!/^[a-z0-9][a-z0-9_-]*$/i.test(problemId)) throw new Error('Invalid problem id.');
+  if (!/^[a-z0-9][a-z0-9_-]*$/i.test(problemId)) throw new Error('Некорректный id задачи.');
   return { type: 'problem', problem_id: problemId };
 }
 
@@ -148,9 +148,9 @@ export function validateFeedbackPayload(inputPayload) {
   const config = projectConfig(project);
   const target = validateTarget(payload.target);
   const text = limitString(payload.text, MAX_TEXT, 'text');
-  if (!text) throw new Error('Comment text must not be empty.');
+  if (!text) throw new Error('Комментарий не должен быть пустым.');
   const title = limitString(payload.title, MAX_TITLE, 'title')
-    || (target.type === 'problem' ? `Comment for ${target.problem_id}` : 'Architecture comment');
+    || (target.type === 'problem' ? `Комментарий к ${target.problem_id}` : 'Комментарий к архитектуре');
 
   return {
     id: limitString(payload.id, 180, 'id'),
@@ -235,7 +235,7 @@ function repoSettings(payload, env) {
 async function commitComment(path, record, payload, env, apiFetch = fetch) {
   const { owner, repo, branch } = repoSettings(payload, env);
   const token = env.GITHUB_TOKEN || env['incomplete-info-feedback'];
-  if (!owner || !repo || !token) throw new Error('Backend is missing GitHub repository settings or token.');
+  if (!owner || !repo || !token) throw new Error('Backend не настроен: нужны параметры GitHub-репозитория и токен.');
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path).replace(/%2F/g, '/')}`;
   const response = await apiFetch(url, {
     method: 'PUT',
@@ -253,21 +253,21 @@ async function commitComment(path, record, payload, env, apiFetch = fetch) {
     }),
   });
   const body = await response.text();
-  if (!response.ok) throw new Error(`GitHub API returned HTTP ${response.status}: ${body.slice(0, 400)}`);
+  if (!response.ok) throw new Error(`GitHub API вернул HTTP ${response.status}: ${body.slice(0, 400)}`);
   return JSON.parse(body);
 }
 
 export async function handleRequest(request, env, _ctx, apiFetch = fetch) {
   const origin = allowedOrigin(request, env);
-  if (!origin) return textResponse('Origin is not allowed for feedback.', 403, 'null');
+  if (!origin) return textResponse('Этот origin не разрешен для отправки комментариев.', 403, 'null');
   if (request.method === 'OPTIONS') return new Response('', { status: 204, headers: corsHeaders(origin) });
-  if (request.method !== 'POST') return textResponse('Only POST is supported.', 405, origin);
+  if (request.method !== 'POST') return textResponse('Поддерживается только POST.', 405, origin);
 
   let payload;
   try {
     payload = await request.json();
   } catch (_error) {
-    return textResponse('Request body must be valid JSON.', 400, origin);
+    return textResponse('Нужен корректный JSON.', 400, origin);
   }
 
   try {
@@ -284,7 +284,7 @@ export async function handleRequest(request, env, _ctx, apiFetch = fetch) {
       html_url: commit.content?.html_url || null,
     }, 201, origin);
   } catch (error) {
-    return textResponse(error?.message || 'Failed to write feedback.', 400, origin);
+    return textResponse(error?.message || 'Не удалось записать комментарий.', 400, origin);
   }
 }
 

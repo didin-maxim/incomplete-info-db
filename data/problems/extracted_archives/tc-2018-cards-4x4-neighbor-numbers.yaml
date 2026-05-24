@@ -13,7 +13,7 @@
         "id": "stmt-tc-2018-cards-4x4",
         "title": "Карточки с числами 1-16",
         "text": "16 карточек с целыми числами от 1 до 16 разложены лицевой стороной вниз в виде таблицы \\(4\\times4\\) так, что карточки, на которых записаны соседние числа, лежат рядом, соприкасаясь по стороне. Какое наименьшее число карточек нужно одновременно перевернуть, чтобы наверняка определить местоположение всех чисел, как бы ни были разложены карточки?",
-        "source_ids": ["src-tc-2018-39-oral-solutions", "src-problems-ru-67008"],
+        "source_ids": ["src-tc-2018-39-oral-solutions", "src-problems-ru-67008", "src-kvantland-telegram-4x4-cards-neighbor"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -75,7 +75,8 @@
   "tags": ["nonadaptive_strategy", "knowledge_elimination", "indistinguishability_argument", "card_trick", "condition_middle_school"],
   "sources": [
     {"source_id": "src-tc-2018-39-oral-solutions", "role": "official_statement_and_solution", "status": "source_verified"},
-    {"source_id": "src-problems-ru-67008", "role": "web_author_metadata_and_statement", "status": "source_verified"}
+    {"source_id": "src-problems-ru-67008", "role": "web_author_metadata_and_statement", "status": "source_verified"},
+    {"source_id": "src-kvantland-telegram-4x4-cards-neighbor", "role": "channel_republication", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -83,6 +84,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "extracted_archives_batch",
-    "notes": ["Найдена в соседней базе graph-db: data/problems/tournament-cities/tc-2018-cards-4x4-neighbor-numbers-graph.yaml. В исходной карточке отмечена локальная копия PDF: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf и извлеченный текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt.", "Автор Евдокимов М.А. подтвержден страницей problems.ru 67008, где указано: \"Автор: Евдокимов М.А.\"."]
+    "notes": ["Найдена в соседней базе graph-db: data/problems/tournament-cities/tc-2018-cards-4x4-neighbor-numbers-graph.yaml. В исходной карточке отмечена локальная копия PDF: audit/_mmo_tc_pdfs/f4e40ea2b8ae7244.pdf и извлеченный текст audit/_mmo_tc_text_clean/f4e40ea2b8ae7244.txt.", "Автор Евдокимов М.А. подтвержден страницей problems.ru 67008, где указано: \"Автор: Евдокимов М.А.\"", "2026-05-24: добавлен пост Квантландии 562 как перепубликация задачи с указанием устного тура Турнира городов 2018."]
   }
 }

@@ -1,0 +1,48 @@
+{
+  "relations": [
+    {
+      "id": "rel-math-muggles-concentration-to-chessboard-xor",
+      "from": "math-muggles-concentration-parity-grid",
+      "to": "prisoners-chessboard-one-coin-xor",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Сетка Concentration показывает базовый синдром ошибки: одна строка и один столбец с неправильной четностью дают координаты одной измененной карты.",
+      "backward_text": "Задача про шахматную доску и одну перевернутую монету использует тот же дух синдрома, но кодирует позицию XOR-значением клетки вместо двух явных координатных четностей.",
+      "status": "ai_checked",
+      "confidence": 0.82
+    },
+    {
+      "id": "rel-math-muggles-concentration-to-ebert-hats",
+      "from": "math-muggles-concentration-parity-grid",
+      "to": "ebert-seven-hats-hamming-code",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Concentration является маленькой наглядной версией проверочного кода: одиночная ошибка определяется по набору проверок четности.",
+      "backward_text": "Ebert/Hamming hats переносит идею проверочного кода в вероятностный протокол с колпаками: плохие конфигурации образуют код, а соседние состояния покрываются однозначно.",
+      "status": "ai_checked",
+      "confidence": 0.74
+    },
+    {
+      "id": "rel-khovanova-gsb-to-kvantik-magic-balls",
+      "from": "khovanova-2025-gold-silver-bronze-magic-bag",
+      "to": "kvantik-2013-four-magic-balls-three-tests",
+      "type": "same_mechanism",
+      "distance": 2,
+      "forward_text": "В обеих задачах скрыто подмножество специальных объектов, а тесты выбирают подмножества и дают числовой или двоичный ответ о пересечении со скрытым состоянием.",
+      "backward_text": "Квантиковская задача линейнее: детектор возвращает число магических шариков в выбранном множестве. У Khovanova ответ грубее - содержит ли тест сразу всю скрытую тройку, поэтому требуется адаптивное дерево.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-math-muggles-fingers-to-concentration",
+      "from": "math-muggles-fingers-that-can-see",
+      "to": "math-muggles-concentration-parity-grid",
+      "type": "teaches_before",
+      "distance": 2,
+      "forward_text": "Fingers That Can See учит хранить ровно тот агрегат, который переживает потерю видимости: число открытых карт до завязывания глаз.",
+      "backward_text": "Concentration развивает ту же идею в код с несколькими агрегатами: вместо одного числа используются четности всех строк и столбцов.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    }
+  ]
+}

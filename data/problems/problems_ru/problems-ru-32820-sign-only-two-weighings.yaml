@@ -13,6 +13,6 @@
   "interactive": {"type": "single_counterfeit_unknown_direction", "presentation": "exercise", "coin_count": 100, "max_weighings": 2, "objective": "identify_sign_only_unknown_direction", "modes": ["random", "cheater", "exhaustive"], "require_equal_pan_counts": true},
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: знак извлекается без локализации монеты, но три размера набора требуют разных разбиений и аккуратного разбора ветвей.", "status": "ai_checked"},
   "tags": ["balance_scale", "decision_tree", "knowledge_elimination", "condition_middle_school"],
-  "sources": [{"source_id": "src-problems-ru-32820", "role": "web_statement_and_solution", "status": "source_verified"}],
+  "sources": [{"source_id": "src-problems-ru-32820", "role": "web_statement_and_solution", "status": "source_verified"}, {"source_id": "src-mccme-circle-2016-weighings", "role": "math_circle_statement_problem_13", "status": "source_verified"}],
   "editorial": {"created_by": "ai", "created_at": "2026-05-18", "review_status": "ai_checked", "public_ready": true, "relations_status": "problems_ru_batch", "generalization_status": "source_specific_residue_cases_not_generalized", "notes": ["В профиле object_count указан максимальный из трех случаев; условие явно содержит 100, 99 и 98 монет.", "2026-05-18: общее n-утверждение не добавлено: решение источника разбирает три соседних размера разными разбиениями (100, 99, 98), и единая полезная N/q-формула здесь не зафиксирована без нового анализа."]}
 }

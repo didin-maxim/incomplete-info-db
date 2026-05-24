@@ -1,0 +1,94 @@
+{
+  "id": "math-muggles-fingers-that-can-see",
+  "title": "Fingers That Can See: две кучки с одинаковым числом открытых карт",
+  "fragment": "card_tricks",
+  "kind": {
+    "primary": "math_circle_problem",
+    "secondary": ["card_trick", "invariant", "hidden_orientation"]
+  },
+  "language": "ru",
+  "authors": [
+    {
+      "name": "Paul Zeitz",
+      "role": "material_author",
+      "status": "source_verified",
+      "source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles"
+    }
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-fingers-that-can-see",
+        "title": "Разделить карты вслепую",
+        "text": "Фокусник раскладывает на столе карты по одной; зритель каждый раз говорит, класть карту лицом вверх или вниз, и сам решает, когда остановиться. До завязывания глаз фокусник видит раскладку. Затем ему завязывают глаза, и он должен разложить все карты на две кучки так, чтобы в обеих кучках оказалось одно и то же число карт лицом вверх. Как это сделать без подглядывания?",
+        "source_ids": ["src-mathcircles-zeitz-mathematical-magic-for-muggles"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["hidden_state", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-count-up-cards-before-blindfold",
+      "title": "До завязывания глаз запомнить только число открытых карт",
+      "text": "Фокуснику не нужно помнить расположение всех карт. Достаточно знать число \\(u\\) карт лицом вверх в общей раскладке до завязывания глаз. После этого любые \\(u\\) карт можно взять в отдельную кучку: неизвестное число открытых карт внутри выбранной кучки компенсируется переворотом всей кучки.",
+      "standard_idea_ids": ["invariant", "complement_counting"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-take-u-and-flip",
+      "title": "Взять \\(u\\) карт и перевернуть всю кучку",
+      "text": "Пусть перед завязыванием глаз фокусник насчитал \\(u\\) карт лицом вверх. Вслепую он берет любые \\(u\\) карт, не меняя их ориентации, кладет их в первую кучку, а остальные оставляет во второй. Затем он переворачивает всю первую кучку.\n\nЕсли среди выбранных \\(u\\) карт было \\(f\\) открытых, то закрытых среди них было \\(u-f\\). В невыбранной кучке открытых карт тоже \\(u-f\\), потому что всего открытых было \\(u\\), а \\(f\\) из них попали в первую кучку. После переворота первой кучки ее открытыми становятся ровно прежние закрытые, то есть \\(u-f\\). Значит, числа открытых карт в двух кучках равны.",
+      "standard_idea_ids": ["invariant", "complement_counting"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "ориентации всех карт после завязывания глаз и выбор любых u карт вслепую",
+    "observations": ["до завязывания глаз известно только общее число u карт лицом вверх"],
+    "allowed_actions": ["вслепую выбрать u карт", "перевернуть выбранную кучку целиком"],
+    "goal": ["equalize_face_up_counts_in_two_piles"],
+    "strategy_type": ["invariant", "complement_counting", "blind_protocol"],
+    "lower_bound_method": [],
+    "keywords": ["math_muggles", "fingers_that_can_see", "face_up_cards", "blindfold", "orientation_invariant"],
+    "status": "ai_checked"
+  },
+  "card_trick_profile": {
+    "deck_size": "arbitrary",
+    "hand_size": "arbitrary",
+    "shown_cards": "all before blindfold",
+    "hidden_cards": "orientations after blindfold",
+    "ordering_channel": false,
+    "strategy_type": "count_and_flip_complement"
+  },
+  "difficulty": {
+    "main": "intro",
+    "local_score": 2,
+    "comment": "Короткий инвариант: вся трудность в замене неизвестного числа открытых карт в выбранной кучке на число закрытых после переворота.",
+    "status": "ai_checked"
+  },
+  "tags": ["card_trick", "parity", "symmetry", "condition_middle_school"],
+  "sources": [
+    {
+      "source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles",
+      "role": "math_circle_statement_and_solution",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "english_source_scan_2026_05_24",
+    "notes": [
+      "Добавлено как чистая задача про неполную информацию: после завязывания глаз фокусник не знает ориентации выбранных карт, но заранее сохраненный агрегат u достаточен.",
+      "Интерактивный статус: возможен, но не нужен. Можно сделать мини-демонстрацию с случайной ориентацией карт и кнопкой переворота кучки, однако математическая идея полностью помещается в одну строку счета."
+    ]
+  }
+}

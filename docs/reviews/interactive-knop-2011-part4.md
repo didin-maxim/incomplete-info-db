@@ -1,6 +1,8 @@
 # Интерактивы и вероятностные кандидаты: Кноп-2011, занятие 4
 
-Карточки добавлены без поля `interactive`. Ниже список кандидатов для отдельного прохода по интерактивам.
+Изначально карточки были добавлены без поля `interactive`. Заметка 2026-05-24: значительная часть этого списка уже закрыта свежими YAML-интерактивами; не использовать старые пункты ниже как очередь без сверки с текущим YAML и `docs/reviews/interactive-queue-quality-review.md`.
+
+Уже закрыты: `knop-2011-seven-bags-subset-one-weighing`, `apsimon-knop-2011-three-bags-four-coins-two-weighings`, `mmo-1988-four-coins-all-fakes-numeric-scale`, `lindstrom-1969-two-triples-one-fake-each`, `rmo-2002-three-consecutive-light-weights`. Открытыми исследовательскими направлениями остаются прежде всего эксперт-судья (`tot-1994-geologists-cans-expert-proof`, `kvant-tournament-1999-marked-ingots-100`) и более специальные линейные подписи (`kvant-tournament-1997-two-fake-wallets`), но они не первая очередь.
 
 ## numeric_linear_signature
 

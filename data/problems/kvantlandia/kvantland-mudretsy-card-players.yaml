@@ -1,0 +1,73 @@
+{
+  "id": "kvantland-mudretsy-card-players",
+  "title": "Квантландия: мудрецы-картёжники и старшая карта валет",
+  "fragment": "wise_people",
+  "kind": {"primary": "channel_problem", "secondary": ["knowledge_reasoning", "card_puzzle", "public_announcement"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified", "source_id": "src-problems-ru-66388"}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-mudretsy-card-players",
+        "title": "У кого был туз?",
+        "text": "Трём мудрецам показали 9 карт: шестёрку, семёрку, восьмёрку, девятку, десятку, валета, даму, короля и туза, перечисленные по возрастанию достоинства. Затем карты перемешали и каждому раздали по три карты. Каждый мудрец видит только свои карты. Первый сказал: «Моя старшая карта - валет». Тогда второй ответил: «Я знаю, какие карты у каждого из вас». У кого из мудрецов был туз?",
+        "source_ids": ["src-kvantland-telegram-mudretsy-card-players", "src-problems-ru-66388"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["common_knowledge", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-second-must-hold-remaining-low-cards",
+      "title": "Второй узнаёт расклад только по трём оставшимся младшим картам",
+      "text": "После слов первого известно, что у него валет и две карты из набора 6, 7, 8, 9, 10. Чтобы второй мог однозначно восстановить эти две младшие карты, он сам должен видеть ровно три остальные карты из этого набора.",
+      "standard_idea_ids": ["public_announcement_induction", "knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ace-with-third-wise-man",
+      "title": "Туз вынужден быть у третьего",
+      "text": "Слова первого оставляют ему валета и две карты из пяти младших: 6, 7, 8, 9, 10. Если бы у второго не было всех трёх оставшихся младших карт, то по его собственным картам оставались бы по крайней мере два варианта для пары младших карт первого, и второй не мог бы заявить, что знает весь расклад.\n\nЗначит, второй держит три карты из набора 6, 7, 8, 9, 10, которых нет у первого. Тогда все старшие карты дама, король и туз не могут быть ни у первого, ни у второго; они лежат у третьего мудреца. Поэтому туз был у третьего.",
+      "standard_idea_ids": ["public_announcement_induction", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["common_knowledge"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "раздача 9 разных карт трём мудрецам по 3 карты",
+    "observations": ["каждый мудрец видит только свои карты", "публичная фраза первого о старшей карте", "публичная фраза второго о знании всего расклада"],
+    "allowed_actions": ["исключать расклады, при которых сказавший не мог бы знать заявленное"],
+    "goal": ["identify_holder_of_ace"],
+    "strategy_type": ["public_announcement", "iterated_elimination", "card_distribution_reasoning"],
+    "lower_bound_method": [],
+    "keywords": ["kvantland", "mudretsy_kartyozhniki", "card_distribution", "public_knowledge", "ace"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": 3,
+    "private_information": "каждый знает только свои три карты",
+    "public_announcements": ["у первого старшая карта - валет", "второй знает весь расклад"],
+    "objective": "вывести, у кого туз"
+  },
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на публичное знание: одна фраза сужает расклад, вторая фиксирует оставшиеся младшие карты.", "status": "ai_checked"},
+  "tags": ["card_trick", "common_knowledge", "knowledge_elimination", "public_announcement", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-kvantland-telegram-mudretsy-card-players", "role": "channel_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-problems-ru-66388", "role": "web_author_metadata_statement_and_solution", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kvantlandia_deep_batch",
+    "notes": ["Пост Квантландии 11 содержит условие; пост 411 повторяет условие и публикует решение. problems.ru 66388 подтверждает автора Евдокимов М.А. и происхождение: «Квантик», 2016, №9."]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "id": "khovanova-2025-gold-silver-bronze-magic-bag",
+  "title": "Khovanova 2025: золотая, серебряная и бронзовая фальшивые монеты",
+  "fragment": "questions",
+  "kind": {
+    "primary": "blog_problem",
+    "secondary": ["counterfeit_coins", "adaptive_questions", "strategy_construction"]
+  },
+  "language": "ru",
+  "authors": [
+    {
+      "name": "s_hskz2",
+      "role": "problem_submitter",
+      "status": "source_verified",
+      "source_id": "src-khovanova-2025-gold-silver-bronze-coins",
+      "note": "Tanya Khovanova attributes the puzzle to reader s_hskz2."
+    },
+    {
+      "name": "Sanandan Swaminathan",
+      "role": "comment_solution_author",
+      "status": "source_verified",
+      "source_id": "src-khovanova-2025-gold-silver-bronze-coins"
+    }
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-gsb-magic-bag",
+        "title": "Пять тестов волшебным мешком",
+        "text": "Есть 9 монет: 3 золотые \\(G_1,G_2,G_3\\), 3 серебряные \\(S_1,S_2,S_3\\) и 3 бронзовые \\(B_1,B_2,B_3\\). В каждом металле ровно одна монета фальшивая; остальные шесть настоящие. Волшебный мешок умеет проверять выбранное подмножество монет: он светится тогда и только тогда, когда в выбранном подмножестве лежат все три фальшивые монеты. Можно ли за не более чем 5 тестов определить все три фальшивые монеты?",
+        "source_ids": ["src-khovanova-2025-gold-silver-bronze-coins"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-balanced-first-split-3-2-2",
+      "title": "Первый тест должен почти пополам разделить 27 троек",
+      "text": "Скрытое состояние - одна из \\(3\\cdot3\\cdot3=27\\) троек. Пять двоичных ответов теоретически дают 32 листа, но после любого ответа оставшееся число состояний не должно превышать емкость оставшихся тестов. Поэтому первый тест выбирают типа \\(3,2,2\\): все золотые, две серебряные и две бронзовые. Он оставляет 12 состояний при успехе и 15 при неуспехе.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "state_space_partition"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-recursive-state-splitting",
+      "title": "Дальше каждый тест режет текущий список совместимых троек",
+      "text": "После первого теста задача становится построением небольшого адаптивного дерева. В успешной ветке фальшивые уже лежат среди \\(G_1,G_2\\), \\(S_1,S_2\\), \\(B_1,B_2,B_3\\), поэтому два металла находятся одиночными тестами, а бронза - одним или двумя тестами. В неуспешной ветке остается 15 троек, и следующие тесты выбираются так, чтобы оставлять не больше \\(2^r\\) вариантов при \\(r\\) оставшихся вопросах.",
+      "standard_idea_ids": ["decision_tree", "state_space_partition"],
+      "status": "needs_human_review"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-five-test-tree",
+      "title": "Один явный 5-тестовый план",
+      "text": "Сначала тестируем \\(G_1,G_2,S_1,S_2,B_1,B_2,B_3\\).\n\nЕсли мешок светится, то золотая фальшивая среди \\(G_1,G_2\\), серебряная среди \\(S_1,S_2\\), бронзовая среди \\(B_1,B_2,B_3\\). Вторым тестом проверяем \\(G_1,S_1,S_2,B_1,B_2,B_3\\): успех означает \\(G_1\\), неуспех - \\(G_2\\). Третьим аналогично, уже с найденным золотом, проверяем \\(S_1\\) против \\(S_2\\). Четвертым тестируем найденные золото и серебро вместе с \\(B_1,B_2\\): неуспех означает \\(B_3\\), успех оставляет \\(B_1\\) или \\(B_2\\), что различается пятым тестом.\n\nЕсли первый тест не светится, остаются только такие случаи: либо \\(G_3\\) с любым из \\(S_1,S_2,S_3\\) и любой бронзой, либо \\(S_3\\) с \\(G_1\\) или \\(G_2\\) и любой бронзой. Вторым тестом проверяем \\(G_1,G_3,S_1,S_2,S_3,B_1,B_2\\). При успехе третий тест \\(G_3,S_1,S_2,B_1,B_2\\) делит ветку: в одной подветке оставшиеся два теста отдельно находят серебро и бронзу, в другой четвертый тест \\(G_3,S_3,B_1,B_2\\) и затем пятый тест по бронзе или по паре \\(G_1,S_3,B_1\\) закрывают случаи. При неуспехе второго теста остаются 7 троек; третьим тестом \\(G_2,S_3,B_1,B_2,B_3\\) либо сводим дело к выбору бронзы за два теста, либо оставляем четыре тройки \\((G_3,S_3,B_3),(G_3,S_2,B_3),(G_3,S_1,B_3),(G_1,S_3,B_3)\\). Четвертый тест \\(G_3,S_1,S_2,B_3\\) различает пару серебряных случаев от пары \\(G_3,S_3,B_3\\)/\\(G_1,S_3,B_3\\); пятый тест завершает выбор.",
+      "standard_idea_ids": ["decision_tree", "state_space_partition"],
+      "status": "needs_human_review",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "27 троек: по одной фальшивой монете каждого из трех металлов",
+    "observations": ["до пяти двоичных ответов волшебного мешка: содержит ли выбранное множество все три фальшивые монеты"],
+    "allowed_actions": ["адаптивно выбирать произвольные подмножества монет для теста"],
+    "goal": ["identify_three_counterfeit_coins"],
+    "strategy_type": ["adaptive_questions", "decision_tree", "state_space_partition"],
+    "lower_bound_method": ["counting_bound"],
+    "keywords": ["khovanova_2025", "gold_silver_bronze", "magic_bag", "counterfeit_triads", "adaptive_subset_tests"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 5,
+    "lies_allowed": "none",
+    "adaptive": true,
+    "objective": "identify_one_counterfeit_of_each_color"
+  },
+  "difficulty": {
+    "main": "olympiad_hard",
+    "local_score": 6,
+    "comment": "Сложная: информационная оценка почти плотная, а явная стратегия требует аккуратного адаптивного дерева на 27 состояниях.",
+    "status": "ai_checked"
+  },
+  "tags": ["decision_tree", "counting_lower_bound", "condition_older_students"],
+  "sources": [
+    {
+      "source_id": "src-khovanova-2025-gold-silver-bronze-coins",
+      "role": "blog_statement_and_comment_solution",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-tanya-khovanova-weighings-category",
+      "role": "source_family_scan",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "needs_human_review",
+    "public_ready": false,
+    "relations_status": "english_source_scan_2026_05_24",
+    "notes": [
+      "Карточка добавлена как красивая новая задача про неполную информацию, хотя физически это не взвешивание, а yes/no-тест на включение всей скрытой тройки.",
+      "Решение пересказано по комментарию Sanandan Swaminathan; из-за ветвящегося дерева оставлено needs_human_review для независимой проверки всех листьев.",
+      "Интерактивный статус: нужен/возможен. Нужен отдельный интерактив для адаптивных subset-тестов с ограничением \"ровно одна фальшивая каждого цвета\"; текущий subset_signature_protocol не моделирует напрямую ответ \"подмножество содержит всю скрытую тройку\"."
+    ]
+  }
+}

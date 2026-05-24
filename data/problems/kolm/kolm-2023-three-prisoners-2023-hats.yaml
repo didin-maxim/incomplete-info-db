@@ -69,11 +69,11 @@
     "created_by": "ai",
     "created_at": "2026-05-18",
     "review_status": "ai_checked",
-    "public_ready": false,
+    "public_ready": true,
     "relations_status": "kolm_batch",
     "notes": [
       "Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted/kolm26/.../Личка/5lichol-sen-sol.tex.",
-      "2026-05-23: оставлено закрытым: официальный zip-архив КОЛМ-2023 по source_id не удалось быстро скачать и сверить в этом проходе, а локальной распаковки архива в репозитории нет."
+      "2026-05-24: официальный архив https://turmath.ru/kolm/files/archive/kolm26.zip скачан и сверены файлы `Раздача Колма 26/Личка/5lichol-sen.tex` и `Раздача Колма 26/Личка/5lichol-sen-sol.tex`; формулировка, ответ 1/2021 и модульная стратегия совпадают с карточкой."
     ]
   }
 }

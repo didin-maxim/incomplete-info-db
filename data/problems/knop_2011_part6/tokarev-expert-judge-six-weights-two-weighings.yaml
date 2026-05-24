@@ -89,6 +89,15 @@
     "adaptive": false,
     "objective": "certify_all_weights"
   },
+  "interactive": {
+    "type": "expert_judge_certificate",
+    "object_counts": [6],
+    "max_weighings": 2,
+    "objective": "identify_all_weights",
+    "modes": ["sandbox", "exhaustive"],
+    "weight_model": "permutation_1_to_N",
+    "certificate_goal": "all_forced_weights"
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 5,

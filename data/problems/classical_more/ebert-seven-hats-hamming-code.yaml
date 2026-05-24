@@ -17,7 +17,7 @@
         "title": "Угадать без ошибок, разрешено промолчать",
         "text": "Семь участников получают черные или белые колпаки. Каждый видит колпаки всех остальных, но не свой. После предварительного сговора они одновременно либо называют цвет своего колпака, либо молчат. Команда выигрывает, если хотя бы один участник назвал свой цвет верно и никто не ошибся. Постройте стратегию с вероятностью успеха \\(7/8\\) при равновероятных независимых цветах.",
         "source_ids": [
-          "src-ebert-hat-game-reference",
+          "src-paterson-stinson-2010-yet-another-hat-game",
           "src-berkeley-math-circle-2013-hats-logic"
         ],
         "status": "ai_checked",
@@ -35,7 +35,7 @@
         "title": "2^m-1 участников и два цвета колпаков",
         "text": "Есть \\(2^m-1\\) участников в черных или белых колпаках. Каждый видит колпаки всех остальных, но не свой, и после предварительной договоренности одновременно либо называет цвет своего колпака, либо молчит. Команда выигрывает, если хотя бы один участник назвал свой цвет верно и никто не ошибся. При независимых равновероятных цветах постройте стратегию с вероятностью успеха \\(1-2^{-m}\\).",
         "source_ids": [
-          "src-ebert-hat-game-reference",
+          "src-paterson-stinson-2010-yet-another-hat-game",
           "src-berkeley-math-circle-2013-hats-logic"
         ],
         "status": "ai_checked",
@@ -121,9 +121,9 @@
   ],
   "sources": [
     {
-      "source_id": "src-ebert-hat-game-reference",
-      "role": "reference_topic",
-      "status": "needs_human_review"
+      "source_id": "src-paterson-stinson-2010-yet-another-hat-game",
+      "role": "survey_statement_attribution_and_hamming_code_strategy",
+      "status": "source_verified"
     },
     {
       "source_id": "src-berkeley-math-circle-2013-hats-logic",
@@ -135,13 +135,13 @@
     "created_by": "ai",
     "created_at": "2026-05-17",
     "review_status": "ai_checked",
-    "public_ready": false,
+    "public_ready": true,
     "relations_status": "new_links",
     "generalization_status": "same_solution_parameterized",
     "notes": [
       "Публичный текст переведен на русский; версия с одновременным ответом или молчанием явно зафиксирована.",
       "2026-05-18: добавлена семейная формулировка для длин 2^m-1; число 7 является случаем m=3 совершенного кода Хэмминга.",
-      "needs_human_review остается только на источнике: текущая ссылка является справочной темой, нужна стабильная первичная или учебная ссылка именно на Ebert hat game / Hamming-code strategy."
+      "2026-05-24: сверено с Paterson--Stinson (Electronic Journal of Combinatorics, 2010): статья прямо атрибутирует игру Todd Ebert и описывает стратегию через коды Хэмминга для n=2^m-1; учебный листок Berkeley Math Circle оставлен дополнительным источником."
     ]
   }
 }

@@ -48,6 +48,13 @@ def load_sources():
     return load_json(path).get("sources", [])
 
 
+def load_resource_files():
+    items = []
+    for path in iter_json_files(DATA / "resources"):
+        items.append((path, load_json(path)))
+    return items
+
+
 def load_relations():
     relations = []
     base = DATA / "relations" / "relations.yaml"

@@ -26,7 +26,7 @@ End-to-end запись комментариев в базу пока не вк�
 Нужны действия, которые нельзя скрывать в отчете агента:
 
 1. Cloudflare login или другой выбранный serverless provider.
-2. Fine-grained GitHub token с правом `Contents: Read and write` для `didin-maxim/incomplete-info-db`.
+2. Fine-grained GitHub token с правом `Contents: Read and write` для `didin-maxim/incomplete-info-db`; если включен `project: graph-db`, также для `didin-maxim/knowledge_graph_of_graphs`.
 3. Установка токена как секрета Worker:
 
    `npx wrangler secret put GITHUB_TOKEN`

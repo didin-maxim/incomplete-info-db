@@ -1,0 +1,85 @@
+{
+  "id": "kvantland-pasha-broken-display-weights",
+  "title": "Квантландия: пять грузов и весы с вопросительными знаками",
+  "fragment": "weighings",
+  "kind": {"primary": "channel_problem", "secondary": ["limited_observation", "threshold_query", "classification"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Георгий Караваев", "role": "problem_author", "status": "source_verified", "source_id": "src-kvantland-telegram-broken-display-weights"}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-pasha-broken-display-weights",
+        "title": "Экран показывает только число цифр",
+        "text": "У Паши есть 5 грузов, которые весят 1, 2, 3, 4 и 5 граммов. Паша это знает, но с виду грузы одинаковы. Есть электронные весы: если на них поставить один или несколько грузов, они покажут их суммарный вес. У весов сломался экран, поэтому вместо любой цифры они показывают «?». Например, число 6 эти весы покажут как один вопросительный знак, а число 2025 - как четыре вопросительных знака. Веса каких из этих 5 грузов можно однозначно восстановить, пользуясь только этими электронными весами? Можно делать сколько угодно взвешиваний.",
+        "source_ids": ["src-kvantland-telegram-broken-display-weights", "src-kvantik-contest-2025-round-10"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-threshold-pair-graph",
+      "title": "Экран даёт только порог: сумма не меньше 10 или меньше 10",
+      "text": "Сумма всех грузов равна 15, поэтому у любого непустого набора экран показывает один или два вопросительных знака. Взвешивая дополнения к парам, можно узнать, у каких пар сумма не превосходит 5.",
+      "standard_idea_ids": ["numeric_signature_decoding", "knowledge_elimination"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-recover-1-4-5",
+      "title": "Восстановить грузы 1, 4 и 5 граммов",
+      "text": "Для каждой пары грузов взвесим три оставшихся груза. Так как общая масса равна 15, результат «??» означает, что масса трёх оставшихся не меньше 10, то есть масса проверяемой пары не больше 5; результат «?» означает, что пара весит больше 5.\n\nПостроим граф: соединим два груза, если их пара весит не больше 5. Для настоящих весов 1,2,3,4,5 степени вершин равны соответственно 3,2,2,1,0: груз 1 г соединён с 2, 3 и 4; груз 4 г соединён только с 1; груз 5 г не соединён ни с кем. Поэтому можно однозначно найти грузы массой 1, 4 и 5 граммов. Два оставшихся груза имеют веса 2 и 3 грамма, но какой из них какой, такими весами не различить.",
+      "standard_idea_ids": ["numeric_signature_decoding", "knowledge_elimination"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-and-three-indistinguishable",
+      "title": "Грузы 2 и 3 грамма не различаются",
+      "text": "Пусть два оставшихся после определения грузов имеют массы 2 и 3. Рассмотрим любой набор грузов. Если он содержит оба эти груза или не содержит ни одного, обмен 2 и 3 не меняет сумму. Если он содержит ровно один из них, сумма меняется на 1. Чтобы показание экрана изменилось, сумма должна перейти через границу между однозначным и двузначным числом, то есть между 9 и 10. Но вклад остальных грузов из множества 1,4,5 может быть только 0, 1, 4, 5, 6, 9 или 10; при добавлении 2 или 3 граница 9/10 не пересекается. Поэтому все возможные взвешивания дают один и тот же набор вопросительных знаков после обмена грузов 2 и 3.",
+      "standard_idea_ids": ["indistinguishable_states"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка масс 1,2,3,4,5 между пятью внешне одинаковыми грузами",
+    "observations": ["для выбранного подмножества известно только количество цифр его суммарной массы"],
+    "allowed_actions": ["делать любое число взвешиваний любых подмножеств грузов"],
+    "goal": ["identify_forced_weights", "prove_which_weights_remain_ambiguous"],
+    "strategy_type": ["threshold_queries", "finite_signature", "indistinguishability_argument"],
+    "lower_bound_method": ["indistinguishable_states"],
+    "keywords": ["kvantland", "kvantik_contest", "broken_display", "weights_1_to_5", "threshold"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 5,
+    "counterfeit_count": 0,
+    "counterfeit_type": "unknown_permutation_of_known_weights",
+    "weighing_count": "unbounded",
+    "outcome_count_per_weighing": "number_of_digits_only",
+    "adaptive": true,
+    "objective": "identify_forced_weights"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Нужно заменить числовые суммы пороговым графом пар и затем доказать неразличимость грузов 2 и 3.", "status": "ai_checked"},
+  "tags": ["digital_scale", "linear_signature", "indistinguishability_argument", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-kvantland-telegram-broken-display-weights", "role": "channel_statement", "status": "source_verified"},
+    {"source_id": "src-kvantik-contest-2025-round-10", "role": "contest_statement", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-24",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "kvantlandia_deep_batch",
+    "notes": ["Пост Квантландии указывает автора Георгия Караваева и текущий конкурс «Квантика». Официальный конкурсный лист использован как источник условия; решение в карточке редакционное."]
+  }
+}

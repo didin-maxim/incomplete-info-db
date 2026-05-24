@@ -22,7 +22,7 @@
         "id": "stmt-original",
         "title": "Помощник показывает четыре карты",
         "text": "Из стандартной колоды в 52 карты зритель выбирает 5 карт и показывает их помощнику. Помощник передает фокуснику 4 из этих карт в некотором порядке. Фокусник знает заранее согласованную стратегию, но не видел пятую карту. Докажите, что помощник может выбрать и упорядочить 4 карты так, чтобы фокусник всегда определял пятую.",
-        "source_ids": ["src-fitch-cheney-five-card-trick", "src-problems-ru-98399"],
+        "source_ids": ["src-fitch-cheney-five-card-trick", "src-problems-ru-98399", "src-mathcircles-zeitz-mathematical-magic-for-muggles"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -103,7 +103,8 @@
   "tags": ["card_trick", "permutation_order_code", "structural_constraint", "condition_middle_school"],
   "sources": [
     {"source_id": "src-fitch-cheney-five-card-trick", "role": "reference_topic", "status": "source_verified"},
-    {"source_id": "src-problems-ru-98399", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+    {"source_id": "src-problems-ru-98399", "role": "web_statement_and_solution_variant", "status": "source_verified"},
+    {"source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles", "role": "math_circle_statement_and_solution_duplicate", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",

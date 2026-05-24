@@ -1,0 +1,25 @@
+{
+  "id": "english-source-scan-2026-05-24",
+  "title": "Крупные англоязычные источники: MathCircles, Khovanova, UKMT, AoPS",
+  "created_at": "2026-05-24",
+  "status": "draft",
+  "items": [
+    {"problem_id": "math-muggles-fingers-that-can-see", "status": "added", "source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles"},
+    {"problem_id": "math-muggles-concentration-parity-grid", "status": "added", "source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles"},
+    {"problem_id": "khovanova-2025-gold-silver-bronze-magic-bag", "status": "added", "source_id": "src-khovanova-2025-gold-silver-bronze-coins"},
+    {"problem_id": "fitch-cheney-five-card-trick", "status": "merged_source", "source_id": "src-mathcircles-zeitz-mathematical-magic-for-muggles"}
+  ],
+  "source_notes": [
+    "MathCircles/MfA Utah, Mathematical Magic for Muggles: богатый листок с условиями и решениями. Добавлены Fingers That Can See и Concentration; Mind-Reader распознан как дубль Fitch Cheney и добавлен источником к существующей карточке; More Hats распознан как дубль линейного протокола с колпаками; Buried in the Sand не добавлялся как слишком классический короткий дубль ожидания/молчания.",
+    "Tanya Khovanova's Math Blog, category Weighings: крупный блоговый архив с 34 постами категории Weighings и 446 постами категории Puzzles. Добавлена свежая задача Gold, Silver, and Bronze Coins, потому что у нее есть условие, атрибуция и подробное обсуждение решения в комментариях. Alternator/chameleon/random-scale posts оставлены на отдельный проход: они богаты, но требуют сверки с уже покрытыми материалами Кнопа и LKTG.",
+    "UKMT competition papers and extended solutions: источник крупный и официальный, но ближайшие найденные truth/liar задачи в основном уже покрыты текущими UKMT/AMC карточками или являются короткими арифметическими вариациями. Новых карточек из UKMT в этом проходе не добавлялось.",
+    "AoPS Wiki KGS math club: источник большой и тематически богатый, но неоднородный по качеству. Обнаружены 100 prisoners boxes и infinite hats/dwarfs; первая задача уже есть как классическая, вторая требует отдельного аккуратного анализа бесконечного протокола.",
+    "MAA review of The Mathematics of Coordinated Inference: полезная карта темы coordinated inference/hat guessing, но не отдельный задачник с самостоятельными условиями и решениями. Использовать как библиографический ориентир, не как источник карточки без первичного текста задачи."
+  ],
+  "unchecked_sections": [
+    "Tanya Khovanova: posts An Alternator Coin Puzzle, Alternators: People and Coins, Chameleon Coins, Random Scale, Parallel Weighings, Confirming the Labels of Coins in One Weighing.",
+    "MathCircles/Zeitz: Hummer Shuffle tricks and Scarne's Lie Speller, если база будет расширяться на карточные фокусы с контролируемой ложью и инвариантами ориентации.",
+    "AoPS Wiki KGS math club: N dwarfs with infinite red/blue hats and simultaneous guesses.",
+    "UKMT current archive 2024-2026: быстро просканировать truth/liar occurrences, если нужны новые короткие официальные карточки."
+  ]
+}

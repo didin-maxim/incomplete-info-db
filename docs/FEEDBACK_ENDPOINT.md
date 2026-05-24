@@ -33,7 +33,7 @@ npx wrangler secret put GITHUB_TOKEN
 npx wrangler deploy
 ```
 
-`GITHUB_TOKEN` должен быть fine-grained GitHub token с правом `Contents: Read and write` только для репозитория `didin-maxim/incomplete-info-db`. Токен нельзя добавлять в код, YAML, HTML или историю git.
+`GITHUB_TOKEN` должен быть fine-grained GitHub token с правом `Contents: Read and write` для репозитория `didin-maxim/incomplete-info-db`. Если тем же Worker включается `project: graph-db`, токену также нужен доступ к `didin-maxim/knowledge_graph_of_graphs`. Токен нельзя добавлять в код, YAML, HTML или историю git.
 
 Текущий Worker также поддерживает уже созданный в Cloudflare секрет с именем `incomplete-info-feedback`. Это совместимость с фактическим deploy; для новых deploy лучше использовать более понятное имя `GITHUB_TOKEN`.
 

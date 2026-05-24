@@ -1852,6 +1852,97 @@ def build_html(data):
       color: #163424;
     }
 
+    .antichain-board {
+      display: grid;
+      gap: 12px;
+    }
+
+    .antichain-matrix-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      max-height: 520px;
+    }
+
+    .antichain-matrix {
+      display: grid;
+      grid-template-columns: minmax(74px, max-content) repeat(var(--day-count, 8), 38px) minmax(64px, max-content);
+      width: max-content;
+      min-width: 100%;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    .antichain-cell {
+      min-height: 34px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      padding: 4px 6px;
+      font-size: 13px;
+    }
+
+    .antichain-cell.header {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: #f6f5ef;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .antichain-cell.person {
+      justify-content: start;
+      background: #fbfaf6;
+      font-weight: 700;
+    }
+
+    .antichain-toggle {
+      width: 28px;
+      height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 0;
+    }
+
+    .antichain-toggle::after {
+      content: "0";
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+    }
+
+    .antichain-toggle[aria-pressed="true"] {
+      background: var(--soft);
+      border-color: #7bb7ac;
+    }
+
+    .antichain-toggle[aria-pressed="true"]::after {
+      content: "1";
+      color: var(--accent-strong);
+    }
+
+    .antichain-pair-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .antichain-pair-panel select {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 9px;
+      min-width: 92px;
+    }
+
     .subset-code {
       border: 1px solid var(--line);
       border-radius: 8px;
@@ -2999,6 +3090,7 @@ __WEIGHING_CHEATER_JS__
         binary_question_code: 'конструктор да/нет вопросов',
         binary_cards_number_trick: 'двоичные карточки с числами',
         fixed_feedback_code: 'пароль с позиционной обратной связью',
+        antichain_code_protocol: 'антицепь кодов',
         ternary_question_code: 'вопросы с тремя ответами',
         repetition_code_one_lie_questions: 'повторения с одной ложью',
         finite_binary_state_protocol: 'да/нет протокол',
@@ -3841,6 +3933,7 @@ __WEIGHING_CHEATER_JS__
         identify_hidden_pair: 'угадать спрятанную пару',
         decode_hidden_message: 'расшифровать скрытое сообщение',
         identify_hidden_number: 'определить скрытое число',
+        identify_criminal_from_witness: 'найти преступника по свидетелю',
         recover_hidden_password: 'восстановить скрытый пароль',
         identify_key_position: 'назвать позицию ключа',
         identify_selected_card: 'назвать выбранную карту',
@@ -3903,6 +3996,7 @@ __WEIGHING_CHEATER_JS__
       };
       const genuineWeights = config.genuine_weights || config.genuineWeights || profile.genuine_weights || profile.genuineWeights || {};
       const counterfeitWeights = config.counterfeit_weights || config.counterfeitWeights || profile.counterfeit_weights || profile.counterfeitWeights || {};
+      const counterfeitWeightByType = config.counterfeit_weight_by_type || config.counterfeitWeightByType || config.counterfeit_direction_by_type || config.counterfeitDirectionByType || {};
       const typeCounts = {};
       for (const type of coinTypes) typeCounts[type] = (typeCounts[type] || 0) + 1;
       const typeSummary = Object.entries(typeCounts)
@@ -3913,6 +4007,7 @@ __WEIGHING_CHEATER_JS__
         coinTypeLabels: labels,
         genuineWeights,
         counterfeitWeights,
+        counterfeitWeightByType,
         typedMassModel: coinTypes.length === coinCount,
         coinTypeSummary: typeSummary
       };
@@ -4464,11 +4559,15 @@ __WEIGHING_CHEATER_JS__
       const objective = config.objective || profile.objective || 'identify_one_weight';
       const weightModel = config.weight_model || config.weightModel || 'permutation_1_to_N';
       const certificateGoal = config.certificate_goal || config.certificateGoal || 'one_forced_weight';
+      const maxWeighings = Number(config.max_weighings ?? config.maxWeighings ?? profile.weighing_count ?? 1);
       if (!objectCounts.length) return null;
       if (!['identify_one_weight', 'identify_all_weights'].includes(objective)) return null;
       if (!['permutation_1_to_N', 'equal_halves_binary'].includes(weightModel)) return null;
       if (!['one_forced_weight', 'all_forced_weights'].includes(certificateGoal)) return null;
-      if (weightModel === 'permutation_1_to_N' && (objective !== 'identify_one_weight' || certificateGoal !== 'one_forced_weight')) return null;
+      if (!Number.isInteger(maxWeighings) || maxWeighings < 1 || maxWeighings > 4) return null;
+      if (weightModel === 'permutation_1_to_N' && certificateGoal === 'all_forced_weights' && objectCounts.some(count => count > 8)) return null;
+      if (weightModel === 'permutation_1_to_N' && certificateGoal === 'one_forced_weight' && objective !== 'identify_one_weight') return null;
+      if (weightModel === 'permutation_1_to_N' && certificateGoal === 'all_forced_weights' && objective !== 'identify_all_weights') return null;
       if (weightModel === 'equal_halves_binary' && (objective !== 'identify_all_weights' || certificateGoal !== 'all_forced_weights')) return null;
       const lightWeight = Number(config.light_weight ?? config.lightWeight ?? 3);
       const heavyWeight = Number(config.heavy_weight ?? config.heavyWeight ?? 4);
@@ -4488,7 +4587,7 @@ __WEIGHING_CHEATER_JS__
         type: 'expert_judge_certificate',
         objectCounts,
         objectCount: objectCounts[0],
-        maxWeighings: 1,
+        maxWeighings,
         objective,
         modes: modes.length ? modes : ['sandbox', 'exhaustive'],
         defaultMode: (modes.length ? modes : ['sandbox', 'exhaustive'])[0],
@@ -4520,9 +4619,9 @@ __WEIGHING_CHEATER_JS__
             <span class="pill" data-current-mode-pill>${esc(expertJudgeModeLabel(normalized.defaultMode))}</span>
           </div>
           <div class="interactive-head">
-            <h4>Эксперт предъявляет одно взвешивание судье</h4>
+            <h4>Эксперт предъявляет публичный сертификат судье</h4>
             <div class="interactive-meta">
-              <span class="pill">1 взвешивание</span>
+              <span class="pill">${esc(countText(normalized.maxWeighings, 'взвешивание', 'взвешивания', 'взвешиваний'))}</span>
               <span class="pill" data-object-count-pill>${esc(normalized.weightModel === 'equal_halves_binary' ? countText(normalized.objectCount, 'монета', 'монеты', 'монет') : countText(normalized.objectCount, 'гирька', 'гирьки', 'гирек'))}</span>
               <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
             </div>
@@ -4546,6 +4645,8 @@ __WEIGHING_CHEATER_JS__
               </select>
             </label>
             <button class="small-button" type="button" data-expert-judge-check>Проверить</button>
+            <button class="small-button" type="button" data-expert-judge-add>Записать взвешивание</button>
+            <button class="small-button" type="button" data-expert-judge-undo>Убрать последнее</button>
             <button class="small-button" type="button" data-expert-judge-shuffle>Новый случай</button>
             <button class="small-button" type="button" data-expert-judge-clear>Очистить чаши</button>
           </div>
@@ -6777,6 +6878,118 @@ __WEIGHING_CHEATER_JS__
       `;
     }
 
+    function normalizeAntichainCodeConfig(problem, config) {
+      const profile = problem.questions_profile || {};
+      const personCount = Number(config.person_count ?? config.personCount ?? config.object_count ?? config.objectCount ?? 70);
+      const dayCount = Number(config.day_count ?? config.dayCount ?? config.max_tests ?? config.maxTests ?? profile.question_count ?? 8);
+      const targetWeight = Number(config.target_weight ?? config.targetWeight ?? Math.floor(dayCount / 2));
+      const supportedModes = ['sandbox', 'exhaustive'];
+      const modes = asArray(config.modes || config.mode || ['sandbox', 'exhaustive'])
+        .filter(mode => supportedModes.includes(mode));
+      const objective = config.objective || profile.objective || 'identify_criminal_from_witness';
+      if (!Number.isInteger(personCount) || personCount < 2 || personCount > 120) return null;
+      if (!Number.isInteger(dayCount) || dayCount < 1 || dayCount > 12) return null;
+      if (!Number.isInteger(targetWeight) || targetWeight < 0 || targetWeight > dayCount) return null;
+      if (objective !== 'identify_criminal_from_witness') return null;
+      const personLabels = asArray(config.person_labels || config.personLabels || config.object_labels || config.objectLabels)
+        .map(String)
+        .filter(Boolean)
+        .slice(0, personCount);
+      while (personLabels.length < personCount) personLabels.push(String(personLabels.length + 1));
+      return {
+        type: 'antichain_code_protocol',
+        personCount,
+        person_count: personCount,
+        object_count: personCount,
+        dayCount,
+        day_count: dayCount,
+        max_tests: dayCount,
+        targetWeight,
+        target_weight: targetWeight,
+        objective,
+        personLabels,
+        modes: modes.length ? modes : ['sandbox', 'exhaustive'],
+        defaultMode: modes[0] || 'sandbox'
+      };
+    }
+
+    function antichainCodeModeLabel(value, config = null) {
+      const size = config ? `${config.personCount}` : '70';
+      const labels = {
+        sandbox: 'собрать коды',
+        exhaustive: `проверить все ${size}`
+      };
+      return labels[value] || interactiveModeLabel(value);
+    }
+
+    function renderAntichainCodeInteractive(problem, config) {
+      const normalized = normalizeAntichainCodeConfig(problem, config);
+      if (!normalized) return renderUnknownInteractive(problem, config);
+      const dayHeaders = Array.from({ length: normalized.dayCount }, (_item, index) =>
+        `<div class="antichain-cell header">Д${esc(index + 1)}</div>`
+      ).join('');
+      const pairOptions = normalized.personLabels.map((label, index) =>
+        `<option value="${esc(index + 1)}">${esc(label)}</option>`
+      ).join('');
+      const rows = normalized.personLabels.map((label, personIndex) => {
+        const toggles = Array.from({ length: normalized.dayCount }, (_item, dayIndex) => `
+          <div class="antichain-cell">
+            <button class="antichain-toggle" type="button" data-antichain-toggle="${esc(personIndex + 1)}:${esc(dayIndex + 1)}" aria-pressed="false" title="человек ${esc(label)}, день ${esc(dayIndex + 1)}"></button>
+          </div>
+        `).join('');
+        return `
+          <div class="antichain-cell person">${esc(label)}</div>
+          ${toggles}
+          <div class="antichain-cell" data-antichain-code="${esc(personIndex + 1)}">00000000</div>
+        `;
+      }).join('');
+      return `
+        <div class="card interactive-panel" data-interactive-type="antichain_code_protocol" data-config="${esc(JSON.stringify(normalized))}">
+          <div class="topline">
+            ${pill('интерактив')}
+            ${pill(normalized.type, 'code')}
+            <span class="pill" data-current-mode-pill>${esc(antichainCodeModeLabel(normalized.defaultMode, normalized))}</span>
+          </div>
+          <div class="interactive-head">
+            <h4>Назначьте людям дни вызова</h4>
+            <div class="interactive-meta">
+              <span class="pill" data-antichain-capacity></span>
+              <span class="pill" data-antichain-weight-range></span>
+              <span class="pill">${esc(interactiveObjectiveLabel(normalized.objective))}</span>
+            </div>
+          </div>
+          <div class="interactive-actions">
+            <label>Режим
+              <select data-interactive-run-mode>
+                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(antichainCodeModeLabel(mode, normalized))}</option>`).join('')}
+              </select>
+            </label>
+            <button class="small-button" type="button" data-antichain-check>Проверить стратегию</button>
+            <button class="small-button" type="button" data-antichain-example>Загрузить оптимальный пример</button>
+            <button class="small-button" type="button" data-reset-interactive>Сбросить</button>
+          </div>
+          <div class="interactive-status" data-interactive-status></div>
+          <div class="antichain-board">
+            <div class="antichain-pair-panel">
+              <label>Свидетель <select data-antichain-witness>${pairOptions}</select></label>
+              <label>Преступник <select data-antichain-criminal>${pairOptions}</select></label>
+              <button class="small-button" type="button" data-antichain-pair-check>Найти день</button>
+              <span class="local-muted" data-antichain-pair-result></span>
+            </div>
+            <div class="antichain-matrix-wrap">
+              <div class="antichain-matrix" style="--day-count:${esc(normalized.dayCount)}">
+                <div class="antichain-cell header">человек</div>
+                ${dayHeaders}
+                <div class="antichain-cell header">код</div>
+                ${rows}
+              </div>
+            </div>
+            <div class="numeric-result" data-antichain-result></div>
+          </div>
+        </div>
+      `;
+    }
+
     function normalizeBinaryCardsNumberTrickConfig(_problem, config) {
       const cardCount = Number(config.card_count ?? config.cardCount ?? 5);
       const numberMin = Number(config.number_min ?? config.numberMin ?? 1);
@@ -8854,6 +9067,7 @@ __WEIGHING_CHEATER_JS__
       binary_question_code: renderBinaryQuestionCodeInteractive,
       binary_cards_number_trick: renderBinaryCardsNumberTrickInteractive,
       fixed_feedback_code: renderFixedFeedbackCodeInteractive,
+      antichain_code_protocol: renderAntichainCodeInteractive,
       ternary_question_code: renderTernaryQuestionCodeInteractive,
       repetition_code_one_lie_questions: renderRepetitionCodeOneLieInteractive,
       finite_pair_matching_protocol: renderFinitePairMatchingProtocolInteractive,
@@ -8909,6 +9123,7 @@ __WEIGHING_CHEATER_JS__
       if (config.type === 'binary_question_code') return !!normalizeBinaryQuestionCodeConfig(problem, config);
       if (config.type === 'binary_cards_number_trick') return !!normalizeBinaryCardsNumberTrickConfig(problem, config);
       if (config.type === 'fixed_feedback_code') return !!normalizeFixedFeedbackCodeConfig(problem, config);
+      if (config.type === 'antichain_code_protocol') return !!normalizeAntichainCodeConfig(problem, config);
       if (config.type === 'ternary_question_code') return !!normalizeTernaryQuestionCodeConfig(problem, config);
       if (config.type === 'repetition_code_one_lie_questions') return !!normalizeRepetitionCodeOneLieConfig(problem, config);
       if (config.type === 'finite_pair_matching_protocol') return !!normalizeFinitePairMatchingConfig(problem, config);
@@ -8964,7 +9179,7 @@ __WEIGHING_CHEATER_JS__
     }
 
     function bindInteractiveControls() {
-      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="fixed_weighing_transcript"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="expert_judge_certificate"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="uniformity_verification"][data-config], [data-interactive-type="selected_coin_parity_detector"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="rotated_tray_balance_protocol"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="binary_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="fixed_feedback_code"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="petya_vasya_five_cards_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
+      for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="fixed_weighing_transcript"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="expert_judge_certificate"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="uniformity_verification"][data-config], [data-interactive-type="selected_coin_parity_detector"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="rotated_tray_balance_protocol"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="binary_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="fixed_feedback_code"][data-config], [data-interactive-type="antichain_code_protocol"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="petya_vasya_five_cards_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
         let config = null;
         try { config = JSON.parse(panel.dataset.config || '{}'); }
         catch (_error) { config = null; }
@@ -8993,6 +9208,7 @@ __WEIGHING_CHEATER_JS__
         if (config?.type === 'binary_question_code') initBinaryQuestionCodeInteractive(panel, config);
         if (config?.type === 'binary_cards_number_trick') initBinaryCardsNumberTrickInteractive(panel, config);
         if (config?.type === 'fixed_feedback_code') initFixedFeedbackCodeInteractive(panel, config);
+        if (config?.type === 'antichain_code_protocol') initAntichainCodeInteractive(panel, config);
         if (config?.type === 'ternary_question_code') initTernaryQuestionCodeInteractive(panel, config);
         if (config?.type === 'repetition_code_one_lie_questions') initRepetitionCodeOneLieInteractive(panel, config);
         if (config?.type === 'finite_pair_matching_protocol') initFinitePairMatchingInteractive(panel, config);
@@ -11226,6 +11442,7 @@ __WEIGHING_CHEATER_JS__
           objectCount,
           assignment: makeAssignment(objectCount),
           locations: Object.fromEntries(Array.from({ length: objectCount }, (_item, index) => [index + 1, 'pool'])),
+          weighings: [],
           outcome: 'balance',
           result: null,
           message: ''
@@ -11251,15 +11468,64 @@ __WEIGHING_CHEATER_JS__
         renderState();
       }
 
+      function currentWeighing() {
+        const left = itemsIn('left');
+        const right = itemsIn('right');
+        if (!left.length && !right.length) return null;
+        const weighing = { left, right };
+        if (model.mode === 'exhaustive') {
+          weighing.outcome = panel.querySelector('[data-expert-judge-outcome]')?.value || model.outcome;
+        } else {
+          const observed = helper.expertJudgeOutcomeForAssignment(model.assignment, {
+            ...config,
+            object_count: model.objectCount,
+            left,
+            right
+          });
+          weighing.outcome = observed?.outcome || 'balance';
+        }
+        return weighing;
+      }
+
+      function candidateWeighings(includeCurrent = true) {
+        const current = includeCurrent ? currentWeighing() : null;
+        return current ? [...model.weighings, current] : [...model.weighings];
+      }
+
+      function addWeighing() {
+        const weighing = currentWeighing();
+        if (!weighing) {
+          model.message = 'Положите хотя бы одну гирьку на весы.';
+          renderState();
+          return;
+        }
+        if (model.weighings.length >= config.maxWeighings) {
+          model.message = `В сертификате уже есть ${countText(config.maxWeighings, 'взвешивание', 'взвешивания', 'взвешиваний')}.`;
+          renderState();
+          return;
+        }
+        model.weighings.push(weighing);
+        for (const id of objectIds()) model.locations[id] = 'pool';
+        model.result = null;
+        model.message = '';
+        renderState();
+      }
+
+      function undoWeighing() {
+        model.weighings.pop();
+        model.result = null;
+        model.message = '';
+        renderState();
+      }
+
       function objectWeight(id) {
         return model.assignment[id - 1] || id;
       }
 
       function checkCertificate() {
-        const left = itemsIn('left');
-        const right = itemsIn('right');
-        if (!left.length && !right.length) {
-          model.message = 'Положите хотя бы одну гирьку на весы.';
+        const weighings = candidateWeighings(true);
+        if (!weighings.length) {
+          model.message = 'Запишите хотя бы одно взвешивание сертификата.';
           model.result = null;
           renderState();
           return;
@@ -11267,13 +11533,9 @@ __WEIGHING_CHEATER_JS__
         const params = {
           ...config,
           object_count: model.objectCount,
-          left,
-          right,
+          weighings,
           assignment: model.assignment
         };
-        if (model.mode === 'exhaustive') {
-          params.outcome = panel.querySelector('[data-expert-judge-outcome]')?.value || model.outcome;
-        }
         const result = helper.expertJudgeEvaluateCertificate(params);
         model.outcome = result.outcome || model.outcome;
         model.result = result;
@@ -11283,8 +11545,10 @@ __WEIGHING_CHEATER_JS__
 
       function shuffleAssignment() {
         model.assignment = makeAssignment(model.objectCount);
+        model.weighings = [];
         model.result = null;
         model.message = '';
+        for (const id of objectIds()) model.locations[id] = 'pool';
         renderState();
       }
 
@@ -11302,6 +11566,7 @@ __WEIGHING_CHEATER_JS__
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'coin';
+        button.dataset.expertJudgeObject = String(id);
         if (model.locations[id] === 'left') button.classList.add('left');
         if (model.locations[id] === 'right') button.classList.add('right');
         button.textContent = String(id);
@@ -11340,11 +11605,11 @@ __WEIGHING_CHEATER_JS__
       function renderForced() {
         const target = panel.querySelector('[data-expert-judge-forced]');
         if (!model.result) {
-          target.innerHTML = '<span class="muted">После проверки здесь появятся веса, которые судья может вывести из одного взвешивания.</span>';
+          target.innerHTML = '<span class="muted">После проверки здесь появятся веса, которые судья может вывести из публичных исходов.</span>';
           return;
         }
         if (!model.result.forced.length) {
-          target.innerHTML = '<span class="pill">нет одиночной гирьки на чаше или вне весов</span>';
+          target.innerHTML = '<span class="pill">нет совместимых распределений или вынужденных весов</span>';
           return;
         }
         target.innerHTML = model.result.forced.map(item => {
@@ -11359,21 +11624,22 @@ __WEIGHING_CHEATER_JS__
 
       function renderHistory() {
         const target = panel.querySelector('[data-history]');
-        if (!model.result) {
-          target.innerHTML = '<div class="empty">Проверка еще не запускалась.</div>';
+        const rows = model.result?.weighings || model.weighings;
+        if (!rows.length) {
+          target.innerHTML = '<div class="empty">Сертификат пока пуст.</div>';
           return;
         }
-        const left = itemsIn('left');
-        const right = itemsIn('right');
-        const sums = model.mode === 'sandbox' && Number.isFinite(model.result.leftSum) && Number.isFinite(model.result.rightSum)
-          ? `; суммы эксперта: ${model.result.leftSum} и ${model.result.rightSum}`
-          : '';
-        target.innerHTML = `
-          <div class="history-item">
-            <strong>${esc(outcomeLabels[model.result.outcome] || model.result.outcome)}</strong>
-            <span>${esc(left.join(', ') || 'пусто')} против ${esc(right.join(', ') || 'пусто')}${esc(sums)}</span>
-          </div>
-        `;
+        target.innerHTML = rows.map((item, index) => {
+          const sums = model.mode === 'sandbox' && Number.isFinite(item.leftSum) && Number.isFinite(item.rightSum)
+            ? `; суммы эксперта: ${item.leftSum} и ${item.rightSum}`
+            : '';
+          return `
+            <div class="history-item">
+              <strong>${esc(index + 1)}. ${esc(outcomeLabels[item.outcome] || item.outcome || 'исход не выбран')}</strong>
+              <span>${esc((item.left || []).join(', ') || 'пусто')} против ${esc((item.right || []).join(', ') || 'пусто')}${esc(sums)}</span>
+            </div>
+          `;
+        }).join('');
       }
 
       function renderStatus() {
@@ -11385,8 +11651,8 @@ __WEIGHING_CHEATER_JS__
         }
         if (!model.result) {
           target.textContent = model.mode === 'sandbox'
-            ? 'Эксперт видит назначение весов. Разложите предметы по чашам и проверьте, что сможет вывести судья.'
-            : 'Выберите публичный исход и проверьте, какие веса совместимы с предъявленным взвешиванием.';
+            ? 'Эксперт видит назначение весов. Запишите взвешивания и проверьте, что сможет вывести судья.'
+            : 'Выберите публичные исходы, запишите взвешивания и проверьте совместимые распределения.';
           target.className = 'interactive-status';
           return;
         }
@@ -11398,11 +11664,11 @@ __WEIGHING_CHEATER_JS__
         if (model.result.success) {
           const learned = model.result.learned.map(item => `${objectName(item.object)} весит ${item.forcedWeight} г`).join('; ');
           target.textContent = config.certificateGoal === 'all_forced_weights'
-            ? `Сертификат сработал: судья восстанавливает все веса. ${learned}.`
+            ? `Сертификат сработал: судья восстанавливает все веса. Совместимых распределений: ${model.result.compatibleCount ?? 'не считалось'}. ${learned}.`
             : `Сертификат сработал: судья узнает, что ${learned}.`;
           target.className = 'interactive-status good';
         } else {
-          target.textContent = 'Сертификат не сработал: после такого взвешивания нужные веса не вынуждены.';
+          target.textContent = `Сертификат не сработал: после этих публичных исходов нужные веса не вынуждены${model.result.compatibleCount == null ? '' : `; совместимых распределений: ${model.result.compatibleCount}`}.`;
           target.className = 'interactive-status warn';
         }
       }
@@ -11413,6 +11679,8 @@ __WEIGHING_CHEATER_JS__
         panel.querySelector('[data-expert-judge-mode]').value = model.mode;
         panel.querySelector('[data-expert-judge-count]').value = String(model.objectCount);
         panel.querySelector('[data-expert-judge-outcome-wrap]').hidden = model.mode !== 'exhaustive';
+        panel.querySelector('[data-expert-judge-add]').disabled = model.weighings.length >= config.maxWeighings;
+        panel.querySelector('[data-expert-judge-undo]').disabled = !model.weighings.length;
         renderObjectZone('pool', '[data-expert-judge-pool]', `Все ${objectForms()[2]} на чашах.`);
         renderObjectZone('left', '[data-expert-judge-pan="left"]', 'Пусто.');
         renderObjectZone('right', '[data-expert-judge-pan="right"]', 'Пусто.');
@@ -11437,6 +11705,8 @@ __WEIGHING_CHEATER_JS__
         renderState();
       });
       panel.querySelector('[data-expert-judge-check]').addEventListener('click', checkCertificate);
+      panel.querySelector('[data-expert-judge-add]').addEventListener('click', addWeighing);
+      panel.querySelector('[data-expert-judge-undo]').addEventListener('click', undoWeighing);
       panel.querySelector('[data-expert-judge-shuffle]').addEventListener('click', shuffleAssignment);
       panel.querySelector('[data-expert-judge-clear]').addEventListener('click', clearPans);
 
@@ -14710,6 +14980,161 @@ __WEIGHING_CHEATER_JS__
         lastCheck = null;
         renderInteractiveState();
       });
+
+      renderInteractiveState();
+    }
+
+    function initAntichainCodeInteractive(panel, config) {
+      const helper = window.WeighingCheater;
+      let mode = config.defaultMode || 'sandbox';
+      let lastCheck = null;
+
+      function readCodewords() {
+        return Array.from({ length: config.personCount }, (_item, personIndex) =>
+          Array.from({ length: config.dayCount }, (_day, dayIndex) => {
+            const button = panel.querySelector(`[data-antichain-toggle="${personIndex + 1}:${dayIndex + 1}"]`);
+            return button?.getAttribute('aria-pressed') === 'true' ? 1 : 0;
+          })
+        );
+      }
+
+      function personLabel(person) {
+        return config.personLabels[Number(person) - 1] || String(person);
+      }
+
+      function codeLabel(codeword) {
+        return helper?.antichainCodewordKey ? helper.antichainCodewordKey(codeword) : (codeword || []).join('');
+      }
+
+      function setCodewords(codewords) {
+        for (let person = 1; person <= config.personCount; person += 1) {
+          for (let day = 1; day <= config.dayCount; day += 1) {
+            const button = panel.querySelector(`[data-antichain-toggle="${person}:${day}"]`);
+            if (button) button.setAttribute('aria-pressed', Number(codewords?.[person - 1]?.[day - 1]) ? 'true' : 'false');
+          }
+        }
+        lastCheck = null;
+        renderInteractiveState();
+      }
+
+      function setInteractiveStatus(text, kind = '') {
+        const status = panel.querySelector('[data-interactive-status]');
+        status.textContent = text;
+        status.classList.toggle('success', kind === 'success');
+        status.classList.toggle('error', kind === 'error');
+      }
+
+      function checkStrategy() {
+        lastCheck = helper.antichainCodeCheckStrategy({
+          ...config,
+          codewords: readCodewords()
+        });
+        renderInteractiveState();
+      }
+
+      function loadExample() {
+        if (!helper?.antichainCodeDefaultCodewords) return;
+        setCodewords(helper.antichainCodeDefaultCodewords(config));
+        setInteractiveStatus('Оптимальный пример загружен: все коды имеют одинаковый вес, поэтому не содержатся друг в друге.');
+      }
+
+      function checkPair() {
+        const witness = Number(panel.querySelector('[data-antichain-witness]')?.value || 1);
+        const criminal = Number(panel.querySelector('[data-antichain-criminal]')?.value || 1);
+        const target = panel.querySelector('[data-antichain-pair-result]');
+        if (witness === criminal) {
+          target.textContent = 'выберите двух разных людей';
+          return;
+        }
+        const result = helper.antichainCodeEvaluatePair({
+          ...config,
+          codewords: readCodewords(),
+          witness,
+          criminal
+        });
+        target.textContent = result.success
+          ? `день ${result.day}: ${personLabel(witness)} вызван, ${personLabel(criminal)} не вызван`
+          : `нет дня, где ${personLabel(witness)} вызван без ${personLabel(criminal)}`;
+      }
+
+      function renderResult() {
+        const container = panel.querySelector('[data-antichain-result]');
+        const codewords = readCodewords();
+        const preview = codewords.slice(0, Math.min(10, codewords.length)).map((codeword, index) =>
+          `<span class="subset-code">${esc(personLabel(index + 1))}: ${esc(codeLabel(codeword))}</span>`
+        ).join('');
+        if (!lastCheck) {
+          container.innerHTML = `
+            <div class="local-muted">Проверка принимает стратегию, если для любой пары свидетель-преступник есть день, когда свидетель вызван, а преступник нет.</div>
+            <div class="subset-code-grid">${preview}</div>
+          `;
+          return;
+        }
+        const conflict = lastCheck.conflict;
+        const conflictBlock = conflict ? `
+          <div class="exhaustive-branch failed">
+            <span class="exhaustive-branch-title">${esc(personLabel(conflict.leftPerson))}: ${esc(codeLabel(conflict.leftCode))}; ${esc(personLabel(conflict.rightPerson))}: ${esc(codeLabel(conflict.rightCode))}</span>
+            <span class="exhaustive-branch-history">${conflict.equal ? 'коды равны' : (conflict.leftSubsetRight ? 'первый код содержится во втором' : 'второй код содержится в первом')}</span>
+          </div>
+        ` : '';
+        container.innerHTML = `
+          <div><strong>Емкость по Шпернеру:</strong> ${esc(lastCheck.capacity)} кодов за ${esc(lastCheck.dayCount)} дней.</div>
+          <div><strong>Веса кодов:</strong> от ${esc(lastCheck.minWeight)} до ${esc(lastCheck.maxWeight)}.</div>
+          ${conflictBlock}
+          <div class="subset-code-grid">${preview}</div>
+        `;
+      }
+
+      function renderInteractiveState() {
+        const codewords = readCodewords();
+        for (let person = 1; person <= config.personCount; person += 1) {
+          const target = panel.querySelector(`[data-antichain-code="${person}"]`);
+          if (target) target.textContent = codeLabel(codewords[person - 1] || []);
+        }
+        const weights = codewords.map(codeword => helper?.antichainCodewordWeight ? helper.antichainCodewordWeight(codeword) : codeword.reduce((sum, bit) => sum + bit, 0));
+        const capacity = helper?.antichainCodeCapacity ? helper.antichainCodeCapacity(config.dayCount) : 0;
+        panel.querySelector('[data-antichain-capacity]').textContent = `емкость ${capacity} / нужно ${config.personCount}`;
+        panel.querySelector('[data-antichain-weight-range]').textContent = weights.length ? `вес ${Math.min(...weights)}..${Math.max(...weights)}` : 'вес 0';
+        const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (modeSelect) modeSelect.value = mode;
+        const modePill = panel.querySelector('[data-current-mode-pill]');
+        if (modePill) modePill.textContent = antichainCodeModeLabel(mode, config);
+        renderResult();
+        if (!helper?.antichainCodeCheckStrategy) {
+          setInteractiveStatus('Логика интерактива не загружена.', 'error');
+        } else if (!lastCheck) {
+          setInteractiveStatus(mode === 'exhaustive'
+            ? 'Запустите проверку: она переберет все пары свидетель-преступник через условие антицепи.'
+            : 'Соберите коды дней вызова или загрузите оптимальный пример.');
+        } else if (lastCheck.success) {
+          setInteractiveStatus(`Стратегия принята: ${config.personCount} кодов образуют антицепь, любая упорядоченная пара покрыта.`, 'success');
+        } else if (!lastCheck.lowerBoundOk) {
+          setInteractiveStatus(`За ${config.dayCount} дней антицепь вмещает только ${lastCheck.capacity} кодов, этого меньше ${config.personCount}.`, 'error');
+        } else if (lastCheck.conflict) {
+          const conflict = lastCheck.conflict;
+          setInteractiveStatus(`Конфликт: коды людей ${personLabel(conflict.leftPerson)} и ${personLabel(conflict.rightPerson)} сравнимы, одна из ролей свидетель-преступник не покрыта.`, 'error');
+        } else {
+          setInteractiveStatus('Стратегия не покрывает все пары.', 'error');
+        }
+      }
+
+      for (const button of panel.querySelectorAll('[data-antichain-toggle]')) {
+        button.addEventListener('click', () => {
+          const pressed = button.getAttribute('aria-pressed') === 'true';
+          button.setAttribute('aria-pressed', pressed ? 'false' : 'true');
+          lastCheck = null;
+          renderInteractiveState();
+        });
+      }
+      panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
+        mode = event.target.value;
+        lastCheck = null;
+        renderInteractiveState();
+      });
+      panel.querySelector('[data-antichain-check]')?.addEventListener('click', checkStrategy);
+      panel.querySelector('[data-antichain-example]')?.addEventListener('click', loadExample);
+      panel.querySelector('[data-antichain-pair-check]')?.addEventListener('click', checkPair);
+      panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => setCodewords([]));
 
       renderInteractiveState();
     }
@@ -19513,6 +19938,22 @@ __WEIGHING_CHEATER_JS__
         return `coin-metal-${coinType(id).replace(/[^a-z0-9_-]/gi, '') || 'coin'}`;
       }
 
+      function normalizedDirection(value) {
+        const raw = String(value || '').toLowerCase();
+        if (raw === 'heavy' || raw === 'heavier') return 'heavier';
+        if (raw === 'light' || raw === 'lighter') return 'lighter';
+        return null;
+      }
+
+      function configuredCounterfeitDirectionForCoin(id, fallback = null) {
+        const type = coinType(id);
+        return normalizedDirection(config.counterfeitWeightByType?.[type] ?? config.counterfeitWeightByType?.[String(id)])
+          || normalizedDirection(fallback)
+          || normalizedDirection(model?.fakeDirection)
+          || normalizedDirection(config.counterfeitWeight)
+          || 'lighter';
+      }
+
       function normalCoinWeight(id) {
         if (!config.typedMassModel || isKnownGenuineCoin(id)) return 1;
         const value = Number(config.genuineWeights?.[coinType(id)] ?? config.genuineWeights?.coin ?? 1);
@@ -19521,10 +19962,10 @@ __WEIGHING_CHEATER_JS__
 
       function counterfeitCoinWeight(id) {
         if (!config.typedMassModel || isKnownGenuineCoin(id)) {
-          return (model.fakeDirection || config.counterfeitWeight) === 'heavier' ? 2 : 0;
+          return configuredCounterfeitDirectionForCoin(id) === 'heavier' ? 2 : 0;
         }
         const type = coinType(id);
-        const direction = (model.fakeDirection || config.counterfeitWeight) === 'heavier' ? 'heavier' : 'lighter';
+        const direction = configuredCounterfeitDirectionForCoin(id);
         const value = Number(
           config.counterfeitWeights?.[type]?.[direction]
           ?? config.counterfeitWeights?.[`${type}_${direction}`]
@@ -19803,7 +20244,8 @@ __WEIGHING_CHEATER_JS__
               allow_no_counterfeit: config.allowNoCounterfeit,
               coinTypes: config.coinTypes,
               genuineWeights: config.genuineWeights,
-              counterfeitWeights: config.counterfeitWeights
+              counterfeitWeights: config.counterfeitWeights,
+              counterfeitWeightByType: config.counterfeitWeightByType
             });
           result = cheaterOutcomeToResult[decision.outcome] || 'balanced';
           model.candidates = decision.candidates;
@@ -19833,7 +20275,8 @@ __WEIGHING_CHEATER_JS__
                 allow_no_counterfeit: config.allowNoCounterfeit,
                 coinTypes: config.coinTypes,
                 genuineWeights: config.genuineWeights,
-                counterfeitWeights: config.counterfeitWeights
+                counterfeitWeights: config.counterfeitWeights,
+                counterfeitWeightByType: config.counterfeitWeightByType
               });
           }
         }
@@ -19869,7 +20312,8 @@ __WEIGHING_CHEATER_JS__
             allow_no_counterfeit: config.allowNoCounterfeit,
             coinTypes: config.coinTypes,
             genuineWeights: config.genuineWeights,
-            counterfeitWeights: config.counterfeitWeights
+            counterfeitWeights: config.counterfeitWeights,
+            counterfeitWeightByType: config.counterfeitWeightByType
           });
         node.weighing = { left: [...left], right: [...right] };
         node.children = expansion.children.map(child => ({

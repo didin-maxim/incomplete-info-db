@@ -20,6 +20,27 @@
 | `kvant-2002-05-eight-circle-three-heavy` | strong exercise | Скрыты 8 круговых троек соседних тяжелых монет; пользователь строит взвешивания и называет весь набор. |
 | `knop-saladin-14-known-genuine-identify-only` | strong exercise | Пользователь строит стратегию для 14 подозрительных и одной настоящей; цель корректно объединяет два знака одной монеты. |
 
+## Свежие закрытия 2026-05-24
+
+Эти карточки уже имеют `interactive` в YAML и не должны оставаться в очереди следующих реализаций.
+
+| problem_id | verdict | notes |
+|---|---|---|
+| `knop-saladin-four-weighings-one-spare` | strong exercise | `single_counterfeit_unknown_direction` с `erasure_count: 1`: проверяется устойчивость четырех заранее заданных строк после удаления любой одной. |
+| `knop-2011-seven-bags-subset-one-weighing` | strong exercise | `numeric_linear_signature`: пользователь выбирает количества из 7 мешков; проверка требует различить все подмножества фальшивых мешков. |
+| `apsimon-knop-2011-three-bags-four-coins-two-weighings` | strong exercise | `numeric_linear_signature` с ресурсом `max_sampled_coins: 4`; проверяются две числовые подписи для 8 состояний. |
+| `mmo-1988-four-coins-all-fakes-numeric-scale` | strong exercise | Малый числовой код подмножеств фальшивых монет; пользователь предъявляет измерения, viewer проверяет различимость. |
+| `lindstrom-1969-two-triples-one-fake-each` | strong exercise | `numeric_linear_signature` для 9 состояний: по одной фальшивой в каждой тройке. |
+| `rmo-2002-three-consecutive-light-weights` | strong exercise | Структурная числовая подпись блока из трех последовательных легких гирь. |
+| `four-labeled-weights-one-defective-two-weighings` | strong exercise | `numeric_linear_signature` для подписанных номиналов и неизвестного направления дефекта. |
+| `thirteen-labeled-weights-one-defective-three-weighings` | strong exercise | Тот же слой signed/numeric weights в большем, но конечном случае. |
+| `ten-weights-adjacent-labels-swapped-two-weighings` | strong exercise | Скрыто один из соседних обменов этикеток; пользователь предъявляет числовые взвешивания, проверяется перестановка. |
+| `ten-row-fakes-on-right-two-weighings` | strong exercise | `constrained_light_counterfeit_sets`: скрыта граница правого блока легких фальшивок; `random/cheater/exhaustive` уместны. |
+| `five-coins-two-equal-fakes-find-genuine` | strong exercise | Структурный hidden-state set: две равные фальшивки, цель - гарантированно настоящая монета. |
+| `knop-2011-pair-light-different-weights-4-6-8` | strong exercise | Две легкие фальшивки разных весов; интерактив проверяет конечные случаи 4/6/8. |
+| `knop-2011-one-pan-9g-12g-two-fakes-family` | strong exercise | `numeric_linear_signature` для одночашечной модели с 9 г и 12 г фальшивками. |
+| `problems-ru-78572-eleven-bags-two-numeric-balance-weighings` | strong exercise | `numeric_linear_signature` с проектированной парой показаний: неизвестные знак и величина отклонения сокращаются до отношения. |
+
 ## Все взвешивательные интерактивы
 
 | problem_id | verdict | reason |

@@ -11,7 +11,7 @@
         "id": "stmt-problems-ru-116064",
         "title": "Хотя бы трое должны угадать спрятанный цвет",
         "text": "У дракона есть семь колпаков семи цветов радуги. Шестерым гномам наденут по колпаку, а один колпак спрячут. После этого каждый гном увидит колпаки остальных, но не свой и не спрятанный, и без общения с другими тайно назовет дракону цвет спрятанного колпака. Если хотя бы трое угадают, всех отпустят. Как гномам заранее договориться, чтобы гарантированно спастись?",
-        "source_ids": ["src-matprazdnik-2011-blank6", "src-problems-ru-116064"],
+        "source_ids": ["src-matprazdnik-2011-blank6", "src-problems-ru-116064", "src-kvant-2019-07-multiple-hall-hats"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -66,7 +66,7 @@
   },
   "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Средняя: младшая версия, но уже требует заранее согласованной ориентации пар цветов и проверки, почему половина ответов гарантируется.", "status": "ai_checked"},
   "tags": ["hat_puzzle", "symmetry", "nonadaptive_strategy", "condition_middle_school"],
-  "sources": [{"source_id": "src-matprazdnik-2011-blank6", "role": "earlier_official_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-116064", "role": "statement_and_solution_archive", "status": "source_verified"}],
+  "sources": [{"source_id": "src-matprazdnik-2011-blank6", "role": "earlier_official_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-116064", "role": "statement_and_solution_archive", "status": "source_verified"}, {"source_id": "src-kvant-2019-07-multiple-hall-hats", "role": "journal_article_generalization_and_hall_context", "status": "source_verified"}],
   "editorial": {
     "created_by": "ai",
     "created_at": "2026-05-18",

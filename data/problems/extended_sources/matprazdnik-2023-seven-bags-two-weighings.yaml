@@ -13,7 +13,7 @@
         "id": "stmt-matprazdnik-2023-7-6",
         "title": "Определить вес монет в указанном мешке",
         "text": "У царя есть 7 мешков с золотыми монетами, в каждом по 100 монет. Известно, что в мешках лежат монеты весом 7, 8, 9, 10, 11, 12 и 13 граммов, по одному весу на мешок, но неизвестно, где какой вес. Царь указал мудрецу на один мешок. Можно ли с помощью больших чашечных весов без гирь определить вес монет в указанном мешке не более чем за два взвешивания?",
-        "source_ids": ["src-matprazdnik-2023-solutions"],
+        "source_ids": ["src-matprazdnik-2023-solutions", "src-kvantland-telegram-seven-bags-2023"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["balance_scale", "strategy"]
@@ -78,7 +78,8 @@
   },
   "tags": ["balance_scale", "ternary_search", "linear_signature", "condition_middle_school"],
   "sources": [
-    {"source_id": "src-matprazdnik-2023-solutions", "role": "official_statement_and_solution", "status": "source_verified"}
+    {"source_id": "src-matprazdnik-2023-solutions", "role": "official_statement_and_solution", "status": "source_verified"},
+    {"source_id": "src-kvantland-telegram-seven-bags-2023", "role": "channel_republication", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -86,6 +87,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Условие и идея решения взяты с официальной страницы решений Математического праздника-2023."]
+    "notes": ["Условие и идея решения взяты с официальной страницы решений Математического праздника-2023.", "2026-05-24: добавлен пост Квантландии 212 как перепубликация с новой иллюстрацией и ссылкой на опрос."]
   }
 }

@@ -13,7 +13,7 @@
         "id": "stmt-tot-2002-fall-senior-o-1",
         "title": "Дима показывает одну карточку Пете и Васе",
         "text": "Петя и Вася выбрали по натуральному числу и сообщили их Диме. Дима записал сумму на одной карточке, произведение на другой, спрятал одну карточку и показал другую Пете и Васе. На показанной карточке было число 2002. Петя сказал, что не может определить число Васи. Услышав это, Вася сказал, что тоже не может определить число Пети. Определите число Васи.",
-        "source_ids": ["src-tot-2002-fall-senior-o-problems", "src-tot-2002-fall-senior-o-solutions"],
+        "source_ids": ["src-tot-2002-fall-senior-o-problems", "src-tot-2002-fall-senior-o-solutions", "src-kvantland-telegram-sum-product-2002"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["common_knowledge"]
@@ -64,7 +64,8 @@
   "tags": ["common_knowledge", "knowledge_induction", "knowledge_elimination", "public_announcement", "condition_older_students"],
   "sources": [
     {"source_id": "src-tot-2002-fall-senior-o-problems", "role": "official_statement", "status": "source_verified"},
-    {"source_id": "src-tot-2002-fall-senior-o-solutions", "role": "official_solution", "status": "source_verified"}
+    {"source_id": "src-tot-2002-fall-senior-o-solutions", "role": "official_solution", "status": "source_verified"},
+    {"source_id": "src-kvantland-telegram-sum-product-2002", "role": "channel_republication", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -72,6 +73,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Хотя это старший уровень Турнира городов, источник официальный, а задача является устойчивым вариантом классического механизма «сумма и произведение»."]
+    "notes": ["Хотя это старший уровень Турнира городов, источник официальный, а задача является устойчивым вариантом классического механизма «сумма и произведение».", "2026-05-24: добавлен пост Квантландии 346 как полуофициальная перепубликация с указанием сборника «Турнир Городов. Мир математики в задачах» и автора Д. Кириенко."]
   }
 }

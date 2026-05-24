@@ -123,14 +123,14 @@ const assert = require('node:assert/strict');
     text: '\u0420\u045e\u0420\u00b5\u0421\u0403\u0421\u201a\u0420\u0455\u0420\u0406\u0420\u00b0\u0421\u040f',
   });
   assert.equal(mojibakeText.status, 400);
-  assert.match(await mojibakeText.text(), /broken Cyrillic encoding/);
+  assert.match(await mojibakeText.text(), /битую кириллицу/);
 
   const questionMarks = await post({
     ...incompletePayload,
     text: `${'?'.repeat(6)} ${'?'.repeat(6)} ${'?'.repeat(8)}`,
   });
   assert.equal(questionMarks.status, 400);
-  assert.match(await questionMarks.text(), /broken Cyrillic encoding/);
+  assert.match(await questionMarks.text(), /битую кириллицу/);
 
   console.log('feedback worker selftest: ok');
 })().catch((error) => {

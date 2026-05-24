@@ -870,6 +870,31 @@
       "access_note": "Ebert is kept as an eponym in the topic title, but no stable primary source for the attribution has been verified in the database yet."
     },
     {
+      "id": "src-paterson-stinson-2010-yet-another-hat-game",
+      "type": "journal_article",
+      "title": "Maura B. Paterson and Douglas R. Stinson, Yet Another Hat Game",
+      "authors": [
+        {
+          "name": "Maura B. Paterson",
+          "role": "article_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Douglas R. Stinson",
+          "role": "article_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://www.combinatorics.org/ojs/index.php/eljc/article/view/v17i1r86",
+      "doi": "https://doi.org/10.37236/358",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "origin": "The Electronic Journal of Combinatorics 17 (2010), #R86",
+      "access_note": "Section 1.1 reviews Ebert's Hat Game, attributes it to Todd Ebert's 1998 Ph.D. thesis, and describes the Hamming-code strategy for n=2^m-1 players."
+    },
+    {
       "id": "src-balance-puzzle-reference",
       "type": "reference_topic",
       "title": "Balance puzzle: counterfeit coin variants",
@@ -2244,7 +2269,8 @@
       "browser_openable": true,
       "official": true,
       "status": "source_verified",
-      "language": "ru"
+      "language": "ru",
+      "access_note": "Одностраничный листок с 14 задачами: базовый троичный поиск, неизвестный знак фальшивой монеты, цифровые/стрелочные варианты, задача 99/100/98 на определение только знака и смешанная серебряно-золотая модель."
     },
     {
       "id": "src-berkeley-math-circle-2020-encrypted-arithmetic-i",
@@ -2867,6 +2893,512 @@
       "country": "Россия",
       "origin": "Официальный сайт проекта «Квантландия» с описанием онлайн-турниров и ссылками на математические турниры.",
       "access_note": "Лендинг и страница math.kvantland.com открылись; сами турнирные задачи доступны после регистрации/входа и не извлечены в этом проходе."
+    },
+    {
+      "id": "src-kvantland-telegram-mudretsy-card-players",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: «Мудрецы-картёжники»",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, мудрецы-картёжники",
+      "url": "https://t.me/s/kvantland/411",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с повтором условия и скрытым решением задачи «Мудрецы-картёжники»; пост ссылается на исходный пост https://t.me/kvantland/11.",
+      "access_note": "Публичная страница t.me/s открылась без входа; решение находится в spoiler-блоке поста."
+    },
+    {
+      "id": "src-kvantland-telegram-four-wise-men-12-cards",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: четыре мудреца и 12 карточек",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, мудрецы A-D и 12 карточек",
+      "url": "https://t.me/s/kvantland/488",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с задачей про мудрецов A, B, C, D и карточки 1..12; в посте указано, что это задача автора канала, бывшая на Турнире городов.",
+      "access_note": "Публичная страница t.me/s открылась без входа; решение в Telegram доступно через кнопку «Лампочка» после опроса и не извлекалось напрямую."
+    },
+    {
+      "id": "src-kvantland-telegram-detective-70",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: детектив, свидетель и преступник среди 70 человек",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, детектив на 70 человек",
+      "authors": [
+        {"name": "Косухин О.Н.", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://t.me/s/kvantland/503",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост «Детектив»; автор указан как О. Косухин.",
+      "access_note": "Публичная страница t.me/s открылась без входа; пост сообщает, что решение использует кодирование, но полный разбор в тексте поста не опубликован."
+    },
+    {
+      "id": "src-kvantland-telegram-broken-display-weights",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: пять грузов и весы со сломанным экраном",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, грузы 1..5 и вопросительные знаки",
+      "authors": [
+        {"name": "Георгий Караваев", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://t.me/s/kvantland/712",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост о задаче Георгия Караваева из текущего конкурса «Квантика».",
+      "access_note": "Публичная страница t.me/s открылась без входа; пост просит присылать решения в редакцию «Квантика», поэтому решение в источнике не раскрыто."
+    },
+    {
+      "id": "src-kvantik-contest-2025-round-10",
+      "type": "official_contest_statement",
+      "title": "Квантик: конкурс по математике, 2024/25, X тур",
+      "short_name": "Конкурс «Квантика»",
+      "display_name": "Квантик 2024/25, X тур",
+      "url": "https://kvantik.com/konkurs/math/2024-2025/10.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Официальный PDF конкурса «Квантика» по математике, 2024/25, X тур; задача про пять грузов и экран, показывающий вопросительные знаки.",
+      "access_note": "PDF с условиями конкурса; официальный разбор не использовался."
+    },
+    {
+      "id": "src-problems-ru-66388",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66388: мудрецы-картёжники",
+      "authors": [
+        {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=66388",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "origin": "Квантик, 2016, №9",
+      "access_note": "Страница problems.ru указывает автора Евдокимова М.А. и содержит условие с решением."
+    },
+    {
+      "id": "src-problems-ru-67055",
+      "type": "web_archive",
+      "title": "problems.ru, задача 67055: мудрецы и карточки 1..12",
+      "authors": [
+        {"name": "Евдокимов М.А.", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=67055",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "region": "международный",
+      "origin": "Турнир городов 2019/20, 41-й, осенний тур, сложный вариант, 8-9 классы, задача 6",
+      "access_note": "Страница problems.ru указывает автора Евдокимова М.А. и содержит условие с решением."
+    },
+    {
+      "id": "src-problems-ru-66096",
+      "type": "web_archive",
+      "title": "problems.ru, задача 66096: Ниро Вульф, свидетель и преступник",
+      "authors": [
+        {"name": "Косухин О.Н.", "role": "problem_author", "status": "source_verified"}
+      ],
+      "url": "https://www.problems.ru/view_problem_details_new.php?id=66096",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "ru",
+      "origin": "Родственная задача автора О.Н. Косухина о свидетеле и преступнике; формулировка на 80 подозреваемых и 12 дней.",
+      "access_note": "Использована для подтверждения авторства и механизма; карточка Квантландии решает вариант на 70 человек с оптимальным числом дней."
+    },
+    {
+      "id": "src-kvantland-telegram-sum-product-2002",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: сумма или произведение 2002",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, сумма/произведение 2002",
+      "url": "https://t.me/s/kvantland/346",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост о сборнике «Турнир Городов. Мир математики в задачах» и задаче Д. Кириенко.",
+      "access_note": "Публичная страница t.me/s открылась без входа; это перепубликация уже заведенной задачи Турнира городов."
+    },
+    {
+      "id": "src-kvantland-telegram-hat-line-three-colors",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: переаттестация Совета Мудрецов",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, 100 мудрецов в очереди и три цвета",
+      "url": "https://t.me/s/kvantland/451",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с задачей К. Кнопа про 100 мудрецов в очереди и три цвета колпаков.",
+      "access_note": "Публичная страница t.me/s открылась без входа; задача является частным случаем уже заведенного k-цветного протокола."
+    },
+    {
+      "id": "src-kvantland-telegram-seven-bags-2023",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: семь мешков и вес указанного мешка",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, семь мешков Матпраздника",
+      "url": "https://t.me/s/kvantland/212",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с задачей из Матпраздника про 7 мешков и выбранный мешок.",
+      "access_note": "Публичная страница t.me/s открылась без входа; это перепубликация уже заведенной задачи Матпраздника-2023."
+    },
+    {
+      "id": "src-kvantland-telegram-4x4-cards-neighbor",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: 16 карточек в таблице 4x4",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, карточки 1..16 в 4x4",
+      "url": "https://t.me/s/kvantland/562",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с задачей устного тура Турнира городов 2018 про карточки 1..16.",
+      "access_note": "Публичная страница t.me/s открылась без входа; это перепубликация уже заведенной задачи Турнира городов."
+    },
+    {
+      "id": "src-kvantland-telegram-mmo-2025-symposium",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: симпозиум лжецов и правдолюбов",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, симпозиум ММО",
+      "url": "https://t.me/s/kvantland/645",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост с задачей ММО про симпозиум лжецов и правдолюбов.",
+      "access_note": "Публичная страница t.me/s открылась без входа; это перепубликация уже заведенной задачи ММО 2024/25."
+    },
+    {
+      "id": "src-mathcircles-zeitz-mathematical-magic-for-muggles",
+      "type": "math_circle_handout",
+      "title": "Paul Zeitz, Mathematical Magic for Muggles",
+      "short_name": "Mathematical Magic for Muggles",
+      "display_name": "MathCircles/MfA Utah: Mathematical Magic for Muggles",
+      "authors": [
+        {
+          "name": "Paul Zeitz",
+          "role": "material_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://mathcircles.org/wp-content/uploads/2021/08/ZeitzMathMuggles.pdf",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "country": "США",
+      "origin": "MfA Utah handout, Mathematical Magic for Muggles, March 22-23, 2013",
+      "access_note": "PDF открыт без входа. В начале указаны Paul Zeitz и цель листка: трюки на кодирование, инварианты, симметрию и вероятность; для карточных трюков отдельно упомянуты Jessica Delgado и Kelly Walker как исследовавшие и тестировавшие несколько трюков в San Francisco Math Circle."
+    },
+    {
+      "id": "src-tanya-khovanova-weighings-category",
+      "type": "blog_category",
+      "title": "Tanya Khovanova's Math Blog: Weighings",
+      "short_name": "Tanya Khovanova, Weighings",
+      "display_name": "Tanya Khovanova's Math Blog, Weighings category",
+      "authors": [
+        {
+          "name": "Tanya Khovanova",
+          "role": "blog_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://blog.tanyakhovanova.com/category/weighings/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "США",
+      "origin": "Blog category collecting Khovanova's weighing and counterfeit-coin puzzle posts",
+      "access_note": "Категория просмотрена 2026-05-24; содержит свежие и архивные задачи про взвешивания, неисправные весы, chameleon/alternator coins и смежные протоколы."
+    },
+    {
+      "id": "src-khovanova-2025-gold-silver-bronze-coins",
+      "type": "blog_post_with_comments",
+      "title": "Tanya Khovanova's Math Blog: Gold, Silver, and Bronze Coins",
+      "short_name": "Khovanova, Gold Silver Bronze Coins",
+      "display_name": "Tanya Khovanova, Gold, Silver, and Bronze Coins (2025)",
+      "authors": [
+        {
+          "name": "Tanya Khovanova",
+          "role": "blog_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "s_hskz2",
+          "role": "problem_submitter",
+          "status": "source_verified",
+          "note": "The post says the puzzle was received by email from reader s_hskz2."
+        },
+        {
+          "name": "Sanandan Swaminathan",
+          "role": "comment_solution_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://blog.tanyakhovanova.com/2025/08/gold-silver-and-bronze-coins/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "США",
+      "origin": "Tanya Khovanova's Math Blog, post of August 27, 2025, with a detailed solution strategy in the first comment",
+      "access_note": "Пост дает условие и атрибуцию s_hskz2; первый комментарий Sanandan Swaminathan от 2025-08-28 содержит разветвленную 5-тестовую стратегию. Текст решения в карточке является русским сжатым пересказом этой ветки."
+    },
+    {
+      "id": "src-cmo-2015-grade7",
+      "type": "official_olympiad_archive",
+      "title": "Кавказская математическая олимпиада 2015, 7 класс: условия и решения",
+      "short_name": "КМО-2015",
+      "display_name": "КМО-2015, 7 класс",
+      "url": "https://cmo.adygmath.ru/images/cmo-15-7k.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "I Кавказская математическая олимпиада, 12 декабря 2015, 7 класс, задача 7.4",
+      "access_note": "Официальный PDF со страницы архива КМО; текст в PDF частично не извлекается, задача сверена по отрендеренной странице локальной копии."
+    },
+    {
+      "id": "src-cmo-2015-grade9",
+      "type": "official_olympiad_archive",
+      "title": "Кавказская математическая олимпиада 2015, 9 класс: условия и решения",
+      "short_name": "КМО-2015",
+      "display_name": "КМО-2015, 9 класс",
+      "url": "https://cmo.adygmath.ru/images/cmo-15-9k.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "I Кавказская математическая олимпиада, 12 декабря 2015, 9 класс, задача 9.1",
+      "access_note": "Официальный PDF со страницы архива КМО; текст в PDF частично не извлекается, задача сверена по отрендеренной странице локальной копии."
+    },
+    {
+      "id": "src-cmo-2019-problems",
+      "type": "official_olympiad_statement",
+      "title": "Кавказская математическая олимпиада 2019: условия",
+      "short_name": "КМО-2019",
+      "display_name": "КМО-2019, условия",
+      "url": "https://cmo.adygmath.ru/images/cmo19/Problem-rus.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "V Кавказская математическая олимпиада, 15-20 марта 2019, старшая лига, первый день, задача 4",
+      "access_note": "Официальный PDF условий со страницы архива КМО-2019."
+    },
+    {
+      "id": "src-cmo-2019-day1-solutions",
+      "type": "official_olympiad_solutions",
+      "title": "Кавказская математическая олимпиада 2019, первый день: решения",
+      "short_name": "КМО-2019",
+      "display_name": "КМО-2019, решения первого дня",
+      "authors": [
+        {
+          "name": "В. А. Брагин",
+          "role": "problem_author",
+          "status": "source_verified",
+          "note": "Автор указан под задачей старшей лиги первого дня №4."
+        }
+      ],
+      "url": "https://cmo.adygmath.ru/images/cmo19/firstday.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "V Кавказская математическая олимпиада, 15-20 марта 2019, решения первого дня; старшая лига, задача 4",
+      "access_note": "Официальный PDF решений со страницы архива КМО-2019; содержит условие, решение и автора задачи."
+    },
+    {
+      "id": "src-mmmf-msu-2011-grade5-weighings",
+      "type": "official_math_circle_page",
+      "title": "Малый мехмат МГУ, 5 класс, занятие 18: взвешивания",
+      "short_name": "Малый мехмат МГУ",
+      "display_name": "МММФ МГУ, 2010/11, 5 класс: взвешивания",
+      "authors": [
+        {
+          "name": "Дмитрий Александрович Коробицын",
+          "role": "circle_leader",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://mmmf.msu.ru/archive/20102011/z5/18.html",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Малый мехмат МГУ, кружок 5 класса, 2010/2011 учебный год, занятие 18 от 12.03.2011",
+      "access_note": "Страница содержит подборку базовых задач с решениями: фальшивая легкая монета среди 3, 9 и 27 монет, стрелочные/цифровые весы и один цифровой тест для мешка с фальшивыми монетами. Полезна как вводный русскоязычный листок, а не как источник новых карточек."
+    },
+    {
+      "id": "src-cpm-2025-cooperative-strategies-grade7",
+      "type": "official_training_material",
+      "title": "ЦПМ, кружок по математике, 7 класс: Кооперативные стратегии",
+      "short_name": "ЦПМ",
+      "display_name": "ЦПМ, кооперативные стратегии, 7 класс",
+      "authors": [
+        {"name": "ЦПМ", "role": "publisher", "status": "source_verified"}
+      ],
+      "url": "https://math.mosolymp.ru/upload/files/2025/khamovniki/7/50_-_Cooperative_Strategies.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "ЦПМ, городские математические кружки, Хамовники, 7 класс, листок 50",
+      "access_note": "Листок содержит подборку задач на заранее согласованные стратегии: колпаки в колонне, фокусы, мудрецы с цветами, кодирование ответов."
+    },
+    {
+      "id": "src-cpm-2020-cooperative-strategies-grade10",
+      "type": "official_training_material",
+      "title": "ЦПМ, кружок по математике, 10 класс: Кооперативные стратегии",
+      "short_name": "ЦПМ",
+      "display_name": "ЦПМ, кооперативные стратегии, 10 класс",
+      "authors": [
+        {"name": "Д. Афризонов", "role": "compiler", "status": "source_verified"},
+        {"name": "А. Кушнир", "role": "compiler", "status": "source_verified"}
+      ],
+      "url": "https://math.mosolymp.ru/upload/files/2020/khamovniki/10/1/2020-03-09-coop-strategies.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "ЦПМ, кружок по математике, 10 класс, серия 29, 9 марта 2020",
+      "access_note": "Одностраничный листок с задачами про колпаки, пас/угадывание, заключенных в камерах и заранее согласованные вероятностные стратегии."
+    },
+    {
+      "id": "src-kvant-2019-02-evnin-magicians-hall-sperner",
+      "type": "journal_article",
+      "title": "А. Эвнин. Задачи о фокусниках и теоремы Холла и Шпернера",
+      "short_name": "Квант",
+      "display_name": "Квант, 2019, №2: фокусники, Холл, Шпернер",
+      "authors": [
+        {"name": "А. Эвнин", "role": "article_author", "status": "source_verified"}
+      ],
+      "url": "https://www.mathnet.ru/links/db699a7aba68c1e0c137b2660dbd4dba/kvant794.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Квант, 2019, №2, с. 14-18",
+      "access_note": "Статья связывает задачи о фокусниках с паросочетаниями, теоремой Холла и леммой Шпернера; полезна для старших школьников и составителей листков по карточным/коммуникационным фокусам."
+    },
+    {
+      "id": "src-kvant-2019-04-gribok-hats-finite-fields",
+      "type": "journal_article",
+      "title": "С. Грибок. Мудрецы, колпаки и арифметика конечных полей",
+      "short_name": "Квант",
+      "display_name": "Квант, 2019, №4: мудрецы и конечные поля",
+      "authors": [
+        {"name": "С. Грибок", "role": "article_author", "status": "source_verified"}
+      ],
+      "url": "https://kvant.mccme.ru/pdf/2019/2019-04.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Квант, 2019, №4, статья «Мудрецы, колпаки и арифметика конечных полей»",
+      "access_note": "Разбирает стратегии для задач о колпаках через двоичные наборы, шары и арифметику конечных полей; подходит как старший теоретический фон для колпаков и кодирования ответов."
+    },
+    {
+      "id": "src-kvant-2019-07-multiple-hall-hats",
+      "type": "journal_article",
+      "title": "Многократная лемма Холла в задачах про мудрецов",
+      "short_name": "Квант",
+      "display_name": "Квант, 2019, №7: многократная лемма Холла и мудрецы",
+      "url": "https://kvant.ras.ru/pdf/2019/2019-07.pdf",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Квант, 2019, №7; продолжение материала о задачах про мудрецов",
+      "access_note": "Содержит обобщения задач о мудрецах и колпаках, включая задачу Матпраздника-2011 о шести гномах и спрятанном радужном колпаке; полезно для связки протоколов с теоремой Холла."
+    },
+    {
+      "id": "src-mathnet-kabatyansky-2023-counterfeit-coins-linear-algebra",
+      "type": "video_lecture_series",
+      "title": "Г. А. Кабатянский, «Поиск фальшивых монет на (не)точных весах, и при чем здесь линейная алгебра?»",
+      "short_name": "Кабатянский, фальшивые монеты и линейная алгебра",
+      "display_name": "Math-Net.Ru, школа «Современная математика» 2023",
+      "authors": [
+        {
+          "name": "Григорий Анатольевич Кабатянский",
+          "role": "lecturer",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://www.mathnet.ru/rus/present39722",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Летняя школа «Современная математика» имени Виталия Арнольда, Дубна, 19-22 июля 2023; цикл из трех семинаров",
+      "access_note": "Видеоцикл Math-Net.Ru/YouTube о неадаптивном поиске фальшивых монет на точных весах: известные и неизвестные веса настоящих/фальшивых монет, линейно-алгебраические подписи, ошибки весов и связь с задачей Улама-Реньи."
+    },
+    {
+      "id": "src-mathnet-kabatyansky-2020-precision-scale-unknown-weights",
+      "type": "video_talk_with_slides",
+      "title": "G. A. Kabatiansky, «How to find counterfeit coins on a precision scale if the weights of coins a priori unknown»",
+      "short_name": "Кабатянский, precise scale unknown weights",
+      "display_name": "Math-Net.Ru, Дни комбинаторики и геометрии II, 2020",
+      "authors": [
+        {
+          "name": "Григорий Анатольевич Кабатянский",
+          "role": "speaker",
+          "status": "source_verified"
+        },
+        {
+          "name": "Елена Егорова",
+          "role": "joint_work_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://www.mathnet.ru/rus/present27256",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "en",
+      "country": "Россия",
+      "origin": "Дни комбинаторики и геометрии II, онлайн-конференция, 16 апреля 2020",
+      "access_note": "Страница Math-Net.Ru содержит YouTube-видео и PDF-слайды. Тема: точные цифровые весы, неадаптивные взвешивания, не более t фальшивых монет, неизвестные веса настоящих и фальшивых монет; оптимальные результаты для t=1 и асимптотика при постоянном t."
     }
   ]
 }

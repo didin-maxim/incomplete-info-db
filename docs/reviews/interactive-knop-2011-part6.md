@@ -1,6 +1,6 @@
 # Interactive Review: Knop 2011 Part 6
 
-Scope: new cards in `data/problems/knop_2011_part6/`. This file is a worklist for viewer passes; completed entries are kept here as handoff notes.
+Scope: new cards in `data/problems/knop_2011_part6/`. This file is a worklist for viewer passes; completed entries are kept here as handoff notes. Заметка 2026-05-24: текущая очередь вынесена в `interactive-queue-quality-review.md`; ниже есть исторические пункты, часть уже закрыта YAML-интерактивами.
 
 ## Candidate Types
 
@@ -19,12 +19,14 @@ Scope: new cards in `data/problems/knop_2011_part6/`. This file is a worklist fo
 
 - `two_light_different_weights`
   - Card: `knop-2011-pair-light-different-weights-4-6-8`.
+  - 2026-05-24: implemented with `constrained_light_counterfeit_sets`, `presentation: exercise`.
   - Hidden states: two counterfeit coins, both lighter than genuine, with two different counterfeit weights.
   - User action: build an adaptive balance-scale decision tree for the 4/6/8 coin cases.
   - Needs a small checker where equality of two single coins is allowed to certify that both are genuine.
 
 - `one_pan_two_signed_counterfeits`
   - Card: `knop-2011-one-pan-9g-12g-two-fakes-family`.
+  - 2026-05-24: implemented with `numeric_linear_signature`, `presentation: exercise`.
   - Hidden states: one 9 g coin and one 12 g coin among otherwise 10 g coins.
   - User action: choose subsets for a one-pan pointer scale and decode both the 9 g and 12 g coins.
   - Needs support for four per-weighing outcomes relative to normal weight: none, light only, heavy only, both.
@@ -42,6 +44,7 @@ Scope: new cards in `data/problems/knop_2011_part6/`. This file is a worklist fo
   - User action should model the expert choosing demonstrations; checker verifies that the judge has a unique compatible hidden state or claimed property after public outcomes.
   - For `knop-expert-judge-one-weighing-one-weight`, the claimed property is weaker than full reconstruction: at least one named гирька must have a unique forced weight after the public weighing.
   - 2026-05-22: `knop-expert-judge-eight-coins-3-4g-one-weighing` is implemented as the same renderer with `weight_model: equal_halves_binary` and goal `all_forced_weights`.
+  - 2026-05-24: strongest next unfinished cases are `tokarev-expert-judge-six-weights-two-weighings` and `emelyanov-expert-judge-two-counterfeits-two-weighings`.
   - This should not reveal the intended certificate as a hint in normal mode.
 
 - `optional_no_counterfeit_signature`

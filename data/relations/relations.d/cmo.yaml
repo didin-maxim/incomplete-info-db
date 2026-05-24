@@ -1,0 +1,48 @@
+{
+  "relations": [
+    {
+      "id": "rel-cmo2015-grade7-desks-to-lmo1989-neighbor",
+      "from": "cmo-2015-grade7-desk-neighbor-knights-liars",
+      "to": "lmo-1989-physicists-chemists-liars-circle",
+      "type": "same_mechanism",
+      "distance": 3,
+      "forward_text": "Обе задачи переводят публичные ответы рыцарей и лжецов о соседях в локальные ограничения; КМО-2015 работает на партах-парах, а ЛМО-1989 - на цикле.",
+      "backward_text": "ЛМО-задача дает круговую версию того же приема: ответ о соседнем месте становится правилом, по которому считаются типы и четность.",
+      "status": "ai_checked",
+      "confidence": 0.78
+    },
+    {
+      "id": "rel-cmo2015-grade9-circle-to-vmo2021-window",
+      "from": "cmo-2015-grade9-circle-neighbor-knights-liars",
+      "to": "vmo-2021-circle-80-next-11-liars",
+      "type": "teaches_before",
+      "distance": 3,
+      "forward_text": "КМО-задача является малым входом в круговые ограничения рыцарей и лжецов: фраза о двух соседях уже превращается в запрет на локальные типы.",
+      "backward_text": "ВМО-2021 развивает тот же круговой стиль до скользящих окон и периодичности; вместо двух соседей рассматриваются следующие 11 мест.",
+      "status": "ai_checked",
+      "confidence": 0.76
+    },
+    {
+      "id": "rel-cmo2019-clear-pairs-to-tot2008-stones",
+      "from": "cmo-2019-senior-stones-clear-pairs-weighing",
+      "to": "tournament-towns-2008-four-stones-one-error",
+      "type": "contrast",
+      "distance": 4,
+      "forward_text": "Обе задачи используют камни и числовую информацию весов, но КМО-2019 изучает неразличимость и гарантированно сравнимые пары при ограничении 10 против 10, а Турнир городов строит линейный код, восстанавливающий все веса с одной ошибкой.",
+      "backward_text": "Турнир городов показывает конструктивную сторону числовых взвешиваний; КМО-2019, наоборот, оценивает, какие пары могут остаться неразличимыми при всех допустимых сравнениях.",
+      "status": "ai_checked",
+      "confidence": 0.7
+    },
+    {
+      "id": "rel-cmo2019-clear-pairs-to-indistinguishable-counterfeits",
+      "from": "cmo-2019-senior-stones-clear-pairs-weighing",
+      "to": "heavier-4-coins-one-weighing-impossible",
+      "type": "same_mechanism",
+      "distance": 4,
+      "forward_text": "В обеих задачах ключом является не конкретная стратегия, а наличие неразличимых состояний: если два скрытых порядка дают одинаковые ответы на все разрешенные действия, нужный вывод невозможен.",
+      "backward_text": "Малый пример с четырьмя монетами проще демонстрирует тот же принцип неразличимости, который в КМО-2019 применяется к графу плохих пар.",
+      "status": "ai_checked",
+      "confidence": 0.72
+    }
+  ]
+}

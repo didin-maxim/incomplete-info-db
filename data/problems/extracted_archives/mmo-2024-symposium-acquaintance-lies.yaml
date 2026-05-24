@@ -13,7 +13,7 @@
         "id": "stmt-mmo-2024-symposium",
         "title": "Ответы о знакомстве",
         "text": "На совместный симпозиум лжецов, которые всегда лгут, и рыцарей, которые всегда говорят правду, собрались 100 участников, среди которых не все лжецы и не все рыцари. Каждые два участника либо знакомы, либо незнакомы друг с другом. Каждый ответил \"да\" или \"нет\" на вопрос \"Знакомы ли вы?\" про каждого из остальных. Какое наименьшее количество ответов \"да\" могло быть получено?",
-        "source_ids": ["src-mmo-2024-25-tasks-11-tur1-final", "src-mmo-2024-25-sol-11-tur1-final", "src-problems-ru-67459"],
+        "source_ids": ["src-mmo-2024-25-tasks-11-tur1-final", "src-mmo-2024-25-sol-11-tur1-final", "src-problems-ru-67459", "src-kvantland-telegram-mmo-2025-symposium"],
         "status": "ai_checked",
         "self_contained": {"status": "ai_checked"},
         "definition_ids": ["state_space"]
@@ -61,7 +61,8 @@
   "sources": [
     {"source_id": "src-mmo-2024-25-tasks-11-tur1-final", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-mmo-2024-25-sol-11-tur1-final", "role": "official_solution", "status": "source_verified"},
-    {"source_id": "src-problems-ru-67459", "role": "web_statement_and_solution_variant", "status": "source_verified"}
+    {"source_id": "src-problems-ru-67459", "role": "web_statement_and_solution_variant", "status": "source_verified"},
+    {"source_id": "src-kvantland-telegram-mmo-2025-symposium", "role": "channel_republication", "status": "source_verified"}
   ],
   "editorial": {
     "created_by": "ai",
@@ -69,6 +70,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "extracted_archives_batch",
-    "notes": ["Найдена в соседней базе graph-db: data/problems/mmo/mmo-2024-symposium-acquaintance-lies.yaml. В исходной graph-db-карточке также указана локальная копия официального решения: audit/_mmo_tc_text_clean/d738368d897f6572.txt.", "Автор Евдокимов М.А. перенесен из graph-db и подтвержден локальным текстом официального решения graph-db/audit/_mmo_tc_text_clean/d738368d897f6572.txt, где задача 1 подписана \"(М. Евдокимов)\".", "2026-05-18: добавлен источник-дублер problems.ru 67459, найденный при веб-поиске задач о рыцарях и лжецах."]
+    "notes": ["Найдена в соседней базе graph-db: data/problems/mmo/mmo-2024-symposium-acquaintance-lies.yaml. В исходной graph-db-карточке также указана локальная копия официального решения: audit/_mmo_tc_text_clean/d738368d897f6572.txt.", "Автор Евдокимов М.А. перенесен из graph-db и подтвержден локальным текстом официального решения graph-db/audit/_mmo_tc_text_clean/d738368d897f6572.txt, где задача 1 подписана \"(М. Евдокимов)\".", "2026-05-18: добавлен источник-дублер problems.ru 67459, найденный при веб-поиске задач о рыцарях и лжецах.", "2026-05-24: добавлен пост Квантландии 645 как перепубликация с указанием участия авторов Квантландии в задачах ММО."]
   }
 }
