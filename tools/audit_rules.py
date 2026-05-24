@@ -1,6 +1,6 @@
 import re
 
-from lib import ROOT, flatten_text, load_problems, load_relations, load_json
+from lib import ROOT, flatten_text, load_problems, load_relations, load_json, load_yaml
 
 
 PUBLIC_TECHNICAL_TERMS = [
@@ -12,6 +12,17 @@ PUBLIC_TECHNICAL_TERMS = [
     "код Хэмминга",
     "самосогласован",
     "локальные ограничения",
+]
+
+BRIEF_PUBLIC_HEAVY_TERMS = [
+    "публичное знание",
+    "пространство состояний",
+    "сигнатур",
+    "тернарн",
+    "нормализац",
+    "канал",
+    "синдром",
+    "индукция по знанию",
 ]
 
 GENERALIZED_SOLUTION_MARKERS = [
@@ -65,6 +76,7 @@ PUBLIC_DOC_FILES = [
     ROOT / "docs" / "INFORMATION_AMOUNT.md",
 ]
 PUBLIC_VIEWER_FILES = [ROOT / "tools" / "build_viewer.py", ROOT / "viewer" / "weighing_cheater.js"]
+PUBLIC_NAVIGATION_FILES = [ROOT / "data" / "navigation" / "topic_clusters.yaml"]
 
 
 def iter_public_problem_texts(problem):
@@ -91,6 +103,28 @@ def public_text(problem):
     return "\n".join(parts)
 
 
+def iter_brief_problem_texts(problem):
+    yield "title", str(problem.get("title", ""))
+    for group_name, group in problem.get("statements", {}).items():
+        for statement in group:
+            sid = statement.get("id", "<missing>")
+            yield f"statements.{group_name}.{sid}.title", str(statement.get("title", ""))
+    for group_name in ["ideas", "strategies", "impossibility_proofs"]:
+        for item in problem.get(group_name, []):
+            item_id = item.get("id", "<missing>")
+            yield f"{group_name}.{item_id}.title", str(item.get("title", ""))
+    difficulty = problem.get("difficulty", {})
+    yield "difficulty.comment", str(difficulty.get("comment", ""))
+
+
+def warn_brief_public_language(warnings, label, text):
+    lowered = text.lower()
+    for term in BRIEF_PUBLIC_HEAVY_TERMS:
+        if term in lowered:
+            warnings.append(f"{label}: brief public text contains heavy term '{term}'")
+            return
+
+
 def warn_public_language(warnings, pid, problem):
     text = public_text(problem)
     lowered = text.lower()
@@ -104,6 +138,8 @@ def warn_public_language(warnings, pid, problem):
         if match:
             warnings.append(f"{pid}: {label} contains English UI/statement residue: {match.group(0)!r}")
             break
+    for label, fragment in iter_brief_problem_texts(problem):
+        warn_brief_public_language(warnings, f"{pid}: {label}", fragment)
 
 def warn_public_fragment_language(warnings, label, text):
     match = ENGLISH_RESIDUE_RE.search(text)
@@ -119,6 +155,17 @@ def iter_named_public_texts(value, path=()):
         for index, item in enumerate(value):
             yield from iter_named_public_texts(item, (*path, str(index)))
     elif isinstance(value, str) and path and path[-1] in PUBLIC_TEXT_FIELDS:
+        yield ".".join(path), value
+
+
+def iter_navigation_brief_texts(value, path=()):
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield from iter_navigation_brief_texts(item, (*path, str(key)))
+    elif isinstance(value, list):
+        for index, item in enumerate(value):
+            yield from iter_navigation_brief_texts(item, (*path, str(index)))
+    elif isinstance(value, str) and path and path[-1] in {"title_ru", "description_ru"}:
         yield ".".join(path), value
 
 
@@ -279,6 +326,14 @@ def main():
             rel = path.relative_to(ROOT)
             for index, literal in iter_js_string_literals(path.read_text(encoding="utf-8")):
                 warn_public_fragment_language(warnings, f"{rel}:string[{index}]", literal)
+
+    for path in PUBLIC_NAVIGATION_FILES:
+        if path.exists():
+            data = load_yaml(path, {})
+            rel = path.relative_to(ROOT)
+            for label, text in iter_navigation_brief_texts(data):
+                warn_public_fragment_language(warnings, f"{rel}:{label}", text)
+                warn_brief_public_language(warnings, f"{rel}:{label}", text)
 
     for error in errors:
         print(f"ERROR: {error}")

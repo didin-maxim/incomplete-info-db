@@ -229,7 +229,7 @@ def build_fallback_content(data):
             <span class="pill">{len(clusters)} кластеров</span>
           </div>
           <h2 class="home-title">База задач о неполной информации</h2>
-          <p class="home-lead">Задачи, где известно не всё: чашечные весы, рыцари и лжецы, колпаки, публичные объявления, вопросы с ложью и правила, о которых можно заранее договориться.</p>
+          <p class="home-lead">Задачи, где известно не всё: весы, рыцари и лжецы, колпаки, вопросы с ложью и командные правила, о которых можно договориться заранее.</p>
           <div class="home-actions">
             <a class="home-action primary" href="#problem/{esc_html(first_problem.get('id') if first_problem else '')}">Открыть первую задачу</a>
             <a class="home-action" href="#cluster/{esc_html(clusters[0].get('id') if clusters else '')}">Кластеры</a>
@@ -3025,12 +3025,12 @@ __WEIGHING_CHEATER_JS__
         parity_code: 'четность как подсказка',
         permutation_order_code: 'порядок как подсказка',
         public_announcement: 'сказано вслух',
-        public_announcement_induction: 'общие объявления',
+        public_announcement_induction: 'объявления вслух',
         public_communication: 'сообщение видно всем',
         repetition_code: 'повторение вопросов',
         self_reference_question: 'вопрос о самом ответе',
         self_reference_truth: 'фраза о себе',
-        single_bit_signal: 'один да/нет сигнал',
+        single_bit_signal: 'один ответ да/нет',
         solution_advanced_math: 'решение требует старших идей',
         structural_constraint: 'особое расположение',
         symmetry: 'симметрия',
@@ -3093,7 +3093,7 @@ __WEIGHING_CHEATER_JS__
         antichain_code_protocol: 'антицепь кодов',
         ternary_question_code: 'вопросы с тремя ответами',
         repetition_code_one_lie_questions: 'повторения с одной ложью',
-        finite_binary_state_protocol: 'да/нет протокол',
+        finite_binary_state_protocol: 'правило с ответами да/нет',
         higher_lower_strategy_game: 'игра больше или меньше',
         moving_target_graph_search: 'поиск движущейся цели',
         xor_single_flip_protocol: 'один переворот по четности',
@@ -3787,14 +3787,14 @@ __WEIGHING_CHEATER_JS__
             ${pill(`${clusterCount} кластеров`)}
           </div>
           <h2 class="home-title">База задач о неполной информации</h2>
-          <p class="home-lead">Задачи, где известно не всё: чашечные весы, рыцари и лжецы, колпаки, публичные объявления, вопросы с ложью и правила, о которых можно заранее договориться.</p>
+          <p class="home-lead">Задачи, где известно не всё: весы, рыцари и лжецы, колпаки, вопросы с ложью и командные правила, о которых можно договориться заранее.</p>
           <div class="home-actions">
             <button class="home-action primary" data-home-action="all" type="button">Все задачи</button>
             <button class="home-action" data-home-action="clusters" type="button">Кластеры</button>
             <button class="home-action" data-home-fragment="weighings" type="button">Взвешивания</button>
             <button class="home-action" data-home-query="truth liar лжец рыцарь" type="button">Рыцари и лжецы</button>
             <button class="home-action" data-home-cluster="prearranged-communication-protocols" type="button">Заранее договориться</button>
-            <button class="home-action" data-home-query="public common knowledge ложь вопросы" type="button">Публичное знание и ложь</button>
+            <button class="home-action" data-home-cluster="public-knowledge-and-announcements" type="button">Что все знают</button>
           </div>
           <div class="home-stats">
             <div class="home-stat"><strong>${problems.length}</strong><span>задач</span></div>
@@ -3816,16 +3816,16 @@ __WEIGHING_CHEATER_JS__
               <p>Задачи про рыцарей, лжецов, вопросы к ним и восстановление ответа из сказанных фраз.</p>
             </div>
             <div class="home-panel">
-              <h3>Публичное знание</h3>
-              <p>Грязные дети, мудрецы, публичные объявления и молчание, из которого тоже делают вывод.</p>
+              <h3>Что все знают</h3>
+              <p>Задачи, где важны слова вслух, ответы «не знаю» и молчание: каждый слышит одно и то же и убирает невозможные варианты.</p>
             </div>
             <div class="home-panel">
-              <h3>Протоколы</h3>
-              <p>Задачи, где участники могут заранее договориться, а потом передают короткое сообщение: бит, порядок или последовательные ответы.</p>
+              <h3>Договорились заранее</h3>
+              <p>Задачи, где участники заранее выбирают правило, а потом передают короткую подсказку: да/нет, порядок карт или ответ вслух.</p>
             </div>
             <div class="home-panel">
-              <h3>Коды и вопросы с ложью</h3>
-              <p>Как найти ответ, если в некоторых ответах может быть ложь или пропуск.</p>
+              <h3>Вопросы с ложью</h3>
+              <p>Как найти ответ, если один из ответов может быть ложным, пропасть или испортиться.</p>
             </div>
             <div class="home-panel">
               <h3>Определения и идеи</h3>
@@ -7684,7 +7684,7 @@ __WEIGHING_CHEATER_JS__
         : asArray(normalized.actions).length;
       const heading = normalized.protocol === 'one_liar_line_neighborhood'
         ? 'Один лжец в шеренге'
-        : (normalized.protocol === 'knight_liar_fake_coin_subset' ? 'Рыцарь, лжец и фальшивая монета' : 'Конечный да/нет протокол');
+        : (normalized.protocol === 'knight_liar_fake_coin_subset' ? 'Рыцарь, лжец и фальшивая монета' : 'Конечное правило да/нет');
       return `
         <div class="card interactive-panel" data-interactive-type="finite_binary_state_protocol" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">

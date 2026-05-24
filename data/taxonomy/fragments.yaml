@@ -1,10 +1,10 @@
 {
   "fragments": [
     {"id": "weighings", "title": "Взвешивания"},
-    {"id": "wise_people", "title": "Мудрецы, колпаки и общие объявления"},
+    {"id": "wise_people", "title": "Мудрецы, колпаки и кто что знает"},
     {"id": "card_tricks", "title": "Карточные фокусы и подсказки"},
     {"id": "questions", "title": "Вопросы, ответы и ложь"},
-    {"id": "communication", "title": "Передача коротких подсказок"},
-    {"id": "impossibility", "title": "Доказательства невозможности"}
+    {"id": "communication", "title": "Короткие подсказки"},
+    {"id": "impossibility", "title": "Почему нельзя лучше"}
   ]
 }

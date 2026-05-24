@@ -56,7 +56,7 @@
     "public_announcements": ["у первого старшая карта - валет", "второй знает весь расклад"],
     "objective": "вывести, у кого туз"
   },
-  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача на публичное знание: одна фраза сужает расклад, вторая фиксирует оставшиеся младшие карты.", "status": "ai_checked"},
+  "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая задача, где одна фраза вслух сужает расклад, а вторая фиксирует оставшиеся младшие карты.", "status": "ai_checked"},
   "tags": ["card_trick", "common_knowledge", "knowledge_elimination", "public_announcement", "condition_middle_school"],
   "sources": [
     {"source_id": "src-kvantland-telegram-mudretsy-card-players", "role": "channel_statement_and_solution", "status": "source_verified"},

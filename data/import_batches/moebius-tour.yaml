@@ -71,7 +71,7 @@
     {"tour": "VI", "tasks": "5, 9, 29", "verdict": "deferred", "note": "быстрый скан подтвердил кандидатов, но полное чтение/решения не завершены"},
     {"tour": "VII", "tasks": "5, 38, 48", "verdict": "deferred", "note": "релевантные монетные задачи, требуют проверки на дубли и корректность стратегий"},
     {"tour": "VIII", "tasks": "22/54/91/123", "verdict": "added", "problem_id": "moebius-2021-six-circle-adjacent-light-fakes-one-weighing"},
-    {"tour": "VIII", "tasks": "32/64/104/136, 48, 84/116, 175/207", "verdict": "deferred", "note": "релевантные рыцари/лжецы и публичное знание, но не все решения восстановлены"},
+    {"tour": "VIII", "tasks": "32/64/104/136, 48, 84/116, 175/207", "verdict": "deferred", "note": "релевантные рыцари/лжецы и задачи про то, что все слышат, но не все решения восстановлены"},
     {"tour": "IX", "tasks": "19/66", "verdict": "added", "problem_id": "moebius-2022-four-knights-liars-spies"},
     {"tour": "IX", "tasks": "5/90, 43, 49/82, 80, 126, 155", "verdict": "deferred", "note": "часть релевантна; часть вроде задачи 80 про карточки вне строгого фильтра передачи информации"},
     {"tour": "X", "tasks": "48/80", "verdict": "added_existing", "problem_id": "moebius-2022-3x3-line-of-three-light-fakes"},
