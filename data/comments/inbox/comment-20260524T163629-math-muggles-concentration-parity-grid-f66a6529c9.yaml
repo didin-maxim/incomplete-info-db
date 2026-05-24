@@ -1,7 +1,7 @@
 {
   "id": "web-20260524T163629-math-muggles-concentration-parity-grid",
   "kind": "statement",
-  "status": "open",
+  "status": "resolved",
   "title": "Проблема в условии: Concentration: найти перевернутую карту по четности строк и столбцов",
   "target": {
     "type": "problem",
@@ -16,5 +16,10 @@
     "page_url": "https://didin-maxim.github.io/incomplete-info-db/#problem/math-muggles-concentration-parity-grid",
     "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36"
   },
-  "report_text": "Отчет об ошибке в incomplete-info-db\n\nID задачи: math-muggles-concentration-parity-grid\nНазвание: Concentration: найти перевернутую карту по четности строк и столбцов\nURL: https://didin-maxim.github.io/incomplete-info-db/#problem/math-muggles-concentration-parity-grid\nТип проблемы: Проблема в условии\n\nКомментарий:\nУсловие не понятно. Если фокуснику завязывают глаза когда карты полностью выложены -- он просто помнит старую конфигурацию, значит знает, какую карту перевернули. Подозреваю, что ошибка перевода условия.\n\nКонтакт: (не указан)\nСформировано: 2026-05-24T16:36:28.720Z"
+  "report_text": "Отчет об ошибке в incomplete-info-db\n\nID задачи: math-muggles-concentration-parity-grid\nНазвание: Concentration: найти перевернутую карту по четности строк и столбцов\nURL: https://didin-maxim.github.io/incomplete-info-db/#problem/math-muggles-concentration-parity-grid\nТип проблемы: Проблема в условии\n\nКомментарий:\nУсловие не понятно. Если фокуснику завязывают глаза когда карты полностью выложены -- он просто помнит старую конфигурацию, значит знает, какую карту перевернули. Подозреваю, что ошибка перевода условия.\n\nКонтакт: (не указан)\nСформировано: 2026-05-24T16:36:28.720Z",
+  "response": {
+    "status": "resolved",
+    "resolved_at": "2026-05-24",
+    "notes": "Комментарий верный: в условии не было явно сказано, что фокусник не пользуется памятью о прежней сетке. Формулировка уточнена: после снятия повязки он смотрит только на новую сетку 5 на 5 и на правило добавления карт."
+  }
 }
