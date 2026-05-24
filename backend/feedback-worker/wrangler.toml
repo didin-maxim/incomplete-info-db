@@ -1,0 +1,10 @@
+name = "incomplete-info-feedback"
+main = "src/index.js"
+compatibility_date = "2026-05-23"
+
+[vars]
+GITHUB_OWNER = "didin-maxim"
+GITHUB_REPO = "incomplete-info-db"
+GITHUB_BRANCH = "master"
+COMMENT_PATH_PREFIX = "data/comments/inbox"
+ALLOWED_ORIGINS = "https://didin-maxim.github.io,http://localhost:8000,http://127.0.0.1:8000"

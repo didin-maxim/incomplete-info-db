@@ -1,0 +1,79 @@
+{
+  "id": "kvantland-ostrovsky-paid-questions-55",
+  "title": "Квантландия: число от 1 до 55 и платные ответы да/нет",
+  "fragment": "questions",
+  "kind": {"primary": "channel_problem", "secondary": ["strategy_construction", "optimality", "decision_tree"]},
+  "language": "ru",
+  "authors": [{"name": "М. Островский", "role": "problem_author", "status": "source_verified", "source_id": "src-kvantland-telegram-paid-questions-55"}],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-paid-questions-55",
+        "title": "Заплатить за «да» дороже, чем за «нет»",
+        "text": "Вася загадал натуральное число от 1 до 55. Петя может указать любой набор чисел и спросить, есть ли загаданное число в этом наборе. Вася всегда отвечает только правду, но за ответ «да» Петя должен заплатить 2 рубля, а за ответ «нет» - 1 рубль. Какая наименьшая сумма денег необходима Пете, чтобы наверняка угадать число?",
+        "source_ids": ["src-kvantland-telegram-paid-questions-55"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["decision_tree", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-fibonacci-capacity",
+      "title": "Неравные цены ветвей дают числа Фибоначчи",
+      "text": "Если осталось \\(B\\) рублей бюджета, то после вопроса ветвь «нет» может обслужить случаи с бюджетом \\(B-1\\), а ветвь «да» - случаи с бюджетом \\(B-2\\). Поэтому максимальное число различимых состояний удовлетворяет рекурсии Фибоначчи.",
+      "standard_idea_ids": ["decision_tree_lower_bound", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-fibonacci-split-55",
+      "title": "Разбивать 55 как 21 и 34",
+      "text": "Пусть \\(C(B)\\) - максимальное число кандидатов, которое можно гарантированно различить, имея бюджет \\(B\\). Для \\(C(0)=1\\), \\(C(1)=1\\) и \\(B\\ge2\\) можно задать вопрос о подмножестве размера \\(C(B-2)\\). Тогда при ответе «да» остается не больше \\(C(B-2)\\) чисел и бюджет \\(B-2\\), а при ответе «нет» остается не больше \\(C(B-1)\\) чисел и бюджет \\(B-1\\). Значит \\(C(B)=C(B-1)+C(B-2)\\).\n\nПолучаем \\(C(7)=21\\), \\(C(8)=34\\), \\(C(9)=55\\). Поэтому для 55 чисел хватает 9 рублей: сначала спросить про любые 21 число. Если ответ «да», перейти к такой же оптимальной стратегии для 21 числа с бюджетом 7; если «нет», перейти к стратегии для оставшихся 34 чисел с бюджетом 8. Дальше каждый раз делить оставшиеся кандидаты по той же рекурсии.",
+      "standard_idea_ids": ["partition_state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-fibonacci-capacity-8",
+      "title": "За 8 рублей различить 55 чисел нельзя",
+      "text": "Докажем по индукции, что при бюджете \\(B\\) любая стратегия различает не больше \\(C(B)\\) чисел, где \\(C(0)=C(1)=1\\) и \\(C(B)=C(B-1)+C(B-2)\\). Первый вопрос разбивает кандидатов на две ветви: в ветви «нет» бюджет уменьшается на 1, а в ветви «да» - на 2. По индукционному предположению эти ветви содержат не больше \\(C(B-1)\\) и \\(C(B-2)\\) чисел, суммарно не больше \\(C(B)\\). Так как \\(C(8)=34<55\\), восьми рублей недостаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["decision_tree"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "одно число из 55 возможных",
+    "observations": ["правдивые ответы да/нет с разной стоимостью ветвей"],
+    "allowed_actions": ["выбрать произвольное подмножество текущих кандидатов и спросить о принадлежности"],
+    "goal": ["identify_hidden_number", "minimize_worst_case_cost"],
+    "strategy_type": ["adaptive_strategy", "unequal_cost_decision_tree", "fibonacci_search"],
+    "lower_bound_method": ["decision_tree_capacity", "fibonacci_bound"],
+    "keywords": ["kvantland", "ostrovsky", "paid_yes_no_questions", "numbers_1_to_55", "fibonacci_capacity"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": "adaptive, bounded by total cost",
+    "answer_costs": {"yes": 2, "no": 1},
+    "lies_allowed": 0,
+    "adaptive": true,
+    "objective": "identify_one_of_55_states_with_minimax_cost"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Нужно заменить обычное пополам на оптимальное дерево решений с неравными ценами ветвей.", "status": "ai_checked"},
+  "tags": ["decision_tree", "binary_search", "decision_tree_lower_bound", "counting_lower_bound", "condition_older_students"],
+  "sources": [{"source_id": "src-kvantland-telegram-paid-questions-55", "role": "channel_statement", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-23",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Пост Квантландии указывает: древний Всерос, автор М. Островский; первичный архив Всероссийской олимпиады в этом проходе не найден.", "Дубликаты проверены по ключевым словам «55», «платить», «да 2 рубля», «нет 1 рубль», «набор чисел»; в базе есть родственные задачи о бинарном поиске, но не этот вариант с неравными стоимостями."]
+  }
+}

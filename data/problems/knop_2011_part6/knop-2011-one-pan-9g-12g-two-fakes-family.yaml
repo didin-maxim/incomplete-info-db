@@ -131,6 +131,33 @@
     "scale_type": "one_pan_pointer_scale",
     "objective": "identify_light_and_heavy_counterfeit_coins"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 4,
+    "max_weighings": 2,
+    "objective": "identify_light_and_heavy_counterfeit_coins",
+    "state_model": "signed_delta_states",
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "coin",
+    "selection_model": "subset",
+    "modes": ["random", "cheater", "exhaustive"],
+    "hidden_states": [
+      {"id": "L1-H2", "label": "9 г: монета 1; 12 г: монета 2", "coins": [1, 2], "deltas": [-1, 2, 0, 0]},
+      {"id": "L1-H3", "label": "9 г: монета 1; 12 г: монета 3", "coins": [1, 3], "deltas": [-1, 0, 2, 0]},
+      {"id": "L1-H4", "label": "9 г: монета 1; 12 г: монета 4", "coins": [1, 4], "deltas": [-1, 0, 0, 2]},
+      {"id": "L2-H1", "label": "9 г: монета 2; 12 г: монета 1", "coins": [1, 2], "deltas": [2, -1, 0, 0]},
+      {"id": "L2-H3", "label": "9 г: монета 2; 12 г: монета 3", "coins": [2, 3], "deltas": [0, -1, 2, 0]},
+      {"id": "L2-H4", "label": "9 г: монета 2; 12 г: монета 4", "coins": [2, 4], "deltas": [0, -1, 0, 2]},
+      {"id": "L3-H1", "label": "9 г: монета 3; 12 г: монета 1", "coins": [1, 3], "deltas": [2, 0, -1, 0]},
+      {"id": "L3-H2", "label": "9 г: монета 3; 12 г: монета 2", "coins": [2, 3], "deltas": [0, 2, -1, 0]},
+      {"id": "L3-H4", "label": "9 г: монета 3; 12 г: монета 4", "coins": [3, 4], "deltas": [0, 0, -1, 2]},
+      {"id": "L4-H1", "label": "9 г: монета 4; 12 г: монета 1", "coins": [1, 4], "deltas": [2, 0, 0, -1]},
+      {"id": "L4-H2", "label": "9 г: монета 4; 12 г: монета 2", "coins": [2, 4], "deltas": [0, 2, 0, -1]},
+      {"id": "L4-H3", "label": "9 г: монета 4; 12 г: монета 3", "coins": [3, 4], "deltas": [0, 0, 2, -1]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

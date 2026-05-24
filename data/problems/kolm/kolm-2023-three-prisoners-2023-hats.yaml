@@ -71,6 +71,9 @@
     "review_status": "ai_checked",
     "public_ready": false,
     "relations_status": "kolm_batch",
-    "notes": ["Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted/kolm26/.../Личка/5lichol-sen-sol.tex."]
+    "notes": [
+      "Локальный текст и решение: graph-src/kolm-raw/kolmogorov_extracted/kolm26/.../Личка/5lichol-sen-sol.tex.",
+      "2026-05-23: оставлено закрытым: официальный zip-архив КОЛМ-2023 по source_id не удалось быстро скачать и сверить в этом проходе, а локальной распаковки архива в репозитории нет."
+    ]
   }
 }

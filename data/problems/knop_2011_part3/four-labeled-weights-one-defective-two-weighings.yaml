@@ -108,6 +108,31 @@
     "adaptive": false,
     "objective": "identify_defective_weight_and_sign"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 4,
+    "object_kind": "weight",
+    "nominal_weights": [1, 2, 3, 4],
+    "max_weighings": 2,
+    "objective": "identify_defective_weight_and_sign",
+    "state_model": "signed_delta_states",
+    "observation_model": "signed_tilt_pattern",
+    "selection_model": "signed_quantities",
+    "balance_constraint": "nominal_weight_sum",
+    "answer_count": 1,
+    "modes": ["random", "cheater", "exhaustive"],
+    "hidden_states": [
+      {"id": "W1L", "label": "гиря 1 легче", "bags": [1], "deltas": [-1, 0, 0, 0]},
+      {"id": "W1H", "label": "гиря 1 тяжелее", "bags": [1], "deltas": [1, 0, 0, 0]},
+      {"id": "W2L", "label": "гиря 2 легче", "bags": [2], "deltas": [0, -1, 0, 0]},
+      {"id": "W2H", "label": "гиря 2 тяжелее", "bags": [2], "deltas": [0, 1, 0, 0]},
+      {"id": "W3L", "label": "гиря 3 легче", "bags": [3], "deltas": [0, 0, -1, 0]},
+      {"id": "W3H", "label": "гиря 3 тяжелее", "bags": [3], "deltas": [0, 0, 1, 0]},
+      {"id": "W4L", "label": "гиря 4 легче", "bags": [4], "deltas": [0, 0, 0, -1]},
+      {"id": "W4H", "label": "гиря 4 тяжелее", "bags": [4], "deltas": [0, 0, 0, 1]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 3,

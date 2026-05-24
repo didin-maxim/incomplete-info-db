@@ -127,6 +127,32 @@
     "adaptive": true,
     "objective": "identify_swapped_adjacent_labels"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 10,
+    "object_kind": "weight",
+    "nominal_weights": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "max_weighings": 2,
+    "objective": "identify_swapped_adjacent_labels",
+    "state_model": "signed_delta_states",
+    "observation_model": "signed_tilt_pattern",
+    "selection_model": "signed_quantities",
+    "balance_constraint": "nominal_weight_sum",
+    "answer_count": 2,
+    "modes": ["random", "cheater", "exhaustive"],
+    "hidden_states": [
+      {"id": "swap-1-2", "label": "этикетки 1 и 2", "bags": [1, 2], "deltas": [1, -1, 0, 0, 0, 0, 0, 0, 0, 0]},
+      {"id": "swap-2-3", "label": "этикетки 2 и 3", "bags": [2, 3], "deltas": [0, 1, -1, 0, 0, 0, 0, 0, 0, 0]},
+      {"id": "swap-3-4", "label": "этикетки 3 и 4", "bags": [3, 4], "deltas": [0, 0, 1, -1, 0, 0, 0, 0, 0, 0]},
+      {"id": "swap-4-5", "label": "этикетки 4 и 5", "bags": [4, 5], "deltas": [0, 0, 0, 1, -1, 0, 0, 0, 0, 0]},
+      {"id": "swap-5-6", "label": "этикетки 5 и 6", "bags": [5, 6], "deltas": [0, 0, 0, 0, 1, -1, 0, 0, 0, 0]},
+      {"id": "swap-6-7", "label": "этикетки 6 и 7", "bags": [6, 7], "deltas": [0, 0, 0, 0, 0, 1, -1, 0, 0, 0]},
+      {"id": "swap-7-8", "label": "этикетки 7 и 8", "bags": [7, 8], "deltas": [0, 0, 0, 0, 0, 0, 1, -1, 0, 0]},
+      {"id": "swap-8-9", "label": "этикетки 8 и 9", "bags": [8, 9], "deltas": [0, 0, 0, 0, 0, 0, 0, 1, -1, 0]},
+      {"id": "swap-9-10", "label": "этикетки 9 и 10", "bags": [9, 10], "deltas": [0, 0, 0, 0, 0, 0, 0, 0, 1, -1]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

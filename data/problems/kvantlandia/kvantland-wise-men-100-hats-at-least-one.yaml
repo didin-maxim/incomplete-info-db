@@ -1,0 +1,85 @@
+{
+  "id": "kvantland-wise-men-100-hats-at-least-one",
+  "title": "Квантландия: 100 мудрецов и хотя бы один угаданный колпак",
+  "fragment": "wise_people",
+  "kind": {"primary": "channel_problem", "secondary": ["hat_puzzle", "prearranged_protocol", "strategy_construction", "optimality"]},
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-wise-men-100-hats",
+        "title": "Наибольшее число цветов",
+        "text": "Есть 100 мудрецов и неограниченный запас колпаков каждого из \\(n\\) различных цветов, где \\(n\\le 100\\) и число \\(n\\) известно мудрецам. Мудрецы одновременно закрывают глаза, и каждому надевают на голову колпак одного из этих цветов. Затем мудрецы открывают глаза: каждый видит цвета колпаков остальных, но не видит свой. После этого каждый мудрец записывает свою догадку о цвете собственного колпака, не сообщая ее остальным. При каком наибольшем \\(n\\) мудрецы могут заранее договориться так, чтобы при любой раскраске хотя бы один из них угадал цвет своего колпака?",
+        "source_ids": ["src-kvantland-telegram-wise-men-100-hats"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-cover-by-modular-sums",
+      "title": "Распределить между мудрецами все возможные остатки суммы",
+      "text": "Если занумеровать цвета остатками по модулю \\(n\\), то каждый мудрец может выбрать один целевой остаток полной суммы цветов. По видимым 99 колпакам он единственным образом вычисляет, какой цвет должен быть у него, чтобы полная сумма дала этот остаток.",
+      "standard_idea_ids": ["modular_sum_encoding", "covering_code"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-counting-upper-bound",
+      "title": "Один мудрец покрывает только \\(1/n\\) всех раскрасок",
+      "text": "При фиксированной стратегии и фиксированных чужих колпаках догадка одного мудреца совпадает с его реальным цветом ровно для одного из \\(n\\) возможных цветов его колпака. Значит один мудрец может покрыть не больше \\(n^{99}\\) из \\(n^{100}\\) раскрасок.",
+      "standard_idea_ids": ["counting_bound", "covering_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-use-all-residues",
+      "title": "Стратегия для \\(n=100\\), а значит и для всех меньших \\(n\\)",
+      "text": "Занумеруем цвета числами \\(0,1,\\ldots,n-1\\) по модулю \\(n\\). Выберем \\(n\\) мудрецов и закрепим за ними разные целевые остатки \\(0,1,\\ldots,n-1\\); оставшиеся мудрецы при \\(n<100\\) могут отвечать произвольно.\n\nМудрец с целевым остатком \\(r\\) видит сумму номеров чужих колпаков \\(S\\) и записывает цвет с номером \\(r-S\\pmod n\\). Если настоящая полная сумма всех 100 цветов равна \\(R\\pmod n\\), то мудрец, за которым закреплен остаток \\(R\\), запишет ровно свой настоящий цвет. Поэтому хотя бы один мудрец гарантированно угадывает. В частности, это работает при \\(n=100\\).",
+      "standard_idea_ids": ["modular_sum_encoding", "partition_state_space"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-at-most-100-colors",
+      "title": "Больше 100 цветов не покрыть",
+      "text": "Пусть цветов \\(n\\). Рассмотрим любую заранее согласованную стратегию. Для каждого мудреца и каждого набора 99 чужих цветов его ответ уже фиксирован, поэтому среди \\(n\\) вариантов собственного цвета ровно один делает его ответ правильным. Значит множество раскрасок, где данный мудрец прав, имеет размер \\(n^{99}\\). У 100 мудрецов объединение таких множеств имеет размер не больше \\(100n^{99}\\). Чтобы покрыть все \\(n^{100}\\) раскрасок, необходимо \\(100n^{99}\\ge n^{100}\\), то есть \\(n\\le 100\\).",
+      "standard_idea_ids": ["counting_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["state_space"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "раскраска 100 колпаков в n известных цветов",
+    "observations": ["каждый мудрец видит 99 чужих колпаков и не видит свой"],
+    "allowed_actions": ["заранее договориться о правиле", "одновременно записать догадку о собственном цвете"],
+    "goal": ["guarantee_at_least_one_correct_guess", "maximize_number_of_colors"],
+    "strategy_type": ["prearranged_protocol", "nonadaptive_strategy", "modular_sum_code", "covering_argument"],
+    "lower_bound_method": ["counting_bound", "covering_bound"],
+    "keywords": ["kvantland", "wise_men", "hundred_hats", "simultaneous_guesses", "modular_sum", "at_least_one_correct"],
+    "status": "ai_checked"
+  },
+  "knowledge_profile": {
+    "agents": 100,
+    "private_observations": ["all_hat_colors_except_own"],
+    "public_rounds": 0,
+    "public_announcements": false,
+    "hat_colors": "n <= 100",
+    "objective": "at_least_one_correct"
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 4, "comment": "Идея модульной суммы короткая, но нужна аккуратная оценка покрытием всех раскрасок.", "status": "ai_checked"},
+  "tags": ["hat_puzzle", "modular_sum_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
+  "sources": [{"source_id": "src-kvantland-telegram-wise-men-100-hats", "role": "channel_statement", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-23",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "notes": ["Пост Квантландии указывает происхождение: задача №2000 из задачника «Кванта» в немного измененной формулировке; первичный источник в этом проходе не найден.", "Проверены дубли по ключевым словам: в базе есть родственные колпачные протоколы с модульной суммой и кодами Хэмминга, но не эта одновременная задача «хотя бы один угадает»."]
+  }
+}

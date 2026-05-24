@@ -1,0 +1,12 @@
+{
+  "name": "incomplete-info-feedback-worker",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node ../../tools/feedback_worker_selftest.js",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

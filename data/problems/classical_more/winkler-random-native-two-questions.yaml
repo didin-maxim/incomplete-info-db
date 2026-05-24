@@ -1,0 +1,76 @@
+{
+  "id": "winkler-random-native-two-questions",
+  "title": "Уинклер: три туземца, один отвечает случайно, и два вопроса",
+  "fragment": "questions",
+  "kind": {"primary": "author_collection_problem", "secondary": ["truth_liar_reasoning", "adaptive_strategy"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Peter Winkler", "role": "source_author", "status": "source_verified", "source_id": "src-winkler-seven-puzzles", "note": "PDF attributes this version to Vladas Sidoravicius and Senya Shlosman as communicated to Winkler; the card uses Winkler's published statement and solution."}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-random-native-two-questions",
+        "title": "Найти дорогу при одном случайном отвечающем",
+        "text": "Логик стоит на развилке: одна дорога ведет в деревню, другая нет. Рядом находятся трое туземцев: один всегда говорит правду, один всегда лжет, а один отвечает случайно. Логик не знает, кто есть кто. Можно задать только два вопроса с ответом да/нет; каждый вопрос адресуется одному туземцу, второй вопрос можно выбирать после ответа на первый. Можно ли гарантированно узнать, какая дорога ведет в деревню?",
+        "source_ids": ["src-winkler-seven-puzzles"],
+        "status": "source_verified",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["truth_teller", "liar", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-first-question-chooses-nonrandom",
+      "title": "Первый вопрос нужен не про дорогу, а про надежного собеседника",
+      "text": "Если второй вопрос задать неслучайному туземцу, то обычная нормализация лжеца уже решит задачу о дороге. Поэтому первый вопрос должен гарантированно выбрать среди двух оставшихся неслучайного отвечающего.",
+      "standard_idea_ids": ["truth_liar_normalization", "partition_state_space"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-ask-more-likely-truthful",
+      "title": "Сначала выбрать надежного, затем спросить стандартно",
+      "text": "Обозначим туземцев A, B и C. Сначала спросим A: «B чаще говорит правду, чем C?» Если A отвечает «да», вторым вопросом обращаемся к C; если A отвечает «нет», обращаемся к B.\n\nПочему выбранный второй собеседник неслучаен? Если A правдивец, он честно сравнивает B и C: при ответе «да» B надежнее C, значит C - лжец; при ответе «нет» C надежнее B, значит B - лжец. Если A лжец, он переворачивает это сравнение: при ответе «да» на самом деле B не надежнее C, значит C - правдивец; при ответе «нет» на самом деле B надежнее C, значит B - правдивец. Если A сам случайный, то B и C оба неслучайны, и любой выбор между ними подходит.\n\nИтак, второй вопрос задается правдивцу или лжецу. Ему можно задать стандартный вопрос: «Если бы я спросил тебя, ведет ли эта дорога в деревню, ты ответил бы да?» У правдивца ответ совпадает с истинным ответом. У лжеца внутренний ответ на прямой вопрос был бы ложным, но лжец лжет и о нем, поэтому внешний ответ снова совпадает с истинным. Значит, по второму ответу логик выбирает правильную дорогу.",
+      "standard_idea_ids": ["truth_liar_normalization", "adaptive_questions"],
+      "status": "ai_checked",
+      "definition_ids": ["truth_teller", "liar", "strategy"]
+    }
+  ],
+  "impossibility_proofs": [],
+  "incomplete_information_profile": {
+    "hidden_state_space": "перестановка ролей правдивец, лжец, случайный среди A, B, C и выбор дороги в деревню",
+    "observations": ["два ответа да/нет, второй вопрос выбирается после первого ответа"],
+    "allowed_actions": ["адресовать каждый вопрос одному из трех туземцев", "использовать вложенный вопрос для правдивца или лжеца"],
+    "goal": ["identify_correct_road"],
+    "strategy_type": ["adaptive_strategy", "truth_liar_normalization", "state_space_partition"],
+    "lower_bound_method": [],
+    "keywords": ["winkler_seven_puzzles", "random_native", "truth_teller_liar_random", "two_questions", "crossroads"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 2,
+    "lies_allowed": "один всегда говорит правду, один всегда лжет, один отвечает случайно",
+    "adaptive": true,
+    "objective": "identify_correct_road"
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 4,
+    "comment": "Ключевой ход - первым вопросом не узнавать дорогу, а выбрать неслучайного собеседника для второго нормализующего вопроса.",
+    "status": "ai_checked"
+  },
+  "tags": ["lie_detection", "truth_liar_normalization", "decision_tree", "condition_older_students"],
+  "sources": [{"source_id": "src-winkler-seven-puzzles", "role": "author_pdf_statement_and_solution", "status": "source_verified"}],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-23",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "english_classic_open_books_scan",
+    "notes": ["Дубликаты проверены поиском по Random Native, random answerer, pish/tush и сочетанию truth-teller/liar/random; в базе уже есть более сложная задача Булоса, но это отдельный двухвопросный вариант про выбор дороги.", "Формулировка является русским пересказом открытого PDF Питера Уинклера; решение пересказано по опубликованной идее и проверено разбором трех случаев для A."]
+  }
+}

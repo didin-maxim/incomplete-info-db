@@ -6,10 +6,11 @@
   "items": [
     {"problem_id": "cheryls-birthday-sasmo", "status": "added"},
     {"problem_id": "prisoners-100-boxes-cycle-strategy", "status": "added"},
-    {"problem_id": "prisoners-chessboard-one-coin-xor", "status": "needs_human_review"},
+    {"problem_id": "prisoners-chessboard-one-coin-xor", "status": "added"},
     {"problem_id": "boolos-hardest-logic-puzzle", "status": "needs_human_review"},
     {"problem_id": "ebert-seven-hats-hamming-code", "status": "needs_human_review"},
     {"problem_id": "thirteen-coins-known-genuine-three-weighings", "status": "needs_human_review"},
+    {"problem_id": "winkler-random-native-two-questions", "status": "added"},
     {"lead": "Cheating husbands / unfaithful wives", "status": "not_added_duplicate", "notes": "По механизму почти дублирует blue-eyed-islanders и muddy-children-common-knowledge."},
     {"lead": "Russian cards problem", "status": "not_added_duplicate", "notes": "В базе уже есть mmo-2000-seven-cards-public-communication, близкая публично-коммуникационная версия."},
     {"lead": "Monty Hall / three prisoners probability variants", "status": "not_added_out_of_scope", "notes": "Классические вероятностные задачи, но не добавлены без устойчивой олимпиадно-математической формулировки с конструктивной стратегией."}

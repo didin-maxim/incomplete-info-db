@@ -11,9 +11,19 @@
         "title": "Шесть наборов цветных кепок и ось симметрии",
         "text": "Даны шесть наборов цветных кепок, показанных на постере MATHCOUNTS, и поле \\(4\\times4\\) с пунктирной осью симметрии. Нужно поместить все наборы в поле так, чтобы цвета были симметричны относительно пунктирной линии. Наборы нельзя переворачивать или поворачивать. Требуется определить цвета кепок в нижнем ряду слева направо.",
         "source_ids": ["src-mathcounts-colorful-caps", "src-mathcounts-colorful-caps-poster"],
-        "status": "needs_human_review",
-        "self_contained": {"status": "needs_human_review", "note": "Для полной самодостаточности нужно перенести рисунок шести наборов кепок из постера."},
-        "definition_ids": ["state_space"]
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["state_space"],
+        "figures": [
+          {
+            "id": "fig-colorful-caps-board-and-pieces",
+            "asset": "data/assets/images/mathcounts-colorful-caps-symmetry/colorful-caps-figure1.png",
+            "caption": "Официальная схема поля, оси симметрии и шести неподвижно ориентированных наборов кепок.",
+            "alt": "Поле 4 на 4 с пунктирной диагональной осью; в верхней строке стоят красная, синяя и желтая кепки. Справа показаны шесть деталей: зеленая-синяя вертикальная пара, красная-зеленая горизонтальная пара, одиночная зеленая, зеленая-красная-синяя вертикальная тройка, красная-синяя-желтая вертикальная тройка и желтая-красная горизонтальная пара.",
+            "source_id": "src-mathcounts-colorful-caps-solution",
+            "status": "source_verified"
+          }
+        ]
       }
     ]
   },
@@ -64,5 +74,5 @@
     {"source_id": "src-mathcounts-colorful-caps-poster", "role": "official_statement", "status": "source_verified"},
     {"source_id": "src-mathcounts-colorful-caps-solution", "role": "official_solution", "status": "source_verified"}
   ],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Lead-карточка: перед публикацией нужно добавить самодостаточное описание или изображение деталей."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "needs_human_review", "public_ready": false, "relations_status": "new_links", "notes": ["Lead-карточка: перед публикацией нужно проверить решение и перенос официальной схемы.", "2026-05-23: к условию добавлена компактная source_verified схема Figure 1 из официального решения MATHCOUNTS; карточка оставлена закрытой до ручной проверки стратегии."]}
 }

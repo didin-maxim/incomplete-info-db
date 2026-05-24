@@ -815,6 +815,31 @@
       "country": "США"
     },
     {
+      "id": "src-levitin-algorithmic-puzzles-one-coin",
+      "type": "book_reference",
+      "title": "Anany Levitin, Maria Levitin, Algorithmic Puzzles, Oxford University Press, 2011",
+      "authors": [
+        {
+          "name": "Anany Levitin",
+          "role": "book_author",
+          "status": "source_verified"
+        },
+        {
+          "name": "Maria Levitin",
+          "role": "book_author",
+          "status": "source_verified"
+        }
+      ],
+      "url": "https://academic.oup.com/book/40814",
+      "browser_openable": true,
+      "official": false,
+      "status": "source_verified",
+      "language": "en",
+      "country": "США",
+      "origin": "Algorithmic Puzzles, main section, problem 148: One Coin for Freedom",
+      "access_note": "Oxford Academic confirms the 2011 OUP book metadata and that the book has 150 puzzles with hints and solutions. The One Coin for Freedom title, problem number 148, 8x8-board statement, and XOR solution were cross-checked against indexed excerpts and Anany Levitin's published survey chapter One-Move Puzzles with Mathematical Content, which cites Algorithmic Puzzles [20, #148]."
+    },
+    {
       "id": "src-boolos-hardest-logic-puzzle",
       "type": "journal_article",
       "title": "George Boolos, The Hardest Logic Puzzle Ever, The Harvard Review of Philosophy 6(1), 1996",
@@ -2797,6 +2822,51 @@
       "country": "Россия",
       "origin": "Взвешивания и алгоритмы: от головоломок к задачам, М.: МЦНМО, 2011, 104 с., ISBN 978-5-94057-702-7",
       "access_note": "Локальная копия TeX-исходников книги была использована для сверки формулировок, решений, авторов и указанных первоисточников."
+    },
+    {
+      "id": "src-kvantland-telegram-wise-men-100-hats",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: «Мудрецы за круглым столом»",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, пост о 100 мудрецах",
+      "url": "https://t.me/s/kvantland/581",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», пост «Мудрецы за круглым столом»; в посте указано, что это задача №2000 из задачника «Кванта» в немного измененной формулировке.",
+      "access_note": "Публичная страница t.me/s открылась без входа; точная первичная ссылка на задачник «Кванта» в этом проходе не найдена."
+    },
+    {
+      "id": "src-kvantland-telegram-paid-questions-55",
+      "type": "telegram_channel_post",
+      "title": "Квантландия: вопрос о числе от 1 до 55 с платными ответами",
+      "short_name": "Квантландия Telegram",
+      "display_name": "Квантландия, платные вопросы 1..55",
+      "url": "https://t.me/s/kvantland?before=98",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Telegram-канал «Квантландия | Интересные задачи и не только», рубрика #СтоГранейМатематики/#Олимпиады; в посте указано: древний Всерос, автор М. Островский.",
+      "access_note": "Публичная страница t.me/s открылась без входа; стабильный прямой id поста не удалось надежно извлечь из поисковой выдачи, поэтому сохранена открываемая страница с постом."
+    },
+    {
+      "id": "src-kvantland-official-site-2026",
+      "type": "official_tournament_site",
+      "title": "Квантландия: официальный сайт турниров",
+      "short_name": "Квантландия",
+      "display_name": "Квантландия, сайт турниров",
+      "url": "https://kvantland.com/",
+      "browser_openable": true,
+      "official": true,
+      "status": "source_verified",
+      "language": "ru",
+      "country": "Россия",
+      "origin": "Официальный сайт проекта «Квантландия» с описанием онлайн-турниров и ссылками на математические турниры.",
+      "access_note": "Лендинг и страница math.kvantland.com открылись; сами турнирные задачи доступны после регистрации/входа и не извлечены в этом проходе."
     }
   ]
 }

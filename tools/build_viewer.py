@@ -3830,6 +3830,9 @@ __WEIGHING_CHEATER_JS__
         identify_fake_bag: 'найти фальшивую стопку',
         identify_fake_bag_subset: 'найти фальшивые мешки',
         identify_fake_coin_set: 'найти фальшивые монеты',
+        identify_light_and_heavy_counterfeit_coins: 'найти 9-граммовую и 12-граммовую монеты',
+        identify_swapped_adjacent_labels: 'найти перепутанные соседние этикетки',
+        identify_defective_weight_and_sign: 'найти дефектную гирю и знак',
         identify_selected_bag_weight: 'определить вес указанного мешка',
         identify_selected_coin_type: 'определить тип выбранной монеты',
         identify_deficient_bag_or_none: 'найти мешок с недостачей или подтвердить отсутствие',
@@ -5034,7 +5037,9 @@ __WEIGHING_CHEATER_JS__
       if (!normalized) return renderUnknownInteractive(problem, config);
       const setLabel = normalized.counterfeitWeightModel === 'unknown_equal_sign'
         ? 'наборы равных фальшивых монет'
-        : (normalized.counterfeitWeight === 'heavier' ? 'наборы тяжелых фальшивых монет' : 'наборы легких фальшивых монет');
+        : (['distinct_lighter', 'different_lighter', 'strictly_unequal_lighter', 'unequal_lighter'].includes(normalized.counterfeitWeightModel)
+          ? 'наборы разных легких фальшивых монет'
+          : (normalized.counterfeitWeight === 'heavier' ? 'наборы тяжелых фальшивых монет' : 'наборы легких фальшивых монет'));
       return `
         <div class="card interactive-panel" data-interactive-type="constrained_light_counterfeit_sets" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
@@ -5858,7 +5863,7 @@ __WEIGHING_CHEATER_JS__
       };
       const rawObjective = config.objective || profile.objective || 'identify_fake_bag_subset';
       const objective = objectiveAliases[rawObjective] || rawObjective;
-      const stateModel = config.state_model || (objective === 'identify_fake_bag' ? 'single_fake_bag' : (objective === 'identify_fake_coin_set' ? 'fixed_fake_count' : (objective === 'identify_selected_bag_weight' ? 'selected_bag_weight' : 'fake_bag_subset')));
+      const stateModel = config.state_model || (objective === 'identify_fake_bag' ? 'single_fake_bag' : (objective === 'identify_fake_coin_set' ? 'fixed_fake_count' : (objective === 'identify_selected_bag_weight' ? 'selected_bag_weight' : (['identify_swapped_adjacent_labels', 'identify_defective_weight_and_sign', 'identify_light_and_heavy_counterfeit_coins'].includes(objective) ? 'signed_delta_states' : 'fake_bag_subset'))));
       const fakeBagCount = Number(config.fake_bag_count ?? config.fake_count ?? config.counterfeit_count ?? (stateModel === 'single_fake_bag' ? 1 : NaN));
       const counterfeitWeight = String(config.counterfeit_weight || 'lighter').toLowerCase();
       const counterfeitDelta = Number(config.counterfeit_delta ?? 1);
@@ -5871,13 +5876,22 @@ __WEIGHING_CHEATER_JS__
           const bags = asArray(state?.bags || state?.coins || state?.fakeBags || state?.fake_bags || state?.fakeCoins || state?.fake_coins)
             .map(Number)
             .filter(Number.isInteger);
+          const deltas = asArray(state?.deltas || state?.delta_vector)
+            .map(Number)
+            .map(value => Number.isFinite(value) ? value : 0);
           return {
             id: String(state?.id || state?.key || `S${index + 1}`),
             label: String(state?.label || state?.name || state?.id || state?.key || bags.join(', ')),
-            bags: [...new Set(bags)].sort((a, b) => a - b)
+            bags: [...new Set(bags)].sort((a, b) => a - b),
+            ...(deltas.length ? { deltas } : {})
           };
         })
         .filter(state => state.bags.length && state.bags.every(bag => bag >= 1 && bag <= bagCount));
+      const nominalWeights = asArray(config.nominal_weights || config.nominalWeights || config.bag_weights || config.bagWeights)
+        .map(Number)
+        .filter(value => Number.isFinite(value));
+      const balanceConstraint = String(config.balance_constraint || config.balanceConstraint || '').toLowerCase();
+      const answerCount = Number(config.answer_count ?? config.answerCount ?? config.fake_bag_count ?? config.fake_count ?? config.counterfeit_count);
       const weightValues = asArray(config.weight_values || config.weightValues || config.possible_weights || config.possibleWeights)
         .map(Number)
         .filter(value => Number.isInteger(value) && value > 0);
@@ -5887,8 +5901,8 @@ __WEIGHING_CHEATER_JS__
       const referenceTotal = Number(config.reference_total ?? config.referenceTotal ?? weightValues.reduce((sum, value) => sum + value, 0));
       if (!Number.isInteger(bagCount) || bagCount < 2 || bagCount > 20) return null;
       if (!Number.isInteger(maxWeighings) || maxWeighings < 1 || maxWeighings > 5) return null;
-      if (!['identify_fake_bag_subset', 'identify_fake_bag', 'identify_fake_coin_set', 'identify_selected_bag_weight'].includes(objective)) return null;
-      if (!['bag', 'stack', 'coin'].includes(objectKind)) return null;
+      if (!['identify_fake_bag_subset', 'identify_fake_bag', 'identify_fake_coin_set', 'identify_selected_bag_weight', 'identify_swapped_adjacent_labels', 'identify_defective_weight_and_sign', 'identify_light_and_heavy_counterfeit_coins'].includes(objective)) return null;
+      if (!['bag', 'stack', 'coin', 'weight'].includes(objectKind)) return null;
       if (!['quantities', 'subset', 'signed_quantities'].includes(selectionModel)) return null;
       if (maxSampledCoins != null && (!Number.isInteger(maxSampledCoins) || maxSampledCoins < 1)) return null;
       if (stateModel === 'selected_bag_weight') {
@@ -5921,7 +5935,7 @@ __WEIGHING_CHEATER_JS__
           if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
         }
       } else if (stateModel === 'explicit_fake_sets') {
-        if (objective !== 'identify_fake_bag_subset') return null;
+        if (!['identify_fake_bag_subset', 'identify_fake_coin_set'].includes(objective)) return null;
         if (!hiddenStates.length) return null;
         if (!['deficit_residue', 'actual_weight'].includes(observationModel)) return null;
         if (observationModel === 'actual_weight') {
@@ -5929,6 +5943,17 @@ __WEIGHING_CHEATER_JS__
           if (!Number.isFinite(counterfeitDelta) || counterfeitDelta <= 0) return null;
           if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
         }
+      } else if (stateModel === 'signed_delta_states') {
+        if (!['identify_swapped_adjacent_labels', 'identify_defective_weight_and_sign', 'identify_light_and_heavy_counterfeit_coins'].includes(objective)) return null;
+        if (!hiddenStates.length) return null;
+        if (!['actual_weight', 'projective_signed_deviation', 'signed_tilt_pattern'].includes(observationModel)) return null;
+        if (observationModel === 'actual_weight') {
+          if (!['subset', 'quantities'].includes(selectionModel)) return null;
+          if (!Number.isFinite(genuineWeight) || genuineWeight <= 0) return null;
+        } else if (selectionModel !== 'signed_quantities') return null;
+        if (balanceConstraint && balanceConstraint !== 'nominal_weight_sum') return null;
+        if (nominalWeights.length && nominalWeights.length !== bagCount) return null;
+        if (hiddenStates.some(state => !Array.isArray(state.deltas) || state.deltas.length !== bagCount || state.deltas.every(value => value === 0))) return null;
       } else {
         return null;
       }
@@ -5947,6 +5972,9 @@ __WEIGHING_CHEATER_JS__
         selectionModel,
         weightValues,
         referenceTotal,
+        nominalWeights: nominalWeights.length === bagCount ? nominalWeights : [],
+        balanceConstraint,
+        answerCount: Number.isInteger(answerCount) && answerCount > 0 ? answerCount : null,
         maxCoinsPerBag,
         maxSampledCoins,
         hiddenStates,
@@ -6050,10 +6078,13 @@ __WEIGHING_CHEATER_JS__
         ? { singular: 'Стопка', lower: 'стопка', genitivePlural: 'стопок', countOne: 'стопка', countFew: 'стопки', countMany: 'стопок' }
         : (normalized.objectKind === 'coin'
           ? { singular: 'Монета', lower: 'монета', genitivePlural: 'монет', countOne: 'монета', countFew: 'монеты', countMany: 'монет' }
-          : { singular: 'Мешок', lower: 'мешок', genitivePlural: 'мешков', countOne: 'мешок', countFew: 'мешка', countMany: 'мешков' });
-      const bagInputs = Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map(id => `
+          : (normalized.objectKind === 'weight'
+            ? { singular: 'Гиря', lower: 'гиря', genitivePlural: 'гирь', countOne: 'гиря', countFew: 'гири', countMany: 'гирь' }
+            : { singular: 'Мешок', lower: 'мешок', genitivePlural: 'мешков', countOne: 'мешок', countFew: 'мешка', countMany: 'мешков' }));
+      const bagInputs = Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map((id, index) => `
         <div class="numeric-bag">
           <strong>${esc(objectLabels.singular)} ${esc(id)}</strong>
+          ${normalized.nominalWeights?.length ? `<span class="local-muted">этикетка ${esc(normalized.nominalWeights[index])} г</span>` : ''}
           ${normalized.selectionModel === 'subset'
             ? `<label><input data-numeric-amount="${esc(id)}" type="checkbox"> положить на весы</label>`
             : (normalized.selectionModel === 'signed_quantities'
@@ -6065,20 +6096,30 @@ __WEIGHING_CHEATER_JS__
               </label>`)}
         </div>
       `).join('');
-      const answerInputs = Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map(id => singleFake
-        ? `<label><input data-numeric-answer="${esc(id)}" name="numeric-answer-${esc(problem.id)}" type="radio"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
-        : `<label><input data-numeric-answer="${esc(id)}" type="checkbox"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
-      ).join('');
+      const stateAnswerMode = normalized.stateModel === 'signed_delta_states' && ['identify_defective_weight_and_sign', 'identify_light_and_heavy_counterfeit_coins'].includes(normalized.objective);
+      const answerInputs = stateAnswerMode
+        ? normalized.hiddenStates.map(state => {
+          const stateKey = Array.isArray(state.deltas) ? `d:${state.deltas.join(',')}` : String(state.id);
+          return `<label><input data-numeric-state-answer="${esc(stateKey)}" name="numeric-state-answer-${esc(problem.id)}" type="radio"> ${esc(state.label || state.id || stateKey)}</label>`;
+        }).join('')
+        : Array.from({ length: normalized.bagCount }, (_item, index) => index + 1).map(id => singleFake
+          ? `<label><input data-numeric-answer="${esc(id)}" name="numeric-answer-${esc(problem.id)}" type="radio"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
+          : `<label><input data-numeric-answer="${esc(id)}" type="checkbox"> ${esc(objectLabels.singular)} ${esc(id)}</label>`
+        ).join('');
       const stateCount = singleFake
         ? normalized.bagCount
         : (fixedFakeCount
           ? smallCombinationCount(normalized.bagCount, normalized.fakeBagCount)
-          : (normalized.stateModel === 'explicit_fake_sets'
+          : (normalized.stateModel === 'explicit_fake_sets' || normalized.stateModel === 'signed_delta_states'
             ? normalized.hiddenStates.length
             : (1 << normalized.bagCount) - (normalized.excludeAllFake ? 1 : 0) - (normalized.allowEmptySubset ? 0 : 1)));
       const heading = normalized.maxWeighings === 1
         ? `Одно числовое взвешивание ${objectLabels.genitivePlural}`
-        : `До ${normalized.maxWeighings} числовых взвешиваний ${objectLabels.genitivePlural}`;
+        : (normalized.stateModel === 'signed_delta_states'
+          ? (normalized.observationModel === 'actual_weight'
+            ? `До ${normalized.maxWeighings} одночашечных взвешиваний ${objectLabels.genitivePlural}`
+            : `До ${normalized.maxWeighings} сравнений подписанных гирь`)
+          : `До ${normalized.maxWeighings} числовых взвешиваний ${objectLabels.genitivePlural}`);
       return `
         <div class="card interactive-panel" data-interactive-type="numeric_linear_signature" data-config="${esc(JSON.stringify(normalized))}">
           <div class="topline">
@@ -17064,7 +17105,9 @@ __WEIGHING_CHEATER_JS__
         ? { lower: 'стопка', plural: 'стопки', genitivePlural: 'стопок', fromEach: 'из каждой стопки', none: 'нет фальшивой стопки' }
         : (config.objectKind === 'coin'
           ? { lower: 'монета', plural: 'монеты', genitivePlural: 'монет', fromEach: 'какие монеты положить на весы', none: 'нет фальшивых монет' }
-          : { lower: 'мешок', plural: 'мешки', genitivePlural: 'мешков', fromEach: 'из каждого мешка', none: 'нет фальшивых мешков' });
+          : (config.objectKind === 'weight'
+            ? { lower: 'гиря', plural: 'гири', genitivePlural: 'гирь', fromEach: 'для каждой гири', none: 'нет перепутанных гирь' }
+            : { lower: 'мешок', plural: 'мешки', genitivePlural: 'мешков', fromEach: 'из каждого мешка', none: 'нет фальшивых мешков' }));
       const statusLabels = {
         solved: 'решено',
         failed: 'неоднозначно',
@@ -17076,6 +17119,8 @@ __WEIGHING_CHEATER_JS__
           objective: config.objective,
           stateModel: config.stateModel,
           hiddenStates: config.hiddenStates,
+          nominalWeights: config.nominalWeights,
+          balanceConstraint: config.balanceConstraint,
           fakeBagCount: config.fakeBagCount,
           counterfeitWeight: config.counterfeitWeight,
           counterfeitDelta: config.counterfeitDelta,
@@ -17185,6 +17230,10 @@ __WEIGHING_CHEATER_JS__
         return bagIds.filter(id => panel.querySelector(`[data-numeric-answer="${id}"]`)?.checked);
       }
 
+      function selectedStateKey() {
+        return panel.querySelector('[data-numeric-state-answer]:checked')?.dataset?.numericStateAnswer || '';
+      }
+
       function stateLabel(state) {
         if (state?.label) return String(state.label);
         const bags = state?.bags || [];
@@ -17230,7 +17279,7 @@ __WEIGHING_CHEATER_JS__
           return;
         }
         const amounts = readAmounts();
-        const total = config.observationModel === 'projective_signed_deviation'
+        const total = config.observationModel === 'projective_signed_deviation' || config.observationModel === 'signed_tilt_pattern'
           ? helper.numericSignatureSignedPanSize(amounts)
           : helper.numericSignatureTotal(amounts);
         if (model.mode === 'exhaustive') {
@@ -17306,9 +17355,34 @@ __WEIGHING_CHEATER_JS__
 
       function submitAnswer() {
         if (model.mode === 'exhaustive' || model.locked || !model.history.length) return;
+        const selectedState = selectedStateKey();
+        if (selectedState) {
+          model.answer = selectedState;
+          const result = helper.numericSignatureFinalizeAnswer({
+            bag_count: config.bagCount,
+            currentStates: model.candidates,
+            selectedStateKey: selectedState,
+            ...numericOptions()
+          });
+          model.revealedState = model.mode === 'random'
+            ? (model.candidates.length === 1 ? model.candidates[0] : model.hiddenState)
+            : result.actualState;
+          model.result = result;
+          model.locked = true;
+          renderInteractiveState();
+          return;
+        }
+        if (panel.querySelector('[data-numeric-state-answer]')) {
+          setInteractiveStatus('Выберите один вариант ответа.', 'error');
+          return;
+        }
         const selected = selectedBags();
         if (fixedFakeCount && selected.length !== config.fakeBagCount) {
           setInteractiveStatus(`Нужно отметить ровно ${config.fakeBagCount} ${objectLabels.genitivePlural}.`, 'error');
+          return;
+        }
+        if (config.answerCount && selected.length !== config.answerCount) {
+          setInteractiveStatus(`Нужно отметить ровно ${config.answerCount} ${objectLabels.genitivePlural}.`, 'error');
           return;
         }
         model.answer = selected;
@@ -17321,6 +17395,7 @@ __WEIGHING_CHEATER_JS__
         model.revealedState = model.mode === 'random'
           ? (model.candidates.length === 1 ? model.candidates[0] : model.hiddenState)
           : result.actualState;
+        model.result = result;
         model.locked = true;
         renderInteractiveState();
       }
@@ -17346,14 +17421,16 @@ __WEIGHING_CHEATER_JS__
         }
         container.innerHTML = model.history.map((item, index) => {
           const observation = item.observation;
-          const detail = config.observationModel === 'projective_signed_deviation'
-            ? `показание относительно равных настоящих чаш: ${observation?.observedDeviation ?? 0}`
+          const detail = config.observationModel === 'projective_signed_deviation' || config.observationModel === 'signed_tilt_pattern'
+            ? `отклонение от номинального равенства: ${observation?.observedDeviation ?? 0}`
             : (config.observationModel === 'actual_weight'
-            ? `если все выбранные объекты настоящие: ${observation?.expectedWeight ?? 0} г; дефицит: ${Math.abs(observation?.observedDeviation ?? 0)} г`
+            ? `если все выбранные объекты настоящие: ${observation?.expectedWeight ?? 0} г; отклонение: ${observation?.observedDeviation ?? 0} г`
             : `нормализованный остаток дефицита: ${observation?.deficitResidue ?? 0}`);
-          const reading = config.observationModel === 'projective_signed_deviation'
+          const reading = config.observationModel === 'signed_tilt_pattern'
+            ? ((observation?.observedDeviation ?? 0) > 0 ? 'левая чаша тяжелее' : ((observation?.observedDeviation ?? 0) < 0 ? 'правая чаша тяжелее' : 'равновесие'))
+            : (config.observationModel === 'projective_signed_deviation'
             ? `${observation?.observedDeviation ?? 0}`
-            : `${observation?.weight ?? 0} г`;
+            : `${observation?.weight ?? 0} г`);
           return `
             <div><strong>${esc(index + 1)}. Показание весов:</strong> ${esc(reading)}</div>
             <div class="local-muted">Взвешено: ${esc(amountsLabel(item.amounts))}; объектов на весах: ${esc(observation?.total ?? 0)}; ${esc(detail)}${esc(resourceLabel(model.history.slice(0, index + 1).map(row => row.amounts)))}.</div>
@@ -17369,11 +17446,13 @@ __WEIGHING_CHEATER_JS__
         container.innerHTML = model.exhaustiveChildren.map(child => {
           const classes = `exhaustive-branch ${child.status}`;
           const candidates = child.states.map(stateLabel).join('; ');
-          const branchTitle = config.observationModel === 'projective_signed_deviation'
+          const branchTitle = config.observationModel === 'signed_tilt_pattern'
+            ? `Знаки ${child.projectiveKey || child.key}`
+            : (config.observationModel === 'projective_signed_deviation'
             ? `Подпись ${child.projectiveKey || child.key}`
             : (config.observationModel === 'actual_weight'
             ? `Показание ${child.weight} г`
-            : `Остаток ${child.residue}`);
+            : `Остаток ${child.residue}`));
           return `
             <div class="${esc(classes)}">
               <span class="exhaustive-branch-title">${esc(branchTitle)}: ${esc(statusLabels[child.status])}</span>
@@ -17407,7 +17486,7 @@ __WEIGHING_CHEATER_JS__
         const noWeighingsLeft = model.history.length >= config.maxWeighings;
         const validation = amountValidation();
         for (const input of panel.querySelectorAll('[data-numeric-amount]')) input.disabled = model.locked || noWeighingsLeft;
-        for (const input of panel.querySelectorAll('[data-numeric-answer]')) input.disabled = model.locked || model.mode === 'exhaustive' || !weighed;
+        for (const input of panel.querySelectorAll('[data-numeric-answer], [data-numeric-state-answer]')) input.disabled = model.locked || model.mode === 'exhaustive' || !weighed;
         panel.querySelector('[data-numeric-weigh]').disabled = model.locked || noWeighingsLeft || !validation.valid;
         panel.querySelector('[data-numeric-weigh]').textContent = model.mode === 'exhaustive' ? 'Добавить взвешивание' : 'Взвесить';
         panel.querySelector('[data-numeric-answer-submit]').hidden = model.mode === 'exhaustive';
@@ -17431,7 +17510,7 @@ __WEIGHING_CHEATER_JS__
             else setInteractiveStatus(`Открытых ветвей: ${open}. Можно добавить еще взвешивание.`);
           }
         } else if (model.locked) {
-          const correct = helper.numericSignatureStateKey(model.answer) === helper.numericSignatureStateKey(model.revealedState) && model.candidates.length === 1;
+          const correct = model.result?.win === true;
           const text = correct
             ? `Верно: ${stateLabel(model.revealedState)}.`
             : `Ответ не принят: после взвешивания совместимо ${countText(model.candidates.length, 'состояние', 'состояния', 'состояний')}; например, ${stateLabel(model.revealedState)}.`;
@@ -17444,7 +17523,14 @@ __WEIGHING_CHEATER_JS__
             : `Осталось ${countText(model.candidates.length, 'совместимое состояние', 'совместимых состояния', 'совместимых состояний')}. Можно выбрать следующее взвешивание.`);
         } else {
           const signedHint = config.selectionModel === 'signed_quantities'
-            ? 'Введите целые коэффициенты: положительные монеты идут на левую чашу, отрицательные на правую; сумма коэффициентов должна быть 0.'
+            ? (config.balanceConstraint === 'nominal_weight_sum'
+              ? 'Введите целые коэффициенты: положительные гири идут на левую чашу, отрицательные на правую; номинальные суммы этикеток должны совпадать.'
+              : 'Введите целые коэффициенты: положительные монеты идут на левую чашу, отрицательные на правую; сумма коэффициентов должна быть 0.')
+            : null;
+          const signedStateHint = config.stateModel === 'signed_delta_states'
+            ? (config.observationModel === 'actual_weight'
+              ? `Выберите подмножество для одночашечного взвешивания. Ответ принимается, когда пара скрытых монет вынуждена.`
+              : (signedHint || 'Введите сравнение подписанных объектов. Ответ принимается, когда скрытое состояние вынуждено.'))
             : null;
           const allFakeText = config.excludeAllFake
             ? ' состояние "все мешки фальшивые" исключено.'
@@ -17455,14 +17541,15 @@ __WEIGHING_CHEATER_JS__
               ? (signedHint || `Введите, сколько монет взять ${objectLabels.fromEach}. Фальшивая ${objectLabels.lower} ровно одна.`)
               : (fixedFakeCount
                 ? `Выберите подмножество для взвешивания. Фальшивых ${objectLabels.genitivePlural}: ${config.fakeBagCount}.`
-                : `Введите, сколько монет взять из каждого мешка. Пустой набор фальшивых мешков допустим,${allFakeText}`)));
+                : (signedStateHint || signedHint || `Введите, сколько монет взять из каждого мешка. Пустой набор фальшивых мешков допустим,${allFakeText}`))));
         }
       }
 
       panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
         model = newModel(event.target.value);
-        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer]')) {
+        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer], [data-numeric-state-answer]')) {
           if (input.type === 'checkbox') input.checked = false;
+          else if (input.type === 'radio') input.checked = false;
           else input.value = '';
         }
         renderInteractiveState();
@@ -17475,8 +17562,9 @@ __WEIGHING_CHEATER_JS__
       }
       panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
         model = newModel(model?.mode || config.defaultMode || 'random');
-        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer]')) {
+        for (const input of panel.querySelectorAll('[data-numeric-amount], [data-numeric-answer], [data-numeric-state-answer]')) {
           if (input.type === 'checkbox') input.checked = false;
+          else if (input.type === 'radio') input.checked = false;
           else input.value = '';
         }
         renderInteractiveState();

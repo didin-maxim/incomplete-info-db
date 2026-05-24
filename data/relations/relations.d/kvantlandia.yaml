@@ -1,0 +1,26 @@
+{
+  "relations": [
+    {
+      "id": "rel-kvantland-100-hats-to-hat-line-modulo",
+      "from": "kvantland-wise-men-100-hats-at-least-one",
+      "to": "hat-line-k-colors-modulo",
+      "type": "same_mechanism",
+      "distance": 1,
+      "forward_text": "Обе задачи кодируют скрытые цвета суммой по модулю k. В задаче Квантландии остатки распределяются между одновременными догадками мудрецов, чтобы покрыть все раскраски хотя бы одним правильным ответом.",
+      "backward_text": "Линейная задача о колпаках использует тот же остаток суммы как публичное сообщение, но затем участники отвечают последовательно и восстанавливают почти все цвета.",
+      "status": "ai_checked",
+      "confidence": 0.9
+    },
+    {
+      "id": "rel-kvantland-paid-questions-to-binary-search",
+      "from": "kvantland-ostrovsky-paid-questions-55",
+      "to": "twenty-questions-binary-search",
+      "type": "generalization",
+      "distance": 1,
+      "forward_text": "Платные вопросы сохраняют модель адаптивного дерева да/нет, но из-за цены 2 за «да» и 1 за «нет» оптимальные размеры ветвей становятся фибоначчиевыми вместо деления пополам.",
+      "backward_text": "Обычный бинарный поиск является равностоимостным базовым случаем дерева решений; вариант Квантландии показывает, как меняется емкость дерева при разных ценах ветвей.",
+      "status": "ai_checked",
+      "confidence": 0.88
+    }
+  ]
+}

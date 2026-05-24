@@ -94,6 +94,33 @@
     "adaptive": true,
     "objective": "identify_two_counterfeits"
   },
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "bag_count": 6,
+    "max_weighings": 3,
+    "objective": "identify_fake_coin_set",
+    "state_model": "explicit_fake_sets",
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "coin",
+    "selection_model": "subset",
+    "answer_count": 2,
+    "hidden_states": [
+      {"id": "1-4", "label": "1,4", "coins": [1, 4]},
+      {"id": "1-5", "label": "1,5", "coins": [1, 5]},
+      {"id": "1-6", "label": "1,6", "coins": [1, 6]},
+      {"id": "2-4", "label": "2,4", "coins": [2, 4]},
+      {"id": "2-5", "label": "2,5", "coins": [2, 5]},
+      {"id": "2-6", "label": "2,6", "coins": [2, 6]},
+      {"id": "3-4", "label": "3,4", "coins": [3, 4]},
+      {"id": "3-5", "label": "3,5", "coins": [3, 5]},
+      {"id": "3-6", "label": "3,6", "coins": [3, 6]}
+    ],
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

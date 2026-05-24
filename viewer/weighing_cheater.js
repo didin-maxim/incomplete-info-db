@@ -1617,7 +1617,46 @@
       ?? options.fake_weight_model
       ?? ''
     ).toLowerCase();
-    return ['variable_lighter', 'unequal_lighter', 'variable_light', 'not_necessarily_equal_lighter'].includes(value);
+    return ['variable_lighter', 'unequal_lighter', 'distinct_lighter', 'different_lighter', 'strictly_unequal_lighter', 'variable_light', 'not_necessarily_equal_lighter'].includes(value);
+  }
+
+  function constrainedLightDistinctWeightModel(options = {}) {
+    const value = String(
+      options.counterfeitWeightModel
+      ?? options.counterfeit_weight_model
+      ?? options.fakeWeightModel
+      ?? options.fake_weight_model
+      ?? ''
+    ).toLowerCase();
+    return ['unequal_lighter', 'distinct_lighter', 'different_lighter', 'strictly_unequal_lighter'].includes(value);
+  }
+
+  function constrainedLightDistinctCanBalance(baseDiff, terms) {
+    const active = terms.filter(term => term.coefficient);
+    if (!active.length) return baseDiff === 0;
+    if (active.length === 1) {
+      const required = -baseDiff / active[0].coefficient;
+      return required > 0 && required < 1;
+    }
+    if (active.length === 2) {
+      const [first, second] = active;
+      const a = -baseDiff / second.coefficient;
+      const b = -first.coefficient / second.coefficient;
+      let lower = 0;
+      let upper = 1;
+      if (b > 0) {
+        lower = Math.max(lower, -a / b);
+        upper = Math.min(upper, (1 - a) / b);
+      } else if (b < 0) {
+        lower = Math.max(lower, (1 - a) / b);
+        upper = Math.min(upper, -a / b);
+      } else if (!(a > 0 && a < 1)) {
+        return false;
+      }
+      if (!(upper - lower > 1e-9)) return false;
+      return !(Math.abs(a) < 1e-9 && Math.abs(b - 1) < 1e-9);
+    }
+    return true;
   }
 
   function outcomesForConstrainedLightState(state, leftCoins, rightCoins, options = {}) {
@@ -1635,16 +1674,22 @@
       let minDiff = leftList.length - rightList.length;
       let maxDiff = minDiff;
       let variableCount = 0;
+      const terms = [];
       for (const coin of fakeCoins) {
         const coefficient = (right.has(coin) ? 1 : 0) - (left.has(coin) ? 1 : 0);
         if (!coefficient) continue;
         variableCount += 1;
+        terms.push({ coin, coefficient });
         if (coefficient > 0) maxDiff += coefficient;
         if (coefficient < 0) minDiff += coefficient;
       }
+      const intervalCanBalance = (variableCount === 0 && minDiff === 0 && maxDiff === 0) || (minDiff < 0 && maxDiff > 0);
+      const canBalance = constrainedLightDistinctWeightModel(options)
+        ? intervalCanBalance && constrainedLightDistinctCanBalance(leftList.length - rightList.length, terms)
+        : intervalCanBalance;
       const outcomes = [];
       if (maxDiff > 0) outcomes.push('left_down');
-      if ((variableCount === 0 && minDiff === 0 && maxDiff === 0) || (minDiff < 0 && maxDiff > 0)) outcomes.push('balance');
+      if (canBalance) outcomes.push('balance');
       if (minDiff < 0) outcomes.push('right_down');
       return outcomes;
     }
@@ -5888,7 +5933,7 @@
     if (!Number.isInteger(count) || count < 1 || count > 20) return [];
     const stateModel = String(options.stateModel ?? options.state_model ?? '').toLowerCase();
     const objective = String(options.objective || '').toLowerCase();
-    if (stateModel === 'explicit_fake_sets') {
+    if (stateModel === 'explicit_fake_sets' || stateModel === 'signed_delta_states') {
       const rawStates = options.hiddenStates ?? options.hidden_states ?? options.states ?? [];
       const states = [];
       const seen = new Set();
@@ -5897,15 +5942,24 @@
         const source = raw?.bags ?? raw?.coins ?? raw?.fakeBags ?? raw?.fake_bags ?? raw?.fakeCoins ?? raw?.fake_coins ?? [];
         const bags = uniqueCoins(source, count);
         if (!bags.length) return;
+        const deltas = Array.isArray(raw?.deltas ?? raw?.delta_vector)
+          ? Array.from({ length: count }, (_item, deltaIndex) => {
+            const value = Number((raw.deltas ?? raw.delta_vector)?.[deltaIndex] ?? 0);
+            return Number.isFinite(value) ? value : 0;
+          })
+          : null;
+        if (stateModel === 'signed_delta_states' && (!deltas || deltas.every(value => value === 0))) return;
         let mask = 0;
         for (const bag of bags) mask |= (1 << (bag - 1));
-        if (seen.has(mask)) return;
-        seen.add(mask);
+        const stateKey = stateModel === 'signed_delta_states' && deltas ? `d:${deltas.join(',')}` : String(mask);
+        if (seen.has(stateKey)) return;
+        seen.add(stateKey);
         states.push({
           mask,
           bags,
           id: String(raw?.id || raw?.key || `S${index + 1}`),
-          label: String(raw?.label || raw?.name || raw?.id || raw?.key || bags.join(', '))
+          label: String(raw?.label || raw?.name || raw?.id || raw?.key || bags.join(', ')),
+          ...(deltas ? { deltas } : {})
         });
       });
       return states;
@@ -5960,6 +6014,7 @@
 
   function numericSignatureStateKey(state) {
     const normalized = numericSignatureNormalizeState(state);
+    if (Array.isArray(normalized.deltas)) return `d:${normalized.deltas.join(',')}`;
     const mask = Number(normalized?.mask);
     if (Number.isInteger(mask) && mask >= 0) return String(mask);
     return normalized.bags.join(',');
@@ -5975,7 +6030,8 @@
       const fakeBag = bags.length === 1 ? bags[0] : undefined;
       const metadata = {
         ...(state?.id ? { id: String(state.id) } : {}),
-        ...(state?.label ? { label: String(state.label) } : {})
+        ...(state?.label ? { label: String(state.label) } : {}),
+        ...(Array.isArray(state?.deltas) ? { deltas: [...state.deltas] } : {})
       };
       return { mask: rawMask, bags, ...(fakeBag ? { fakeBag } : {}), ...metadata };
     }
@@ -5985,27 +6041,41 @@
     const fakeBag = bags.length === 1 ? bags[0] : undefined;
     const metadata = {
       ...(state?.id ? { id: String(state.id) } : {}),
-      ...(state?.label ? { label: String(state.label) } : {})
+      ...(state?.label ? { label: String(state.label) } : {}),
+      ...(Array.isArray(state?.deltas) ? { deltas: [...state.deltas] } : {})
     };
     return { mask, bags, ...(fakeBag ? { fakeBag } : {}), ...metadata };
   }
 
   function numericSignatureNormalizeStates(states, bagCount, options = {}) {
-    const allowed = new Set(numericSignatureInitialStates(bagCount, options).map(state => state.mask));
+    const allowed = new Map(numericSignatureInitialStates(bagCount, options).map(state => [numericSignatureStateKey(state), state]));
     const seen = new Set();
     const result = [];
     for (const raw of states || []) {
       const state = numericSignatureNormalizeState(raw);
-      if (!allowed.has(state.mask) || seen.has(state.mask)) continue;
-      seen.add(state.mask);
-      result.push(state);
+      const key = numericSignatureStateKey(state);
+      if (!allowed.has(key) || seen.has(key)) continue;
+      seen.add(key);
+      result.push({ ...allowed.get(key), ...state });
     }
     return result;
   }
 
+  function numericSignatureNominalWeights(options = {}, bagCount = null) {
+    const count = Number(bagCount ?? options.bagCount ?? options.bag_count);
+    const raw = options.nominalWeights ?? options.nominal_weights ?? options.bagWeights ?? options.bag_weights;
+    const values = Array.isArray(raw)
+      ? raw.map(value => Number(value)).filter(value => Number.isFinite(value))
+      : [];
+    if (Number.isInteger(count) && count > 0 && values.length === count) return values;
+    if (Number.isInteger(count) && count > 0) return Array.from({ length: count }, (_item, index) => index + 1);
+    return values;
+  }
+
   function numericSignatureUsesSignedQuantities(options = {}) {
     return String(options.selectionModel ?? options.selection_model ?? '').toLowerCase() === 'signed_quantities'
-      || String(options.observationModel ?? options.observation_model ?? '').toLowerCase() === 'projective_signed_deviation';
+      || String(options.observationModel ?? options.observation_model ?? '').toLowerCase() === 'projective_signed_deviation'
+      || String(options.observationModel ?? options.observation_model ?? '').toLowerCase() === 'signed_tilt_pattern';
   }
 
   function numericSignatureAmounts(amounts, bagCount, options = {}) {
@@ -6022,7 +6092,7 @@
   function numericSignatureAmountsValidation(rawAmounts, bagCount, options = {}) {
     const count = Number(bagCount);
     if (!Number.isInteger(count) || count < 1) {
-      return { valid: false, error: 'Invalid object count.', amounts: [] };
+      return { valid: false, error: 'Некорректное число объектов.', amounts: [] };
     }
     const signed = numericSignatureUsesSignedQuantities(options);
     const amounts = [];
@@ -6042,8 +6112,8 @@
         return {
           valid: false,
           error: signed
-            ? `Coefficient for item ${index + 1} must be an integer.`
-            : `Quantity for item ${index + 1} must be a non-negative integer.`,
+            ? `Коэффициент для объекта ${index + 1} должен быть целым числом.`
+            : `Количество для объекта ${index + 1} должно быть неотрицательным целым числом.`,
           amounts
         };
       }
@@ -6051,11 +6121,23 @@
     }
     if (signed) {
       if (amounts.every(value => value === 0)) {
-        return { valid: false, empty: true, error: 'Enter at least one nonzero coefficient.', amounts };
+        return { valid: false, empty: true, error: 'Введите хотя бы один ненулевой коэффициент.', amounts };
       }
-      const balance = amounts.reduce((sum, value) => sum + value, 0);
+      const balanceConstraint = String(options.balanceConstraint ?? options.balance_constraint ?? '').toLowerCase();
+      const weights = balanceConstraint === 'nominal_weight_sum'
+        ? numericSignatureNominalWeights(options, count)
+        : [];
+      const balance = weights.length === count
+        ? amounts.reduce((sum, value, index) => sum + value * weights[index], 0)
+        : amounts.reduce((sum, value) => sum + value, 0);
       if (balance !== 0) {
-        return { valid: false, error: 'The signed coefficients must sum to 0: put the same number of coins on both pans.', amounts };
+        return {
+          valid: false,
+          error: weights.length === count
+            ? 'Номинальные суммы на двух чашах должны быть равны.'
+            : 'Сумма подписанных коэффициентов должна быть 0: положите на чаши поровну объектов.',
+          amounts
+        };
       }
     }
     return { valid: true, error: '', amounts };
@@ -6091,12 +6173,15 @@
 
   function numericSignatureDeficit(state, amounts) {
     const normalized = numericSignatureNormalizeState(state);
+    if (Array.isArray(normalized.deltas)) {
+      return normalized.deltas.reduce((sum, delta, index) => sum + (Number(amounts?.[index]) || 0) * (Number(delta) || 0), 0);
+    }
     return normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0);
   }
 
   function numericSignatureObservationModel(options = {}) {
     const explicit = String(options.observationModel ?? options.observation_model ?? '').toLowerCase();
-    if (explicit === 'actual_weight' || explicit === 'deficit_residue' || explicit === 'projective_signed_deviation') return explicit;
+    if (explicit === 'actual_weight' || explicit === 'deficit_residue' || explicit === 'projective_signed_deviation' || explicit === 'signed_tilt_pattern') return explicit;
     const stateModel = String(options.stateModel ?? options.state_model ?? '').toLowerCase();
     const objective = String(options.objective || '').toLowerCase();
     const fakeBagCount = Number(options.fakeBagCount ?? options.fake_bag_count);
@@ -6107,8 +6192,17 @@
 
   function numericSignatureSignedDeviation(state, amounts, options = {}) {
     const normalized = numericSignatureNormalizeState(state);
-    if (numericSignatureObservationModel(options) === 'projective_signed_deviation') {
-      const delta = Number(state?.delta ?? options.unknownDelta ?? options.unknown_delta ?? 1) || 1;
+    const observationModel = numericSignatureObservationModel(options);
+    if (Array.isArray(normalized.deltas)) {
+      const delta = observationModel === 'projective_signed_deviation'
+        ? (Number(state?.delta ?? options.unknownDelta ?? options.unknown_delta ?? 1) || 1)
+        : 1;
+      return normalized.deltas.reduce((sum, stateDelta, index) => sum + (Number(amounts?.[index]) || 0) * (Number(stateDelta) || 0), 0) * delta;
+    }
+    if (observationModel === 'projective_signed_deviation' || observationModel === 'signed_tilt_pattern') {
+      const delta = observationModel === 'projective_signed_deviation'
+        ? (Number(state?.delta ?? options.unknownDelta ?? options.unknown_delta ?? 1) || 1)
+        : 1;
       return normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0) * delta;
     }
     const direction = normalizeDirection(
@@ -6129,7 +6223,7 @@
   function numericSignatureObservationForState(state, amounts, options = {}) {
     const values = numericSignatureAmounts(amounts, amounts?.length ?? options.bagCount ?? options.bag_count, options);
     const observationModel = numericSignatureObservationModel(options);
-    const total = observationModel === 'projective_signed_deviation'
+    const total = observationModel === 'projective_signed_deviation' || observationModel === 'signed_tilt_pattern'
       ? numericSignatureSignedPanSize(values)
       : numericSignatureTotal(values);
     const deficit = numericSignatureDeficit(state, values);
@@ -6138,7 +6232,7 @@
     const baseWeight = Math.max(Number(options.genuineWeight ?? options.genuine_weight ?? 10) || 10, Math.ceil(maxDeficit / Math.max(1, total)) + 2);
     const signedDeviation = numericSignatureSignedDeviation(state, values, options);
     const expectedWeight = total * baseWeight;
-    const weight = observationModel === 'projective_signed_deviation'
+    const weight = observationModel === 'projective_signed_deviation' || observationModel === 'signed_tilt_pattern'
       ? signedDeviation
       : (observationModel === 'actual_weight'
       ? expectedWeight + signedDeviation
@@ -6170,6 +6264,12 @@
     return normalized.join(':');
   }
 
+  function numericSignatureTiltKey(vector) {
+    const values = (vector || []).map(value => Number(value) || 0);
+    if (!values.length) return 'zero';
+    return values.map(value => value > 0 ? '+' : (value < 0 ? '-' : '0')).join(':');
+  }
+
   function numericSignatureRows(params = {}) {
     const bagCount = Number(params?.bag_count ?? params?.bagCount);
     const rawRows = params.amountRows ?? params.amount_rows;
@@ -6181,14 +6281,34 @@
 
   function numericSignatureProjectiveKeyForState(state, rows, options = {}) {
     const normalized = numericSignatureNormalizeState(state);
-    const vector = (rows || []).map(amounts =>
-      normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0)
-    );
+    const vector = (rows || []).map(amounts => {
+      if (Array.isArray(normalized.deltas)) {
+        return normalized.deltas.reduce((sum, delta, index) => sum + (Number(amounts?.[index]) || 0) * (Number(delta) || 0), 0);
+      }
+      return normalized.bags.reduce((sum, bag) => sum + (Number(amounts?.[bag - 1]) || 0), 0);
+    });
     return numericSignatureProjectiveKey(vector);
+  }
+
+  function numericSignatureTiltKeyForState(state, rows, options = {}) {
+    const normalized = numericSignatureNormalizeState(state);
+    const vector = (rows || []).map(amounts => {
+      if (Array.isArray(normalized.deltas)) {
+        return normalized.deltas.reduce((sum, delta, index) => sum + (Number(amounts?.[index]) || 0) * (Number(delta) || 0), 0);
+      }
+      return numericSignatureSignedDeviation(normalized, amounts, options);
+    });
+    return numericSignatureTiltKey(vector);
   }
 
   function numericSignatureObservationKeyForState(state, amounts, options = {}) {
     const observationModel = numericSignatureObservationModel(options);
+    if (observationModel === 'signed_tilt_pattern') {
+      const rows = Array.isArray(options.amountRows) || Array.isArray(options.amount_rows)
+        ? numericSignatureRows(options)
+        : [numericSignatureAmounts(amounts, amounts?.length ?? options.bagCount ?? options.bag_count, options)];
+      return numericSignatureTiltKeyForState(state, rows, options);
+    }
     if (observationModel === 'projective_signed_deviation') {
       const rows = Array.isArray(options.amountRows) || Array.isArray(options.amount_rows)
         ? numericSignatureRows(options)
@@ -6209,6 +6329,16 @@
     const currentStates = params?.currentStates?.length
       ? numericSignatureNormalizeStates(params.currentStates, bagCount, params)
       : numericSignatureInitialStates(bagCount, params);
+    if (numericSignatureObservationModel(params) === 'signed_tilt_pattern') {
+      const observedVector = params.observedDeviations ?? params.observed_deviations ?? (
+        params.observedDeviation != null || params.observed_deviation != null
+          ? [params.observedDeviation ?? params.observed_deviation]
+          : []
+      );
+      const targetKey = numericSignatureTiltKey(observedVector);
+      const rows = numericSignatureRows(params);
+      return currentStates.filter(state => numericSignatureTiltKeyForState(state, rows, params) === targetKey);
+    }
     if (numericSignatureObservationModel(params) === 'projective_signed_deviation') {
       const observedVector = params.observedDeviations ?? params.observed_deviations ?? (
         params.observedDeviation != null || params.observed_deviation != null
@@ -6237,8 +6367,8 @@
     const bagCount = Number(params?.bag_count ?? params?.bagCount);
     const amounts = numericSignatureAmounts(params?.amounts, bagCount, params);
     const observationModel = numericSignatureObservationModel(params);
-    const rows = observationModel === 'projective_signed_deviation' ? numericSignatureRows(params) : null;
-    const total = observationModel === 'projective_signed_deviation'
+    const rows = observationModel === 'projective_signed_deviation' || observationModel === 'signed_tilt_pattern' ? numericSignatureRows(params) : null;
+    const total = observationModel === 'projective_signed_deviation' || observationModel === 'signed_tilt_pattern'
       ? numericSignatureSignedPanSize(amounts)
       : numericSignatureTotal(amounts);
     const currentStates = params?.currentStates?.length
@@ -6246,9 +6376,11 @@
       : numericSignatureInitialStates(bagCount, params);
     const byObservation = new Map();
     for (const state of currentStates) {
-      const key = observationModel === 'projective_signed_deviation'
-        ? numericSignatureProjectiveKeyForState(state, rows, params)
-        : numericSignatureObservationKeyForState(state, amounts, params);
+      const key = observationModel === 'signed_tilt_pattern'
+        ? numericSignatureTiltKeyForState(state, rows, params)
+        : (observationModel === 'projective_signed_deviation'
+          ? numericSignatureProjectiveKeyForState(state, rows, params)
+          : numericSignatureObservationKeyForState(state, amounts, params));
       if (!byObservation.has(key)) byObservation.set(key, []);
       byObservation.get(key).push(state);
     }
@@ -6323,13 +6455,30 @@
     const candidates = params?.currentStates?.length
       ? numericSignatureNormalizeStates(params.currentStates, bagCount, params)
       : numericSignatureInitialStates(bagCount, params);
+    const objective = String(params?.objective || '').toLowerCase();
+    const answerKeyForState = state => {
+      const normalized = numericSignatureNormalizeState(state);
+      return objective === 'identify_swapped_adjacent_labels'
+        ? String(normalized.mask)
+        : numericSignatureStateKey(normalized);
+    };
+    const rawSelectedState = params?.selectedStateKey ?? params?.selected_state_key ?? params?.selectedState ?? params?.selected_state;
+    if (rawSelectedState != null) {
+      const selectedKey = String(rawSelectedState);
+      if (candidates.length === 1) {
+        const actualState = candidates[0];
+        return { win: numericSignatureStateKey(actualState) === selectedKey, actualState, candidates };
+      }
+      const actualState = candidates.find(state => numericSignatureStateKey(state) !== selectedKey) ?? candidates[0] ?? null;
+      return { win: false, actualState, candidates };
+    }
     const selected = numericSignatureNormalizeState(params?.selectedBags ?? params?.selected_bags ?? []);
-    const selectedKey = numericSignatureStateKey(selected);
+    const selectedKey = answerKeyForState(selected);
     if (candidates.length === 1) {
       const actualState = candidates[0];
-      return { win: numericSignatureStateKey(actualState) === selectedKey, actualState, candidates };
+      return { win: answerKeyForState(actualState) === selectedKey, actualState, candidates };
     }
-    const actualState = candidates.find(state => numericSignatureStateKey(state) !== selectedKey) ?? candidates[0] ?? null;
+    const actualState = candidates.find(state => answerKeyForState(state) !== selectedKey) ?? candidates[0] ?? null;
     return { win: false, actualState, candidates };
   }
 
@@ -9673,6 +9822,8 @@
     numericSignatureDeficit,
     numericSignatureProjectiveKey,
     numericSignatureProjectiveKeyForState,
+    numericSignatureTiltKey,
+    numericSignatureTiltKeyForState,
     numericSignatureResidueForDeficit,
     numericSignatureObservationForState,
     numericSignatureFilterStates,

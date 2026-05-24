@@ -127,6 +127,41 @@
     "adaptive": true,
     "objective": "identify_all_counterfeits"
   },
+  "interactive": {
+    "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "case": "D.32_six_coins",
+    "coin_count": 6,
+    "counterfeit_count": 2,
+    "counterfeit_weight": "lighter",
+    "counterfeit_weight_model": "distinct_lighter",
+    "max_weighings": 3,
+    "objective": "identify_all_counterfeits",
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true,
+    "layout": "line",
+    "hidden_states": [
+      {"id": "L12", "label": "монеты 1 и 2", "coins": [1, 2]},
+      {"id": "L13", "label": "монеты 1 и 3", "coins": [1, 3]},
+      {"id": "L14", "label": "монеты 1 и 4", "coins": [1, 4]},
+      {"id": "L15", "label": "монеты 1 и 5", "coins": [1, 5]},
+      {"id": "L16", "label": "монеты 1 и 6", "coins": [1, 6]},
+      {"id": "L23", "label": "монеты 2 и 3", "coins": [2, 3]},
+      {"id": "L24", "label": "монеты 2 и 4", "coins": [2, 4]},
+      {"id": "L25", "label": "монеты 2 и 5", "coins": [2, 5]},
+      {"id": "L26", "label": "монеты 2 и 6", "coins": [2, 6]},
+      {"id": "L34", "label": "монеты 3 и 4", "coins": [3, 4]},
+      {"id": "L35", "label": "монеты 3 и 5", "coins": [3, 5]},
+      {"id": "L36", "label": "монеты 3 и 6", "coins": [3, 6]},
+      {"id": "L45", "label": "монеты 4 и 5", "coins": [4, 5]},
+      {"id": "L46", "label": "монеты 4 и 6", "coins": [4, 6]},
+      {"id": "L56", "label": "монеты 5 и 6", "coins": [5, 6]}
+    ]
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 5,
@@ -154,7 +189,8 @@
     "relations_status": "knop_2011_remaining_batch",
     "notes": [
       "Дополнительные задачи Д.31-Д.33 из dop_zad.tex.utf8.txt, строки 283-306 и решения строки 661-675.",
-      "В Д.33 книжное решение сжато; ветвь с одним равенством раскрыта явно до четвертого взвешивания."
+      "В Д.33 книжное решение сжато; ветвь с одним равенством раскрыта явно до четвертого взвешивания.",
+      "2026-05-23: интерактив намеренно фиксирует только пункт Д.32: шесть монет и три взвешивания. Полная серия 4/6/8 не объединена в один UI, чтобы не смешивать разные лимиты и размеры состояния."
     ]
   }
 }

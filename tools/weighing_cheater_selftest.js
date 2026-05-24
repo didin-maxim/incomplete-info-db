@@ -24,8 +24,13 @@ const matprazdnikSevenBagsConfig = loadProblemConfig('data/problems/extended_sou
 const knopSevenBagsSubsetConfig = loadProblemConfig('data/problems/knop_2011_part4/knop-2011-seven-bags-subset-one-weighing.yaml');
 const apsimonThreeBagsConfig = loadProblemConfig('data/problems/knop_2011_part4/apsimon-knop-2011-three-bags-four-coins-two-weighings.yaml');
 const mmoFourCoinsAllFakesConfig = loadProblemConfig('data/problems/knop_2011_part4/mmo-1988-four-coins-all-fakes-numeric-scale.yaml');
+const knopOnePanTwoFakesConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-2011-one-pan-9g-12g-two-fakes-family.yaml');
 const problemsRuElevenBagsConfig = loadProblemConfig('data/problems/problems_ru_deep/problems-ru-78572-eleven-bags-two-numeric-balance-weighings.yaml');
 const rmoThreeConsecutiveWeightsConfig = loadProblemConfig('data/problems/knop_2011_part4/rmo-2002-three-consecutive-light-weights.yaml');
+const tenAdjacentSwappedLabelsConfig = loadProblemConfig('data/problems/knop_2011_part3/ten-weights-adjacent-labels-swapped-two-weighings.yaml');
+const fourLabeledWeightsDefectiveConfig = loadProblemConfig('data/problems/knop_2011_part3/four-labeled-weights-one-defective-two-weighings.yaml');
+const thirteenLabeledWeightsDefectiveConfig = loadProblemConfig('data/problems/knop_2011_part3/thirteen-labeled-weights-one-defective-three-weighings.yaml');
+const lindstromTwoTriplesConfig = loadProblemConfig('data/problems/knop_2011_part4/lindstrom-1969-two-triples-one-fake-each.yaml');
 const problemsRuSignOnlyConfig = loadProblemConfig('data/problems/problems_ru/problems-ru-32820-sign-only-two-weighings.yaml');
 const matprazdnikRotatedTrayConfig = loadProblemConfig('data/problems/matprazdnik_savin/matprazdnik-2025-eighteen-coins-rotated-tray.yaml');
 const moebiusLineConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2023-ten-line-one-liar-four-questions.yaml');
@@ -65,6 +70,7 @@ const higherLowerConfig = loadProblemConfig('data/problems/australia/mcya-2018-i
 const expertJudgeOneWeightConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-expert-judge-one-weighing-one-weight.yaml');
 const expertJudgeEightCoinsConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-expert-judge-eight-coins-3-4g-one-weighing.yaml');
 const uniformityConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-coin-uniformity-verification.yaml');
+const knopPairDifferentWeightsConfig = loadProblemConfig('data/problems/knop_2011_part6/knop-2011-pair-light-different-weights-4-6-8.yaml');
 const utyumParityConfig = loadProblemConfig('data/problems/russian_young/utyum-2010-seventeen-coins-parity-test.yaml');
 const moebiusCupscalesConfig = loadProblemConfig('data/problems/moebius_tour/moebius-cupscales-2-silver-copper-counterfeit.yaml');
 const rotatedTrayHelperFixtureConfig = {
@@ -165,6 +171,50 @@ assert.equal(mmoFourCoinsAllFakesConfig.selection_model, 'subset');
 assert.equal(mmoFourCoinsAllFakesConfig.observation_model, 'actual_weight');
 assert.equal(mmoFourCoinsAllFakesConfig.allow_empty_subset, true);
 assert.equal(mmoFourCoinsAllFakesConfig.exclude_all_fake, false);
+assert.deepEqual(knopOnePanTwoFakesConfig.type, 'numeric_linear_signature');
+assert.equal(knopOnePanTwoFakesConfig.presentation, 'exercise');
+assert.equal(knopOnePanTwoFakesConfig.objective, 'identify_light_and_heavy_counterfeit_coins');
+assert.equal(knopOnePanTwoFakesConfig.state_model, 'signed_delta_states');
+assert.equal(knopOnePanTwoFakesConfig.object_kind, 'coin');
+assert.equal(knopOnePanTwoFakesConfig.selection_model, 'subset');
+assert.equal(knopOnePanTwoFakesConfig.observation_model, 'actual_weight');
+assert.equal(knopOnePanTwoFakesConfig.hidden_states.length, 12);
+{
+  const options = {
+    bag_count: knopOnePanTwoFakesConfig.bag_count,
+    state_model: knopOnePanTwoFakesConfig.state_model,
+    hidden_states: knopOnePanTwoFakesConfig.hidden_states,
+    objective: knopOnePanTwoFakesConfig.objective,
+    observation_model: knopOnePanTwoFakesConfig.observation_model,
+    genuine_weight: knopOnePanTwoFakesConfig.genuine_weight
+  };
+  const states = cheater.numericSignatureInitialStates(knopOnePanTwoFakesConfig.bag_count, options);
+  assert.equal(states.length, 12);
+  const light1Heavy2 = states.find(state => state.id === 'L1-H2');
+  assert.equal(cheater.numericSignatureObservationForState(light1Heavy2, [1, 1, 0, 0], options).weight, 21);
+  assert.equal(cheater.numericSignatureObservationForState(light1Heavy2, [1, 0, 0, 0], options).weight, 9);
+  const firstBranches = cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: [1, 1, 0, 0],
+    maxWeighings: 2,
+    usedWeighings: 0
+  }).children;
+  assert.deepEqual(firstBranches.map(branch => branch.states.length).sort((a, b) => a - b), [2, 2, 4, 4]);
+  const secondBranches = firstBranches.flatMap(branch => cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: [1, 0, 1, 0],
+    currentStates: branch.states,
+    maxWeighings: 2,
+    usedWeighings: 1
+  }).children);
+  assert.equal(secondBranches.length, 12);
+  assert.equal(secondBranches.every(branch => branch.status === 'solved'), true);
+  assert.equal(cheater.numericSignatureFinalizeAnswer({
+    ...options,
+    currentStates: [light1Heavy2],
+    selectedStateKey: cheater.numericSignatureStateKey(light1Heavy2)
+  }).win, true);
+}
 assert.deepEqual(rmoThreeConsecutiveWeightsConfig.type, 'numeric_linear_signature');
 assert.equal(rmoThreeConsecutiveWeightsConfig.presentation, 'exercise');
 assert.equal(rmoThreeConsecutiveWeightsConfig.state_model, 'explicit_fake_sets');
@@ -202,6 +252,247 @@ assert.equal(rmoThreeConsecutiveWeightsConfig.hidden_states.length, 16);
   }).children);
   assert.equal(secondBranches.length, 16);
   assert.equal(secondBranches.every(branch => branch.status === 'solved'), true);
+}
+assert.deepEqual(tenAdjacentSwappedLabelsConfig.type, 'numeric_linear_signature');
+assert.equal(tenAdjacentSwappedLabelsConfig.presentation, 'exercise');
+assert.equal(tenAdjacentSwappedLabelsConfig.objective, 'identify_swapped_adjacent_labels');
+assert.equal(tenAdjacentSwappedLabelsConfig.state_model, 'signed_delta_states');
+assert.equal(tenAdjacentSwappedLabelsConfig.observation_model, 'signed_tilt_pattern');
+assert.equal(tenAdjacentSwappedLabelsConfig.selection_model, 'signed_quantities');
+{
+  const options = {
+    bag_count: tenAdjacentSwappedLabelsConfig.bag_count,
+    state_model: tenAdjacentSwappedLabelsConfig.state_model,
+    hidden_states: tenAdjacentSwappedLabelsConfig.hidden_states,
+    objective: tenAdjacentSwappedLabelsConfig.objective,
+    observation_model: tenAdjacentSwappedLabelsConfig.observation_model,
+    selection_model: tenAdjacentSwappedLabelsConfig.selection_model,
+    nominal_weights: tenAdjacentSwappedLabelsConfig.nominal_weights,
+    balance_constraint: tenAdjacentSwappedLabelsConfig.balance_constraint
+  };
+  const states = cheater.numericSignatureInitialStates(tenAdjacentSwappedLabelsConfig.bag_count, options);
+  assert.equal(states.length, 9);
+  const first = [0, 0, 1, 0, 1, 0, 0, -1, 0, 0];
+  const second = [0, 1, 0, 0, 1, 0, -1, 0, 0, 0];
+  assert.equal(cheater.numericSignatureAmountsValidation(first, 10, options).valid, true);
+  assert.equal(cheater.numericSignatureAmountsValidation(second, 10, options).valid, true);
+  assert.equal(cheater.numericSignatureAmountsValidation([1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 10, options).valid, false);
+  const signatures = new Set(states.map(state =>
+    [first, second].map(row => cheater.numericSignatureTiltKeyForState(state, [row], options)).join('|')
+  ));
+  assert.equal(signatures.size, 9);
+  const firstBranches = cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: first,
+    maxWeighings: 2,
+    usedWeighings: 0
+  }).children;
+  assert.deepEqual(firstBranches.map(branch => branch.states.length).sort((a, b) => a - b), [3, 3, 3]);
+  const secondBranches = firstBranches.flatMap(branch => cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: second,
+    amountRows: [first, second],
+    currentStates: branch.states,
+    maxWeighings: 2,
+    usedWeighings: 1
+  }).children);
+  assert.equal(secondBranches.length, 9);
+  assert.equal(secondBranches.every(branch => branch.status === 'solved'), true);
+  const solvedSwap12 = states.find(state => state.id === 'swap-1-2');
+  assert.equal(cheater.numericSignatureFinalizeAnswer({
+    ...options,
+    currentStates: [solvedSwap12],
+    selectedBags: [1, 2]
+  }).win, true);
+  assert.equal(cheater.numericSignatureFinalizeAnswer({
+    ...options,
+    currentStates: [solvedSwap12],
+    selectedBags: [2, 3]
+  }).win, false);
+}
+assert.deepEqual(fourLabeledWeightsDefectiveConfig.type, 'numeric_linear_signature');
+assert.equal(fourLabeledWeightsDefectiveConfig.presentation, 'exercise');
+assert.equal(fourLabeledWeightsDefectiveConfig.objective, 'identify_defective_weight_and_sign');
+assert.equal(fourLabeledWeightsDefectiveConfig.state_model, 'signed_delta_states');
+assert.equal(fourLabeledWeightsDefectiveConfig.observation_model, 'signed_tilt_pattern');
+assert.equal(fourLabeledWeightsDefectiveConfig.selection_model, 'signed_quantities');
+{
+  const options = {
+    bag_count: fourLabeledWeightsDefectiveConfig.bag_count,
+    state_model: fourLabeledWeightsDefectiveConfig.state_model,
+    hidden_states: fourLabeledWeightsDefectiveConfig.hidden_states,
+    objective: fourLabeledWeightsDefectiveConfig.objective,
+    observation_model: fourLabeledWeightsDefectiveConfig.observation_model,
+    selection_model: fourLabeledWeightsDefectiveConfig.selection_model,
+    nominal_weights: fourLabeledWeightsDefectiveConfig.nominal_weights,
+    balance_constraint: fourLabeledWeightsDefectiveConfig.balance_constraint
+  };
+  const states = cheater.numericSignatureInitialStates(fourLabeledWeightsDefectiveConfig.bag_count, options);
+  assert.equal(states.length, 8);
+  const first = [1, 1, -1, 0];
+  const second = [1, 0, 1, -1];
+  assert.equal(cheater.numericSignatureAmountsValidation(first, 4, options).valid, true);
+  assert.equal(cheater.numericSignatureAmountsValidation(second, 4, options).valid, true);
+  assert.equal(cheater.numericSignatureAmountsValidation([1, 0, -1, 0], 4, options).valid, false);
+  const signatures = new Set(states.map(state =>
+    cheater.numericSignatureTiltKeyForState(state, [first, second], options)
+  ));
+  assert.equal(signatures.size, 8);
+  const firstBranches = cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: first,
+    maxWeighings: 2,
+    usedWeighings: 0
+  }).children;
+  assert.deepEqual(firstBranches.map(branch => branch.states.length).sort((a, b) => a - b), [2, 3, 3]);
+  const secondBranches = firstBranches.flatMap(branch => cheater.numericSignatureExpandExhaustiveNode({
+    ...options,
+    amounts: second,
+    amountRows: [first, second],
+    currentStates: branch.states,
+    maxWeighings: 2,
+    usedWeighings: 1
+  }).children);
+  assert.equal(secondBranches.length, 8);
+  assert.equal(secondBranches.every(branch => branch.status === 'solved'), true);
+  const hidden = states.find(state => state.id === 'W3H');
+  const observed = [first, second].map(amounts =>
+    cheater.numericSignatureObservationForState(hidden, amounts, options).observedDeviation
+  );
+  assert.deepEqual(observed, [-1, 1]);
+  assert.deepEqual(
+    cheater.numericSignatureFilterStates({
+      ...options,
+      bag_count: 4,
+      amountRows: [first, second],
+      observedDeviations: observed,
+      currentStates: states
+    }).map(state => state.id),
+    ['W3H']
+  );
+  assert.equal(cheater.numericSignatureFinalizeAnswer({
+    ...options,
+    bag_count: 4,
+    currentStates: [hidden],
+    selectedStateKey: cheater.numericSignatureStateKey(hidden)
+  }).win, true);
+}
+assert.deepEqual(thirteenLabeledWeightsDefectiveConfig.type, 'numeric_linear_signature');
+assert.equal(thirteenLabeledWeightsDefectiveConfig.presentation, 'exercise');
+assert.equal(thirteenLabeledWeightsDefectiveConfig.objective, 'identify_defective_weight_and_sign');
+assert.equal(thirteenLabeledWeightsDefectiveConfig.state_model, 'signed_delta_states');
+assert.equal(thirteenLabeledWeightsDefectiveConfig.observation_model, 'signed_tilt_pattern');
+assert.equal(thirteenLabeledWeightsDefectiveConfig.selection_model, 'signed_quantities');
+{
+  const options = {
+    bag_count: thirteenLabeledWeightsDefectiveConfig.bag_count,
+    state_model: thirteenLabeledWeightsDefectiveConfig.state_model,
+    hidden_states: thirteenLabeledWeightsDefectiveConfig.hidden_states,
+    objective: thirteenLabeledWeightsDefectiveConfig.objective,
+    observation_model: thirteenLabeledWeightsDefectiveConfig.observation_model,
+    selection_model: thirteenLabeledWeightsDefectiveConfig.selection_model,
+    nominal_weights: thirteenLabeledWeightsDefectiveConfig.nominal_weights,
+    balance_constraint: thirteenLabeledWeightsDefectiveConfig.balance_constraint
+  };
+  const states = cheater.numericSignatureInitialStates(thirteenLabeledWeightsDefectiveConfig.bag_count, options);
+  assert.equal(states.length, 26);
+  const plan = [
+    [1, 1, 1, 1, 1, -1, -1, 1, 0, -1, 0, 0, 0],
+    [1, 1, 1, 0, 0, 1, 0, -1, 1, 1, -1, -1, 0],
+    [1, 0, -1, 0, 1, 0, 1, -1, 1, -1, 0, 1, -1]
+  ];
+  assert.equal(plan.every(row => cheater.numericSignatureAmountsValidation(row, 13, options).valid), true);
+  assert.equal(cheater.numericSignatureAmountsValidation([1, 0, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 13, options).valid, false);
+  const signatures = new Set(states.map(state =>
+    cheater.numericSignatureTiltKeyForState(state, plan, options)
+  ));
+  assert.equal(signatures.size, 26);
+  let frontier = [{ states, usedWeighings: 0, status: 'open' }];
+  for (let step = 0; step < plan.length; step += 1) {
+    const rows = plan.slice(0, step + 1);
+    frontier = frontier.flatMap(node => {
+      if (node.status !== 'open') return [node];
+      return cheater.numericSignatureExpandExhaustiveNode({
+        ...options,
+        amounts: plan[step],
+        amountRows: rows,
+        currentStates: node.states,
+        maxWeighings: 3,
+        usedWeighings: step
+      }).children;
+    });
+  }
+  assert.equal(frontier.length, 26);
+  assert.equal(frontier.every(branch => branch.status === 'solved'), true);
+  assert.equal(frontier.every(branch => branch.states.length === 1), true);
+  const hidden = states.find(state => state.id === 'W13L');
+  const observed = plan.map(amounts =>
+    cheater.numericSignatureObservationForState(hidden, amounts, options).observedDeviation
+  );
+  assert.deepEqual(observed, [0, 0, 1]);
+  assert.deepEqual(
+    cheater.numericSignatureFilterStates({
+      ...options,
+      bag_count: 13,
+      amountRows: plan,
+      observedDeviations: observed,
+      currentStates: states
+    }).map(state => state.id),
+    ['W13L']
+  );
+}
+assert.deepEqual(lindstromTwoTriplesConfig.type, 'numeric_linear_signature');
+assert.equal(lindstromTwoTriplesConfig.presentation, 'exercise');
+assert.equal(lindstromTwoTriplesConfig.objective, 'identify_fake_coin_set');
+assert.equal(lindstromTwoTriplesConfig.state_model, 'explicit_fake_sets');
+assert.equal(lindstromTwoTriplesConfig.object_kind, 'coin');
+assert.equal(lindstromTwoTriplesConfig.selection_model, 'subset');
+assert.equal(lindstromTwoTriplesConfig.answer_count, 2);
+assert.equal(lindstromTwoTriplesConfig.observation_model, 'actual_weight');
+assert.equal(lindstromTwoTriplesConfig.hidden_states.length, 9);
+{
+  const states = cheater.numericSignatureInitialStates(lindstromTwoTriplesConfig.bag_count, lindstromTwoTriplesConfig);
+  assert.equal(states.length, 9);
+  assert.deepEqual(states.map(state => state.bags), [
+    [1, 4], [1, 5], [1, 6],
+    [2, 4], [2, 5], [2, 6],
+    [3, 4], [3, 5], [3, 6]
+  ]);
+  assert.equal(
+    cheater.numericSignatureObservationForState({ bags: [1, 4] }, [1, 0, 0, 1, 0, 0], lindstromTwoTriplesConfig).weight,
+    18
+  );
+  let frontier = [{ states, usedWeighings: 0, status: 'open' }];
+  for (const amounts of [[1, 0, 0, 1, 0, 0], [0, 1, 0, 0, 1, 0]]) {
+    frontier = frontier.flatMap(node => cheater.numericSignatureExpandExhaustiveNode({
+      ...lindstromTwoTriplesConfig,
+      bag_count: 6,
+      amounts,
+      currentStates: node.states,
+      usedWeighings: node.usedWeighings,
+      maxWeighings: 3
+    }).children);
+  }
+  assert.equal(frontier.every(node => node.states.length <= 2), true);
+  const finalFrontier = frontier.flatMap(node => {
+    if (node.status === 'solved') return [node];
+    const options = new Set(node.states.flatMap(state => state.bags));
+    const shared = node.states[0].bags.filter(coin => node.states[1].bags.includes(coin));
+    for (const coin of shared) options.delete(coin);
+    const distinguishingCoin = [...options][0];
+    const amounts = Array.from({ length: 6 }, (_item, index) => index + 1 === distinguishingCoin ? 1 : 0);
+    return cheater.numericSignatureExpandExhaustiveNode({
+      ...lindstromTwoTriplesConfig,
+      bag_count: 6,
+      amounts,
+      currentStates: node.states,
+      usedWeighings: 2,
+      maxWeighings: 3
+    }).children;
+  });
+  assert.equal(finalFrontier.length, 9);
+  assert.equal(finalFrontier.every(branch => branch.status === 'solved'), true);
+  assert.equal(finalFrontier.every(branch => branch.states.length === 1), true);
 }
 assert.deepEqual(problemsRuSignOnlyConfig.type, 'single_counterfeit_unknown_direction');
 assert.equal(problemsRuSignOnlyConfig.presentation, 'exercise');
@@ -2501,6 +2792,70 @@ assert.equal(cheater.constrainedLightFinalizeAnswer({
   currentStates: knopNineCirclePairCompatible,
   selectedStateKey: 'L23'
 }).win, true);
+
+assert.deepEqual(knopPairDifferentWeightsConfig.type, 'constrained_light_counterfeit_sets');
+assert.equal(knopPairDifferentWeightsConfig.presentation, 'exercise');
+assert.equal(knopPairDifferentWeightsConfig.case, 'D.32_six_coins');
+assert.equal(knopPairDifferentWeightsConfig.counterfeit_weight_model, 'distinct_lighter');
+const knopPairDifferentStates = cheater.constrainedLightInitialStates({
+  coin_count: knopPairDifferentWeightsConfig.coin_count,
+  hidden_states: knopPairDifferentWeightsConfig.hidden_states
+});
+assert.equal(knopPairDifferentStates.length, 15);
+assert.deepEqual(
+  cheater.outcomesForConstrainedLightState(knopPairDifferentStates[0], [1], [2], {
+    coinCount: 6,
+    counterfeitWeight: 'lighter',
+    counterfeitWeightModel: 'distinct_lighter'
+  }),
+  ['left_down', 'right_down']
+);
+assert.deepEqual(
+  cheater.outcomesForConstrainedLightState(knopPairDifferentStates[0], [1], [2], {
+    coinCount: 6,
+    counterfeitWeight: 'lighter',
+    counterfeitWeightModel: 'variable_lighter'
+  }),
+  ['left_down', 'balance', 'right_down']
+);
+function expandKnopPairDifferent(currentStates, leftCoins, rightCoins, usedWeighings) {
+  return cheater.constrainedLightExpandExhaustiveNode({
+    coin_count: 6,
+    hidden_states: knopPairDifferentWeightsConfig.hidden_states,
+    currentStates,
+    leftCoins,
+    rightCoins,
+    usedWeighings,
+    maxWeighings: 3,
+    objective: 'identify_all_counterfeits',
+    counterfeit_weight: 'lighter',
+    counterfeit_weight_model: 'distinct_lighter',
+    requireEqualPanCounts: true
+  });
+}
+function childByOutcome(node, outcome) {
+  return node.children.find(child => child.outcome === outcome);
+}
+const knopPairFirst = expandKnopPairDifferent(knopPairDifferentStates, [1], [2], 0);
+assert.deepEqual(Object.fromEntries(knopPairFirst.children.map(child => [child.outcome, child.states.length])), {
+  left_down: 5,
+  right_down: 5,
+  balance: 6
+});
+const knopPairBalanceSecond = expandKnopPairDifferent(childByOutcome(knopPairFirst, 'balance').states, [3], [4], 1);
+for (const child of knopPairBalanceSecond.children) {
+  if (child.status === 'solved') continue;
+  const third = expandKnopPairDifferent(child.states, [5], [6], 2);
+  assert.equal(third.children.every(grandchild => grandchild.status === 'solved'), true);
+}
+const knopPairRightSecond = expandKnopPairDifferent(childByOutcome(knopPairFirst, 'right_down').states, [2, 3], [4, 5], 1);
+assert.equal(childByOutcome(knopPairRightSecond, 'balance').status, 'solved');
+assert.equal(expandKnopPairDifferent(childByOutcome(knopPairRightSecond, 'right_down').states, [2], [3], 2).children.every(child => child.status === 'solved'), true);
+assert.equal(expandKnopPairDifferent(childByOutcome(knopPairRightSecond, 'left_down').states, [4], [5], 2).children.every(child => child.status === 'solved'), true);
+const knopPairLeftSecond = expandKnopPairDifferent(childByOutcome(knopPairFirst, 'left_down').states, [1, 3], [4, 5], 1);
+assert.equal(childByOutcome(knopPairLeftSecond, 'balance').status, 'solved');
+assert.equal(expandKnopPairDifferent(childByOutcome(knopPairLeftSecond, 'right_down').states, [1], [3], 2).children.every(child => child.status === 'solved'), true);
+assert.equal(expandKnopPairDifferent(childByOutcome(knopPairLeftSecond, 'left_down').states, [4], [5], 2).children.every(child => child.status === 'solved'), true);
 
 assert.deepEqual(knopNineCircleTripleConfig.type, 'constrained_light_counterfeit_sets');
 assert.equal(knopNineCircleTripleConfig.presentation, 'exercise');

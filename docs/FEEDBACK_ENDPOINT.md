@@ -2,18 +2,49 @@
 
 Статический viewer на GitHub Pages не может сам записывать комментарии в `data/comments/`: у браузера нет серверного секрета, прав на push и доступа к файловой системе репозитория. Поэтому автоматическая отправка отчета работает только через отдельный backend endpoint.
 
-## Как включить
+В репозитории есть готовая минимальная реализация такого endpoint:
 
-1. Развернуть endpoint, который принимает `POST` с JSON от viewer.
-2. Хранить GitHub token или другой секрет только на backend, не в репозитории и не в JS.
-3. На сборке viewer задать переменную окружения:
+- код: `backend/feedback-worker/src/index.js`;
+- конфигурация Cloudflare Worker: `backend/feedback-worker/wrangler.toml`;
+- самотест без настоящего GitHub-запроса: `node tools/feedback_worker_selftest.js`.
+
+## Как это работает
+
+1. Viewer отправляет `POST` с JSON на HTTPS endpoint.
+2. Worker проверяет origin, формат payload, id задачи, размеры полей и явные признаки битой кириллицы: mojibake-маркеры, символ замены Unicode и длинные цепочки вопросительных знаков.
+3. Worker использует секрет `GITHUB_TOKEN`, который хранится только в настройках Cloudflare, и создает новый файл:
+
+   `data/comments/inbox/comment-<date>-<problem-id>-<hash>.yaml`
+
+4. Файл является JSON-совместимым YAML, поэтому читается текущими инструментами базы.
+5. Viewer показывает успешную отправку только после HTTP 2xx от Worker.
+
+## Что нужно подтвердить для настоящего deploy
+
+Без внешнего действия с вашей стороны я могу подготовить код и тесты, но не могу честно включить end-to-end отправку: нужен аккаунт/проект Cloudflare и секрет GitHub.
+
+Минимальные действия:
 
 ```powershell
-$env:INCOMPLETE_INFO_FEEDBACK_ENDPOINT = "https://example.test/api/feedback"
+cd backend\feedback-worker
+npm install
+npx wrangler login
+npx wrangler secret put GITHUB_TOKEN
+npx wrangler deploy
+```
+
+`GITHUB_TOKEN` должен быть fine-grained GitHub token с правом `Contents: Read and write` только для репозитория `didin-maxim/incomplete-info-db`. Токен нельзя добавлять в код, YAML, HTML или историю git.
+
+Текущий Worker также поддерживает уже созданный в Cloudflare секрет с именем `incomplete-info-feedback`. Это совместимость с фактическим deploy; для новых deploy лучше использовать более понятное имя `GITHUB_TOKEN`.
+
+После deploy нужно пересобрать viewer с URL Worker:
+
+```powershell
+$env:INCOMPLETE_INFO_FEEDBACK_ENDPOINT = "https://<worker-url>"
 python tools\build_viewer.py
 ```
 
-Можно использовать общий fallback `FEEDBACK_ENDPOINT`, если один endpoint обслуживает несколько баз.
+Только после этого можно проверять полный путь: открыть сайт, отправить тестовый комментарий и убедиться, что в репозитории появился новый файл в `data/comments/inbox/`.
 
 ## Контракт запроса
 
@@ -26,7 +57,7 @@ Viewer отправляет JSON вида:
   "title": "Проблема в условии: ...",
   "text": "Комментарий пользователя",
   "contact": "необязательный контакт",
-  "created_at": "2026-05-22T00:00:00.000Z",
+  "created_at": "2026-05-23T00:00:00.000Z",
   "page_url": "https://.../#problem/problem-id",
   "user_agent": "...",
   "target": {"type": "problem", "problem_id": "problem-id"},
@@ -35,8 +66,8 @@ Viewer отправляет JSON вида:
 }
 ```
 
-Backend должен валидировать `target.problem_id`, ограничивать размер полей, экранировать имя файла и создать новый файл `data/comments/comment-<date>-<slug>.yaml` со статусом `open`. После записи он должен вернуть HTTP 2xx. Только такой ответ viewer показывает как "записано в базу".
+Endpoint должен вернуть HTTP 2xx только после реальной записи. Ошибка GitHub API, отсутствие секрета, запрет CORS, пустой комментарий или текст с явными признаками mojibake должны возвращать ошибку; их нельзя показывать как успешную отправку.
 
 ## Чего нельзя делать
 
-`mailto`, копирование текста, открытие GitHub issue напрямую из браузера и сохранение в `localStorage` не являются записью комментария в базу. Их нельзя показывать как успешную отправку или как основной путь, если требование пользователя - "комментарий должен попадать в базу".
+`mailto`, копирование текста, открытие GitHub issue напрямую из браузера и сохранение в `localStorage` не являются записью комментария в базу. Их нельзя показывать как успешную отправку или как основной путь, если требование пользователя: "комментарий должен попасть в базу".
