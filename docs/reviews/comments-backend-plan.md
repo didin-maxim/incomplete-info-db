@@ -11,7 +11,8 @@ End-to-end запись комментариев в базу пока не вк�
 - `backend/feedback-worker/src/index.js` принимает отчеты из формы;
 - `backend/feedback-worker/wrangler.toml` задает репозиторий и разрешенные origins;
 - `tools/feedback_worker_selftest.js` проверяет валидацию, CORS, отказ на mojibake и подготовку GitHub commit-запроса без реального обращения к GitHub;
-- deploy 2026-05-24 использует секрет Cloudflare `incomplete-info-feedback`; код также поддерживает стандартное имя `GITHUB_TOKEN`.
+- deploy 2026-05-24 использует секрет Cloudflare `incomplete-info-feedback`; код также поддерживает стандартное имя `GITHUB_TOKEN`;
+- тот же Worker обслуживает `graph-db` и пишет в `didin-maxim/knowledge_graph_of_graphs`, ветка `main`.
 
 Фактический сценарий в `docs/index.html` до deploy:
 

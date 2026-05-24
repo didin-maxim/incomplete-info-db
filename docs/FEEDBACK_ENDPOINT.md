@@ -2,7 +2,7 @@
 
 Статический viewer на GitHub Pages не может сам записывать комментарии в `data/comments/`: у браузера нет серверного секрета, прав на push и доступа к файловой системе репозитория. Поэтому автоматическая отправка отчета работает только через отдельный backend endpoint.
 
-В репозитории есть готовая минимальная реализация такого endpoint:
+В репозитории есть готовая минимальная реализация такого endpoint. Тот же Worker обслуживает и соседнюю графовую базу (`project: graph-db`), если GitHub token имеет доступ к обоим репозиториям.
 
 - код: `backend/feedback-worker/src/index.js`;
 - конфигурация Cloudflare Worker: `backend/feedback-worker/wrangler.toml`;
@@ -36,6 +36,8 @@ npx wrangler deploy
 `GITHUB_TOKEN` должен быть fine-grained GitHub token с правом `Contents: Read and write` только для репозитория `didin-maxim/incomplete-info-db`. Токен нельзя добавлять в код, YAML, HTML или историю git.
 
 Текущий Worker также поддерживает уже созданный в Cloudflare секрет с именем `incomplete-info-feedback`. Это совместимость с фактическим deploy; для новых deploy лучше использовать более понятное имя `GITHUB_TOKEN`.
+
+Для графовой базы Worker пишет в репозиторий `didin-maxim/knowledge_graph_of_graphs`, ветка `main`, с тем же секретом.
 
 После deploy нужно пересобрать viewer с URL Worker:
 
