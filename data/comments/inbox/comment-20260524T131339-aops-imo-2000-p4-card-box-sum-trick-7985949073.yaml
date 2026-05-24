@@ -1,0 +1,20 @@
+{
+  "id": "web-20260524T131339-aops-imo-2000-p4-card-box-sum-trick",
+  "kind": "typo",
+  "status": "open",
+  "title": "Опечатка или язык: IMO 2000 №4: фокус с тремя коробками карт и суммой",
+  "target": {
+    "type": "problem",
+    "problem_id": "aops-imo-2000-p4-card-box-sum-trick"
+  },
+  "text": "smoke-test codex 2026-05-24 incomplete-info-db",
+  "author": "web feedback",
+  "created_at": "2026-05-24T13:13:39.064Z",
+  "contact": "",
+  "source": {
+    "type": "web_feedback_form",
+    "page_url": "https://didin-maxim.github.io/incomplete-info-db/#problem/aops-imo-2000-p4-card-box-sum-trick",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Codex/26.519.22136 Chrome/148.0.7778.97 Electron/42.1.0 Safari/537.36"
+  },
+  "report_text": "Отчет об ошибке в incomplete-info-db\n\nID задачи: aops-imo-2000-p4-card-box-sum-trick\nНазвание: IMO 2000 №4: фокус с тремя коробками карт и суммой\nURL: https://didin-maxim.github.io/incomplete-info-db/#problem/aops-imo-2000-p4-card-box-sum-trick\nТип проблемы: Опечатка или язык\n\nКомментарий:\nsmoke-test codex 2026-05-24 incomplete-info-db\n\nКонтакт: (не указан)\nСформировано: 2026-05-24T13:13:39.064Z"
+}
