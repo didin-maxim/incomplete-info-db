@@ -42,6 +42,7 @@
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
     "estimated_user_actions": 6,
+    "visual_legend_needed": true,
     "prisoner_count": 10,
     "box_count": 10,
     "max_openings": 5,

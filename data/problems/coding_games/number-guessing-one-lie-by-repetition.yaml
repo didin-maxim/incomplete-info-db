@@ -65,6 +65,10 @@
     "repetitions_per_bit": 3,
     "max_lies": 1,
     "objective": "identify_hidden_number",
+    "interactive_strength": "weak",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "modes": ["random", "manual_spectator", "exhaustive"]
   },
   "difficulty": {

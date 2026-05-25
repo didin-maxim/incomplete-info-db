@@ -92,6 +92,33 @@
     "scale_type": "balance_scale",
     "objective": "verify_condition"
   },
+  "interactive": {
+    "type": "property_verification_balance",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "objective": "verify_exactly_two_counterfeits",
+    "coin_count": 4,
+    "target_count": 2,
+    "max_weighings": 2,
+    "modes": [
+      "random",
+      "cheater",
+      "exhaustive"
+    ],
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": 8,
+      "cheater": 8,
+      "exhaustive": {
+        "typical": 14,
+        "max": 20,
+        "nature": "expand all ambiguous outcome branches until each branch forces true or false"
+      }
+    },
+    "visual_legend_needed": false,
+    "require_equal_pan_counts": true,
+    "state_model": "two_weight_binary_assignments"
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 4,

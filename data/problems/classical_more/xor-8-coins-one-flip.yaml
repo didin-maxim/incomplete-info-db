@@ -94,6 +94,10 @@
     "type": "xor_single_flip_protocol",
     "position_count": 8,
     "objective": "identify_key_position",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 2,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "modes": [
       "random",
       "cheater",

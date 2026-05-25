@@ -51,6 +51,9 @@
   "interactive": {
     "type": "fixed_weighing_transcript",
     "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 4,
+    "visual_legend_needed": true,
     "coin_count": 7,
     "counterfeit_weight": "lighter",
     "max_weighings": 2,

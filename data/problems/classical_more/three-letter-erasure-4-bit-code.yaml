@@ -123,6 +123,10 @@
       "ВВБАБААА"
     ],
     "objective": "decode_hidden_message",
+    "interactive_strength": "weak",
+    "estimated_user_actions": 2,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "modes": [
       "random",
       "exhaustive",

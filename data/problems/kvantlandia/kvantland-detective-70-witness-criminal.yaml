@@ -73,6 +73,10 @@
     "day_count": 8,
     "target_weight": 4,
     "objective": "identify_criminal_from_witness",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 70,
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "modes": ["sandbox", "exhaustive"]
   },
   "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Конструкция короткая, но нижняя оценка требует увидеть антицепь и применить теорему Шпернера.", "status": "ai_checked"},

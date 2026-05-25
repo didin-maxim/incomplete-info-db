@@ -1,0 +1,117 @@
+{
+  "id": "ukmt-open-ended-2013-six-coins-identify-only-trainer",
+  "title": "6 монет неизвестного знака: найти номер фальшивой",
+  "fragment": "weighings",
+  "kind": {
+    "primary": "olympiad_problem",
+    "secondary": ["weighing_strategy", "training_variant", "strategy_construction"]
+  },
+  "language": "ru",
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-six-coins-identify-only",
+        "title": "Фальшивая монета может быть легче или тяжелее",
+        "text": "Есть 6 одинаковых на вид монет. Ровно одна из них фальшивая: она отличается по весу от остальных, но заранее неизвестно, легче она или тяжелее. За три взвешивания на чашечных весах нужно гарантированно определить номер фальшивой монеты. Определять, легче она или тяжелее, не требуется.",
+        "source_ids": ["src-ukmt-open-ended-2013-primary"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked"},
+        "definition_ids": ["balance_scale", "decision_tree", "state_space"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-hidden-state-pairs-answer-quotient",
+      "title": "Скрытые состояния остаются парами, а ответ склеивает знак",
+      "text": "До взвешиваний есть 12 скрытых состояний: для каждой монеты два варианта, фальшивая тяжелее или легче. Но конечный ответ проверяется только по номеру монеты, поэтому два состояния с одной и той же монетой можно считать уже разделенными достаточно, когда других номеров в ветке не осталось.",
+      "standard_idea_ids": ["state_space", "decision_tree_lower_bound"],
+      "status": "ai_checked"
+    },
+    {
+      "id": "idea-first-balance-creates-genuine-reference",
+      "title": "Равновесие быстро создает настоящие монеты",
+      "text": "Если первое сравнение двух монет против двух дало равновесие, четыре взвешенные монеты становятся заведомо настоящими. Если равновесия нет, невзвешенные монеты становятся настоящими, а у четырех взвешенных кандидатов уже известен возможный знак отличия.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-first-two-against-two",
+      "title": "Стратегия за три взвешивания",
+      "text": "Первым взвешиванием сравним монеты 1, 2 с монетами 3, 4.\n\nЕсли получилось равновесие, то монеты 1-4 настоящие, а фальшивая среди 5 и 6. Вторым взвешиванием сравним 5 с 1. Если равновесия нет, фальшивая монета 5; если равновесие, фальшивая монета 6. Третье взвешивание в этой ветке не нужно.\n\nЕсли первая левая чаша тяжелее, то возможны только четыре случая: 1 тяжелая, 2 тяжелая, 3 легкая, 4 легкая. Монеты 5 и 6 настоящие. Вторым взвешиванием сравним 1, 3 с 2, 5. Если левая чаша тяжелее, ответ 1; если равновесие, ответ 4. Если правая чаша тяжелее, остаются варианты 2 тяжелая или 3 легкая; тогда третьим взвешиванием сравним 1, 4 с 3, 5. Равновесие укажет на монету 2, а перевес левой чаши - на монету 3.\n\nЕсли в первом взвешивании правая чаша тяжелее, действуем симметрично: считаем монеты 3, 4 кандидатами на тяжелые, а 1, 2 - кандидатами на легкие. То есть вторым взвешиванием сравниваем 3, 1 с 4, 5; при необходимости третьим сравниваем 3, 2 с 1, 5. Так в каждой возможной ветке остается только один номер фальшивой монеты.",
+      "standard_idea_ids": ["partition_state_space", "ternary_weighing_code"],
+      "status": "ai_checked",
+      "definition_ids": ["balance_scale", "decision_tree"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-two-weighings-not-enough",
+      "title": "Почему двух взвешиваний недостаточно",
+      "text": "Два взвешивания имеют не больше \\(3^2=9\\) возможных последовательностей исходов. Для каждой монеты, которая хотя бы раз участвует в информативном сравнении, состояния «эта монета тяжелее» и «эта монета легче» расходятся по разным путям уже при первом участии этой монеты. Только одна монета может вообще не участвовать в таких сравнениях и занимать один путь равновесий. Поэтому для 6 монет нужно не меньше \\(2\\cdot 6-1=11\\) конечных путей, а 9 путей недостаточно.",
+      "standard_idea_ids": ["decision_tree_lower_bound"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "12 состояний: какая из 6 монет фальшивая и тяжелее или легче она настоящих",
+    "observations": ["до трех исходов чашечных весов; каждый исход: левая чаша тяжелее, равновесие или правая чаша тяжелее"],
+    "allowed_actions": ["адаптивно выбирать равные по числу группы монет для левой и правой чаши"],
+    "goal": ["identify_counterfeit_coin"],
+    "strategy_type": ["adaptive_strategy", "decision_tree", "state_quotient_by_objective"],
+    "lower_bound_method": ["decision_tree_leaf_count"],
+    "keywords": ["six_coins", "unknown_heavy_or_light", "identify_coin_only", "training_variant"],
+    "status": "ai_checked"
+  },
+  "weighing_profile": {
+    "object_count": 6,
+    "counterfeit_count": 1,
+    "counterfeit_type": "heavier_or_lighter_unknown",
+    "weighing_count": 3,
+    "outcome_count_per_weighing": 3,
+    "adaptive": true,
+    "objective": "identify_coin_only_unknown_direction"
+  },
+  "interactive": {
+    "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "coin_count": 6,
+    "max_weighings": 3,
+    "objective": "identify_coin_only_unknown_direction",
+    "modes": ["random", "cheater", "exhaustive"],
+    "require_equal_pan_counts": true,
+    "interactive_strength": "strong",
+    "estimated_user_actions": 18,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "max": 10},
+      "cheater": {"typical": 8, "max": 11},
+      "exhaustive": {"typical": 18, "max": 28, "nature": "построить полное дерево ветвей для 12 скрытых состояний с ответом только по номеру"}
+    },
+    "heavy_interactive_warning": false
+  },
+  "difficulty": {
+    "main": "olympiad_medium",
+    "local_score": 3,
+    "comment": "Небольшая, но содержательная: нужно работать с 12 скрытыми состояниями и помнить, что финальная цель склеивает два знака одной монеты.",
+    "status": "ai_checked"
+  },
+  "tags": ["balance_scale", "decision_tree", "ternary_code", "decision_tree_lower_bound", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-ukmt-open-ended-2013-primary", "role": "inspired_by_open_ended_prompt", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-25",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "new_links",
+    "generalization_status": "small_case_companion",
+    "notes": [
+      "Малая самостоятельная тренировочная карточка для идеи UKMT: скрытые состояния остаются парами монета/легче-тяжелее, но интерактив и условие требуют назвать только номер монеты.",
+      "2026-05-25: добавлен сильный интерактив на существующем движке single_counterfeit_unknown_direction с objective identify_coin_only_unknown_direction; полный 42-монетный UI намеренно не создавался."
+    ]
+  }
+}

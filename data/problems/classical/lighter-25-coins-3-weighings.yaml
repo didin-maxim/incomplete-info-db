@@ -82,7 +82,7 @@
     "counterfeit_weight": "lighter",
     "max_weighings": 3,
     "objective": "identify_coin",
-    "modes": ["challenge", "sandbox"]
+    "modes": ["random", "cheater", "exhaustive"]
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистый поиск легкой монеты, где каждое взвешивание дает три исхода.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],

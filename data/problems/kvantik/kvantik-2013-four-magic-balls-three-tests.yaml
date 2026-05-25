@@ -10,7 +10,7 @@
   "impossibility_proofs": [],
   "incomplete_information_profile": {"hidden_state_space": "любой из 16 наборов волшебных шариков среди четырех цветов", "observations": ["три числовых ответа детектора о количестве волшебных шариков в выбранном наборе"], "allowed_actions": ["выбрать подмножество шариков и узнать число волшебных в нем"], "goal": ["identify_all_magic_balls"], "strategy_type": ["binary_signature", "subset_sum_code"], "lower_bound_method": [], "keywords": ["detector_queries", "subset_sum_signature", "magic_balls"], "status": "ai_checked"},
   "questions_profile": {"answer_alphabet_size": 5, "question_count": 3, "lies_allowed": "none", "adaptive": false, "objective": "identify_boolean_state_of_four_objects"},
-  "interactive": {"type": "subset_signature_protocol", "object_count": 4, "object_labels": ["К", "С", "З", "Ч"], "max_tests": 3, "objective": "identify_magic_subset", "modes": ["exhaustive", "sandbox", "random", "cheater"]},
+  "interactive": {"type": "subset_signature_protocol", "object_count": 4, "object_labels": ["К", "С", "З", "Ч"], "max_tests": 3, "objective": "identify_magic_subset", "interactive_strength": "strong", "estimated_user_actions": 4, "heavy_interactive_warning": false, "visual_legend_needed": false, "modes": ["exhaustive", "sandbox", "random", "cheater"]},
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Нужно увидеть измерения как слова ответов объектов и избежать совпадений сумм.", "status": "ai_checked"},
   "tags": ["binary_code", "linear_signature", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [{"source_id": "src-kvantik-math-contest-2013", "role": "official_statement", "status": "source_verified"}],

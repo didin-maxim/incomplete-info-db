@@ -95,6 +95,7 @@
     "adaptive": false,
     "modes": ["exhaustive", "sandbox"],
     "require_equal_pan_counts": true,
+    "max_coin_uses": 2,
     "preset_weighings": [
       {"left": [2, 16, 17, 20, 21, 24, 25, 28, 29, 32, 33, 36, 37], "right": [3, 18, 19, 22, 23, 26, 27, 30, 31, 34, 35, 38, 39]},
       {"left": [4, 16, 18, 40, 41, 44, 45, 48, 49, 52, 53, 56, 57], "right": [5, 17, 19, 42, 43, 46, 47, 50, 51, 54, 55, 58, 59]},

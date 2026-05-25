@@ -48,6 +48,24 @@
     "status": "ai_checked"
   },
   "questions_profile": {"answer_alphabet_size": 10, "question_count": 1, "lies_allowed": "none", "adaptive": false, "objective": "identify_hidden_swap"},
+  "interactive": {
+    "type": "adjacent_swap_sum_signature",
+    "presentation": "exercise",
+    "grid_rows": 2,
+    "grid_cols": 3,
+    "box_count": 6,
+    "max_tests": 1,
+    "objective": "identify_swap_or_none",
+    "modes": ["exhaustive", "sandbox", "random"],
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "exhaustive": {"typical": 8, "nature": "расставить 6 шкатулок, выбрать запрос и проверить подпись"},
+      "sandbox": {"typical": 8, "nature": "свободно менять расстановку и запрос"},
+      "random": {"typical": 9, "nature": "построить запрос, получить одну сумму и назвать скрытое действие"}
+    },
+    "visual_legend_needed": true
+  },
   "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "6 класс, требуется подобрать разные числовые ответы для всех ребер прямоугольника.", "status": "ai_checked"},
   "tags": ["weighted_sum_encoding", "single_bit_signal", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [{"source_id": "src-matprazdnik-2024-book", "role": "official_statement_and_solution", "status": "source_verified"}],

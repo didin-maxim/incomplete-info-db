@@ -67,6 +67,10 @@
     "hidden_count": 1,
     "target_parity": "even",
     "objective": "guarantee_all_but_first_correct",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 12,
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "modes": [
       "random",
       "guided",

@@ -55,6 +55,7 @@
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
     "estimated_user_actions": 3,
+    "visual_legend_needed": true,
     "sage_count": 6,
     "color_count": 4,
     "count_values": [0, 1, 2, 3],

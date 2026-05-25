@@ -83,6 +83,10 @@
     "person_count": 6,
     "color_count": 2,
     "objective": "guarantee_all_but_first_correct",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 7,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "modes": ["random", "guided", "exhaustive"]
   },
   "difficulty": {

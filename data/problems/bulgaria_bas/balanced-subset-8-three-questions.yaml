@@ -63,6 +63,10 @@
     "max_tests": 3,
     "target_sum": 18,
     "objective": "identify_hidden_number",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "modes": ["exhaustive", "random", "sandbox"]
   },
   "difficulty": {

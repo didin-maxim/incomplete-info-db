@@ -90,6 +90,19 @@
     "adaptive": false,
     "objective": "certify_two_counterfeits_and_sign"
   },
+  "interactive": {
+    "type": "two_counterfeit_same_sign_expert_judge",
+    "coin_count": 100,
+    "counterfeit_count": 2,
+    "state_model": "pair_and_sign",
+    "max_weighings": 2,
+    "objective": "certify_two_counterfeits_and_sign",
+    "modes": [
+      "sandbox",
+      "exhaustive"
+    ],
+    "require_equal_pan_counts": true
+  },
   "difficulty": {
     "main": "olympiad_medium",
     "local_score": 5,

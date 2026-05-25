@@ -83,6 +83,10 @@
     "max_tests": 3,
     "alphabet": ["0", "1", "2"],
     "objective": "identify_state",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "modes": ["random", "exhaustive"]
   },
   "difficulty": {

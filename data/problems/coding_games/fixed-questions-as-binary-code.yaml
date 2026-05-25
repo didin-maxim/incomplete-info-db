@@ -71,6 +71,10 @@
     "object_count": 8,
     "max_tests": 3,
     "objective": "identify_hidden_number",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "modes": ["sandbox", "random", "exhaustive"]
   },
   "difficulty": {

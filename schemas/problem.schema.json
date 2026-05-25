@@ -389,6 +389,16 @@
           "minimum": 1,
           "description": "Number of genuine coins in Zoltar-style removal interactives."
         },
+        "min_real_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum number of genuine coins in paid-weighing finite-state interactives."
+        },
+        "max_real_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of genuine coins in paid-weighing finite-state interactives."
+        },
         "coin_pairs": {
           "type": "array",
           "description": "Explicit two-coin pairs for paired counterfeit interactives.",
@@ -472,7 +482,7 @@
         },
         "objective": {
           "type": "string",
-          "enum": ["identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_all_weights_after_rotation", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "all_agents_find_own_state", "maximize_win_probability", "guarantee_all_but_first_correct", "guarantee_at_least_half_correct", "identify_spectator_card", "prove_impossible"],
+          "enum": ["identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_light_and_heavy_counterfeit_coins", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_swap_or_none", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_all_weights_after_rotation", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "all_agents_find_own_state", "maximize_win_probability", "guarantee_all_but_first_correct", "guarantee_at_least_half_correct", "identify_spectator_card", "prove_impossible"],
           "description": "Goal checked by the interactive layer."
         },
         "hidden_states": {
@@ -725,6 +735,30 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "opposite_counterfeit_pair_weighing"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_light_and_heavy_counterfeit_coins"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "noisy_balance_unknown_direction"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_coin", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_sign_only", "identify_sign_only_unknown_direction"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "zero_one_two_counterfeit_sign"}},
             "required": ["type"]
           },
@@ -801,6 +835,22 @@
         },
         {
           "if": {
+            "properties": {"type": {"const": "structured_line_find_one"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["grid_rows", "grid_cols", "max_weighings", "objective"],
+            "properties": {
+              "grid_rows": {"const": 3},
+              "grid_cols": {"const": 3},
+              "max_weighings": {"const": 1},
+              "counterfeit_weight": {"enum": ["lighter"]},
+              "objective": {"enum": ["identify_one_light_coin", "identify_one_counterfeit_coin"]}
+            }
+          }
+        },
+        {
+          "if": {
             "properties": {"type": {"const": "threshold_balance_counterfeit_sets"}},
             "required": ["type"]
           },
@@ -821,6 +871,19 @@
             "required": ["coin_count", "real_count", "counterfeit_count", "max_weighings", "objective"],
             "properties": {
               "objective": {"enum": ["identify_one_genuine_coin_not_removed"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "paid_weighing_find_genuine"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["coin_count", "min_real_count", "max_real_count", "max_weighings", "objective"],
+            "properties": {
+              "objective": {"enum": ["identify_one_genuine_coin"]},
+              "require_equal_pan_counts": {"const": true}
             }
           }
         },
@@ -919,6 +982,22 @@
             "required": ["object_count", "max_tests", "objective"],
             "properties": {
               "objective": {"enum": ["identify_magic_subset"]}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"type": {"const": "adjacent_swap_sum_signature"}},
+            "required": ["type"]
+          },
+          "then": {
+            "required": ["grid_rows", "grid_cols", "box_count", "max_tests", "objective"],
+            "properties": {
+              "grid_rows": {"const": 2},
+              "grid_cols": {"const": 3},
+              "box_count": {"const": 6},
+              "max_tests": {"const": 1},
+              "objective": {"enum": ["identify_swap_or_none"]}
             }
           }
         },

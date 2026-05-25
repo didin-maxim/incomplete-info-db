@@ -64,6 +64,10 @@
     "edges": [["A", "B"], ["B", "C"], ["C", "D"], ["D", "A"], ["E", "F"], ["F", "G"], ["G", "H"], ["H", "E"], ["A", "E"], ["B", "F"], ["C", "G"], ["D", "H"]],
     "check_size": 3,
     "max_tests": 4,
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "modes": ["random", "cheater", "exhaustive"],
     "adaptive": true
   },
