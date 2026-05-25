@@ -82,6 +82,16 @@
   },
   "interactive": {
     "type": "expert_judge_certificate",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 2,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Эксперт знает, какие из восьми монет весят 3 г, а какие 4 г, и должен одним публичным взвешиванием убедить судью во всей раскладке. Ваша задача - предъявить такое взвешивание-сертификат.",
+    "visual_legend": "Вы кладете выбранные монеты на левую и правую чаши. Судья видит только это взвешивание и его исход, а затем проверяет, осталась ли ровно одна совместимая раскладка весов.",
+    "mode_descriptions": {
+      "sandbox": "Можно пробовать разные сертификаты и видеть, какие раскладки они еще допускают.",
+      "exhaustive": "Проверяет сертификат против всех допустимых распределений весов 3 г и 4 г."
+    },
     "object_counts": [8],
     "max_weighings": 1,
     "objective": "identify_all_weights",

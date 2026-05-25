@@ -65,7 +65,33 @@
     "adaptive": false,
     "objective": "identify_stack"
   },
-  "interactive": {"type": "numeric_linear_signature", "presentation": "exercise", "interactive_strength": "strong", "estimated_user_actions": 2, "mode_action_estimates": {"random": {"typical": 2, "nature": "задать одно числовое взвешивание и назвать скрытую стопку"}, "cheater": {"typical": 2, "nature": "проверить один числовой запрос против совместимого скрытого варианта"}, "exhaustive": {"typical": 10, "nature": "проверить числовые подписи всех стопок"}}, "heavy_interactive_warning": false, "visual_legend_needed": true, "bag_count": 10, "max_weighings": 1, "objective": "identify_fake_bag", "state_model": "single_fake_bag", "fake_bag_count": 1, "counterfeit_weight": "lighter", "counterfeit_delta": 1, "genuine_weight": 10, "observation_model": "actual_weight", "object_kind": "stack", "modes": ["random", "cheater", "exhaustive"]},
+  "interactive": {
+    "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "introduction": "Есть десять стопок, и в одной стопке все монеты легче на 1 грамм. Вы выбираете, сколько монет взять из каждой стопки для одного числового взвешивания, а затем называете фальшивую стопку. Весы показывают общий вес числом, поэтому смысл хода - дать стопкам разные числовые следы, не раскрывая готовую схему заранее.",
+    "visual_legend": "Стопки пронумерованы. Ввод количества рядом со стопкой означает, сколько монет из нее попадает на весы; итоговое число сравнивается с тем, сколько весили бы все выбранные монеты, если бы они были настоящими.",
+    "mode_descriptions": {
+      "random": "Viewer заранее выбирает одну фальшивую стопку. Вы делаете одно взвешивание и называете номер.",
+      "cheater": "Противник выбирает самый неудобный совместимый числовой ответ. Он не обязан заранее держаться одной стопки, но после ответа должна существовать реальная фальшивая стопка, которая объясняет показание весов.",
+      "exhaustive": "Проверяются все десять стопок. Одно взвешивание должно давать достаточно разные показания, чтобы каждая стопка узнавалась."
+    },
+    "interactive_strength": "strong",
+    "estimated_user_actions": 2,
+    "mode_action_estimates": {"random": {"typical": 2, "nature": "задать одно числовое взвешивание и назвать скрытую стопку"}, "cheater": {"typical": 2, "nature": "проверить один числовой запрос против совместимого скрытого варианта"}, "exhaustive": {"typical": 10, "nature": "проверить числовые подписи всех стопок"}},
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "bag_count": 10,
+    "max_weighings": 1,
+    "objective": "identify_fake_bag",
+    "state_model": "single_fake_bag",
+    "fake_bag_count": 1,
+    "counterfeit_weight": "lighter",
+    "counterfeit_delta": 1,
+    "genuine_weight": 10,
+    "observation_model": "actual_weight",
+    "object_kind": "stack",
+    "modes": ["random", "cheater", "exhaustive"]
+  },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классическое кодирование номера через величину дефицита.", "status": "ai_checked"},
   "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [

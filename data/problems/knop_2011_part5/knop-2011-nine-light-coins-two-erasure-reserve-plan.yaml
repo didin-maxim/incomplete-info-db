@@ -13,6 +13,16 @@
   "interactive": {
     "type": "single_counterfeit_weighing",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Вы строите четыре заранее назначенных взвешивания для 9 монет с одной легкой. Испытание жестче обычного: любые два результата могут исчезнуть, а по двум оставшимся все равно надо определить монету.",
+    "visual_legend": "Каждая строка - взвешивание, а четыре положения каждой монеты образуют код. После удаления любых двух строк коды всех монет должны оставаться различимыми.",
+    "mode_descriptions": {
+      "sandbox": "Редактируйте четыре строки и проверяйте, какие пары стертых результатов ломают план.",
+      "exhaustive": "Перебирает все 9 легких монет и все пары удаленных строк. План принят только при полной устойчивости."
+    },
     "coin_count": 9,
     "counterfeit_weight": "lighter",
     "max_weighings": 4,

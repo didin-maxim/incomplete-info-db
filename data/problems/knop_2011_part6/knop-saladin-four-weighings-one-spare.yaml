@@ -62,6 +62,16 @@
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Вы задаете четыре заранее назначенных взвешивания для классической задачи о 12 монетах. После этого одно взвешивание можно потерять, но по оставшимся трем все равно надо определить и монету, и знак отличия.",
+    "visual_legend": "Строки таблицы - четыре взвешивания. Скрытые состояния - 12 вариантов фальшивой монеты, каждый в двух знаках: легче или тяжелее.",
+    "mode_descriptions": {
+      "sandbox": "Можно менять таблицу и смотреть, какие состояния становятся неразличимыми после потери строки.",
+      "exhaustive": "Проверяет все 24 скрытых состояния и все варианты удаленной строки. Это строгая проверка запасного плана."
+    },
     "coin_count": 12,
     "max_weighings": 4,
     "objective": "identify_coin_and_sign",

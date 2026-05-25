@@ -100,6 +100,17 @@
   },
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Есть серебряные и медные монеты, среди них одна фальшивая; ее знак зависит от типа. Вы выбираете два взвешивания и должны найти фальшивую монету.",
+    "visual_legend": "Цвет/тип монеты важен: серебряная и медная фальшивки ведут себя по-разному. На каждом ходу вы кладете монеты на левую и правую чаши.",
+    "mode_descriptions": {
+      "random": "Проверяет вашу стратегию на одном заранее выбранном скрытом случае.",
+      "cheater": "Противник выбирает самый неудобный исход, но обязан сохранять хотя бы одну фальшивую монету, согласованную со всеми ответами.",
+      "exhaustive": "Перебирает все допустимые фальшивые монеты и проверяет, всегда ли ответ однозначен."
+    },
     "coin_count": 9,
     "coin_types": ["silver", "silver", "silver", "silver", "copper", "copper", "copper", "copper", "copper"],
     "coin_type_labels": {"silver": "серебро", "copper": "медь"},

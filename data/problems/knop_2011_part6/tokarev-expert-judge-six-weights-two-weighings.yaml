@@ -91,6 +91,16 @@
   },
   "interactive": {
     "type": "expert_judge_certificate",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 3,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Эксперт знает веса шести гирек и должен двумя взвешиваниями дать судье полный сертификат. Вы выбираете публичные взвешивания, а проверка смотрит, вынуждают ли они единственную раскладку весов.",
+    "visual_legend": "Гирьки имеют веса 1, 2, ..., 6 в неизвестном порядке. Судья видит только выбранные сравнения и их результаты.",
+    "mode_descriptions": {
+      "sandbox": "Режим для поиска двух взвешиваний-сертификатов и анализа оставшихся раскладок.",
+      "exhaustive": "Перебирает все перестановки весов и принимает план только если совместимая раскладка единственная."
+    },
     "object_counts": [6],
     "max_weighings": 2,
     "objective": "identify_all_weights",

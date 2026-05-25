@@ -77,6 +77,17 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Здесь не нужно придумывать адаптивное дерево: вы задаете сразу три заранее назначенных взвешивания для 13 монет. После трех результатов надо уметь назвать номер фальшивой монеты; легче она или тяжелее, в этой версии не важно.",
+    "visual_legend": "Каждая строка таблицы - одно взвешивание: монеты слева кладутся на левую чашу, монеты справа - на правую, остальные не участвуют. Скрытое состояние - номер фальшивой монеты и ее знак.",
+    "mode_descriptions": {
+      "sandbox": "Можно редактировать три строки и смотреть, какие скрытые состояния они различают.",
+      "exhaustive": "Проверяет все варианты монеты и знака. План принят, если при любой истории результатов остается один и тот же номер монеты."
+    },
     "coin_count": 13,
     "max_weighings": 3,
     "objective": "identify_coin_only_unknown_direction",

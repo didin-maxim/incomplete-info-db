@@ -121,6 +121,17 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "introduction": "Вы задаете три заранее назначенных взвешивания для 12 монет. После трех результатов нужно определить и номер фальшивой монеты, и то, легче она или тяжелее.",
+    "visual_legend": "Каждая строка таблицы - одно взвешивание. Скрытые состояния - 24 варианта: 12 монет, каждая может быть легче или тяжелее.",
+    "mode_descriptions": {
+      "sandbox": "Можно редактировать таблицу и видеть, какие состояния остаются неразличимыми.",
+      "exhaustive": "Проверяет все 24 состояния и принимает только таблицы, где каждый возможный результат указывает один номер и знак."
+    },
     "coin_count": 12,
     "max_weighings": 3,
     "objective": "identify_coin_and_sign",

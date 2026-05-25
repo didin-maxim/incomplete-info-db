@@ -61,25 +61,28 @@
   "impossibility_proofs": [],
   "interactive": {
     "type": "hidden_hat_number_parity_protocol",
-    "presentation": "exercise",
+    "presentation": "review_only",
     "sage_count": 6,
     "number_min": 1,
     "number_max": 7,
     "hidden_count": 1,
     "target_parity": "even",
     "objective": "guarantee_all_but_first_correct",
-    "interactive_strength": "strong",
-    "estimated_user_actions": 12,
+    "introduction": "Шесть мудрецов стоят в колонне: задний видит всех впереди, следующий видит на одного меньше, а передний не видит никого. Один номер от 1 до 7 спрятан, остальные надеты на мудрецов. Они отвечают по очереди сзади вперед и не могут повторять уже названные числа; нужно проверить заранее придуманное правило ответов.",
+    "visual_legend": "В строке мудреца показано, какие номера он видит впереди и какие ответы уже прозвучали позади. Скрытый собственный номер он не видит, поэтому его ответ должен следовать из договоренности и предыдущих слов.",
+    "mode_descriptions": {
+      "random": "Компьютер выбирает скрытый номер и порядок колпаков; вы проходите ответы мудрецов по очереди и проверяете, сколько из них верны.",
+      "guided": "Пошаговый показ помогает проследить, какую информацию слышит каждый мудрец, но не заменяет вашу собственную договоренность."
+    },
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
     "mode_action_estimates": {
       "random": {"min": 12, "typical": 12, "max": 18, "nature": "последовательность ответов при ограниченной видимости"},
       "guided": {"typical": 18, "nature": "демонстрация"}
     },
-    "heavy_interactive_warning": true,
+    "heavy_interactive_warning": false,
     "visual_legend_needed": true,
-    "modes": [
-      "random",
-      "guided"
-    ]
+    "modes": []
   },
   "incomplete_information_profile": {
     "hidden_state_space": "перестановка шести надетых номеров и один спрятанный номер из 1..7",
@@ -145,7 +148,8 @@
     "notes": [
       "Создана как малый частный случай problems.ru 115987 для интерактивной проверки стратегии четности перестановки.",
       "Интерактив хранит только параметры модели; конкретная расстановка номеров создается viewer на клиенте.",
-      "2026-05-25: exhaustive removed from public modes: it is a one-click verifier of the parity protocol, while random/guided preserve the visible student exercise."
+      "2026-05-25: exhaustive removed from public modes: it is a one-click verifier of the parity protocol, while random/guided preserve the visible student exercise.",
+      "2026-05-25: public strong снят после аудита: текущий движок проверяет встроенное четностное правило на расстановках, но не принимает и не валидирует пользовательскую заранее договоренную стратегию."
     ]
   }
 }

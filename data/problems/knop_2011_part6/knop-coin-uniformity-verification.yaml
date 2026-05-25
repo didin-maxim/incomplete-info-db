@@ -92,13 +92,17 @@
   },
   "interactive": {
     "type": "uniformity_verification",
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
+    "review_note": "Снят с public: текущий UI проверяет только малый случай на 4 монетах, а карточка формулирует семейство 4, 8, 10, 10^n и 30 монет и требует ручной сверки линейных выводов.",
     "coin_count": 4,
     "max_weighings": 2,
     "objective": "verify_all_weights_equal",
-    "modes": [
-      "exhaustive",
-      "sandbox"
-    ],
+    "modes": [],
     "require_equal_pan_counts": true,
     "state_model": "two_weight_partitions"
   },
