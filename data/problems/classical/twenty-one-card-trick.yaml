@@ -75,6 +75,9 @@
   },
   "interactive": {
     "type": "twenty_one_card_trick",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 4,
     "deck_size": 21,
     "column_count": 3,
     "row_count": 7,

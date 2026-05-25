@@ -1347,6 +1347,77 @@ def build_html(data):
       opacity: .65;
     }
 
+    .graph-legend {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .graph-legend-item {
+      display: grid;
+      grid-template-columns: 46px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+    }
+
+    .graph-legend-item > span:first-child {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .graph-legend-dot {
+      width: 18px;
+      height: 18px;
+      border: 2px solid #76837f;
+      border-radius: 999px;
+      background: #fff;
+      box-sizing: border-box;
+    }
+
+    .graph-legend-dot.color-light {
+      background: #fdf9ee;
+    }
+
+    .graph-legend-dot.color-dark {
+      background: #e9f2f6;
+    }
+
+    .graph-legend-dot.possible {
+      outline: 3px solid rgba(213, 137, 44, .42);
+      outline-offset: 1px;
+    }
+
+    .graph-legend-dot.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(23, 107, 95, .16);
+    }
+
+    .graph-legend-dot.actual {
+      background: #ffe8df;
+      border-color: #b6513e;
+    }
+
+    .interactive-caption {
+      margin: 12px 0;
+      padding: 10px 12px;
+      border: 1px solid #d9d3c5;
+      border-left: 4px solid #d1a755;
+      border-radius: 6px;
+      background: #fffaf0;
+      color: #4a3b24;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .interactive-caption ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 4px;
+    }
+
     .rotated-tray-layout {
       display: grid;
       grid-template-columns: minmax(270px, .9fr) minmax(320px, 1.1fr);
@@ -2664,7 +2735,8 @@ def build_html(data):
           <input id="local-import-file" type="file" accept="application/json,.json" hidden>
         </div>
         <div class="filter-toggle-row" id="interactive-filter-row" hidden>
-          <button class="small-button filter-toggle" id="interactive-filter" type="button" aria-pressed="false">С интерактивом</button>
+          <button class="small-button filter-toggle" id="interactive-exercise-filter" type="button" aria-pressed="false">Упражнения</button>
+          <button class="small-button filter-toggle" id="interactive-demonstration-filter" type="button" aria-pressed="false">Демонстрации</button>
         </div>
         <select id="fragment-filter"></select>
         <select id="difficulty-filter"></select>
@@ -3119,11 +3191,19 @@ __WEIGHING_CHEATER_JS__
       const presentation = interactivePresentation(config);
       if (presentation === 'demonstration') return 'демонстрация';
       if (presentation === 'review_only') return 'кандидат на ревью';
-      return 'интерактив';
+      return 'упражнение';
     }
 
     function hasInteractive(problem) {
       return Boolean(problem.interactive?.type && interactivePresentation(problem.interactive) !== 'review_only');
+    }
+
+    function hasInteractiveExercise(problem) {
+      return Boolean(problem.interactive?.type && interactivePresentation(problem.interactive) === 'exercise');
+    }
+
+    function hasInteractiveDemonstration(problem) {
+      return Boolean(problem.interactive?.type && interactivePresentation(problem.interactive) === 'demonstration');
     }
 
     function sourceTitle(id) {
@@ -3426,7 +3506,8 @@ __WEIGHING_CHEATER_JS__
       if (filters.fragment !== 'all' && problem.fragment !== filters.fragment) return false;
       if (filters.difficulty !== 'all' && problem.difficulty?.main !== filters.difficulty) return false;
       if (filters.status !== 'all' && problem.editorial?.review_status !== filters.status && problem.difficulty?.status !== filters.status) return false;
-      if (filters.interactive === 'with' && !hasInteractive(problem)) return false;
+      if ((filters.interactive === 'with' || filters.interactive === 'exercise') && !hasInteractiveExercise(problem)) return false;
+      if (filters.interactive === 'demonstration' && !hasInteractiveDemonstration(problem)) return false;
       if (filters.source !== 'all' && !sourceFamilyKeysForProblem(problem).includes(filters.source)) return false;
       if (filters.year !== 'all' && !sourceYearsForProblem(problem).includes(filters.year)) return false;
       if (filters.author !== 'all' && !problemAuthorKeys(problem).includes(filters.author)) return false;
@@ -3555,13 +3636,18 @@ __WEIGHING_CHEATER_JS__
 
     function renderFilters() {
       byId('search-input').value = state.query;
-      const interactiveTotal = countProblems({ interactive: 'with' });
+      const exerciseTotal = countProblems({ interactive: 'exercise' });
+      const demonstrationTotal = countProblems({ interactive: 'demonstration' });
       const interactiveRow = byId('interactive-filter-row');
-      const interactiveButton = byId('interactive-filter');
-      interactiveRow.hidden = interactiveTotal === 0 && state.interactive === 'all';
-      interactiveButton.hidden = interactiveTotal === 0 && state.interactive === 'all';
-      interactiveButton.textContent = labelWithCount('С интерактивом', interactiveTotal);
-      interactiveButton.setAttribute('aria-pressed', state.interactive === 'with' ? 'true' : 'false');
+      const exerciseButton = byId('interactive-exercise-filter');
+      const demonstrationButton = byId('interactive-demonstration-filter');
+      interactiveRow.hidden = exerciseTotal === 0 && demonstrationTotal === 0 && state.interactive === 'all';
+      exerciseButton.hidden = exerciseTotal === 0 && state.interactive !== 'exercise';
+      demonstrationButton.hidden = demonstrationTotal === 0 && state.interactive !== 'demonstration';
+      exerciseButton.textContent = labelWithCount('Упражнения', exerciseTotal);
+      demonstrationButton.textContent = labelWithCount('Демонстрации', demonstrationTotal);
+      exerciseButton.setAttribute('aria-pressed', state.interactive === 'exercise' ? 'true' : 'false');
+      demonstrationButton.setAttribute('aria-pressed', state.interactive === 'demonstration' ? 'true' : 'false');
       populateSelect(
         'local-progress-filter',
         PROGRESS_OPTIONS.map(item => ({
@@ -3778,6 +3864,8 @@ __WEIGHING_CHEATER_JS__
       ]));
       const clusterCount = topicClusters.length;
       const publicReady = problems.filter(p => p.editorial?.public_ready).length;
+      const interactiveExerciseCount = problems.filter(hasInteractiveExercise).length;
+      const interactiveDemonstrationCount = problems.filter(hasInteractiveDemonstration).length;
       byId('content').innerHTML = `
         <section class="home-hero">
           <div class="topline">
@@ -3793,6 +3881,8 @@ __WEIGHING_CHEATER_JS__
             <button class="home-action" data-home-action="clusters" type="button">Кластеры</button>
             <button class="home-action" data-home-fragment="weighings" type="button">Взвешивания</button>
             <button class="home-action" data-home-query="truth liar лжец рыцарь" type="button">Рыцари и лжецы</button>
+            <button class="home-action" data-home-interactive="exercise" type="button">Упражнения</button>
+            <button class="home-action" data-home-interactive="demonstration" type="button">Демонстрации</button>
             <button class="home-action" data-home-cluster="prearranged-communication-protocols" type="button">Заранее договориться</button>
             <button class="home-action" data-home-cluster="public-knowledge-and-announcements" type="button">Что все знают</button>
           </div>
@@ -3801,6 +3891,8 @@ __WEIGHING_CHEATER_JS__
             <div class="home-stat"><strong>${relations.length}</strong><span>связей</span></div>
             <div class="home-stat"><strong>${sources.length}</strong><span>источника</span></div>
             <div class="home-stat"><strong>${publicReady}</strong><span>готово к публикации</span></div>
+            <div class="home-stat"><strong>${interactiveExerciseCount}</strong><span>упражнений</span></div>
+            <div class="home-stat"><strong>${interactiveDemonstrationCount}</strong><span>демонстраций</span></div>
             <div class="home-stat"><strong>${definitions.length + standardIdeas.length}</strong><span>определений и идей</span></div>
           </div>
         </section>
@@ -3859,6 +3951,14 @@ __WEIGHING_CHEATER_JS__
         button.addEventListener('click', () => {
           resetProblemFilters();
           state.query = button.dataset.homeQuery;
+          state.view = 'problems';
+          selectFirstVisibleProblem();
+        });
+      }
+      for (const button of document.querySelectorAll('[data-home-interactive]')) {
+        button.addEventListener('click', () => {
+          resetProblemFilters();
+          state.interactive = button.dataset.homeInteractive;
           state.view = 'problems';
           selectFirstVisibleProblem();
         });
@@ -8494,6 +8594,27 @@ __WEIGHING_CHEATER_JS__
                 <h4>Оставшиеся возможные положения</h4>
                 <div class="pill-row" data-state-list></div>
               </div>
+              <div class="card dense-card">
+                <h4>Легенда</h4>
+                <div class="graph-legend">
+                  <div class="graph-legend-item">
+                    <span><span class="graph-legend-dot color-light"></span><span class="graph-legend-dot color-dark"></span></span>
+                    <span>фон вершины - доля шахматной раскраски куба; после промаха муха переходит в другую долю</span>
+                  </div>
+                  <div class="graph-legend-item">
+                    <span class="graph-legend-dot possible"></span>
+                    <span>желтый контур - возможное текущее положение мухи</span>
+                  </div>
+                  <div class="graph-legend-item">
+                    <span class="graph-legend-dot selected"></span>
+                    <span>зеленая рамка - выбрано для этой проверки</span>
+                  </div>
+                  <div class="graph-legend-item">
+                    <span class="graph-legend-dot actual"></span>
+                    <span>красный фон - пойманная вершина после успешной проверки</span>
+                  </div>
+                </div>
+              </div>
               <div class="exhaustive-panel" data-exhaustive-panel hidden>
                 <h4>Ветви полного перебора</h4>
                 <div class="exhaustive-branches" data-exhaustive-branches></div>
@@ -8580,10 +8701,10 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(threeLetterErasureModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
-            <label>Сообщение
+            <label data-three-message-wrap>Сообщение
               <select data-three-message>${messageOptions}</select>
             </label>
-            <label>Стереть
+            <label data-three-erased-wrap>Стереть
               <select data-three-erased>${eraseOptions}</select>
             </label>
             <button class="small-button" type="button" data-three-random>Случайно</button>
@@ -8601,7 +8722,7 @@ __WEIGHING_CHEATER_JS__
             </div>
             <div class="card dense-card">
               <h4>После стирания</h4>
-              <div class="pill-row">
+              <div class="pill-row" data-three-secret-row>
                 <span class="pill" data-three-codeword></span>
                 <span class="pill" data-three-erased-pill></span>
               </div>
@@ -9086,12 +9207,85 @@ __WEIGHING_CHEATER_JS__
       twenty_one_card_trick: renderTwentyOneCardTrickInteractive
     };
 
+    function interactivePileObjectCount(config) {
+      const piles = asArray(config.piles);
+      if (piles.length) {
+        return piles.reduce((sum, pile) => sum + Number(pile?.size ?? asArray(pile?.diamonds || pile?.coins).length ?? 0), 0);
+      }
+      return asArray(config.pile_sizes || config.pileSizes).map(Number).reduce((sum, value) => sum + (Number.isFinite(value) ? value : 0), 0);
+    }
+
+    function renderInteractiveCaption(problem, config) {
+      const notes = [];
+      const id = String(problem?.id || '');
+      const type = String(config?.type || '');
+      const presentation = interactivePresentation(config);
+      const maxTests = Number(config.max_tests ?? config.maxTests ?? config.max_weighings ?? config.maxWeighings ?? 0);
+      const coinCount = Number(config.coin_count ?? config.coinCount ?? 0);
+      const bagCount = Number(config.bag_count ?? config.bagCount ?? 0);
+      const stateCount = Number(config.state_count ?? config.stateCount ?? 0);
+
+      if (presentation === 'demonstration') {
+        notes.push('Это демонстрация готового разбора: она показывает механизм решения, но не должна восприниматься как самостоятельное упражнение.');
+      }
+      if (type === 'antichain_code_protocol') {
+        const personCount = Number(config.person_count ?? config.personCount ?? config.object_count ?? config.objectCount ?? 70);
+        const dayCount = Number(config.day_count ?? config.dayCount ?? config.max_tests ?? config.maxTests ?? 8);
+        if (personCount * dayCount >= 120) {
+          notes.push('Полная таблица кодов большая; ручное заполнение здесь скорее сертификат идеи, чем обязательное прохождение с нуля.');
+        }
+      }
+      if (type === 'finite_binary_state_protocol' && config.protocol === 'adjacent_pair_grid_search') {
+        const rows = Number(config.grid_rows ?? config.gridRows ?? 10);
+        const cols = Number(config.grid_cols ?? config.gridCols ?? 10);
+        if (rows * cols >= 64 || maxTests >= 30) {
+          notes.push('Это длинный поиск по сетке: полный режим проверяет стратегию, а не обещает короткую ручную головоломку.');
+        }
+      }
+      if (type === 'safe_pile_balance_certificate' && interactivePileObjectCount(config) >= 30) {
+        notes.push('Видимый размер исходной задачи большой; цель блока - предъявить сертификат безопасной кучки, а не перебрать все объекты руками.');
+      }
+      if (type === 'zoltar_heavier_hand_removal' && (coinCount >= 14 || maxTests >= 20)) {
+        notes.push('Полный вариант длинный: сравнения с удалением проверяют стратегию на ресурсе, поэтому режимы шулера и перебора лучше читать как стресс-проверку.');
+      }
+      if (type === 'broken_detector_counterfeit_coin' && (coinCount >= 8 || maxTests >= 6)) {
+        notes.push('Сломанный детектор может отвечать произвольно; полный перебор строит дерево протокола по веткам, а не один быстрый сценарий.');
+      }
+      if (type === 'broken_scale_counterfeit_coin' && (coinCount >= 9 || maxTests >= 4)) {
+        notes.push('Сломанные весы могут остаться неоднозначными: финальная цель здесь - монета, не обязательно сам испорченный прибор.');
+      }
+      if (type === 'threshold_balance_counterfeit_sets') {
+        notes.push('У этих весов есть отдельный исход без надежного перевеса; в полном переборе нужно закрывать ветки и для этого четвертого исхода.');
+      }
+      if (type === 'selected_coin_parity_detector' && (stateCount >= 1000 || coinCount >= 17)) {
+        notes.push('Режим полного перебора здесь проверяет большую схему раскладок; основная цель - тип выбранной монеты, не полный набор фальшивых.');
+      }
+      if (type === 'zero_one_two_counterfeit_sign' && coinCount >= 16) {
+        notes.push('Финальный ответ - только отсутствие фальшивых или общий знак отклонения; номера монет намеренно не являются целью.');
+      }
+      if (type === 'numeric_linear_signature' && bagCount >= 13) {
+        notes.push('Это крупный числовой сертификат: список возможных ответов длиннее обычного, но пользователь все равно задает проверяемые взвешивания.');
+      }
+      if (type === 'hidden_hat_number_parity_protocol' && Number(config.sage_count ?? config.sageCount ?? 0) >= 6) {
+        notes.push('Прохождение длинное по шагам: каждый ответ проверяется отдельно, а guided-режим является демонстрацией протокола.');
+      }
+      if (type === 'permutation_cycle_protocol') {
+        notes.push('Блок демонстрирует фиксированную циклическую стратегию; пользователь проходит ее честный след, но не конструирует новый протокол.');
+      }
+      if (type === 'higher_lower_strategy_game') {
+        notes.push('Guided-режим раскрывает оптимальную таблицу и является разбором оптимума; для самостоятельной попытки используйте обычный ход до просмотра таблицы.');
+      }
+
+      if (!notes.length) return '';
+      return `<div class="interactive-caption"><ul>${notes.map(note => `<li>${esc(note)}</li>`).join('')}</ul></div>`;
+    }
+
     function renderInteractive(problem) {
       const config = problem.interactive;
       if (!config?.type) return '';
       if (interactivePresentation(config) === 'review_only') return '';
       const renderer = INTERACTIVE_RENDERERS[config.type] || renderUnknownInteractive;
-      return renderer(problem, config);
+      return `${renderInteractiveCaption(problem, config)}${renderer(problem, config)}`;
     }
 
     function hasRunnableInteractive(problem) {
@@ -9146,11 +9340,12 @@ __WEIGHING_CHEATER_JS__
     function renderProblemSurface(problem) {
       if (!hasRunnableInteractive(problem)) return renderStatements(problem);
       const active = state.problemSurfaceTabs[problem.id] === 'interactive' ? 'interactive' : 'statement';
+      const interactiveTabLabel = interactivePresentation(problem.interactive) === 'demonstration' ? 'Демонстрация' : 'Упражнение';
       return `
         <div class="problem-surface" data-problem-surface data-problem-id="${esc(problem.id)}">
           <div class="problem-surface-tabs" role="tablist" aria-label="Режим просмотра задачи">
             <button class="small-button problem-surface-tab" type="button" role="tab" aria-selected="${active === 'statement' ? 'true' : 'false'}" data-problem-surface-tab="statement">Условие</button>
-            <button class="small-button problem-surface-tab" type="button" role="tab" aria-selected="${active === 'interactive' ? 'true' : 'false'}" data-problem-surface-tab="interactive">Интерактив</button>
+            <button class="small-button problem-surface-tab" type="button" role="tab" aria-selected="${active === 'interactive' ? 'true' : 'false'}" data-problem-surface-tab="interactive">${interactiveTabLabel}</button>
           </div>
           <div class="problem-surface-panel" role="tabpanel" data-problem-surface-panel="statement" ${active === 'statement' ? '' : 'hidden'}>
             ${renderStatements(problem)}
@@ -11284,14 +11479,20 @@ __WEIGHING_CHEATER_JS__
         const observed = helper.threeLetterErasureErase(codeword, model.erased);
         const decoded = helper.threeLetterErasureDecode({ ...cfg, observed });
         const tableCheck = helper.threeLetterErasureCheckTable(cfg);
+        const isRandomChallenge = model.mode === 'random';
+        const revealHiddenCase = !isRandomChallenge || model.guess != null;
 
         panel.querySelector('[data-interactive-run-mode]').value = model.mode;
         panel.querySelector('[data-three-message]').value = String(model.message);
         panel.querySelector('[data-three-erased]').value = model.erased;
         panel.querySelector('[data-current-mode-pill]').textContent = threeLetterErasureModeLabel(model.mode);
+        panel.querySelector('[data-three-message-wrap]').hidden = isRandomChallenge;
+        panel.querySelector('[data-three-erased-wrap]').hidden = isRandomChallenge;
+        panel.querySelector('[data-three-secret-row]').hidden = !revealHiddenCase;
         panel.querySelector('[data-three-codeword]').textContent = `слово: ${codeword || '-'}`;
         panel.querySelector('[data-three-erased-pill]').textContent = `стерта: ${model.erased}`;
         panel.querySelector('[data-three-observed]').textContent = observed || 'пустая строка';
+        panel.querySelector('[data-three-decode-note]').hidden = !revealHiddenCase;
         panel.querySelector('[data-three-decode-note]').textContent = decoded.messages.length
           ? `По таблице подходят сообщения: ${decoded.messages.join(', ')}.`
           : 'В таблице нет такого остатка.';
@@ -11303,6 +11504,9 @@ __WEIGHING_CHEATER_JS__
           const value = Number(button.dataset.threeAnswer);
           button.classList.toggle('answer-mode', model.guess === value);
           button.disabled = value >= codewords.length;
+        }
+        for (const button of panel.querySelectorAll('[data-three-row]')) {
+          button.disabled = isRandomChallenge;
         }
         markRows(model.mode === 'sandbox' || model.lastCheck ? tableCheck : null);
         renderHistory();
@@ -11326,7 +11530,9 @@ __WEIGHING_CHEATER_JS__
           return;
         }
         if (model.guess == null) {
-          setInteractiveStatus('Выберите сообщение, букву для стирания и ответ фокусника.');
+          setInteractiveStatus(isRandomChallenge
+            ? 'Назовите сообщение по оставшейся строке. Исходное слово и стертая буква откроются после ответа.'
+            : 'Выберите сообщение, букву для стирания и ответ фокусника.');
           return;
         }
         const result = helper.threeLetterErasureEvaluate({ ...cfg, message: model.message, erased: model.erased, guess: model.guess });
@@ -11354,7 +11560,7 @@ __WEIGHING_CHEATER_JS__
       });
       panel.querySelector('[data-three-random]')?.addEventListener('click', () => {
         randomCase();
-        model.history.push({ kind: 'случай', text: `сообщение ${model.message}, стерта ${model.erased}` });
+        model.history.push({ kind: 'случай', text: 'новый скрытый случай' });
         renderInteractiveState();
       });
       panel.querySelector('[data-three-exhaustive]')?.addEventListener('click', () => {
@@ -23391,7 +23597,7 @@ __WEIGHING_CHEATER_JS__
           ${readyPill(problem.editorial?.public_ready)}
           ${problem.difficulty?.main ? pill(difficultyTitle(problem.difficulty.main)) : ''}
           ${problem.difficulty?.local_score != null ? pill(`сложность ${problem.difficulty.local_score}`) : ''}
-          ${hasInteractive(problem) ? pill(`интерактив: ${interactiveTypeLabel(problem.interactive.type)}`) : ''}
+          ${hasInteractive(problem) ? pill(`${interactiveSurfaceLabel(problem.interactive)}: ${interactiveTypeLabel(problem.interactive.type)}`) : ''}
         </div>
         <h2>${esc(problem.title)}</h2>
         ${renderLocalTools(problem)}
@@ -23792,8 +23998,12 @@ __WEIGHING_CHEATER_JS__
     });
     byId('difficulty-filter').addEventListener('change', event => { state.difficulty = event.target.value; selectFirstVisibleProblem(); });
     byId('status-filter').addEventListener('change', event => { state.status = event.target.value; selectFirstVisibleProblem(); });
-    byId('interactive-filter').addEventListener('click', () => {
-      state.interactive = state.interactive === 'with' ? 'all' : 'with';
+    byId('interactive-exercise-filter').addEventListener('click', () => {
+      state.interactive = state.interactive === 'exercise' ? 'all' : 'exercise';
+      selectFirstVisibleProblem();
+    });
+    byId('interactive-demonstration-filter').addEventListener('click', () => {
+      state.interactive = state.interactive === 'demonstration' ? 'all' : 'demonstration';
       selectFirstVisibleProblem();
     });
     byId('source-filter').addEventListener('change', event => { state.source = event.target.value; selectFirstVisibleProblem(); });

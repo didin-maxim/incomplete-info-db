@@ -51,6 +51,9 @@
   "communication_profile": {"senders": 1, "receivers": 1, "message": "одно из двух чисел на карточках Пети", "message_capacity": "двоичный выбор, ограниченный рукой Пети"},
   "interactive": {
     "type": "petya_vasya_five_cards_protocol",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 3,
     "card_count": 5,
     "petya_count": 2,
     "vasya_count": 1,

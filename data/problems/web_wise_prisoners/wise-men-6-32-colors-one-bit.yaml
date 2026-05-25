@@ -67,6 +67,9 @@
   },
   "interactive": {
     "type": "wise_men_even_parity_code",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 4,
     "person_count": 6,
     "color_count": 32,
     "max_weighings": 1,

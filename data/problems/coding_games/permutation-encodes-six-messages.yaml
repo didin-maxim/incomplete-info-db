@@ -72,6 +72,9 @@
   },
   "interactive": {
     "type": "permutation_message_order_code",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 2,
     "item_count": 3,
     "message_count": 6,
     "object_labels": ["A", "B", "C"],

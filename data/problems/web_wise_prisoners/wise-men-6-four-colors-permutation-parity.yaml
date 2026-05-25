@@ -52,6 +52,9 @@
   "impossibility_proofs": [],
   "interactive": {
     "type": "wise_men_color_count_parity_protocol",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 3,
     "sage_count": 6,
     "color_count": 4,
     "count_values": [0, 1, 2, 3],

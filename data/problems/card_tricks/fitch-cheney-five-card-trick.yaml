@@ -81,6 +81,9 @@
   },
   "interactive": {
     "type": "fitch_cheney_card_trick",
+    "presentation": "demonstration",
+    "interactive_strength": "demonstration",
+    "estimated_user_actions": 2,
     "deck_size": 52,
     "hand_size": 5,
     "shown_cards": 4,

@@ -38,6 +38,7 @@ INTERACTIVE_COUNTERFEIT_WEIGHTS = {"lighter", "heavier"}
 INTERACTIVE_OBJECTIVES = {"identify_coin", "identify_coin_after_erasure", "identify_coin_or_none", "identify_coin_only", "identify_coin_only_unknown_direction", "identify_coin_and_sign", "identify_coin_and_direction", "identify_sign_only", "identify_sign_only_unknown_direction", "identify_counterfeit_count", "identify_faulty_scale", "identify_heaviest_coin", "identify_fake_bag", "identify_fake_bag_subset", "identify_fake_coin_set", "identify_swapped_adjacent_labels", "identify_selected_bag_weight", "identify_selected_coin_type", "identify_deficient_bag_or_none", "identify_hidden_card", "identify_hidden_pair", "identify_hidden_number", "identify_criminal_from_witness", "recover_hidden_password", "identify_key_position", "identify_magic_subset", "identify_state", "identify_liar", "identify_one_from_each_pair", "identify_one_light_coin", "identify_one_counterfeit_coin", "identify_one_genuine_coin", "identify_one_genuine_coin_not_removed", "identify_one_weight", "identify_all_weights", "identify_safe_pile", "identify_line_or_all_counterfeits", "identify_all_counterfeits", "identify_all_weights_after_rotation", "verify_all_weights_equal", "detect_presence_and_sign", "capture_hidden_moving_target", "decode_hidden_message", "identify_selected_card", "guarantee_all_but_first_correct", "prove_impossible"}
 INTERACTIVE_MODES = {"random", "cheater", "exhaustive", "challenge", "sandbox", "guided", "manual_spectator"}
 INTERACTIVE_PRESENTATIONS = {"exercise", "demonstration", "review_only"}
+INTERACTIVE_STRENGTHS = {"strong", "weak", "demonstration", "remove"}
 INTERACTIVE_OBJECTIVES.add("all_agents_find_own_state")
 INTERACTIVE_OBJECTIVES.add("maximize_win_probability")
 INTERACTIVE_OBJECTIVES.add("guarantee_at_least_half_correct")
@@ -151,6 +152,43 @@ def validate_interactive(errors, label, problem):
     presentation = interactive.get("presentation", "exercise")
     if presentation not in INTERACTIVE_PRESENTATIONS:
         fail(errors, f"{label}: interactive.presentation must be one of {sorted(INTERACTIVE_PRESENTATIONS)}")
+    strength = interactive.get("interactive_strength")
+    if strength is not None and strength not in INTERACTIVE_STRENGTHS:
+        fail(errors, f"{label}: interactive.interactive_strength must be one of {sorted(INTERACTIVE_STRENGTHS)}")
+    if presentation == "demonstration" and strength == "strong":
+        fail(errors, f"{label}: interactive marked as demonstration cannot have interactive_strength strong")
+    estimated_actions = interactive.get("estimated_user_actions")
+    if estimated_actions is not None and (
+        not isinstance(estimated_actions, int) or isinstance(estimated_actions, bool) or estimated_actions < 0
+    ):
+        fail(errors, f"{label}: interactive.estimated_user_actions must be a non-negative integer")
+    for bool_field in ("visual_legend_needed", "heavy_interactive_warning"):
+        value = interactive.get(bool_field)
+        if value is not None and not isinstance(value, bool):
+            fail(errors, f"{label}: interactive.{bool_field} must be a boolean")
+    mode_estimates = interactive.get("mode_action_estimates")
+    if mode_estimates is not None:
+        if not isinstance(mode_estimates, dict):
+            fail(errors, f"{label}: interactive.mode_action_estimates must be an object")
+        else:
+            for mode, estimate in mode_estimates.items():
+                if mode not in INTERACTIVE_MODES:
+                    fail(errors, f"{label}: interactive.mode_action_estimates has unknown mode {mode}")
+                    continue
+                if isinstance(estimate, int) and not isinstance(estimate, bool):
+                    if estimate < 0:
+                        fail(errors, f"{label}: interactive.mode_action_estimates.{mode} must be non-negative")
+                elif isinstance(estimate, dict):
+                    for key in ("min", "typical", "max"):
+                        value = estimate.get(key)
+                        if value is not None and (
+                            not isinstance(value, int) or isinstance(value, bool) or value < 0
+                        ):
+                            fail(errors, f"{label}: interactive.mode_action_estimates.{mode}.{key} must be a non-negative integer")
+                    if "nature" in estimate and not isinstance(estimate.get("nature"), str):
+                        fail(errors, f"{label}: interactive.mode_action_estimates.{mode}.nature must be a string")
+                else:
+                    fail(errors, f"{label}: interactive.mode_action_estimates.{mode} must be an integer or object")
     if interactive_type not in INTERACTIVE_TYPES:
         return
     required_fields = ["objective"]
