@@ -3367,7 +3367,7 @@ __WEIGHING_CHEATER_JS__
         xor_single_flip_protocol: 'один переворот по четности',
         wise_men_even_parity_code: 'мудрецы и четность',
         wise_men_color_count_parity_protocol: 'мудрецы и количества цветов',
-        prisoners_hats_parity_line: 'заключенные и четность колпаков',
+        prisoners_hats_parity_line: 'заключенные и колпаки',
         hidden_hat_number_parity_protocol: 'четность спрятанного колпака',
         three_letter_erasure_code: 'три буквы, одна стерта',
         permutation_message_order_code: 'порядок трех предметов',
@@ -4615,6 +4615,7 @@ __WEIGHING_CHEATER_JS__
         }))
         .filter(row => row.left.length || row.right.length)
         .slice(0, maxWeighings);
+      const saladinSpareExercise = problem?.id === 'knop-saladin-four-weighings-one-spare';
       return {
         type: 'single_counterfeit_unknown_direction',
         coinCount,
@@ -4631,7 +4632,8 @@ __WEIGHING_CHEATER_JS__
         requireEqualPanCounts: config.require_equal_pan_counts !== false,
         maxCoinUses: Number.isInteger(maxCoinUses) && maxCoinUses > 0 ? maxCoinUses : null,
         autoCheck: config.auto_check !== false && config.autoCheck !== false,
-        presetWeighings
+        presetWeighings,
+        guardSolutionReveal: saladinSpareExercise
       };
     }
 
@@ -4940,8 +4942,11 @@ __WEIGHING_CHEATER_JS__
       const erasureText = normalized.erasureCount === 1
         ? 'один результат потерян/стёрт'
         : `${normalized.erasureCount} результата потеряны/стёрты`;
+      const presetButtonLabel = normalized.guardSolutionReveal
+        ? 'Разбор: показать рабочий план'
+        : 'Подставить таблицу из решения';
       const presetButton = normalized.presetWeighings?.length
-        ? '<button class="small-button" type="button" data-fill-preset hidden>Подставить таблицу из решения</button>'
+        ? `<button class="small-button" type="button" data-fill-preset hidden>${esc(presetButtonLabel)}</button>`
         : '';
       const rows = Array.from({ length: normalized.maxWeighings }, (_item, index) => {
         return `
@@ -4990,7 +4995,7 @@ __WEIGHING_CHEATER_JS__
               <tbody>${rows}</tbody>
             </table>
           </div>
-          <div class="exhaustive-panel" data-exhaustive-panel>
+          <div class="exhaustive-panel" data-exhaustive-panel hidden>
             <h4>${hasErasure ? 'Разбор после потери результата' : 'Разбор сигнатур'}</h4>
             <div class="exhaustive-branches" data-nonadaptive-results></div>
           </div>
@@ -9038,8 +9043,8 @@ __WEIGHING_CHEATER_JS__
     function prisonersHatsParityLineModeLabel(value) {
       const labels = {
         random: 'случайная расстановка',
-        guided: 'демонстрация стратегии',
-        exhaustive: 'все раскладки'
+        guided: 'разбор решения',
+        exhaustive: 'проверка всех раскладок'
       };
       return labels[value] || interactiveModeLabel(value);
     }
@@ -9066,7 +9071,7 @@ __WEIGHING_CHEATER_JS__
           <div class="interactive-actions">
             <label>Режим
               <select data-interactive-run-mode>
-                ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(prisonersHatsParityLineModeLabel(mode))}</option>`).join('')}
+                ${(normalized.modes.includes('random') ? ['random'] : [normalized.defaultMode]).map(mode => `<option value="${esc(mode)}">${esc(prisonersHatsParityLineModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
             <label>Ответ текущего
@@ -9077,8 +9082,8 @@ __WEIGHING_CHEATER_JS__
             </label>
             <button class="small-button" type="button" data-prisoner-hat-submit>Записать ответ</button>
             <button class="small-button" type="button" data-prisoner-hat-check>Проверить расклад</button>
-            <button class="small-button" type="button" data-prisoner-hat-demo>Демо стратегии</button>
-            <button class="small-button" type="button" data-prisoner-hat-exhaustive>Проверить все</button>
+            <button class="small-button" type="button" data-prisoner-hat-demo hidden>Разбор стратегии</button>
+            <button class="small-button" type="button" data-prisoner-hat-exhaustive hidden>Проверить все раскладки</button>
             <button class="small-button" type="button" data-reset-interactive>Новая расстановка</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
@@ -9094,7 +9099,7 @@ __WEIGHING_CHEATER_JS__
             </div>
           </div>
           <div class="weighing-history">
-            <h4>Как проверяется четность</h4>
+            <h4 data-prisoner-hat-history-title>Что известно текущему</h4>
             <div class="history-list" data-history></div>
           </div>
         </div>
@@ -22365,6 +22370,7 @@ __WEIGHING_CHEATER_JS__
       const status = panel.querySelector('[data-interactive-status]');
       const results = panel.querySelector('[data-nonadaptive-results]');
       const modeSelect = panel.querySelector('[data-interactive-run-mode]');
+      let failedAttempts = 0;
 
       function setStatus(text, kind = '') {
         if (!status) return;
@@ -22386,6 +22392,14 @@ __WEIGHING_CHEATER_JS__
           left: parseCoinList(panel.querySelector(`[data-nonadaptive-left="${index}"]`)?.value),
           right: parseCoinList(panel.querySelector(`[data-nonadaptive-right="${index}"]`)?.value)
         }));
+      }
+
+      function hasMeaningfulPlan(plan) {
+        if (config.guardSolutionReveal) {
+          return (plan || []).length === config.maxWeighings
+            && (plan || []).every(row => (row.left || []).length && (row.right || []).length);
+        }
+        return (plan || []).some(row => (row.left || []).length || (row.right || []).length);
       }
 
       function maxCoinUseErrors(plan) {
@@ -22425,7 +22439,8 @@ __WEIGHING_CHEATER_JS__
 
       function renderCheck(check) {
         if (!results) return;
-        panel.querySelector('[data-fill-preset]')?.removeAttribute('hidden');
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        if (block) block.hidden = false;
         const conflicts = check.conflicts || [];
         const rows = (check.partitions || []).map(part => {
           const signature = (part.signatures?.length ? part.signatures : [part.signature || []])
@@ -22449,8 +22464,33 @@ __WEIGHING_CHEATER_JS__
             <div class="exhaustive-branch-meta">${esc(error)}</div>
           </div>
         `).join('');
-        results.innerHTML = errorRows + rows;
+        if (check.success || !config.guardSolutionReveal) {
+          results.innerHTML = rows || '<div class="empty">План проходит проверку; подробных веток нет.</div>';
+        } else {
+          const firstConflict = conflicts[0];
+          const conflictRow = firstConflict ? (() => {
+            const signature = (firstConflict.signatures?.length ? firstConflict.signatures : [firstConflict.signature || []])
+              .map(item => item.map(outcomeSymbol).join(''))
+              .join(' / ');
+            const erasurePrefix = firstConflict.erasedPositions?.length
+              ? `если потерян/стёрт результат №${firstConflict.erasedPositions.join(', ')}, `
+              : '';
+            const states = firstConflict.states.map(stateLabel).slice(0, 3).join('; ');
+            return `
+              <div class="exhaustive-branch failed">
+                <div class="exhaustive-branch-title">Контрпример</div>
+                <div class="exhaustive-branch-meta">${esc(erasurePrefix + `результат ${signature || 'пусто'} не различает: ${states}${firstConflict.states.length > 3 ? ' ...' : ''}`)}</div>
+              </div>
+            `;
+          })() : '';
+          results.innerHTML = errorRows + conflictRow;
+        }
         if (check.success) {
+          if (config.guardSolutionReveal) {
+            panel.querySelector('[data-fill-preset]')?.setAttribute('hidden', '');
+          } else {
+            panel.querySelector('[data-fill-preset]')?.removeAttribute('hidden');
+          }
           if (check.erasureCount > 0) {
             setStatus(`Даже если удалить ${erasureStatusText()}, таблица всё равно различает монеты.`, 'success');
           } else {
@@ -22461,6 +22501,7 @@ __WEIGHING_CHEATER_JS__
             setStatus(`План ${verb} ${noun}.`, 'success');
           }
         } else if (conflicts.length) {
+          if (!config.guardSolutionReveal || failedAttempts >= 1) panel.querySelector('[data-fill-preset]')?.removeAttribute('hidden');
           const first = conflicts[0];
           const signature = (first.signatures?.length ? first.signatures : [first.signature || []])
             .map(item => item.map(outcomeSymbol).join(''))
@@ -22470,6 +22511,7 @@ __WEIGHING_CHEATER_JS__
             : '';
           setStatus(`Есть совпадение: ${erasurePrefix}результат ${signature} подходит для ${first.states.length} состояний и нескольких монет.`, 'error');
         } else {
+          if (!config.guardSolutionReveal || failedAttempts >= 1) panel.querySelector('[data-fill-preset]')?.removeAttribute('hidden');
           setStatus('План пока не проходит проверку.', 'error');
         }
       }
@@ -22501,6 +22543,7 @@ __WEIGHING_CHEATER_JS__
           check.success = false;
           check.ok = false;
         }
+        if (!check.success && hasMeaningfulPlan(plan)) failedAttempts += 1;
         renderCheck(check);
       }
 
@@ -22523,7 +22566,10 @@ __WEIGHING_CHEATER_JS__
           if (right) right.value = '';
         }
         if (results) results.innerHTML = '';
+        const block = panel.querySelector('[data-exhaustive-panel]');
+        if (block) block.hidden = true;
         panel.querySelector('[data-fill-preset]')?.setAttribute('hidden', '');
+        failedAttempts = 0;
         setStatus(config.erasureCount > 0
           ? `Введите все взвешивания заранее и проверьте, что таблица выдерживает ${erasureStatusText()}.`
           : 'Введите все взвешивания заранее и запустите проверку.');
@@ -25378,7 +25424,9 @@ __WEIGHING_CHEATER_JS__
       function renderHistory() {
         const container = panel.querySelector('[data-history]');
         if (!container) return;
+        const title = panel.querySelector('[data-prisoner-hat-history-title]');
         if (model.exhaustive) {
+          if (title) title.textContent = 'Разбор после попытки';
           const check = model.exhaustive;
           container.innerHTML = `
             <div class="history-item">
@@ -25389,15 +25437,25 @@ __WEIGHING_CHEATER_JS__
           return;
         }
         if (!model.checked) {
+          if (title) title.textContent = 'Что известно текущему';
           const current = currentIndex();
           const visible = model.state && current < config.personCount
             ? helper.prisonerHatsParityVisibleAhead(model.state, current).map(bitLabel).join(', ')
             : '';
+          const heard = model.answers.length
+            ? model.answers.map((answer, index) => `№${index + 1}: ${bitLabel(answer)}`).join('; ')
+            : 'пока нет';
           container.innerHTML = current < config.personCount
-            ? `<div class="history-item"><span class="history-result">ход №${esc(current + 1)}</span><span>текущий видит впереди: ${esc(visible || 'никого')}.</span></div>`
+            ? `
+              <div class="history-item">
+                <span class="history-result">ход №${esc(current + 1)}</span>
+                <span>текущий видит впереди: ${esc(visible || 'никого')}; уже слышал: ${esc(heard)}; цель - назвать свой цвет так, чтобы после первого все ответы были надежными.</span>
+              </div>
+            `
             : '<span class="empty">Все ответы записаны. Нажмите проверку, чтобы открыть расклад и разбор.</span>';
           return;
         }
+        if (title) title.textContent = 'Разбор после попытки';
         container.innerHTML = model.checked.rows.map(row => {
           const visibleBlack = row.visibleAhead.reduce((sum, bit) => sum + bit, 0);
           const parityText = row.prisonerIndex === 0
@@ -25435,13 +25493,19 @@ __WEIGHING_CHEATER_JS__
 
       function renderControls() {
         panel.querySelector('[data-current-mode-pill]').textContent = prisonersHatsParityLineModeLabel(model.mode);
-        panel.querySelector('[data-interactive-run-mode]').value = model.mode;
+        const runModeSelect = panel.querySelector('[data-interactive-run-mode]');
+        if (runModeSelect) runModeSelect.value = [...runModeSelect.options].some(option => option.value === model.mode) ? model.mode : (config.defaultMode || 'random');
         const current = currentIndex();
         panel.querySelector('[data-prisoner-hat-step]').textContent = current < config.personCount
           ? `ход ${current + 1} / ${config.personCount}`
           : `${config.personCount} / ${config.personCount}`;
         panel.querySelector('[data-prisoner-hat-submit]').disabled = !!model.checked || !!model.exhaustive || current >= config.personCount;
         panel.querySelector('[data-prisoner-hat-check]').disabled = !!model.checked || !!model.exhaustive || model.answers.length !== config.personCount;
+        const canShowReview = !!model.checked || !!model.exhaustive || model.answers.length >= config.personCount;
+        const demoButton = panel.querySelector('[data-prisoner-hat-demo]');
+        const exhaustiveButton = panel.querySelector('[data-prisoner-hat-exhaustive]');
+        if (demoButton) demoButton.hidden = !canShowReview;
+        if (exhaustiveButton) exhaustiveButton.hidden = !canShowReview;
       }
 
       function renderInteractiveState() {
@@ -25455,26 +25519,22 @@ __WEIGHING_CHEATER_JS__
         } else if (model.checked) {
           setStatus(model.checked.success ? 'Проверка завершена: все после первого ответили правильно.' : 'Проверка завершена: кто-то после первого ошибся.', model.checked.success ? 'success' : 'error');
         } else if (model.answers.length >= config.personCount) {
-          setStatus('Ответы записаны. Теперь можно открыть проверку.');
+          setStatus('Попытка записана. Теперь можно открыть проверку или перейти к разбору.');
         } else {
           setStatus(`Заключенный №${model.answers.length + 1} видит только колпаки впереди и слышит предыдущие ответы.`);
         }
       }
 
       panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
-        if (event.target.value === 'guided') runDemo();
-        else if (event.target.value === 'exhaustive') runExhaustive();
-        else {
-          model = newModel(event.target.value);
-          renderInteractiveState();
-        }
+        model = newModel(event.target.value);
+        renderInteractiveState();
       });
       panel.querySelector('[data-prisoner-hat-submit]')?.addEventListener('click', submitAnswer);
       panel.querySelector('[data-prisoner-hat-check]')?.addEventListener('click', checkAnswers);
       panel.querySelector('[data-prisoner-hat-demo]')?.addEventListener('click', runDemo);
       panel.querySelector('[data-prisoner-hat-exhaustive]')?.addEventListener('click', runExhaustive);
       panel.querySelector('[data-reset-interactive]')?.addEventListener('click', () => {
-        model = newModel(model?.mode === 'exhaustive' ? 'random' : (model?.mode || config.defaultMode || 'random'));
+        model = newModel(model?.mode === 'random' ? 'random' : (config.defaultMode || 'random'));
         renderInteractiveState();
       });
 
