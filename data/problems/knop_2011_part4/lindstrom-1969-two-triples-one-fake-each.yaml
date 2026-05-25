@@ -97,6 +97,15 @@
   "interactive": {
     "type": "numeric_linear_signature",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": {"typical": 8, "nature": "задать числовые проверки и назвать по одной фальшивке из каждой тройки"},
+      "cheater": {"typical": 8, "nature": "проверить различимость против совместимого выбора в двух тройках"},
+      "exhaustive": {"typical": 9, "nature": "проверить все пары скрытых фальшивок из двух троек"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 6,
     "max_weighings": 3,
     "objective": "identify_fake_coin_set",

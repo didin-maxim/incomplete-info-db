@@ -61,6 +61,15 @@
   },
   "interactive": {
     "type": "numeric_linear_signature",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "random": {"typical": 4, "nature": "задать две числовые проверки комплектов и назвать скрытый вес"},
+      "cheater": {"typical": 4, "nature": "проверить числовые проверки на совместимом скрытом весе"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 7,
     "weight_values": [7, 8, 9, 10, 11, 12, 13],
     "reference_total": 70,

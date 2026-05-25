@@ -73,11 +73,13 @@
     "day_count": 8,
     "target_weight": 4,
     "objective": "identify_criminal_from_witness",
-    "interactive_strength": "strong",
-    "estimated_user_actions": 70,
-    "heavy_interactive_warning": true,
-    "visual_legend_needed": true,
-    "modes": ["sandbox", "exhaustive"]
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
+    "modes": []
   },
   "difficulty": {"main": "olympiad_hard", "local_score": 6, "comment": "Конструкция короткая, но нижняя оценка требует увидеть антицепь и применить теорему Шпернера.", "status": "ai_checked"},
   "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_older_students"],
@@ -91,6 +93,9 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "kvantlandia_deep_batch",
-    "notes": ["Пост Квантландии даёт вариант на 70 человек и указывает автора О. Косухина. problems.ru 66096 содержит родственную формулировку «Ниро Вульф» на 80 подозреваемых и 12 дней; автор там указан как Косухин О.Н. Карточка решает именно квантландский вариант на минимум для 70 человек."]
+    "notes": [
+      "Пост Квантландии даёт вариант на 70 человек и указывает автора О. Косухина. problems.ru 66096 содержит родственную формулировку «Ниро Вульф» на 80 подозреваемых и 12 дней; автор там указан как Косухин О.Н. Карточка решает именно квантландский вариант на минимум для 70 человек.",
+      "2026-05-25: полный публичный интерактив снят. Матрица 70 x 8 является проверяемым сертификатом антицепи, но не учебной demonstration для слабого школьника; для ручного упражнения выделен малый вариант kvantland-detective-6-witness-criminal-trainer."
+    ]
   }
 }

@@ -53,6 +53,10 @@
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
     "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "guided": {"typical": 4, "nature": "пошагово пересечь два уже данных результата взвешивания"}
+    },
+    "heavy_interactive_warning": false,
     "visual_legend_needed": true,
     "coin_count": 7,
     "counterfeit_weight": "lighter",

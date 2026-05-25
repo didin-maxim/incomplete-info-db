@@ -72,13 +72,19 @@
   "interactive": {
     "type": "finite_binary_state_protocol",
     "protocol": "adjacent_pair_grid_search",
-    "grid_rows": 10,
-    "grid_cols": 10,
-    "max_tests": 50,
-    "objective": "identify_hidden_pair",
+    "presentation": "exercise",
     "interactive_strength": "strong",
-    "estimated_user_actions": 50,
-    "heavy_interactive_warning": true,
+    "grid_rows": 6,
+    "grid_cols": 6,
+    "max_tests": 18,
+    "objective": "identify_hidden_pair",
+    "estimated_user_actions": 18,
+    "mode_action_estimates": {
+      "random": {"typical": 18, "nature": "учебная ветка 6x6: проверка одного цвета, оставленный угол и добор соседа"},
+      "cheater": {"typical": 18, "nature": "шулер держит худшую совместимую соседнюю пару на малой доске"},
+      "exhaustive": {"typical": 18, "nature": "проверка дерева для 60 соседних пар на 6x6"}
+    },
+    "heavy_interactive_warning": false,
     "visual_legend_needed": true,
     "modes": ["random", "cheater", "exhaustive"],
     "answer_labels": {"yes": "да", "no": "нет"}
@@ -99,6 +105,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["У официального DMS PDF, найденного при проходе, есть условие; решения в этом файле нет. Решение карточки составлено редакционно.", "Задача также встречается в обсуждениях Math StackExchange/Puzzling, но карточка привязана к официальному источнику DMS/JSMO."]
+    "notes": ["У официального DMS PDF, найденного при проходе, есть условие; решения в этом файле нет. Решение карточки составлено редакционно.", "Задача также встречается в обсуждениях Math StackExchange/Puzzling, но карточка привязана к официальному источнику DMS/JSMO.", "2026-05-25: исходная задача остается 10x10; интерактив сделан учебной версией 6x6. Механизм тот же: соседняя пара, шахматная раскраска, оставленный угол и adversary/cheater."]
   }
 }

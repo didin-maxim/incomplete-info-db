@@ -52,16 +52,17 @@
   "impossibility_proofs": [],
   "interactive": {
     "type": "wise_men_color_count_parity_protocol",
-    "presentation": "demonstration",
-    "interactive_strength": "demonstration",
-    "estimated_user_actions": 3,
-    "visual_legend_needed": true,
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "visual_legend_needed": false,
     "sage_count": 6,
     "color_count": 4,
     "count_values": [0, 1, 2, 3],
     "target_correct_min": 3,
     "objective": "guarantee_at_least_half_correct",
-    "modes": ["random", "cheater", "exhaustive"]
+    "modes": []
   },
   "incomplete_information_profile": {
     "hidden_state_space": "раскраска 6 колпаков в 4 цвета, где количества цветов равны 0, 1, 2, 3 в некотором порядке",
@@ -110,7 +111,8 @@
     "notes": [
       "Карточка создана как учебный малый случай задачи problems-ru-67032-300-wise-men-25-colors-permutation-parity для интерактивной проверки механизма.",
       "Интерактив хранит только параметры модели; конкретная расстановка колпаков создается viewer на клиенте.",
-      "2026-05-22: старый демонстрационный sandbox-режим снят; основной режим теперь показывает выбранному мудрецу только чужие колпаки и требует проверить собственный ответ до раскрытия разбора."
+      "2026-05-22: старый демонстрационный sandbox-режим снят; основной режим теперь показывает выбранному мудрецу только чужие колпаки и требует проверить собственный ответ до раскрытия разбора.",
+      "2026-05-25: публичная demonstration снята. Текущий UI дает трассу готового протокола и не объясняет слабому школьнику перестановочную четность лучше текста; random/cheater/exhaustive убраны."
     ]
   }
 }

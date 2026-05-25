@@ -173,6 +173,31 @@ def validate_interactive(errors, label, problem):
         value = interactive.get(bool_field)
         if value is not None and not isinstance(value, bool):
             fail(errors, f"{label}: interactive.{bool_field} must be a boolean")
+    for text_field in ("intro", "introduction"):
+        value = interactive.get(text_field)
+        if value is not None and (not isinstance(value, str) or not value.strip()):
+            fail(errors, f"{label}: interactive.{text_field} must be a non-empty string")
+    visual_legend = interactive.get("visual_legend")
+    if visual_legend is not None:
+        if isinstance(visual_legend, str):
+            if not visual_legend.strip():
+                fail(errors, f"{label}: interactive.visual_legend must be a non-empty string or list")
+        elif isinstance(visual_legend, list):
+            for index, item in enumerate(visual_legend):
+                if not isinstance(item, str) or not item.strip():
+                    fail(errors, f"{label}: interactive.visual_legend[{index}] must be a non-empty string")
+        else:
+            fail(errors, f"{label}: interactive.visual_legend must be a non-empty string or list")
+    mode_descriptions = interactive.get("mode_descriptions")
+    if mode_descriptions is not None:
+        if not isinstance(mode_descriptions, dict):
+            fail(errors, f"{label}: interactive.mode_descriptions must be an object")
+        else:
+            for mode, description in mode_descriptions.items():
+                if mode not in INTERACTIVE_MODES:
+                    fail(errors, f"{label}: interactive.mode_descriptions has unknown mode {mode}")
+                if not isinstance(description, str) or not description.strip():
+                    fail(errors, f"{label}: interactive.mode_descriptions.{mode} must be a non-empty string")
     mode_estimates = interactive.get("mode_action_estimates")
     if mode_estimates is not None:
         if not isinstance(mode_estimates, dict):

@@ -81,6 +81,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 12,
+    "mode_action_estimates": {
+      "random": {"typical": 12, "nature": "пройти один скрытый случай троичного поиска"},
+      "cheater": {"typical": 12, "nature": "видеть кандидатов после каждого взвешивания и отладить стратегию"},
+      "exhaustive": {"typical": 4, "nature": "проверить все ветви дерева для 9 возможных тяжелых монет"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "coin_count": 9,
     "counterfeit_weight": "heavier",
     "max_weighings": 2,

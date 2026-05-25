@@ -56,6 +56,17 @@
       "confidence": 0.62
     },
     {
+      "id": "rel-kvantland-detective-6-trainer-to-70",
+      "from": "kvantland-detective-6-witness-criminal-trainer",
+      "to": "kvantland-detective-70-witness-criminal",
+      "type": "variant",
+      "distance": 1,
+      "forward_text": "Малый вариант сохраняет тот же кодовый конфликт свидетель-преступник: коды людей должны образовывать антицепь. Числа уменьшены до точного предельного случая \\(\\binom42=6\\), поэтому стратегию можно построить руками.",
+      "backward_text": "Исходная квантландская задача является полным масштабом той же схемы: вместо шести двухэлементных кодов длины 4 используются все 70 четырехэлементных кодов длины 8.",
+      "status": "ai_checked",
+      "confidence": 0.97
+    },
+    {
       "id": "rel-kvantland-detective-70-to-fixed-questions",
       "from": "kvantland-detective-70-witness-criminal",
       "to": "fixed-questions-as-binary-code",

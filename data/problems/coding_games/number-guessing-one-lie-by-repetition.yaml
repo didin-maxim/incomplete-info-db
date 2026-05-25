@@ -65,11 +65,16 @@
     "repetitions_per_bit": 3,
     "max_lies": 1,
     "objective": "identify_hidden_number",
-    "interactive_strength": "weak",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
     "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "random": {"typical": 4, "nature": "ответить на повторные битовые вопросы для одного скрытого числа с одной ложью"},
+      "manual_spectator": {"typical": 4, "nature": "выбрать скрытое число и один ложный ответ, затем расшифровать большинством"}
+    },
     "heavy_interactive_warning": false,
     "visual_legend_needed": false,
-    "modes": ["random", "manual_spectator", "exhaustive"]
+    "modes": ["random", "manual_spectator"]
   },
   "difficulty": {
     "main": "intro",
@@ -88,6 +93,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "already_parameterized_same_solution_nonoptimal",
-    "notes": ["2026-05-18: карточка уже параметризована по m; это полезное конструктивное обобщение, но не оптимальная классификация игры с одной ложью."]
+    "notes": ["2026-05-18: карточка уже параметризована по m; это полезное конструктивное обобщение, но не оптимальная классификация игры с одной ложью.", "2026-05-25: интерактив повышен до strong для заявленной конструктивной задачи про тройное повторение: пользователь декодирует ответы с одной ложью, а exhaustive проверяет все одиночные ошибки. Это не претендует на оптимальность общей игры с одной ложью.", "2026-05-25: exhaustive removed from public modes: the all-numbers/all-one-lie check is a verifier of the repetition code, while random/manual_spectator keep the public decoding activity."]
   }
 }

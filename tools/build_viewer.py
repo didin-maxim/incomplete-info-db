@@ -1027,6 +1027,25 @@ def build_html(data):
       background: #fff0ed;
     }
 
+    .interactive-intro {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px 12px;
+      color: #33413e;
+      display: grid;
+      gap: 6px;
+    }
+
+    .interactive-intro p {
+      margin: 0;
+    }
+
+    .interactive-intro ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
     .finite-pair-table {
       width: 100%;
       border-collapse: collapse;
@@ -1934,6 +1953,137 @@ def build_html(data):
       background: #dceee5;
       border-color: #4f8f6a;
       color: #163424;
+    }
+
+    .adjacent-swap-workspace {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(220px, 1fr);
+      gap: 14px;
+      align-items: start;
+    }
+
+    .adjacent-swap-board {
+      display: grid;
+      grid-template-columns: repeat(var(--swap-cols, 3), minmax(86px, 1fr));
+      gap: 8px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f7faf8;
+    }
+
+    .adjacent-swap-cell {
+      min-width: 0;
+      border: 1px solid #b8c6c2;
+      border-radius: 8px;
+      background: #fff;
+      padding: 8px;
+      display: grid;
+      gap: 7px;
+    }
+
+    .adjacent-swap-cell.is-selected {
+      border-color: #2f6f52;
+      box-shadow: 0 0 0 2px rgba(79, 143, 106, .22);
+    }
+
+    .adjacent-swap-cell.is-query {
+      background: #f1f8f4;
+      border-color: #4f8f6a;
+    }
+
+    .adjacent-swap-box {
+      width: 100%;
+      min-height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fffdfa;
+      color: var(--ink);
+      cursor: pointer;
+      display: grid;
+      gap: 4px;
+      place-items: center;
+      padding: 8px;
+    }
+
+    .adjacent-swap-cell-index {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .adjacent-swap-box-number {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: #273833;
+      color: #fff;
+      font-size: 22px;
+      font-weight: 850;
+    }
+
+    .adjacent-swap-query-toggle {
+      border: 1px solid #b8c6c2;
+      border-radius: 8px;
+      background: #fbfdfc;
+      color: #20302d;
+      min-height: 34px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .adjacent-swap-query-toggle[aria-pressed="true"] {
+      background: #dceee5;
+      border-color: #4f8f6a;
+      color: #163424;
+    }
+
+    .adjacent-swap-select-label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .adjacent-swap-select-label select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 6px;
+    }
+
+    .adjacent-swap-side {
+      display: grid;
+      gap: 10px;
+    }
+
+    .adjacent-edge-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 44px;
+      margin: 2px;
+      padding: 3px 7px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: #263631;
+      font-weight: 800;
+    }
+
+    @media (max-width: 760px) {
+      .adjacent-swap-workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .adjacent-swap-board {
+        grid-template-columns: repeat(var(--swap-cols, 3), minmax(76px, 1fr));
+      }
     }
 
     .antichain-board {
@@ -4109,6 +4259,95 @@ __WEIGHING_CHEATER_JS__
         manual_spectator: 'зритель выбирает карту'
       };
       return labels[value] || value || '';
+    }
+
+    function textLines(value) {
+      if (Array.isArray(value)) return value.map(item => String(item || '').trim()).filter(Boolean);
+      const text = String(value || '').trim();
+      return text ? [text] : [];
+    }
+
+    function isWeighingInteractiveType(type) {
+      return [
+        'single_counterfeit_weighing',
+        'single_counterfeit_unknown_direction',
+        'opposite_counterfeit_pair_weighing',
+        'noisy_balance_unknown_direction',
+        'zero_one_two_counterfeit_sign',
+        'safe_pile_balance_certificate',
+        'expert_judge_certificate',
+        'two_counterfeit_same_sign_expert_judge',
+        'zoltar_heavier_hand_removal',
+        'paid_weighing_find_genuine',
+        'paired_light_counterfeits',
+        'multiple_light_find_one',
+        'grouped_light_counterfeits',
+        'structured_line_find_one',
+        'constrained_light_counterfeit_sets',
+        'threshold_balance_counterfeit_sets',
+        'uniformity_verification',
+        'property_verification_balance',
+        'selected_coin_parity_detector',
+        'faulty_scale_identification',
+        'broken_scale_counterfeit_coin',
+        'broken_detector_counterfeit_coin',
+        'heaviest_coin_one_broken_scale',
+        'balanced_weight_signature_protocol',
+        'numeric_linear_signature',
+        'rotated_tray_balance_protocol'
+      ].includes(type);
+    }
+
+    function generatedCheaterDescription(config) {
+      const type = String(config?.type || '');
+      const protocol = String(config?.protocol || '');
+      const objective = String(config?.objective || '');
+      if (type === 'moving_target_graph_search') {
+        return 'Режим «Шулер» здесь означает движущуюся цель: после каждой неудачной проверки она остается в одном из еще допустимых положений и может перейти по разрешенному ребру. Интерактив выбирает самый неудобный еще совместимый ответ, а не подсказывает маршрут ловли.';
+      }
+      if (type === 'finite_binary_state_protocol' && protocol === 'adjacent_pair_grid_search') {
+        return 'Режим «Шулер» здесь не подсказка: спрятанная соседняя пара может тайно перерисовываться в любую еще допустимую соседнюю пару, пока ответы не противоречат истории ваших вопросов.';
+      }
+      if (type === 'finite_binary_state_protocol') {
+        return 'Режим «Шулер» для да/нет протокола выбирает после каждого вопроса самый неудобный ответ на вопрос из тех, что еще совместимы с уже услышанной историей.';
+      }
+      if (objective === 'identify_hidden_number' || type === 'binary_question_code' || type === 'balanced_subset_question_code' || type === 'ternary_question_code' || type === 'repetition_code_one_lie_questions') {
+        return 'Режим «Шулер» здесь похож на число, которое после каждого вопроса можно перезадумать среди еще совместимых чисел. Это противник, а не подсказка к первому вопросу.';
+      }
+      if (isWeighingInteractiveType(type)) {
+        return 'Режим «Шулер» для взвешиваний не знает заранее выбранного ответа: после каждого вашего взвешивания он выбирает допустимый исход весов, оставляющий как можно больше совместимых вариантов.';
+      }
+      return 'Режим «Шулер» - это противник, а не подсказка: после каждого вашего действия он выбирает самый неудобный ответ из тех, что еще не противоречат истории.';
+    }
+
+    function configuredModeDescriptions(config) {
+      const descriptions = config?.mode_descriptions || config?.modeDescriptions || {};
+      if (!descriptions || typeof descriptions !== 'object' || Array.isArray(descriptions)) return [];
+      const modes = asArray(config?.modes || config?.mode || []);
+      return modes
+        .filter(mode => descriptions[mode])
+        .map(mode => `<li><strong>${esc(interactiveModeLabel(mode))}:</strong> ${esc(String(descriptions[mode]).trim())}</li>`);
+    }
+
+    function renderInteractiveIntro(problem, config) {
+      const presentation = interactivePresentation(config);
+      const strength = String(config?.interactive_strength || '').trim().toLowerCase();
+      if (presentation === 'review_only' || strength === 'remove') return '';
+      const modes = asArray(config?.modes || config?.mode || []);
+      const paragraphs = [
+        ...textLines(config?.introduction || config?.intro),
+        ...textLines(config?.visual_legend || config?.visualLegend)
+      ];
+      const generated = [];
+      if (modes.includes('cheater')) generated.push(generatedCheaterDescription(config));
+      const modeItems = configuredModeDescriptions(config);
+      const content = [
+        ...paragraphs.map(line => `<p>${esc(line)}</p>`),
+        ...generated.map(line => `<p>${esc(line)}</p>`),
+        modeItems.length ? `<ul>${modeItems.join('')}</ul>` : ''
+      ].filter(Boolean).join('');
+      if (!content) return '';
+      return `<div class="interactive-intro" aria-label="Вводная к интерактиву">${content}</div>`;
     }
 
     function normalizeKnownSignOptions(config, fallback) {
@@ -7215,17 +7454,25 @@ __WEIGHING_CHEATER_JS__
       const options = Array.from({ length: normalized.boxCount }, (_item, index) => index + 1)
         .map(value => `<option value="${esc(value)}">${esc(value)}</option>`)
         .join('');
+      const edgeChips = [];
+      for (let row = 0; row < normalized.gridRows; row += 1) {
+        for (let col = 0; col < normalized.gridCols; col += 1) {
+          const here = row * normalized.gridCols + col;
+          if (col + 1 < normalized.gridCols) edgeChips.push(`${here + 1}-${here + 2}`);
+          if (row + 1 < normalized.gridRows) edgeChips.push(`${here + 1}-${here + normalized.gridCols + 1}`);
+        }
+      }
       const cells = Array.from({ length: normalized.boxCount }, (_item, index) => `
-        <label class="subset-test-row">
-          <span class="subset-test-title">
-            <span>клетка ${esc(index + 1)}</span>
-            <span class="pill" data-adjacent-swap-cell="${esc(index)}">?</span>
-          </span>
-          <select data-adjacent-swap-position="${esc(index)}">${options}</select>
-        </label>
-      `).join('');
-      const queryButtons = Array.from({ length: normalized.boxCount }, (_item, index) => `
-        <button class="subset-ball" type="button" data-adjacent-swap-query="${esc(index + 1)}" aria-pressed="false">${esc(index + 1)}</button>
+        <div class="adjacent-swap-cell" data-adjacent-swap-cell-shell="${esc(index)}">
+          <button class="adjacent-swap-box" type="button" data-adjacent-swap-pick="${esc(index)}" aria-pressed="false">
+            <span class="adjacent-swap-cell-index">клетка ${esc(index + 1)}</span>
+            <span class="adjacent-swap-box-number" data-adjacent-swap-cell="${esc(index)}">${esc(index + 1)}</span>
+          </button>
+          <button class="adjacent-swap-query-toggle" type="button" data-adjacent-swap-query-position="${esc(index)}" aria-pressed="false">в сумме</button>
+          <label class="adjacent-swap-select-label">шкатулка
+            <select data-adjacent-swap-position="${esc(index)}">${options}</select>
+          </label>
+        </div>
       `).join('');
       const answerOptions = '<option value="none">нет обмена</option>' + Array.from({ length: 7 }, (_item, index) => `
         <option value="edge:${esc(index)}" data-adjacent-answer-edge="${esc(index)}">обмен ${esc(index + 1)}</option>
@@ -7260,13 +7507,19 @@ __WEIGHING_CHEATER_JS__
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
-          <div class="subset-test-grid">${cells}</div>
-          <div class="subset-test-row">
-            <div class="subset-test-title">
-              <span>Спросить сумму в шкатулках</span>
-              <span class="pill" data-adjacent-swap-query-pill>пусто</span>
+          <div class="adjacent-swap-workspace">
+            <div class="adjacent-swap-board" style="--swap-cols: ${esc(normalized.gridCols)}">
+              ${cells}
             </div>
-            <div class="subset-ball-grid">${queryButtons}</div>
+            <div class="adjacent-swap-side">
+              <div class="subset-test-row adjacent-swap-summary">
+                <div class="subset-test-title">
+                  <span>Запрос суммы</span>
+                  <span class="pill" data-adjacent-swap-query-pill>пусто</span>
+                </div>
+                <div class="local-muted">Соседние обмены идут по общим сторонам клеток: ${edgeChips.map(edge => `<span class="adjacent-edge-chip">${esc(edge)}</span>`).join('')}</div>
+              </div>
+            </div>
           </div>
           <div class="numeric-result" data-adjacent-swap-result></div>
         </div>
@@ -8311,14 +8564,14 @@ __WEIGHING_CHEATER_JS__
                 ${normalized.modes.map(mode => `<option value="${esc(mode)}">${esc(finiteBinaryModeLabel(mode))}</option>`).join('')}
               </select>
             </label>
-            <label>Вопрос
+            <label>Что спросить
               <select data-finite-binary-action></select>
             </label>
-            <button class="small-button" type="button" data-finite-binary-ask>Спросить</button>
-            <label data-answer-wrap>Ответ
+            <button class="small-button" type="button" data-finite-binary-ask>Задать вопрос</button>
+            <label data-answer-wrap>Итоговый ответ
               <select data-finite-binary-answer></select>
             </label>
-            <button class="small-button" type="button" data-finite-binary-submit-answer>Ответить</button>
+            <button class="small-button" type="button" data-finite-binary-submit-answer>Дать итоговый ответ</button>
             <button class="small-button" type="button" data-reset-interactive>Начать заново</button>
           </div>
           <div class="interactive-status" data-interactive-status></div>
@@ -8332,7 +8585,7 @@ __WEIGHING_CHEATER_JS__
               <div class="pill-row" data-state-list></div>
             </div>
             <div class="card dense-card">
-              <h4>Гарантированные ответы</h4>
+              <h4>Итоговые ответы, которые уже доказаны</h4>
               <div class="pill-row" data-answer-list></div>
             </div>
           </div>
@@ -9055,7 +9308,7 @@ __WEIGHING_CHEATER_JS__
         return `<line class="graph-edge" x1="${esc(first.x)}%" y1="${esc(first.y)}%" x2="${esc(second.x)}%" y2="${esc(second.y)}%"></line>`;
       }).join('');
       const vertices = normalized.vertices.map(vertex => `
-        <button class="graph-vertex color-${esc(vertex.color || 'plain')}" type="button" data-graph-vertex="${esc(vertex.id)}" style="left:${esc(vertex.x)}%; top:${esc(vertex.y)}%;">
+        <button class="graph-vertex" type="button" data-graph-vertex="${esc(vertex.id)}" data-graph-color="${esc(vertex.color || 'plain')}" style="left:${esc(vertex.x)}%; top:${esc(vertex.y)}%;">
           ${esc(vertex.label)}
         </button>
       `).join('');
@@ -9101,9 +9354,9 @@ __WEIGHING_CHEATER_JS__
               <div class="card dense-card">
                 <h4>Легенда</h4>
                 <div class="graph-legend">
-                  <div class="graph-legend-item">
+                  <div class="graph-legend-item" data-graph-color-legend hidden>
                     <span><span class="graph-legend-dot color-light"></span><span class="graph-legend-dot color-dark"></span></span>
-                    <span>фон вершины - доля шахматной раскраски куба; после промаха муха переходит в другую долю</span>
+                    <span>фон вершины - служебная окраска схемы</span>
                   </div>
                   <div class="graph-legend-item">
                     <span class="graph-legend-dot possible"></span>
@@ -9908,7 +10161,7 @@ __WEIGHING_CHEATER_JS__
       if (!config?.type) return '';
       if (interactivePresentation(config) === 'review_only') return '';
       const renderer = INTERACTIVE_RENDERERS[config.type] || renderUnknownInteractive;
-      return `${renderInteractiveCaption(problem, config)}${renderer(problem, config)}`;
+      return `${renderInteractiveIntro(problem, config)}${renderInteractiveCaption(problem, config)}${renderer(problem, config)}`;
     }
 
     function hasRunnableInteractive(problem) {
@@ -12543,10 +12796,10 @@ __WEIGHING_CHEATER_JS__
         const codewords = helper.threeLetterErasureNormalizeCodewords(cfg);
         const codeword = codewords[model.message] || '';
         const observed = helper.threeLetterErasureErase(codeword, model.erased);
-        const decoded = helper.threeLetterErasureDecode({ ...cfg, observed });
         const tableCheck = helper.threeLetterErasureCheckTable(cfg);
         const isRandomChallenge = model.mode === 'random';
         const revealHiddenCase = !isRandomChallenge || model.guess != null;
+        const decoded = revealHiddenCase ? helper.threeLetterErasureDecode({ ...cfg, observed }) : null;
 
         panel.querySelector('[data-interactive-run-mode]').value = model.mode;
         panel.querySelector('[data-three-message]').value = String(model.message);
@@ -12554,14 +12807,18 @@ __WEIGHING_CHEATER_JS__
         panel.querySelector('[data-current-mode-pill]').textContent = threeLetterErasureModeLabel(model.mode);
         panel.querySelector('[data-three-message-wrap]').hidden = isRandomChallenge;
         panel.querySelector('[data-three-erased-wrap]').hidden = isRandomChallenge;
-        panel.querySelector('[data-three-secret-row]').hidden = !revealHiddenCase;
-        panel.querySelector('[data-three-codeword]').textContent = `слово: ${codeword || '-'}`;
-        panel.querySelector('[data-three-erased-pill]').textContent = `стерта: ${model.erased}`;
+        const secretRow = panel.querySelector('[data-three-secret-row]');
+        secretRow.hidden = !revealHiddenCase;
+        panel.querySelector('[data-three-codeword]').textContent = revealHiddenCase ? `слово: ${codeword || '-'}` : '';
+        panel.querySelector('[data-three-erased-pill]').textContent = revealHiddenCase ? `стерта: ${model.erased}` : '';
         panel.querySelector('[data-three-observed]').textContent = observed || 'пустая строка';
-        panel.querySelector('[data-three-decode-note]').hidden = !revealHiddenCase;
-        panel.querySelector('[data-three-decode-note]').textContent = decoded.messages.length
-          ? `По таблице подходят сообщения: ${decoded.messages.join(', ')}.`
-          : 'В таблице нет такого остатка.';
+        const decodeNote = panel.querySelector('[data-three-decode-note]');
+        decodeNote.hidden = !revealHiddenCase;
+        decodeNote.textContent = revealHiddenCase
+          ? (decoded.messages.length
+              ? `По таблице подходят сообщения: ${decoded.messages.join(', ')}.`
+              : 'В таблице нет такого остатка.')
+          : '';
         panel.querySelector('[data-three-sandbox-check]').hidden = model.mode !== 'sandbox';
         panel.querySelector('[data-three-sandbox]').disabled = model.mode !== 'sandbox';
         panel.querySelector('[data-three-exhaustive]').hidden = model.mode === 'sandbox';
@@ -14657,6 +14914,10 @@ __WEIGHING_CHEATER_JS__
         return model.mode === 'exhaustive' ? (activeNode()?.history || []) : model.history;
       }
 
+      function shouldShowGraphColors() {
+        return currentHistory().length > 0 || model.locked;
+      }
+
       function validateSelection() {
         return helper.movingTargetValidation(checkedVertices(), config);
       }
@@ -14763,8 +15024,11 @@ __WEIGHING_CHEATER_JS__
 
       function renderGraph() {
         const possible = new Set(currentStates());
+        const showColors = shouldShowGraphColors();
         for (const button of panel.querySelectorAll('[data-graph-vertex]')) {
           const id = button.dataset.graphVertex;
+          button.classList.remove('color-light', 'color-dark');
+          if (showColors) button.classList.add(`color-${button.dataset.graphColor || 'plain'}`);
           button.classList.toggle('possible', possible.has(id));
           button.classList.toggle('actual', model.result?.win && model.result.actualState === id);
           button.disabled = model.locked || (model.mode === 'exhaustive' && activeNode()?.status !== 'open');
@@ -14826,6 +15090,8 @@ __WEIGHING_CHEATER_JS__
         renderGraph();
         renderHistory();
         renderBranches();
+        const colorLegend = panel.querySelector('[data-graph-color-legend]');
+        if (colorLegend) colorLegend.hidden = !shouldShowGraphColors();
         const node = activeNode();
         const states = currentStates();
         panel.querySelector('[data-test-counter]').textContent = model.mode === 'exhaustive'
@@ -15509,7 +15775,7 @@ __WEIGHING_CHEATER_JS__
         container.innerHTML = history.map((item, index) => ({ item, index: index + 1 })).reverse().map(({ item, index }) => `
           <div class="history-item">
             <div><strong>${esc(index)}.</strong> ${esc(actionLabel(item.action))}</div>
-            <div class="history-result">${esc(responseLabel(item.response))}</div>
+            <div class="history-result">Ответ на вопрос: ${esc(responseLabel(item.response))}</div>
             <div class="local-muted">Совместимо: ${esc(countText(item.states.length, 'состояние', 'состояния', 'состояний'))}</div>
           </div>
         `).join('');
@@ -15523,7 +15789,7 @@ __WEIGHING_CHEATER_JS__
         container.innerHTML = leaves().map(node => {
           const active = node.id === model.activeNodeId ? ' active' : '';
           const answers = guaranteedAnswers(node.states);
-          const answerText = answers.length ? `; ответ: ${answers.map(formatAnswer).join(' или ')}` : '';
+          const answerText = answers.length ? `; итог: ${answers.map(formatAnswer).join(' или ')}` : '';
           const history = node.history.length
             ? node.history.map((step, index) => `${index + 1}: ${actionLabel(step.action)} -> ${responseLabel(step.response)}`).join(' | ')
             : 'корень';
@@ -15573,24 +15839,24 @@ __WEIGHING_CHEATER_JS__
         if (model.mode === 'exhaustive') {
           const open = leaves().filter(item => item.status === 'open').length;
           const failed = leaves().filter(item => item.status === 'failed').length;
-          if (!open && !failed) setStatus('Стратегия принята: каждая ветка дает допустимый ответ.', 'success');
-          else if (!open) setStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита без ответа.`, 'error');
+          if (!open && !failed) setStatus('Стратегия принята: каждая ветка дает допустимый итоговый ответ.', 'success');
+          else if (!open) setStatus(`Осталась неоднозначность: ${failed} ветвей дошли до лимита без итогового ответа.`, 'error');
           else if (node?.status === 'open') setStatus(`Продолжайте ветку ${node.id.slice(1)}.`);
-          else if (node?.status === 'solved') setStatus(`Ветка решена: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
-          else setStatus('Эта ветка исчерпала лимит без гарантированного ответа.', 'error');
+          else if (node?.status === 'solved') setStatus(`Ветка решена, итоговый ответ: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
+          else setStatus('Эта ветка исчерпала лимит без гарантированного итогового ответа.', 'error');
         } else if (model.locked && model.result) {
           setStatus(model.result.win
-            ? `Ответ принят: ${formatAnswer(model.answer)}.`
-            : `Ответ не гарантирован. Совместимый контрпример: ${stateLabel(model.result.actualState)}.`,
+            ? `Итоговый ответ принят: ${formatAnswer(model.answer)}.`
+            : `Итоговый ответ не гарантирован. Совместимый контрпример: ${stateLabel(model.result.actualState)}.`,
             model.result.win ? 'success' : 'error');
         } else if (answers.length) {
-          setStatus(`Уже можно ответить: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
+          setStatus(`Уже можно дать итоговый ответ: ${answers.map(formatAnswer).join(' или ')}.`, 'success');
         } else if (model.history.length >= config.maxTests) {
-          setStatus('Вопросов не осталось, но гарантированного ответа нет.', 'error');
+          setStatus('Вопросов не осталось, но гарантированного итогового ответа нет.', 'error');
         } else {
           setStatus(model.mode === 'cheater'
-            ? 'Шулер выбирает ответ, который оставляет максимум совместимых состояний.'
-            : 'Выберите вопрос и нажмите «Спросить».');
+            ? 'Шулер выбирает ответ на вопрос, который оставляет максимум совместимых состояний.'
+            : 'Выберите, что спросить, и нажмите «Задать вопрос».');
         }
       }
 
@@ -16788,6 +17054,8 @@ __WEIGHING_CHEATER_JS__
       let mode = config.defaultMode || 'exhaustive';
       let lastCheck = null;
       let randomTrial = null;
+      let selectedCell = null;
+      const queryLabels = new Set();
 
       function readArrangement() {
         return Array.from({ length: config.boxCount }, (_item, index) =>
@@ -16796,12 +17064,7 @@ __WEIGHING_CHEATER_JS__
       }
 
       function readQuery() {
-        const selected = [];
-        for (let label = 1; label <= config.boxCount; label += 1) {
-          const button = panel.querySelector(`[data-adjacent-swap-query="${label}"]`);
-          if (button?.getAttribute('aria-pressed') === 'true') selected.push(label);
-        }
-        return selected;
+        return [...queryLabels].sort((a, b) => a - b);
       }
 
       function stateLabel(state) {
@@ -16834,12 +17097,50 @@ __WEIGHING_CHEATER_JS__
         if ([...select.options].some(option => option.value === previous)) select.value = previous;
       }
 
+      function setArrangement(arrangement) {
+        for (let index = 0; index < config.boxCount; index += 1) {
+          const select = panel.querySelector(`[data-adjacent-swap-position="${index}"]`);
+          if (select) select.value = String(arrangement[index] || index + 1);
+        }
+      }
+
+      function markSchemeDirty() {
+        lastCheck = null;
+        randomTrial = null;
+      }
+
+      function swapCells(first, second) {
+        if (first === second) return;
+        const arrangement = readArrangement();
+        [arrangement[first], arrangement[second]] = [arrangement[second], arrangement[first]];
+        setArrangement(arrangement);
+        markSchemeDirty();
+      }
+
       function renderStaticState() {
         const arrangement = readArrangement();
         const query = readQuery();
         for (let index = 0; index < config.boxCount; index += 1) {
           const pill = panel.querySelector(`[data-adjacent-swap-cell="${index}"]`);
           if (pill) pill.textContent = arrangement[index];
+          const shell = panel.querySelector(`[data-adjacent-swap-cell-shell="${index}"]`);
+          const pick = panel.querySelector(`[data-adjacent-swap-pick="${index}"]`);
+          const queryButton = panel.querySelector(`[data-adjacent-swap-query-position="${index}"]`);
+          const isSelected = selectedCell === index;
+          const isQuery = queryLabels.has(arrangement[index]);
+          if (shell) {
+            shell.classList.toggle('is-selected', isSelected);
+            shell.classList.toggle('is-query', Boolean(isQuery));
+          }
+          if (pick) {
+            pick.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+            pick.setAttribute('aria-label', `клетка ${index + 1}, шкатулка ${arrangement[index]}`);
+          }
+          if (queryButton) {
+            queryButton.setAttribute('aria-pressed', isQuery ? 'true' : 'false');
+            queryButton.textContent = isQuery ? 'в сумме' : 'не в сумме';
+            queryButton.setAttribute('aria-label', `${isQuery ? 'убрать' : 'добавить'} шкатулку ${arrangement[index]} ${isQuery ? 'из запроса суммы' : 'в запрос суммы'}`);
+          }
         }
         const queryPill = panel.querySelector('[data-adjacent-swap-query-pill]');
         if (queryPill) queryPill.textContent = queryLabel(query);
@@ -16969,24 +17270,51 @@ __WEIGHING_CHEATER_JS__
 
       for (const select of panel.querySelectorAll('[data-adjacent-swap-position]')) {
         select.addEventListener('change', () => {
-          lastCheck = null;
-          randomTrial = null;
+          const index = Number(select.dataset.adjacentSwapPosition);
+          const nextValue = Number(select.value);
+          const arrangement = readArrangement();
+          const duplicateIndex = arrangement.findIndex((value, otherIndex) => otherIndex !== index && value === nextValue);
+          if (duplicateIndex >= 0) {
+            const missingValue = Array.from({ length: config.boxCount }, (_item, valueIndex) => valueIndex + 1)
+              .find(value => !arrangement.includes(value));
+            arrangement[duplicateIndex] = missingValue || arrangement[duplicateIndex];
+            arrangement[index] = nextValue;
+            setArrangement(arrangement);
+          }
+          selectedCell = null;
+          markSchemeDirty();
           renderInteractiveState();
         });
       }
-      for (const button of panel.querySelectorAll('[data-adjacent-swap-query]')) {
+      for (const button of panel.querySelectorAll('[data-adjacent-swap-pick]')) {
         button.addEventListener('click', () => {
-          const pressed = button.getAttribute('aria-pressed') === 'true';
-          button.setAttribute('aria-pressed', pressed ? 'false' : 'true');
-          lastCheck = null;
-          randomTrial = null;
+          const index = Number(button.dataset.adjacentSwapPick);
+          if (selectedCell == null) {
+            selectedCell = index;
+          } else if (selectedCell === index) {
+            selectedCell = null;
+          } else {
+            swapCells(selectedCell, index);
+            selectedCell = null;
+          }
+          renderInteractiveState();
+        });
+      }
+      for (const button of panel.querySelectorAll('[data-adjacent-swap-query-position]')) {
+        button.addEventListener('click', () => {
+          const index = Number(button.dataset.adjacentSwapQueryPosition);
+          const label = readArrangement()[index];
+          if (queryLabels.has(label)) queryLabels.delete(label);
+          else queryLabels.add(label);
+          selectedCell = null;
+          markSchemeDirty();
           renderInteractiveState();
         });
       }
       panel.querySelector('[data-interactive-run-mode]')?.addEventListener('change', event => {
         mode = event.target.value;
-        lastCheck = null;
-        randomTrial = null;
+        selectedCell = null;
+        markSchemeDirty();
         renderInteractiveState();
       });
       panel.querySelector('[data-adjacent-swap-check]')?.addEventListener('click', checkSignature);
@@ -16997,9 +17325,9 @@ __WEIGHING_CHEATER_JS__
           const select = panel.querySelector(`[data-adjacent-swap-position="${index}"]`);
           if (select) select.value = String(index + 1);
         }
-        for (const button of panel.querySelectorAll('[data-adjacent-swap-query]')) button.setAttribute('aria-pressed', 'false');
-        lastCheck = null;
-        randomTrial = null;
+        queryLabels.clear();
+        selectedCell = null;
+        markSchemeDirty();
         renderInteractiveState();
       });
 

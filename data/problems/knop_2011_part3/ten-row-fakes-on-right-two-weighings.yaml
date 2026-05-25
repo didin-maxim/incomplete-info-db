@@ -110,6 +110,15 @@
   "interactive": {
     "type": "constrained_light_counterfeit_sets",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 9,
+    "mode_action_estimates": {
+      "random": {"typical": 9, "nature": "сделать до двух взвешиваний и назвать границу фальшивого суффикса"},
+      "cheater": {"typical": 9, "nature": "проверить гарантию против худшей совместимой границы"},
+      "exhaustive": {"typical": 9, "nature": "проверить все возможные границы в ряду"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 10,
     "counterfeit_weight": "lighter",
     "max_weighings": 2,

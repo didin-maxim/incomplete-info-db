@@ -87,6 +87,14 @@
   "interactive": {
     "type": "numeric_linear_signature",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "mode_action_estimates": {
+      "random": {"typical": 5, "nature": "задать две числовые проверки с лимитом монет и назвать набор мешков"},
+      "exhaustive": {"typical": 8, "nature": "проверить все подмножества фальшивых мешков"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 3,
     "max_weighings": 2,
     "objective": "identify_fake_bag_subset",

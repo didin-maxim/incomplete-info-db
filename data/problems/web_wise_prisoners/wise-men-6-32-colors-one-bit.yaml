@@ -67,16 +67,17 @@
   },
   "interactive": {
     "type": "wise_men_even_parity_code",
-    "presentation": "demonstration",
-    "interactive_strength": "demonstration",
-    "estimated_user_actions": 4,
-    "visual_legend_needed": true,
-    "heavy_interactive_warning": true,
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "visual_legend_needed": false,
+    "heavy_interactive_warning": false,
     "person_count": 6,
     "color_count": 32,
     "max_weighings": 1,
     "objective": "all_agents_find_own_state",
-    "modes": ["random", "challenge", "exhaustive"]
+    "modes": []
   },
   "difficulty": {
     "main": "olympiad_medium",
@@ -101,7 +102,8 @@
     "notes": [
       "Карточка создана как учебный малый случай задачи problems-ru-64616-eleven-wise-men-1000-colors-one-bit: вместо 11 мудрецов и 1000 цветов взяты 6 мудрецов и ровно 32 четных шестибитных кода.",
       "Отдельный внешний источник для параметров 6 и 32 не указан: это редакционный частный случай, выбранный для интерактивной проверки механизма.",
-      "2026-05-22: интерактив переведен из внешнего разбора в режим выбранного мудреца: собственный колпак и полный код скрыты до публичных битов и проверки ответа; полный перебор показывается агрегированно."
+      "2026-05-22: интерактив переведен из внешнего разбора в режим выбранного мудреца: собственный колпак и полный код скрыты до публичных битов и проверки ответа; полный перебор показывается агрегированно.",
+      "2026-05-25: публичная demonstration снята. Даже малый вариант 6 мудрецов / 32 цвета пока остается трассировкой готового parity-кода; для учебного объекта нужен редизайн с пошаговым построением четных шестибитных кодов."
     ]
   }
 }

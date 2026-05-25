@@ -58,6 +58,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 7,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "nature": "сделать до двух взвешиваний и выбрать один из вариантов ответа"},
+      "cheater": {"typical": 7, "nature": "проверить стратегию на худшем совместимом варианте"},
+      "exhaustive": {"typical": 9, "nature": "проверить девять вариантов включая отсутствие фальшивки"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 4,
     "known_genuine_count": 1,
     "max_weighings": 2,

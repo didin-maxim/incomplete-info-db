@@ -129,6 +129,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 14,
+    "mode_action_estimates": {
+      "random": {"typical": 14, "nature": "построить ветку взвешиваний с эталоном и дать полный ответ"},
+      "cheater": {"typical": 16, "nature": "строить гарантирующую ветку против худшего совместимого состояния"},
+      "exhaustive": {"typical": 32, "nature": "проверить дерево для всех signed-состояний подозрительных монет"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "coin_count": 13,
     "known_genuine_count": 1,
     "has_known_genuine": true,

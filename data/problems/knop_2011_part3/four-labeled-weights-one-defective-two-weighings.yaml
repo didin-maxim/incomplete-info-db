@@ -111,6 +111,15 @@
   "interactive": {
     "type": "numeric_linear_signature",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 6,
+    "mode_action_estimates": {
+      "random": {"typical": 6, "nature": "задать две числовые проверки и назвать дефектную гирю со знаком"},
+      "cheater": {"typical": 6, "nature": "проверить различимость против совместимого signed-состояния"},
+      "exhaustive": {"typical": 8, "nature": "проверить все варианты дефектной гири и знака"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 4,
     "object_kind": "weight",
     "nominal_weights": [1, 2, 3, 4],

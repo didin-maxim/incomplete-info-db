@@ -92,6 +92,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 14,
+    "mode_action_estimates": {
+      "random": {"typical": 14, "nature": "построить ветку взвешиваний и назвать номер фальшивой монеты"},
+      "cheater": {"typical": 16, "nature": "строить гарантирующую ветку при выборе худшего совместимого состояния"},
+      "exhaustive": {"typical": 32, "nature": "проверить дерево по 26 signed-состояниям с ответом только номером"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "coin_count": 13,
     "max_weighings": 3,
     "objective": "identify_coin_only_unknown_direction",

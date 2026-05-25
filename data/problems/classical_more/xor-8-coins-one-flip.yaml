@@ -92,16 +92,20 @@
   },
   "interactive": {
     "type": "xor_single_flip_protocol",
+    "presentation": "exercise",
     "position_count": 8,
     "objective": "identify_key_position",
     "interactive_strength": "strong",
     "estimated_user_actions": 2,
+    "mode_action_estimates": {
+      "random": {"typical": 2, "nature": "выбрать переворот как передающий, затем ответить как принимающий"},
+      "cheater": {"typical": 2, "nature": "тот же протокол против враждебно выбранного скрытого ключа"}
+    },
     "heavy_interactive_warning": false,
     "visual_legend_needed": true,
     "modes": [
       "random",
-      "cheater",
-      "exhaustive"
+      "cheater"
     ]
   },
   "difficulty": {
@@ -134,7 +138,8 @@
       "Внешний источник отдельно для восьмипозиционной версии не указан: подтвержденный источник относится к общей задаче One Coin for Freedom про 8x8 доску, а этот вариант служит учебным малым случаем с тем же XOR-решением.",
       "Нумерация 0..7 намеренно вынесена в условие, чтобы позиция 0 объясняла обязательный переворот без изменения контрольной суммы.",
       "2026-05-22: public_ready снят до сверки источника; математическая схема проверена, но единственный источник унаследован от общей XOR-карточки и имел статус needs_human_review.",
-      "2026-05-23: карточка открыта как редакционный малый случай после сверки общей версии по Levitin & Levitin, Algorithmic Puzzles, problem 148, One Coin for Freedom, и опубликованному обзору One-Move Puzzles with Mathematical Content."
+      "2026-05-23: карточка открыта как редакционный малый случай после сверки общей версии по Levitin & Levitin, Algorithmic Puzzles, problem 148, One Coin for Freedom, и опубликованному обзору One-Move Puzzles with Mathematical Content.",
+      "2026-05-25: exhaustive removed from public modes: it is an aggregate editor confidence check over all keys and boards, while random/cheater keep the student-facing protocol work."
     ]
   }
 }

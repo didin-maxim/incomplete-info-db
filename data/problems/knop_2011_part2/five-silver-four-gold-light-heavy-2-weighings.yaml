@@ -59,9 +59,19 @@
   "weighing_profile": {"object_count": 9, "counterfeit_count": 1, "counterfeit_type": "silver_lighter_gold_heavier", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "object_types": ["silver", "gold"], "objective": "identify_coin"},
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 12,
+    "mode_action_estimates": {
+      "random": {"typical": 12, "nature": "построить два взвешивания, учитывая типозависимый знак фальшивки"},
+      "cheater": {"typical": 12, "nature": "отладить, что серебряная фальшивка легче, а золотая тяжелее"},
+      "exhaustive": {"typical": 4, "nature": "проверить все 9 скрытых монет и три исхода первого взвешивания"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 9,
     "coin_types": ["silver", "silver", "silver", "silver", "silver", "gold", "gold", "gold", "gold"],
-    "coin_type_labels": {"silver": "silver", "gold": "gold"},
+    "coin_type_labels": {"silver": "серебро", "gold": "золото"},
     "genuine_weights": {"silver": 10, "gold": 11},
     "counterfeit_weights": {
       "silver": {"lighter": 9},

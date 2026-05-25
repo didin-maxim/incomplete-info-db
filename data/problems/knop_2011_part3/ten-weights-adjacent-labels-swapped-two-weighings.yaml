@@ -130,6 +130,15 @@
   "interactive": {
     "type": "numeric_linear_signature",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 7,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "nature": "задать две числовые проверки и назвать соседний обмен этикеток"},
+      "cheater": {"typical": 7, "nature": "проверить различимость против совместимого обмена"},
+      "exhaustive": {"typical": 9, "nature": "проверить все соседние обмены этикеток"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 10,
     "object_kind": "weight",
     "nominal_weights": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],

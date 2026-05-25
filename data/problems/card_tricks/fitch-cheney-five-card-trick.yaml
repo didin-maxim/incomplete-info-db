@@ -83,13 +83,18 @@
     "type": "fitch_cheney_card_trick",
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
-    "estimated_user_actions": 2,
+    "estimated_user_actions": 6,
+    "mode_action_estimates": {
+      "sandbox": {"typical": 6, "nature": "выбрать руку, скрытую карту и порядок показанных карт"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "deck_size": 52,
     "hand_size": 5,
     "shown_cards": 4,
     "hidden_cards": 1,
     "objective": "identify_hidden_card",
-    "modes": ["random", "exhaustive", "sandbox"]
+    "modes": ["sandbox"]
   },
   "communication_profile": {
     "senders": 1,
@@ -116,6 +121,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "same_solution_parameterized_with_capacity_condition",
-    "notes": ["2026-05-18: добавлена параметрическая форма; числа 52 и 5 существенны только как стандартный случай условий s+1 карт и floor(m/2) <= (s-1)!."]
+    "notes": ["2026-05-18: добавлена параметрическая форма; числа 52 и 5 существенны только как стандартный случай условий s+1 карт и floor(m/2) <= (s-1)!.", "2026-05-25: в публичной демонстрации оставлен только sandbox: случайная рука и полный перебор были проверками готового фокуса, а не учебным действием. Ручной выбор руки, скрытой карты и порядка лучше показывает, где в фокусе находятся пара одной масти и код расстояния."]
   }
 }

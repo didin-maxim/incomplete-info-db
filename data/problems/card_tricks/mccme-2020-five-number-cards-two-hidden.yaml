@@ -65,11 +65,16 @@
     "hidden_count": 2,
     "shown_count": 2,
     "objective": "identify_hidden_pair",
+    "presentation": "exercise",
+    "mode_action_estimates": {
+      "sandbox": {"typical": 5, "nature": "fill and check the finite pair table"},
+      "random": {"typical": 2, "nature": "test one hidden pair after the table idea is in place"}
+    },
     "interactive_strength": "strong",
     "estimated_user_actions": 5,
     "heavy_interactive_warning": false,
     "visual_legend_needed": false,
-    "modes": ["sandbox", "exhaustive", "random"]
+    "modes": ["sandbox", "random"]
   },
   "communication_profile": {
     "senders": 1,
@@ -95,7 +100,8 @@
     "relations_status": "mccme_card_tricks_batch",
     "notes": [
       "Добавлено из листка МЦНМО «Фокусы!», задача 1. Решение восстановлено редакционно: источник даёт условие без решения на открытой двухстраничной версии листка.",
-      "Не слито с фокусом Чейни с пятью картами: здесь передаётся не одна скрытая карта порядком четырёх карт, а две скрытые карточки выбором неупорядоченной пары из трёх видимых."
+      "Не слито с фокусом Чейни с пятью картами: здесь передаётся не одна скрытая карта порядком четырёх карт, а две скрытые карточки выбором неупорядоченной пары из трёх видимых.",
+      "2026-05-25: exhaustive removed from public modes: it is useful after the table is built, but as a public first-screen button it looks like an editor verifier rather than part of the puzzle."
     ]
   }
 }

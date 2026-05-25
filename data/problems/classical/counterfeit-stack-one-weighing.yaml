@@ -65,7 +65,7 @@
     "adaptive": false,
     "objective": "identify_stack"
   },
-  "interactive": {"type": "numeric_linear_signature", "bag_count": 10, "max_weighings": 1, "objective": "identify_fake_bag", "state_model": "single_fake_bag", "fake_bag_count": 1, "counterfeit_weight": "lighter", "counterfeit_delta": 1, "genuine_weight": 10, "observation_model": "actual_weight", "object_kind": "stack", "modes": ["random", "cheater", "exhaustive"]},
+  "interactive": {"type": "numeric_linear_signature", "presentation": "exercise", "interactive_strength": "strong", "estimated_user_actions": 2, "mode_action_estimates": {"random": {"typical": 2, "nature": "задать одно числовое взвешивание и назвать скрытую стопку"}, "cheater": {"typical": 2, "nature": "проверить один числовой запрос против совместимого скрытого варианта"}, "exhaustive": {"typical": 10, "nature": "проверить числовые подписи всех стопок"}}, "heavy_interactive_warning": false, "visual_legend_needed": true, "bag_count": 10, "max_weighings": 1, "objective": "identify_fake_bag", "state_model": "single_fake_bag", "fake_bag_count": 1, "counterfeit_weight": "lighter", "counterfeit_delta": 1, "genuine_weight": 10, "observation_model": "actual_weight", "object_kind": "stack", "modes": ["random", "cheater", "exhaustive"]},
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классическое кодирование номера через величину дефицита.", "status": "ai_checked"},
   "tags": ["digital_scale", "weighted_sum_encoding", "linear_signature", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [

@@ -80,11 +80,17 @@
   },
   "interactive": {
     "type": "prisoners_hats_parity_line",
+    "presentation": "exercise",
     "person_count": 6,
     "color_count": 2,
     "objective": "guarantee_all_but_first_correct",
     "interactive_strength": "strong",
     "estimated_user_actions": 7,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "nature": "проверка ответа при ограниченной видимости"},
+      "guided": {"typical": 1, "nature": "демонстрация"},
+      "exhaustive": {"typical": 1, "nature": "сводная проверка"}
+    },
     "heavy_interactive_warning": false,
     "visual_legend_needed": true,
     "modes": ["random", "guided", "exhaustive"]

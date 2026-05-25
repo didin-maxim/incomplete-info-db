@@ -96,15 +96,23 @@
   },
   "interactive": {
     "type": "zoltar_heavier_hand_removal",
-    "coin_count": 14,
-    "real_count": 7,
-    "counterfeit_count": 7,
-    "max_weighings": 25,
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": {"typical": 8, "nature": "учебный сценарий 3 настоящие / 3 легкие фальшивые с удалением из тяжелой руки"},
+      "cheater": {"typical": 8, "nature": "проверить стратегию против худших допустимых удалений"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "coin_count": 6,
+    "real_count": 3,
+    "counterfeit_count": 3,
+    "max_weighings": 9,
     "objective": "identify_one_genuine_coin_not_removed",
     "modes": [
       "random",
-      "cheater",
-      "exhaustive"
+      "cheater"
     ]
   },
   "difficulty": {
@@ -138,7 +146,9 @@
     "relations_status": "web_weighings",
     "notes": [
       "Проверка на дубли: в базе есть задачи про поиск фальшивых и про сертификацию настоящей монеты, но здесь скрытое состояние включает семь настоящих и семь легких фальшивых, а прибор при неравенстве случайно удаляет монету с более тяжелой стороны. Математическая модель не совпадает с существующими карточками.",
-      "Интерактив добавлен отдельным типом zoltar_heavier_hand_removal: в режиме random выбор удаляемой монеты случаен, а в cheater/exhaustive перебираются все допустимые удаления из более тяжелой руки."
+      "Интерактив добавлен отдельным типом zoltar_heavier_hand_removal: в режиме random выбор удаляемой монеты случаен, а в cheater/exhaustive перебираются все допустимые удаления из более тяжелой руки.",
+      "2026-05-25: интерактив оставлен как учебная версия на 6 монет, 3 настоящие и 3 легкие фальшивые; полная задача USAMTS на 14 монет остается в условии и стратегии, а учебный размер сохраняет ключевой конфликт удаления монеты из более тяжелой руки.",
+      "2026-05-25: exhaustive removed from public modes: the sweep over starting layouts and allowed removals is a verifier; cheater remains because it exercises worst-case removals."
     ]
   }
 }

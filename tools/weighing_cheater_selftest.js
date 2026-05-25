@@ -32,6 +32,9 @@ const thirteenPreassignedIdentifyOnlyConfig = loadProblemConfig('data/problems/c
 const thirteenKnownGenuineConfig = loadProblemConfig('data/problems/classical_more/thirteen-coins-known-genuine-three-weighings.yaml');
 const ukmtSixIdentifyOnlyConfig = loadProblemConfig('data/problems/ukmt/ukmt-open-ended-2013-six-coins-identify-only-trainer.yaml');
 const lighter25Config = loadProblemConfig('data/problems/classical/lighter-25-coins-3-weighings.yaml');
+const heavier9Config = loadProblemConfig('data/problems/weighings/heavier-9-coins-2-weighings.yaml');
+const heavier4ImpossibleConfig = loadProblemConfig('data/problems/impossibility/heavier-4-coins-one-weighing-impossible.yaml');
+const nrichSpotFakeConfig = loadProblemConfig('data/problems/nrich/nrich-spot-the-fake-two-weighings.yaml');
 const problemsRu34945Config = loadProblemConfig('data/problems/problems_ru/problems-ru-34945-27-light-coins.yaml');
 const paidWeighingConfig = loadProblemConfig('data/problems/problems_ru/problems-ru-65055-paid-weighings-genuine-coin.yaml');
 const oppositePairFiveCoinsConfig = loadProblemConfig('data/problems/problems_ru_deep/problems-ru-64498-five-coins-two-opposite-fakes.yaml');
@@ -50,6 +53,11 @@ const thirteenLabeledWeightsDefectiveConfig = loadProblemConfig('data/problems/k
 const lindstromTwoTriplesConfig = loadProblemConfig('data/problems/knop_2011_part4/lindstrom-1969-two-triples-one-fake-each.yaml');
 const problemsRuSignOnlyConfig = loadProblemConfig('data/problems/problems_ru/problems-ru-32820-sign-only-two-weighings.yaml');
 const problemsRuNoisyFourCoinsConfig = loadProblemConfig('data/problems/problems_ru/problems-ru-35224-noisy-balance-four-coins.yaml');
+const lktgThreeBalancesConfig = loadProblemConfig('data/problems/extended_sources/lktg-2008-three-balances-one-broken-three-coins.yaml');
+const lktgThreeDetectorsConfig = loadProblemConfig('data/problems/extended_sources/lktg-2008-three-detectors-one-broken-eight-coins.yaml');
+const lktgFourDetectorsConfig = loadProblemConfig('data/problems/extended_sources/lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests.yaml');
+const kvantOneBrokenScaleConfig = loadProblemConfig('data/problems/kvant/kvant-2019-m2565-one-broken-scale.yaml');
+const spbTwoResultsConfig = loadProblemConfig('data/problems/spb_olympiad/spb-primary-2023-seven-coins-two-weighing-results.yaml');
 const matprazdnikRotatedTrayConfig = loadProblemConfig('data/problems/matprazdnik_savin/matprazdnik-2025-eighteen-coins-rotated-tray.yaml');
 const moebiusLineConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2023-ten-line-one-liar-four-questions.yaml');
 const moebiusCoinsConfig = loadProblemConfig('data/problems/moebius_tour/moebius-2018-three-coins-knight-liar-genuine.yaml');
@@ -112,9 +120,12 @@ assert.deepEqual(twelveCoinPreassignedConfig.type, 'single_counterfeit_unknown_d
 assert.equal(twelveCoinPreassignedConfig.adaptive, false);
 assert.equal(twelveCoinPreassignedConfig.modes.includes('exhaustive'), true);
 assert.deepEqual(limitedTwoUsesPreassignedConfig.type, 'single_counterfeit_weighing');
+assert.equal(limitedTwoUsesPreassignedConfig.presentation, 'review_only');
+assert.equal(limitedTwoUsesPreassignedConfig.interactive_strength, 'remove');
 assert.equal(limitedTwoUsesPreassignedConfig.adaptive, false);
 assert.equal(limitedTwoUsesPreassignedConfig.counterfeit_weight, 'lighter');
 assert.equal(limitedTwoUsesPreassignedConfig.max_coin_uses, 2);
+assert.deepEqual(limitedTwoUsesPreassignedConfig.modes, []);
 assert.deepEqual(
   coinUseViolations(limitedTwoUsesPreassignedConfig.preset_weighings, limitedTwoUsesPreassignedConfig.max_coin_uses),
   []
@@ -129,7 +140,24 @@ assert.deepEqual(
   ),
   [[16, 3]]
 );
-assert.deepEqual(lighter25Config.modes, ['random', 'cheater', 'exhaustive']);
+assert.equal(lighter25Config.presentation, 'review_only');
+assert.equal(lighter25Config.interactive_strength, 'remove');
+assert.deepEqual(lighter25Config.modes, []);
+assert.deepEqual(heavier9Config.type, 'single_counterfeit_weighing');
+assert.equal(heavier9Config.presentation, 'exercise');
+assert.equal(heavier9Config.interactive_strength, 'strong');
+assert.equal(heavier9Config.coin_count, 9);
+assert.equal(heavier9Config.max_weighings, 2);
+assert.deepEqual(heavier9Config.modes, ['random', 'cheater', 'exhaustive']);
+assert.deepEqual(heavier4ImpossibleConfig.type, 'single_counterfeit_weighing');
+assert.equal(heavier4ImpossibleConfig.presentation, 'demonstration');
+assert.equal(heavier4ImpossibleConfig.interactive_strength, 'demonstration');
+assert.equal(heavier4ImpossibleConfig.objective, 'prove_impossible');
+assert.deepEqual(heavier4ImpossibleConfig.modes, ['exhaustive']);
+assert.deepEqual(nrichSpotFakeConfig.type, 'single_counterfeit_weighing');
+assert.equal(nrichSpotFakeConfig.presentation, 'review_only');
+assert.equal(nrichSpotFakeConfig.interactive_strength, 'remove');
+assert.deepEqual(nrichSpotFakeConfig.modes, []);
 assert.deepEqual(problemsRu34945Config.modes, ['random', 'cheater', 'exhaustive']);
 assert.deepEqual(paidWeighingConfig.type, 'paid_weighing_find_genuine');
 assert.equal(paidWeighingConfig.min_real_count, 2);
@@ -176,7 +204,9 @@ assert.equal(
 }
 assert.deepEqual(knopKnownLightPreassignedConfig.type, 'single_counterfeit_weighing');
 assert.equal(knopKnownLightPreassignedConfig.adaptive, false);
-assert.equal(knopKnownLightPreassignedConfig.coin_count, 27);
+assert.equal(knopKnownLightPreassignedConfig.coin_count, 9);
+assert.equal(knopKnownLightPreassignedConfig.max_weighings, 2);
+assert.equal(knopKnownLightPreassignedConfig.preset_weighings.length, 2);
 assert.equal(knopKnownLightPreassignedConfig.counterfeit_weight, 'lighter');
 assert.deepEqual(knopOneErasureReserveConfig.type, 'single_counterfeit_weighing');
 assert.equal(knopOneErasureReserveConfig.adaptive, false);
@@ -307,10 +337,11 @@ assert.equal(knopOnePanTwoFakesConfig.hidden_states.length, 12);
 }
 assert.deepEqual(rmoThreeConsecutiveWeightsConfig.type, 'numeric_linear_signature');
 assert.equal(rmoThreeConsecutiveWeightsConfig.presentation, 'exercise');
+assert.equal(rmoThreeConsecutiveWeightsConfig.interactive_strength, 'strong');
 assert.equal(rmoThreeConsecutiveWeightsConfig.state_model, 'explicit_fake_sets');
 assert.equal(rmoThreeConsecutiveWeightsConfig.object_kind, 'coin');
 assert.equal(rmoThreeConsecutiveWeightsConfig.selection_model, 'subset');
-assert.equal(rmoThreeConsecutiveWeightsConfig.hidden_states.length, 16);
+assert.equal(rmoThreeConsecutiveWeightsConfig.hidden_states.length, 8);
 {
   const options = {
     bag_count: rmoThreeConsecutiveWeightsConfig.bag_count,
@@ -323,16 +354,16 @@ assert.equal(rmoThreeConsecutiveWeightsConfig.hidden_states.length, 16);
     genuine_weight: rmoThreeConsecutiveWeightsConfig.genuine_weight
   };
   const states = cheater.numericSignatureInitialStates(rmoThreeConsecutiveWeightsConfig.bag_count, options);
-  assert.equal(states.length, 16);
-  const first = [0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0];
-  const second = [0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0];
+  assert.equal(states.length, 8);
+  const first = [1, 1, 1, 0, 0, 0, 0, 1, 1, 1];
+  const second = [1, 0, 0, 0, 0, 1, 1, 0, 0, 0];
   const firstBranches = cheater.numericSignatureExpandExhaustiveNode({
     ...options,
     amounts: first,
     maxWeighings: 2,
     usedWeighings: 0
   }).children;
-  assert.deepEqual(firstBranches.map(branch => branch.states.length).sort((a, b) => a - b), [4, 4, 4, 4]);
+  assert.deepEqual(firstBranches.map(branch => branch.states.length).sort((a, b) => a - b), [2, 2, 2, 2]);
   const secondBranches = firstBranches.flatMap(branch => cheater.numericSignatureExpandExhaustiveNode({
     ...options,
     amounts: second,
@@ -340,7 +371,7 @@ assert.equal(rmoThreeConsecutiveWeightsConfig.hidden_states.length, 16);
     maxWeighings: 2,
     usedWeighings: 1
   }).children);
-  assert.equal(secondBranches.length, 16);
+  assert.equal(secondBranches.length, 8);
   assert.equal(secondBranches.every(branch => branch.status === 'solved'), true);
 }
 assert.deepEqual(tenAdjacentSwappedLabelsConfig.type, 'numeric_linear_signature');
@@ -585,10 +616,12 @@ assert.equal(lindstromTwoTriplesConfig.hidden_states.length, 9);
   assert.equal(finalFrontier.every(branch => branch.states.length === 1), true);
 }
 assert.deepEqual(problemsRuSignOnlyConfig.type, 'single_counterfeit_unknown_direction');
-assert.equal(problemsRuSignOnlyConfig.presentation, 'exercise');
+assert.equal(problemsRuSignOnlyConfig.presentation, 'review_only');
+assert.equal(problemsRuSignOnlyConfig.interactive_strength, 'remove');
+assert.deepEqual(problemsRuSignOnlyConfig.modes, []);
 assert.equal(problemsRuSignOnlyConfig.objective, 'identify_sign_only_unknown_direction');
 assert.equal(problemsRuSignOnlyConfig.coin_count, 100);
-assert.equal(problemsRuSignOnlyConfig.heavy_interactive_warning, true);
+assert.equal(problemsRuSignOnlyConfig.heavy_interactive_warning, false);
 {
   const first = cheater.expandUnknownDirectionExhaustiveNode({
     coin_count: problemsRuSignOnlyConfig.coin_count,
@@ -753,7 +786,9 @@ assert.deepEqual(israelCandyBagsConfig.type, 'balanced_weight_signature_protocol
 assert.equal(israelCandyBagsConfig.max_weighings, 2);
 assert.deepEqual(treasureGridConfig.type, 'finite_binary_state_protocol');
 assert.equal(treasureGridConfig.protocol, 'adjacent_pair_grid_search');
-assert.equal(treasureGridConfig.max_tests, 50);
+assert.equal(treasureGridConfig.grid_rows, 6);
+assert.equal(treasureGridConfig.grid_cols, 6);
+assert.equal(treasureGridConfig.max_tests, 18);
 assert.deepEqual(spiderFlyCubeConfig.type, 'moving_target_graph_search');
 assert.equal(spiderFlyCubeConfig.objective, 'capture_hidden_moving_target');
 assert.equal(spiderFlyCubeConfig.max_tests, 4);
@@ -856,15 +891,61 @@ assert.equal(uniformityConfig.objective, 'verify_all_weights_equal');
 assert.deepEqual(uniformityConfig.modes, ['exhaustive', 'sandbox']);
 assert.deepEqual(utyumParityConfig.type, 'selected_coin_parity_detector');
 assert.equal(utyumParityConfig.objective, 'identify_selected_coin_type');
+assert.equal(utyumParityConfig.presentation, 'exercise');
+assert.equal(utyumParityConfig.interactive_strength, 'strong');
+assert.equal(utyumParityConfig.heavy_interactive_warning, true);
 assert.deepEqual(moebiusCupscalesConfig.type, 'single_counterfeit_weighing');
 assert.deepEqual(moebiusCupscalesConfig.counterfeit_weight_options, ['lighter', 'heavier']);
 assert.equal(moebiusCupscalesConfig.coin_types.filter(type => type === 'silver').length, 4);
 assert.equal(moebiusCupscalesConfig.coin_types.filter(type => type === 'copper').length, 5);
 assert.deepEqual(fiveSilverFourGoldConfig.type, 'single_counterfeit_weighing');
+assert.equal(fiveSilverFourGoldConfig.presentation, 'exercise');
+assert.equal(fiveSilverFourGoldConfig.interactive_strength, 'strong');
 assert.equal(fiveSilverFourGoldConfig.coin_types.filter(type => type === 'silver').length, 5);
 assert.equal(fiveSilverFourGoldConfig.coin_types.filter(type => type === 'gold').length, 4);
 assert.equal(fiveSilverFourGoldConfig.counterfeit_weight_by_type.silver, 'lighter');
 assert.equal(fiveSilverFourGoldConfig.counterfeit_weight_by_type.gold, 'heavier');
+assert.deepEqual(lktgThreeBalancesConfig.type, 'broken_scale_counterfeit_coin');
+assert.equal(lktgThreeBalancesConfig.presentation, 'exercise');
+assert.equal(lktgThreeBalancesConfig.interactive_strength, 'strong');
+assert.equal(lktgThreeBalancesConfig.coin_count, 3);
+assert.equal(lktgThreeBalancesConfig.scale_count, 3);
+assert.equal(lktgThreeBalancesConfig.max_weighings, 3);
+assert.deepEqual(lktgThreeDetectorsConfig.type, 'broken_detector_counterfeit_coin');
+assert.equal(lktgThreeDetectorsConfig.presentation, 'exercise');
+assert.equal(lktgThreeDetectorsConfig.interactive_strength, 'strong');
+assert.equal(lktgThreeDetectorsConfig.coin_count, 8);
+assert.equal(lktgThreeDetectorsConfig.detector_count, 3);
+assert.equal(lktgThreeDetectorsConfig.max_tests, 6);
+assert.deepEqual(lktgFourDetectorsConfig.type, 'broken_detector_counterfeit_coin');
+assert.equal(lktgFourDetectorsConfig.presentation, 'exercise');
+assert.equal(lktgFourDetectorsConfig.interactive_strength, 'strong');
+assert.equal(lktgFourDetectorsConfig.coin_count, 8);
+assert.equal(lktgFourDetectorsConfig.detector_count, 3);
+assert.equal(lktgFourDetectorsConfig.max_tests, 6);
+assert.deepEqual(kvantOneBrokenScaleConfig.type, 'heaviest_coin_one_broken_scale');
+assert.equal(kvantOneBrokenScaleConfig.presentation, 'review_only');
+assert.equal(kvantOneBrokenScaleConfig.interactive_strength, 'remove');
+assert.deepEqual(kvantOneBrokenScaleConfig.modes, []);
+assert.deepEqual(spbTwoResultsConfig.type, 'fixed_weighing_transcript');
+assert.equal(spbTwoResultsConfig.presentation, 'demonstration');
+assert.equal(spbTwoResultsConfig.interactive_strength, 'demonstration');
+assert.deepEqual(spbTwoResultsConfig.modes, ['guided']);
+assert.equal(spbTwoResultsConfig.transcript.length, 2);
+assert.deepEqual(
+  spbTwoResultsConfig.transcript.reduce(
+    (candidates, row) => cheater.filterCandidates({
+      coin_count: spbTwoResultsConfig.coin_count,
+      counterfeit_weight: spbTwoResultsConfig.counterfeit_weight,
+      currentCandidates: candidates,
+      leftCoins: row.left,
+      rightCoins: row.right,
+      outcome: row.outcome
+    }),
+    cheater.initialCandidates(spbTwoResultsConfig.coin_count)
+  ),
+  [4]
+);
 assert.deepEqual(fourGuineasPropertyConfig.type, 'property_verification_balance');
 assert.equal(fourGuineasPropertyConfig.presentation, 'exercise');
 assert.equal(fourGuineasPropertyConfig.interactive_strength, 'strong');
@@ -1415,8 +1496,8 @@ assert.deepEqual(
   ['balance', 'balance']
 );
 
-assert.equal(cheater.finiteBinaryInitialStates(treasureGridConfig).length, 180);
-assert.equal(cheater.finiteBinaryInitialActions(treasureGridConfig).length, 100);
+assert.equal(cheater.finiteBinaryInitialStates(treasureGridConfig).length, 60);
+assert.equal(cheater.finiteBinaryInitialActions(treasureGridConfig).length, 36);
 assert.equal(
   cheater.finiteBinaryResponseForState(
     { id: 'r1c1_r1c2', cells: ['r1c1', 'r1c2'] },
@@ -1464,17 +1545,17 @@ const treasureCheater = cheater.finiteBinaryChooseCheaterResponse({
 assert.equal(treasureCheater.response, 'no');
 assert.deepEqual(treasureCheater.scores, {
   yes: { states: 2, solved: false, answers: [] },
-  no: { states: 178, solved: false, answers: [] }
+  no: { states: 58, solved: false, answers: [] }
 });
 const treasureExpansion = cheater.finiteBinaryExpandExhaustiveNode({
   ...treasureGridConfig,
   currentStates: cheater.finiteBinaryInitialStates(treasureGridConfig),
   action: finiteAction(treasureGridConfig, 'ask_r1c1'),
   usedTests: 0,
-  maxTests: 50
+  maxTests: 18
 });
 assert.deepEqual(treasureExpansion.children.map(child => child.response), ['yes', 'no']);
-assert.deepEqual(treasureExpansion.children.map(child => child.states.length), [2, 178]);
+assert.deepEqual(treasureExpansion.children.map(child => child.states.length), [2, 58]);
 
 assert.deepEqual(moebiusSixCircleConfig.type, 'constrained_light_counterfeit_sets');
 assert.deepEqual(moebiusFiveCircleConfig.type, 'constrained_light_counterfeit_sets');
@@ -1569,14 +1650,14 @@ const movingTargetFailed = cheater.movingTargetChooseCheaterOutcome({
 assert.equal(movingTargetFailed.status, 'failed');
 assert.equal(movingTargetFailed.states.length > 0, true);
 assert.deepEqual(bilboSafePileConfig.type, 'safe_pile_balance_certificate');
-assert.deepEqual(bilboSafePileConfig.pile_sizes, [17, 21, 27]);
+assert.deepEqual(bilboSafePileConfig.pile_sizes, [3, 5, 7]);
 
 const bilboPiles = cheater.safePileNormalizePiles(bilboSafePileConfig);
-assert.deepEqual(bilboPiles.map(pile => pile.size), [17, 21, 27]);
+assert.deepEqual(bilboPiles.map(pile => pile.size), [3, 5, 7]);
 const bilboStates = cheater.safePileInitialStates(bilboSafePileConfig);
-assert.equal(bilboStates.length, 130);
+assert.equal(bilboStates.length, 30);
 const bilboSolutionLeft = bilboPiles[0].diamonds;
-const bilboSolutionRight = bilboPiles[1].diamonds.slice(0, 17);
+const bilboSolutionRight = bilboPiles[1].diamonds.slice(0, 3);
 const bilboExpansion = cheater.safePileExpandExhaustiveNode({
   ...bilboSafePileConfig,
   currentStates: bilboStates,
@@ -1608,17 +1689,17 @@ assert.equal(
   false
 );
 assert.deepEqual(mccmeSafePileConfig.type, 'safe_pile_balance_certificate');
-assert.deepEqual(mccmeSafePileConfig.pile_sizes, [17, 21, 27]);
+assert.deepEqual(mccmeSafePileConfig.pile_sizes, [3, 5, 7]);
 assert.equal(mccmeSafePileConfig.objective, 'identify_safe_pile');
 assert.equal(mccmeSafePileConfig.object_nouns.many, 'монет');
 const mccmePiles = cheater.safePileNormalizePiles(mccmeSafePileConfig);
 const mccmeStates = cheater.safePileInitialStates(mccmeSafePileConfig);
-assert.equal(mccmeStates.length, 130);
+assert.equal(mccmeStates.length, 30);
 const mccmeExpansion = cheater.safePileExpandExhaustiveNode({
   ...mccmeSafePileConfig,
   currentStates: mccmeStates,
   leftDiamonds: mccmePiles[0].diamonds,
-  rightDiamonds: mccmePiles[1].diamonds.slice(0, 17),
+  rightDiamonds: mccmePiles[1].diamonds.slice(0, 3),
   usedWeighings: 0,
   maxWeighings: 1
 });
@@ -1852,6 +1933,13 @@ for (const hidden of zeroOneTwoStates) {
 
 const scaleLabels = ['A', 'B', 'C'];
 assert.equal(
+  cheater.initialBrokenScaleCoinCandidates(
+    lktgThreeBalancesConfig.coin_count,
+    lktgThreeBalancesConfig.scale_labels
+  ).length,
+  lktgThreeBalancesConfig.coin_count * lktgThreeBalancesConfig.scale_count
+);
+assert.equal(
   cheater.faultyScaleOutcomeForCandidate('B', 'A', ['B'], ['C']),
   'right_down'
 );
@@ -1963,6 +2051,20 @@ assert.equal(brokenScaleCoinAmbiguousAnswer.win, false);
 assert.equal(brokenScaleCoinAmbiguousAnswer.actualCoin, 5);
 
 const detectorLabels = ['A', 'B', 'C'];
+assert.equal(
+  cheater.initialBrokenDetectorCoinCandidates(
+    lktgThreeDetectorsConfig.coin_count,
+    lktgThreeDetectorsConfig.detector_labels
+  ).length,
+  lktgThreeDetectorsConfig.coin_count * lktgThreeDetectorsConfig.detector_count
+);
+assert.equal(
+  cheater.initialBrokenDetectorCoinCandidates(
+    lktgFourDetectorsConfig.coin_count,
+    lktgFourDetectorsConfig.detector_labels
+  ).length,
+  lktgFourDetectorsConfig.coin_count * lktgFourDetectorsConfig.detector_count
+);
 const brokenDetectorCandidates = cheater.initialBrokenDetectorCoinCandidates(8, detectorLabels);
 assert.equal(brokenDetectorCandidates.length, 24);
 assert.equal(
@@ -2038,6 +2140,13 @@ assert.equal(brokenDetectorAnswer.win, true);
 assert.equal(brokenDetectorAnswer.actualCoin, 4);
 assert.deepEqual(brokenDetectorAnswer.brokenDetectorsForActualCoin, ['A', 'C']);
 
+assert.equal(
+  cheater.initialHeaviestBrokenScaleStates(
+    kvantOneBrokenScaleConfig.coin_count,
+    kvantOneBrokenScaleConfig.scale_labels
+  ).length,
+  600
+);
 const heaviestStates = cheater.initialHeaviestBrokenScaleStates(3, scaleLabels);
 assert.equal(heaviestStates.length, 18);
 assert.deepEqual(cheater.possibleHeaviestCoins(heaviestStates), [1, 2, 3]);
@@ -2459,21 +2568,21 @@ const knopKnownLightPreassignedCheck = cheater.checkKnownDirectionNonadaptiveStr
   require_equal_pan_counts: knopKnownLightPreassignedConfig.require_equal_pan_counts
 });
 assert.equal(knopKnownLightPreassignedCheck.success, true);
-assert.equal(knopKnownLightPreassignedCheck.states.length, 27);
-assert.equal(knopKnownLightPreassignedCheck.partitions.length, 27);
+assert.equal(knopKnownLightPreassignedCheck.states.length, 9);
+assert.equal(knopKnownLightPreassignedCheck.partitions.length, 9);
 assert.deepEqual(knopKnownLightPreassignedCheck.conflicts, []);
 assert.equal(
-  knopKnownLightPreassignedConfig.preset_weighings.every(row => row.left.length === 9 && row.right.length === 9),
+  knopKnownLightPreassignedConfig.preset_weighings.every(row => row.left.length === 3 && row.right.length === 3),
   true
 );
 assert.deepEqual(
   cheater.knownDirectionSignatureForCandidate(
-    14,
+    5,
     'lighter',
     knopKnownLightPreassignedConfig.preset_weighings,
     { coinCount: knopKnownLightPreassignedConfig.coin_count, requireEqualPanCounts: true }
   ),
-  ['right_down', 'right_down', 'right_down']
+  ['right_down', 'right_down']
 );
 
 const knopOneErasureReserveCheck = cheater.checkKnownDirectionNonadaptiveStrategy({
@@ -4478,6 +4587,58 @@ const passwordPermutationExhaustive = cheater.fixedFeedbackExhaustiveCheck(passw
 assert.equal(passwordPermutationExhaustive.success, true);
 assert.equal(passwordPermutationExhaustive.checked, 24);
 assert.equal(passwordPermutationExhaustive.rows.length, 3);
+const passwordPermutationStates = cheater.fixedFeedbackPermutationSecrets(passwordPermutationConfig);
+const passwordPermutationAllTests = (() => {
+  const alphabet = cheater.fixedFeedbackAlphabet(passwordPermutationConfig);
+  const length = cheater.fixedFeedbackPasswordLength(passwordPermutationConfig);
+  const result = [];
+  function visit(prefix) {
+    if (prefix.length === length) {
+      result.push(prefix);
+      return;
+    }
+    for (const letter of alphabet) visit(prefix + letter);
+  }
+  visit('');
+  return result;
+})();
+function passwordPermutationFeedbackKey(secret, test) {
+  return cheater.fixedFeedbackFeedback(secret, test, passwordPermutationConfig).join(',');
+}
+function passwordPermutationPartition(states, test) {
+  const groups = new Map();
+  for (const state of states) {
+    const key = passwordPermutationFeedbackKey(state, test);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(state);
+  }
+  return [...groups.values()];
+}
+function passwordPermutationSeparates(states, test) {
+  const seen = new Set();
+  for (const state of states) {
+    const key = passwordPermutationFeedbackKey(state, test);
+    if (seen.has(key)) return false;
+    seen.add(key);
+  }
+  return true;
+}
+let passwordPermutationBestFixedPair = 0;
+for (const first of passwordPermutationAllTests) {
+  for (const second of passwordPermutationAllTests) {
+    const signatures = new Set(passwordPermutationStates.map(state => (
+      `${passwordPermutationFeedbackKey(state, first)}|${passwordPermutationFeedbackKey(state, second)}`
+    )));
+    passwordPermutationBestFixedPair = Math.max(passwordPermutationBestFixedPair, signatures.size);
+  }
+}
+assert.equal(passwordPermutationBestFixedPair, 23);
+const passwordPermutationHasTwoFeedbackAdaptiveStrategy = passwordPermutationAllTests.some(first =>
+  passwordPermutationPartition(passwordPermutationStates, first).every(block =>
+    passwordPermutationAllTests.some(second => passwordPermutationSeparates(block, second))
+  )
+);
+assert.equal(passwordPermutationHasTwoFeedbackAdaptiveStrategy, false);
 assert.equal(cheater.fixedFeedbackCompatibleSecrets([], passwordPermutationConfig).length, 24);
 const passwordPermutationHistory = passwordPermutationConfig.preset_tests.map(guess => ({
   guess,

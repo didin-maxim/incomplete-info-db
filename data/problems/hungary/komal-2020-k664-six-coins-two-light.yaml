@@ -105,6 +105,16 @@
   },
   "interactive": {
     "type": "multiple_light_find_one",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": {"typical": 8, "nature": "сделать до двух взвешиваний и назвать одну гарантированно легкую монету"},
+      "cheater": {"typical": 8, "nature": "искать гарантию против худшего совместимого набора легких монет"},
+      "exhaustive": {"typical": 15, "nature": "проверить все пары легких монет"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 6,
     "counterfeit_count": 2,
     "max_weighings": 2,

@@ -1,0 +1,104 @@
+{
+  "id": "kvantland-detective-6-witness-criminal-trainer",
+  "title": "Квантландия: детектив, учебный случай на 6 человек",
+  "fragment": "questions",
+  "kind": {"primary": "derived_problem", "secondary": ["search_strategy", "nonadaptive_code", "small_case", "strategy_construction"]},
+  "language": "ru",
+  "authors": [
+    {"name": "Косухин О.Н.", "role": "problem_author", "status": "source_verified", "source_id": "src-problems-ru-66096"}
+  ],
+  "statements": {
+    "original": [
+      {
+        "id": "stmt-kvantland-detective-6-trainer",
+        "title": "Приглашать группы подозреваемых в малом случае",
+        "text": "Детектив расследует преступление. В деле замешаны 6 человек, среди которых один - преступник, еще один - свидетель преступления, но неизвестно, кто это. Каждый день детектив может пригласить к себе одного или нескольких из этих 6 человек, и если среди приглашенных есть свидетель, но нет преступника, то свидетель сообщит, кто преступник. За какое наименьшее число дней детектив может заведомо раскрыть дело?",
+        "source_ids": ["src-kvantland-telegram-detective-70", "src-problems-ru-66096"],
+        "status": "ai_checked",
+        "self_contained": {"status": "ai_checked", "review_notes": "Редакционный малый случай исходной задачи на 70 человек: вместо 70 людей и 8 дней рассматриваются 6 людей и минимальное число дней для той же модели свидетель-преступник."},
+        "definition_ids": ["state_space", "strategy"]
+      }
+    ]
+  },
+  "ideas": [
+    {
+      "id": "idea-small-antichain-codes",
+      "title": "Людям нужны попарно несравнимые коды дней",
+      "text": "Сопоставим каждому человеку множество дней, когда его приглашают. Для любой упорядоченной пары свидетель-преступник нужен день, который входит в код свидетеля и не входит в код преступника. Значит, код одного человека не должен содержаться в коде другого. Иначе при выборе меньшего кода свидетелем, а большего преступником нужного дня не найдется.",
+      "standard_idea_ids": ["binary_encoding", "counting_bound"],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-four-days-six-weight-two-codes",
+      "title": "Четыре дня и шесть двухэлементных кодов",
+      "text": "Ответ: 4 дня. Сопоставим шести людям все \\(\\binom42=6\\) двухэлементные подмножества множества дней \\(1,2,3,4\\). В день \\(i\\) пригласим всех людей, в чьем коде есть \\(i\\).\n\nПусть настоящий свидетель - W, а преступник - C. Их коды различны, но имеют одинаковый размер 2. Поэтому есть день, который входит в код W и не входит в код C. В этот день свидетель приглашен, преступник не приглашен, и свидетель сообщает детективу преступника.",
+      "standard_idea_ids": ["binary_encoding"],
+      "status": "ai_checked",
+      "definition_ids": ["strategy"]
+    }
+  ],
+  "impossibility_proofs": [
+    {
+      "id": "lb-three-days-only-three-antichain",
+      "title": "Трех дней мало по теореме Шпернера",
+      "text": "Если стратегия занимает \\(d\\) дней, коды всех людей должны образовывать антицепь в булевом кубе размерности \\(d\\). По теореме Шпернера максимальный размер такой антицепи равен \\(\\binom d{\\lfloor d/2\\rfloor}\\). При \\(d=3\\) это \\(\\binom31=3<6\\), поэтому трех дней недостаточно. При \\(d=4\\) конструкция из всех двухэлементных кодов дает ровно 6 людей.",
+      "standard_idea_ids": ["counting_bound", "pigeonhole_principle"],
+      "status": "ai_checked",
+      "definition_ids": ["information_lower_bound"]
+    }
+  ],
+  "incomplete_information_profile": {
+    "hidden_state_space": "упорядоченная пара разных людей: свидетель и преступник",
+    "observations": ["если приглашен свидетель и не приглашен преступник, свидетель раскрывает преступника", "иначе детектив не получает решающего сообщения"],
+    "allowed_actions": ["заранее выбрать приглашенные группы людей по дням"],
+    "goal": ["identify_criminal", "minimize_worst_case_days"],
+    "strategy_type": ["nonadaptive_strategy", "antichain_code", "binary_group_testing"],
+    "lower_bound_method": ["sperner_antichain_bound"],
+    "keywords": ["kvantland", "detective", "witness", "criminal", "antichain", "sperner", "small_case"],
+    "status": "ai_checked"
+  },
+  "questions_profile": {
+    "answer_alphabet_size": 2,
+    "question_count": 4,
+    "adaptive": false,
+    "objective": "identify_criminal_from_hidden_witness_criminal_pair"
+  },
+  "interactive": {
+    "type": "antichain_code_protocol",
+    "object_count": 6,
+    "person_count": 6,
+    "max_tests": 4,
+    "day_count": 4,
+    "target_weight": 2,
+    "objective": "identify_criminal_from_witness",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "sandbox": {"typical": 8, "nature": "построить четырехдневный код приглашений и проверить одну пару свидетель-преступник"},
+      "exhaustive": {"typical": 1, "nature": "проверить все пары свидетель-преступник для выбранного антицепного кода"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "modes": ["sandbox", "exhaustive"]
+  },
+  "difficulty": {"main": "olympiad_medium", "local_score": 3, "comment": "Малый случай сохраняет главный переход к антицепям, но все шесть кодов длины 4 можно построить и проверить руками.", "status": "ai_checked"},
+  "tags": ["binary_code", "nonadaptive_strategy", "counting_lower_bound", "condition_middle_school"],
+  "sources": [
+    {"source_id": "src-kvantland-telegram-detective-70", "role": "source_of_general_problem_and_strategy", "status": "source_verified"},
+    {"source_id": "src-problems-ru-66096", "role": "related_statement_and_author_metadata", "status": "source_verified"}
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-25",
+    "review_status": "ai_checked",
+    "public_ready": true,
+    "relations_status": "small_case_for_interactive",
+    "notes": [
+      "Создана как учебный малый случай kvantland-detective-70-witness-criminal, чтобы тот же антицепной конфликт проверялся в интерактиве без матрицы 70 x 8.",
+      "Масштаб 6 человек / 4 дня выбран потому, что \\(\\binom31=3<6\\), а \\(\\binom42=6\\): это точный малый аналог оптимальности \\(\\binom73=35<70\\), \\(\\binom84=70\\)."
+    ]
+  }
+}

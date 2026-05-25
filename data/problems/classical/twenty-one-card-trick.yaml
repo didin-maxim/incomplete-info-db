@@ -78,15 +78,20 @@
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
     "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "manual_spectator": {"typical": 4, "nature": "выбрать карту, три раза назвать столбец и увидеть раскрытие"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "deck_size": 21,
     "column_count": 3,
     "row_count": 7,
     "round_count": 3,
     "objective": "identify_selected_card",
-    "modes": ["random", "manual_spectator", "exhaustive"]
+    "modes": ["manual_spectator"]
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Классический фокус: каждый ответ выбирает один из трех столбцов.", "status": "ai_checked"},
   "tags": ["card_trick", "ternary_search", "condition_middle_school"],
   "sources": [{"source_id": "src-card-trick-folklore", "role": "folklore_statement", "status": "source_verified"}, {"source_id": "src-problems-ru-60905", "role": "web_statement_and_solution_variant", "status": "source_verified"}, {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: число 21 отмечено как несущественное для механизма; параметрическая версия работает как c-арное сужение с емкостью c^r.", "2026-05-18: problems.ru 60905 добавлена как версия с 27 картами и тремя равными кучками из учебника Алфутовой и Устинова; отдельная карточка не заведена, потому что это трехисходная версия того же фокуса.", "2026-05-22: книга К. А. Кнопа содержит вариант с 36 картами, 6 стопками и двумя ответами; отдельная карточка не заведена, потому что это тот же механизм c-арной емкости."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "same_solution_parameterized", "notes": ["2026-05-18: число 21 отмечено как несущественное для механизма; параметрическая версия работает как c-арное сужение с емкостью c^r.", "2026-05-18: problems.ru 60905 добавлена как версия с 27 картами и тремя равными кучками из учебника Алфутовой и Устинова; отдельная карточка не заведена, потому что это трехисходная версия того же фокуса.", "2026-05-22: книга К. А. Кнопа содержит вариант с 36 картами, 6 стопками и двумя ответами; отдельная карточка не заведена, потому что это тот же механизм c-арной емкости.", "2026-05-25: публично оставлен только manual_spectator: он показывает сужение выбранной карты через три ответа зрителя. random и exhaustive были проверками готового сценария."]}
 }

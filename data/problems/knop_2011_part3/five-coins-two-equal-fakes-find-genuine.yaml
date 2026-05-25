@@ -110,6 +110,15 @@
   "interactive": {
     "type": "constrained_light_counterfeit_sets",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 7,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "nature": "сделать до двух взвешиваний и назвать гарантированно настоящую монету"},
+      "cheater": {"typical": 7, "nature": "проверить гарантию при неизвестном общем знаке фальшивок"},
+      "exhaustive": {"typical": 20, "nature": "проверить все пары фальшивок с двумя возможными знаками"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 5,
     "counterfeit_count": 2,
     "max_weighings": 2,

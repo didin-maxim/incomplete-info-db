@@ -6,10 +6,10 @@
 
 ## Короткая сводка
 
-- Всего YAML-интерактивов: 93.
-- По `presentation`: 82 упражнения, 11 демонстраций.
-- Метаданные заполнены частично: `interactive_strength` есть у 27/93, `estimated_user_actions` есть у 27/93, `heavy_interactive_warning` есть у 19/93.
-- Текущие значения `interactive_strength`: 14 `strong`, 11 `demonstration`, 2 `weak`, 66 без поля.
+- Всего YAML-интерактивов: 102.
+- По `presentation`: 41 упражнение, 8 демонстраций, 10 `review_only`, 43 без поля.
+- Метаданные заполнены частично: `interactive_strength` есть у 50/102, `estimated_user_actions` есть у 50/102, `heavy_interactive_warning` есть у 42/102.
+- Текущие значения `interactive_strength`: 32 `strong`, 8 `demonstration`, 10 `remove`, 52 без поля.
 - Категории этой карты не просто копируют YAML `interactive_strength`: если есть конфликт с аудитом или свежей очередью, карточка вынесена в перепроверку/техническую правку.
 
 ## Категории
@@ -17,7 +17,8 @@
 | Категория | Кол-во | Что это значит |
 |---|---:|---|
 | готово как сильное упражнение | 64 | Недавние аудиты или ревизии подтверждают содержательное действие пользователя: ход, дерево, таблица, сертификат, код или финальный ответ. |
-| готово как демонстрация | 11 | В YAML стоит `presentation: demonstration`; интерактив показывает готовую схему или разбор, не полноценное упражнение. |
+| готово как демонстрация | 8 | В YAML стоит `presentation: demonstration`; интерактив показывает готовую схему или разбор, не полноценное упражнение. |
+| снято из public / redesign | 10 | В YAML стоит `presentation: review_only` или `interactive_strength: remove`; публичные режимы не считать готовым интерактивом. |
 | упражнение требует перепроверки | 2 | YAML/аудит расходятся или аудит называет режим пограничным. Не повышать в `strong` без ручного решения. |
 | нужна техническая правка | 8 | Идея может быть сильной, но нужны presentation/labels/modes/warning или проверка UX. |
 | лучше заменить малым частным случаем | 8 | Текущий интерактив слишком большой, дублирует базовый случай или слабее малого честного варианта. |
@@ -27,19 +28,19 @@
 
 1. Обновить старую очередь: `tokarev-expert-judge-six-weights-two-weighings` и `five-silver-four-gold-light-heavy-2-weighings` уже имеют YAML-интерактив, хотя `interactive-queue-quality-review.md` еще держит их в "еще не сделан".
 2. Оставить `tokarev-expert-judge-six-weights-two-weighings` в сильных упражнениях; `five-silver-four-gold-light-heavy-2-weighings` держать как техправку до проверки labels/UI.
-3. Не считать `one-counterfeit-among-27-three-ternary-questions` сильным автоматически: YAML сейчас говорит `strong`, но аудит описывает его как демонстрацию/тренажер емкости.
-4. Не повышать `number-guessing-one-lie-by-repetition`: YAML уже `weak`, аудит тоже пограничный.
-5. Решить presentation-конфликт `heavier-4-coins-one-weighing-impossible`: аудит называет это демонстрацией нижней оценки, YAML пока `exercise`.
-6. Проверить `three-letter-erasure-4-bit-code`: аудит говорит про утечку в `random`; до исправления это слабое упражнение.
-7. Проверить `kvant-2019-m2565-one-broken-scale`: без `exhaustive` интерактив слаб как проверка гарантии.
-8. Добавить/проверить предупреждения для тяжелых exercise: `jsmo-2016-adjacent-treasure-10x10`, `kvantland-detective-70-witness-criminal`, `lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests`, `utyum-2010-seventeen-coins-parity-test`.
+3. `one-counterfeit-among-27-three-ternary-questions` уже снят в `review_only/remove`; сильным он станет только после режима, где пользователь строит три разбиения или кодовую таблицу.
+4. `number-guessing-one-lie-by-repetition` уже переведен в `exercise/strong`; отдельно следить, что подписи не обещают оптимальный код с одной ложью, а только конструктивное тройное повторение.
+5. `heavier-4-coins-one-weighing-impossible` уже переведен в `presentation: demonstration`, `interactive_strength: demonstration`.
+6. Проверить `three-letter-erasure-4-bit-code` в следующем UI-аудите: текущий YAML уже `exercise/strong`, но прежний аудит указывал на риск утечки в `random`.
+7. `kvant-2019-m2565-one-broken-scale` уже снят в `review_only/remove`; возвращать только после exhaustive-дерева или малого режима индукционного шага.
+8. Добавить/проверить предупреждения для тяжелых exercise: `jsmo-2016-adjacent-treasure-10x10`, `lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests`, `utyum-2010-seventeen-coins-parity-test`. `kvantland-detective-70-witness-criminal` уже снят в `review_only/remove`, публичный путь закрывает малый trainer.
 9. Принять решение по большим safe-pile карточкам: `israelmath-5781-bilbo-three-diamond-piles-safe-pile` и `mccme-2016-three-piles-one-genuine-pile` лучше заменить малым вариантом 3/5/7.
 10. Для `usamts-2011-zoltar-fourteen-coins-real-coin` сделать малый тренировочный режим перед полным Zoltar.
 11. Для `problems-ru-32820-sign-only-two-weighings` оставить текущую большую карточку вне продвижения и завести малый вариант "9 монет, 2 взвешивания, определить только знак".
 12. Для `light-coin-limited-two-uses-preassigned-weighings` не продвигать текущий 99-монетный UI; нужен малый вариант с явным счетчиком участий.
 13. Для `rmo-2002-three-consecutive-light-weights` сделать малый вариант 8-10 гирь; полный 18-объектный интерактив оставить как проверочный.
 14. Для `lighter-25-coins-3-weighings` и `nrich-spot-the-fake-two-weighings` не делать их следующими публичными интерактивами: они уступают базовому малому поиску.
-15. Дозаполнить `interactive_strength`, `estimated_user_actions`, `heavy_interactive_warning` сначала для 64 подтвержденных упражнений и 8 техправок, но не проставлять `strong` пакетно.
+15. Дозаполнить `presentation`, `interactive_strength`, `estimated_user_actions`, `heavy_interactive_warning` для 43 интерактивов без `presentation` и 52 без `estimated_user_actions`, но не проставлять `strong` пакетно.
 16. После правок пересчитать эту карту скриптом из YAML, а `docs/reviews/interactive-status.md` оставить историческим, если его полностью не пересобирают.
 
 ## Конфликты старых очередей
@@ -52,7 +53,9 @@
 
 ### Стали демонстрациями
 
-`calendar-card-binary-trick`, `calgary-jmc-2021-b3-password-feedback`, `fitch-cheney-five-card-trick`, `matprazdnik-2026-five-cards-petya-vasya`, `mcya-2018-intermediate-higher-or-lower`, `permutation-encodes-six-messages`, `prisoners-10-boxes-cycle-strategy`, `spb-primary-2023-seven-coins-two-weighing-results`, `twenty-one-card-trick`, `wise-men-6-32-colors-one-bit`, `wise-men-6-four-colors-permutation-parity`.
+`calendar-card-binary-trick`, `fitch-cheney-five-card-trick`, `matprazdnik-2026-five-cards-petya-vasya`, `mcya-2018-intermediate-higher-or-lower`, `prisoners-10-boxes-cycle-strategy`, `spb-primary-2023-seven-coins-two-weighing-results`, `twenty-one-card-trick`.
+
+Сняты из публичных демонстраций в `review_only/remove`: `calgary-jmc-2021-b3-password-feedback`, `one-counterfeit-among-27-three-ternary-questions`, `kvantland-detective-70-witness-criminal`, `wise-men-6-32-colors-one-bit`, `wise-men-6-four-colors-permutation-parity`.
 
 ### Все еще реально в очереди
 
@@ -62,8 +65,8 @@
 
 - `prisoners-100-boxes-cycle-strategy` закрыт малым `prisoners-10-boxes-cycle-strategy`, но теперь это демонстрация стратегии, не сильное упражнение.
 - `prisoners-chessboard-one-coin-xor` закрыт малым `xor-8-coins-one-flip`.
-- `kolm-2022-three-letter-erasure-card-trick` закрыт `three-letter-erasure-4-bit-code`, но текущий exercise слабый до исправления `random`.
-- Большие wise-men исходники закрыты малыми `wise-men-6-hidden-hat-number-parity`, `wise-men-6-32-colors-one-bit`, `wise-men-6-four-colors-permutation-parity`; два последних сейчас демонстрации.
+- `kolm-2022-three-letter-erasure-card-trick` закрыт `three-letter-erasure-4-bit-code`; текущий YAML уже `exercise/strong`, но прежний риск утечки в `random` стоит проверить отдельно.
+- Большие wise-men исходники закрыты малыми `wise-men-6-hidden-hat-number-parity`, `wise-men-6-32-colors-one-bit`, `wise-men-6-four-colors-permutation-parity`; два последних сейчас `review_only/remove`, не публичные демонстрации.
 - `bas-2001-nonadaptive-balanced-subset-questions` закрыт малым `balanced-subset-8-three-questions`.
 - `problems-ru-78810-thousand-coins-zero-one-two-fakes-sign` закрыт малым `sixteen-coins-zero-one-two-fakes-sign`.
 
@@ -73,9 +76,9 @@
 |---|---|
 | `five-silver-four-gold-light-heavy-2-weighings` | Аудит: потенциально сильный, но сейчас слабый из-за UI/labels; старый queue уже устарел, потому что YAML-интерактив есть. |
 | `heavier-4-coins-one-weighing-impossible` | Аудит: демонстрация нижней оценки, YAML пока `presentation: exercise`. |
-| `kvant-2019-m2565-one-broken-scale` | Аудит: слабая проверка гарантии без `exhaustive`; нужен downgrade или доработка режима. |
-| `three-letter-erasure-4-bit-code` | YAML уже `interactive_strength: weak`; аудит указывает на утечку в `random`. |
-| `kvantland-detective-70-witness-criminal` | Сильная математика, но `estimated_user_actions: 70` и `heavy_interactive_warning: true`; нужен явный UX-режим/предупреждение. |
+| `kvant-2019-m2565-one-broken-scale` | Уже снят в `review_only/remove`; нужен exhaustive-режим или малый индукционный trainer перед возвратом в public. |
+| `three-letter-erasure-4-bit-code` | YAML уже `interactive_strength: strong`; отдельно проверить, что `random` не раскрывает совместимые сообщения до ответа. |
+| `kvantland-detective-70-witness-criminal` | Полный размер снят в `review_only/remove`; публичное упражнение закрывает `kvantland-detective-6-witness-criminal-trainer`. |
 | `problems-ru-34945-27-light-coins` | Сильный, но тяжелый эталон; нужны предупреждения и проверка поддержанных modes. |
 | `lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests` | Аудит: сильный, но очень тяжелый; `exhaustive` математически главный, UX тяжелый. |
 | `utyum-2010-seventeen-coins-parity-test` | Сильный, но тяжелый по скрытому пространству; нужен warning для `exhaustive`. |
@@ -167,29 +170,29 @@
 | `fitch-cheney-five-card-trick` | `card_tricks` | `fitch_cheney_card_trick` | `demonstration` | да | да | нет | готово как демонстрация |
 | `matprazdnik-2026-five-cards-petya-vasya` | `card_tricks` | `petya_vasya_five_cards_protocol` | `demonstration` | да | да | нет | готово как демонстрация |
 | `twenty-one-card-trick` | `card_tricks` | `twenty_one_card_trick` | `demonstration` | да | да | нет | готово как демонстрация |
-| `permutation-encodes-six-messages` | `communication` | `permutation_message_order_code` | `demonstration` | да | да | нет | готово как демонстрация |
+| `permutation-encodes-six-messages` | `communication` | `permutation_message_order_code` | `exercise` | да | да | нет | готово как сильное упражнение после снятия one-click `exhaustive` |
 | `prisoners-10-boxes-cycle-strategy` | `communication` | `permutation_cycle_protocol` | `demonstration` | да | да | нет | готово как демонстрация |
-| `wise-men-6-32-colors-one-bit` | `communication` | `wise_men_even_parity_code` | `demonstration` | да | да | да | готово как демонстрация |
-| `wise-men-6-four-colors-permutation-parity` | `communication` | `wise_men_color_count_parity_protocol` | `demonstration` | да | да | нет | готово как демонстрация |
-| `calgary-jmc-2021-b3-password-feedback` | `questions` | `fixed_feedback_code` | `demonstration` | да | да | да | готово как демонстрация |
+| `wise-men-6-32-colors-one-bit` | `communication` | `wise_men_even_parity_code` | `review_only` | да | да | да | снято из public; нужен редизайн построения кода |
+| `wise-men-6-four-colors-permutation-parity` | `communication` | `wise_men_color_count_parity_protocol` | `review_only` | да | да | нет | снято из public; текущий блок только трассировал готовый протокол |
+| `calgary-jmc-2021-b3-password-feedback` | `questions` | `fixed_feedback_code` | `review_only` | да | да | да | снято из public; сильная версия в permutation-варианте |
 | `mcya-2018-intermediate-higher-or-lower` | `questions` | `higher_lower_strategy_game` | `demonstration` | да | да | нет | готово как демонстрация |
 | `spb-primary-2023-seven-coins-two-weighing-results` | `weighings` | `fixed_weighing_transcript` | `demonstration` | да | да | нет | готово как демонстрация |
-| `number-guessing-one-lie-by-repetition` | `questions` | `repetition_code_one_lie_questions` | `exercise` | да | да | да | упражнение требует перепроверки |
-| `one-counterfeit-among-27-three-ternary-questions` | `questions` | `ternary_question_code` | `exercise` | да | да | да | упражнение требует перепроверки |
+| `number-guessing-one-lie-by-repetition` | `questions` | `repetition_code_one_lie_questions` | `exercise` | да | да | да | готово как упражнение на конструктивное тройное повторение |
+| `one-counterfeit-among-27-three-ternary-questions` | `questions` | `ternary_question_code` | `review_only` | да | да | да | снято из public; нужен новый режим для сильного exercise |
 | `three-letter-erasure-4-bit-code` | `communication` | `three_letter_erasure_code` | `exercise` | да | да | да | нужна техническая правка |
-| `heavier-4-coins-one-weighing-impossible` | `impossibility` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | нужна техническая правка |
-| `kvantland-detective-70-witness-criminal` | `questions` | `antichain_code_protocol` | `exercise` | да | да | да | нужна техническая правка |
+| `heavier-4-coins-one-weighing-impossible` | `impossibility` | `single_counterfeit_weighing` | `demonstration` | нет | нет | нет | готово как демонстрация нижней оценки |
+| `kvantland-detective-70-witness-criminal` | `questions` | `antichain_code_protocol` | `review_only` | да | да | да | снято из public; использовать малый trainer |
 | `five-silver-four-gold-light-heavy-2-weighings` | `weighings` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | нужна техническая правка |
-| `kvant-2019-m2565-one-broken-scale` | `weighings` | `heaviest_coin_one_broken_scale` | `exercise` | нет | нет | нет | нужна техническая правка |
+| `kvant-2019-m2565-one-broken-scale` | `weighings` | `heaviest_coin_one_broken_scale` | `review_only` | нет | нет | нет | снято из public; нужен exhaustive-режим или малый trainer |
 | `lktg-2008-four-detectors-one-broken-sixteen-coins-seven-tests` | `weighings` | `broken_detector_counterfeit_coin` | `exercise` | нет | нет | нет | нужна техническая правка |
 | `problems-ru-34945-27-light-coins` | `weighings` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | нужна техническая правка |
 | `utyum-2010-seventeen-coins-parity-test` | `weighings` | `selected_coin_parity_detector` | `exercise` | нет | нет | нет | нужна техническая правка |
 | `israelmath-5781-bilbo-three-diamond-piles-safe-pile` | `weighings` | `safe_pile_balance_certificate` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
-| `light-coin-limited-two-uses-preassigned-weighings` | `weighings` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
-| `lighter-25-coins-3-weighings` | `weighings` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
+| `light-coin-limited-two-uses-preassigned-weighings` | `weighings` | `single_counterfeit_weighing` | `review_only` | нет | нет | нет | снято из public; лучше заменить малым частным случаем |
+| `lighter-25-coins-3-weighings` | `weighings` | `single_counterfeit_weighing` | `review_only` | нет | нет | нет | снято из public; лучше заменить малым частным случаем |
 | `mccme-2016-three-piles-one-genuine-pile` | `weighings` | `safe_pile_balance_certificate` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
-| `nrich-spot-the-fake-two-weighings` | `weighings` | `single_counterfeit_weighing` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
-| `problems-ru-32820-sign-only-two-weighings` | `weighings` | `single_counterfeit_unknown_direction` | `exercise` | нет | нет | да | лучше заменить малым частным случаем |
+| `nrich-spot-the-fake-two-weighings` | `weighings` | `single_counterfeit_weighing` | `review_only` | нет | нет | нет | снято из public; лучше заменить малым частным случаем |
+| `problems-ru-32820-sign-only-two-weighings` | `weighings` | `single_counterfeit_unknown_direction` | `review_only` | нет | нет | да | снято из public; лучше заменить малым sign-only companion |
 | `rmo-2002-three-consecutive-light-weights` | `weighings` | `numeric_linear_signature` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
 | `usamts-2011-zoltar-fourteen-coins-real-coin` | `weighings` | `zoltar_heavier_hand_removal` | `exercise` | нет | нет | нет | лучше заменить малым частным случаем |
 

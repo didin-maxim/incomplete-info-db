@@ -130,6 +130,15 @@
   "interactive": {
     "type": "constrained_light_counterfeit_sets",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 10,
+    "mode_action_estimates": {
+      "random": {"typical": 10, "nature": "сделать до трех взвешиваний и назвать две легкие монеты"},
+      "cheater": {"typical": 10, "nature": "проверить гарантию при совместимой паре разных легких весов"},
+      "exhaustive": {"typical": 15, "nature": "проверить все пары легких монет текущего случая"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "case": "D.32_six_coins",
     "coin_count": 6,
     "counterfeit_count": 2,

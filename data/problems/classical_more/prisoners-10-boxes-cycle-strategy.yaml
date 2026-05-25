@@ -42,12 +42,15 @@
     "presentation": "demonstration",
     "interactive_strength": "demonstration",
     "estimated_user_actions": 6,
+    "mode_action_estimates": {
+      "random": {"typical": 6, "nature": "пошаговая трасса протокола"}
+    },
     "visual_legend_needed": true,
     "prisoner_count": 10,
     "box_count": 10,
     "max_openings": 5,
     "objective": "all_agents_find_own_state",
-    "modes": ["random", "cheater", "exhaustive"]
+    "modes": ["random"]
   },
   "incomplete_information_profile": {
     "hidden_state_space": "случайная перестановка номеров 1..10 по ящикам",
@@ -84,7 +87,8 @@
     "relations_status": "small_case_for_interactive",
     "notes": [
       "Создана как малый частный случай классической задачи о 100 заключенных и 100 ящиках.",
-      "Интерактив хранит только параметры модели; перестановка создается viewer на клиенте."
+      "Интерактив хранит только параметры модели; перестановка создается viewer на клиенте.",
+      "2026-05-25: публичная demonstration сведена к одному проходу по случайной перестановке. cheater и exhaustive убраны: они показывали стрессовый пример и агрегат по типам циклов, но без отдельного вероятностного редизайна не помогают слабому школьнику лучше текста."
     ]
   }
 }

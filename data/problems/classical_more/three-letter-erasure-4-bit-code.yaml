@@ -97,6 +97,7 @@
   },
   "interactive": {
     "type": "three_letter_erasure_code",
+    "presentation": "exercise",
     "message_count": 16,
     "word_length": 8,
     "alphabet": [
@@ -123,13 +124,16 @@
       "ВВБАБААА"
     ],
     "objective": "decode_hidden_message",
-    "interactive_strength": "weak",
-    "estimated_user_actions": 2,
+    "interactive_strength": "strong",
+    "estimated_user_actions": 3,
+    "mode_action_estimates": {
+      "random": {"typical": 3, "nature": "расшифровать одно стертое слово до раскрытия исходного слова и подходящих сообщений"},
+      "sandbox": {"typical": 17, "nature": "редактировать полную таблицу из 16 слов и запускать проверку конфликтов после стирания"}
+    },
     "heavy_interactive_warning": false,
     "visual_legend_needed": true,
     "modes": [
       "random",
-      "exhaustive",
       "sandbox"
     ]
   },
@@ -159,6 +163,7 @@
     "public_ready": true,
     "relations_status": "new_small_case",
     "notes": [
+      "2026-05-25: повышено до strong для узкой конечной задачи: random просит декодировать стертое слово до раскрытия, sandbox проверяет пользовательскую таблицу кода; one-click exhaustive удален как фиктивный публичный режим.",
       "Карточка создана как частный интерактивный случай kolm-2022-three-letter-erasure-card-trick.",
       "Таблица сгенерирована как конечный код длины 8 и проверена перебором: для разных сообщений множества строк после стирания А/Б/В не пересекаются.",
       "Блочная идея общей КОЛМ-карточки 0 -> АБ, 1 -> БВ для четырех бит без специальных крайних слов дает конфликт между 0000 после стирания А и 1111 после стирания В; поэтому здесь используется отдельная проверенная таблица."

@@ -67,11 +67,17 @@
   },
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "coin_count": 9,
     "counterfeit_weight": "heavier",
     "max_weighings": 2,
     "objective": "identify_coin",
-    "modes": ["random", "cheater", "exhaustive"],
+    "modes": [],
     "require_equal_pan_counts": true
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Простая: максимальное число монет получается из прямого счета девяти листьев и конструкции делением на тройки.", "status": "ai_checked"},
@@ -83,6 +89,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["2026-05-18: условие, верхняя оценка 3^2=9 и конструкция для девяти монет сверены с официальной страницей NRICH Spot the Fake."]
+    "notes": ["2026-05-18: условие, верхняя оценка 3^2=9 и конструкция для девяти монет сверены с официальной страницей NRICH Spot the Fake.", "2026-05-25: публичный exercise снят: текущий блок проверяет достижимость 9 листьев для готовой конструкции, но максимум N в исходной задаче остается текстовой нижней оценкой. Для public нужен отдельный режим построения дерева или явное соединение с нижней оценкой."]
   }
 }

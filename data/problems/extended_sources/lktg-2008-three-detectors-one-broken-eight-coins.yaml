@@ -66,13 +66,22 @@
   },
   "interactive": {
     "type": "broken_detector_counterfeit_coin",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 13,
+    "mode_action_estimates": {
+      "random": {"typical": 13, "nature": "найти монету при одном детекторе, который может отвечать произвольно"},
+      "cheater": {"typical": 13, "nature": "отладить совместимые монеты и возможный сломанный детектор"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "coin_count": 8,
     "detector_count": 3,
     "broken_detector_count": 1,
     "detector_labels": ["A", "B", "C"],
     "max_tests": 6,
     "objective": "identify_coin",
-    "modes": ["random", "cheater", "exhaustive"]
+    "modes": ["random", "cheater"]
   },
   "difficulty": {
     "main": "olympiad_medium",
@@ -91,6 +100,6 @@
     "review_status": "ai_checked",
     "public_ready": false,
     "relations_status": "lktg_2008_batch",
-    "notes": ["ЛКТГ-2008, задача 2.2a. Детекторная версия оставлена в разделе взвешиваний как часть того же листа про ненадежные тестеры."]
+    "notes": ["ЛКТГ-2008, задача 2.2a. Детекторная версия оставлена в разделе взвешиваний как часть того же листа про ненадежные тестеры.", "2026-05-25: exhaustive removed from public modes: the 63-branch tree is a technical verifier; cheater remains public because it tests the strategy against worst compatible detector answers."]
   }
 }

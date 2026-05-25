@@ -110,6 +110,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "mode_action_estimates": {
+      "random": {"typical": 5, "nature": "сделать до двух взвешиваний и назвать монету вместе со знаком"},
+      "cheater": {"typical": 5, "nature": "держать гарантию при худшем совместимом скрытом состоянии"},
+      "exhaustive": {"typical": 6, "nature": "проверить все шесть вариантов монета-знак"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 3,
     "max_weighings": 2,
     "objective": "identify_coin_and_sign",

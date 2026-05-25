@@ -58,6 +58,16 @@
   },
   "interactive": {
     "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": {"typical": 8, "nature": "сделать до двух взвешиваний и назвать тройку тяжелых монет"},
+      "cheater": {"typical": 8, "nature": "проверить гарантию против худшей совместимой тройки"},
+      "exhaustive": {"typical": 8, "nature": "проверить все круговые тройки тяжелых монет"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 8,
     "counterfeit_weight": "heavier",
     "max_weighings": 2,

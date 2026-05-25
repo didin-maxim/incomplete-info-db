@@ -12,6 +12,16 @@
   "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_adjacent_lighter_coins", "weighing_count": 1, "outcome_count_per_weighing": 3, "adaptive": false, "scale_type": "balance_scale", "objective": "identify_one_counterfeit_coin"},
   "interactive": {
     "type": "constrained_light_counterfeit_sets",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "random": {"typical": 4, "nature": "сделать одно взвешивание и назвать гарантированно фальшивую монету"},
+      "cheater": {"typical": 4, "nature": "проверить гарантию против совместимой соседней пары"},
+      "exhaustive": {"typical": 6, "nature": "проверить все соседние пары на круге"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 6,
     "hidden_states": [
       {"id": "12", "label": "{1,2}", "coins": [1, 2]},

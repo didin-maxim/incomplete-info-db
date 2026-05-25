@@ -50,6 +50,16 @@
   "weighing_profile": {"object_count": 8, "counterfeit_count": "0_or_1", "counterfeit_type": "lighter_known_if_present", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "scale_type": "balance_scale", "objective": "identify_coin_or_none"},
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 12,
+    "mode_action_estimates": {
+      "random": {"typical": 12, "nature": "найти легкую монету или явно ответить, что фальшивки нет"},
+      "cheater": {"typical": 12, "nature": "увидеть, как нулевое состояние ведет себя как девятый вариант"},
+      "exhaustive": {"typical": 4, "nature": "проверить все 8 монет плюс состояние отсутствия фальшивки"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "coin_count": 8,
     "counterfeit_weight": "lighter",
     "allow_no_counterfeit": true,

@@ -58,6 +58,16 @@
   },
   "interactive": {
     "type": "balanced_weight_signature_protocol",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "mode_action_estimates": {
+      "random": {"typical": 5, "nature": "задать две проверки с равными номинальными суммами и дать ответ"},
+      "cheater": {"typical": 5, "nature": "проверить различимость против совместимого скрытого варианта"},
+      "exhaustive": {"typical": 7, "nature": "проверить все варианты дефицитного мешка или его отсутствия"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 6,
     "bag_weights": [1, 2, 3, 4, 5, 6],
     "max_weighings": 2,

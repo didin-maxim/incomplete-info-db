@@ -61,6 +61,16 @@
   },
   "interactive": {
     "type": "broken_scale_counterfeit_coin",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 7,
+    "mode_action_estimates": {
+      "random": {"typical": 7, "nature": "сравнить пару монет на трех весах и ответить по большинству"},
+      "cheater": {"typical": 7, "nature": "увидеть, какие монеты и приборы еще совместимы с ответами"},
+      "exhaustive": {"typical": 13, "nature": "проверить дерево по состояниям монета плюс сломанные весы"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 3,
     "scale_count": 3,
     "broken_scale_count": 1,

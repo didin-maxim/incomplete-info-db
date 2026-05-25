@@ -12,10 +12,19 @@
   "weighing_profile": {"object_count": 65, "counterfeit_count": 1, "counterfeit_type": "one_counterfeit_in_one_pile_unknown_direction", "weighing_count": 1, "outcome_count_per_weighing": 3, "adaptive": false, "objective": "certify_one_all_genuine_pile"},
   "interactive": {
     "type": "safe_pile_balance_certificate",
-    "pile_sizes": [17, 21, 27],
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "pile_sizes": [3, 5, 7],
     "max_weighings": 1,
     "objective": "identify_safe_pile",
     "require_equal_pan_counts": true,
+    "estimated_user_actions": 2,
+    "mode_action_estimates": {
+      "random": {"typical": 2, "nature": "учебная ветка 3/5/7: одно равномощное сравнение и выбор безопасной кучки"},
+      "cheater": {"typical": 2, "nature": "шулер оставляет худшую ветку, но принцип равенство/перекос остается тем же"},
+      "exhaustive": {"typical": 1, "nature": "проверка всех 30 signed-состояний малого safe-pile"}
+    },
+    "heavy_interactive_warning": false,
     "modes": ["random", "cheater", "exhaustive"],
     "ui_title": "Выберите кучку без фальшивой монеты",
     "object_nouns": {"singular": "монета", "few": "монеты", "many": "монет", "capitalized": "Монета"}
@@ -23,5 +32,5 @@
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Короткая сертификационная стратегия: исход не находит фальшивку, но гарантирует одну настоящую кучку.", "status": "ai_checked"},
   "tags": ["balance_scale", "knowledge_elimination", "condition_middle_school"],
   "sources": [{"source_id": "src-mccme-circle-2016-weighings", "role": "official_statement", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-19", "review_status": "ai_checked", "public_ready": true, "relations_status": "web-weighings", "notes": ["Решение восстановлено редакционно; направление отличия фальшивой монеты не требуется, важно только что ее вес отличается от настоящей."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-19", "review_status": "ai_checked", "public_ready": true, "relations_status": "web-weighings", "notes": ["Решение восстановлено редакционно; направление отличия фальшивой монеты не требуется, важно только что ее вес отличается от настоящей.", "2026-05-25: условие остается про кучки 17/21/27; интерактив сделан учебной версией 3/5/7 с тем же принципом safe-pile, чтобы не дублировать большой ручной UI."]}
 }

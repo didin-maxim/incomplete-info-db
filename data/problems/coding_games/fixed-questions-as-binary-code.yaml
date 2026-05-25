@@ -68,11 +68,17 @@
   },
   "interactive": {
     "type": "binary_question_code",
+    "presentation": "exercise",
     "object_count": 8,
     "max_tests": 3,
     "objective": "identify_hidden_number",
     "interactive_strength": "strong",
     "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "random": {"typical": 4, "nature": "составить три вопроса да/нет и проверить один скрытый объект"},
+      "sandbox": {"typical": 4, "nature": "составить и проверить полную таблицу вопросов"},
+      "exhaustive": {"typical": 4, "nature": "составить вопросы и проверить все наборы ответов"}
+    },
     "heavy_interactive_warning": false,
     "visual_legend_needed": false,
     "modes": ["sandbox", "random", "exhaustive"]

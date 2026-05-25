@@ -145,6 +145,16 @@
   },
   "interactive": {
     "type": "single_counterfeit_unknown_direction",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 18,
+    "mode_action_estimates": {
+      "random": {"typical": 18, "nature": "построить до трех взвешиваний и назвать монету со знаком"},
+      "cheater": {"typical": 20, "nature": "вести гарантирующую ветку против худшего совместимого состояния"},
+      "exhaustive": {"typical": 36, "nature": "проверить полное дерево для 24 signed-состояний"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "coin_count": 12,
     "max_weighings": 3,
     "objective": "identify_coin_and_sign",

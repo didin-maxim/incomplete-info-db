@@ -78,14 +78,20 @@
   },
   "interactive": {
     "type": "single_counterfeit_weighing",
+    "presentation": "review_only",
+    "interactive_strength": "remove",
+    "estimated_user_actions": 0,
+    "mode_action_estimates": {},
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "coin_count": 25,
     "counterfeit_weight": "lighter",
     "max_weighings": 3,
     "objective": "identify_coin",
-    "modes": ["random", "cheater", "exhaustive"]
+    "modes": []
   },
   "difficulty": {"main": "intro", "local_score": 2, "comment": "Чистый поиск легкой монеты, где каждое взвешивание дает три исхода.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_search", "decision_tree_lower_bound", "condition_middle_school"],
   "sources": [{"source_id": "src-classical-coin-weighing", "role": "folklore_statement", "status": "source_verified"}, {"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution_variant", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "special_case_of_existing_N_q_card", "notes": ["2026-05-18: число 25 несущественно для стратегии; это запасной частный случай общей границы N <= 3^q для известной легкой монеты.", "2026-05-22: книга К. А. Кнопа разбирает эту трисекционную схему в занятиях 2 и 5, включая варианты с 25 монетами за 3 взвешивания и заранее заданные планы."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": true, "relations_status": "seed_links", "generalization_status": "special_case_of_existing_N_q_card", "notes": ["2026-05-18: число 25 несущественно для стратегии; это запасной частный случай общей границы N <= 3^q для известной легкой монеты.", "2026-05-22: книга К. А. Кнопа разбирает эту трисекционную схему в занятиях 2 и 5, включая варианты с 25 монетами за 3 взвешивания и заранее заданные планы.", "2026-05-25: публичный exercise снят: 25 монет и 31 действие тяжелы как учебный первый контакт, а режимы random/cheater повторяли более понятный 9-монетный тренажер. Оставлен review_only/remove с редакторским exhaustive-планом."]}
 }

@@ -66,6 +66,16 @@
     "selected_coin": 1,
     "max_tests": 8,
     "objective": "identify_selected_coin_type",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 9,
+    "mode_action_estimates": {
+      "random": {"typical": 9, "nature": "сравнить 8 пар и ответить по четности равных пар"},
+      "cheater": {"typical": 9, "nature": "увидеть, как каждая пара меняет четность возможных раскладок"},
+      "exhaustive": {"typical": 1, "nature": "проверить все 24310 раскладок; это проверка схемы, а не быстрая игра"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "modes": ["random", "cheater", "exhaustive"]
   },
   "difficulty": {

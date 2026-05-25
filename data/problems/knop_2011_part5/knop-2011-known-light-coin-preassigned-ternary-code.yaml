@@ -12,22 +12,29 @@
   "weighing_profile": {"object_count": 27, "counterfeit_count": 1, "counterfeit_type": "lighter_known", "weighing_count": 3, "outcome_count_per_weighing": 3, "adaptive": false, "objective": "identify_coin"},
   "interactive": {
     "type": "single_counterfeit_weighing",
-    "coin_count": 27,
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "sandbox": {"typical": 4, "nature": "прочитать готовый неадаптивный троичный код на 9 монетах"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "coin_count": 9,
     "counterfeit_weight": "lighter",
-    "max_weighings": 3,
+    "max_weighings": 2,
     "objective": "identify_coin",
     "adaptive": false,
-    "modes": ["sandbox", "exhaustive"],
+    "modes": ["sandbox"],
     "require_equal_pan_counts": true,
     "auto_check": false,
     "preset_weighings": [
-      {"left": [10, 11, 12, 13, 14, 15, 16, 17, 18], "right": [19, 20, 21, 22, 23, 24, 25, 26, 27]},
-      {"left": [4, 5, 6, 13, 14, 15, 22, 23, 24], "right": [7, 8, 9, 16, 17, 18, 25, 26, 27]},
-      {"left": [2, 5, 8, 11, 14, 17, 20, 23, 26], "right": [3, 6, 9, 12, 15, 18, 21, 24, 27]}
+      {"left": [4, 5, 6], "right": [7, 8, 9]},
+      {"left": [2, 5, 8], "right": [3, 6, 9]}
     ]
   },
   "difficulty": {"main": "intro", "local_score": 3, "comment": "Базовый пример того, как заранее назначенные взвешивания превращаются в таблицу исходов.", "status": "ai_checked"},
   "tags": ["balance_scale", "ternary_code", "nonadaptive_strategy", "condition_middle_school"],
   "sources": [{"source_id": "src-knop-2011-weighings-algorithms", "role": "book_statement_and_solution", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part5_batch", "notes": ["Объединяет занятия 5.4-5.7: План-9, План-27, случай 7 монет и случай 25 монет. Не дублирует карточки про адаптивные 25/27 монет, потому что здесь существенное условие — все взвешивания назначаются заранее."]}
+  "editorial": {"created_by": "ai", "created_at": "2026-05-22", "review_status": "ai_checked", "public_ready": true, "relations_status": "knop_2011_part5_batch", "notes": ["Объединяет занятия 5.4-5.7: План-9, План-27, случай 7 монет и случай 25 монет. Не дублирует карточки про адаптивные 25/27 монет, потому что здесь существенное условие — все взвешивания назначаются заранее.", "2026-05-25: интерактив оставлен как учебная версия готового плана-9 с двумя заранее назначенными взвешиваниями; полная карточка по-прежнему описывает семейство планов, включая План-27.", "2026-05-25: exhaustive removed from public modes: the ready Plan-9 table stays inspectable in sandbox, while full outcome enumeration is editor-only."]}
 }

@@ -58,6 +58,16 @@
   "weighing_profile": {"object_count": 6, "counterfeit_count": 2, "counterfeit_type": "two_light_with_group_constraints", "weighing_count": 2, "outcome_count_per_weighing": 3, "adaptive": true, "objective": "identify_two_counterfeits"},
   "interactive": {
     "type": "grouped_light_counterfeits",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 8,
+    "mode_action_estimates": {
+      "random": {"typical": 8, "nature": "сделать до двух взвешиваний и назвать фальшивку в каждой группе"},
+      "cheater": {"typical": 8, "nature": "проверить гарантию против совместимого выбора по группам"},
+      "exhaustive": {"typical": 8, "nature": "проверить все групповые скрытые состояния"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "coin_count": 6,
     "counterfeit_count": 2,
     "groups": [[1, 2, 3, 4], [5, 6]],

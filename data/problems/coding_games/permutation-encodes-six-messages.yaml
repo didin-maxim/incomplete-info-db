@@ -72,14 +72,20 @@
   },
   "interactive": {
     "type": "permutation_message_order_code",
-    "presentation": "demonstration",
-    "interactive_strength": "demonstration",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
     "estimated_user_actions": 2,
+    "mode_action_estimates": {
+      "random": {"typical": 2, "nature": "закодировать или расшифровать один порядок до раскрытия таблицы перестановок"},
+      "sandbox": {"typical": 2, "nature": "вручную расставить один порядок и расшифровать его"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": false,
     "item_count": 3,
     "message_count": 6,
     "object_labels": ["A", "B", "C"],
     "objective": "decode_hidden_message",
-    "modes": ["random", "exhaustive", "sandbox"]
+    "modes": ["random", "sandbox"]
   },
   "communication_profile": {
     "senders": 1,
@@ -104,6 +110,6 @@
     "public_ready": true,
     "relations_status": "seed_links",
     "generalization_status": "same_solution_parameterized",
-    "notes": ["2026-05-18: число 6 классифицировано как емкость 3!; добавлена общая версия для m! сообщений."]
+    "notes": ["2026-05-18: число 6 классифицировано как емкость 3!; добавлена общая версия для m! сообщений.", "2026-05-25: повышено до strong для узкой конструктивной цели: пользователь действительно кодирует или декодирует порядок трех предметов до раскрытия проверки; режимов осталось два, без фиктивного exhaustive."]
   }
 }

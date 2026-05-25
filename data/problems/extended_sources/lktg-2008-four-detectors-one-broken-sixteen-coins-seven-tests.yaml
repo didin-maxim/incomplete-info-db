@@ -75,13 +75,22 @@
   },
   "interactive": {
     "type": "broken_detector_counterfeit_coin",
-    "coin_count": 16,
-    "detector_count": 4,
+    "presentation": "exercise",
+    "coin_count": 8,
+    "detector_count": 3,
     "broken_detector_count": 1,
-    "detector_labels": ["A", "B", "C", "D"],
-    "max_tests": 7,
+    "detector_labels": ["A", "B", "C"],
+    "max_tests": 6,
     "objective": "identify_coin",
-    "modes": ["random", "cheater", "exhaustive"]
+    "interactive_strength": "strong",
+    "estimated_user_actions": 13,
+    "mode_action_estimates": {
+      "random": {"typical": 13, "nature": "учебная версия: найти монету при одном произвольно отвечающем детекторе"},
+      "cheater": {"typical": 13, "nature": "отладить худшую ветку и совместимость монеты со сломанным детектором"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
+    "modes": ["random", "cheater"]
   },
   "difficulty": {
     "main": "top_base",
@@ -100,6 +109,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "lktg_2008_section4_41",
-    "notes": ["ЛКТГ-2008, задача 4.1a. Вынесена из обзорной карточки точных результатов.", "2026-05-19: добавлен самодостаточный разбор верхней оценки для 16 монет через почти исключенные монеты; интерактив broken_detector_counterfeit_coin включен, потому что условие и стратегия больше не зависят только от ссылки на задачу 4.4."]
+    "notes": ["ЛКТГ-2008, задача 4.1a. Вынесена из обзорной карточки точных результатов.", "2026-05-19: добавлен самодостаточный разбор верхней оценки для 16 монет через почти исключенные монеты; интерактив broken_detector_counterfeit_coin включен, потому что условие и стратегия больше не зависят только от ссылки на задачу 4.4.", "2026-05-25: интерактив оставлен как учебная версия на 8 монет и 3 детектора с одним сломанным; полная задача про 16 монет и 4 детектора остается в условии и стратегии как оптимальный большой случай.", "2026-05-25: exhaustive removed from public modes: the interactive is already a reduced trainer, and full tree checking is editor-only; cheater remains for adversarial strategy debugging."]
   }
 }

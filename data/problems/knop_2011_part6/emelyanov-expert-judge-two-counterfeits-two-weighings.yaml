@@ -92,7 +92,16 @@
   },
   "interactive": {
     "type": "two_counterfeit_same_sign_expert_judge",
-    "coin_count": 100,
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 4,
+    "mode_action_estimates": {
+      "sandbox": {"typical": 4, "nature": "эксперт знает пару и знак, судья видит только два публичных взвешивания"},
+      "exhaustive": {"typical": 20, "nature": "проверить все пары и оба знака в учебном 5-монетном сертификате"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
+    "coin_count": 5,
     "counterfeit_count": 2,
     "state_model": "pair_and_sign",
     "max_weighings": 2,
@@ -133,7 +142,8 @@
     "generalization_status": "expert_judge_certificate_case",
     "notes": [
       "Автор по индексу книги: Л. А. Емельянов.",
-      "2026-05-23: добавлена полная проверка альтернативных распределений для двух неравенств; тяжелый случай описан симметрично."
+      "2026-05-23: добавлена полная проверка альтернативных распределений для двух неравенств; тяжелый случай описан симметрично.",
+      "2026-05-25: интерактив оставлен как учебная версия на 5 монет, потому что сам сертификат использует две фальшивые и три настоящие монеты; полная задача про 100 монет остается в условии как большой expert-judge случай."
     ]
   }
 }

@@ -61,6 +61,7 @@
   "impossibility_proofs": [],
   "interactive": {
     "type": "hidden_hat_number_parity_protocol",
+    "presentation": "exercise",
     "sage_count": 6,
     "number_min": 1,
     "number_max": 7,
@@ -69,12 +70,15 @@
     "objective": "guarantee_all_but_first_correct",
     "interactive_strength": "strong",
     "estimated_user_actions": 12,
+    "mode_action_estimates": {
+      "random": {"min": 12, "typical": 12, "max": 18, "nature": "последовательность ответов при ограниченной видимости"},
+      "guided": {"typical": 18, "nature": "демонстрация"}
+    },
     "heavy_interactive_warning": true,
     "visual_legend_needed": true,
     "modes": [
       "random",
-      "guided",
-      "exhaustive"
+      "guided"
     ]
   },
   "incomplete_information_profile": {
@@ -140,7 +144,8 @@
     "relations_status": "small_case_for_interactive",
     "notes": [
       "Создана как малый частный случай problems.ru 115987 для интерактивной проверки стратегии четности перестановки.",
-      "Интерактив хранит только параметры модели; конкретная расстановка номеров создается viewer на клиенте."
+      "Интерактив хранит только параметры модели; конкретная расстановка номеров создается viewer на клиенте.",
+      "2026-05-25: exhaustive removed from public modes: it is a one-click verifier of the parity protocol, while random/guided preserve the visible student exercise."
     ]
   }
 }

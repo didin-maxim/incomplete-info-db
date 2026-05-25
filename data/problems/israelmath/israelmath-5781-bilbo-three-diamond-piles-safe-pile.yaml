@@ -58,10 +58,19 @@
   },
   "interactive": {
     "type": "safe_pile_balance_certificate",
-    "pile_sizes": [17, 21, 27],
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "pile_sizes": [3, 5, 7],
     "max_weighings": 1,
     "objective": "identify_safe_pile",
     "require_equal_pan_counts": true,
+    "estimated_user_actions": 2,
+    "mode_action_estimates": {
+      "random": {"typical": 2, "nature": "учебная ветка 3/5/7: одно равномощное сравнение и выбор безопасной кучки"},
+      "cheater": {"typical": 2, "nature": "шулер оставляет худшую ветку, но принцип равенство/перекос остается тем же"},
+      "exhaustive": {"typical": 1, "nature": "проверка всех 30 signed-состояний малого safe-pile"}
+    },
+    "heavy_interactive_warning": false,
     "modes": ["random", "cheater", "exhaustive"]
   },
   "difficulty": {
@@ -82,7 +91,8 @@
     "relations_status": "israelmath_junior_batch",
     "notes": [
       "Английская формулировка переведена редакционно.",
-      "Официальный solution PDF на английском в этом проходе не найден; решение составлено редакционно."
+      "Официальный solution PDF на английском в этом проходе не найден; решение составлено редакционно.",
+      "2026-05-25: условие остается про кучки 17/21/27; интерактив сделан учебной версией 3/5/7 с тем же принципом: сравнить всю малую кучку с равной частью средней, при равновесии выбрать малую, при перекосе - третью."
     ]
   }
 }

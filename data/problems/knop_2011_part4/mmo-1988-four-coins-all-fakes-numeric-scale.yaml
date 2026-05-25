@@ -100,6 +100,14 @@
   "interactive": {
     "type": "numeric_linear_signature",
     "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 5,
+    "mode_action_estimates": {
+      "random": {"typical": 5, "nature": "задать до трех числовых проверок и назвать подмножество фальшивок"},
+      "exhaustive": {"typical": 16, "nature": "проверить все подмножества фальшивых монет"}
+    },
+    "heavy_interactive_warning": false,
+    "visual_legend_needed": true,
     "bag_count": 4,
     "max_weighings": 3,
     "objective": "identify_fake_bag_subset",

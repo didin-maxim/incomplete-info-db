@@ -61,6 +61,14 @@
   },
   "interactive": {
     "type": "broken_scale_counterfeit_coin",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 9,
+    "mode_action_estimates": {
+      "random": {"typical": 9, "nature": "try one hidden broken-scale scenario and answer with the coin"},
+      "cheater": {"typical": 9, "nature": "debug the strategy against worst compatible outcomes"}
+    },
+    "heavy_interactive_warning": true,
     "coin_count": 9,
     "scale_count": 3,
     "broken_scale_count": 1,
@@ -68,7 +76,7 @@
     "counterfeit_weight": "lighter",
     "max_weighings": 4,
     "objective": "identify_coin",
-    "modes": ["random", "cheater", "exhaustive"],
+    "modes": ["random", "cheater"],
     "require_equal_pan_counts": true
   },
   "difficulty": {
@@ -90,6 +98,6 @@
     "review_status": "ai_checked",
     "public_ready": true,
     "relations_status": "new_links",
-    "notes": ["Источник - листок ЛКТГ-2008 «Взвешивания со сломанными весами» на olympiads.mccme.ru.", "2026-05-19: добавлены русские официальные PDF условий и решений; карточка соответствует пункту 2.2b.", "2026-05-22: книга К. А. Кнопа содержит эту задачу в занятии 3, задача 3.12; в указателе книги указан первоисточник: К. А. Кноп, Всероссийская олимпиада, заключительный этап, 2008."]
+    "notes": ["Источник - листок ЛКТГ-2008 «Взвешивания со сломанными весами» на olympiads.mccme.ru.", "2026-05-19: добавлены русские официальные PDF условий и решений; карточка соответствует пункту 2.2b.", "2026-05-22: книга К. А. Кнопа содержит эту задачу в занятии 3, задача 3.12; в указателе книги указан первоисточник: К. А. Кноп, Всероссийская олимпиада, заключительный этап, 2008.", "2026-05-25: exhaustive removed from public modes: the full broken-scale decision tree is too much for the student first screen; random/cheater keep the public strategy test."]
   }
 }

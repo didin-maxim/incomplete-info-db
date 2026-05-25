@@ -65,6 +65,16 @@
   },
   "interactive": {
     "type": "zero_one_two_counterfeit_sign",
+    "presentation": "exercise",
+    "interactive_strength": "strong",
+    "estimated_user_actions": 12,
+    "mode_action_estimates": {
+      "random": {"typical": 12, "nature": "выбрать до трех взвешиваний и ответить о наличии и знаке фальшивок"},
+      "cheater": {"typical": 14, "nature": "вести гарантирующую ветку с худшим совместимым скрытым состоянием"},
+      "exhaustive": {"typical": 40, "nature": "проверить дерево по всем допустимым состояниям ноль-один-два"}
+    },
+    "heavy_interactive_warning": true,
+    "visual_legend_needed": true,
     "coin_count": 16,
     "max_weighings": 3,
     "objective": "detect_presence_and_sign",
