@@ -804,6 +804,30 @@ def build_html(data):
       display: none;
     }
 
+    .interactive-task {
+      border: 1px solid #d7e2dd;
+      border-radius: 8px;
+      background: #f8fbf9;
+      padding: 14px 16px;
+      margin: 0 0 12px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .interactive-task h4 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .interactive-task .text {
+      display: grid;
+      gap: 8px;
+    }
+
+    .interactive-task .text-paragraph {
+      margin: 0;
+    }
+
     .interactive-panel {
       display: grid;
       gap: 10px;
@@ -2899,6 +2923,8 @@ def build_html(data):
         </div>
         <div class="filter-toggle-row" id="interactive-filter-row" hidden>
           <button class="small-button filter-toggle" id="interactive-exercise-filter" type="button" aria-pressed="false">Упражнения</button>
+          <button class="small-button filter-toggle" id="interactive-good-filter" type="button" aria-pressed="false">Хорошие</button>
+          <button class="small-button filter-toggle" id="interactive-warning-filter" type="button" aria-pressed="false">С предупреждением</button>
           <button class="small-button filter-toggle" id="interactive-demonstration-filter" type="button" aria-pressed="false">Демонстрации</button>
         </div>
         <select id="fragment-filter"></select>
@@ -3376,6 +3402,22 @@ __WEIGHING_CHEATER_JS__
       return Boolean(problem.interactive?.type && interactivePresentation(problem.interactive) === 'demonstration');
     }
 
+    function hasInteractiveWarning(problem) {
+      const config = problem.interactive || {};
+      if (!config.type || interactivePresentation(config) === 'review_only') return false;
+      return Boolean(config.heavy_interactive_warning || config.interactive_warning || config.warning_note || interactivePresentation(config) === 'demonstration');
+    }
+
+    function hasGoodInteractive(problem) {
+      return hasInteractive(problem) && !hasInteractiveWarning(problem);
+    }
+
+    function interactiveQualityLabel(problem) {
+      if (!hasInteractive(problem)) return '';
+      if (hasInteractiveWarning(problem)) return 'с предупреждением';
+      return 'хороший';
+    }
+
     function sourceTitle(id) {
       return sourceById[id]?.title || id;
     }
@@ -3678,6 +3720,8 @@ __WEIGHING_CHEATER_JS__
       if (filters.status !== 'all' && problem.editorial?.review_status !== filters.status && problem.difficulty?.status !== filters.status) return false;
       if ((filters.interactive === 'with' || filters.interactive === 'exercise') && !hasInteractiveExercise(problem)) return false;
       if (filters.interactive === 'demonstration' && !hasInteractiveDemonstration(problem)) return false;
+      if (filters.interactive === 'good' && !hasGoodInteractive(problem)) return false;
+      if (filters.interactive === 'warning' && !hasInteractiveWarning(problem)) return false;
       if (filters.source !== 'all' && !sourceFamilyKeysForProblem(problem).includes(filters.source)) return false;
       if (filters.year !== 'all' && !sourceYearsForProblem(problem).includes(filters.year)) return false;
       if (filters.author !== 'all' && !problemAuthorKeys(problem).includes(filters.author)) return false;
@@ -3808,15 +3852,25 @@ __WEIGHING_CHEATER_JS__
       byId('search-input').value = state.query;
       const exerciseTotal = countProblems({ interactive: 'exercise' });
       const demonstrationTotal = countProblems({ interactive: 'demonstration' });
+      const goodTotal = countProblems({ interactive: 'good' });
+      const warningTotal = countProblems({ interactive: 'warning' });
       const interactiveRow = byId('interactive-filter-row');
       const exerciseButton = byId('interactive-exercise-filter');
+      const goodButton = byId('interactive-good-filter');
+      const warningButton = byId('interactive-warning-filter');
       const demonstrationButton = byId('interactive-demonstration-filter');
-      interactiveRow.hidden = exerciseTotal === 0 && demonstrationTotal === 0 && state.interactive === 'all';
+      interactiveRow.hidden = exerciseTotal === 0 && demonstrationTotal === 0 && goodTotal === 0 && warningTotal === 0 && state.interactive === 'all';
       exerciseButton.hidden = exerciseTotal === 0 && state.interactive !== 'exercise';
+      goodButton.hidden = goodTotal === 0 && state.interactive !== 'good';
+      warningButton.hidden = warningTotal === 0 && state.interactive !== 'warning';
       demonstrationButton.hidden = demonstrationTotal === 0 && state.interactive !== 'demonstration';
       exerciseButton.textContent = labelWithCount('Упражнения', exerciseTotal);
+      goodButton.textContent = labelWithCount('Хорошие', goodTotal);
+      warningButton.textContent = labelWithCount('С предупреждением', warningTotal);
       demonstrationButton.textContent = labelWithCount('Демонстрации', demonstrationTotal);
       exerciseButton.setAttribute('aria-pressed', state.interactive === 'exercise' ? 'true' : 'false');
+      goodButton.setAttribute('aria-pressed', state.interactive === 'good' ? 'true' : 'false');
+      warningButton.setAttribute('aria-pressed', state.interactive === 'warning' ? 'true' : 'false');
       demonstrationButton.setAttribute('aria-pressed', state.interactive === 'demonstration' ? 'true' : 'false');
       populateSelect(
         'local-progress-filter',
@@ -3965,7 +4019,9 @@ __WEIGHING_CHEATER_JS__
         progress !== 'not_started' ? `прогресс: ${PROGRESS_LABELS[progress]}` : '',
         localNote(problem.id) ? 'есть заметка' : ''
       ].filter(Boolean).join(' · ');
-      const interactiveInfo = hasInteractive(problem) ? `${interactiveSurfaceLabel(problem.interactive)}: ${interactiveTypeLabel(problem.interactive.type)}` : '';
+      const interactiveInfo = hasInteractive(problem)
+        ? `${interactiveSurfaceLabel(problem.interactive)}: ${interactiveTypeLabel(problem.interactive.type)} · ${interactiveQualityLabel(problem)}`
+        : '';
       const facets = state.cluster !== 'all'
         ? localFacetKeys().slice(0, 2).map(key => {
             const value = facetValue(problem, key);
@@ -4036,6 +4092,8 @@ __WEIGHING_CHEATER_JS__
       const publicReady = problems.filter(p => p.editorial?.public_ready).length;
       const interactiveExerciseCount = problems.filter(hasInteractiveExercise).length;
       const interactiveDemonstrationCount = problems.filter(hasInteractiveDemonstration).length;
+      const interactiveGoodCount = problems.filter(hasGoodInteractive).length;
+      const interactiveWarningCount = problems.filter(hasInteractiveWarning).length;
       byId('content').innerHTML = `
         <section class="home-hero">
           <div class="topline">
@@ -4052,6 +4110,8 @@ __WEIGHING_CHEATER_JS__
             <button class="home-action" data-home-fragment="weighings" type="button">Взвешивания</button>
             <button class="home-action" data-home-query="truth liar лжец рыцарь" type="button">Рыцари и лжецы</button>
             <button class="home-action" data-home-interactive="exercise" type="button">Упражнения</button>
+            <button class="home-action" data-home-interactive="good" type="button">Хорошие интерактивы</button>
+            <button class="home-action" data-home-interactive="warning" type="button">Интерактивы с предупреждением</button>
             <button class="home-action" data-home-interactive="demonstration" type="button">Демонстрации</button>
             <button class="home-action" data-home-cluster="prearranged-communication-protocols" type="button">Заранее договориться</button>
             <button class="home-action" data-home-cluster="public-knowledge-and-announcements" type="button">Что все знают</button>
@@ -4062,6 +4122,8 @@ __WEIGHING_CHEATER_JS__
             <div class="home-stat"><strong>${sources.length}</strong><span>источника</span></div>
             <div class="home-stat"><strong>${publicReady}</strong><span>готово к публикации</span></div>
             <div class="home-stat"><strong>${interactiveExerciseCount}</strong><span>упражнений</span></div>
+            <div class="home-stat"><strong>${interactiveGoodCount}</strong><span>хороших интерактивов</span></div>
+            <div class="home-stat"><strong>${interactiveWarningCount}</strong><span>с предупреждением</span></div>
             <div class="home-stat"><strong>${interactiveDemonstrationCount}</strong><span>демонстраций</span></div>
             <div class="home-stat"><strong>${definitions.length + standardIdeas.length}</strong><span>определений и идей</span></div>
           </div>
@@ -4329,13 +4391,82 @@ __WEIGHING_CHEATER_JS__
         .map(mode => `<li><strong>${esc(interactiveModeLabel(mode))}:</strong> ${esc(String(descriptions[mode]).trim())}</li>`);
     }
 
+    function firstStatementText(problem) {
+      for (const group of Object.values(problem?.statements || {})) {
+        for (const statement of group || []) {
+          const text = String(statement?.text || '').trim();
+          if (text) return text;
+        }
+      }
+      return '';
+    }
+
+    function interactiveTaskUsesIntro(config) {
+      if (config?.statement || config?.task || config?.condition || config?.interactive_statement || config?.interactiveStatement) return false;
+      const intro = textLines(config?.introduction || config?.intro).join(' ').toLocaleLowerCase('ru');
+      return Boolean(intro.match(/учебн|тренаж|в условии|в этой версии|эта версия|здесь оставлен|здесь показан|интерактиве показан/));
+    }
+
+    function interactiveActionLimitText(config) {
+      const limitSpecs = [
+        [config?.max_weighings ?? config?.maxWeighings, 'взвешивание', 'взвешивания', 'взвешиваний'],
+        [config?.max_tests ?? config?.maxTests, 'проверка', 'проверки', 'проверок'],
+        [config?.max_questions ?? config?.maxQuestions ?? config?.question_count ?? config?.questionCount, 'вопрос', 'вопроса', 'вопросов'],
+        [config?.max_openings ?? config?.maxOpenings, 'открытие', 'открытия', 'открытий'],
+        [config?.round_count ?? config?.roundCount, 'раунд', 'раунда', 'раундов']
+      ];
+      for (const [raw, one, few, many] of limitSpecs) {
+        const value = Number(raw);
+        if (Number.isInteger(value) && value > 0) return `Лимит интерактива: не более ${countText(value, one, few, many)}.`;
+      }
+      return '';
+    }
+
+    function normalizeInteractiveStatementText(text, config) {
+      let result = String(text || '').trim();
+      const limit = interactiveActionLimitText(config);
+      if (!result) return '';
+      if (limit && result.match(/наименьш|минимальн/i)) {
+        result = result
+          .replace(/за\\s+(?:какое\\s+)?(?:наименьшее|минимальное)\\s+число\\s+взвешиваний/ig, 'за указанный ниже лимит взвешиваний')
+          .replace(/(?:наименьшее|минимальное)\\s+число\\s+взвешиваний/ig, 'указанный ниже лимит взвешиваний')
+          .replace(/(?:наименьшее|минимальное)\\s+число\\s+вопросов/ig, 'указанный ниже лимит вопросов')
+          .replace(/(?:наименьшее|минимальное)\\s+число\\s+проверок/ig, 'указанный ниже лимит проверок');
+      }
+      return result;
+    }
+
+    function renderInteractiveTask(problem, config) {
+      const presentation = interactivePresentation(config);
+      const strength = String(config?.interactive_strength || '').trim().toLowerCase();
+      if (presentation === 'review_only' || strength === 'remove') return '';
+      const explicit = config?.statement || config?.task || config?.condition || config?.interactive_statement || config?.interactiveStatement;
+      const baseLines = textLines(explicit).length
+        ? textLines(explicit)
+        : (interactiveTaskUsesIntro(config) ? textLines(config?.introduction || config?.intro) : textLines(firstStatementText(problem)));
+      const paragraphs = baseLines.map(line => normalizeInteractiveStatementText(line, config)).filter(Boolean);
+      const limit = interactiveActionLimitText(config);
+      if (limit && !paragraphs.some(line => line.includes(limit))) paragraphs.push(limit);
+      const objective = interactiveObjectiveLabel(config?.objective || '');
+      if (objective && !paragraphs.some(line => line.toLocaleLowerCase('ru').includes('цель интерактива'))) {
+        paragraphs.push(`Цель интерактива: ${objective}.`);
+      }
+      if (!paragraphs.length) return '';
+      return `
+        <div class="interactive-task" aria-label="Задача интерактива">
+          <h4>Задача интерактива</h4>
+          ${textBlock(paragraphs)}
+        </div>
+      `;
+    }
+
     function renderInteractiveIntro(problem, config) {
       const presentation = interactivePresentation(config);
       const strength = String(config?.interactive_strength || '').trim().toLowerCase();
       if (presentation === 'review_only' || strength === 'remove') return '';
       const modes = asArray(config?.modes || config?.mode || []);
       const paragraphs = [
-        ...textLines(config?.introduction || config?.intro),
+        ...(interactiveTaskUsesIntro(config) ? [] : textLines(config?.introduction || config?.intro)),
         ...textLines(config?.visual_legend || config?.visualLegend)
       ];
       const generated = [];
@@ -10161,7 +10292,7 @@ __WEIGHING_CHEATER_JS__
       if (!config?.type) return '';
       if (interactivePresentation(config) === 'review_only') return '';
       const renderer = INTERACTIVE_RENDERERS[config.type] || renderUnknownInteractive;
-      return `${renderInteractiveIntro(problem, config)}${renderInteractiveCaption(problem, config)}${renderer(problem, config)}`;
+      return `${renderInteractiveTask(problem, config)}${renderInteractiveIntro(problem, config)}${renderInteractiveCaption(problem, config)}${renderer(problem, config)}`;
     }
 
     function hasRunnableInteractive(problem) {
@@ -26531,6 +26662,14 @@ __WEIGHING_CHEATER_JS__
     byId('status-filter').addEventListener('change', event => { state.status = event.target.value; selectFirstVisibleProblem(); });
     byId('interactive-exercise-filter').addEventListener('click', () => {
       state.interactive = state.interactive === 'exercise' ? 'all' : 'exercise';
+      selectFirstVisibleProblem();
+    });
+    byId('interactive-good-filter').addEventListener('click', () => {
+      state.interactive = state.interactive === 'good' ? 'all' : 'good';
+      selectFirstVisibleProblem();
+    });
+    byId('interactive-warning-filter').addEventListener('click', () => {
+      state.interactive = state.interactive === 'warning' ? 'all' : 'warning';
       selectFirstVisibleProblem();
     });
     byId('interactive-demonstration-filter').addEventListener('click', () => {
