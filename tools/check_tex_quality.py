@@ -1,6 +1,8 @@
 import argparse
 import json
 import re
+import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -64,6 +66,12 @@ CURATED_DIRS = [
 CODE_RE = re.compile(r"```[\s\S]*?```|`[^`\n]+`")
 MATH_RE = re.compile(
     r"\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\]|\$\$[\s\S]*?\$\$|(?<!\\)\$[\s\S]*?(?<!\\)\$"
+)
+MATH_FRAGMENT_RE = re.compile(
+    r"(?P<dd>\$\$(?P<dd_tex>.*?)\$\$)|"
+    r"(?P<bracket>\\\[(?P<bracket_tex>.*?)\\\])|"
+    r"(?P<paren>\\\((?P<paren_tex>.*?)\\\))",
+    re.DOTALL,
 )
 URL_RE = re.compile(r"https?://\S+")
 FILE_RE = re.compile(
@@ -149,6 +157,55 @@ def iter_visible_strings(obj, path=(), force_visible=False):
         yield ".".join(path), obj
 
 
+def iter_math_fragments(text):
+    for match in MATH_FRAGMENT_RE.finditer(str(text or "")):
+        if match.group("dd") is not None:
+            yield match.group("dd_tex"), True
+        elif match.group("bracket") is not None:
+            yield match.group("bracket_tex"), True
+        elif match.group("paren") is not None:
+            yield match.group("paren_tex"), False
+
+
+def check_katex_fragments(fragments):
+    script = ROOT / "tools" / "parse_tex_with_katex.js"
+    if not fragments or not script.exists() or shutil.which("node") is None:
+        return []
+    try:
+        completed = subprocess.run(
+            ["node", str(script)],
+            input=json.dumps(fragments, ensure_ascii=False),
+            text=True,
+            encoding="utf-8",
+            capture_output=True,
+            cwd=ROOT,
+            timeout=20,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        return [("error", Path("tools/parse_tex_with_katex.js"), "<katex>", "katex-runner-failed", str(exc))]
+    if completed.returncode:
+        message = (completed.stderr or completed.stdout or "").strip()
+        return [("error", Path("tools/parse_tex_with_katex.js"), "<katex>", "katex-runner-failed", message)]
+    try:
+        errors = json.loads(completed.stdout or "[]")
+    except json.JSONDecodeError as exc:
+        return [("error", Path("tools/parse_tex_with_katex.js"), "<katex>", "katex-runner-invalid-json", str(exc))]
+    reports = []
+    for error in errors:
+        tex = str(error.get("tex", ""))
+        snippet = tex[:120].replace("\n", "\\n")
+        message = str(error.get("message", "")).replace("\n", " ")
+        reports.append(
+            (
+                ROOT / str(error.get("path", "")),
+                str(error.get("place", "")),
+                "katex-parse-error",
+                f"{snippet}: {message}",
+            )
+        )
+    return reports
+
+
 def find_hits(text):
     raw = strip_non_content(str(text or ""))
     for kind, pattern in ANYWHERE_PATTERNS:
@@ -170,6 +227,7 @@ def main():
     args = parser.parse_args()
 
     hits = []
+    math_fragments = []
     for path in iter_data_files(args.paths):
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
@@ -178,6 +236,17 @@ def main():
         for place, text in iter_visible_strings(data):
             for kind, snippet in find_hits(text):
                 hits.append((path, place, kind, snippet))
+            for tex, display in iter_math_fragments(text):
+                math_fragments.append(
+                    {
+                        "path": str(path.relative_to(ROOT)),
+                        "place": place,
+                        "tex": tex,
+                        "display": display,
+                    }
+                )
+
+    hits.extend(check_katex_fragments(math_fragments))
 
     for path, place, kind, snippet in hits[: args.max_items]:
         rel = path.relative_to(ROOT) if path.is_absolute() and path.is_relative_to(ROOT) else path
