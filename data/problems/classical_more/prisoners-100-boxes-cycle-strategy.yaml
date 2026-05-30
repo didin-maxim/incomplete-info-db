@@ -2,19 +2,143 @@
   "id": "prisoners-100-boxes-cycle-strategy",
   "title": "100 заключенных и 100 ящиков",
   "fragment": "communication",
-  "kind": {"primary": "classical_problem", "secondary": ["probabilistic_strategy", "permutation_strategy"]},
+  "kind": {
+    "primary": "classical_problem",
+    "secondary": [
+      "probabilistic_strategy",
+      "permutation_strategy"
+    ]
+  },
   "language": "ru",
   "statements": {
-    "original": [{"id": "stmt-names-in-boxes", "title": "Найти свое имя за 50 открытий", "text": "Имена 100 заключенных лежат в 100 ящиках, по одному имени в каждом. Заключенные могут заранее договориться о стратегии, затем заходят в комнату по одному. Каждый может открыть не более 50 ящиков, должен оставить комнату как была и после начала испытания не может общаться с остальными. Все выживают, если каждый находит свое имя. Найдите стратегию, вероятность успеха которой больше 30%.", "source_ids": ["src-winkler-seven-puzzles", "src-aops-wiki-kgs-math-club"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}],
-    "generalized": [{"id": "stmt-general-n-boxes-half-openings", "title": "n заключенных и n/2 открытий", "text": "Есть четное число \\(n\\) заключенных и \\(n\\) ящиков; в ящиках лежат имена заключенных, по одному имени в каждом. Заключенные могут заранее договориться о стратегии, затем заходят по одному, не общаются и каждый может открыть не более \\(n/2\\) ящиков. Все выигрывают, если каждый находит свое имя. Найдите стратегию с заметной вероятностью успеха при случайной раскладке имен и вычислите эту вероятность.", "source_ids": ["src-winkler-seven-puzzles"], "status": "ai_checked", "self_contained": {"status": "ai_checked"}, "definition_ids": ["state_space"]}]
+    "original": [
+      {
+        "id": "stmt-names-in-boxes",
+        "title": "Найти свое имя за 50 открытий",
+        "text": "Имена 100 заключенных лежат в 100 ящиках, по одному имени в каждом. Заключенные могут заранее договориться о стратегии, затем заходят в комнату по одному. Каждый может открыть не более 50 ящиков, должен оставить комнату как была и после начала испытания не может общаться с остальными. Все выживают, если каждый находит свое имя. Найдите стратегию, вероятность успеха которой больше 30%.",
+        "source_ids": [
+          "src-winkler-seven-puzzles",
+          "src-aops-wiki-kgs-math-club"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space"
+        ]
+      }
+    ],
+    "generalized": [
+      {
+        "id": "stmt-general-n-boxes-half-openings",
+        "title": "n заключенных и n/2 открытий",
+        "text": "Есть четное число \\(n\\) заключенных и \\(n\\) ящиков; в ящиках лежат имена заключенных, по одному имени в каждом. Заключенные могут заранее договориться о стратегии, затем заходят по одному, не общаются и каждый может открыть не более \\(n/2\\) ящиков. Все выигрывают, если каждый находит свое имя. Найдите стратегию с заметной вероятностью успеха при случайной раскладке имен и вычислите эту вероятность.",
+        "source_ids": [
+          "src-winkler-seven-puzzles"
+        ],
+        "status": "ai_checked",
+        "self_contained": {
+          "status": "ai_checked"
+        },
+        "definition_ids": [
+          "state_space"
+        ]
+      }
+    ]
   },
-  "ideas": [{"id": "idea-follow-permutation-cycles", "title": "Перестановка разбивается на циклы", "text": "Если ящики заранее пронумерованы именами заключенных, содержимое ящиков задает перестановку. Следование из своего ящика к ящику с найденным именем идет ровно по циклу этой перестановки.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked"}],
-  "strategies": [{"id": "str-cycle-following", "title": "Идти по своему циклу", "text": "До испытания заключенные нумеруют ящики своими именами. Заключенный \\(i\\) сначала открывает ящик с номером \\(i\\). Если там лежит его имя, он закончил. Если там имя \\(j\\), следующим он открывает ящик \\(j\\), затем ящик с номером найденного там имени и так далее, пока не найдет свое имя или не сделает 50 открытий.\n\nЭто не независимые случайные попытки. Все заключенные выигрывают тогда и только тогда, когда в перестановке «номер ящика -> имя внутри» нет цикла длины больше 50. Если цикл длины \\(m \\le 50\\), каждый заключенный из этого цикла, начав со своего ящика, найдет свое имя ровно за \\(m\\) шагов или раньше. Если есть цикл длины \\(m>50\\), все участники этого цикла не успеют пройти его целиком, и стратегия проиграет.\n\nВероятность не иметь цикла длины больше 50 равна \\(1 - \\sum_{m=51}^{100} 1/m\\), потому что для каждого \\(m>50\\) в перестановке не может быть двух таких длинных циклов, а вероятность, что фиксированная перестановка содержит цикл длины \\(m\\), равна \\(1/m\\). Численно это примерно 0.3118, то есть больше 30%.", "standard_idea_ids": ["partition_state_space"], "status": "ai_checked", "definition_ids": ["state_space"]}],
+  "ideas": [
+    {
+      "id": "idea-follow-permutation-cycles",
+      "title": "Перестановка разбивается на циклы",
+      "text": "Если ящики заранее пронумерованы именами заключенных, содержимое ящиков задает перестановку. Следование из своего ящика к ящику с найденным именем идет ровно по циклу этой перестановки.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked"
+    }
+  ],
+  "strategies": [
+    {
+      "id": "str-cycle-following",
+      "title": "Идти по своему циклу",
+      "text": "До испытания заключенные нумеруют ящики своими именами. Заключенный \\(i\\) сначала открывает ящик с номером \\(i\\). Если там лежит его имя, он закончил. Если там имя \\(j\\), следующим он открывает ящик \\(j\\), затем ящик с номером найденного там имени и так далее, пока не найдет свое имя или не сделает 50 открытий.\n\nЭто не независимые случайные попытки. Все заключенные выигрывают тогда и только тогда, когда в перестановке «номер ящика ? имя внутри» нет цикла длины больше 50. Если цикл длины \\(m \\le 50\\), каждый заключенный из этого цикла, начав со своего ящика, найдет свое имя ровно за \\(m\\) шагов или раньше. Если есть цикл длины \\(m>50\\), все участники этого цикла не успеют пройти его целиком, и стратегия проиграет.\n\nВероятность не иметь цикла длины больше 50 равна \\(1 - \\sum_{m=51}^{100} 1/m\\), потому что для каждого \\(m>50\\) в перестановке не может быть двух таких длинных циклов, а вероятность, что фиксированная перестановка содержит цикл длины \\(m\\), равна \\(1/m\\). Численно это примерно 0.3118, то есть больше 30%.",
+      "standard_idea_ids": [
+        "partition_state_space"
+      ],
+      "status": "ai_checked",
+      "definition_ids": [
+        "state_space"
+      ]
+    }
+  ],
   "impossibility_proofs": [],
-  "incomplete_information_profile": {"hidden_state_space": "случайная перестановка имен по ящикам", "observations": ["имена в открытых ящиках одного заключенного"], "allowed_actions": ["каждый заключенный открывает до 50 ящиков", "предварительно согласовать стратегию"], "goal": ["maximize_success_probability", "all_agents_find_own_state"], "strategy_type": ["permutation_cycle_strategy"], "lower_bound_method": [], "keywords": ["100_prisoners", "names_in_boxes", "cycle_following", "n_prisoners", "long_cycle_threshold"], "status": "ai_checked"},
-  "communication_profile": {"agents": 100, "channel": "после выбора протокола общения нет", "message_capacity": "наблюдениями служит личное содержимое коробок", "privacy_goal": "не применяется"},
-  "difficulty": {"main": "top_base", "local_score": 7, "comment": "Верх базы: правило легко выполнить, но идея идти по циклам перестановки и расчет вероятности через длинные циклы существенно выше обычных школьных задач.", "status": "ai_checked"},
-  "tags": ["structural_constraint", "symmetry_breaking", "solution_advanced_math", "condition_older_students"],
-  "sources": [{"source_id": "src-winkler-seven-puzzles", "role": "statement_and_solution", "status": "source_verified"}, {"source_id": "src-aops-wiki-kgs-math-club", "role": "duplicate_statement", "status": "source_verified"}],
-  "editorial": {"created_by": "ai", "created_at": "2026-05-17", "review_status": "ai_checked", "public_ready": false, "relations_status": "new_links", "generalization_status": "same_solution_parameterized", "notes": ["Публичный текст переведен на русский, так как источник англоязычный.", "2026-05-18: добавлена версия для четного n; число 100 несущественно для стратегии, но нужно для классической вероятности 1 - sum_{m=51}^{100} 1/m."]}
+  "incomplete_information_profile": {
+    "hidden_state_space": "случайная перестановка имен по ящикам",
+    "observations": [
+      "имена в открытых ящиках одного заключенного"
+    ],
+    "allowed_actions": [
+      "каждый заключенный открывает до 50 ящиков",
+      "предварительно согласовать стратегию"
+    ],
+    "goal": [
+      "maximize_success_probability",
+      "all_agents_find_own_state"
+    ],
+    "strategy_type": [
+      "permutation_cycle_strategy"
+    ],
+    "lower_bound_method": [],
+    "keywords": [
+      "100_prisoners",
+      "names_in_boxes",
+      "cycle_following",
+      "n_prisoners",
+      "long_cycle_threshold"
+    ],
+    "status": "ai_checked"
+  },
+  "communication_profile": {
+    "agents": 100,
+    "channel": "после выбора протокола общения нет",
+    "message_capacity": "наблюдениями служит личное содержимое коробок",
+    "privacy_goal": "не применяется"
+  },
+  "difficulty": {
+    "main": "top_base",
+    "local_score": 7,
+    "comment": "Верх базы: правило легко выполнить, но идея идти по циклам перестановки и расчет вероятности через длинные циклы существенно выше обычных школьных задач.",
+    "status": "ai_checked"
+  },
+  "tags": [
+    "structural_constraint",
+    "symmetry_breaking",
+    "solution_advanced_math",
+    "condition_older_students"
+  ],
+  "sources": [
+    {
+      "source_id": "src-winkler-seven-puzzles",
+      "role": "statement_and_solution",
+      "status": "source_verified"
+    },
+    {
+      "source_id": "src-aops-wiki-kgs-math-club",
+      "role": "duplicate_statement",
+      "status": "source_verified"
+    }
+  ],
+  "editorial": {
+    "created_by": "ai",
+    "created_at": "2026-05-17",
+    "review_status": "ai_checked",
+    "public_ready": false,
+    "relations_status": "new_links",
+    "generalization_status": "same_solution_parameterized",
+    "notes": [
+      "Публичный текст переведен на русский, так как источник англоязычный.",
+      "2026-05-18: добавлена версия для четного n; число 100 несущественно для стратегии, но нужно для классической вероятности 1 - sum_{m=51}^{100} 1/m."
+    ]
+  }
 }
