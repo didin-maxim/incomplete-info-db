@@ -1686,6 +1686,23 @@ def build_html(data):
       cursor: grabbing;
     }
 
+    .interactive-panel [draggable="true"] {
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .interactive-panel .pointer-dragging {
+      cursor: grabbing;
+      opacity: .72;
+    }
+
+    .interactive-panel .pointer-drop-target {
+      outline: 3px solid #2d7dd2;
+      outline-offset: -3px;
+      background-color: #eef6ff;
+    }
+
     .coin.active {
       outline: 3px solid #176b5f;
       outline-offset: 2px;
@@ -2879,8 +2896,7 @@ def build_html(data):
       .treasure-layout,
       .xor-layout,
       .permutation-layout,
-      .twenty-one-layout,
-      .scale-visual {
+      .twenty-one-layout {
         grid-template-columns: 1fr;
       }
 
@@ -10390,6 +10406,103 @@ __WEIGHING_CHEATER_JS__
       }
     }
 
+    function bindPointerZoneDragging(panel) {
+      const draggableSelector = '.coin[draggable="true"], .scale-device[draggable="true"]';
+      const zoneOrder = ['pool', 'left', 'right'];
+      let drag = null;
+      let suppressClick = false;
+      let committingMove = false;
+
+      function zoneInfo(element) {
+        for (let node = element; node && node !== panel; node = node.parentElement) {
+          for (const attribute of node.attributes || []) {
+            const isZone = attribute.name === 'data-zone' || attribute.name.endsWith('-zone');
+            if (isZone && zoneOrder.includes(attribute.value)) return { element: node, value: attribute.value };
+          }
+        }
+        return null;
+      }
+
+      function clearDrag() {
+        drag?.source?.classList.remove('pointer-dragging');
+        drag?.target?.classList.remove('pointer-drop-target');
+        drag = null;
+      }
+
+      panel.addEventListener('dragstart', event => {
+        if (event.target.closest?.(draggableSelector)) event.preventDefault();
+      });
+
+      panel.addEventListener('pointerdown', event => {
+        if (event.button !== 0 || drag) return;
+        const source = event.target.closest?.(draggableSelector);
+        if (!source || !panel.contains(source) || source.disabled) return;
+        const sourceZone = zoneInfo(source);
+        if (!sourceZone) return;
+        drag = {
+          pointerId: event.pointerId,
+          source,
+          sourceZone: sourceZone.value,
+          startX: event.clientX,
+          startY: event.clientY,
+          moved: false,
+          target: null,
+          targetZone: null
+        };
+        source.setPointerCapture?.(event.pointerId);
+      });
+
+      panel.addEventListener('pointermove', event => {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        if (!drag.moved && Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) < 7) return;
+        drag.moved = true;
+        event.preventDefault();
+        drag.source.classList.add('pointer-dragging');
+        const hit = document.elementFromPoint(event.clientX, event.clientY);
+        const targetInfo = hit && panel.contains(hit) ? zoneInfo(hit) : null;
+        if (drag.target !== targetInfo?.element) {
+          drag.target?.classList.remove('pointer-drop-target');
+          drag.target = targetInfo?.element || null;
+          drag.targetZone = targetInfo?.value || null;
+          drag.target?.classList.add('pointer-drop-target');
+        }
+      }, { passive: false });
+
+      panel.addEventListener('pointerup', event => {
+        if (!drag || drag.pointerId !== event.pointerId) return;
+        const completedDrag = drag;
+        const sourceIndex = zoneOrder.indexOf(completedDrag.sourceZone);
+        const targetIndex = zoneOrder.indexOf(completedDrag.targetZone);
+        const validDrop = completedDrag.moved && sourceIndex >= 0 && targetIndex >= 0 && sourceIndex !== targetIndex;
+        if (validDrop) {
+          event.preventDefault();
+          if (typeof completedDrag.source.pointerZoneMove === 'function') {
+            completedDrag.source.pointerZoneMove(completedDrag.targetZone);
+          } else {
+            const steps = (targetIndex - sourceIndex + zoneOrder.length) % zoneOrder.length;
+            committingMove = true;
+            for (let index = 0; index < steps; index += 1) completedDrag.source.click();
+            committingMove = false;
+          }
+          completedDrag.source.disabled = true;
+          suppressClick = true;
+          window.setTimeout(() => { suppressClick = false; }, 0);
+        } else if (completedDrag.moved) {
+          event.preventDefault();
+        }
+        clearDrag();
+      });
+
+      panel.addEventListener('pointercancel', clearDrag);
+      panel.addEventListener('click', event => {
+        if (!committingMove && suppressClick) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          suppressClick = false;
+        }
+      }, true);
+    }
+
     function bindInteractiveControls() {
       for (const panel of document.querySelectorAll('[data-interactive-type="single_counterfeit_weighing"][data-config], [data-interactive-type="single_counterfeit_unknown_direction"][data-config], [data-interactive-type="opposite_counterfeit_pair_weighing"][data-config], [data-interactive-type="noisy_balance_unknown_direction"][data-config], [data-interactive-type="fixed_weighing_transcript"][data-config], [data-interactive-type="zero_one_two_counterfeit_sign"][data-config], [data-interactive-type="safe_pile_balance_certificate"][data-config], [data-interactive-type="expert_judge_certificate"][data-config], [data-interactive-type="two_counterfeit_same_sign_expert_judge"][data-config], [data-interactive-type="zoltar_heavier_hand_removal"][data-config], [data-interactive-type="paid_weighing_find_genuine"][data-config], [data-interactive-type="paired_light_counterfeits"][data-config], [data-interactive-type="multiple_light_find_one"][data-config], [data-interactive-type="grouped_light_counterfeits"][data-config], [data-interactive-type="structured_line_find_one"][data-config], [data-interactive-type="constrained_light_counterfeit_sets"][data-config], [data-interactive-type="threshold_balance_counterfeit_sets"][data-config], [data-interactive-type="uniformity_verification"][data-config], [data-interactive-type="property_verification_balance"][data-config], [data-interactive-type="selected_coin_parity_detector"][data-config], [data-interactive-type="faulty_scale_identification"][data-config], [data-interactive-type="broken_scale_counterfeit_coin"][data-config], [data-interactive-type="broken_detector_counterfeit_coin"][data-config], [data-interactive-type="heaviest_coin_one_broken_scale"][data-config], [data-interactive-type="balanced_weight_signature_protocol"][data-config], [data-interactive-type="numeric_linear_signature"][data-config], [data-interactive-type="rotated_tray_balance_protocol"][data-config], [data-interactive-type="fitch_cheney_card_trick"][data-config], [data-interactive-type="subset_signature_protocol"][data-config], [data-interactive-type="balanced_subset_question_code"][data-config], [data-interactive-type="adjacent_swap_sum_signature"][data-config], [data-interactive-type="binary_question_code"][data-config], [data-interactive-type="binary_cards_number_trick"][data-config], [data-interactive-type="fixed_feedback_code"][data-config], [data-interactive-type="antichain_code_protocol"][data-config], [data-interactive-type="ternary_question_code"][data-config], [data-interactive-type="repetition_code_one_lie_questions"][data-config], [data-interactive-type="finite_pair_matching_protocol"][data-config], [data-interactive-type="petya_vasya_five_cards_protocol"][data-config], [data-interactive-type="finite_binary_state_protocol"][data-config], [data-interactive-type="higher_lower_strategy_game"][data-config], [data-interactive-type="moving_target_graph_search"][data-config], [data-interactive-type="xor_single_flip_protocol"][data-config], [data-interactive-type="wise_men_even_parity_code"][data-config], [data-interactive-type="wise_men_color_count_parity_protocol"][data-config], [data-interactive-type="prisoners_hats_parity_line"][data-config], [data-interactive-type="hidden_hat_number_parity_protocol"][data-config], [data-interactive-type="three_letter_erasure_code"][data-config], [data-interactive-type="permutation_message_order_code"][data-config], [data-interactive-type="permutation_cycle_protocol"][data-config], [data-interactive-type="twenty_one_card_trick"][data-config]')) {
         let config = null;
@@ -10442,6 +10555,7 @@ __WEIGHING_CHEATER_JS__
         if (config?.type === 'permutation_message_order_code') initPermutationMessageInteractive(panel, config);
         if (config?.type === 'permutation_cycle_protocol') initPermutationCycleInteractive(panel, config);
         if (config?.type === 'twenty_one_card_trick') initTwentyOneCardTrickInteractive(panel, config);
+        bindPointerZoneDragging(panel);
       }
     }
 
@@ -10827,6 +10941,7 @@ __WEIGHING_CHEATER_JS__
         button.title = `монета ${id}`;
         button.draggable = canEditPans();
         if (!canEditPans()) button.disabled = true;
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -14438,6 +14553,7 @@ __WEIGHING_CHEATER_JS__
         const actual = model.revealedState || (model.locked ? model.hiddenState : null);
         if (actual?.coins?.includes(Number(id))) button.classList.add('real-counterfeit');
         if (!canEditPans()) button.disabled = true;
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -20925,6 +21041,7 @@ __WEIGHING_CHEATER_JS__
         if (options.disabled) button.disabled = true;
         if (options.draggable) {
           button.draggable = true;
+          button.pointerZoneMove = zone => moveObject(label, zone);
           button.addEventListener('dragstart', event => {
             if (!canEditPans()) {
               event.preventDefault();
@@ -21353,6 +21470,7 @@ __WEIGHING_CHEATER_JS__
         if (!canEditPans() && !model.answerMode) button.disabled = true;
         if (model.answer === id) button.classList.add(model.answer === model.heaviestCoin ? 'correct-answer' : 'answer-pick');
         if (model.locked && model.heaviestCoin === id) button.classList.add('real-counterfeit');
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -21785,6 +21903,7 @@ __WEIGHING_CHEATER_JS__
         if (!canEditPans() && !model.answerMode) button.disabled = true;
         if (model.answer === id) button.classList.add(model.answer === model.fakeCoin ? 'correct-answer' : 'answer-pick');
         if (model.locked && model.fakeCoin === id) button.classList.add('real-counterfeit');
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -23355,6 +23474,7 @@ __WEIGHING_CHEATER_JS__
         if (model.locked && model.fakeCoin === id && id > 0) button.classList.add('real-counterfeit');
         if (model.locked && config.oppositePair && (model.lightCoin === id || model.heavyCoin === id)) button.classList.add('real-counterfeit');
         applyStatusClasses(button, id);
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -23880,6 +24000,7 @@ __WEIGHING_CHEATER_JS__
           button.title = `${button.title}; статус: ${definition.label}`;
         }
         if (!canEditPans()) button.disabled = true;
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -24505,6 +24626,7 @@ __WEIGHING_CHEATER_JS__
         if (real) button.classList.add('real-counterfeit');
         applyStatusClasses(button, id);
         if (!canEditPans() && !model.answerMode) button.disabled = true;
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
@@ -25090,6 +25212,7 @@ __WEIGHING_CHEATER_JS__
         if (real) button.classList.add('real-counterfeit');
         applyStatusClasses(button, id);
         if (!canEditPans() && !model.answerMode) button.disabled = true;
+        button.pointerZoneMove = zone => moveCoin(id, zone);
         button.addEventListener('click', () => cycleCoin(id));
         button.addEventListener('dragstart', event => {
           if (!canEditPans()) {
